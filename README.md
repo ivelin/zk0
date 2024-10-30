@@ -4,8 +4,8 @@
 
 Community trained humanoid based on:
 - [HuggingFace LeRobot](https://huggingface.co/lerobot) for the 3D printed robot parts and base Vision Language Action model.
-- [Flower](https://flower.ai/) for federated learning of shared AI models
-- [EZKL](https://ezkl.xyz/) for zero knowledge proofs of community contributed model checkpoints trained on private data.
+- [Flower](https://flower.ai/) for collaborative distributed training of AI models
+- [EZKL](https://ezkl.xyz/) for zero knowledge proofs of contributed model checkpoints trained on private data.
 
 # Why?
 
