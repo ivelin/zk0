@@ -1,5 +1,7 @@
 # zk0 [zee-ˈkō]
 
+<img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=100>
+
 Community trained humanoid based on:
 - [HuggingFace LeRobot](https://huggingface.co/lerobot) for the 3D printed robot parts and base Vision Language Action model.
 - [Flower](https://flower.ai/) for federated learning of shared AI models
