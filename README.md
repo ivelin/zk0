@@ -2,7 +2,7 @@
 
 <img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=100>
 
-zk0 is an Open Source humanoid built collaboratively by a community of code, compute and data contributors. Main building blocks:
+zk0 is an Open Source humanoid built collaboratively by a community of contributors of code, compute and data. Main building blocks:
 - [HuggingFace LeRobot](https://huggingface.co/lerobot) for the 3D printed robot parts and end-to-end Vision Language Action model.
 - [Flower](https://flower.ai/) for collaborative training of AI models
 - [EZKL](https://ezkl.xyz/) for zero knowledge proofs of contributed model checkpoints trained on private data.
