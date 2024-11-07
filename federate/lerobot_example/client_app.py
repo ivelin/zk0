@@ -6,7 +6,10 @@ import torch
 from flwr.client import Client, ClientApp, NumPyClient
 from flwr.common import Context
 from transformers import logging
-from huggingface_example.task import (
+from logging import INFO
+
+from flwr.common.logger import log
+from lerobot_example.task import (
     train,
     test,
     load_data,
@@ -47,6 +50,7 @@ def client_fn(context: Context) -> Client:
     # Read the node_config to fetch data partition associated to this node
     partition_id = context.node_config["partition-id"]
     num_partitions = context.node_config["num-partitions"]
+    log(INFO, f"partition_id={partition_id}, num_partitions={num_partitions}")
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
