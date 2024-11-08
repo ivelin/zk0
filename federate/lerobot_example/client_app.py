@@ -25,23 +25,37 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 logging.set_verbosity_error()
 
 
+# Check if GPU is available
+if torch.cuda.is_available():
+    nn_device = torch.device("cuda")
+    print("GPU is available. Device set to:", nn_device)
+else:
+    nn_device = torch.device("cpu")
+    print(f"GPU is not available. Device set to: {nn_device}. Inference will be slower than on GPU.")
+
+
 # Flower client
-class IMDBClient(NumPyClient):
-    def __init__(self, model_name, trainloader, testloader) -> None:
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+class LeRobotClient(NumPyClient):
+    def __init__(self, partition_id, model_name, trainloader, testloader) -> None:
+        self.partition_id = partition_id
         self.trainloader = trainloader
         self.testloader = testloader
         self.net = get_model(model_name)
-        self.net.to(self.device)
+        policy = self.net
+        self.device = nn_device
+        if self.device == torch.device("cpu"):
+            # Decrease the number of reverse-diffusion steps (trades off a bit of quality for 10x speed)
+            policy.diffusion.num_inference_steps = 10        
+        policy.to(self.device)
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
         set_params(self.net, parameters)
-        train(self.net, self.trainloader, epochs=1, device=self.device)
+        train(self.partition_id, self.net, self.trainloader, epochs=1, device=self.device)
         return get_params(self.net), len(self.trainloader), {}
 
     def evaluate(self, parameters, config) -> tuple[float, int, dict[str, float]]:
         set_params(self.net, parameters)
-        loss, accuracy = test(self.net, self.testloader, device=self.device)
+        loss, accuracy = test(partition_id=self.partition_id, net=self.net, device=self.device)
         return float(loss), len(self.testloader), {"accuracy": float(accuracy)}
 
 
@@ -54,9 +68,9 @@ def client_fn(context: Context) -> Client:
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
-    trainloader, testloader = load_data(partition_id, num_partitions, model_name)
+    trainloader, testloader = load_data(partition_id, num_partitions, model_name, device=nn_device)
 
-    return IMDBClient(model_name, trainloader, testloader).to_client()
+    return LeRobotClient(partition_id, model_name, trainloader, testloader).to_client()
 
 
 app = ClientApp(client_fn=client_fn)

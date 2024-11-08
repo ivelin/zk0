@@ -4,11 +4,11 @@ dataset: [pusht]
 framework: [lerobot]
 ---
 
-# Federated Learning with HuggingFace Transformers and Flower (Quickstart Example)
+# Federated Learning with HuggingFace LeRobot and Flower (Quickstart Example)
 
-This introductory example to using [🤗Transformers](https://huggingface.co/docs/transformers/en/index) with Flower. The training script closely follows the [HuggingFace course](https://huggingface.co/course/chapter3?fw=pt), so you are encouraged to check that out for a detailed explanation of the transformer pipeline.
+This introductory example to using [🤗LeRobot](https://huggingface.co/lerobot) with Flower. 
 
-In this example, we will federated the training of a [BERT-tiny](https://huggingface.co/prajjwal1/bert-tiny) modle on the [IMDB](https://huggingface.co/datasets/stanfordnlp/imdb) dataset. The data will be downloaded and partitioned using [Flower Datasets](https://flower.ai/docs/datasets/). This example runs best when a GPU is available.
+In this example, we will federate the training of a [Diffusion](https://arxiv.org/abs/2303.04137) policy on the [PushT](https://huggingface.co/datasets/lerobot/pusht/tree/v1.3) dataset. The data will be downloaded and partitioned using [Flower Datasets](https://flower.ai/docs/datasets/). This example runs best when a GPU is available.
 
 ## Set up the project
 
@@ -18,15 +18,15 @@ Start by cloning the example project. We prepared a single-line command that you
 
 ```shell
 git clone --depth=1 https://github.com/adap/flower.git _tmp \
-		&& mv _tmp/examples/quickstart-huggingface . \
-		&& rm -rf _tmp && cd quickstart-huggingface
+		&& mv _tmp/examples/quickstart-lerobot . \
+		&& rm -rf _tmp && cd quickstart-lerobot
 ```
 
-This will create a new directory called `quickstart-huggingface` containing the following files:
+This will create a new directory called `quickstart-lerobot` containing the following files:
 
 ```shell
 quickstart-huggingface
-├── huggingface_example
+├── lerobot_example
 │   ├── __init__.py
 │   ├── client_app.py   # Defines your ClientApp
 │   ├── server_app.py   # Defines your ServerApp
@@ -37,7 +37,7 @@ quickstart-huggingface
 
 ### Install dependencies and project
 
-Install the dependencies defined in `pyproject.toml` as well as the `huggingface_example` package.
+Install the dependencies defined in `pyproject.toml` as well as the `lerobot_example` package.
 
 ```bash
 pip install -e .
@@ -69,11 +69,3 @@ You can also override some of the settings for your `ClientApp` and `ServerApp` 
 ```bash
 flwr run --run-config "num-server-rounds=5 fraction-fit=0.1"
 ```
-
-> \[!TIP\]
-> For a more detailed walk-through check our [quickstart 🤗Transformers tutorial](https://flower.ai/docs/framework/tutorial-quickstart-huggingface.html)
-
-### Run with the Deployment Engine
-
-> \[!NOTE\]
-> An update to this example will show how to run this Flower project with the Deployment Engine and TLS certificates, or with Docker.
