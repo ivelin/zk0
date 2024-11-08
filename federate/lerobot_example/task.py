@@ -28,7 +28,7 @@ fds = None  # Cache FederatedDataset
 
 
 # Create a directory to store the training checkpoint.
-timestr = time.strftime("%Y%m%d-%H%M%S")
+timestr = time.strftime("%Y%m%d/%H/%M%S")
 output_directory = Path("outputs/train/lerobot_federated_example") / timestr
 output_directory.mkdir(parents=True, exist_ok=True)
 
@@ -67,17 +67,6 @@ delta_timestamps = {
     ],
 }
 dataset = LeRobotDataset("lerobot/pusht", delta_timestamps=delta_timestamps)
-
-
-# Initialize evaluation environment to render two observation types:
-# an image of the scene and state/position of the agent. The environment
-# also automatically stops running after 300 interactions/steps.
-env = gym.make(
-    "gym_pusht/PushT-v0",
-    obs_type="pixels_agent_pos",
-    max_episode_steps=300,
-)
-
 
 def load_data(
     partition_id: int, num_partitions: int, model_name: str, device = None
@@ -225,6 +214,16 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
 
     # Reset the policy and environmens to prepare for rollout
     policy.reset()
+
+    # Initialize evaluation environment to render two observation types:
+    # an image of the scene and state/position of the agent. The environment
+    # also automatically stops running after 300 interactions/steps.
+    env = gym.make(
+        "gym_pusht/PushT-v0",
+        obs_type="pixels_agent_pos",
+        max_episode_steps=300,
+    )
+
     numpy_observation, info = env.reset(seed=42)
 
     # Prepare to collect every rewards and all the frames of the episode,
@@ -296,5 +295,7 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
     video_dir.mkdir(parents=True, exist_ok=True)
     video_path =  video_dir / f"rollout_{timestr}.mp4"
     imageio.mimsave(str(video_path), numpy.stack(frames), fps=fps)
+
+    env.close()
 
     print(f"Video of the evaluation is available in '{video_path}'.")
