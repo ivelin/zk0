@@ -60,11 +60,17 @@ class FilteredLeRobotDataset(LeRobotDataset):
         self.hf_dataset = load_hf_dataset(self.repo_id, CODEBASE_VERSION, self.root, self.split)
         if hf_filter_fn is not None:
             self.hf_dataset = self.hf_dataset.filter(function=hf_filter_fn)
-        if self.split == "train":
-            self.episode_data_index = load_episode_data_index(self.repo_id, CODEBASE_VERSION, self.root)
-        else:
+            # after filtering, the stored episode data index may not be the same 
+            # so let's calculate it on the filtered data
             self.episode_data_index = calculate_episode_data_index(self.hf_dataset)
             self.hf_dataset = reset_episode_index(self.hf_dataset)
+        else:
+            # if the dataset was not filtered, the saved episode data index can save some time and memory
+            if self.split == "train":
+                self.episode_data_index = load_episode_data_index(self.repo_id, CODEBASE_VERSION, self.root)
+            else:
+                self.episode_data_index = calculate_episode_data_index(self.hf_dataset)
+                self.hf_dataset = reset_episode_index(self.hf_dataset)
         self.stats = load_stats(self.repo_id, CODEBASE_VERSION, self.root)
         self.info = load_info(self.repo_id, CODEBASE_VERSION, self.root)
         if self.video:

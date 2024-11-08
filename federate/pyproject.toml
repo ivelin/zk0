@@ -35,8 +35,8 @@ clientapp = "lerobot_example.client_app:app"
 [tool.flwr.app.config]
 num-server-rounds = 1
 model-name = "lerobot/pusht"
-fraction-fit = 0.1
-fraction-evaluate = 0.2
+fraction-fit = 0.33
+fraction-evaluate = 0.05
 
 [tool.flwr.federations]
 default = "local-simulation"
