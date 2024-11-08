@@ -141,7 +141,7 @@ class LeRobotDatasetPartitioner(Partitioner):
             delta_timestamps=self.dataset["delta_timestamps"],
             hf_filter_fn=lambda x: x["episode_index"] % self._num_partitions == partition_id
         )
-        log(INFO, f"Loaded partition_id={partition_id}. Sample:\n {partition}")
+        log(INFO, f"Loaded partition_id={partition_id}. Summary:\n {partition}")
         return partition
 
     @property
