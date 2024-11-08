@@ -50,7 +50,7 @@ class LeRobotClient(NumPyClient):
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
         set_params(self.net, parameters)
-        train(self.partition_id, self.net, self.trainloader, epochs=1, device=self.device)
+        train(self.partition_id, self.net, self.trainloader, epochs=10, device=self.device)
         return get_params(self.net), len(self.trainloader), {}
 
     def evaluate(self, parameters, config) -> tuple[float, int, dict[str, float]]:
