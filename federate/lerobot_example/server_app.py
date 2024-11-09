@@ -4,7 +4,7 @@ from flwr.common import Context, ndarrays_to_parameters
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedAvg
 
-from huggingface_example.task import get_params, get_model
+from lerobot_example.task import get_params, get_model, get_dataset
 
 
 def server_fn(context: Context) -> ServerAppComponents:
@@ -15,7 +15,8 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Set global model initialization
     model_name = context.run_config["model-name"]
-    ndarrays = get_params(get_model(model_name))
+    dataset = get_dataset()
+    ndarrays = get_params(get_model(model_name=model_name, dataset=dataset))
     global_model_init = ndarrays_to_parameters(ndarrays)
 
     # Define strategy
