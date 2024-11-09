@@ -36,11 +36,12 @@ else:
 
 # Flower client
 class LeRobotClient(NumPyClient):
-    def __init__(self, partition_id, model_name, trainloader, testloader) -> None:
+    def __init__(self, partition_id, model_name, local_epochs, trainloader, testloader) -> None:
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.testloader = testloader
         self.net = get_model(model_name)
+        self.local_epochs = local_epochs
         policy = self.net
         self.device = nn_device
         if self.device == torch.device("cpu"):
@@ -50,7 +51,7 @@ class LeRobotClient(NumPyClient):
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
         set_params(self.net, parameters)
-        train(self.partition_id, self.net, self.trainloader, epochs=10, device=self.device)
+        train(partition_id=self.partition_id, net=self.net, trainloader=self.trainloader, epochs=self.local_epochs, device=self.device)
         return get_params(self.net), len(self.trainloader), {}
 
     def evaluate(self, parameters, config) -> tuple[float, int, dict[str, float]]:
@@ -71,9 +72,11 @@ def client_fn(context: Context) -> Client:
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
+    local_epochs = int(context.run_config["local-epochs"])
+    log(INFO, f"local_epochs={local_epochs}")
     trainloader, testloader = load_data(partition_id, num_partitions, model_name, device=nn_device)
 
-    return LeRobotClient(partition_id, model_name, trainloader, testloader).to_client()
+    return LeRobotClient(partition_id=partition_id, model_name=model_name, local_epochs=local_epochs, trainloader=trainloader, testloader=testloader).to_client()
 
 
 app = ClientApp(client_fn=client_fn)
