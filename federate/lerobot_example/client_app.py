@@ -2,6 +2,7 @@
 
 import warnings
 
+import numpy as np
 import torch
 from flwr.client import Client, ClientApp, NumPyClient
 from flwr.common import Context
@@ -40,7 +41,7 @@ class LeRobotClient(NumPyClient):
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.testloader = testloader
-        self.net = get_model(model_name)
+        self.net = get_model(model_name=model_name, dataset=trainloader.dataset)
         self.local_epochs = local_epochs
         policy = self.net
         self.device = nn_device
@@ -58,9 +59,11 @@ class LeRobotClient(NumPyClient):
         set_params(self.net, parameters)
         # loss, accuracy = test(partition_id=self.partition_id, net=self.net, device=self.device)
         # return float(loss), len(self.testloader), {"accuracy": float(accuracy)}
-        test(partition_id=self.partition_id, net=self.net, device=self.device)
-        # TODO: replace dummy values with actual test results
-        return 0.5, 10, {"accuracy": float(0.15)}
+        successes, rewards = test(partition_id=self.partition_id, net=self.net, device=self.device)
+        loss = 1.0 - np.mean(rewards)
+        accuracy = np.mean(successes)
+        testset_len = 1 # we test on one gym generated task
+        return loss, testset_len, {"accuracy": accuracy}
 
 
 def client_fn(context: Context) -> Client:

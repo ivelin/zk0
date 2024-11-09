@@ -66,7 +66,10 @@ delta_timestamps = {
         1.4,
     ],
 }
-dataset = LeRobotDataset("lerobot/pusht", delta_timestamps=delta_timestamps)
+
+def get_dataset():
+    dataset = LeRobotDataset("lerobot/pusht", delta_timestamps=delta_timestamps)
+    return dataset
 
 def load_data(
     partition_id: int, num_partitions: int, model_name: str, device = None
@@ -84,31 +87,6 @@ def load_data(
         )
     partition = fds.load_partition(partition_id)
 
-    # Divide data: 80% train, 20% test
-    # partition_train_test = partition.train_test_split(test_size=0.2, seed=42)
-
-    # tokenizer = AutoTokenizer.from_pretrained(model_name, model_max_length=512)
-
-    # def tokenize_function(examples):
-    #     return tokenizer(examples["text"], truncation=True, add_special_tokens=True)
-
-    # partition_train_test = partition_train_test.map(tokenize_function, batched=True)
-    # partition_train_test = partition_train_test.remove_columns("text")
-    # partition_train_test = partition_train_test.rename_column("label", "labels")
-
-    # data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
-
-    # trainloader = DataLoader(
-    #     # partition_train_test["train"],
-    #     # shuffle=True,
-    #     # batch_size=32,
-    #     # collate_fn=data_collator,
-    # )
-
-    # testloader = DataLoader(
-    #     # partition_train_test["test"], batch_size=32, collate_fn=data_collator
-    # )
-
     # Create dataloader for offline training.
     trainloader = torch.utils.data.DataLoader(
         partition,
@@ -125,9 +103,7 @@ def load_data(
     return trainloader, testloader
 
 
-def get_model(model_name: str = None):
-    # return AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
-
+def get_model(model_name: str = None, dataset = None):
     # Set up the the policy.
     # Policies are initialized with a configuration class, in this case `DiffusionConfig`.
     # For this example, no arguments need to be passed because the defaults are set up for PushT.
@@ -148,17 +124,6 @@ def set_params(model, parameters) -> None:
 
 
 def train(partition_id: int = None, net = None, trainloader = None, epochs = None, device = None) -> None:
-    # optimizer = AdamW(net.parameters(), lr=5e-5)
-    # net.train()
-    # for _ in range(epochs):
-    #     for batch in trainloader:
-    #         batch = {k: v.to(device) for k, v in batch.items()}
-    #         outputs = net(**batch)
-    #         loss = outputs.loss
-    #         loss.backward()
-    #         optimizer.step()
-    #         optimizer.zero_grad()
-
     # in lerobot terminology policy is the neural network
     policy = net
     policy.train()
@@ -179,7 +144,7 @@ def train(partition_id: int = None, net = None, trainloader = None, epochs = Non
             optimizer.zero_grad()
 
             if step % log_freq == 0:
-                print(f"step: {step} loss: {loss.item():.3f}")
+                print(f"train step: {step} train loss: {loss.item():.3f}")
             step += 1
             assert isinstance(epochs, int), f"epochs value: {epochs} , type: {epochs.__class__}"
             if step >= epochs:
@@ -197,22 +162,6 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
     # in lerobot terminology policy is the neural network
     policy = net
     policy.eval()
-    # policy.to(device)
-    # metric = load_metric("accuracy")
-    # loss = 0
-    # net.eval()
-    # for batch in testloader:
-    #     batch = {k: v.to(device) for k, v in batch.items()}
-    #     with torch.no_grad():
-    #         outputs = net(**batch)
-    #     logits = outputs.logits
-    #     loss += outputs.loss.item()
-    #     predictions = torch.argmax(logits, dim=-1)
-    #     metric.add_batch(predictions=predictions, references=batch["labels"])
-    # loss /= len(testloader.dataset)
-    # accuracy = metric.compute()["accuracy"]
-    # return loss, accuracy
-
     # Reset the policy and environmens to prepare for rollout
     policy.reset()
 
@@ -231,6 +180,7 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
     # from initial state to final state.
     rewards = []
     frames = []
+    successes = []
 
     # Render frame of the initial state
     frames.append(env.render())
@@ -283,9 +233,11 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
         step += 1
 
     if terminated:
-        print("Success!")
+        successes.append(1)
+        print("Success! Task completed.")
     else:
-        print("Failure!")
+        successes.append(0)
+        print("Failure! Task incomplete.")
 
     # Get the speed of environment (i.e. its number of frames per second).
     fps = env.metadata["render_fps"]
@@ -300,3 +252,5 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
     env.close()
 
     print(f"Video of the evaluation is available in '{video_path}'.")
+
+    return successes, rewards
