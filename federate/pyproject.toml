@@ -33,11 +33,11 @@ serverapp = "lerobot_example.server_app:app"
 clientapp = "lerobot_example.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 10
+num-server-rounds = 50
 model-name = "lerobot/pusht"
 fraction-fit = 0.8
 fraction-evaluate = 0.4
-local-epochs = 1000
+local-epochs = 200
 server-device = "cpu"
 use-wandb = true
 

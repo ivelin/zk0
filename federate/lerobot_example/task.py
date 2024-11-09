@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Any
 from collections import OrderedDict
+import numpy as np
 
 import torch
 from evaluate import load as load_metric
@@ -180,7 +181,6 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
     # from initial state to final state.
     rewards = []
     frames = []
-    successes = []
 
     # Render frame of the initial state
     frames.append(env.render())
@@ -233,10 +233,10 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
         step += 1
 
     if terminated:
-        successes.append(1)
+        loss = 0
         print("Success! Task completed.")
     else:
-        successes.append(0)
+        loss = 1
         print("Failure! Task incomplete.")
 
     # Get the speed of environment (i.e. its number of frames per second).
@@ -253,4 +253,6 @@ def test(partition_id: int, net, device) -> tuple[Any | float, Any]:
 
     print(f"Video of the evaluation is available in '{video_path}'.")
 
-    return successes, rewards
+    accuracy = np.max(rewards)
+
+    return loss, accuracy
