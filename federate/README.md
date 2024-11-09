@@ -6,9 +6,11 @@ framework: [lerobot]
 
 # Federated Learning with HuggingFace LeRobot and Flower (Quickstart Example)
 
-This introductory example to using [🤗LeRobot](https://huggingface.co/lerobot) with Flower. 
+This introductory example to using [🤗LeRobot](https://huggingface.co/lerobot) with Flower. It demonstrates that it is feasible to collaboratively train a robotics AI model on remote clients with their local data and then aggregated it in a shared model.
 
 In this example, we will federate the training of a [Diffusion](https://arxiv.org/abs/2303.04137) policy on the [PushT](https://huggingface.co/datasets/lerobot/pusht/tree/v1.3) dataset. The data will be downloaded and partitioned using [Flower Datasets](https://flower.ai/docs/datasets/). This example runs best when a GPU is available.
+
+https://github.com/user-attachments/assets/a9771310-e48d-4426-9cc5-850b2efabae3
 
 ## Set up the project
 
@@ -17,9 +19,8 @@ In this example, we will federate the training of a [Diffusion](https://arxiv.or
 Start by cloning the example project. We prepared a single-line command that you can copy into your shell which will checkout the example for you:
 
 ```shell
-git clone --depth=1 https://github.com/adap/flower.git _tmp \
-		&& mv _tmp/examples/quickstart-lerobot . \
-		&& rm -rf _tmp && cd quickstart-lerobot
+git clone https://github.com/ivelin/zk0
+cd federate
 ```
 
 This will create a new directory called `quickstart-lerobot` containing the following files:
