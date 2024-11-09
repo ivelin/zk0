@@ -147,7 +147,7 @@ def set_params(model, parameters) -> None:
     model.load_state_dict(state_dict, strict=True)
 
 
-def train(partition_id: int, net, trainloader, epochs, device) -> None:
+def train(partition_id: int = None, net = None, trainloader = None, epochs = None, device = None) -> None:
     # optimizer = AdamW(net.parameters(), lr=5e-5)
     # net.train()
     # for _ in range(epochs):
@@ -181,6 +181,7 @@ def train(partition_id: int, net, trainloader, epochs, device) -> None:
             if step % log_freq == 0:
                 print(f"step: {step} loss: {loss.item():.3f}")
             step += 1
+            assert isinstance(epochs, int), f"epochs value: {epochs} , type: {epochs.__class__}"
             if step >= epochs:
                 done = True
                 break

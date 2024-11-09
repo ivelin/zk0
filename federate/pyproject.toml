@@ -37,6 +37,9 @@ num-server-rounds = 10
 model-name = "lerobot/pusht"
 fraction-fit = 0.4
 fraction-evaluate = 0.6
+local-epochs = 10
+server-device = "cpu"
+use-wandb = true
 
 [tool.flwr.federations]
 default = "local-simulation"
