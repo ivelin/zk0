@@ -6,7 +6,7 @@ framework: [lerobot]
 
 # Federated Learning with HuggingFace LeRobot and Flower (Quickstart Example)
 
-This introductory example to using [🤗LeRobot](https://huggingface.co/lerobot) with Flower. It demonstrates that it is feasible to collaboratively train a robotics AI model on remote clients with their local data and then aggregated it in a shared model.
+This introductory example to using [🤗LeRobot](https://huggingface.co/lerobot) with [🌼Flower](https://flower.ai/). It demonstrates that it is feasible to collaboratively train a robotics AI model on remote clients with their local data and then aggregated it in a shared model.
 
 In this example, we will federate the training of a [Diffusion](https://arxiv.org/abs/2303.04137) policy on the [PushT](https://huggingface.co/datasets/lerobot/pusht/tree/v1.3) dataset. The data will be downloaded and partitioned using [Flower Datasets](https://flower.ai/docs/datasets/). This example runs best when a GPU is available.
 
