@@ -35,7 +35,7 @@ clientapp = "lerobot_example.client_app:app"
 [tool.flwr.app.config]
 num-server-rounds = 10
 model-name = "lerobot/pusht"
-fraction-fit = 1.0
+fraction-fit = 0.8
 fraction-evaluate = 0.4
 local-epochs = 1000
 server-device = "cpu"
