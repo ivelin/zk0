@@ -33,11 +33,11 @@ serverapp = "lerobot_example.server_app:app"
 clientapp = "lerobot_example.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 10
+num-server-rounds = 100
 model-name = "lerobot/pusht"
-fraction-fit = 0.4
-fraction-evaluate = 0.6
-local-epochs = 1000
+fraction-fit = 0.01
+fraction-evaluate = 0.4
+local-epochs = 100
 server-device = "cpu"
 use-wandb = true
 
@@ -45,9 +45,9 @@ use-wandb = true
 default = "local-simulation"
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 5
+options.num-supernodes = 6
 
 [tool.flwr.federations.local-simulation-gpu]
-options.num-supernodes = 5
+options.num-supernodes = 6
 options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4CPUs
-options.backend.client-resources.num-gpus = 0.25 # When this value is 0.25 at most 4 ClientApp will run in a given GPU (lower it to increase parallelism)
+options.backend.client-resources.num-gpus = 1 # When this value is 0.25 at most 4 ClientApp will run in a given GPU (lower it to increase parallelism)

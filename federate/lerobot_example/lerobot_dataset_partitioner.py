@@ -102,6 +102,7 @@ class LeRobotDatasetPartitioner(Partitioner):
         if num_partitions <= 0:
             raise ValueError("The number of partitions must be greater than zero.")
         self._num_partitions = num_partitions
+        self._partition_cache = {}
 
     @property
     def dataset(self) -> dict:
@@ -142,12 +143,18 @@ class LeRobotDatasetPartitioner(Partitioner):
         dataset_partition : Dataset
             single dataset partition
         """
-        partition = FilteredLeRobotDataset(
-            repo_id=self.dataset["dataset_name"],
-            delta_timestamps=self.dataset["delta_timestamps"],
-            hf_filter_fn=lambda x: x["episode_index"] % self._num_partitions == partition_id
-        )
-        log(INFO, f"Loaded partition_id={partition_id}. Summary:\n {partition}")
+        partition = self._partition_cache.get(partition_id, None)
+        if partition is not None:
+            log(INFO, f"Reusing cached partition_id={partition_id}. Summary:\n {partition}")
+            return partition
+        else:
+            partition = FilteredLeRobotDataset(
+                repo_id=self.dataset["dataset_name"],
+                delta_timestamps=self.dataset["delta_timestamps"],
+                hf_filter_fn=lambda x: x["episode_index"] % self._num_partitions == partition_id
+            )
+            self._partition_cache[partition_id] = partition
+            log(INFO, f"Loaded partition_id={partition_id}. Summary:\n {partition}")
         return partition
 
     @property
