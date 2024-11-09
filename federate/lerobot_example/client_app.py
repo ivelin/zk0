@@ -60,7 +60,7 @@ class LeRobotClient(NumPyClient):
         # loss, accuracy = test(partition_id=self.partition_id, net=self.net, device=self.device)
         # return float(loss), len(self.testloader), {"accuracy": float(accuracy)}
         successes, rewards = test(partition_id=self.partition_id, net=self.net, device=self.device)
-        loss = 1.0 - np.mean(rewards)
+        loss = 1.0 - np.max(rewards)
         accuracy = np.mean(successes)
         testset_len = 1 # we test on one gym generated task
         return loss, testset_len, {"accuracy": accuracy}
