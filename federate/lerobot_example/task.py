@@ -28,7 +28,7 @@ fds = None  # Cache FederatedDataset
 
 
 # Create a directory to store the training checkpoint.
-timestr = time.strftime("%Y%m%d/%H/%M%S")
+timestr = time.strftime("%Y%m%d/%H/%M")
 output_directory = Path("outputs/train/lerobot_federated_example") / timestr
 output_directory.mkdir(parents=True, exist_ok=True)
 
