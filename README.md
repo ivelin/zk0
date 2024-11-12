@@ -1,10 +1,8 @@
 # zk0 [zee-ˈkō]
 
-
 zk0 is an Open Source humanoid built collaboratively by a community of contributors of code, compute and data. 
 
-<img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=100>
-
+<img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=300>
 
 # Why
 
@@ -26,8 +24,13 @@ zk0 is composed of several major building blocks:
 - Zero Knowledge Proofs: 
   * [EZKL](https://ezkl.xyz/) for verification of contributed model checkpoints trained on local data.
 
+# Quick Example
 
-# Directory Structure
+[Here](https://github.com/ivelin/zk0/tree/federate-pusht-gym/federate) is a complete example demonstrating federated learning with the LeRobot PushT dataset. Shows client-server architecture, data partitioning, and model update aggregation. 
+
+# Getting Started
+
+Following is the high level directory structure of the [main repository](https://github.com/ivelin/zk0/tree/main). Jump in, try the example and explore. Contributors are welcome!
 
 ```shell
 zk0
