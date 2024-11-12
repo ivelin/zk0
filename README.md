@@ -29,7 +29,7 @@ zk0 is composed of several major building blocks:
 
 # Getting Started
 
-Following is the high level directory structure of the [main repository](https://github.com/ivelin/zk0/tree/main). Jump in, try the example and explore. Contributors are welcome!
+Following is the high level directory structure of the [code repository](https://github.com/ivelin/zk0/tree/main). Jump in, try the example and explore. Contributors are welcome!
 
 ```shell
 zk0
