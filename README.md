@@ -37,7 +37,7 @@ zk0
 │
 ├── federate            # federated learning layer
 │   │
-│   └── federatelerobot_example/
+│   └── lerobot_example/
 │                       # Federated Learning Example with Flower and LeRobot Diffusion PushT task
 │
 └── README.md           # This README file
