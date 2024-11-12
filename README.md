@@ -35,8 +35,10 @@ zk0
 ├── lerobot             # clone of remote lerobot repo: 
 │                       #    https://github.com/huggingface/lerobot.git
 │
-├── federate            # fork of remote hf flower example: 
-│                       #     https://github.com/adap/flower/tree/main/examples/quickstart-huggingface
+├── federate            # federated learning layer
+│   │
+│   └── federatelerobot_example/
+│                       # Federated Learning Example with Flower and LeRobot Diffusion PushT task
 │
 └── README.md           # This README file
 ```
