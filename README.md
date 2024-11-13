@@ -23,11 +23,11 @@ zk0 is composed of several major building blocks:
 - Zero Knowledge Proofs: 
   * [EZKL](https://ezkl.xyz/) for verification of contributed model checkpoints trained on local data.
 
-# Quick Example
+# Quickstart Example
 
 [Here](https://github.com/ivelin/zk0/tree/federate-pusht-gym/federate) is a complete example demonstrating federated learning with the LeRobot PushT dataset. Shows client-server architecture, data partitioning, and model update aggregation. 
 
-# Getting Started
+# Contribute
 
 Following is the high level directory structure of the [code repository](https://github.com/ivelin/zk0/tree/main). Jump in, try the example and explore. Contributors are welcome!
 
