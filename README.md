@@ -1,6 +1,6 @@
 # zk0 [zee-ˈkō]
 
-An Open Source humanoid built by a community of code, compute and data contributors.
+An Open Source humanoid built and trained collaboratively by a community of contributors.
 
 <img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=300>
 
