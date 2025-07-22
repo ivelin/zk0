@@ -52,13 +52,14 @@ Register for the zk0 side event at the upcoming DevConnect conference in Buenos 
 
 <iframe
   src="https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple"
+  width="800"
+  height="800"
   frameborder="0"
   style="border: 1px solid #bfcbda88; border-radius: 4px;"
   allow="fullscreen; payment"
   aria-hidden="false"
   tabindex="0"
 ></iframe>
-
 
 
 # Social Media
