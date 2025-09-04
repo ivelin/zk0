@@ -87,6 +87,24 @@ pip install -e .
 
 **Note**: The project uses Flower 1.20.0 (latest version) and Ray 2.31.0 for optimal performance.
 
+## Environment Variables
+
+Before running the project, you need to set up your environment variables:
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit the `.env` file and configure the following variables:
+
+   - `GITHUB_TOKEN`: Your GitHub personal access token for API access
+   - `GITHUB_PERSONAL_ACCESS_TOKEN`: Alternative GitHub token (can be the same as GITHUB_TOKEN)
+   - `GITHUB_TOOLSETS`: Comma-separated list of GitHub toolsets to use
+   - `GITHUB_READ_ONLY`: Set to 'true' for read-only access, 'false' for full access
+
+These variables are used for GitHub integration and API access throughout the federated learning workflow.
+
 ### Choose training parameters
 
 You can leave the default parameters for an initial quick test. It will run for 100 rounds sampling 10 clients per round. SmolVLA is memory-efficient, allowing for more clients to participate. For best results, total number of training rounds should be over 100,000: `num-server-rounds` * `local_epochs` > 50,000. You can adjust these parameters in the `pyproject.toml` or configuration files.
