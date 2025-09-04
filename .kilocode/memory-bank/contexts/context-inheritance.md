@@ -8,7 +8,7 @@ Context inheritance ensures that critical information, constraints, and requirem
 
 ### Level 1: Mandatory Constraints
 **Always inherited - no exceptions**
-- Project working directory (`~/zk0/flower/examples/quickstart-smolvla`)
+- Project working directory (local project repository root directory)
 - Environment requirements (conda "zk0")
 - Technical focus (SmolVLA + SO-100)
 - Scope limitations (no changes to siblings/parents)
@@ -35,7 +35,7 @@ When creating subtasks, automatically include:
 1. **Project Constraints Block**
    ```
    ## Project Constraints (MANDATORY)
-   - [ ] Work ONLY under `~/zk0/flower/examples/quickstart-smolvla`
+   - [ ] Work ONLY within the local project repository root directory
    - [ ] No changes to sibling or parent directories
    - [ ] Use conda environment "zk0"
    - [ ] Focus on SmolVLA model and SO-100 real-world datasets

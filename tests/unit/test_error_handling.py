@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import Mock, patch
 import numpy as np
 
-from smolvla_example.client_app import SmolVLAClient
+from src.client_app import SmolVLAClient
 
 
 @pytest.mark.unit
@@ -28,7 +28,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading failed")
 
             client = SmolVLAClient(**client_config)
@@ -41,7 +41,7 @@ class TestFlowerAPIErrorHandling:
 
     def test_set_parameters_model_failure(self, client_config):
         """Test set_parameters when model is not available."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -58,7 +58,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -82,7 +82,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -106,9 +106,9 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor'), \
-             patch('smolvla_example.client_app.torch.optim.Adam', return_value=mock_optimizer):
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -135,8 +135,8 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor'):
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'):
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -172,7 +172,7 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_model_error(self, client_config):
         """Test client initialization when model loading fails."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading failed")
 
             # Should not raise exception
@@ -184,9 +184,9 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_dataset_error(self, client_config):
         """Test client initialization when dataset loading fails."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor'), \
-             patch('smolvla_example.client_app.FederatedLeRobotDataset') as mock_federated:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.FederatedLeRobotDataset') as mock_federated:
 
             mock_model_instance = Mock()
             mock_model_class.from_pretrained.return_value = mock_model_instance
@@ -202,8 +202,8 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_processor_error(self, client_config):
         """Test client initialization when processor loading fails."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor') as mock_processor_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor') as mock_processor_class:
 
             mock_model_instance = Mock()
             mock_model_class.from_pretrained.return_value = mock_model_instance
@@ -232,7 +232,7 @@ class TestSimulationMethods:
 
     def test_simulate_training_step_range(self, client_config):
         """Test training step simulation returns values in expected range."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -242,18 +242,3 @@ class TestSimulationMethods:
                 loss = client._simulate_training_step()
                 assert isinstance(loss, float)
                 assert 0.1 <= loss <= 0.6
-
-    def test_simulate_validation_step_range(self, client_config):
-        """Test validation step simulation returns values in expected range."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
-            mock_model_class.from_pretrained.side_effect = Exception("Model failed")
-
-            client = SmolVLAClient(**client_config)
-
-            # Test multiple calls to ensure consistent range
-            for _ in range(10):
-                loss, correct = client._simulate_validation_step()
-                assert isinstance(loss, float)
-                assert isinstance(correct, int)
-                assert 0.1 <= loss <= 0.4
-                assert 0 <= correct <= 4

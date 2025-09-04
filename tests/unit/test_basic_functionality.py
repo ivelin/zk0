@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import patch
 
-from smolvla_example.client_app import SmolVLAClient
+from src.client_app import SmolVLAClient
 
 
 @pytest.mark.unit
@@ -15,8 +15,8 @@ def test_client_can_be_imported():
 @pytest.mark.unit
 def test_client_initialization_basic(sample_client_config):
     """Test basic client initialization without complex dependencies."""
-    with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model, \
-         patch('smolvla_example.client_app.AutoProcessor'):
+    with patch('src.client_app.AutoModelForVision2Seq') as mock_model, \
+         patch('src.client_app.AutoProcessor'):
 
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled for test")
 
@@ -33,7 +33,7 @@ def test_client_initialization_basic(sample_client_config):
 @pytest.mark.unit
 def test_flower_api_methods_exist(sample_client_config):
     """Test that all required Flower API methods exist."""
-    with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model:
+    with patch('src.client_app.AutoModelForVision2Seq') as mock_model:
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled")
 
         client = SmolVLAClient(**sample_client_config)
@@ -54,7 +54,7 @@ def test_flower_api_methods_exist(sample_client_config):
 @pytest.mark.unit
 def test_client_configuration_storage(sample_client_config):
     """Test that client stores configuration correctly."""
-    with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model:
+    with patch('src.client_app.AutoModelForVision2Seq') as mock_model:
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled")
 
         client = SmolVLAClient(**sample_client_config)

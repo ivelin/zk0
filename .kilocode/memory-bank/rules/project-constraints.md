@@ -5,9 +5,9 @@
 ⚠️ **MANDATORY**: These constraints must be included in EVERY task, subtask, and mode transition:
 
 ### 1. Working Directory Constraint
-- **Work Location**: Work ONLY under `~/zk0/flower/examples/quickstart-smolvla`
+- **Work Location**: Work only within the local project repository root directory
 - **No External Changes**: No modifications to sibling or parent directories
-- **Scope Limitation**: All development must remain within the quickstart-smolvla directory
+- **Scope Limitation**: All development must remain within the project root directory
 
 ### 2. Environment Requirements
 - **Conda Environment**: Must use conda environment "zk0"
@@ -62,7 +62,7 @@
 ## Validation Checklist
 
 Before starting ANY task:
-- [ ] Working directory is `~/zk0/flower/examples/quickstart-smolvla`
+- [ ] Working directory is the project root directory
 - [ ] Conda environment "zk0" is active
 - [ ] SmolVLA and SO-100 focus is maintained
 - [ ] Reference to quickstart-lerobot structure is considered

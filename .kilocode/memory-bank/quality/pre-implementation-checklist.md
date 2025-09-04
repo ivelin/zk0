@@ -1,7 +1,7 @@
 # Pre-Implementation Checklist
 
 ## Project Constraints Verification
-- [ ] Working directory is `~/zk0/flower/examples/quickstart-smolvla`
+- [ ] Working directory is `.`
 - [ ] No changes planned for sibling or parent directories
 - [ ] Conda environment "zk0" is active and available
 - [ ] Focus maintained on SmolVLA model and SO-100 datasets

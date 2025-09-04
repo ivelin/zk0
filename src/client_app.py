@@ -11,17 +11,45 @@ from flwr.common import (
 import sys
 import os
 
-# Add federate directory to path for dataset utilities
-federate_path = os.path.join(os.path.dirname(__file__), '../../../federate/lerobot_example')
-sys.path.insert(0, federate_path)  # Use insert(0) to put at beginning of path
-
+# Try importing from lerobot (PyPI version)
 try:
-    from lerobot_dataset_partitioner import LeRobotDatasetPartitioner
-    from lerobot_federated_dataset import FederatedLeRobotDataset
+    from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
+    from lerobot.common.datasets.utils import create_transforms
+    # Create partitioner and federated dataset classes
+    class LeRobotDatasetPartitioner:
+        def __init__(self, num_partitions=10):
+            self.num_partitions = num_partitions
+
+    class FederatedLeRobotDataset:
+        def __init__(self, dataset="lerobot/so100", partitioners=None, delta_timestamps=None):
+            self.dataset = dataset
+            self.partitioners = partitioners or {}
+            self.delta_timestamps = delta_timestamps or {}
+
+        def load_partition(self, partition_id):
+            # Use lerobot's dataset loading
+            try:
+                transforms = create_transforms(delta_timestamps=self.delta_timestamps)
+                dataset = LeRobotDataset(
+                    repo_id=self.dataset,
+                    delta_timestamps=self.delta_timestamps,
+                    transforms=transforms
+                )
+                # Simple partitioning by episode index
+                total_episodes = len(dataset.episode_data.index)
+                episodes_per_partition = total_episodes // self.partitioners.get('train', LeRobotDatasetPartitioner()).num_partitions
+                start_idx = partition_id * episodes_per_partition
+                end_idx = start_idx + episodes_per_partition if partition_id < self.partitioners.get('train', LeRobotDatasetPartitioner()).num_partitions - 1 else total_episodes
+
+                # Filter dataset for this partition
+                partition_indices = dataset.episode_data.index[start_idx:end_idx]
+                return dataset.select_episodes(partition_indices.tolist())
+            except Exception as e:
+                print(f"Failed to load partition: {e}")
+                return []
+
 except ImportError as e:
-    print(f"Warning: Could not import dataset utilities: {e}")
-    print(f"Path added to sys.path: {federate_path}")
-    print(f"sys.path: {sys.path}")
+    print(f"Warning: Could not import from lerobot: {e}")
     # Fallback: create dummy classes
     class LeRobotDatasetPartitioner:
         def __init__(self, num_partitions=10):

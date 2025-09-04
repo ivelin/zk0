@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import Mock, patch, MagicMock
 import numpy as np
 
-from smolvla_example.client_app import SmolVLAClient, get_device
+from src.client_app import SmolVLAClient, get_device
 
 
 @pytest.mark.unit
@@ -41,9 +41,9 @@ class TestSmolVLAClientFlowerAPI:
     @pytest.fixture
     def mock_client_with_model(self, sample_client_config, mock_model, mock_optimizer):
         """Create a client with mocked model for Flower API testing."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor'), \
-             patch('smolvla_example.client_app.torch.optim.Adam', return_value=mock_optimizer):
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -80,7 +80,7 @@ class TestSmolVLAClientFlowerAPI:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -107,7 +107,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_set_parameters_no_model(self, sample_client_config):
         """Test set_parameters when model is not available."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -175,7 +175,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_client_initialization_config(self, sample_client_config):
         """Test client initialization with configuration."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading disabled for test")
 
             client = SmolVLAClient(**sample_client_config)
@@ -188,7 +188,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_simulate_training_step(self, sample_client_config):
         """Test training step simulation fallback."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -200,7 +200,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_simulate_validation_step(self, sample_client_config):
         """Test validation step simulation fallback."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)

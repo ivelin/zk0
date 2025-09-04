@@ -10,7 +10,7 @@
 
 ## Project Constraints (MANDATORY)
 
-- [ ] Work ONLY under `~/zk0/flower/examples/quickstart-smolvla`
+- [ ] Work ONLY within the local project repository root directory
 - [ ] No changes to sibling or parent directories
 - [ ] Use conda environment "zk0"
 - [ ] Focus on SmolVLA model and SO-100 real-world datasets

@@ -86,7 +86,7 @@ The context passing mechanism ensures that critical information flows seamlessly
 ### Template-Based Format
 ```markdown
 ## Project Constraints (MANDATORY)
-- [ ] Work ONLY under `~/zk0/flower/examples/quickstart-smolvla`
+- [ ] Work ONLY within the local project repository root directory
 - [ ] No changes to sibling or parent directories
 - [ ] Use conda environment "zk0"
 - [ ] Focus on SmolVLA model and SO-100 real-world datasets
@@ -102,7 +102,7 @@ The context passing mechanism ensures that critical information flows seamlessly
 ```json
 {
   "constraints": {
-    "workDirectory": "~/zk0/flower/examples/quickstart-smolvla",
+    "workDirectory": "local project repository root directory",
     "environment": "zk0",
     "focus": "SmolVLA + SO-100"
   },

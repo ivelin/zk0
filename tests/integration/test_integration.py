@@ -4,7 +4,7 @@ import pytest
 from unittest.mock import patch, Mock
 import numpy as np
 
-from smolvla_example.client_app import SmolVLAClient, get_device
+from src.client_app import SmolVLAClient, get_device
 
 
 @pytest.mark.integration
@@ -41,9 +41,9 @@ class TestFlowerAPIIntegration:
     @pytest.fixture
     def flower_client(self, client_config, mock_model, mock_optimizer):
         """Create a client configured for Flower API testing."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('smolvla_example.client_app.AutoProcessor'), \
-             patch('smolvla_example.client_app.torch.optim.Adam', return_value=mock_optimizer):
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -186,7 +186,7 @@ class TestFlowerAPIIntegration:
             pytest.skip("Flower not installed")
 
         # Create client with model loading failure
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -209,7 +209,7 @@ class TestFlowerAPIIntegration:
 
     def test_configuration_persistence(self, client_config):
         """Test that client configuration is properly maintained."""
-        with patch('smolvla_example.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model disabled")
 
             client = SmolVLAClient(**client_config)

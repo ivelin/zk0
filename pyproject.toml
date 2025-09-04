@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 allow-direct-references = true
 
 [project]
-name = "smolvla_example"
+name = "zk0"
 version = "1.0.0"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
@@ -18,7 +18,7 @@ authors = [
 dependencies = [
     "flwr[simulation]==1.20.0",
     "transformers>=4.50.3,<4.52.0",
-    "lerobot[smolvla] @ file:///home/ivelin/zk0/lerobot",
+    "lerobot[smolvla]>=0.3.0",
     "flwr-datasets>=0.5.0",
     "torch>=2.5.0",
     "evaluate>=0.4.0,<1.0",
@@ -36,14 +36,14 @@ test = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["."]
+packages = ["src"]
 
 [tool.flwr.app]
 publisher = "flwrlabs"
 
 [tool.flwr.app.components]
-serverapp = "smolvla_example.server_app:app"
-clientapp = "smolvla_example.client_app:app"
+serverapp = "src.server_app:app"
+clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
 num-server-rounds = 100 # for good results, total number of training rounds should be over 100,000: num-server-rounds*local_epochs > 50,000
@@ -75,7 +75,7 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--disable-warnings",
-    "--cov=smolvla_example",
+    "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
     "--cov-fail-under=80"
