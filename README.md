@@ -4,15 +4,54 @@ dataset: [so100]
 framework: [lerobot, smolvla]
 ---
 
-# Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)
+# zk0 \[zee-ˈkō\]
 
-This is an introductory example to using [SmolVLA](https://huggingface.co/lerobot/smolvla_base) with [🌼Flower](https://flower.ai/) for federated learning on robotics tasks. It demonstrates that it is feasible to collaboratively train a Vision-Language-Action (VLA) model in remote environments with their local data and then aggregate it into a shared model.
+An Open Source humanoid trained collaboratively by a community of builders.
 
-**✅ Step 1 Complete**: Environment and dependencies setup has been successfully completed. The federated learning infrastructure is fully operational with Flower 1.20.0.
+<img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=300>
 
-In this example, we will federate the training of a SmolVLA policy on SO-100 real-world robotics datasets. The data will be downloaded and partitioned using [Flower Datasets](https://flower.ai/docs/datasets/). SmolVLA is memory-efficient and runs well on both CPU and GPU environments.
+# Why
 
-![](_static/render_compose.gif)
+AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1786367513137233933) that within a decade most people will have their own humanoid buddy. By some estimates humanoids will become $100 Trillion market (5B humanoids \* $20,000 per unit).
+
+[Today's leading closed source humanoid](https://x.com/Tesla_Optimus/status/1846294753144361371) is trained on [100,000 GPU farm](https://nvidianews.nvidia.com/news/spectrum-x-ethernet-networking-xai-colossus) with real world data collected from millions of cars labeled by able human drivers.
+This is an enormous scale of compute and data that is hard to compete with as a centralized entity.
+However it would be interesting to see if a decentralized approach might produce useful results over time.
+On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.
+
+# Upcoming Community Events
+
+Register for the zk0 side event at the upcoming DevConnect conference in Buenos Aires, Argentina in November, 2025.
+
+<iframe
+  src="https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple"
+  width="800"
+  height="600"
+  frameborder="0"
+  style="border: 1px solid #bfcbda88; border-radius: 4px;"
+  allow="fullscreen; payment"
+  aria-hidden="false"
+  tabindex="0"
+></iframe>
+
+
+# How
+
+zk0 is composed of several major building blocks:
+- Generative AI:
+  * [HuggingFace LeRobot](https://huggingface.co/lerobot) for the Open Source 3D printed robot parts and end-to-end vision language action models.
+- Federated Learning:
+  * [Flower](https://flower.ai/) for collaborative training of AI models
+- Zero Knowledge Proofs:
+  * [EZKL](https://ezkl.xyz/) for verification of contributed model checkpoints trained on local data.
+
+
+# Federated Learning for Robotics AI (SO-100 Example)
+
+This is an introductory example of federated learning applied to robotics AI tasks. It demonstrates that it is feasible to collaboratively train Vision-Language-Action (VLA) models in remote environments with their local data and then aggregate it into a shared model.
+
+In this example, we will federate the training of a Vision-Language-Action policy on SO-100 real-world robotics datasets. The data will be downloaded and partitioned using federated learning datasets. The implementation is memory-efficient and runs well on both CPU and GPU environments.
+
 
 ## Set up the project
 
@@ -441,29 +480,84 @@ If tests continue to fail:
 
 ## Project Status
 
-### ✅ Step 1: Environment and Dependencies Setup - COMPLETED
+### 🚀 **Current Development Stage: Advanced Development / Beta**
 
-The federated learning infrastructure has been successfully set up and tested:
+The project is currently in **Beta** stage. We have implemented core features including a fully functional federated learning system for SmolVLA on robotics tasks, with comprehensive testing and CI/CD setup. However, we are actively seeking solid community feedback to refine the system, address edge cases, and ensure robustness before advancing to production readiness.
 
-- **Flower Framework**: Version 1.20.0 (latest) with Ray 2.31.0
-- **SmolVLA Integration**: Ready for Vision-Language-Action model training
-- **SO-100 Datasets**: Configured for robotics task training
-- **Federated Learning**: 10-client simulation tested and working
-- **Performance**: 100 rounds complete in ~50 seconds
+### ✅ **Step 1: Core Infrastructure - COMPLETED**
 
-### ✅ Step 1.5: Comprehensive Testing Framework - COMPLETED
+**Federated Learning Framework Setup:**
+- **Flower Framework**: Version 1.20.0 (latest stable) with Ray 2.31.0 for optimal performance
+- **SmolVLA Integration**: Complete Vision-Language-Action model support with Hugging Face transformers
+- **SO-100 Dataset**: Full integration with LeRobot's comprehensive robotics dataset (100 diverse tasks)
+- **Multi-Device Support**: CPU/GPU compatibility with automatic device detection
+- **Configuration Management**: Structured YAML-based configuration system
 
-A complete pytest-based testing framework has been implemented:
+**Performance Validation:**
+- **Federated Simulation**: Successfully tested 10-client simulation
+- **Training Performance**: 100 rounds completed in ~50 seconds
+- **Memory Efficiency**: Optimized for both CPU and GPU environments
+- **Scalability**: Configurable client count and training parameters
 
-- **Test Structure**: Organized unit and integration test suites
-- **Test Coverage**: Comprehensive coverage of core components and workflows
-- **Error Handling**: Extensive testing of failure scenarios and edge cases
-- **CI/CD Ready**: Configured for automated testing pipelines
-- **Documentation**: Complete testing guide and best practices
+### ✅ **Step 2: SmolVLA Client Implementation - COMPLETED**
 
-### ✅ Step 2: SmolVLA Model Integration - COMPLETED
+**Complete Client Architecture:**
+- **Model Management**: SmolVLA base model loading with selective parameter freezing
+- **Dataset Partitioning**: Episode-based non-overlapping data distribution across clients
+- **Training Pipeline**: Full local training with configurable epochs and batch sizes
+- **Evaluation Framework**: Comprehensive validation with action accuracy metrics
+- **Checkpointing**: Automatic model saving and loading capabilities
+- **Error Handling**: Graceful degradation with fallback mechanisms
 
-The SmolVLA model has been successfully integrated with real federated learning capabilities, providing a complete implementation that addresses all aspects of federated Vision-Language-Action (VLA) training on robotics datasets.
+**Advanced Features:**
+- **Federated Averaging**: FedAvg implementation for parameter aggregation
+- **Privacy Preservation**: No raw data sharing, parameter-only communication
+- **Device Optimization**: Efficient GPU utilization with memory management
+- **Logging Integration**: Comprehensive training metrics and progress tracking
+
+### ✅ **Step 3: Testing & Quality Assurance - COMPLETED**
+
+**Comprehensive Test Suite:**
+- **Unit Tests**: 4 test files covering core functionality, error handling, and API compliance
+- **Integration Tests**: End-to-end federated workflow testing with Flower API validation
+- **Test Coverage**: 55% minimum coverage requirement with detailed reporting
+- **CI/CD Integration**: Automated testing on push/PR with coverage reporting
+- **Mock Framework**: Extensive mocking for reliable testing without external dependencies
+
+**Test Categories:**
+- **API Compliance**: Full Flower framework API contract validation
+- **Error Scenarios**: Comprehensive failure mode testing and recovery
+- **Device Handling**: CPU/GPU detection and switching validation
+- **Configuration Testing**: Parameter validation and edge case handling
+
+### ✅ **Step 4: CI/CD & Automation - COMPLETED**
+
+**Automated Pipeline:**
+- **GitHub Actions**: Complete CI workflow with Python 3.11 testing
+- **Dependency Management**: Automated installation and environment setup
+- **Coverage Reporting**: Codecov integration with detailed coverage analysis
+- **Quality Gates**: Minimum coverage thresholds and test failure prevention
+
+### ✅ **Step 5: Configuration & Tooling - COMPLETED**
+
+**Configuration System:**
+- **Policy Configuration**: SmolVLA-specific training parameters and hyperparameters
+- **Environment Management**: .env support with secure credential handling
+- **Project Structure**: Well-organized directory structure with clear separation of concerns
+
+**Development Tools:**
+- **Memory Bank System**: .kilocode/ for project knowledge and constraint management
+- **Training Scripts**: Automated training pipeline with wandb integration
+- **VS Code Integration**: Optimized development environment configuration
+
+### 🔄 **Step 6: Advanced Features - IN PROGRESS**
+
+**Planned Enhancements:**
+- **Multi-Task Learning**: Training across multiple SO-100 tasks simultaneously
+- **Advanced Strategies**: Implementation of FedProx, SCAFFOLD for improved convergence
+- **Hyperparameter Optimization**: Automated tuning across federated clients
+- **Performance Benchmarking**: Comprehensive evaluation metrics and analysis tools
+- **Production Deployment**: Scaling to real-world distributed environments
 
 ## 🔍 **1. Data Source and Loading Mechanism**
 
@@ -827,3 +921,48 @@ The project is ready for Step 3 implementation:
 - **Model**: SmolVLA base (`lerobot/smolvla_base`)
 - **Strategy**: FedAvg (Federated Averaging)
 - **Environment**: CPU/GPU compatible
+
+# Social Media
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">It's time for a complete open-source stack for autonomy/robotics plus distributed learning. The first step is here: <a href="https://twitter.com/LeRobotHF?ref\_src=twsrc%5Etfw">@LeRobotHF</a> + <a href="https://twitter.com/flwrlabs?ref\_src=twsrc%5Etfw">@flwrlabs</a> LFG 🚀<a href="https://twitter.com/comma\_ai?ref\_src=twsrc%5Etfw">@comma\_ai</a> <a href="https://twitter.com/wayve\_ai?ref\_src=twsrc%5Etfw">@wayve\_ai</a> <a href="https://twitter.com/Figure\_robot?ref\_src=twsrc%5Etfw">@Figure\_robot</a> <a href="https://twitter.com/Tesla?ref\_src=twsrc%5Etfw">@Tesla</a> <a href="https://t.co/8O8cSD3SbO">https://t.co/8O8cSD3SbO</a> <a href="https://t.co/oVUOLTvwzm">https://t.co/oVUOLTvwzm</a></p>&mdash; nic lane (@niclane7) <a href="https://twitter.com/niclane7/status/1879597539676266726?ref\_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Open-source robots just got a boost. Frameworks like Flower FL enable faster learning, efficient scaling, and continuous knowledge sharing using real-world data. <a href="https://t.co/j8VSGiWF0W">https://t.co/j8VSGiWF0W</a></p>&mdash; 𝚐𝔪𝟾𝚡𝚡𝟾 (@gm8xx8) <a href="https://twitter.com/gm8xx8/status/1879633368427761785?ref\_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are not so far from a future where robots will be constantly learning by interacting with humans and their environments.<br><br>Frameworks like <a href="https://twitter.com/flwrlabs?ref\_src=twsrc%5Etfw">@flwrlabs</a> will enable these robots to learn much faster by continuously sharing their learnings.<br><br>We really live in a sci-fi movie 😅 <a href="https://t.co/kAz3xZ2qvB">https://t.co/kAz3xZ2qvB</a></p>&mdash; Remi Cadene (@RemiCadene) <a href="https://twitter.com/RemiCadene/status/1879592068865282227?ref\_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br><br>This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br><br>In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref\_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Contributing
+
+We welcome contributions from the community! At this Beta stage, we're particularly interested in:
+
+### Node Operators
+
+If you have access to a LeRobot SO100 arm (or the newer SO101 version) and a local machine with an RTX 3090 GPU or better compatible with the LeRobot library, we'd love for you to join as a node operator. Your unique training data and compute resources will help improve the federated learning system.
+
+### Code Contributors
+
+We're also looking for developers to help with:
+- Bug fixes and improvements
+- Documentation enhancements
+- New feature development
+- Testing and quality assurance
+
+### Getting Started
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+For more detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md) (coming soon).
+
+
+# Share
+
+![image](https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f)
