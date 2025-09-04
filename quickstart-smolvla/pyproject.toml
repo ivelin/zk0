@@ -1,0 +1,88 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[project]
+name = "smolvla_example"
+version = "1.0.0"
+description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
+license = "Apache-2.0"
+authors = [
+    { name = "Ivelin Ivanov", email = "ivelin@zk0.bot" },
+    { name = "The Flower Authors", email = "hello@flower.ai" },
+]
+
+dependencies = [
+    "flwr[simulation]==1.20.0",
+    "transformers>=4.50.3,<4.52.0",
+    "lerobot[smolvla] @ file:///home/ivelin/zk0/lerobot",
+    "flwr-datasets>=0.5.0",
+    "torch>=2.5.0",
+    "evaluate>=0.4.0,<1.0",
+    "scikit-learn>=1.3.1, <2.0",
+    "num2words>=0.5.14",
+    "accelerate>=1.7.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+    "pytest-asyncio>=0.23.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.flwr.app]
+publisher = "flwrlabs"
+
+[tool.flwr.app.components]
+serverapp = "smolvla_example.server_app:app"
+clientapp = "smolvla_example.client_app:app"
+
+[tool.flwr.app.config]
+num-server-rounds = 100 # for good results, total number of training rounds should be over 100,000: num-server-rounds*local_epochs > 50,000
+model-name = "lerobot/smolvla_base"
+fraction-fit = 0.4
+fraction-evaluate = 0.4
+local-epochs = 200
+server-device = "cpu"
+use-wandb = true
+
+[tool.flwr.federations]
+default = "local-simulation"
+
+[tool.flwr.federations.local-simulation]
+options.num-supernodes = 10 # relatively low number of supernodes because SmolVLA is memory efficient
+
+[tool.flwr.federations.local-simulation-gpu]
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
+options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4CPUs
+options.backend.client-resources.num-gpus = 0.25 # SmolVLA is more memory efficient, allowing more parallelism
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+    "--cov=smolvla_example",
+    "--cov-report=term-missing",
+    "--cov-report=html:htmlcov",
+    "--cov-fail-under=80"
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+    "slow: Slow running tests",
+    "gpu: Tests requiring GPU"
+]
