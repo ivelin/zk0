@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "1.0.0"
+version = "0.1.11"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
