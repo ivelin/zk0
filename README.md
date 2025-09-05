@@ -1,8 +1,3 @@
----
-tags: [quickstart, vision, robotics, zk0, smolvla]
-dataset: [so100]
-framework: [lerobot, smolvla]
----
 
 # zk0 \[zee-ˈkō\]
 
@@ -227,41 +222,6 @@ tests/
 pip install -e .[test]
 ```
 
-#### Quick Test Runner
-
-For a simple verification that tests are working:
-
-```bash
-# Run the test runner script
-python test_runner.py
-```
-
-#### Basic Test Verification
-
-For a comprehensive check of test setup:
-
-```bash
-# Run basic test verification
-python run_basic_tests.py
-```
-
-This will test:
-- Pytest collection
-- Basic functionality
-- Device detection
-- Flower API compatibility
-
-#### Debug Script
-
-If tests are failing, use the debug script to identify issues:
-
-```bash
-# Run debug script to identify problems
-python debug_tests.py
-```
-
-This will test basic functionality and help identify what's causing test failures.
-
 #### Run All Tests
 
 ```bash
@@ -280,19 +240,6 @@ pytest tests/unit/ -v
 
 # Run only integration tests
 pytest tests/integration/ -v
-
-# Run basic functionality tests first
-pytest tests/unit/test_basic_functionality.py -v
-```
-
-#### Run Tests with Markers
-
-```bash
-# Run unit tests
-pytest -m unit -v
-
-# Run integration tests
-pytest -m integration -v
 ```
 
 ### Test Coverage
@@ -305,14 +252,11 @@ The test suite provides comprehensive coverage of:
   - Dataset loading and partitioning
   - Error handling for various failure scenarios
   - Device detection and management
-  - Checkpoint saving and loading
 
 - **Integration Tests** (`tests/integration/`):
   - End-to-end federated learning workflow
   - Client-server communication
   - Model parameter aggregation
-  - Training and evaluation cycles
-  - Dataset integration and preprocessing
 
 ### Test Configuration
 
@@ -326,157 +270,9 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--cov=src",
-    "--cov-report=term-missing",
-    "--cov-report=html:htmlcov",
-    "--cov-fail-under=80"
-]
-markers = [
-    "unit: Unit tests",
-    "integration: Integration tests",
-    "slow: Slow running tests",
-    "gpu: Tests requiring GPU"
+    "--cov-report=term-missing"
 ]
 ```
-
-### Continuous Integration
-
-For CI/CD pipelines, you can run tests with:
-
-```bash
-# Run tests in CI mode (no coverage, faster)
-pytest --tb=short -q
-
-# Run with JUnit XML output for CI systems
-pytest --junitxml=results.xml
-```
-
-### Test Fixtures
-
-The test suite uses several fixtures defined in `conftest.py`:
-
-- `mock_torch`: Mocks PyTorch functionality
-- `mock_transformers`: Mocks Hugging Face transformers
-- `mock_federated_dataset`: Mocks federated dataset utilities
-- `sample_client_config`: Provides sample client configuration
-- `temp_output_dir`: Creates temporary directories for testing
-
-### Writing New Tests
-
-When adding new tests:
-
-1. **Unit Tests**: Focus on testing individual components in isolation
-2. **Integration Tests**: Test component interactions and end-to-end workflows
-3. **Error Handling**: Include tests for failure scenarios and edge cases
-4. **Mocking**: Use appropriate mocking to isolate components under test
-
-Example test structure:
-
-```python
-import pytest
-from unittest.mock import Mock, patch
-
-def test_component_functionality():
-    """Test specific component functionality."""
-    # Arrange
-    with patch('module.Component') as mock_component:
-        # Act
-        result = function_under_test()
-
-        # Assert
-        assert result == expected_value
-        mock_component.assert_called_once()
-```
-
-### Test Results and Coverage
-
-After running tests, you can view:
-
-- **Coverage Report**: Open `htmlcov/index.html` in your browser
-- **Test Results**: Check the terminal output for pass/fail status
-- **Coverage Badge**: Minimum 80% coverage required
-
-### Troubleshooting Tests
-
-#### Common Issues and Solutions
-
-1. **Import Errors:**
-   ```bash
-   # Make sure dependencies are installed
-   pip install -e .[test]
-   ```
-
-2. **Flower Not Installed:**
-   ```bash
-   # Install Flower
-   pip install flwr[simulation]
-   ```
-
-3. **Path Issues:**
-   ```bash
-   # Run from the correct directory
-   cd /path/to/project
-   pytest tests/
-   ```
-
-4. **Torch/PyTorch Issues:**
-   ```bash
-   # Install PyTorch (CPU version)
-   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-   ```
-
-5. **Transformers Library Issues:**
-   ```bash
-   # Install transformers
-   pip install transformers
-   ```
-
-#### Test Failure Diagnosis
-
-If tests are still failing after following the setup steps:
-
-1. **Run the debug script first:**
-   ```bash
-   python debug_tests.py
-   ```
-   This will identify basic functionality issues.
-
-2. **Check for specific error patterns:**
-   - `ModuleNotFoundError`: Missing dependencies
-   - `AttributeError`: Mock setup issues
-   - `AssertionError`: Logic errors in tests
-
-3. **Run tests with detailed output:**
-   ```bash
-   pytest tests/ -v -s --tb=long
-   ```
-
-4. **Run individual test files:**
-   ```bash
-   # Test basic functionality first
-   pytest tests/unit/test_basic_functionality.py -v
-
-   # Then test device detection
-   pytest tests/unit/test_smolvla_client.py::TestGetDevice -v
-
-   # Finally test full integration
-   pytest tests/integration/ -v
-   ```
-
-#### Environment-Specific Issues
-
-- **Conda Environment:** Make sure you're in the correct conda environment
-- **Python Version:** Ensure Python 3.8+ is being used
-- **Working Directory:** Always run tests from the `/home/ivelin/zk0` directory
-
-#### Getting Help
-
-If tests continue to fail:
-
-1. Check that all dependencies are installed correctly
-2. Verify you're using the correct Python environment
-3. Run the debug script to isolate the issue
-4. Check the test output for specific error messages
-5. Ensure the project structure matches the expected layout
 
 ## Project Status
 
