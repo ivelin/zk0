@@ -1,5 +1,10 @@
 # Project-Wide Constraints and Rules
 
+**Created**: 2025-09-06
+**Last Updated**: 2025-09-06
+**Version**: 1.0.0
+**Author**: Kilo Code
+
 ## Critical Project Constraints
 
 ⚠️ **MANDATORY**: These constraints must be included in EVERY task, subtask, and mode transition:
@@ -11,7 +16,8 @@
 
 ### 2. Environment Requirements
 - **Conda Environment**: Must use conda environment "zk0"
-- **Activation Command**: `conda activate zk0`
+- **VSCode Integration**: VSCode automatically detects and uses the zk0 environment
+- **Manual Execution**: If needed, use `conda run -n zk0 python ...`
 - **Dependencies**: Use pinned versions from `requirements.txt`
 
 ### 3. Technical Focus
@@ -63,7 +69,7 @@
 
 Before starting ANY task:
 - [ ] Working directory is the project root directory
-- [ ] Conda environment "zk0" is active
+- [ ] VSCode is configured to use conda environment "zk0"
 - [ ] SmolVLA and SO-100 focus is maintained
 - [ ] Reference to quickstart-lerobot structure is considered
 - [ ] Parent task context is fully understood

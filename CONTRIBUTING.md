@@ -92,10 +92,18 @@ We welcome code contributions to improve the project. Here's how to get started:
    # Edit .env with your configuration
    ```
 
-4. **Verify Setup**:
-   ```bash
-   python -c "import src; print('Setup successful')"
-   ```
+4. **VSCode Configuration**:
+    - Open the project in VSCode
+    - The `.vscode/settings.json` is configured to automatically use the zk0 conda environment
+    - If VSCode doesn't automatically detect the environment, you can manually select it:
+      - Open Command Palette (Ctrl+Shift+P)
+      - Select "Python: Select Interpreter"
+      - Choose the zk0 conda environment
+
+5. **Verify Setup**:
+    ```bash
+    python -c "import src; print('Setup successful')"
+    ```
 
 ### Code Style and Guidelines
 

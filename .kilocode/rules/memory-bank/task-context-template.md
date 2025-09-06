@@ -1,5 +1,10 @@
 # Task Context Template
 
+**Created**: 2025-09-06
+**Last Updated**: 2025-09-06
+**Version**: 1.0.0
+**Author**: Kilo Code
+
 ## Task Information
 
 **Task ID**: [Unique identifier]
@@ -10,11 +15,7 @@
 
 ## Project Constraints (MANDATORY)
 
-- [ ] Work ONLY within the local project repository root directory
-- [ ] No changes to sibling or parent directories
-- [ ] Use conda environment "zk0"
-- [ ] Focus on SmolVLA model and SO-100 real-world datasets
-- [ ] Borrow structure from quickstart-lerobot but adapt for new requirements
+See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
 
 ## Task Description
 

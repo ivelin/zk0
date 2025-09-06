@@ -8,6 +8,8 @@ scikit-learn~=1.5.0
 num2words~=0.5.14
 accelerate~=1.10.0
 gymnasium~=0.29.0
+omegaconf~=2.3.0
+pyyaml~=6.0.0
 
 # Testing dependencies
 pytest~=8.0.0

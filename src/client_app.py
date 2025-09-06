@@ -91,14 +91,36 @@ def get_device(device_str: str = "auto"):
     return device_str
 
 
+def load_config(config_path: str = "src/configs/default.yaml"):
+    """Load YAML configuration using OmegaConf."""
+    try:
+        from omegaconf import OmegaConf
+        config = OmegaConf.load(config_path)
+        return config
+    except ImportError:
+        raise ImportError("OmegaConf is required for configuration loading. Install with: pip install omegaconf")
+    except Exception as e:
+        raise RuntimeError(f"Failed to load configuration from {config_path}: {e}")
+
+
 class SmolVLAClient(Client):
     """SmolVLA client for federated learning on robotics tasks."""
 
-    def __init__(self, model_name: str = "lerobot/smolvla_base", device: str = "auto", partition_id: int = 0, num_partitions: int = 10):
-        self.model_name = model_name
-        self.device = get_device(device)
-        self.partition_id = partition_id
-        self.num_partitions = num_partitions
+    def __init__(self, config=None, model_name: str = "lerobot/smolvla_base", device: str = "auto", partition_id: int = 0, num_partitions: int = 10):
+        self.config = config  # Store config for later use
+
+        # If config is provided, extract values from it
+        if config is not None:
+            self.model_name = getattr(config.model, 'name', model_name)
+            self.device = get_device(getattr(config.model, 'device', device))
+            self.num_partitions = getattr(config.federation, 'num_partitions', num_partitions)
+            self.partition_id = partition_id  # This comes from context, not config
+        else:
+            # Backward compatibility: use individual parameters
+            self.model_name = model_name
+            self.device = get_device(device)
+            self.partition_id = partition_id
+            self.num_partitions = num_partitions
         self.model = None
         self.processor = None
         self.optimizer = None
@@ -163,22 +185,32 @@ class SmolVLAClient(Client):
         try:
             self.logger.info(f"Loading SO-100 dataset partition {self.partition_id}/{self.num_partitions}")
 
-            # Define delta timestamps for SmolVLA (similar to the lerobot example)
-            delta_timestamps = {
-                "observation.image": [-0.1, 0.0],
-                "observation.state": [-0.1, 0.0],
-                "action": [
-                    -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5,
-                    0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4
-                ],
-            }
+            # Use config values if available, otherwise use defaults
+            if self.config is not None and hasattr(self.config, 'dataset'):
+                dataset_name = getattr(self.config.dataset, 'name', "lerobot/so100")
+                delta_timestamps = getattr(self.config.dataset, 'delta_timestamps', {
+                    "observation.image": [-0.1, 0.0],
+                    "observation.state": [-0.1, 0.0],
+                    "action": [-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4],
+                })
+            else:
+                # Default values for backward compatibility
+                dataset_name = "lerobot/so100"
+                delta_timestamps = {
+                    "observation.image": [-0.1, 0.0],
+                    "observation.state": [-0.1, 0.0],
+                    "action": [
+                        -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5,
+                        0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4
+                    ],
+                }
 
             # Create federated dataset partitioner
             partitioner = LeRobotDatasetPartitioner(num_partitions=self.num_partitions)
 
             # Load federated dataset
             self.federated_dataset = FederatedLeRobotDataset(
-                dataset="lerobot/so100",  # SO-100 dataset
+                dataset=dataset_name,
                 partitioners={"train": partitioner},
                 delta_timestamps=delta_timestamps,
             )
@@ -465,7 +497,7 @@ class SmolVLAClient(Client):
         if checkpoint_path.exists() and self.model is not None:
             try:
                 checkpoint = torch.load(checkpoint_path, map_location=self.device)
-                self.model.load_state_dict(checkpoint['model_state_dict'])
+                self.model.load_state_dict(checkpoint['model_state_dict'], strict=True)
                 if self.optimizer and checkpoint.get('optimizer_state_dict'):
                     self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
                 self.logger.info(f"Checkpoint loaded: {checkpoint_path}")
@@ -485,15 +517,15 @@ class SmolVLAClient(Client):
 
 def client_fn(context):
     """Client function factory."""
+    # Load configuration from YAML
+    config = load_config("src/configs/default.yaml")
+
     # Extract partition information from context
     partition_id = context.node_config.get("partition-id", 0)
-    num_partitions = context.node_config.get("num-partitions", 10)
-    device = context.node_config.get("device", "cpu")
 
     return SmolVLAClient(
-        partition_id=partition_id,
-        num_partitions=num_partitions,
-        device=device
+        config=config,
+        partition_id=partition_id
     ).to_client()
 
 

@@ -14,23 +14,19 @@ This is an enormous scale of compute and data that is hard to compete with as a 
 However it would be interesting to see if a decentralized approach might produce useful results over time.
 On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.
 
-# Upcoming Community Events
+# Community Events
 
-Register for the zk0 side event at the upcoming DevConnect conference in Buenos Aires, Argentina in November, 2025.
+## Upcoming Events
 
-<iframe
-  src="https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple"
-  width="800"
-  height="600"
-  frameborder="0"
-  style="border: 1px solid #bfcbda88; border-radius: 4px;"
-  allow="fullscreen; payment"
-  aria-hidden="false"
-  tabindex="0"
-></iframe>
+- [Register now](https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple) for the zk0 event at the upcoming DevConnect conference in Buenos Aires, Argentina on November 18, 2025.
+
+## Past Events
+
+- [Watch a recorded presentation](https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6) of the project at the Flower Monthly Webcast.
 
 
 # How
+
 
 zk0 is composed of several major building blocks:
 - Generative AI:
@@ -730,8 +726,6 @@ The project is ready for Step 3 implementation:
 
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br><br>This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br><br>In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref\_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Contributing
 

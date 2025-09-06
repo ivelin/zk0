@@ -1,5 +1,10 @@
 # Pre-Implementation Checklist
 
+**Created**: 2025-09-06
+**Last Updated**: 2025-09-06
+**Version**: 1.0.0
+**Author**: Kilo Code
+
 ## Project Constraints Verification
 - [ ] Working directory is `.`
 - [ ] No changes planned for sibling or parent directories

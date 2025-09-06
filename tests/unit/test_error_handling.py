@@ -242,3 +242,90 @@ class TestSimulationMethods:
                 loss = client._simulate_training_step()
                 assert isinstance(loss, float)
                 assert 0.1 <= loss <= 0.6
+
+
+@pytest.mark.unit
+class TestFitEvaluateExceptionHandling:
+    """Test exception handling in fit and evaluate methods."""
+
+    @pytest.fixture
+    def client_config(self):
+        """Default client configuration for tests."""
+        return {
+            "model_name": "lerobot/smolvla_base",
+            "device": "cpu",
+            "partition_id": 0,
+            "num_partitions": 2
+        }
+
+    def test_fit_exception_handling(self, client_config):
+        """Test fit method exception handling."""
+        try:
+            from flwr.common import FitIns, Parameters
+        except ImportError:
+            pytest.skip("Flower not installed")
+
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.torch.optim.Adam') as mock_optimizer_class, \
+             patch('src.client_app.DataLoader') as mock_dataloader_class:
+
+            mock_model = Mock()
+            mock_model.train.side_effect = Exception("Training failed")
+            mock_model.state_dict.return_value = {'param1': np.array([1.0])}
+            mock_model_class.from_pretrained.return_value = mock_model
+
+            mock_optimizer_class.return_value = Mock()
+            mock_dataloader_class.return_value = Mock()
+
+            client = SmolVLAClient(**client_config)
+            client.model = mock_model
+            client.optimizer = Mock()
+            client.train_loader = Mock()
+
+            fit_ins = FitIns(
+                parameters=Parameters([np.array([1.0])], "numpy"),
+                config={"local_epochs": 1}
+            )
+
+            result = client.fit(fit_ins)
+
+            # Should handle exception gracefully
+            assert result.status.code.value == 0  # OK status
+            assert result.num_examples == 0
+            assert "error" in result.metrics
+
+    def test_evaluate_exception_handling(self, client_config):
+        """Test evaluate method exception handling."""
+        try:
+            from flwr.common import EvaluateIns, Parameters
+        except ImportError:
+            pytest.skip("Flower not installed")
+
+        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+             patch('src.client_app.AutoProcessor'), \
+             patch('src.client_app.DataLoader') as mock_dataloader_class:
+
+            mock_model = Mock()
+            mock_model.eval.side_effect = Exception("Evaluation failed")
+            mock_model.state_dict.return_value = {'param1': np.array([1.0])}
+            mock_model_class.from_pretrained.return_value = mock_model
+
+            mock_dataloader_class.return_value = Mock()
+
+            client = SmolVLAClient(**client_config)
+            client.model = mock_model
+            client.train_loader = Mock()
+
+            evaluate_ins = EvaluateIns(
+                parameters=Parameters([np.array([1.0])], "numpy"),
+                config={}
+            )
+
+            result = client.evaluate(evaluate_ins)
+
+            # Should handle exception gracefully
+            assert result.status.code.value == 0  # OK status
+            assert result.loss == 0.0
+            assert result.num_examples == 0
+            assert "error" in result.metrics

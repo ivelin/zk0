@@ -1,5 +1,10 @@
 # Context Inheritance Rules
 
+**Created**: 2025-09-06
+**Last Updated**: 2025-09-06
+**Version**: 1.0.0
+**Author**: Kilo Code
+
 ## Overview
 
 Context inheritance ensures that critical information, constraints, and requirements are automatically passed from parent tasks to subtasks, preventing loss of important details during task decomposition.
@@ -33,14 +38,10 @@ Context inheritance ensures that critical information, constraints, and requirem
 When creating subtasks, automatically include:
 
 1. **Project Constraints Block**
-   ```
-   ## Project Constraints (MANDATORY)
-   - [ ] Work ONLY within the local project repository root directory
-   - [ ] No changes to sibling or parent directories
-   - [ ] Use conda environment "zk0"
-   - [ ] Focus on SmolVLA model and SO-100 real-world datasets
-   - [ ] Borrow structure from quickstart-lerobot but adapt for new requirements
-   ```
+    ```
+    ## Project Constraints (MANDATORY)
+    See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
+    ```
 
 2. **Parent Task Reference**
    - Parent task ID
