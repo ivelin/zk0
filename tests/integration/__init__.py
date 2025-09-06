@@ -1,0 +1,1 @@
+"""Integration tests for SmolVLA federated learning workflow."""

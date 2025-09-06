@@ -1,0 +1,1 @@
+"""Unit tests for SmolVLA federated learning components."""

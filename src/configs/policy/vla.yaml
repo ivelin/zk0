@@ -1,0 +1,28 @@
+# SmolVLA Policy Configuration
+model:
+  name: "lerobot/smolvla_base"
+  device: "cpu"
+  pretrained: true
+
+training:
+  learning_rate: 1e-4
+  batch_size: 8
+  num_epochs: 200
+  optimizer: "adam"
+  scheduler: "cosine"
+
+data:
+  dataset: "so100"  # SO-100 robotics dataset
+  image_size: [224, 224]
+  action_dim: 7  # 6DoF + gripper
+  max_episode_length: 1000
+
+evaluation:
+  eval_freq: 10
+  save_freq: 50
+  log_freq: 10
+
+wandb:
+  project: "smolvla-federated"
+  entity: "zk0"
+  name: "smolvla-fl-experiment"

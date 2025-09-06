@@ -1,0 +1,12 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "conda activate zk0",
+            "type": "shell",
+            "command": "conda activate zk0"
+        }
+    ]
+}
