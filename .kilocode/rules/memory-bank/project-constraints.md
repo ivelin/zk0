@@ -7,6 +7,7 @@
 
 ## Critical Project Constraints
 
+**Summary:** Work in root dir, use zk0 conda env, focus on SmolVLA/Flower/SO-100
 ⚠️ **MANDATORY**: These constraints must be included in EVERY task, subtask, and mode transition:
 
 ### 1. Working Directory Constraint
@@ -33,6 +34,8 @@
 
 ## Workflow Rules
 
+**Summary:** Preserve context across tasks, validate constraints, document decisions
+
 ### Task Inheritance
 1. **Context Preservation**: All subtasks must inherit parent task context
 2. **Constraint Propagation**: Key constraints must be explicitly passed down
@@ -52,6 +55,8 @@
 4. **Documentation Update**: Update memory bank with lessons learned
 
 ## Emergency Procedures
+
+**Summary:** Stop work if context lost, use memory bank to reconstruct
 
 ### If Context is Lost
 1. **Immediate Stop**: Pause work and assess what was lost

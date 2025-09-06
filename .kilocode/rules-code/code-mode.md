@@ -17,9 +17,13 @@ See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-
 - Follow PEP 8 style guidelines
 - Write comprehensive docstrings
 - Include type hints where appropriate
-- Maintain test coverage above 80%
+- Maintain meaningful test coverage (focus on critical paths, not just 80% metric)
 - Use 'ruff check --fix' to automatically fix Python formatting errors
 - Run 'ruff check --fix' at the end of every task that involves changing Python code
+
+## Testing Standards
+
+See [.kilocode/rules-code/testing-standards.md](.kilocode/rules-code/testing-standards.md) for the complete testing standards and guidelines.
 
 ## File Types Supported
 - Python files (.py)

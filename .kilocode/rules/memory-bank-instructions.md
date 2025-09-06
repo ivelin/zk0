@@ -29,7 +29,14 @@ See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-
 4. Update memory bank after significant changes
 
 ## Quality Standards
-- Maintain comprehensive test coverage (80% minimum)
+- Maintain meaningful test coverage (focus on critical paths, not just 80% metric)
 - Follow PEP 8 style guidelines
 - Include type hints and comprehensive docstrings
 - Keep README and documentation current
+
+## Testing Standards
+- **Avoid Mock-Only Tests**: Tests must verify real functionality, not just mocking
+- **Dependency Verification**: Include tests that verify actual dependency availability
+- **Integration Focus**: Prioritize tests of component interactions over isolated units
+- **User Journey Priority**: Focus on complete workflows rather than method coverage
+- **Real Environment Testing**: Test against actual imports and data, not mocked states

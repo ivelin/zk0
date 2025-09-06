@@ -59,3 +59,23 @@ The system implements a federated learning architecture using the Flower framewo
 - **Encrypted Communication**: TLS for all client-server interactions
 - **Access Control**: Authentication and authorization mechanisms
 - **Audit Logging**: Comprehensive logging for compliance
+
+## Performance Considerations
+
+### SmolVLA Performance
+- **SO-100 Success Rate**: 78.3% (with community pretraining)
+- **SO-101 Generalization**: Strong transfer capabilities
+- **Simulation Benchmarks**: Matches/exceeds larger VLAs on LIBERO, Meta-World
+- **Real-world Tasks**: Pick-place, stacking, sorting, tool manipulation
+
+### Flower Performance
+- **Scalability**: Supports 10+ clients in simulation
+- **Communication Efficiency**: Optimized parameter transmission
+- **GPU Utilization**: Efficient resource allocation
+- **Memory Management**: Streaming and batch processing
+
+### System Performance
+- **Asynchronous Inference**: 30% faster response, 2× task throughput
+- **Resource Management**: GPU allocation and memory optimization for distributed training
+- **Fault Tolerance**: Handling client failures and network issues
+- **Bandwidth Optimization**: Efficient parameter compression and transmission
