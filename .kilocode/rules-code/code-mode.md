@@ -18,6 +18,8 @@ See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-
 - Write comprehensive docstrings
 - Include type hints where appropriate
 - Maintain test coverage above 80%
+- Use 'ruff check --fix' to automatically fix Python formatting errors
+- Run 'ruff check --fix' at the end of every task that involves changing Python code
 
 ## File Types Supported
 - Python files (.py)

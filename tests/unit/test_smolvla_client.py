@@ -1,7 +1,7 @@
 """Unit tests for SmolVLAClient class - focused on Flower API integration."""
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import Mock, patch
 import numpy as np
 import torch
 
@@ -42,8 +42,7 @@ class TestSmolVLAClientFlowerAPI:
     @pytest.fixture
     def mock_client_with_model(self, sample_client_config, mock_model, mock_optimizer):
         """Create a client with mocked model for Flower API testing."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
@@ -81,7 +80,7 @@ class TestSmolVLAClientFlowerAPI:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -108,7 +107,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_set_parameters_no_model(self, sample_client_config):
         """Test set_parameters when model is not available."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -176,7 +175,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_client_initialization_config(self, sample_client_config):
         """Test client initialization with configuration."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading disabled for test")
 
             client = SmolVLAClient(**sample_client_config)
@@ -189,7 +188,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_simulate_training_step(self, sample_client_config):
         """Test training step simulation fallback."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -201,7 +200,7 @@ class TestSmolVLAClientFlowerAPI:
 
     def test_simulate_validation_step(self, sample_client_config):
         """Test validation step simulation fallback."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**sample_client_config)
@@ -253,7 +252,7 @@ class TestSmolVLAClientInitialization:
         mock_config.model.device = "cpu"
         mock_config.federation.num_partitions = 4
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading disabled")
 
             client = SmolVLAClient(config=mock_config, partition_id=1)
@@ -272,20 +271,19 @@ class TestSmolVLAClientInitialization:
         mock_config.dataset.name = "test_dataset"
         mock_config.dataset.delta_timestamps = {"test": [1.0]}
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.FederatedLeRobotDataset') as mock_federated:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading disabled")
             mock_federated.return_value.load_partition.return_value = []
 
-            client = SmolVLAClient(config=mock_config, partition_id=1)
+            SmolVLAClient(config=mock_config, partition_id=1)
 
             # Verify config.dataset was accessed
             assert hasattr(mock_config, 'dataset')
 
     def test_load_model_with_transformers_available(self, sample_client_config):
         """Test _load_model when transformers are available."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor') as mock_processor_class, \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam') as mock_optimizer_class:
 
             mock_model = Mock()
@@ -295,9 +293,6 @@ class TestSmolVLAClientInitialization:
             mock_model.to.return_value = mock_model
             mock_model_class.from_pretrained.return_value = mock_model
 
-            mock_processor = Mock()
-            mock_processor_class.from_pretrained.return_value = mock_processor
-
             mock_optimizer = Mock()
             mock_optimizer_class.return_value = mock_optimizer
 
@@ -305,7 +300,7 @@ class TestSmolVLAClientInitialization:
             client._load_model()
 
             assert client.model == mock_model
-            assert client.processor == mock_processor
+            assert client.processor is None  # SmolVLA doesn't use a separate processor
             assert client.optimizer == mock_optimizer
 
     def test_load_model_transformers_import_error(self, sample_client_config):
@@ -321,8 +316,7 @@ class TestSmolVLAClientInitialization:
 
     def test_load_model_freeze_vision_encoder(self, sample_client_config):
         """Test that vision encoder parameters are frozen."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor') as mock_processor_class, \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam') as mock_optimizer_class:
 
             mock_model = Mock()
@@ -333,7 +327,7 @@ class TestSmolVLAClientInitialization:
             mock_model.to.return_value = mock_model
             mock_model_class.from_pretrained.return_value = mock_model
 
-            mock_processor_class.from_pretrained.return_value = Mock()
+            # SmolVLA doesn't use a separate processor, so no processor mock needed
             mock_optimizer_class.return_value = Mock()
 
             client = SmolVLAClient(**sample_client_config)
@@ -348,7 +342,7 @@ class TestSmolVLAClientInitialization:
         mock_config.dataset.name = "custom_dataset"
         mock_config.dataset.delta_timestamps = {"test": [1.0]}
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.FederatedLeRobotDataset') as mock_federated_class:
 
             mock_model_class.from_pretrained.side_effect = Exception("Model disabled")
@@ -376,8 +370,7 @@ class TestSmolVLAClientModelOperations:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'):
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
 
             mock_model = Mock()
             # Mock torch tensor
@@ -404,8 +397,7 @@ class TestSmolVLAClientModelOperations:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam') as mock_optimizer_class, \
              patch('src.client_app.DataLoader') as mock_dataloader_class, \
              patch('src.client_app.time.time', return_value=0.0):
@@ -454,8 +446,7 @@ class TestSmolVLAClientModelOperations:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.DataLoader') as mock_dataloader_class:
 
             mock_model = Mock()
@@ -493,8 +484,7 @@ class TestSmolVLAClientModelOperations:
 
     def test_save_checkpoint(self, sample_client_config, tmp_path):
         """Test _save_checkpoint method."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam') as mock_optimizer_class, \
              patch('src.client_app.torch.save') as mock_save:
 
@@ -530,8 +520,7 @@ class TestSmolVLAClientModelOperations:
         }
         checkpoint_path.write_bytes(b"mock checkpoint data")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.load', return_value=checkpoint_data):
 
             mock_model = Mock()

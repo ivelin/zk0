@@ -28,7 +28,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading failed")
 
             client = SmolVLAClient(**client_config)
@@ -41,7 +41,7 @@ class TestFlowerAPIErrorHandling:
 
     def test_set_parameters_model_failure(self, client_config):
         """Test set_parameters when model is not available."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -58,7 +58,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -82,7 +82,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -106,8 +106,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
@@ -135,8 +134,7 @@ class TestFlowerAPIErrorHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'):
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -172,7 +170,7 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_model_error(self, client_config):
         """Test client initialization when model loading fails."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model loading failed")
 
             # Should not raise exception
@@ -184,9 +182,8 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_dataset_error(self, client_config):
         """Test client initialization when dataset loading fails."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
-             patch('src.client_app.FederatedLeRobotDataset') as mock_federated:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
+            patch('src.client_app.FederatedLeRobotDataset') as mock_federated:
 
             mock_model_instance = Mock()
             mock_model_class.from_pretrained.return_value = mock_model_instance
@@ -202,12 +199,10 @@ class TestInitializationErrorHandling:
 
     def test_initialization_with_processor_error(self, client_config):
         """Test client initialization when processor loading fails."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor') as mock_processor_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
 
             mock_model_instance = Mock()
             mock_model_class.from_pretrained.return_value = mock_model_instance
-            mock_processor_class.from_pretrained.side_effect = Exception("Processor loading failed")
 
             # Should not raise exception
             client = SmolVLAClient(**client_config)
@@ -232,7 +227,7 @@ class TestSimulationMethods:
 
     def test_simulate_training_step_range(self, client_config):
         """Test training step simulation returns values in expected range."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -265,8 +260,7 @@ class TestFitEvaluateExceptionHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam') as mock_optimizer_class, \
              patch('src.client_app.DataLoader') as mock_dataloader_class:
 
@@ -302,8 +296,7 @@ class TestFitEvaluateExceptionHandling:
         except ImportError:
             pytest.skip("Flower not installed")
 
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.DataLoader') as mock_dataloader_class:
 
             mock_model = Mock()

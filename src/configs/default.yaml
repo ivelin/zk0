@@ -15,14 +15,14 @@ training:
 
 federation:
   num_partitions: 10  # Number of data partitions
-  num_supernodes: 10  # Number of clients
+  num_supernodes: 4  # Number of clients
 
 dataset:
-  name: "lerobot/so100"
+  name: "lerobot/svla_so100_stacking"
   delta_timestamps:
-    observation.image: [-0.1, 0.0]
-    observation.state: [-0.1, 0.0]
-    action: [-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4]
+    observation.image: [0.0]
+    observation.state: [0.0]
+    action: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4]
 
 # Policy configuration
 policy:

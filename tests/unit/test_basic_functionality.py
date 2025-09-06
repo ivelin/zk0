@@ -15,8 +15,7 @@ def test_client_can_be_imported():
 @pytest.mark.unit
 def test_client_initialization_basic(sample_client_config):
     """Test basic client initialization without complex dependencies."""
-    with patch('src.client_app.AutoModelForVision2Seq') as mock_model, \
-         patch('src.client_app.AutoProcessor'):
+    with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model:
 
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled for test")
 
@@ -33,7 +32,7 @@ def test_client_initialization_basic(sample_client_config):
 @pytest.mark.unit
 def test_flower_api_methods_exist(sample_client_config):
     """Test that all required Flower API methods exist."""
-    with patch('src.client_app.AutoModelForVision2Seq') as mock_model:
+    with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model:
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled")
 
         client = SmolVLAClient(**sample_client_config)
@@ -54,7 +53,7 @@ def test_flower_api_methods_exist(sample_client_config):
 @pytest.mark.unit
 def test_client_configuration_storage(sample_client_config):
     """Test that client stores configuration correctly."""
-    with patch('src.client_app.AutoModelForVision2Seq') as mock_model:
+    with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model:
         mock_model.from_pretrained.side_effect = Exception("Model loading disabled")
 
         client = SmolVLAClient(**sample_client_config)

@@ -1,7 +1,7 @@
 """Integration tests for SmolVLA federated learning - focused on Flower API integration."""
 
 import pytest
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 import numpy as np
 
 from src.client_app import SmolVLAClient, get_device
@@ -41,8 +41,7 @@ class TestFlowerAPIIntegration:
     @pytest.fixture
     def flower_client(self, client_config, mock_model, mock_optimizer):
         """Create a client configured for Flower API testing."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class, \
-             patch('src.client_app.AutoProcessor'), \
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
              patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
@@ -144,7 +143,7 @@ class TestFlowerAPIIntegration:
     def test_federated_workflow_end_to_end(self, flower_client):
         """Test complete federated learning workflow."""
         try:
-            from flwr.common import GetParametersIns, FitIns, EvaluateIns, Parameters
+            from flwr.common import GetParametersIns, FitIns, EvaluateIns
         except ImportError:
             pytest.skip("Flower not installed")
 
@@ -186,7 +185,7 @@ class TestFlowerAPIIntegration:
             pytest.skip("Flower not installed")
 
         # Create client with model loading failure
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model failed")
 
             client = SmolVLAClient(**client_config)
@@ -209,7 +208,7 @@ class TestFlowerAPIIntegration:
 
     def test_configuration_persistence(self, client_config):
         """Test that client configuration is properly maintained."""
-        with patch('src.client_app.AutoModelForVision2Seq') as mock_model_class:
+        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
             mock_model_class.from_pretrained.side_effect = Exception("Model disabled")
 
             client = SmolVLAClient(**client_config)
