@@ -27,14 +27,28 @@ On the chance that proprietary humanoids ever go rogue, it would be nice to have
 
 # How
 
-
 zk0 is composed of several major building blocks:
+
+- Physical Embodiment:
+  * Open Source 3D printed robot parts
+  * Base 3D model so100 series from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Generative AI:
-  * [HuggingFace LeRobot](https://huggingface.co/lerobot) for the Open Source 3D printed robot parts and end-to-end vision language action models.
+  * End-to-end Vision Language Action models.
+  * Base SmolVLA model from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Federated Learning:
-  * [Flower](https://flower.ai/) for collaborative training of AI models
-- Zero Knowledge Proofs:
-  * [EZKL](https://ezkl.xyz/) for verification of contributed model checkpoints trained on local data.
+  * Distributed network of nodes contributing local data and training compute to a shared model.
+  * FL framework: [Flower](https://flower.ai/)
+
+## Roadmap
+- Zero Knowledge Proofs that allow quick verification and data privacy:
+  * Quickly verifiable proofs that an FL node is making meaningful contributions.
+  * Frameworks under consideration:
+    * [SP1](https://github.com/succinctlabs/sp1)
+    * [EZKL](https://github.com/zkonduit/ezkl)
+- Onchain contributor coordination
+  * Immutable contribution history
+  * Programmable network participation rules, incentives and project governance
+  * Hosting blockchain: TBD
 
 
 # Federated Learning for Robotics AI (SO-100 Example)
