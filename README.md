@@ -240,6 +240,18 @@ pytest -v
 
 # Run with coverage report
 pytest --cov=src --cov-report=term-missing
+
+# Fast development mode (stop on first failure, short traceback)
+pytest -x --tb=short
+
+# Parallel execution for faster runs
+pytest -n auto
+
+# Combined fast mode (parallel + stop on failure + short traceback)
+pytest -n auto -x --tb=short
+
+# Full CI/CD mode with coverage requirements
+pytest --cov=src --cov-fail-under=80
 ```
 
 #### Run Specific Test Categories

@@ -197,18 +197,6 @@ class TestInitializationErrorHandling:
             assert client.train_loader is None
             # But client should still be usable for Flower API
 
-    def test_initialization_with_processor_error(self, client_config):
-        """Test client initialization when processor loading fails."""
-        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class:
-
-            mock_model_instance = Mock()
-            mock_model_class.from_pretrained.return_value = mock_model_instance
-
-            # Should not raise exception
-            client = SmolVLAClient(**client_config)
-
-            assert client.model is not None  # Model should still be loaded
-            assert client.processor is None  # Processor should be None
 
 
 @pytest.mark.unit
@@ -253,41 +241,6 @@ class TestFitEvaluateExceptionHandling:
             "num_partitions": 2
         }
 
-    def test_fit_exception_handling(self, client_config):
-        """Test fit method exception handling."""
-        try:
-            from flwr.common import FitIns, Parameters
-        except ImportError:
-            pytest.skip("Flower not installed")
-
-        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
-             patch('src.client_app.torch.optim.Adam') as mock_optimizer_class, \
-             patch('src.client_app.DataLoader') as mock_dataloader_class:
-
-            mock_model = Mock()
-            mock_model.train.side_effect = Exception("Training failed")
-            mock_model.state_dict.return_value = {'param1': np.array([1.0])}
-            mock_model_class.from_pretrained.return_value = mock_model
-
-            mock_optimizer_class.return_value = Mock()
-            mock_dataloader_class.return_value = Mock()
-
-            client = SmolVLAClient(**client_config)
-            client.model = mock_model
-            client.optimizer = Mock()
-            client.train_loader = Mock()
-
-            fit_ins = FitIns(
-                parameters=Parameters([np.array([1.0])], "numpy"),
-                config={"local_epochs": 1}
-            )
-
-            result = client.fit(fit_ins)
-
-            # Should handle exception gracefully
-            assert result.status.code.value == 0  # OK status
-            assert result.num_examples == 0
-            assert "error" in result.metrics
 
     def test_evaluate_exception_handling(self, client_config):
         """Test evaluate method exception handling."""

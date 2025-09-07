@@ -27,6 +27,7 @@ Before writing/keeping a test, ask:
 - **Federated Learning Scenarios**: Test client-server communication, model aggregation with FedAvg/FedProx, and asynchronous updates
 - **User Journey Tests**: Test complete federated learning rounds and robotics task workflows from start to finish
 - **Error Handling**: Test real error scenarios in distributed environments, not just mocked exceptions
+- **Parallel Test Execution**: Leverage `pytest -n auto` for running tests in parallel to improve efficiency and reduce execution time
 - **Coverage Guidelines**: Aim for 80% coverage on critical user journeys, focusing on real federated learning workflows rather than artificial percentages
 
 ## Test Readability Guidelines
@@ -42,6 +43,15 @@ Before writing/keeping a test, ask:
 - **Regular Test Cleanup**: Remove outdated tests and refactor duplicated code into helper functions
 - **Version Control Integration**: Keep tests aligned with code changes and update them promptly
 - **Documentation**: Include docstrings in test files explaining the purpose and context of test suites
+
+## Test Execution Guidelines
+> **Strong Recommendation**: Always use parallel execution with `pytest -n auto` when running multiple tests to significantly improve efficiency and reduce execution time, especially in development and CI/CD environments.
+
+- **Development Mode**: Use `pytest -x --tb=short` for fast iteration - stops on first failure with concise output
+- **Parallel Execution**: **Strongly encouraged** - Use `pytest -n auto` for faster test runs on multi-core systems. This is the default recommended approach for running test suites efficiently.
+- **Combined Fast Mode**: Use `pytest -n auto -x --tb=short` for maximum speed during development - combines parallel execution with early failure detection
+- **Full Test Suite**: Use `pytest --cov=src --cov-report=html` for complete coverage analysis (consider adding `-n auto` for faster coverage runs)
+- **CI/CD Mode**: Use `pytest --cov=src --cov-fail-under=80` for automated quality gates (always include `-n auto` for optimal CI performance)
 
 ## Test Refactoring Guidelines
 - **Identify Duplication**: Look for repeated test patterns and extract into parameterized tests or shared fixtures

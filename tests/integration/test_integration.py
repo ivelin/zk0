@@ -42,7 +42,7 @@ class TestFlowerAPIIntegration:
     def flower_client(self, client_config, mock_model, mock_optimizer):
         """Create a client configured for Flower API testing."""
         with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
-             patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
+              patch('src.client_app.torch.optim.Adam', return_value=mock_optimizer):
 
             mock_model_class.from_pretrained.return_value = mock_model
 
@@ -50,6 +50,11 @@ class TestFlowerAPIIntegration:
             client.model = mock_model
             client.optimizer = mock_optimizer
             return client
+
+    @pytest.fixture
+    def real_flower_client(self, preloaded_client):
+        """Use preloaded client for real integration testing."""
+        return preloaded_client
 
     def test_get_parameters_flower_contract(self, flower_client):
         """Test get_parameters conforms to Flower API contract."""
@@ -218,3 +223,42 @@ class TestFlowerAPIIntegration:
             assert client.device == client_config["device"]
             assert client.partition_id == client_config["partition_id"]
             assert client.num_partitions == client_config["num_partitions"]
+
+    @pytest.mark.skip(reason="Real model loading has torch.distributed issues in test environment")
+    @pytest.mark.skip_in_ci
+    @pytest.mark.slow
+    def test_real_model_integration_workflow(self, real_flower_client):
+        """Test complete federated workflow with real cached model and dataset."""
+        try:
+            from flwr.common import GetParametersIns, FitIns, EvaluateIns
+        except ImportError:
+            pytest.skip("Flower not installed")
+
+        if real_flower_client.model is None:
+            pytest.skip("Real model not available for testing")
+
+        # Step 1: Get parameters from real model
+        get_params_result = real_flower_client.get_parameters(GetParametersIns(config={}))
+        assert get_params_result.status.code.value == 0
+        assert len(get_params_result.parameters.tensors) > 0
+
+        # Step 2: Test fit with real model (short training)
+        initial_params = get_params_result.parameters
+        fit_ins = FitIns(
+            parameters=initial_params,
+            config={"local_epochs": 1, "batch_size": 1, "learning_rate": 1e-4}  # Reduced batch size for faster tests
+        )
+
+        fit_result = real_flower_client.fit(fit_ins)
+        assert fit_result.status.code.value == 0
+        assert "loss" in fit_result.metrics
+
+        # Step 3: Test evaluate with real model
+        evaluate_ins = EvaluateIns(
+            parameters=fit_result.parameters,
+            config={}
+        )
+
+        evaluate_result = real_flower_client.evaluate(evaluate_ins)
+        assert evaluate_result.status.code.value == 0
+        assert isinstance(evaluate_result.loss, float)

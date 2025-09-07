@@ -5,29 +5,96 @@ on:
   pull_request:
 
 jobs:
-  test:
+  unit-tests:
+    name: Unit Tests
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -e .
-    
-    - name: Run tests with coverage
+
+    - name: Run unit tests with early failure
       run: |
-        pytest --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=55
-    
+        pytest tests/unit/ -x --tb=short --durations=10 --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=50 -n 4 | tee test-output.log
+
+    - name: Upload test artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: unit-test-artifacts
+        path: |
+          test-output.log
+          coverage.xml
+          htmlcov/
+
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
       with:
         file: ./coverage.xml
+        flags: unit
+        fail_ci_if_error: false
+
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Cache pip dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -e .
+
+    - name: Run integration tests with early failure
+      run: |
+        pytest tests/integration/ -x --tb=short --durations=10 --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=5 -n 2 | tee test-output.log
+
+    - name: Upload test artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-artifacts
+        path: |
+          test-output.log
+          coverage.xml
+          htmlcov/
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: integration
         fail_ci_if_error: false

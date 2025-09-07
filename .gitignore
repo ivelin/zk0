@@ -157,3 +157,5 @@ cython_debug/
 # Project specific
 outputs/
 
+# Profiling data
+prof/

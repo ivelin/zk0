@@ -28,6 +28,8 @@ try:
         def load_partition(self, partition_id):
             # Use lerobot's dataset loading
             try:
+                print(f"DEBUG: Loading real LeRobot dataset: {self.dataset}")
+                print(f"DEBUG: Delta timestamps: {self.delta_timestamps}")
                 dataset = LeRobotDataset(
                     repo_id=self.dataset,
                     delta_timestamps=self.delta_timestamps
@@ -94,6 +96,7 @@ import numpy as np
 import logging
 from pathlib import Path
 import time
+from contextlib import contextmanager
 
 # Import SmolVLA for model loading
 try:
@@ -133,6 +136,18 @@ class SmolVLAClient(Client):
         os.environ['WORLD_SIZE'] = '1'
         os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
+        # Prevent distributed initialization
+        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
+        os.environ['NCCL_IB_DISABLE'] = '1'  # Disable InfiniBand for NCCL
+        os.environ['NCCL_P2P_DISABLE'] = '1'  # Disable P2P for NCCL
+
+        # Ensure no distributed process group is active
+        self._cleanup_distributed()
+
+        # Register cleanup on exit
+        import atexit
+        atexit.register(self._cleanup_distributed)
+
         self.config = config  # Store config for later use
 
         # If config is provided, extract values from it
@@ -165,6 +180,18 @@ class SmolVLAClient(Client):
         self._load_model()
         self._load_dataset()
 
+    def _cleanup_distributed(self):
+        """Clean up any active distributed process groups."""
+        try:
+            if torch.distributed.is_available() and torch.distributed.is_initialized():
+                torch.distributed.destroy_process_group()
+        except Exception:
+            pass  # Ignore errors if already destroyed or not initialized
+
+    def __del__(self):
+        """Cleanup when object is destroyed."""
+        self._cleanup_distributed()
+
     def _load_model(self):
         """Load SmolVLA model and processor."""
         try:
@@ -179,9 +206,11 @@ class SmolVLAClient(Client):
             if SmolVLAPolicy is None:
                 raise ImportError("SmolVLAPolicy not available")
 
-            self.model = SmolVLAPolicy.from_pretrained(
-                self.model_name
-            ).to(self.device)
+            # Temporarily disable distributed operations during model loading
+            with self._distributed_context():
+                self.model = SmolVLAPolicy.from_pretrained(
+                    self.model_name
+                ).to(self.device)
 
             # SmolVLA policy handles processor internally
             self.processor = None
@@ -203,6 +232,32 @@ class SmolVLAClient(Client):
             self.logger.info("Continuing with simulated training (no actual model)")
             # Fallback to basic client without model
             pass
+
+    @contextmanager
+    def _distributed_context(self):
+        """Context manager to handle distributed operations safely."""
+        # Store original environment
+        original_env = {}
+        distributed_vars = ['USE_TORCH_DISTRIBUTED', 'NCCL_IB_DISABLE', 'NCCL_P2P_DISABLE']
+
+        for var in distributed_vars:
+            if var in os.environ:
+                original_env[var] = os.environ[var]
+
+        # Set safe values
+        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
+        os.environ['NCCL_IB_DISABLE'] = '1'
+        os.environ['NCCL_P2P_DISABLE'] = '1'
+
+        try:
+            yield
+        finally:
+            # Restore original environment
+            for var, value in original_env.items():
+                os.environ[var] = value
+            for var in distributed_vars:
+                if var not in original_env and var in os.environ:
+                    del os.environ[var]
 
     def _load_dataset(self):
         """Load SO-100 dataset partition for this client."""
@@ -228,6 +283,9 @@ class SmolVLAClient(Client):
                         0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4
                     ],
                 }
+
+            self.logger.info(f"Dataset name: {dataset_name}")
+            self.logger.info(f"Delta timestamps: {delta_timestamps}")
 
             # Create federated dataset partitioner
             partitioner = LeRobotDatasetPartitioner(num_partitions=self.num_partitions)
