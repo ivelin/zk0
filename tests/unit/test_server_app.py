@@ -132,7 +132,7 @@ class TestServerFn:
     def test_server_fn_default_config(self):
         """Test server_fn uses default configuration when no config provided."""
         try:
-            from flwr.server import ServerAppComponents, ServerConfig
+            from flwr.server import ServerAppComponents
         except ImportError:
             pytest.skip("Flower not installed")
 
@@ -159,7 +159,7 @@ class TestServerStrategy:
     def test_server_fn_creates_logging_strategy(self):
         """Test that server_fn creates a strategy with logging capabilities."""
         try:
-            from flwr.server import ServerAppComponents
+            from flwr.server import ServerAppComponents  # noqa: F401
         except ImportError:
             pytest.skip("Flower not installed")
 
@@ -186,7 +186,7 @@ class TestServerStrategy:
     def test_strategy_aggregate_fit_logs_metrics(self):
         """Test that strategy's aggregate_fit method logs metrics."""
         try:
-            from flwr.server import ServerAppComponents
+            from flwr.server import ServerAppComponents  # noqa: F401
         except ImportError:
             pytest.skip("Flower not installed")
 
@@ -195,9 +195,9 @@ class TestServerStrategy:
         context.run_config = {"num-server-rounds": 5}
 
         with patch('pathlib.Path.mkdir'), \
-             patch('time.time', return_value=1000.0), \
-             patch('builtins.open', create=True) as mock_open, \
-             patch('json.dump') as mock_json_dump:
+              patch('time.time', return_value=1000.0), \
+              patch('builtins.open', create=True), \
+              patch('json.dump') as mock_json_dump:
 
             components = server_fn(context)
             strategy = components.strategy
@@ -215,7 +215,7 @@ class TestServerStrategy:
                 failures = []
 
                 # Call aggregate_fit
-                result = strategy.aggregate_fit(1, results, failures)
+                strategy.aggregate_fit(1, results, failures)
 
                 # Verify parent method was called
                 mock_parent.assert_called_once_with(1, results, failures)
@@ -235,7 +235,7 @@ class TestServerStrategy:
     def test_strategy_aggregate_evaluate_final_summary(self):
         """Test that strategy creates final summary on last round."""
         try:
-            from flwr.server import ServerAppComponents
+            from flwr.server import ServerAppComponents  # noqa: F401
         except ImportError:
             pytest.skip("Flower not installed")
 
@@ -244,9 +244,9 @@ class TestServerStrategy:
         context.run_config = {"num-server-rounds": 3}
 
         with patch('pathlib.Path.mkdir'), \
-             patch('time.time', side_effect=[1000.0, 1010.0, 1020.0]), \
-             patch('builtins.open', create=True) as mock_open, \
-             patch('json.dump') as mock_json_dump:
+              patch('time.time', side_effect=[1000.0, 1010.0, 1020.0]), \
+              patch('builtins.open', create=True), \
+              patch('json.dump') as mock_json_dump:
 
             components = server_fn(context)
             strategy = components.strategy
@@ -254,7 +254,7 @@ class TestServerStrategy:
             # Mock the parent aggregate_evaluate method
             with patch('flwr.server.strategy.FedAvg.aggregate_evaluate', return_value=Mock()) as mock_parent:
                 # Call aggregate_evaluate for final round
-                result = strategy.aggregate_evaluate(3, [], [])
+                strategy.aggregate_evaluate(3, [], [])
 
                 # Verify parent method was called
                 mock_parent.assert_called_once_with(3, [], [])

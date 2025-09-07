@@ -525,7 +525,7 @@ class TestSmolVLAClientModelOperations:
         """Test _save_checkpoint method with metrics (lines 639-646)."""
         with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
               patch('src.client_app.torch.save') as mock_save, \
-              patch('builtins.open') as mock_open, \
+              patch('builtins.open'), \
               patch('json.dump') as mock_json_dump:
 
             mock_model = Mock()
