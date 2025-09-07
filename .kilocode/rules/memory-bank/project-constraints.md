@@ -32,6 +32,12 @@
 - **Documentation**: Keep README and documentation current
 - **Reproducibility**: Ensure all experiments are reproducible with seeds
 
+### 5. Testing Execution Requirements
+- **Environment**: All tests must run in conda environment "zk0"
+- **Parallel Execution**: Use `pytest -n auto` for parallel test execution
+- **Coverage**: Always include `--cov=src --cov-report=term-missing` for coverage reporting
+- **Command Format**: `conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing`
+
 ## Workflow Rules
 
 **Summary:** Preserve context across tasks, validate constraints, document decisions
@@ -80,6 +86,12 @@ Before starting ANY task:
 - [ ] Parent task context is fully understood
 - [ ] Success criteria are clearly defined
 - [ ] Quality standards are referenced
+
+Before running tests:
+- [ ] Tests run in conda environment "zk0" with `conda run -n zk0 python -m pytest`
+- [ ] Use parallel execution with `-n auto` for multiple tests
+- [ ] Include coverage reporting with `--cov=src --cov-report=term-missing`
+- [ ] Ensure coverage remains above 80%
 
 ## Version History
 
