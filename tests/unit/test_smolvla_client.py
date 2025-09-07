@@ -97,24 +97,6 @@ class TestSmolVLAClientFlowerAPI:
             assert result.status.code.value == 0  # OK
             assert len(result.parameters.tensors) == 0
 
-    @pytest.mark.skip(reason="Real model loading has torch.distributed issues in test environment")
-    @pytest.mark.skip_in_ci
-    def test_get_parameters_with_real_model(self, real_client_with_cache):
-        """Test get_parameters with real cached model for performance."""
-        try:
-            from flwr.common import GetParametersIns
-        except ImportError:
-            pytest.skip("Flower not installed")
-
-        if real_client_with_cache.model is None:
-            pytest.skip("Real model not available")
-
-        result = real_client_with_cache.get_parameters(GetParametersIns(config={}))
-
-        # Verify Flower API contract
-        assert result.status.code.value == 0  # OK
-        assert len(result.parameters.tensors) > 0
-        assert all(isinstance(tensor, np.ndarray) for tensor in result.parameters.tensors)
 
     def test_set_parameters_success(self, mock_client_with_model):
         """Test set_parameters accepts Flower-compatible format."""
@@ -989,67 +971,6 @@ class TestSmolVLAClientParameterOperations:
 class TestSmolVLAClientTrainingOperations:
     """Test training and evaluation operations."""
 
-    @pytest.mark.skip(reason="Complex mocking required for torch.distributed issues in test environment")
-    def test_fit_basic_training_workflow(self, sample_client_config):
-        """Test fit method basic workflow without complex mocking."""
-        try:
-            from flwr.common import FitIns, Parameters
-        except ImportError:
-            pytest.skip("Flower not installed")
-
-        with patch('lerobot.policies.smolvla.modeling_smolvla.SmolVLAPolicy') as mock_model_class, \
-              patch('src.client_app.DataLoader') as mock_dataloader_class, \
-              patch('torch.optim.Adam') as mock_optimizer_class:
-
-            mock_model = Mock()
-            mock_model.train.return_value = None
-            # Create proper mock parameters that behave like tensors
-            mock_param = Mock()
-            mock_param.grad = None  # No gradients initially
-            mock_param.requires_grad = True
-            mock_param.data = Mock()  # Mock data attribute
-            mock_model.parameters.return_value = [mock_param]
-            # Mock the model forward pass to return a tensor loss
-            mock_output = Mock()
-            mock_loss_tensor = Mock()
-            mock_loss_tensor.item.return_value = 0.5
-            mock_loss_tensor.requires_grad = True
-            mock_output.loss = mock_loss_tensor
-            mock_model.return_value = mock_output
-            mock_model.state_dict.return_value = {'param1': np.array([1.0])}
-            mock_model_class.from_pretrained.return_value = mock_model
-
-            # Mock optimizer
-            mock_optimizer = Mock()
-            mock_optimizer.param_groups = [{'lr': 1e-4}]
-            mock_optimizer_class.return_value = mock_optimizer
-
-            # Simple mock dataloader with proper batch structure
-            mock_batch = {
-                'input_ids': torch.tensor([[1, 2, 3]]),
-                'attention_mask': torch.tensor([[1, 1, 1]]),
-                'labels': torch.tensor([[1, 2, 3]])
-            }
-            mock_dataloader = Mock()
-            mock_dataloader.__iter__ = Mock()
-            mock_dataloader.__iter__.return_value = iter([mock_batch])
-            mock_dataloader_class.return_value = mock_dataloader
-
-            # Create client with model already set to avoid loading issues
-            client = SmolVLAClient(**sample_client_config)
-            client.model = mock_model  # Override the failed model loading
-            client.optimizer = mock_optimizer
-            client.train_loader = mock_dataloader
-
-            fit_ins = FitIns(
-                parameters=Parameters([np.array([1.0])], "numpy"),
-                config={"local_epochs": 1, "batch_size": 1}
-            )
-
-            result = client.fit(fit_ins)
-
-            assert result.status.code.value == 0
-            assert "loss" in result.metrics
 
     def test_evaluate_batch_limit(self, sample_client_config):
         """Test evaluate method handles batch processing."""
