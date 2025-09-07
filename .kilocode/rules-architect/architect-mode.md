@@ -5,8 +5,6 @@
 - Work only in project root directory (no external changes)
 - Use conda environment "zk0"
 - Focus: SmolVLA + Flower + SO-100 datasets
-- Reference quickstart-lerobot structure
-- See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for full details
 
 ## Overview
 Architect mode focuses on planning, design, and strategizing before implementation.
@@ -18,7 +16,6 @@ Architect mode focuses on planning, design, and strategizing before implementati
 - Prepare implementation handoffs
 
 ## Architecture Planning Guidelines
-See [.kilocode/rules/memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md) for detailed system architecture.
 Key principles:
 - Define clear system boundaries and interfaces
 - Plan for modularity and component reusability

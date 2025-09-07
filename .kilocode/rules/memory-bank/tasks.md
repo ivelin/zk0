@@ -62,9 +62,6 @@
 **Mode**: [Current mode]
 **Priority**: [High/Medium/Low]
 
-### Project Constraints (MANDATORY)
-See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
-
 ### Task Description
 **Objective**: [Clear, specific description of what needs to be accomplished]
 **Scope**: [What is included and what is excluded]
