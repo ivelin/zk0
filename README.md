@@ -57,6 +57,25 @@ This is an introductory example of federated learning applied to robotics AI tas
 
 In this example, we will federate the training of a Vision-Language-Action policy on SO-100 real-world robotics datasets. The data will be downloaded and partitioned using federated learning datasets. The implementation is memory-efficient and runs well on both CPU and GPU environments.
 
+## Training Strategy Overview
+
+### Client Task Assignments
+Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning.
+
+### Data Quality and Uniqueness Requirements
+- **High-Quality Datasets**: All datasets must contain clear, well-annotated episodes
+- **Unique Tasks**: No task overlap between clients to ensure diverse skill acquisition
+- **Fresh Data**: None of the datasets used for training the base SmolVLA model
+- **Evaluation Isolation**: Separate evaluation datasets never seen during training
+
+### Server Evaluation Datasets (Unseen Tasks)
+The server evaluates the global model on additional unseen tasks to verify generalization capabilities.
+### Evaluation Metrics
+- **Task Success Rate**: Percentage of successfully completed episodes
+- **Action Accuracy**: Precision of predicted vs. ground truth actions
+- **Generalization Score**: Performance on unseen evaluation tasks
+- **Cross-Task Performance**: Average performance across all evaluation datasets
+
 
 ## Set up the project
 
