@@ -141,14 +141,22 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 
 ## Official Resources
 
+### LeRobot Resources
+- **GitHub Repository**: https://github.com/huggingface/lerobot
+- **Documentation**: https://huggingface.co/docs/lerobot/
+- **Datasets Collection**: https://huggingface.co/lerobot/datasets
+
 ### SmolVLA Resources
-- **Blog Post**: https://huggingface.co/blog/smolvla
 - **Model Hub**: https://huggingface.co/lerobot/smolvla_base
+- **Documentation**: https://huggingface.co/docs/lerobot/smolvla
+- **Blog Post**: https://huggingface.co/blog/smolvla
 - **Paper**: https://huggingface.co/papers/2506.01844
-- **Code**: https://github.com/huggingface/lerobot
+- **Code Repository**: https://github.com/huggingface/lerobot
 
 ### Flower Resources
-- **Documentation**: https://flower.ai/docs/framework/
+- **GitHub Repository**: https://github.com/adap/flower
+- **Documentation**: https://flower.ai/docs/
 - **Framework Hub**: https://flower.ai
-- **GitHub**: https://github.com/adap/flower
-- **Examples**: https://github.com/adap/flower/tree/main/examples
+- **General Examples**: https://github.com/adap/flower/tree/main/examples
+- **LeRobot Integration Example**: https://flower.ai/docs/examples/quickstart-lerobot.html
+- **LeRobot Example Repository**: https://github.com/adap/flower/tree/main/examples/quickstart-lerobot
