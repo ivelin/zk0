@@ -159,7 +159,7 @@ flwr run . local-simulation --run-config "backend.client-resources.num-gpus=0"
 flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0.1"
 ```
 
-**Default Recommendation**: Use `local-simulation-gpu` for SmolVLA training as it matches the 4-client SO-100 dataset architecture and provides better GPU utilization. If GPU is not available, use `local-simulation` with `backend.client-resources.num-gpus=0`.
+**Default Recommendation**: Always use `local-simulation-gpu` when GPU is available (100x faster than CPU). Only fall back to `local-simulation` with `backend.client-resources.num-gpus=0` if GPU is not available. This matches the 4-client SO-100 dataset architecture and provides optimal performance.
 
 ## Evaluation and Visualization
 

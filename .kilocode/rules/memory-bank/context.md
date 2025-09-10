@@ -8,6 +8,13 @@
 ## Work Focus
 Maintaining and updating the Memory Bank to preserve project context and implementation details. The federated learning system with SmolVLA and Flower is fully operational and ready for deployment.
 
+## Configuration Standards
+- **Default FL Clients**: 4 clients (one per unique SO-100/SO-101 dataset)
+- **GPU Priority**: Always use GPU when available (100x faster than CPU)
+- **Default Federation**: `local-simulation-gpu` with 4 supernodes
+- **CPU Fallback**: Only use `local-simulation` if GPU unavailable
+- **Test Runs**: Use 5 rounds for quick testing, 50+ rounds for meaningful results
+
 ## Recent Changes
 - **Complete Dataset Configuration System**: Created centralized [`src/configs/datasets.yaml`](src/configs/datasets.yaml) with all client and evaluation datasets
 - **Fixed Tolerance Values**: Corrected tolerance_s from 100.0 to 0.0001 (proper 1/fps value) for accurate timestamp validation
