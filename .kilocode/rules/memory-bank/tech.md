@@ -39,11 +39,27 @@
 - **Real-world Performance**: SO-100 and SO-101 compatibility
 
 ### Datasets
-- **SO-100 Datasets**: Real-world robotics training data
+- **SO-100 Datasets**: Real-world robotics training data from SO-100 robot platform
+- **SO-101 Datasets**: Advanced robotics training data from SO-101 robot platform
 - **Format**: LeRobot format with lerobot tag
 - **Annotation**: Clear task descriptions (max 30 characters)
 - **Camera Views**: Standardized naming (OBS_IMAGE_1, OBS_IMAGE_2, etc.)
-- **Frame Rate**: 30 FPS for SO-100/SO-101
+- **Frame Rate**: 30 FPS for SO-100/SO-101 datasets
+- **Synchronization**: Proper tolerance (0.0001s = 1/fps) for accurate timestamp validation
+- **Quality Assurance**: Automatic hotfix for doubled datasets (GitHub issue #1875)
+- **Configuration**: Centralized YAML configuration in [`src/configs/datasets.yaml`](src/configs/datasets.yaml)
+
+#### Federated Learning Client Datasets
+See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client dataset configuration including:
+- **4 validated clients** with diverse robotics manipulation tasks
+- **Dataset sizes and validation status** for each client
+- **Train/eval episode splits** for proper federated learning setup
+- **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
+
+#### Evaluation Datasets
+- **choyf3/so101_test_20250908**: SO-101 test dataset (12 episodes, 9,128 frames)
+- **griffinlabs/record-trial-2**: Research laboratory trials (20 episodes, 14,607 frames)
+- **JamesChen007/so101-test**: SO-101 comprehensive test (10 episodes, 3,946 frames)
 
 ## Integration Specifications
 
@@ -118,7 +134,7 @@ pip install flwr[simulation] --pre
 ```bash
 python lerobot/scripts/train.py \
   --policy.path=lerobot/smolvla_base \
-  --dataset.repo_id=lerobot/svla_so100_stacking \
+  --dataset.repo_id=<dataset_from_config> \
   --batch_size=64 \
   --steps=20000 \
   --output_dir=outputs/train/my_smolvla \
@@ -126,18 +142,43 @@ python lerobot/scripts/train.py \
   --policy.device=cuda \
   --wandb.enable=true
 ```
+*See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for available dataset options*
 
 #### Flower Simulation
 ```bash
-# Run simulation
+# Run basic simulation (10 clients, CPU by default)
 flwr run .
 
-# Run with GPU federation
+# Run GPU simulation (4 clients - RECOMMENDED for SmolVLA/SO-100)
 flwr run . local-simulation-gpu
+
+# Run CPU simulation if GPU not available (4 clients)
+flwr run . local-simulation --run-config "backend.client-resources.num-gpus=0"
 
 # Override configuration
 flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0.1"
 ```
+
+**Default Recommendation**: Use `local-simulation-gpu` for SmolVLA training as it matches the 4-client SO-100 dataset architecture and provides better GPU utilization. If GPU is not available, use `local-simulation` with `backend.client-resources.num-gpus=0`.
+
+## Evaluation and Visualization
+
+### Evaluation System
+- **Robot Rollout Evaluation**: Comprehensive evaluation with predicted vs ground truth action comparison
+- **Metrics Calculation**: Success rate, action MSE, trajectory length analysis
+- **Multi-Episode Support**: Evaluate across multiple SO-100 episodes
+- **Fallback Mechanisms**: Graceful degradation when real evaluation unavailable
+
+### Visualization Tools
+- **LeRobot Compatibility**: Data export compatible with Hugging Face dataset visualizer
+- **Robot Rollout Videos**: Animated visualizations of predicted trajectories
+- **Comparison Visualizations**: Side-by-side comparison of predicted vs ground truth
+- **Progress Tracking**: Visual progress across federated learning rounds
+
+### Key Modules
+- **src/evaluation.py**: SmolVLAEvaluator class for comprehensive robot rollout evaluation
+- **src/visualization.py**: SmolVLAVisualizer class for LeRobot-compatible data export
+- **Enhanced client_app.py**: Integrated evaluation with robot rollouts and visualization
 
 ## Official Resources
 
@@ -145,6 +186,7 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 - **GitHub Repository**: https://github.com/huggingface/lerobot
 - **Documentation**: https://huggingface.co/docs/lerobot/
 - **Datasets Collection**: https://huggingface.co/lerobot/datasets
+- **Dataset Visualizer**: https://huggingface.co/spaces/lerobot/visualize_dataset
 
 ### SmolVLA Resources
 - **Model Hub**: https://huggingface.co/lerobot/smolvla_base

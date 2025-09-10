@@ -149,10 +149,57 @@ In the end of the task, when it seems to be completed, I will update `context.md
 
 ## Context Window Management
 
-When the context window fills up during an extended session:
-1. I should suggest updating the memory bank to preserve the current state
-2. Recommend starting a fresh conversation/task
-3. In the new conversation, I will automatically load the memory bank files to maintain continuity
+### Detection & Alert System
+I proactively monitor context window usage through:
+- **Conversation Length**: Tracking cumulative message count and complexity
+- **Token Estimation**: Monitoring approximate token usage patterns
+- **Reference Patterns**: Noticing increased back-referencing to earlier conversation parts
+- **Memory Bank Reliance**: Heavy dependence on memory bank indicates approaching limits
+
+### Alert Signals
+I will alert you with specific warnings:
+```
+⚠️ CONTEXT WINDOW: This conversation is getting quite long.
+Would you like me to summarize the current state and start a fresh session?
+
+📝 CONTEXT MANAGEMENT: We've made significant progress on [task].
+Shall I create a summary and transition to maintain optimal performance?
+```
+
+### Transition Strategy
+When transitioning to a new session, preserve:
+
+**Essential Context Template:**
+```
+[Memory Bank: Active]
+Project: [project name]
+Current Focus: [specific task]
+Key Context: [3-5 bullet points of essential info]
+Ready to continue with [next step]
+```
+
+**Critical Elements to Inherit:**
+1. **Project State**: Current completion status, key decisions made
+2. **Technical Context**: Environment setup, core technologies, constraints
+3. **Immediate Task**: What was being worked on, next planned steps
+4. **Critical Paths**: Important file locations, configurations, dependencies
+
+### Session Health Indicators
+- 🟢 **GOOD**: Fresh session, minimal back-referencing
+- 🟡 **MODERATE**: Some back-referencing, memory bank usage increasing
+- 🔴 **FULL**: Heavy back-referencing, responses becoming less focused
+
+### Proactive Management
+- **Regular Summaries**: Provide progress updates every 20-30 messages
+- **Memory Bank Updates**: Capture important decisions before transitions
+- **Clear Next Steps**: Always identify what's coming next before suggesting transitions
+
+### Integration with Subtask Workflow
+Context management enhances Kilo Code's subtask approach:
+- **Subtask Boundaries**: Natural transition points for context refresh
+- **Mode Optimization**: Each mode benefits from focused context windows
+- **Branch Management**: Clean handoffs between subtask branches
+- **Task Continuity**: Memory bank preserves progress across session boundaries
 
 ## Technical Implementation
 

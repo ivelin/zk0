@@ -1,8 +1,8 @@
 # Project-Wide Constraints and Rules
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-09-07
-**Version**: 1.0.0
+**Last Updated**: 2025-09-10
+**Version**: 1.1.0
 **Author**: Kilo Code
 
 ## Critical Project Constraints
@@ -32,6 +32,14 @@
 - **Documentation**: Keep README and documentation current
 - **Reproducibility**: Ensure all experiments are reproducible with seeds
 
+### 5. Production Code Quality Standards
+- **NO MOCKS IN PRODUCTION**: Mocks, stubs, or fake implementations are STRICTLY FORBIDDEN in production code
+- **Fail Fast Principle**: Production code must handle real failures gracefully or fail fast with clear error messages
+- **Real Dependencies Only**: All production components must work with actual dependencies and real data
+- **Error Handling**: Implement proper exception handling instead of mock fallbacks
+- **Testing Isolation**: Mocks are only acceptable in unit tests for dependency isolation, never in production paths
+- **Code Review Requirement**: Any use of mocks in production code will be rejected during code review
+
 ### 5. Testing Execution Requirements
 - **Environment**: All tests must run in conda environment "zk0"
 - **Parallel Execution**: Use `pytest -n auto` for parallel test execution
@@ -59,6 +67,13 @@
 2. **Progress Tracking**: Regular validation against success criteria
 3. **Post-Validation**: Ensure deliverables meet requirements
 4. **Documentation Update**: Update memory bank with lessons learned
+
+### Context Management Rules
+1. **Session Transitions**: Honor context window alerts and transition proactively
+2. **Essential Preservation**: Always inherit critical technical context in new sessions
+3. **Memory Bank Updates**: Update memory bank before major transitions
+4. **Clear Documentation**: Document current state and next steps before transitioning
+5. **Fresh Start Benefits**: Use transitions to maintain optimal performance and focus
 
 ## Emergency Procedures
 
@@ -95,4 +110,5 @@ Before running tests:
 
 ## Version History
 
+- **v1.1.0** (2025-09-10): Added explicit production code quality standards prohibiting mocks in production code
 - **v1.0.0** (2025-09-03): Initial creation with core zk0 project constraints
