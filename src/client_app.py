@@ -1,545 +1,234 @@
-"""Flower client app for SmolVLA federated learning."""
+"""zk0: A Flower / Hugging Face LeRobot app."""
 
-import flwr as fl
-from flwr.client import ClientApp, Client
-from flwr.common import (
-    GetParametersRes, FitRes, EvaluateRes, Status, Parameters, Code,
-    GetParametersIns, FitIns, EvaluateIns
-)
-
-# Import dataset utilities
-import sys
-import os
-
-# Try importing from lerobot (PyPI version)
-try:
-    from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
-    from lerobot.common.datasets.utils import create_transforms
-    # Create partitioner and federated dataset classes
-    class LeRobotDatasetPartitioner:
-        def __init__(self, num_partitions=10):
-            self.num_partitions = num_partitions
-
-    class FederatedLeRobotDataset:
-        def __init__(self, dataset="lerobot/so100", partitioners=None, delta_timestamps=None):
-            self.dataset = dataset
-            self.partitioners = partitioners or {}
-            self.delta_timestamps = delta_timestamps or {}
-
-        def load_partition(self, partition_id):
-            # Use lerobot's dataset loading
-            try:
-                transforms = create_transforms(delta_timestamps=self.delta_timestamps)
-                dataset = LeRobotDataset(
-                    repo_id=self.dataset,
-                    delta_timestamps=self.delta_timestamps,
-                    transforms=transforms
-                )
-                # Simple partitioning by episode index
-                total_episodes = len(dataset.episode_data.index)
-                episodes_per_partition = total_episodes // self.partitioners.get('train', LeRobotDatasetPartitioner()).num_partitions
-                start_idx = partition_id * episodes_per_partition
-                end_idx = start_idx + episodes_per_partition if partition_id < self.partitioners.get('train', LeRobotDatasetPartitioner()).num_partitions - 1 else total_episodes
-
-                # Filter dataset for this partition
-                partition_indices = dataset.episode_data.index[start_idx:end_idx]
-                return dataset.select_episodes(partition_indices.tolist())
-            except Exception as e:
-                print(f"Failed to load partition: {e}")
-                return []
-
-except ImportError as e:
-    print(f"Warning: Could not import from lerobot: {e}")
-    # Fallback: create dummy classes
-    class LeRobotDatasetPartitioner:
-        def __init__(self, num_partitions=10):
-            self.num_partitions = num_partitions
-
-    class FederatedLeRobotDataset:
-        def __init__(self, dataset="lerobot/so100", partitioners=None, delta_timestamps=None):
-            self.dataset = dataset
-            self.partitioners = partitioners or {}
-            self.delta_timestamps = delta_timestamps or {}
-
-        def load_partition(self, partition_id):
-            # Return dummy dataset
-            return []
-
-# Import additional dependencies
-import torch
-from torch.utils.data import DataLoader
-import numpy as np
-import logging
+import warnings
+from logging import INFO
 from pathlib import Path
-import time
 
-# Import transformers for model loading (moved to top level for testing)
-try:
-    import transformers
-    from transformers import AutoModelForVision2Seq, AutoProcessor
-except ImportError:
-    # Fallback for testing environments
-    transformers = None
-    AutoModelForVision2Seq = None
-    AutoProcessor = None
+import logging
+import psutil
+import sys
 
+import torch
+from src.task import (
+    get_model,
+    get_params,
+    load_data,
+    set_params,
+    test,
+    train,
+)
+from transformers import logging
+from loguru import logger
 
-def get_device(device_str: str = "auto"):
-    """Get torch device from string specification."""
-    if device_str == "auto":
-        return "cuda" if torch.cuda.is_available() else "cpu"
-    return device_str
+from flwr.client import Client, ClientApp, NumPyClient
+from flwr.common import Context
 
-
-def load_config(config_path: str = "src/configs/default.yaml"):
-    """Load YAML configuration using OmegaConf."""
-    try:
-        from omegaconf import OmegaConf
-        config = OmegaConf.load(config_path)
-        return config
-    except ImportError:
-        raise ImportError("OmegaConf is required for configuration loading. Install with: pip install omegaconf")
-    except Exception as e:
-        raise RuntimeError(f"Failed to load configuration from {config_path}: {e}")
+# Mute warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+logging.set_verbosity_error()
 
 
-class SmolVLAClient(Client):
-    """SmolVLA client for federated learning on robotics tasks."""
+# Flower client
+class SmolVLAClient(NumPyClient):
+    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None) -> None:
+        self.partition_id = partition_id
+        self.trainloader = trainloader
+        self.local_epochs = local_epochs
+        self.device = nn_device
 
-    def __init__(self, config=None, model_name: str = "lerobot/smolvla_base", device: str = "auto", partition_id: int = 0, num_partitions: int = 10):
-        self.config = config  # Store config for later use
+        # Load dataset metadata for model creation (like lerobot train script)
+        # Get dataset metadata from the trainloader's dataset
+        dataset_meta = trainloader.dataset.meta if hasattr(trainloader.dataset, 'meta') else None
+        self.net = get_model(dataset_meta)
 
-        # If config is provided, extract values from it
-        if config is not None:
-            self.model_name = getattr(config.model, 'name', model_name)
-            self.device = get_device(getattr(config.model, 'device', device))
-            self.num_partitions = getattr(config.federation, 'num_partitions', num_partitions)
-            self.partition_id = partition_id  # This comes from context, not config
-        else:
-            # Backward compatibility: use individual parameters
-            self.model_name = model_name
-            self.device = get_device(device)
-            self.partition_id = partition_id
-            self.num_partitions = num_partitions
-        self.model = None
-        self.processor = None
-        self.optimizer = None
-        self.train_loader = None
-        self.val_loader = None
-        self.federated_dataset = None
+        policy = self.net
+        # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
+        policy.to(self.device)
 
-        # Setup logging
-        self.logger = logging.getLogger(__name__)
-        logging.basicConfig(level=logging.INFO)
+    def fit(self, parameters, config) -> tuple[list, int, dict]:
+        # Setup logging in the actor process
+        from src.logger import setup_logging, setup_client_logging
+        log_file_path = config.get("log_file_path")
+        if log_file_path:
+            setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
+            setup_client_logging(Path(log_file_path), self.partition_id)
 
-        # Create output directory for checkpoints
-        self.output_dir = Path("outputs") / "smolvla_federated" / f"client_{partition_id}"
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={config.get('batch_size', 64)})")
+        logger.debug(f"Client {self.partition_id}: Received config: {config}")
 
-        self._load_model()
-        self._load_dataset()
+        if torch.cuda.is_available():
+            vram_gb = torch.cuda.max_memory_allocated() / 1e9
+            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Fit start - VRAM allocated")
+        ram_percent = psutil.virtual_memory().percent
+        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit start - Host RAM used")
 
-    def _load_model(self):
-        """Load SmolVLA model and processor."""
-        try:
-            import logging
+        logger.debug(f"Client {self.partition_id}: Setting model parameters")
+        pre_fit_norm, _, _ = compute_param_norms(self.net)
+        logger.info(f"Client {self.partition_id}: Pre-fit param norm: {pre_fit_norm:.4f}")
+        set_params(self.net, parameters)
 
-            logging.basicConfig(level=logging.INFO)
-            logger = logging.getLogger(__name__)
-
-            logger.info(f"Loading SmolVLA model: {self.model_name}")
-
-            # Check if transformers is available
-            if AutoModelForVision2Seq is None or AutoProcessor is None:
-                raise ImportError("Transformers library not available")
-
-            self.model = AutoModelForVision2Seq.from_pretrained(
-                self.model_name,
-                torch_dtype=torch.float32,
-                trust_remote_code=True
-            ).to(self.device)
-
-            self.processor = AutoProcessor.from_pretrained(
-                self.model_name,
-                trust_remote_code=True
-            )
-
-            # Freeze vision encoder for efficiency in federated learning
-            for param in self.model.vision_encoder.parameters():
-                param.requires_grad = False
-
-            self.optimizer = torch.optim.Adam(
-                [p for p in self.model.parameters() if p.requires_grad],
-                lr=1e-4
-            )
-
-            logger.info("SmolVLA model loaded successfully")
-        except Exception as e:
-            self.logger.error(f"Failed to load SmolVLA model: {e}")
-            self.logger.info("Continuing with simulated training (no actual model)")
-            # Fallback to basic client without model
-            pass
-
-    def _load_dataset(self):
-        """Load SO-100 dataset partition for this client."""
-        try:
-            self.logger.info(f"Loading SO-100 dataset partition {self.partition_id}/{self.num_partitions}")
-
-            # Use config values if available, otherwise use defaults
-            if self.config is not None and hasattr(self.config, 'dataset'):
-                dataset_name = getattr(self.config.dataset, 'name', "lerobot/so100")
-                delta_timestamps = getattr(self.config.dataset, 'delta_timestamps', {
-                    "observation.image": [-0.1, 0.0],
-                    "observation.state": [-0.1, 0.0],
-                    "action": [-0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4],
-                })
-            else:
-                # Default values for backward compatibility
-                dataset_name = "lerobot/so100"
-                delta_timestamps = {
-                    "observation.image": [-0.1, 0.0],
-                    "observation.state": [-0.1, 0.0],
-                    "action": [
-                        -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5,
-                        0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4
-                    ],
-                }
-
-            # Create federated dataset partitioner
-            partitioner = LeRobotDatasetPartitioner(num_partitions=self.num_partitions)
-
-            # Load federated dataset
-            self.federated_dataset = FederatedLeRobotDataset(
-                dataset=dataset_name,
-                partitioners={"train": partitioner},
-                delta_timestamps=delta_timestamps,
-            )
-
-            # Load partition
-            train_partition = self.federated_dataset.load_partition(self.partition_id)
-
-            # Create data loader
-            self.train_loader = DataLoader(
-                train_partition,
-                batch_size=4,  # Small batch size for memory efficiency
-                shuffle=True,
-                num_workers=2,
-                pin_memory=self.device != "cpu",
-                drop_last=True,
-            )
-
-            self.logger.info(f"Dataset loaded successfully. Train samples: {len(train_partition)}")
-
-        except Exception as e:
-            self.logger.error(f"Failed to load dataset: {e}")
-            self.logger.info("Continuing without dataset (simulated training)")
-            self.train_loader = None
-
-    def get_parameters(self, ins: GetParametersIns):
-        """Get model parameters for federated averaging."""
-        if self.model is None:
-            return GetParametersRes(parameters=Parameters([], "numpy"), status=Status(code=Code.OK, message="OK"))
-
-        import torch
-        params_list = []
-        for val in self.model.state_dict().values():
-            # Handle both torch tensors and numpy arrays
-            if hasattr(val, 'cpu'):
-                # It's a torch tensor
-                params_list.append(val.cpu().numpy())
-            else:
-                # It's already a numpy array
-                params_list.append(val)
-        return GetParametersRes(
-            parameters=Parameters(params_list, "numpy"),
-            status=Status(code=Code.OK, message="OK")
+        logger.info(f"Client {self.partition_id}: Starting training for {self.local_epochs} epochs")
+        train(
+            net=self.net,
+            trainloader=self.trainloader,
+            epochs=self.local_epochs,
+            device=self.device,
+            batch_size=config.get("batch_size", 64)
         )
+        logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={config.get('batch_size', 64)})")
 
-    def set_parameters(self, parameters):
-        """Set model parameters from server."""
-        if self.model is None or not parameters:
-            return
+        logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
+        post_fit_norm, _, _ = compute_param_norms(self.net)
+        logger.info(f"Client {self.partition_id}: Post-fit param norm: {post_fit_norm:.4f} (change from pre: {post_fit_norm - pre_fit_norm:.4f})")
+        updated_params = get_params(self.net)
 
-        import torch
-        params_dict = zip(self.model.state_dict().keys(), parameters)
-        state_dict = {k: torch.tensor(v) for k, v in params_dict}
-        self.model.load_state_dict(state_dict, strict=True)
+        if torch.cuda.is_available():
+            vram_gb = torch.cuda.max_memory_allocated() / 1e9
+            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Fit end - VRAM allocated")
+        ram_percent = psutil.virtual_memory().percent
+        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit end - Host RAM used")
 
-    def fit(self, ins: FitIns):
-        """Train the model on local SO-100 robotics data."""
-        try:
-            # Set model parameters
-            self.set_parameters(ins.parameters.tensors)
+        logger.info(f"Client {self.partition_id}: Fit operation completed, returning {len(updated_params)} parameter arrays")
+        return updated_params, len(self.trainloader), {}
 
-            # Training configuration
-            local_epochs = ins.config.get("local_epochs", 1)
-            batch_size = ins.config.get("batch_size", 4)
-            learning_rate = ins.config.get("learning_rate", 1e-4)
+    def evaluate(self, parameters, config) -> tuple[float, int, dict[str, float]]:
+        # Setup logging in the actor process
+        from src.logger import setup_logging, setup_client_logging
+        log_file_path = config.get("log_file_path")
+        if log_file_path:
+            setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
+            setup_client_logging(Path(log_file_path), self.partition_id)
 
-            self.logger.info(f"Training for {local_epochs} epochs with batch size {batch_size}")
+        logger.info(f"Client {self.partition_id}: Starting evaluate operation")
+        logger.debug(f"Client {self.partition_id}: Evaluate config: {config}")
 
-            if self.model is not None and self.train_loader is not None:
-                # Real training with SO-100 dataset
-                self.model.train()
-                total_loss = 0.0
-                num_batches = 0
-                start_time = time.time()
+        if torch.cuda.is_available():
+            vram_gb = torch.cuda.max_memory_allocated() / 1e9
+            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Evaluate start - VRAM allocated")
+        ram_percent = psutil.virtual_memory().percent
+        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Evaluate start - Host RAM used")
 
-                # Update optimizer learning rate if provided
-                if hasattr(self.optimizer, 'param_groups'):
-                    for param_group in self.optimizer.param_groups:
-                        param_group['lr'] = learning_rate
+        logger.debug(f"Client {self.partition_id}: Setting evaluation parameters")
+        pre_eval_norm, _, _ = compute_param_norms(self.net)
+        logger.info(f"Client {self.partition_id}: Pre-eval param norm: {pre_eval_norm:.4f}")
+        set_params(self.net, parameters)
 
-                for epoch in range(local_epochs):
-                    epoch_loss = 0.0
-                    epoch_batches = 0
-
-                    for batch_idx, batch in enumerate(self.train_loader):
-                        # Move batch to device
-                        batch = {k: v.to(self.device, non_blocking=True) for k, v in batch.items()}
-
-                        # Forward pass
-                        outputs = self.model(**batch)
-                        loss = outputs.loss if hasattr(outputs, 'loss') else outputs[0]
-
-                        # Backward pass
-                        self.optimizer.zero_grad()
-                        loss.backward()
-                        self.optimizer.step()
-
-                        # Track metrics
-                        batch_loss = loss.item()
-                        total_loss += batch_loss
-                        epoch_loss += batch_loss
-                        num_batches += 1
-                        epoch_batches += 1
-
-                        if batch_idx % 10 == 0:
-                            self.logger.info(f"Epoch {epoch+1}, Batch {batch_idx+1}, Loss: {batch_loss:.4f}")
-
-                    # Log epoch summary
-                    avg_epoch_loss = epoch_loss / epoch_batches
-                    self.logger.info(f"Epoch {epoch+1} completed. Average Loss: {avg_epoch_loss:.4f}")
-
-                # Calculate training time
-                training_time = time.time() - start_time
-
-                # Get updated parameters
-                updated_params = self.get_parameters(GetParametersIns(config={})).parameters
-                metrics = {
-                    "loss": total_loss / num_batches,
-                    "epochs": local_epochs,
-                    "total_batches": num_batches,
-                    "training_time": training_time,
-                    "avg_loss_per_epoch": total_loss / local_epochs,
-                }
-                num_examples = num_batches * batch_size
-
-                # Save checkpoint
-                self._save_checkpoint(f"checkpoint_epoch_{local_epochs}")
-
-            elif self.model is not None and self.train_loader is None:
-                # Model loaded but no dataset - use simulated training
-                self.logger.warning("Model loaded but no dataset available. Using simulated training.")
-                self.model.train()
-                total_loss = 0.0
-                num_batches = 10
-
-                for epoch in range(local_epochs):
-                    for batch_idx in range(num_batches):
-                        batch_loss = self._simulate_training_step()
-                        total_loss += batch_loss
-
-                        if batch_idx % 5 == 0:
-                            self.logger.info(f"Epoch {epoch+1}, Batch {batch_idx+1}, Loss: {batch_loss:.4f}")
-
-                updated_params = self.get_parameters(GetParametersIns(config={})).parameters
-                metrics = {
-                    "loss": total_loss / (local_epochs * num_batches),
-                    "epochs": local_epochs,
-                    "simulated": True,
-                }
-                num_examples = local_epochs * num_batches * batch_size
-            else:
-                # No model loaded, return original parameters
-                updated_params = ins.parameters
-                metrics = {"error": "model_not_loaded"}
-                num_examples = 100
-
-            return FitRes(
-                parameters=updated_params,
-                num_examples=num_examples,
-                metrics=metrics,
-                status=Status(code=Code.OK, message="OK")
-            )
-
-        except Exception as e:
-            self.logger.error(f"Training failed: {e}")
-            return FitRes(
-                parameters=ins.parameters,
-                num_examples=0,
-                metrics={"error": str(e)},
-                status=Status(code=Code.OK, message=str(e))
-            )
-
-    def evaluate(self, ins: EvaluateIns):
-        """Evaluate the model on local SO-100 validation data."""
-        try:
-            # Set model parameters
-            self.set_parameters(ins.parameters.tensors)
-
-            self.logger.info("Evaluating model on SO-100 validation data")
-
-            if self.model is not None and self.train_loader is not None:
-                # Real evaluation with SO-100 dataset
-                self.model.eval()
-                total_loss = 0.0
-                total_samples = 0
-                num_batches = 0
-
-                with torch.no_grad():
-                    for batch_idx, batch in enumerate(self.train_loader):
-                        # Use subset of training data for validation (first 20 batches)
-                        if batch_idx >= 20:
-                            break
-
-                        # Move batch to device
-                        batch = {k: v.to(self.device, non_blocking=True) for k, v in batch.items()}
-
-                        # Forward pass
-                        outputs = self.model(**batch)
-                        loss = outputs.loss if hasattr(outputs, 'loss') else outputs[0]
-
-                        # Track metrics
-                        batch_loss = loss.item()
-                        total_loss += batch_loss
-                        total_samples += batch['input_ids'].size(0) if 'input_ids' in batch else len(batch)
-                        num_batches += 1
-
-                        if batch_idx % 5 == 0:
-                            self.logger.info(f"Validation Batch {batch_idx+1}, Loss: {batch_loss:.4f}")
-
-                avg_loss = total_loss / num_batches if num_batches > 0 else 0.0
-
-                # Calculate action prediction accuracy (for robotics tasks)
-                # This is a simplified metric - in practice you'd compare predicted vs ground truth actions
-                action_accuracy = 0.5 + 0.3 * np.random.random()  # Placeholder for now
-
-                metrics = {
-                    "loss": avg_loss,
-                    "action_accuracy": action_accuracy,
-                    "validation_batches": num_batches,
-                    "total_samples": total_samples,
-                }
-
-                num_examples = total_samples
-                self.logger.info(f"Validation completed - Loss: {avg_loss:.4f}, Action Accuracy: {action_accuracy:.4f}")
-
-            elif self.model is not None and self.train_loader is None:
-                # Model loaded but no dataset - use simulated evaluation
-                self.logger.warning("Model loaded but no dataset available. Using simulated evaluation.")
-                self.model.eval()
-                total_loss = 0.0
-                correct_predictions = 0
-                total_samples = 100
-
-                for _ in range(10):
-                    batch_loss, batch_correct = self._simulate_validation_step()
-                    total_loss += batch_loss
-                    correct_predictions += batch_correct
-
-                avg_loss = total_loss / 10
-                accuracy = correct_predictions / total_samples
-                metrics = {
-                    "loss": avg_loss,
-                    "action_accuracy": accuracy,
-                    "simulated": True,
-                }
-                num_examples = total_samples
-            else:
-                avg_loss = 0.0
-                metrics = {"error": "model_not_loaded"}
-                num_examples = 100
-
-            return EvaluateRes(
-                loss=avg_loss,
-                num_examples=num_examples,
-                metrics=metrics,
-                status=Status(code=Code.OK, message="OK")
-            )
-
-        except Exception as e:
-            self.logger.error(f"Evaluation failed: {e}")
-            return EvaluateRes(
-                loss=0.0,
-                num_examples=0,
-                metrics={"error": str(e)},
-                status=Status(code=Code.OK, message=str(e))
-            )
-
-    def _save_checkpoint(self, checkpoint_name: str):
-        """Save model checkpoint for federated training."""
-        if self.model is not None:
+        # Handle case where save_path might not be in config (evaluation rounds)
+        if config.get("skip", False):
+            logger.info("Skipping evaluation")
+            accuracy, loss = 0.0, 0.0
+        else:
             try:
-                checkpoint_path = self.output_dir / f"{checkpoint_name}.pt"
-                torch.save({
-                    'model_state_dict': self.model.state_dict(),
-                    'optimizer_state_dict': self.optimizer.state_dict() if self.optimizer else None,
-                    'partition_id': self.partition_id,
-                    'timestamp': time.time(),
-                }, checkpoint_path)
-                self.logger.info(f"Checkpoint saved: {checkpoint_path}")
+                # test() returns (loss, num_examples, metrics)
+                eval_mode = config.get("eval_mode", "quick")
+                loss, num_examples, metrics = test(
+                    partition_id=self.partition_id,
+                    net=self.net,
+                    device=self.device,
+                    eval_mode=eval_mode,
+                    batch_size=config.get("batch_size", 64)
+                )
+                accuracy = metrics.get("action_mse", 0.0)  # Use action_mse as accuracy for Flower compatibility
+
+                # Save client metrics to file
+                try:
+                    import json
+                    from datetime import datetime
+
+                    # Use timestamp from config for consistent base path
+                    save_path = Path(config.get("save_path"))
+                    client_dir = save_path / "clients" / f"client_{self.partition_id}"
+                    client_dir.mkdir(parents=True, exist_ok=True)
+
+                    # Get round number from config (sent by server)
+                    if "round" not in config:
+                        raise ValueError(f"Client {self.partition_id}: 'round' not found in config, cannot save evaluation file")
+                    round_num = config["round"]
+                    logger.info(f"Client {self.partition_id}: Using round number {round_num} for evaluation file")
+
+                    client_file = client_dir / f"round_{round_num}.json"
+                    data = {
+                        "client_id": self.partition_id,
+                        "round": round_num,
+                        "timestamp": datetime.now().isoformat(),
+                        "loss": float(loss),
+                        "num_examples": num_examples,
+                        "metrics": metrics
+                    }
+
+                    with open(client_file, 'w') as f:
+                        json.dump(data, f, indent=2, default=str)
+
+                except Exception as e:
+                    logger.info(f"Failed to save client metrics to file: {e}")
+                    # Continue execution even if file saving fails
+
             except Exception as e:
-                self.logger.error(f"Failed to save checkpoint: {e}")
+                logger.info(f"Client {self.partition_id} evaluation failed: {e}")
+                # Return default values on evaluation failure
+                loss = 1.0  # High loss indicates failure
+                accuracy = 0.0
+                num_examples = 0
+                metrics = {"evaluation_error": str(e)}
 
-    def _load_checkpoint(self, checkpoint_path: Path):
-        """Load model checkpoint."""
-        if checkpoint_path.exists() and self.model is not None:
-            try:
-                checkpoint = torch.load(checkpoint_path, map_location=self.device)
-                self.model.load_state_dict(checkpoint['model_state_dict'], strict=True)
-                if self.optimizer and checkpoint.get('optimizer_state_dict'):
-                    self.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-                self.logger.info(f"Checkpoint loaded: {checkpoint_path}")
-            except Exception as e:
-                self.logger.error(f"Failed to load checkpoint: {e}")
+        if torch.cuda.is_available():
+            vram_gb = torch.cuda.max_memory_allocated() / 1e9
+            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Evaluate end - VRAM allocated")
+        ram_percent = psutil.virtual_memory().percent
+        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Evaluate end - Host RAM used")
 
-    def _simulate_training_step(self):
-        """Simulate a training step (fallback when dataset not available)."""
-        return 0.1 + 0.5 * np.random.random()
-
-    def _simulate_validation_step(self):
-        """Simulate a validation step (fallback when dataset not available)."""
-        loss = 0.1 + 0.3 * np.random.random()
-        correct = np.random.randint(0, 5)
-        return loss, correct
+        testset_len = 1  # we test on one gym generated task
+        post_eval_norm, _, _ = compute_param_norms(self.net)
+        logger.info(f"Client {self.partition_id}: Evaluate completed - loss: {loss:.4f}, action_mse: {accuracy:.4f}, post-eval norm: {post_eval_norm:.4f}")
+        return float(loss), testset_len, {"action_mse": accuracy, "partition_id": self.partition_id}
 
 
-def client_fn(context):
-    """Client function factory."""
-    # Load configuration from YAML
-    config = load_config("src/configs/default.yaml")
+def client_fn(context: Context) -> Client:
+    """Construct a Client that will be run in a ClientApp."""
+    import logging
 
-    # Extract partition information from context
-    partition_id = context.node_config.get("partition-id", 0)
+    # Setup logging for client (DEBUG level for console and propagation)
+    root_logger = logging.getLogger()
+    root_logger.setLevel(logging.DEBUG)
+
+    # Ensure console handler for DEBUG
+    if not any(isinstance(h, logging.StreamHandler) for h in root_logger.handlers):
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        console_handler.setFormatter(formatter)
+        root_logger.addHandler(console_handler)
+
+    logging.debug(f"Client function started for partition {context.node_config.get('partition-id', 'unknown')}")
+
+    # Read the node_config to fetch data partition associated to this node
+    partition_id = context.node_config["partition-id"]
+    num_partitions = context.node_config["num-partitions"]
+    # Discover device
+    nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    # Read the run config to get settings to configure the Client
+    model_name = context.run_config["model-name"]
+    local_epochs = int(context.run_config["local-epochs"])
+
+    # Setup client logging
+    from src.logger import setup_logging, setup_client_logging
+    log_file_path = context.run_config.get("log_file_path")
+    if log_file_path:
+        setup_logging(Path(log_file_path), client_id=f"client_{partition_id}")
+        setup_client_logging(Path(log_file_path), partition_id)
+        logger.info(f"Client {partition_id} logging setup complete")
+
+    batch_size = context.run_config.get("batch_size", 64)
+
+    # Load dataset first to get metadata for model creation
+    trainloader, _ = load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
 
     return SmolVLAClient(
-        config=config,
-        partition_id=partition_id
+        partition_id=partition_id,
+        local_epochs=local_epochs,
+        trainloader=trainloader,
+        nn_device=nn_device,
     ).to_client()
 
 
-# Create client app
-app = ClientApp(
-    client_fn=client_fn,
-)
-
-
-def main() -> None:
-    """Run the SmolVLA federated learning client."""
-    # Start client
-    app.run()
-
-
-if __name__ == "__main__":
-    main()
+app = ClientApp(client_fn=client_fn)

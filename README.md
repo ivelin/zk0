@@ -27,14 +27,28 @@ On the chance that proprietary humanoids ever go rogue, it would be nice to have
 
 # How
 
-
 zk0 is composed of several major building blocks:
+
+- Physical Embodiment:
+  * Open Source 3D printed robot parts
+  * Base 3D model so100 series from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Generative AI:
-  * [HuggingFace LeRobot](https://huggingface.co/lerobot) for the Open Source 3D printed robot parts and end-to-end vision language action models.
+  * End-to-end Vision Language Action models.
+  * Base SmolVLA model from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Federated Learning:
-  * [Flower](https://flower.ai/) for collaborative training of AI models
-- Zero Knowledge Proofs:
-  * [EZKL](https://ezkl.xyz/) for verification of contributed model checkpoints trained on local data.
+  * Distributed network of nodes contributing local data and training compute to a shared model.
+  * FL framework: [Flower](https://flower.ai/)
+
+## Roadmap
+- Zero Knowledge Proofs that allow quick verification and data privacy:
+  * Quickly verifiable proofs that an FL node is making meaningful contributions.
+  * Frameworks under consideration:
+    * [SP1](https://github.com/succinctlabs/sp1)
+    * [EZKL](https://github.com/zkonduit/ezkl)
+- Onchain contributor coordination
+  * Immutable contribution history
+  * Programmable network participation rules, incentives and project governance
+  * Hosting blockchain: TBD
 
 
 # Federated Learning for Robotics AI (SO-100 Example)
@@ -42,6 +56,36 @@ zk0 is composed of several major building blocks:
 This is an introductory example of federated learning applied to robotics AI tasks. It demonstrates that it is feasible to collaboratively train Vision-Language-Action (VLA) models in remote environments with their local data and then aggregate it into a shared model.
 
 In this example, we will federate the training of a Vision-Language-Action policy on SO-100 real-world robotics datasets. The data will be downloaded and partitioned using federated learning datasets. The implementation is memory-efficient and runs well on both CPU and GPU environments.
+
+## Training Strategy Overview
+
+### Client Task Assignments
+Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning. See the `[tool.zk0.datasets]` section in `pyproject.toml` for complete client dataset configuration including:
+- **4 validated clients** with diverse robotics manipulation tasks
+- **Dataset sizes and validation status** for each client
+- **Train/eval episode splits** for proper federated learning setup
+- **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
+
+### Data Quality and Uniqueness Requirements
+- **High-Quality Datasets**: All datasets must contain clear, well-annotated episodes
+- **Unique Tasks**: No task overlap between clients to ensure diverse skill acquisition
+- **Fresh Data**: None of the datasets used for training the base SmolVLA model
+- **Evaluation Isolation**: Separate evaluation datasets never seen during training
+- **Automatic Quality Assurance**: Hotfix for doubled datasets (GitHub issue #1875)
+- **Proper Synchronization**: Tolerance values set to 1/fps (0.0001s for 30fps datasets)
+
+### Server Evaluation Datasets (Unseen Tasks)
+The server evaluates the global model on additional unseen tasks to verify generalization capabilities. See the `[tool.zk0.datasets]` section in `pyproject.toml` for the complete list of validated evaluation datasets including:
+- **SO-101 cross-platform datasets** for generalization testing
+- **Research laboratory scenarios** for specialized task validation
+- **Comprehensive test suites** for thorough evaluation
+- **Real-time performance datasets** for inference validation
+
+### Evaluation Metrics
+- **Task Success Rate**: Percentage of successfully completed episodes
+- **Action Accuracy**: Precision of predicted vs. ground truth actions
+- **Generalization Score**: Performance on unseen evaluation tasks
+- **Cross-Task Performance**: Average performance across all evaluation datasets
 
 
 ## Set up the project
@@ -73,7 +117,10 @@ project-root/
 │   ├── __init__.py
 │   ├── client_app.py   # Defines your ClientApp
 │   ├── server_app.py   # Defines your ServerApp
+│   ├── evaluation.py   # Robot rollout evaluation system
+│   ├── visualization.py # LeRobot-compatible data export
 │   └── configs/        # configuration files
+│       ├── datasets.yaml # Dataset configuration and validation
 │       ├── default.yaml # default config settings
 │       └── policy/     # policy config
 │           └── vla.yaml # SmolVLA policy configuration
@@ -86,21 +133,25 @@ project-root/
     └── unit/           # Unit tests
         ├── __init__.py
         ├── test_basic_functionality.py
+        ├── test_dataset_validation.py # Dataset validation tests
         ├── test_error_handling.py
-        └── test_smolvla_client.py
+        ├── test_smolvla_client.py
+        └── test_dependency_verification.py
 ```
 
 ### Set up conda environment
 
-First, ensure you have the `zk0` conda environment activated:
+First, create and activate the `zk0` conda environment:
 
 ```bash
+# Create the zk0 environment (if it doesn't exist)
+conda create -n zk0 python=3.10 -y
+
+# Install required system dependencies
+conda install ffmpeg=7.1.1 -c conda-forge
+
 # Activate the zk0 environment
 conda activate zk0
-
-# If zk0 doesn't exist, create it
-# conda create -n zk0 python=3.10 -y
-# conda activate zk0
 ```
 
 ### Install dependencies and project
@@ -115,7 +166,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-**Note**: The project uses Flower 1.20.0 (latest version) and Ray 2.31.0 for optimal performance.
+**Note**: The project uses Flower 1.21.0 (latest version), Ray 2.31.0, and LeRobot 0.3.3 for optimal performance.
 
 ## Environment Variables
 
@@ -143,30 +194,82 @@ You can leave the default parameters for an initial quick test. It will run for 
 
 ## Run the Example
 
-You can run your Flower project in both _simulation_ and _deployment_ mode without making changes to the code. If you are starting with Flower, we recommend you using the _simulation_ mode as it requires fewer components to be launched manually. By default, `flwr run` will make use of the Simulation Engine. You can read more about how the Simulation Engine work [in the documentation](https://flower.ai/docs/framework/how-to-run-simulations.html).
+### 🚀 **Default: Conda Environment Execution**
 
-### Run with the Simulation Engine
+By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility.
 
-> \[!TIP\]
-> This example runs much faster when the `ClientApp`s have access to a GPU. If your system has one, you might want to try running the example with GPU right away, use the `local-simulation-gpu` federation as shown below.
+### 🐳 **Alternative: Docker-Based Execution**
 
-```bash
-# Run with the default federation (CPU only)
-flwr run .
-```
+For **reproducible and isolated execution**, use the `--docker` flag. This ensures consistent environments and eliminates SafeTensors multiprocessing issues.
 
-Run the project in the `local-simulation-gpu` federation that gives CPU and GPU resources to each `ClientApp`. By default, at most 2x`ClientApp` (using ~2 GB of VRAM each) will run in parallel in each available GPU. Note you can adjust the degree of parallelism but modifying the `client-resources` specification. Running with the settings as in the `pyproject.toml` it takes 1h in a 2x RTX 3090 machine.
+#### Quick Start with Docker
 
 ```bash
-# Run with the `local-simulation-gpu` federation
-flwr run . local-simulation-gpu
+# Simple training script (recommended)
+./train.sh
+
+# Or run directly with Docker
+docker run --gpus all --shm-size=10.24gb \
+  -v $(pwd):/workspace \
+  -v $(pwd)/outputs:/workspace/outputs \
+  -v /tmp:/tmp \
+  -w /workspace \
+  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
 ```
 
-You can also override some of the settings for your `ClientApp` and `ServerApp` defined in `pyproject.toml`. For example
+#### Training Script Usage
+
+The `train.sh` script runs with configuration from `pyproject.toml` (defaults: 1 round, 2 steps/epochs for quick tests). Uses conda by default, with `--docker` flag for Docker execution.
 
 ```bash
-flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0.1"
+# Basic usage with conda (uses pyproject.toml defaults: 1 round, 2 steps, serialized GPU)
+./train.sh
+
+# Use Docker instead of conda
+./train.sh --docker
+
+# For custom config, use direct Flower run with overrides
+flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
+
+# Or with Docker directly
+docker run --gpus all --shm-size=10.24gb \
+  -v $(pwd):/workspace \
+  -v $(pwd)/outputs:/workspace/outputs \
+  -v /tmp:/tmp \
+  -v $HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface \
+  -w /workspace \
+  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
 ```
+
+**Configuration Notes:**
+- Edit `[tool.flwr.app.config]` in `pyproject.toml` for defaults (e.g., num-server-rounds=1, local-epochs=2).
+- Use `local-simulation-serialized-gpu` for reliable execution (prevents SafeTensors issues).
+- Evaluation frequency: Set via `eval-frequency` in pyproject.toml (0 = every round).
+
+### ⚠️ **Important Notes**
+
+- **Default execution uses conda** for fast development iteration
+- **Use `--docker` flag** for reproducible, isolated execution when needed
+- **Use `local-simulation-serialized-gpu`** for reliable execution (prevents SafeTensors multiprocessing conflicts)
+- **Use `local-simulation-gpu`** only if you need parallel execution (may encounter SafeTensors issues)
+- **Conda provides flexibility** with direct host resource access
+- **Docker provides isolation** and eliminates environment-specific issues
+- **GPU support** requires NVIDIA drivers (conda) or `--gpus all` flag (Docker)
+
+### Alternative: Conda Environment Execution
+
+You can run directly in the conda environment as an alternative to Docker. This provides a lightweight option for local development and testing:
+
+```bash
+# Run with conda environment (no activation needed)
+conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
+
+# Or activate conda environment first
+conda activate zk0
+flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
+```
+
+**✅ Validated Alternative**: Conda execution has been tested and works reliably for federated learning runs, providing a simpler setup for development environments compared to Docker.
 
 ### Result output
 
@@ -181,11 +284,37 @@ outputs/date_time/
 │	│	└── client_1
 │   ...
 │   └── round_n   	# local client model checkpoint
+├── server/
+│   ├── eval_mse_chart.png      # 📊 AUTOMATIC: Line chart of per-client and server avg MSE over rounds
+│   ├── eval_mse_history.json   # 📊 AUTOMATIC: Historical MSE data for reproducibility
+│   ├── round_1_aggregated.json # Aggregated metrics per round
+│   └── round_n_aggregated.json
+├── clients/
+│   ├── client_0/
+│   │   ├── round_1.json  # Individual client eval metrics
+│   │   └── round_n.json
+│   └── client_n/
 └── global_model # Each subdirectory contains the global model of a round
 	├── round_1
 	...
 	└── round_n
 ```
+
+### 📊 **Automatic Evaluation Chart Generation**
+
+The system automatically generates comprehensive evaluation charts at the end of each training session:
+
+- **📈 `eval_mse_chart.png`**: Interactive line chart showing:
+  - Individual client MSE progression over rounds (Client 0, 1, 2, 3)
+  - Server average MSE across all clients
+  - Clear visualization of federated learning convergence
+
+- **📋 `eval_mse_history.json`**: Raw data for reproducibility and analysis:
+  - Per-round MSE values for each client
+  - Server aggregated metrics
+  - Timestamp and metadata for each evaluation
+
+**No manual steps required** - charts appear automatically after training completion. The charts use intuitive client IDs (0-3) instead of long Ray/Flower identifiers for better readability.
 
 ## Testing
 
@@ -226,6 +355,18 @@ pytest -v
 
 # Run with coverage report
 pytest --cov=src --cov-report=term-missing
+
+# Fast development mode (stop on first failure, short traceback)
+pytest -x --tb=short
+
+# Parallel execution for faster runs
+pytest -n auto
+
+# Combined fast mode (parallel + stop on failure + short traceback)
+pytest -n auto -x --tb=short
+
+# Full CI/CD mode with coverage requirements
+pytest --cov=src --cov-fail-under=80
 ```
 
 #### Run Specific Test Categories
@@ -237,6 +378,64 @@ pytest tests/unit/ -v
 # Run only integration tests
 pytest tests/integration/ -v
 ```
+
+## Logging
+
+### Unified Logging Architecture
+
+The project uses **loguru** for comprehensive, structured logging across all components. Logs are unified into a single `outputs/<timestamp>/simulation.log` file for easy debugging of federated learning rounds.
+
+#### Key Features
+- **Client/Server Coordination**: Server creates the log file and passes its path to clients via Flower's run configuration
+- **Process Safety**: Loguru's `enqueue=True` ensures thread-safe, multi-process logging without conflicts
+- **Structured Format**: Includes client ID, process ID, round number, and contextual information
+- **Rotation & Compression**: Automatic log rotation (500MB) with zip compression and 10-day retention
+- **Flower Integration**: Propagates Flower framework logs to the unified sink
+
+#### Log Format
+```
+2025-09-20 16:23:45 | INFO     | client_0 | PID:1234 | src.client_app:fit:48 - Fit start - VRAM allocated: 2.5 GB
+2025-09-20 16:23:46 | INFO     | client_0 | PID:1234 | src.client_app:fit:52 - Fit start - Host RAM used: 85.2%
+```
+
+#### Configuration
+Logging is automatically configured when running federated learning:
+
+```bash
+# Conda execution (default)
+./train.sh
+
+# Docker execution
+./train.sh --docker
+
+# Direct Flower execution
+flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
+```
+
+#### Log File Location
+- **Path**: `outputs/YYYY-MM-DD_HH-MM-SS/simulation.log`
+- **Contents**: All client training logs, server aggregation logs, and Flower framework messages
+- **Debugging**: Use for tracing federated learning rounds, parameter exchanges, and performance metrics
+
+#### Custom Logging in Code
+```python
+from loguru import logger
+
+# Basic logging
+logger.info("Training started")
+
+# With context (automatically includes client_id and process_id)
+logger.bind(vram_gb="2.5").info("VRAM usage")
+
+# Error logging
+logger.error("Model loading failed: {error}", error=str(e))
+```
+
+#### Troubleshooting
+- **Missing Logs**: Ensure output directory permissions (conda) or Docker volume mounting (`-v $(pwd)/outputs:/workspace/outputs`)
+- **Permission Issues**: Check user permissions for log file creation in both conda and Docker environments
+- **Multi-Process Conflicts**: Use `local-simulation-serialized-gpu` for reliable execution
+- **Log Rotation**: Large simulations automatically rotate logs to prevent disk space issues
 
 ### Test Coverage
 
@@ -274,7 +473,7 @@ addopts = [
 
 ### 🚀 **Current Development Stage: Advanced Development / Beta**
 
-The project is currently in **Beta** stage. We have implemented core features including a fully functional federated learning system for SmolVLA on robotics tasks, with comprehensive testing and CI/CD setup. However, we are actively seeking solid community feedback to refine the system, address edge cases, and ensure robustness before advancing to production readiness.
+The project is currently in **Beta** stage with recent major refactoring to accommodate LeRobot v0.3.3's new config and train structure. We have implemented core features including a fully functional federated learning system for SmolVLA on robotics tasks, with comprehensive testing and CI/CD setup. The system now supports FL-adjusted training (200 steps/round, 100 rounds, batch_size=64) on 4 assigned datasets with eval splits. However, we are actively seeking solid community feedback to refine the system, address edge cases, and ensure robustness before advancing to production readiness.
 
 ### ✅ **Step 1: Core Infrastructure - COMPLETED**
 
@@ -353,35 +552,43 @@ The project is currently in **Beta** stage. We have implemented core features in
 
 ## 🔍 **1. Data Source and Loading Mechanism**
 
-### **SO-100 Dataset Composition**
-The project utilizes the **SO-100 dataset** from LeRobot, a comprehensive collection of 100 diverse robotics manipulation tasks sourced from Hugging Face. Each task episode contains:
+### **SO-100 and SO-101 Dataset Composition**
+The project utilizes **SO-100 and SO-101 datasets** from LeRobot, comprehensive collections of robotics manipulation tasks sourced from Hugging Face. Each task episode contains:
 
 - **Multi-modal observations**: RGB images (224×224), robot state vectors, and natural language instructions
 - **Action sequences**: 7-DoF robot actions (6D pose + binary gripper control)
 - **Temporal structure**: Variable-length episodes with configurable delta timestamps
 - **Task diversity**: Pick-and-place, tool manipulation, assembly, and complex multi-step tasks
+- **Cross-platform support**: Compatible with both SO-100 and SO-101 robot platforms
 
 ### **Data Loading Implementation**
-The dataset is loaded through `src/client_app.py` using the FederatedLeRobotDataset infrastructure:
+The dataset is loaded through `src/client_app.py` using configuration-driven dataset loading:
 
 ```python
-# Delta timestamps for multi-modal sequence processing
-delta_timestamps = {
-    "observation.image": [-0.1, 0.0],      # Previous and current image frames
-    "observation.state": [-0.1, 0.0],     # Previous and current state vectors
-    "action": [                            # Multi-step action prediction
-        -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5,
-        0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4
-    ],
-}
+# Load dataset configuration
+with open('src/configs/datasets.yaml', 'r') as f:
+    config = yaml.safe_load(f)
 
-# Federated dataset loading with partitioning
-self.federated_dataset = FederatedLeRobotDataset(
-    dataset="lerobot/so100",              # SO-100 from Hugging Face Hub
-    partitioners={"train": partitioner},   # Partitioned across clients
-    delta_timestamps=delta_timestamps,     # Multi-modal temporal alignment
-)
+# Client-specific dataset loading with validation
+for client_config in config['clients']:
+    dataset = LeRobotDataset(
+        repo_id=client_config['name'],
+        tolerance_s=client_config['tolerance_s']  # Proper 1/fps tolerance
+    )
+
+    # Automatic hotfix for doubled datasets (GitHub issue #1875)
+    if len(dataset.hf_dataset) > dataset.meta.total_frames:
+        print(f"WARNING: Dataset has {len(dataset.hf_dataset)} frames but metadata expects {dataset.meta.total_frames}. "
+              f"Applying hotfix for doubled dataset (GitHub issue #1875).")
+        dataset.hf_dataset = dataset.hf_dataset.select(range(dataset.meta.total_frames))
 ```
+
+### **Configuration-Driven Dataset Management**
+See the `[tool.zk0.datasets]` section in `pyproject.toml` for complete dataset configuration including:
+- **4 validated clients** with diverse robotics manipulation tasks
+- **Dataset sizes and validation status** for each client
+- **Train/eval episode splits** for proper federated learning setup
+- **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
 
 ## 🧠 **2. Pretrained Model Initialization Strategy**
 
@@ -708,11 +915,125 @@ The project is ready for Step 3 implementation:
 
 ### Current Configuration
 
-- **Clients**: 10 (configurable in `pyproject.toml`)
-- **Rounds**: 100 (configurable)
+- **Clients**: 4 validated clients (configurable in the `[tool.zk0.datasets]` section of `pyproject.toml`)
+  - Client 0: `lerobot/svla_so100_pickplace` (50 episodes, 19,631 frames) ✅ CLEAN
+  - Client 1: `lerobot/svla_so100_stacking` (56 episodes, 22,956 frames) ✅ HOTFIX APPLIED
+  - Client 2: `lerobot/svla_so100_sorting` (52 episodes, 35,713 frames) ✅ HOTFIX APPLIED
+  - Client 3: `lerobot/svla_so101_pickplace` (50 episodes, 11,939 frames) ✅ CLEAN
+- **Rounds**: 100 (configurable in `pyproject.toml`)
 - **Model**: SmolVLA base (`lerobot/smolvla_base`)
 - **Strategy**: FedAvg (Federated Averaging)
-- **Environment**: CPU/GPU compatible
+- **Environment**: CPU/GPU compatible with automatic hotfix for data quality issues
+
+## 🔧 **Latest Improvements (v0.1.13)**
+
+### ✅ **Multi-Repo Federated Dataset Architecture**
+- **Custom Multi-Repo Partitioner**: [`src/client_app.py`](src/client_app.py) with `MultiRepoPartitioner` and `MultiRepoFederatedLeRobotDataset` classes
+- **Unique Dataset per Client**: Each client trains on a separate dataset repo (e.g., SO-100 pickplace, stacking, sorting, SO-101 pickplace)
+- **Episode-Based Splitting**: Automatic train/eval split with last N episodes for evaluation (configurable per client)
+- **Adapted from Pusht Example**: Reused best practices from Flower's quickstart-lerobot example for dataset partitioning
+
+#### Architecture Diagram
+```mermaid
+graph TD
+    A[Client Configs] --> B[MultiRepoPartitioner]
+    B --> C[MultiRepoFederatedLeRobotDataset]
+    C --> D[Train Dataset<br/>Episodes 0 to N-3]
+    C --> E[Eval Dataset<br/>Episodes N-3 to N]
+    D --> F[Client Training]
+    E --> G[Client Evaluation]
+    G --> H[Server Aggregation]
+    H --> I[Global Model Eval<br/>on All Client Eval Sets]
+```
+
+### ✅ **Enhanced Client-Side Evaluation**
+- **Pre-Loaded Eval Datasets**: Clients use pre-split evaluation datasets instead of loading during evaluation
+- **Episode Splitting Logic**: Last N episodes per client's dataset used for evaluation (prevents data leakage)
+- **Improved Efficiency**: No redundant dataset loading during federated rounds
+
+### ✅ **Server-Side Global Model Evaluation**
+- **Comprehensive Server Evaluation**: [`src/server_app.py`](src/server_app.py) evaluates global model on all client datasets
+- **Aggregated Metrics**: Server computes metrics across all client eval sets, not just saves model
+- **Cross-Client Performance**: Tracks global model performance on diverse manipulation tasks
+
+### ✅ **Pusht-Style Configuration Integration**
+- **Delta Timestamps**: Multi-frame observation support with configurable temporal windows
+- **Image Transforms**: Data augmentation options (brightness, contrast, saturation, hue, sharpness)
+- **Config-Driven**: All parameters loaded from [`src/configs/default.yaml`](src/configs/default.yaml) and [`src/configs/datasets.yaml`](src/configs/datasets.yaml)
+
+### ✅ **Complete Dataset Configuration System**
+- **Centralized Configuration**: [`src/configs/datasets.yaml`](src/configs/datasets.yaml) with all client and evaluation datasets
+- **4 Validated Clients**: SO-100 and SO-101 datasets with diverse manipulation tasks
+- **Automatic Quality Assurance**: Hotfix for doubled datasets (GitHub issue #1875)
+- **Proper Synchronization**: Tolerance values fixed to 1/fps (0.0001s for 30fps datasets)
+
+### ✅ **Enhanced Dataset Validation**
+- **Comprehensive Testing**: [`tests/unit/test_dataset_validation.py`](tests/unit/test_dataset_validation.py) with timestamp synchronization checks
+- **Cross-Platform Support**: SO-100 and SO-101 robot platform compatibility
+- **Quality Assurance Framework**: Automatic detection and correction of data quality issues
+- **Configuration-Driven**: All dataset loading now uses centralized YAML configuration
+
+### ✅ **New Modules**
+- `src/evaluation.py`: Comprehensive robot rollout evaluation
+- `src/visualization.py`: LeRobot-compatible data export
+- `src/configs/datasets.yaml`: Centralized dataset configuration and validation
+- Enhanced client with proper evaluation and visualization
+
+### ✅ **Expanded Test Suite**
+- **Multi-Repo Partitioning Tests**: [`tests/unit/test_dataset_splitting.py`](tests/unit/test_dataset_splitting.py) with tests for `MultiRepoPartitioner` and `MultiRepoFederatedLeRobotDataset`
+- **Federated Logic Validation**: Tests for episode splitting, client dataset assignment, and evaluation workflows
+- **Integration Coverage**: End-to-end testing of new partitioning and evaluation components
+
+## 🚀 **Quick Start with Enhanced Features**
+```bash
+# Run with real datasets and robot rollouts
+conda run -n zk0 flwr run . local-simulation-gpu --run-config "num-server-rounds=5"
+
+# Visualize results at: https://huggingface.co/spaces/lerobot/visualize_dataset
+# Upload files from: outputs/smolvla_federated/client_*/evaluation/
+```
+
+## 📋 **Development Guidelines**
+
+### ⚠️ **Mandatory Project Constraints**
+1. **Work Directory**: Only within project root directory
+2. **Environment**: Must use conda environment "zk0"
+3. **Technical Focus**: SmolVLA + Flower + SO-100 datasets
+4. **Quality**: 80% test coverage, reproducible experiments
+
+### 🧪 **Testing Best Practices**
+- **Real Scenarios**: Test actual FL workflows, not just mocks
+- **Parallel Execution**: Use `pytest -n auto` for faster runs
+- **Coverage**: Maintain 80% minimum with `pytest --cov=src`
+- **Integration**: Test Flower ↔ SmolVLA parameter exchange
+
+## 👥 **Quick Start Guide**
+
+### Basic Usage
+```bash
+# 1. Setup environment
+conda activate zk0
+pip install -r requirements.txt
+pip install -e .
+
+# 2. Run federated learning
+conda run -n zk0 flwr run . local-simulation-gpu --run-config "num-server-rounds=5"
+
+# 3. View results
+ls outputs/server/*/federation_summary.json
+ls outputs/smolvla_federated/client_*/videos/*.mp4
+```
+
+### Advanced Configuration
+- **Datasets**: Edit the `[tool.zk0.datasets]` section in `pyproject.toml` for client and evaluation dataset configuration
+- **Training**: Modify `pyproject.toml` for rounds, clients, and resources
+- **Visualization**: Upload results to https://huggingface.co/spaces/lerobot/visualize_dataset
+
+### Troubleshooting
+- **Dataset Issues**: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync
+- **Doubled Datasets**: Automatic hotfix for GitHub issue #1875
+- **Model Loading**: Automatic fallback to simulated training
+- **Performance**: Use `pytest -n auto` for parallel testing
 
 # Social Media
 

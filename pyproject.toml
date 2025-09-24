@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.1.11"
+version = "0.1.13"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -33,6 +33,7 @@ test = [
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
     "pytest-asyncio>=0.23.0",
+    "pytest-xdist>=3.6.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -46,24 +47,61 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 100 # for good results, total number of training rounds should be over 100,000: num-server-rounds*local_epochs > 50,000
+num-server-rounds = 2 # train rounds
 model-name = "lerobot/smolvla_base"
-fraction-fit = 0.4
-fraction-evaluate = 0.4
-local-epochs = 200
-server-device = "cpu"
-use-wandb = true
+fraction-fit = 1.0
+fraction-evaluate = 1.0
+local-epochs = 100 # 100 steps/epochs per round for 2 rounds = 200 total steps per client (quick test)
+batch_size = 64
+server-device = "gpu" # "cpu"
+use-wandb = false
+eval-frequency = 1 # Evaluate every round
+eval_mode = "quick" # Quick evaluation
+
+[tool.zk0.logging]
+# Application logging configuration (automatically applied to Flower/Ray)
+level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
+enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
+enable_ray_logging = true   # Enable Ray distributed execution logs
+enable_audit_logging = false  # Disable JSON audit logging (requires Flower Enterprise)
+log_format = "detailed"  # simple, detailed, json
+file_rotation = "500 MB"  # File rotation size
+file_retention = "10 days"  # Log retention period
+ray_log_to_driver = true  # Route Ray worker logs to driver (server)
+ray_color_prefix = true  # Enable colored Ray actor prefixes
+# Note: Ray logging configuration (ray_dedup_logs, ray_log_to_stderr) is handled via environment variables in train.sh
+# for simulation mode, as Ray must be configured before ray.init() is called by Flower
 
 [tool.flwr.federations]
-default = "local-simulation"
+default = "local-simulation-serialized-gpu" # Serialized GPU execution prevents SafeTensors issues
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 10 # relatively low number of supernodes because SmolVLA is memory efficient
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks (consistent with GPU version)
 
 [tool.flwr.federations.local-simulation-gpu]
 options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
 options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4CPUs
 options.backend.client-resources.num-gpus = 0.25 # SmolVLA is more memory efficient, allowing more parallelism
+
+[tool.flwr.federations.local-simulation-serialized-gpu]
+options.num-supernodes = 2 # 2 clients for test
+options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
+options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
+options.backend.max-parallelism = 1 # serialize execution - only 1 client runs at a time
+
+[tool.flwr.federations.local-simulation-multiprocess]
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
+options.backend.type = "multiprocess" # Use Python multiprocessing instead of Ray
+options.backend.client-resources.num-cpus = 4 # CPU resources per client
+options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
+
+[tool.zk0.datasets]
+clients = [
+    {name = "lerobot/svla_so100_pickplace", description = "Pick and place operations - VALIDATED CLEAN", client_id = 0, last_n_episodes_for_eval = 3},
+    {name = "ethanCSL/direction_test", description = "Direction test - REPLACEMENT FOR INVALID REPO", client_id = 1, last_n_episodes_for_eval = 3},
+    {name = "kakimoto/record-hockey-r24_white_1280x720", description = "Air hockey - VALIDATED CLEAN", client_id = 2, last_n_episodes_for_eval = 3},
+    {name = "sergiov2000/so100_movella_ball_usability_u3_stack1", description = "Stack the ball on top of the lego structure. - VALIDATED CLEAN", client_id = 3, last_n_episodes_for_eval = 3}
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -75,6 +113,8 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--disable-warnings",
+    "--durations=10",
+    "-n=auto",
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",

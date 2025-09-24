@@ -1,0 +1,46 @@
+# Federated Learning Dataset Configuration
+# All 3 clients active with lerobot/svla_so100 datasets
+
+clients:
+  - name: "lerobot/svla_so100_pickplace"
+    description: "Pick and place operations - VALIDATED CLEAN"
+    client_id: 0
+    last_n_episodes_for_eval: 3  # Use last 3 episodes for evaluation
+
+  - name: "sergiov2000/eval_act_so100_movella_demo_push_1"
+    description: "Push the ball in the area encosed by the lego structure - VALIDATED CLEAN"
+    client_id: 1
+    last_n_episodes_for_eval: 3
+
+  - name: "kakimoto/record-hockey-r24_white_1280x720"
+    description: "Air hockey - VALIDATED CLEAN"
+    client_id: 2
+    last_n_episodes_for_eval: 3
+
+  - name: "tinjyuu/record-test6"
+    description: "Clean up desk (composite pick and place) - VALIDATED CLEAN"
+    client_id: 3
+    last_n_episodes_for_eval: 3
+
+
+# Additional evaluation datasets (commented out - for future use)
+# evaluation_datasets:
+#   - name: "choyf3/so101_test_20250908"
+#     description: "SO-101 test dataset - VALIDATED CLEAN"
+#   - name: "griffinlabs/record-trial-2"
+#     description: "Research laboratory trials - VALIDATED CLEAN"
+#   - name: "JamesChen007/so101-test"
+#     description: "Grab the toy - VALIDATED CLEAN"
+#   - name: "flsmr/pick-and-place-lime-two-variations"
+#     description: "Pick and place operations - VALIDATED CLEAN"
+#   - name: "zacapa/infer_rec_test"
+#     description: "Inference recording test - NOT TESTED YET"
+#   - name: "tinjyuu/record-test6"
+#     description: "Clean up desk (composite pick and place) - VALIDATED CLEAN"
+#   - name: qownscks/banana_doll_3
+#     description: "give banana to person - VALIDATED CLEAN"
+#   - name: sergiov2000/eval_act_so100_movella_demo_push_1
+#     description: "Push the ball in the area encosed by the lego structure - VALIDATED CLEAN"
+#  - name: "SurajChess/so100-rightarm-gear-grey-single"
+#    description: "Pick and show the grey gear - VALIDATED CLEAN"
+
