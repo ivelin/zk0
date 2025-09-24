@@ -73,7 +73,6 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
         os.environ['TP_PLAN'] = 'disabled'
 
     # Import SmolVLA after setting environment variables to ensure they take effect
-    from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
     from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
     # Log versions for debugging

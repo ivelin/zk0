@@ -3,7 +3,7 @@
 import pytest
 import sys
 from pathlib import Path
-from unittest.mock import Mock, MagicMock
+from unittest.mock import MagicMock
 import numpy as np
 
 # Add the smolvla_example directory to the path

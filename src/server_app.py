@@ -1,14 +1,11 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
-import torch
-import logging
 from datetime import datetime
 from pathlib import Path
 
-from src.task import get_model, get_params, set_params
-from src.logger import setup_base_logging, setup_logging
+from src.task import get_model, get_params
+from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
-from loguru import logger
 from loguru import logger
 
 from flwr.common import Context, Metrics, ndarrays_to_parameters, FitIns, EvaluateIns
@@ -17,7 +14,6 @@ from flwr.server.strategy import FedAvg
 from typing import List, Tuple, Union, Optional, Dict
 from flwr.server.client_proxy import ClientProxy
 from flwr.common import EvaluateRes, Scalar
-from pathlib import Path
 
 
 class AggregateEvaluationStrategy(FedAvg):
@@ -270,7 +266,6 @@ def server_fn(context: Context) -> ServerAppComponents:
     config = ServerConfig(num_rounds=num_rounds)
 
     # Create output directory given timestamp (use env var if available, else current time)
-    import os
     current_time = datetime.now()
     folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_path = Path(f"outputs/{folder_name}")
@@ -283,6 +278,9 @@ def server_fn(context: Context) -> ServerAppComponents:
     clients_dir.mkdir(exist_ok=True)
     server_dir.mkdir(exist_ok=True)
     models_dir.mkdir(exist_ok=True)
+
+    # Log the output directory path when training starts
+    logger.info(f"Output directory created: {save_path}")
 
     # Setup unified logging with loguru
     simulation_log_path = save_path / "simulation.log"

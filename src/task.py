@@ -2,7 +2,6 @@
 
 import time
 from collections import OrderedDict
-from pathlib import Path
 from typing import Any
 
 import torch
@@ -77,7 +76,6 @@ def compute_param_norms(model, trainable_only=False):
     return total_norm, num_params, avg_norm
 
 
-from loguru import logger
 
 
 def log_param_status(model, stage="pre"):
@@ -127,7 +125,7 @@ def set_params(model, parameters) -> None:
     log_param_status(model, "post-set_params")
 
 
-def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -> None:
+def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     import logging
 
@@ -244,8 +242,19 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     # Log final train_tracker state
     logger.info(f"Train end: Final metrics - loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}")
 
+    # Collect final metrics for return
+    final_metrics = {
+        "loss": train_metrics["loss"].avg,
+        "grad_norm": train_metrics["grad_norm"].avg,
+        "lr": train_metrics["lr"].avg,
+        "update_s": train_metrics["update_s"].avg,
+        "dataloading_s": train_metrics["dataloading_s"].avg,
+    }
+
     logging.info("End of client training")
     logging.debug(f"Completed train for {epochs} epochs")
+
+    return final_metrics
 
 
 def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, int, dict[str, float]]:
@@ -265,7 +274,6 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
     dataset_name = config.clients[partition_id % len(config.clients)].name
 
     # Use the same dataset loading as train (which works) instead of make_dataset
-    from .utils import load_lerobot_dataset
     dataset = load_lerobot_dataset(dataset_name)
 
     # Get number of eval episodes based on mode

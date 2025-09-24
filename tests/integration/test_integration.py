@@ -3,10 +3,9 @@
 import pytest
 import numpy as np
 
-from src.client_app import SmolVLAClient, get_device
+from src.client_app import SmolVLAClient
 
 # Import LeRobot for real dataset testing
-from lerobot.datasets.lerobot_dataset import LeRobotDataset
 # TorchCodec import removed - not required for basic functionality
 
 
@@ -49,11 +48,9 @@ class TestSmallSampleAppFlow:
 
     def test_small_sample_dataset_loading(self):
         """Test that small sample configuration limits train episodes correctly."""
-        from src.client_app import get_client_dataset_config, SmolVLAClient
+        from src.client_app import get_client_dataset_config
         import tempfile
-        from pathlib import Path
         import signal
-        import time
 
         # Get client configuration with small sample settings
         client_config = get_client_dataset_config(0)
@@ -105,10 +102,8 @@ class TestSmallSampleAppFlow:
 
     def test_small_sample_training_execution(self):
         """Test that training works with small samples."""
-        from src.client_app import SmolVLAClient
         from flwr.common import FitIns, Parameters, Config
         import tempfile
-        import numpy as np
         import signal
 
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -163,11 +158,8 @@ class TestSmallSampleAppFlow:
 
     def test_small_sample_evaluation_metrics(self):
         """Test that evaluation generates correct metrics with small samples."""
-        from src.client_app import SmolVLAClient
         from flwr.common import EvaluateIns, Parameters, Config
         import tempfile
-        import numpy as np
-        from pathlib import Path
         import signal
 
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -273,7 +265,6 @@ class TestSmallSampleAppFlow:
 
     def test_end_to_end_small_sample_fl_simulation(self):
         """Test complete FL simulation with small samples."""
-        from src.client_app import SmolVLAClient
         from src.server_app import server_fn
         from flwr.simulation import run_simulation
         from flwr.server import ServerConfig

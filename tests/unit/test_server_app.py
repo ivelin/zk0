@@ -55,7 +55,6 @@ class TestServerApp:
             importlib.reload(src.server_app)
 
             # Import to trigger app creation
-            from src.server_app import app
 
             # Logging to validate mock calls
             print(f"Mock ServerApp call count: {mock_server_app_class.call_count}")

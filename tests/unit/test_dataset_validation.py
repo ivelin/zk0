@@ -7,7 +7,6 @@ import logging
 
 # Import the validation functions from LeRobot
 from lerobot.datasets.utils import check_timestamps_sync, check_delta_timestamps
-from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
 # Import our configuration functions
 from src.client_app import load_datasets_config, get_client_dataset_config, get_episode_split

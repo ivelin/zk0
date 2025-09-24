@@ -3,7 +3,6 @@ from pathlib import Path
 import sys
 import os
 import logging
-from datetime import datetime
 
 
 def get_config():

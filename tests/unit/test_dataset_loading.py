@@ -160,7 +160,6 @@ class TestFilteredLeRobotDataset:
     def test_initialization(self, mock_load_info, mock_load_stats, mock_calc_index):
         """Test FilteredLeRobotDataset initialization."""
         # Skip if FilteredLeRobotDataset is not available
-        from src.utils import FilteredLeRobotDataset
         if FilteredLeRobotDataset is None:
             pytest.skip("FilteredLeRobotDataset not available in test environment")
 
@@ -193,7 +192,6 @@ class TestFilteredLeRobotDataset:
                                       mock_load_info, mock_load_stats, mock_calc_index):
         """Test delta indices computation."""
         # Skip if FilteredLeRobotDataset is not available
-        from src.utils import FilteredLeRobotDataset
         if FilteredLeRobotDataset is None:
             pytest.skip("FilteredLeRobotDataset not available in test environment")
 

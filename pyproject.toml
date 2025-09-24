@@ -51,7 +51,7 @@ num-server-rounds = 2 # train rounds
 model-name = "lerobot/smolvla_base"
 fraction-fit = 1.0
 fraction-evaluate = 1.0
-local-epochs = 100 # 100 steps/epochs per round for 2 rounds = 200 total steps per client (quick test)
+local-epochs = 2 # 100 steps/epochs per round for 2 rounds = 200 total steps per client (quick test)
 batch_size = 64
 server-device = "gpu" # "cpu"
 use-wandb = false

@@ -4,7 +4,6 @@ import pytest
 
 
 # Import our functions
-from src.client_app import get_all_client_configs
 
 # Import LeRobot for real dataset testing
 from lerobot.datasets.lerobot_dataset import LeRobotDataset

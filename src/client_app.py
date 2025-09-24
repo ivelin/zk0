@@ -1,15 +1,14 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
 import warnings
-from logging import INFO
 from pathlib import Path
 
 import logging
 import psutil
-import sys
 
 import torch
 from src.task import (
+    compute_param_norms,
     get_model,
     get_params,
     load_data,
@@ -68,7 +67,7 @@ class SmolVLAClient(NumPyClient):
         set_params(self.net, parameters)
 
         logger.info(f"Client {self.partition_id}: Starting training for {self.local_epochs} epochs")
-        train(
+        training_metrics = train(
             net=self.net,
             trainloader=self.trainloader,
             epochs=self.local_epochs,
@@ -89,7 +88,7 @@ class SmolVLAClient(NumPyClient):
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit end - Host RAM used")
 
         logger.info(f"Client {self.partition_id}: Fit operation completed, returning {len(updated_params)} parameter arrays")
-        return updated_params, len(self.trainloader), {}
+        return updated_params, len(self.trainloader), training_metrics
 
     def evaluate(self, parameters, config) -> tuple[float, int, dict[str, float]]:
         # Setup logging in the actor process

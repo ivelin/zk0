@@ -2,7 +2,6 @@
 
 import os
 import pytest
-import torch
 from unittest.mock import patch
 
 try:

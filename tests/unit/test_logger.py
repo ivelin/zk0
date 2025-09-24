@@ -2,7 +2,6 @@
 
 import tempfile
 from pathlib import Path
-import pytest
 from loguru import logger
 
 from src.logger import setup_logging
