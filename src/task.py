@@ -244,7 +244,9 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
                     batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
             logger.debug(f"Step {step}: Batch moved to device successfully.")
             if torch.cuda.is_available():
-                logger.debug(f"Step {step}: VRAM after batch to device: {torch.cuda.memory_allocated(device)/1e9:.2f} GB")
+                pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
+                pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
+                logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB")
         except Exception as e:
             logger.error(f"Step {step}: Failed to move batch to device: {e}")
             import traceback
@@ -266,8 +268,16 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
                 use_amp=cfg.policy.use_amp,
             )
             if torch.cuda.is_available():
-                post_vram = torch.cuda.memory_allocated(device)/1e9
-                logger.debug(f"Step {step}: VRAM after update_policy: {post_vram:.2f} GB (delta: {post_vram - pre_vram:.2f} GB)")
+                post_update_allocated = torch.cuda.memory_allocated(device) / 1e9
+                post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
+                delta_allocated = post_update_allocated - pre_update_allocated
+                delta_reserved = post_update_reserved - pre_update_reserved
+                logger.info(f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB)")
+                # Clear cache after each step to prevent accumulation
+                torch.cuda.empty_cache()
+                cleared_allocated = torch.cuda.memory_allocated(device) / 1e9
+                cleared_reserved = torch.cuda.memory_reserved(device) / 1e9
+                logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB")
             logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
         except Exception as e:
             logger.error(f"Step {step}: Failed in update_policy: {e}")

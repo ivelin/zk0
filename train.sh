@@ -118,8 +118,8 @@ export HF_DATASETS_VERBOSITY=info
 export TRANSFORMERS_VERBOSITY=info
 
 if [ "$USE_DOCKER" = true ]; then
-    # Build the Docker command
-    DOCKER_CMD="docker run --gpus all --shm-size=10.24gb"
+    # Set PyTorch CUDA allocator config to reduce fragmentation (pass as env var to container)
+    DOCKER_CMD="docker run --gpus all --shm-size=10.24gb -e PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True"
     DOCKER_CMD="$DOCKER_CMD -v $(pwd):/workspace"
     DOCKER_CMD="$DOCKER_CMD -v /tmp:/tmp"
     # Mount Hugging Face cache directory for model persistence
@@ -140,6 +140,9 @@ if [ "$USE_DOCKER" = true ]; then
     # Execute the Docker command
     eval "$DOCKER_CMD"
 else
+    # Set PyTorch CUDA allocator config to reduce fragmentation
+    export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
     # Build the conda command with explicit channel configuration
     CONDA_CMD="conda run -n zk0 flwr run . $FEDERATION"
 
