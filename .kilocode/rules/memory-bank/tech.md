@@ -312,3 +312,16 @@ To avoid version mismatches between installed dependencies and local repo code, 
 - **Flower Sync**: Extract version from requirements.txt (e.g., `FLOWER_VERSION=$(grep '^flwr' requirements.txt | cut -d '~' -f 3 | cut -d '.' -f 1-2)`), then `cd $HOME/flower && git fetch --tags && git checkout tags/v${FLOWER_VERSION}.0` (adjust for exact tag format).
 - **LeRobot Sync**: Use `LEROBOT_VERSION=$(pip show lerobot | grep Version | cut -d ' ' -f 2)` then `cd $HOME/lerobot && git fetch --tags && git checkout tags/v${LEROBOT_VERSION}` (or nearest matching tag if exact not available).
 Run these commands after any requirements.txt updates or when switching branches to maintain consistency. Always verify the checked-out version matches the installed dependency.
+
+## Known Fixes and Configurations
+
+### FL Scheduler Reset for Partial Rounds
+- **Issue**: LeRobot's default cosine scheduler decays LR over full training (~20k steps), but in zk0's FL, each round creates a new scheduler starting at decayed LR (~1e-7), causing negligible param updates (norm delta ~0.0003).
+- **Fix Location**: src/task.py, line ~159 in train() (after make_optimizer_and_scheduler).
+- **Implementation**:
+  - Override optimizer param groups to initial LR=1e-4 (standard for SmolVLA finetuning).
+  - Reset scheduler with `lr_scheduler.last_epoch = -1` to restart decay per round.
+  - Logs: "FL scheduler reset: Set initial LR=1e-4, last_epoch=-1".
+- **Rationale**: Ensures meaningful updates in short FL rounds (10-1000 steps). Mild intra-round decay balances exploration/stability. Aligns with Flower's stateless clients.
+- **Validation**: Check logs for override message, pre/post-norm delta >0.01, decreasing loss across rounds.
+- **Benefits**: Effective learning without global step tracking; compatible with zk0's partial-step architecture (200 steps/round default).

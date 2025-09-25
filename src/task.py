@@ -90,7 +90,7 @@ def log_param_status(model, stage="pre"):
 def get_params(model):
     """Extract model parameters as numpy arrays to be sent to server."""
     # Log post-training norms before extraction
-    log_param_status(model, "post-local training round parameters prepared for server")
+    log_param_status(model, "post-local training round: parameters prepared to be sent from client to server")
     
     params = []
     for _, val in model.state_dict().items():
@@ -117,14 +117,14 @@ def set_params(model, parameters) -> None:
     model.load_state_dict(state_dict, strict=True)
     
     # Log after setting params (received from server)
-    log_param_status(model, "parameters sent from server to client at the start of local training round")
+    log_param_status(model, "pre-local training round: parameters sent from server to client")
 
 
 def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     import logging
 
-    logging.debug(f"Starting train for {epochs} epochs on device {device}")
+    logging.debug(f"Starting train for {epochs} epochs on device {device}, len(trainloader)={len(trainloader)}")
 
     # Use the provided model (already updated with server parameters)
     policy = net
@@ -158,7 +158,19 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     # Use lerobot's optimizer factory (like standalone script)
     optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
     
-    # Log optimizer details
+    # Override scheduler for FL partial rounds: Reset to initial LR each round
+    initial_lr = 1e-4  # Standard for SmolVLA finetuning
+    for group in optimizer.param_groups:
+        group['lr'] = initial_lr
+    if lr_scheduler is not None:
+        for group in lr_scheduler.optimizer.param_groups:
+            group['lr'] = initial_lr
+        if hasattr(lr_scheduler, 'last_epoch'):
+            lr_scheduler.last_epoch = -1  # Reset to start of schedule
+        logger.info(f"FL scheduler reset: Set initial LR={initial_lr}, last_epoch=-1 for partial round (overrode decay)")
+        logger.debug(f"DEBUG FL reset: LR={initial_lr}, scheduler={type(lr_scheduler).__name__}, last_epoch={getattr(lr_scheduler, 'last_epoch', 'N/A')}")
+    
+    # Log optimizer details (post-override)
     num_groups = len(optimizer.param_groups)
     total_opt_params = sum(len(group['params']) for group in optimizer.param_groups)
     logger.info(f"Optimizer: {type(optimizer).__name__}, {num_groups} groups, {total_opt_params} params optimized")
@@ -209,36 +221,38 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     from lerobot.scripts.train import update_policy
     step = 0
     done = False
+    logger.info(f"Entering training loop: target epochs/steps={epochs}, initial step={step}")
+    loop_start_time = time.perf_counter()
     while not done:
         try:
             start_time = time.perf_counter()
-            logger.debug("Fetching next batch from dl_iter...")
+            logger.debug(f"Step {step}: Fetching next batch from dl_iter...")
             batch = next(dl_iter)
             train_tracker.dataloading_s = time.perf_counter() - start_time
-            logger.debug(f"Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
+            logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
         except Exception as e:
-            logger.error(f"Failed to fetch batch at step {step}: {e}")
+            logger.error(f"Step {step}: Failed to fetch batch: {e}")
             import traceback
             logger.error(traceback.format_exc())
             raise
 
         try:
-            logger.debug("Moving batch to device...")
+            logger.debug(f"Step {step}: Moving batch to device...")
             # Move batch to device (like lerobot train.py)
             for key in batch:
                 if isinstance(batch[key], torch.Tensor):
                     batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
-            logger.debug("Batch moved to device successfully.")
+            logger.debug(f"Step {step}: Batch moved to device successfully.")
             if torch.cuda.is_available():
-                logger.debug(f"VRAM after batch to device: {torch.cuda.memory_allocated(device)/1e9:.2f} GB")
+                logger.debug(f"Step {step}: VRAM after batch to device: {torch.cuda.memory_allocated(device)/1e9:.2f} GB")
         except Exception as e:
-            logger.error(f"Failed to move batch to device at step {step}: {e}")
+            logger.error(f"Step {step}: Failed to move batch to device: {e}")
             import traceback
             logger.error(traceback.format_exc())
             raise
 
         try:
-            logger.debug(f"Calling update_policy at step {step} (policy.training={policy.training})...")
+            logger.debug(f"Step {step}: Calling update_policy (policy.training={policy.training})...")
             if torch.cuda.is_available():
                 pre_vram = torch.cuda.memory_allocated(device)/1e9
             train_tracker, output_dict = update_policy(
@@ -253,16 +267,21 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
             )
             if torch.cuda.is_available():
                 post_vram = torch.cuda.memory_allocated(device)/1e9
-                logger.debug(f"VRAM after update_policy: {post_vram:.2f} GB (delta: {post_vram - pre_vram:.2f} GB)")
-            logger.debug(f"update_policy completed successfully at step {step}. Loss from output: {output_dict.get('loss', 'N/A')}")
+                logger.debug(f"Step {step}: VRAM after update_policy: {post_vram:.2f} GB (delta: {post_vram - pre_vram:.2f} GB)")
+            logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
         except Exception as e:
-            logger.error(f"Failed in update_policy at step {step}: {e}")
+            logger.error(f"Step {step}: Failed in update_policy: {e}")
             import traceback
             logger.error(traceback.format_exc())
             raise
 
         step += 1
         train_tracker.step()
+        logger.debug(f"Step {step}: Incremented step, current step={step}, target={epochs}")
+
+        # Log progress every 10 steps for diagnosis (in addition to cfg.log_freq)
+        if step % 10 == 0:
+            logger.info(f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s")
 
         # Log progress (like lerobot train.py)
         is_log_step = cfg.log_freq > 0 and step % cfg.log_freq == 0
@@ -274,13 +293,16 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
         # Check stopping condition
         if step >= epochs:
             done = True
+            logger.info(f"Training loop exit: step={step} >= epochs={epochs}, done={done}")
             break
+
+    logger.info(f"Training loop exited after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s")
 
     # Log post-training param status
     log_param_status(policy, "post-training")
 
     # Log final train_tracker state
-    logger.info(f"Train end: Final metrics - loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}")
+    logger.info(f"Train end: Final metrics - loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, steps_completed={step}")
 
     # Collect final metrics for return
     final_metrics = {
@@ -289,10 +311,11 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
         "lr": train_metrics["lr"].avg,
         "update_s": train_metrics["update_s"].avg,
         "dataloading_s": train_metrics["dataloading_s"].avg,
+        "steps_completed": step,  # Add actual steps for diagnosis
     }
 
     logging.info("End of client training")
-    logging.debug(f"Completed train for {epochs} epochs")
+    logging.debug(f"Completed train for {epochs} epochs, actual steps: {step}")
 
     return final_metrics
 

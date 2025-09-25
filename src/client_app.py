@@ -52,7 +52,7 @@ class SmolVLAClient(NumPyClient):
             setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
             setup_client_logging(Path(log_file_path), self.partition_id)
 
-        logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={config.get('batch_size', 64)})")
+        logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={config.get('batch_size', 64)}, len(trainloader)={len(self.trainloader)})")
         logger.debug(f"Client {self.partition_id}: Received config: {config}")
 
         if torch.cuda.is_available():
@@ -64,14 +64,22 @@ class SmolVLAClient(NumPyClient):
         logger.debug(f"Client {self.partition_id}: Setting model parameters")
         set_params(self.net, parameters)
 
-        logger.info(f"Client {self.partition_id}: Starting training for {self.local_epochs} epochs")
-        training_metrics = train(
-            net=self.net,
-            trainloader=self.trainloader,
-            epochs=self.local_epochs,
-            device=self.device,
-            batch_size=config.get("batch_size", 64)
-        )
+        logger.info(f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}")
+        try:
+            training_metrics = train(
+                net=self.net,
+                trainloader=self.trainloader,
+                epochs=self.local_epochs,
+                device=self.device,
+                batch_size=config.get("batch_size", 64)
+            )
+            logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
+        except Exception as e:
+            logger.error(f"Client {self.partition_id}: Exception in train(): {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            raise  # Re-raise to fail the client properly
+
         logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={config.get('batch_size', 64)})")
 
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
