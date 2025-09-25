@@ -84,9 +84,10 @@ options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4C
 options.backend.client-resources.num-gpus = 0.25 # SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
-options.num-supernodes = 2 # 2 clients for test
+options.num-supernodes = 4 # 4 clients for test
 options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
 options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
+backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time
 options.backend.max-parallelism = 1 # serialize execution - only 1 client runs at a time
 
 [tool.flwr.federations.local-simulation-multiprocess]

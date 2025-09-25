@@ -91,7 +91,7 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
     # for simulation mode, as Ray must be configured before ray.init() is called by Flower
     # In deployment mode, Ray logging can be configured programmatically here
 
-    # Remove default handler
+    # Keep default handler to stderr for console output in case stdout is redirected
     logger.remove()
 
     # Set default extras

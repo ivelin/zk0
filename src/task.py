@@ -61,41 +61,36 @@ def get_model(dataset_meta=None):
     return policy
 
 
-def compute_param_norms(model, trainable_only=False):
-    """Compute L2 norm of model parameters (full or trainable only)."""
-    total_norm = 0.0
-    num_params = 0
-    for name, param in model.named_parameters():
-        if trainable_only and not param.requires_grad:
-            continue
-        param_norm = torch.norm(param).item()
-        total_norm += param_norm ** 2
-        num_params += param.shape.numel()
-    total_norm = torch.sqrt(torch.tensor(total_norm)).item()
-    avg_norm = total_norm / (num_params ** 0.5) if num_params > 0 else 0.0
-    return total_norm, num_params, avg_norm
+def compute_param_norms(model, trainable_only=True):
+    """Compute parameter norms for model (trainable only by default)."""
+    trainable_params = [p for p in model.parameters() if not trainable_only or p.requires_grad]
+    param_norms = [torch.norm(p) for p in trainable_params]
+    total_norm = sum(param_norms)
+    num_params = len(trainable_params)
+    sum_squares = sum(n**2 for n in param_norms)
+    return total_norm, num_params, sum_squares
 
 
 
 
 def log_param_status(model, stage="pre"):
     """Log parameter norms and requires_grad status."""
-    full_norm, full_num, full_avg = compute_param_norms(model)
-    train_norm, train_num, train_avg = compute_param_norms(model, trainable_only=True)
+    full_norm, full_num, full_sum_squares = compute_param_norms(model, trainable_only=False)
+    train_norm, train_num, train_sum_squares = compute_param_norms(model, trainable_only=True)
 
     trainable_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total_count = sum(p.numel() for p in model.parameters())
 
-    logger.info(f"{stage} params - Full: norm={full_norm:.4f}, num={full_num}, avg_norm={full_avg:.4f}")
-    logger.info(f"{stage} params - Trainable: norm={train_norm:.4f}, num={train_num}, avg_norm={train_avg:.4f} ({trainable_count}/{total_count} params trainable)")
-    logger.debug(f"DEBUG {stage} params - Full: norm={full_norm:.4f}, num={full_num}, avg_norm={full_avg:.4f}")
-    logger.debug(f"DEBUG {stage} params - Trainable: norm={train_norm:.4f}, num={train_num}, avg_norm={train_avg:.4f} ({trainable_count}/{total_count} params trainable)")
+    logger.info(f"{stage} params - Full: norm={full_norm:.4f}, num={full_num}, sum_squares={full_sum_squares:.4f}")
+    logger.info(f"{stage} params - Trainable: norm={train_norm:.4f}, num={train_num}, sum_squares={train_sum_squares:.4f} ({trainable_count}/{total_count} params trainable)")
+    logger.debug(f"DEBUG {stage} params - Full: norm={full_norm:.4f}, num={full_num}, sum_squares={full_sum_squares:.4f}")
+    logger.debug(f"DEBUG {stage} params - Trainable: norm={train_norm:.4f}, num={train_num}, sum_squares={train_sum_squares:.4f} ({trainable_count}/{total_count} params trainable)")
 
 
 def get_params(model):
-    """Extract model parameters as numpy arrays."""
+    """Extract model parameters as numpy arrays to be sent to server."""
     # Log post-training norms before extraction
-    log_param_status(model, "post-training")
+    log_param_status(model, "post-local training round parameters prepared for server")
     
     params = []
     for _, val in model.state_dict().items():
@@ -107,7 +102,7 @@ def get_params(model):
 
 
 def set_params(model, parameters) -> None:
-    """Set model parameters from numpy arrays."""
+    """Set model parameters from numpy arrays sent by server at the beginning of a round."""
     params_dict = zip(model.state_dict().keys(), parameters)
     state_dict = OrderedDict()
 
@@ -122,7 +117,7 @@ def set_params(model, parameters) -> None:
     model.load_state_dict(state_dict, strict=True)
     
     # Log after setting params (received from server)
-    log_param_status(model, "post-set_params")
+    log_param_status(model, "parameters sent from server to client at the start of local training round")
 
 
 def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -> dict[str, float]:
@@ -188,38 +183,83 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     # Log initial metrics setup (after train_metrics defined)
     logger.info(f"Train start: Initial metrics setup - loss_avg={train_metrics['loss'].avg:.4f}, grad_norm_avg={train_metrics['grad_norm'].avg:.4f}, lr_avg={train_metrics['lr'].avg:.4f}")
 
-    train_tracker = MetricsTracker(
-        cfg.batch_size, 1000, 10, train_metrics, initial_step=0  # Dummy values for FL
-    )
+    try:
+        logger.info("Creating MetricsTracker...")
+        train_tracker = MetricsTracker(
+            cfg.batch_size, 1000, 10, train_metrics, initial_step=0  # Dummy values for FL
+        )
+        logger.info("MetricsTracker created successfully.")
+    except Exception as e:
+        logger.error(f"Failed to create MetricsTracker: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        raise
 
-    # Create cycle iterator (like lerobot train.py)
-    dl_iter = cycle(trainloader)
+    try:
+        logger.info(f"Creating cycle iterator for dataloader (len(trainloader)={len(trainloader) if hasattr(trainloader, '__len__') else 'unknown'})...")
+        dl_iter = cycle(trainloader)
+        logger.info("Cycle iterator created successfully.")
+    except Exception as e:
+        logger.error(f"Failed to create cycle iterator: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        raise
 
     # Training loop (reusing lerobot's training loop logic)
     from lerobot.scripts.train import update_policy
     step = 0
     done = False
     while not done:
-        start_time = time.perf_counter()
-        batch = next(dl_iter)
-        train_tracker.dataloading_s = time.perf_counter() - start_time
+        try:
+            start_time = time.perf_counter()
+            logger.debug("Fetching next batch from dl_iter...")
+            batch = next(dl_iter)
+            train_tracker.dataloading_s = time.perf_counter() - start_time
+            logger.debug(f"Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
+        except Exception as e:
+            logger.error(f"Failed to fetch batch at step {step}: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
 
-        # Move batch to device (like lerobot train.py)
-        for key in batch:
-            if isinstance(batch[key], torch.Tensor):
-                batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
+        try:
+            logger.debug("Moving batch to device...")
+            # Move batch to device (like lerobot train.py)
+            for key in batch:
+                if isinstance(batch[key], torch.Tensor):
+                    batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
+            logger.debug("Batch moved to device successfully.")
+            if torch.cuda.is_available():
+                logger.debug(f"VRAM after batch to device: {torch.cuda.memory_allocated(device)/1e9:.2f} GB")
+        except Exception as e:
+            logger.error(f"Failed to move batch to device at step {step}: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
 
-        # Use lerobot's update_policy (like standalone script)
-        train_tracker, output_dict = update_policy(
-            train_tracker,
-            policy,  # Use the provided model (already has server parameters)
-            batch,
-            optimizer,
-            grad_clip_norm=cfg.optimizer.grad_clip_norm,
-            grad_scaler=grad_scaler,
-            lr_scheduler=lr_scheduler,
-            use_amp=cfg.policy.use_amp,
-        )
+        try:
+            logger.debug(f"Calling update_policy at step {step} (policy.training={policy.training})...")
+            if torch.cuda.is_available():
+                pre_vram = torch.cuda.memory_allocated(device)/1e9
+            train_tracker, output_dict = update_policy(
+                train_tracker,
+                policy,  # Use the provided model (already has server parameters)
+                batch,
+                optimizer,
+                grad_clip_norm=cfg.optimizer.grad_clip_norm,
+                grad_scaler=grad_scaler,
+                lr_scheduler=lr_scheduler,
+                use_amp=cfg.policy.use_amp,
+            )
+            if torch.cuda.is_available():
+                post_vram = torch.cuda.memory_allocated(device)/1e9
+                logger.debug(f"VRAM after update_policy: {post_vram:.2f} GB (delta: {post_vram - pre_vram:.2f} GB)")
+            logger.debug(f"update_policy completed successfully at step {step}. Loss from output: {output_dict.get('loss', 'N/A')}")
+        except Exception as e:
+            logger.error(f"Failed in update_policy at step {step}: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
 
         step += 1
         train_tracker.step()

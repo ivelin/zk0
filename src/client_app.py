@@ -62,8 +62,6 @@ class SmolVLAClient(NumPyClient):
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit start - Host RAM used")
 
         logger.debug(f"Client {self.partition_id}: Setting model parameters")
-        pre_fit_norm, _, _ = compute_param_norms(self.net)
-        logger.info(f"Client {self.partition_id}: Pre-fit param norm: {pre_fit_norm:.4f}")
         set_params(self.net, parameters)
 
         logger.info(f"Client {self.partition_id}: Starting training for {self.local_epochs} epochs")
@@ -77,8 +75,6 @@ class SmolVLAClient(NumPyClient):
         logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={config.get('batch_size', 64)})")
 
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
-        post_fit_norm, _, _ = compute_param_norms(self.net)
-        logger.info(f"Client {self.partition_id}: Post-fit param norm: {post_fit_norm:.4f} (change from pre: {post_fit_norm - pre_fit_norm:.4f})")
         updated_params = get_params(self.net)
 
         if torch.cuda.is_available():
@@ -108,8 +104,6 @@ class SmolVLAClient(NumPyClient):
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Evaluate start - Host RAM used")
 
         logger.debug(f"Client {self.partition_id}: Setting evaluation parameters")
-        pre_eval_norm, _, _ = compute_param_norms(self.net)
-        logger.info(f"Client {self.partition_id}: Pre-eval param norm: {pre_eval_norm:.4f}")
         set_params(self.net, parameters)
 
         # Handle case where save_path might not be in config (evaluation rounds)

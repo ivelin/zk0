@@ -279,8 +279,9 @@ def server_fn(context: Context) -> ServerAppComponents:
     server_dir.mkdir(exist_ok=True)
     models_dir.mkdir(exist_ok=True)
 
-    # Log the output directory path when training starts
-    logger.info(f"Output directory created: {save_path}")
+    # Log the output directory path when training starts (to console for early visibility)
+    import sys
+    print(f"[INFO] Output directory created: {save_path}", file=sys.stderr, flush=True)
 
     # Setup unified logging with loguru
     simulation_log_path = save_path / "simulation.log"
