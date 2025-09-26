@@ -47,8 +47,8 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 5 # train rounds
-local-epochs = 1000 # steps/epochs per round
+num-server-rounds = 100 # train rounds
+local-epochs = 50 # steps/epochs per round
 model-name = "lerobot/smolvla_base"
 fraction-fit = 1.0
 fraction-evaluate = 1.0
