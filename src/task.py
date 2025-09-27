@@ -44,20 +44,15 @@ def load_data(
     return trainloader, None
 
 
-def get_model(dataset_meta=None):
-    """Load SmolVLA model using lerobot factory (like standalone train script)."""
-    from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
-    from lerobot.policies.factory import make_policy
+def get_model(dataset_meta=None, peft_config=None):
+    """Load SmolVLA model using lerobot factory with optional LoRA (like standalone train script)."""
+    from .utils import load_lora_policy
 
     # Assert that dataset metadata is provided (from actual dataset)
     assert dataset_meta is not None, "Dataset metadata must be provided from an actual dataset"
 
-    # Create SmolVLA config (like standalone script)
-    cfg = SmolVLAConfig()
-    cfg.pretrained_path = "lerobot/smolvla_base"
-
-    # Use lerobot factory to create policy (like standalone train script)
-    policy = make_policy(cfg=cfg, ds_meta=dataset_meta)
+    # Use load_lora_policy which handles LoRA if enabled
+    policy = load_lora_policy("src/configs/policy/vla.yaml", torch.device("cuda" if torch.cuda.is_available() else "cpu"), peft_config, dataset_meta)
     return policy
 
 
@@ -157,6 +152,14 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
 
     # Use lerobot's optimizer factory (like standalone script)
     optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
+
+    # For LoRA: Filter optimizer to only trainable parameters (adapters)
+    trainable_params = [p for p in policy.parameters() if p.requires_grad]
+    if trainable_params:
+        optimizer = torch.optim.AdamW(trainable_params, lr=1e-4, weight_decay=1e-2)
+        logger.info(f"LoRA: Optimizer updated to target {len(trainable_params)} trainable parameters only")
+    else:
+        logger.warning("LoRA: No trainable parameters found, using full optimizer")
     
     # Override scheduler for FL partial rounds: Reset to initial LR each round
     initial_lr = 1e-4  # Standard for SmolVLA finetuning

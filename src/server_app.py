@@ -8,12 +8,21 @@ from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
 from loguru import logger
 
-from flwr.common import Context, Metrics, ndarrays_to_parameters, FitIns, EvaluateIns
+import numpy as np
+import torch
+from flwr.common import Context, Metrics, ndarrays_to_parameters, FitIns, EvaluateIns, FitRes, Parameters
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedAvg
 from typing import List, Tuple, Union, Optional, Dict
 from flwr.server.client_proxy import ClientProxy
-from flwr.common import EvaluateRes, Scalar
+from flwr.common import EvaluateRes, Scalar, parameters_to_ndarrays
+
+# Import PEFT for LoRA aggregation
+try:
+    from peft import PeftModel
+except ImportError:
+    PeftModel = None
+    logger.warning("PEFT not available, LoRA aggregation disabled")
 
 
 class AggregateEvaluationStrategy(FedAvg):
@@ -174,6 +183,83 @@ class AggregateEvaluationStrategy(FedAvg):
         return aggregated_loss, aggregated_metrics
 
 
+class LoRAFedAvg(FedAvg):
+    """FedAvg strategy adapted for LoRA parameter-efficient fine-tuning.
+
+    Aggregates LoRA adapters by averaging A/B matrices separately,
+    then merges into the base model. Compatible with Flower's parameter flow.
+    """
+
+    def __init__(self, peft_config: Optional[Dict] = None, **kwargs):
+        super().__init__(**kwargs)
+        self.peft_config = peft_config or {}
+        if not self.peft_config.get("enabled", False):
+            raise RuntimeError("LoRAFedAvg requires PEFT/LoRA to be enabled")
+
+    def aggregate_fit(
+        self, server_round: int, results: List[Tuple[ClientProxy, FitRes]], failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]]
+    ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
+        """Aggregate LoRA adapters from clients."""
+        if not results:
+            return None, {}
+
+        logger.info(f"Server: Aggregating LoRA adapters for round {server_round}")
+
+        # Collect adapter parameters from clients using names from metrics
+        client_adapters = []
+        total_samples = 0
+
+        for client_proxy, fit_res in results:
+            # Extract parameters from FitRes (list of ndarrays)
+            params_ndarrays = parameters_to_ndarrays(fit_res.parameters)
+            # Get parameter names from client's training metrics
+            param_names = fit_res.metrics.get("lora_param_names", [])
+            num_samples = fit_res.num_examples
+
+            if len(param_names) != len(params_ndarrays):
+                logger.warning(f"Client {client_proxy.cid}: Mismatch between param names ({len(param_names)}) and arrays ({len(params_ndarrays)})")
+                continue
+
+            # Convert ndarrays to named adapter dict
+            adapter_dict = {name: torch.from_numpy(arr) for name, arr in zip(param_names, params_ndarrays)}
+            client_adapters.append(adapter_dict)
+            total_samples += num_samples
+
+        if not client_adapters:
+            logger.warning("No LoRA adapters received from clients")
+            return None, {}
+
+        # Average adapter parameters by name
+        averaged_adapters = {}
+        for param_name in client_adapters[0].keys():
+            param_tensors = [adapter[param_name] for adapter in client_adapters if param_name in adapter]
+            if param_tensors:
+                averaged_adapters[param_name] = torch.mean(torch.stack(param_tensors), dim=0)
+
+        logger.info(f"Server: Averaged {len(averaged_adapters)} LoRA adapter parameters from {len(client_adapters)} clients")
+
+        # Load base model and create PeftModel for merging
+        from src.task import get_model, load_data
+        trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
+        dataset_meta = trainloader.dataset.meta
+        base_model = get_model(dataset_meta=dataset_meta, peft_config=self.peft_config)
+
+        # Create PeftModel with averaged adapters
+        peft_model = PeftModel.from_pretrained(base_model, averaged_adapters, adapter_name="aggregated")
+        # Merge and unload to get final model
+        merged_model = peft_model.merge_and_unload()
+
+        # Return merged LoRA parameters as Parameters object (sorted by key for consistency)
+        merged_state = merged_model.state_dict()
+        lora_keys = sorted([k for k in merged_state.keys() if "lora" in k])
+        lora_ndarrays = [merged_state[k].cpu().numpy() for k in lora_keys]
+        aggregated_parameters = ndarrays_to_parameters(lora_ndarrays)
+
+        logger.info(f"Server: LoRA aggregation complete - {len(lora_ndarrays)} adapter parameters")
+
+        return aggregated_parameters, {"num_samples": total_samples, "lora_keys": lora_keys}
+
+
 def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
     """Aggregate evaluation MSE history from server aggregated JSON files.
 
@@ -310,13 +396,44 @@ def server_fn(context: Context) -> ServerAppComponents:
     with open(save_path / "config.json", 'w') as f:
         json.dump(config_snapshot, f, indent=2, default=str)
 
-    # Set global model initialization
+    # Load PEFT config from pyproject.toml [tool.zk0.peft_config]
+    try:
+        from src.utils import get_tool_config
+        zk0_config = get_tool_config("zk0")
+        peft_config = zk0_config.get("peft_config", {})
+        if not peft_config:
+            logger.warning("No PEFT config found in pyproject.toml, using defaults")
+            peft_config = {
+                "enabled": True,
+                "rank": 16,
+                "alpha": 32,
+                "dropout": 0.1,
+                "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+                "modules_to_save": ["action_out_proj", "state_proj"]
+            }
+    except Exception as e:
+        logger.warning(f"Failed to load PEFT config from pyproject.toml: {e}, using defaults")
+        peft_config = {
+            "enabled": True,
+            "rank": 16,
+            "alpha": 32,
+            "dropout": 0.1,
+            "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+            "modules_to_save": ["action_out_proj", "state_proj"]
+        }
+
+    # Set global model initialization (LoRA adapters for first round)
     # Load a minimal dataset to get metadata for SmolVLA initialization
     from src.task import load_data
     trainloader, _ = load_data(0, 4, "smolvla", device="cpu")  # Use first partition
     dataset_meta = trainloader.dataset.meta
-    ndarrays = get_params(get_model(dataset_meta=dataset_meta))
-    global_model_init = ndarrays_to_parameters(ndarrays)
+    base_model = get_model(dataset_meta=dataset_meta, peft_config=peft_config)
+
+    # Extract LoRA adapter parameters for initial broadcast
+    lora_state = base_model.state_dict()
+    lora_ndarrays = [lora_state[k].cpu().numpy() for k in sorted(lora_state.keys()) if "lora" in k]
+    logger.info(f"Initial LoRA adapters: {len(lora_ndarrays)} parameters")
+    global_model_init = ndarrays_to_parameters(lora_ndarrays)
 
     # Define strategy with evaluation aggregation
     fraction_fit = context.run_config["fraction-fit"]
@@ -327,15 +444,13 @@ def server_fn(context: Context) -> ServerAppComponents:
     eval_mode = context.run_config.get("eval_mode", "quick")
     evaluate_config_fn = get_evaluate_config_callback(save_path, eval_frequency, eval_mode)
 
-    strategy = AggregateEvaluationStrategy(
+    # Use LoRA strategy (LoRA is the only supported mode)
+    logger.info("Using LoRAFedAvg strategy for PEFT/LoRA")
+    strategy = LoRAFedAvg(
+        peft_config=peft_config,
         fraction_fit=fraction_fit,
         fraction_evaluate=fraction_evaluate,
         initial_parameters=global_model_init,
-        server_dir=server_dir,
-        log_file=simulation_log_path,
-        save_path=save_path,
-        evaluate_config_fn=evaluate_config_fn,
-        num_rounds=num_rounds,  # Pass total rounds for chart generation
     )
 
     return ServerAppComponents(config=config, strategy=strategy)

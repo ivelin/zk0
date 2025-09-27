@@ -9,6 +9,13 @@ import numpy as np
 # Add the smolvla_example directory to the path
 sys.path.insert(0, str(Path(__file__).parent.parent / "smolvla_example"))
 
+# Check for LoRA availability
+try:
+    from src.utils import load_lora_policy
+    LORA_AVAILABLE = True
+except ImportError:
+    LORA_AVAILABLE = False
+
 
 @pytest.fixture
 def sample_client_config():

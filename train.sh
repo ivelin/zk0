@@ -35,15 +35,20 @@ print_error() {
 }
 
 # Parse command line arguments
+PEFT_ENABLED=true  # PEFT/LoRA enabled by default
 while [[ $# -gt 0 ]]; do
     case $1 in
         --docker)
             USE_DOCKER=true
             shift
             ;;
+        --no-peft)
+            PEFT_ENABLED=false
+            shift
+            ;;
         *)
             print_error "Unknown option: $1"
-            print_info "Usage: $0 [--docker]"
+            print_info "Usage: $0 [--docker] [--no-peft]"
             exit 1
             ;;
     esac
@@ -131,7 +136,7 @@ if [ "$USE_DOCKER" = true ]; then
     DOCKER_CMD="$DOCKER_CMD -e RAY_DEDUP_LOGS=0"
     DOCKER_CMD="$DOCKER_CMD -e RAY_COLOR_PREFIX=1"
     DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
-    DOCKER_CMD="$DOCKER_CMD sh -c \"uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && PYTHONPATH=/workspace flwr run . $FEDERATION\""
+    DOCKER_CMD="$DOCKER_CMD sh -c \"uv pip install --no-cache-dir --no-build-isolation -e .[dev] && PYTHONPATH=/workspace flwr run . $FEDERATION\""
 
     print_info "Executing Docker command:"
     print_info "$DOCKER_CMD"
@@ -142,6 +147,10 @@ if [ "$USE_DOCKER" = true ]; then
 else
     # Set PyTorch CUDA allocator config to reduce fragmentation
     export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
+    # Install dependencies if needed
+    print_info "Installing dependencies..."
+    conda run -n zk0 pip install -e . || print_warning "Dependency installation failed, continuing..."
 
     # Build the conda command with explicit channel configuration
     CONDA_CMD="conda run -n zk0 flwr run . $FEDERATION"

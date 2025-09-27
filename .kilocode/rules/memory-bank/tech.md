@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-09-22
-**Version**: 1.0.1
+**Last Updated**: 2025-09-26
+**Version**: 1.0.2
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -12,6 +12,9 @@
 - **PyTorch**: Deep learning framework for model training
 - **Hugging Face Transformers**: Model loading and inference
 - **LeRobot**: Robotics data handling and model integration
+- **PEFT (Parameter-Efficient Fine-Tuning)**: LoRA adapters for memory-efficient training of SmolVLA
+  - **LoRA Configuration**: rank=16, alpha=32, dropout=0.1; targets attention modules (q_proj, k_proj, v_proj, o_proj) and action_head
+  - **Integration**: Wraps SmolVLAPolicy post-loading; trainable params ~1-5M (vs. 450M full); custom aggregation for adapters
 
 ### Federated Learning Framework
 - **Flower Framework**: Federated learning orchestration and aggregation
@@ -20,6 +23,7 @@
   - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
   - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
   - **Execution Modes**: Simulation Mode, Deployment Mode, GPU Support
+  - **Custom Strategy**: LoRAFedAvg for adapter-only aggregation and merging (inspired by FlowerTune)
 
 ### SmolVLA Model
 - **Model Size**: 450M parameters total
@@ -37,6 +41,7 @@
 - **Supported Hardware**: Consumer GPUs, CPUs, even MacBooks
 - **Asynchronous Inference**: 30% faster response, 2× task throughput
 - **Real-world Performance**: SO-100 and SO-101 compatibility
+- **LoRA Adaptation**: Low-rank adapters on attention layers and action head; freezes vision encoder for efficiency
 
 ### Datasets
 - **SO-100 Datasets**: Real-world robotics training data from SO-100 robot platform
@@ -68,12 +73,13 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 - **Dataset Format**: Flower Datasets for partitioning
 - **Model Loading**: Direct integration with LeRobot SmolVLA models
 - **Federated Dataset**: FederatedLeRobotDataset for distributed data
+- **PEFT/LoRA Integration**: Adapter-only parameter exchange; server merges adapters into base model
 
 ### Key Integration Points
-1. **Client Implementation**: Extend NumPyClient for SmolVLA
-2. **Server Strategy**: Use FedAvg or custom strategies
+1. **Client Implementation**: Extend NumPyClient for SmolVLA with LoRA wrapping
+2. **Server Strategy**: Use LoRAFedAvg for adapter aggregation (average A/B matrices, merge on server)
 3. **Data Partitioning**: LeRobotDatasetPartitioner for episode-based splitting
-4. **Model Aggregation**: Flower's parameter aggregation mechanisms
+4. **Model Aggregation**: Flower's parameter aggregation mechanisms adapted for LoRA (small payloads ~1MB)
 
 ## Development Environment
 - **Primary**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
@@ -85,12 +91,16 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 ## Dependencies Management
 - **requirements.txt**: Pinned versions for reproducibility
 - **pyproject.toml**: Project configuration and metadata
+- **New Dependencies for LoRA** (add to requirements.txt):
+  - peft>=0.13.0  # LoRA adapters (Hugging Face PEFT library)
+  - accelerate>=1.10.1  # Distributed training, AMP for mixed precision in FL
+  - bitsandbytes>=0.47.0  # Optional: 8-bit quantization for further memory reduction during training
 
 ## Hardware Requirements
 - **Python Version**: 3.8+ (recommended 3.10)
 - **PyTorch Version**: Compatible with SmolVLA requirements
 - **CUDA Version**: 11.0+ for GPU support
-- **Memory Requirements**: 8GB+ RAM, 4GB+ VRAM for GPU
+- **Memory Requirements**: 8GB+ RAM, 4GB+ VRAM for GPU (reduced to ~6-8GB peak with LoRA; ~5-10GB for batch=32, 1000 steps)
 - **GPU Support**: CUDA-compatible GPUs for model training
 - **Storage**: Sufficient space for datasets and model checkpoints
 
@@ -102,6 +112,7 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 - **mypy**: Type checking
 - **Documentation**: Complete API documentation
 - **Reproducibility**: Seeds for all experiments
+- **LoRA-Specific Tests**: Unit tests for adapter loading/saving and forward pass; integration tests for FL aggregation (LoRAFedAvg) and memory efficiency
 
 ## Logging and Monitoring
 - **Loguru Framework**: Structured logging with rotation, compression, and multi-process safety
@@ -302,6 +313,12 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 - **Logging Configuration Guide**: https://docs.ray.io/en/latest/ray-observability/user-guides/configure-logging.html
 - **GitHub Repository**: https://github.com/ray-project/ray
 
+### PEFT/LoRA Resources
+- **Hugging Face PEFT Docs**: https://huggingface.co/docs/peft/main/en/conceptual_guides/lora (core LoRA implementation for Transformers)
+- **FlowerTune Repo**: https://github.com/adap/flower/tree/main/examples/flower-tune (FL with PEFT/LoRA for LLMs, adapted for SmolVLA)
+- **arXiv Paper on Federated PEFT**: https://arxiv.org/abs/2506.02961 (FedLoRA for heterogeneous tasks like robotics)
+- **SmolVLM Fine-Tuning Guide**: https://huggingface.co/blog/smolvla (LoRA on SmolVLM backbone for vision-language tasks)
+
 ## Local Repositories
 - **LeRobot**: Local git repository available at `$HOME/lerobot`. Contains source code, tests, examples, and documentation for LeRobot framework.
 - **Flower**: Local git repository available at `$HOME/flower`. Includes examples directory with LeRobot integration.
@@ -325,3 +342,8 @@ Run these commands after any requirements.txt updates or when switching branches
 - **Rationale**: Ensures meaningful updates in short FL rounds (10-1000 steps). Mild intra-round decay balances exploration/stability. Aligns with Flower's stateless clients.
 - **Validation**: Check logs for override message, pre/post-norm delta >0.01, decreasing loss across rounds.
 - **Benefits**: Effective learning without global step tracking; compatible with zk0's partial-step architecture (200 steps/round default).
+
+### LoRA Adapter Exchange
+- **Client-Server Flow**: Clients load base + adapters; train adapters only; send adapter state_dict (~1MB). Server averages A/B matrices, merges into base, broadcasts merged adapters.
+- **Memory Savings**: ~80-95% reduction in trainable params and comms overhead.
+- **Compatibility**: Backward-compatible flag in config; falls back to full fine-tuning if disabled.

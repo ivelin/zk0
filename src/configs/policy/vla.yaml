@@ -22,6 +22,14 @@ evaluation:
   save_freq: 50
   log_freq: 10
 
+peft:
+  enabled: true
+  rank: 16  # Low-rank (8-64; tune for 24GB GPU)
+  alpha: 32  # Scaling (2*rank)
+  dropout: 0.1
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]  # Attention layers (SmolVLMWithExpert)
+  modules_to_save: ["action_head"]  # Full-tune action layer
+
 wandb:
   project: "smolvla-federated"
   entity: "zk0"

@@ -20,7 +20,7 @@ from transformers import logging
 from loguru import logger
 
 from flwr.client import Client, ClientApp, NumPyClient
-from flwr.common import Context
+from flwr.common import Context, parameters_to_ndarrays
 
 # Mute warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -29,20 +29,32 @@ logging.set_verbosity_error()
 
 # Flower client
 class SmolVLAClient(NumPyClient):
-    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None) -> None:
+    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, peft_config=None) -> None:
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.local_epochs = local_epochs
         self.device = nn_device
+        self.peft_config = peft_config
 
         # Load dataset metadata for model creation (like lerobot train script)
         # Get dataset metadata from the trainloader's dataset
         dataset_meta = trainloader.dataset.meta if hasattr(trainloader.dataset, 'meta') else None
-        self.net = get_model(dataset_meta)
+        self.net = get_model(dataset_meta, peft_config)
 
         policy = self.net
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
         policy.to(self.device)
+
+    def _get_lora_params(self):
+        """Extract LoRA adapter parameters with names for upload to server."""
+        # Get LoRA adapter parameters with their names
+        adapter_params = {}
+        for name, param in self.net.named_parameters():
+            if "lora" in name:  # Only send LoRA adapters
+                adapter_params[name] = param.cpu().detach().numpy()
+
+        logger.info(f"Client {self.partition_id}: Extracted {len(adapter_params)} LoRA adapter parameters")
+        return adapter_params  # Return dict instead of list to preserve names
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
         # Setup logging in the actor process
@@ -61,8 +73,28 @@ class SmolVLAClient(NumPyClient):
         ram_percent = psutil.virtual_memory().percent
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit start - Host RAM used")
 
-        logger.debug(f"Client {self.partition_id}: Setting model parameters")
-        set_params(self.net, parameters)
+        logger.debug(f"Client {self.partition_id}: Setting LoRA adapter parameters")
+        # LoRA mode: Load adapters from server parameters
+        logger.info(f"Client {self.partition_id}: Loading LoRA adapters from server")
+        # Server sends Parameters (list of ndarrays), map using keys from config
+        lora_keys = config.get("lora_keys", [])
+        params_ndarrays = parameters_to_ndarrays(parameters)
+        if len(lora_keys) == len(params_ndarrays):
+            adapter_state = {k: torch.tensor(v) for k, v in zip(lora_keys, params_ndarrays)}
+        else:
+            # Fallback: assume order matches base model LoRA keys
+            logger.warning(f"Client {self.partition_id}: lora_keys mismatch ({len(lora_keys)} vs {len(params_ndarrays)}), using base model keys")
+            base_lora_keys = [k for k in self.net.state_dict().keys() if "lora" in k]
+            if len(base_lora_keys) == len(params_ndarrays):
+                adapter_state = {k: torch.tensor(v) for k, v in zip(base_lora_keys, params_ndarrays)}
+            else:
+                logger.error(f"Client {self.partition_id}: Cannot map {len(params_ndarrays)} parameters to LoRA keys")
+                adapter_state = {}
+        # Load adapters into model (partial load)
+        missing_keys, unexpected_keys = self.net.load_state_dict(adapter_state, strict=False)
+        logger.info(f"Client {self.partition_id}: Loaded adapters - missing: {len(missing_keys)}, unexpected: {len(unexpected_keys)}")
+        if missing_keys:
+            logger.warning(f"Client {self.partition_id}: Missing adapter keys: {missing_keys[:5]}...")  # Show first 5
 
         logger.info(f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}")
         try:
@@ -82,8 +114,14 @@ class SmolVLAClient(NumPyClient):
 
         logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={config.get('batch_size', 64)})")
 
-        logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
-        updated_params = get_params(self.net)
+        logger.debug(f"Client {self.partition_id}: Extracting LoRA adapter parameters")
+        # LoRA: Extract adapter parameters with names
+        adapter_dict = self._get_lora_params()
+        # Convert to list of ndarrays for Flower compatibility, but keep names in metrics
+        updated_params = list(adapter_dict.values())
+        # Store names in training_metrics for server to use
+        training_metrics["lora_param_names"] = list(adapter_dict.keys())
+        logger.info(f"Client {self.partition_id}: Extracted {len(updated_params)} LoRA adapter arrays with names")
 
         if torch.cuda.is_available():
             vram_gb = torch.cuda.max_memory_allocated() / 1e9
@@ -210,6 +248,7 @@ def client_fn(context: Context) -> Client:
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
     local_epochs = int(context.run_config["local-epochs"])
+    peft_config = context.run_config.get("peft_config", {})
 
     # Setup client logging
     from src.logger import setup_logging, setup_client_logging
@@ -229,6 +268,7 @@ def client_fn(context: Context) -> Client:
         local_epochs=local_epochs,
         trainloader=trainloader,
         nn_device=nn_device,
+        peft_config=peft_config,
     ).to_client()
 
 

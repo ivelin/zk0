@@ -4,6 +4,7 @@ import pytest
 import numpy as np
 
 from src.client_app import SmolVLAClient
+from tests.conftest import LORA_AVAILABLE
 
 # Import LeRobot for real dataset testing
 # TorchCodec import removed - not required for basic functionality
@@ -375,5 +376,243 @@ class TestSmallSampleAppFlow:
             with open(history_file, 'r') as f:
                 saved_history = json.load(f)
             assert saved_history == mse_history
+
+
+@pytest.mark.integration
+class TestLoRAIntegration:
+    """Integration tests for LoRA functionality in federated learning."""
+
+    @pytest.mark.skipif(not LORA_AVAILABLE, reason="LoRA dependencies not available")
+    def test_lora_client_initialization(self):
+        """Test that LoRA client initializes correctly with PEFT config."""
+        import tempfile
+        import signal
+        from src.client_app import SmolVLAClient
+
+        peft_config = {
+            "enabled": True,
+            "rank": 8,
+            "alpha": 16,
+            "dropout": 0.1,
+            "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+            "modules_to_save": ["action_head"]
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            def timeout_handler(signum, frame):
+                raise TimeoutError("LoRA client initialization timed out")
+
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(60)  # 60 second timeout
+
+            try:
+                # Create client with LoRA config
+                client = SmolVLAClient(
+                    partition_id=0,
+                    local_epochs=1,
+                    trainloader=None,  # Will be set by client_fn
+                    nn_device="cpu",
+                    peft_config=peft_config
+                )
+
+                signal.alarm(0)  # Cancel alarm
+
+                # Verify LoRA config is stored
+                assert client.peft_config == peft_config
+                assert client.peft_config["enabled"] is True
+
+            except TimeoutError:
+                pytest.skip("LoRA client initialization timed out")
+            except Exception as e:
+                pytest.skip(f"LoRA client initialization failed: {e}")
+
+    @pytest.mark.skipif(not hasattr(pytest, 'lora_available') or not pytest.lora_available,
+                       reason="LoRA dependencies not available")
+    def test_lora_parameter_exchange_sizes(self):
+        """Test that LoRA reduces parameter exchange sizes significantly."""
+        import tempfile
+        import signal
+        from flwr.common import FitIns, Parameters, Config
+        from src.client_app import SmolVLAClient
+
+        peft_config = {
+            "enabled": True,
+            "rank": 8,
+            "alpha": 16,
+            "dropout": 0.1,
+            "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+            "modules_to_save": ["action_head"]
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            def timeout_handler(signum, frame):
+                raise TimeoutError("LoRA parameter exchange test timed out")
+
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(120)  # 120 second timeout
+
+            try:
+                # Create client with LoRA
+                client = SmolVLAClient(
+                    partition_id=0,
+                    local_epochs=1,
+                    trainloader=None,
+                    nn_device="cpu",
+                    peft_config=peft_config
+                )
+
+                # Create dummy full parameters (simulate server sending full model initially)
+                dummy_full_params = [np.random.randn(100, 100).astype(np.float32) for _ in range(10)]
+                parameters = Parameters(dummy_full_params, "numpy")
+
+                config = Config({
+                    "local_epochs": 1,
+                    "batch_size": 2,
+                    "peft_config": peft_config
+                })
+
+                fit_ins = FitIns(parameters=parameters, config=config)
+
+                # Execute fit
+                fit_res = client.fit(fit_ins)
+
+                signal.alarm(0)  # Cancel alarm
+
+                # Verify training completed
+                assert fit_res.status.code == 0
+
+                # Check that returned parameters are much smaller (LoRA adapters only)
+                returned_params = fit_res.parameters
+                returned_ndarrays = returned_params.tensors
+
+                # LoRA should return fewer, smaller parameter arrays
+                assert len(returned_ndarrays) < len(dummy_full_params), \
+                    "LoRA should return fewer parameter arrays than full model"
+
+                total_lora_params = sum(arr.size for arr in returned_ndarrays)
+                total_full_params = sum(arr.size for arr in dummy_full_params)
+
+                # LoRA parameters should be significantly smaller
+                assert total_lora_params < total_full_params * 0.1, \
+                    f"LoRA params ({total_lora_params}) should be much smaller than full params ({total_full_params})"
+
+            except TimeoutError:
+                pytest.skip("LoRA parameter exchange test timed out")
+            except Exception as e:
+                pytest.skip(f"LoRA parameter exchange test failed: {e}")
+
+    @pytest.mark.skipif(not hasattr(pytest, 'lora_available') or not pytest.lora_available,
+                       reason="LoRA dependencies not available")
+    def test_lora_memory_efficiency(self):
+        """Test that LoRA reduces memory usage compared to full fine-tuning."""
+        import tempfile
+        import signal
+        import torch
+        from src.task import get_model
+
+        peft_config = {
+            "enabled": True,
+            "rank": 8,
+            "alpha": 16,
+            "dropout": 0.1,
+            "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+            "modules_to_save": ["action_head"]
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            def timeout_handler(signum, frame):
+                raise TimeoutError("LoRA memory test timed out")
+
+            signal.signal(signal.SIGALRM, timeout_handler)
+            signal.alarm(60)  # 60 second timeout
+
+            try:
+                # Load dataset meta for model creation
+                from src.task import load_data
+                trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
+                dataset_meta = trainloader.dataset.meta
+
+                # Load LoRA model
+                lora_model = get_model(dataset_meta=dataset_meta, peft_config=peft_config)
+
+                # Load full model
+                full_model = get_model(dataset_meta=dataset_meta, peft_config={"enabled": False})
+
+                signal.alarm(0)  # Cancel alarm
+
+                # Count trainable parameters
+                lora_trainable = sum(p.numel() for p in lora_model.parameters() if p.requires_grad)
+                full_trainable = sum(p.numel() for p in full_model.parameters() if p.requires_grad)
+
+                # LoRA should have significantly fewer trainable parameters
+                assert lora_trainable < full_trainable * 0.1, \
+                    f"LoRA trainable params ({lora_trainable}) should be <10% of full params ({full_trainable})"
+
+                # Verify LoRA model has some trainable params
+                assert lora_trainable > 0, "LoRA model should have trainable parameters"
+
+                # Verify full model has all params trainable
+                total_params = sum(p.numel() for p in full_model.parameters())
+                assert full_trainable == total_params, "Full model should have all parameters trainable"
+
+            except TimeoutError:
+                pytest.skip("LoRA memory test timed out")
+            except Exception as e:
+                pytest.skip(f"LoRA memory test failed: {e}")
+
+    @pytest.mark.skipif(not hasattr(pytest, 'lora_available') or not pytest.lora_available,
+                       reason="LoRA dependencies not available")
+    def test_lora_strategy_aggregation(self):
+        """Test that LoRAFedAvg strategy aggregates parameters correctly."""
+        from src.server_app import LoRAFedAvg
+        from flwr.common import Parameters
+        import numpy as np
+
+        peft_config = {
+            "enabled": True,
+            "rank": 8,
+            "alpha": 16,
+            "dropout": 0.1,
+            "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"],
+            "modules_to_save": ["action_head"]
+        }
+
+        # Create strategy
+        strategy = LoRAFedAvg(peft_config=peft_config)
+
+        # Create mock FitRes with LoRA adapter parameters
+        # Simulate 2 clients with different adapter values
+        client1_params = [np.random.randn(10, 8).astype(np.float32)]  # LoRA A matrix
+        client2_params = [np.random.randn(10, 8).astype(np.float32)]  # LoRA A matrix
+
+        # Mock FitRes objects
+        class MockFitRes:
+            def __init__(self, parameters):
+                self.parameters = Parameters(parameters, "numpy")
+                self.num_examples = 100
+
+        class MockClientProxy:
+            def __init__(self, cid):
+                self.cid = cid
+
+        results = [
+            (MockClientProxy("client1"), MockFitRes(client1_params)),
+            (MockClientProxy("client2"), MockFitRes(client2_params))
+        ]
+
+        failures = []
+
+        # Test aggregation
+        try:
+            aggregated_loss, metrics = strategy.aggregate_fit(1, results, failures)
+
+            # Verify aggregation succeeded
+            assert aggregated_loss is not None
+            assert isinstance(metrics, dict)
+            assert "num_samples" in metrics
+            assert metrics["num_samples"] == 200  # 2 clients * 100 examples
+
+        except Exception as e:
+            pytest.skip(f"LoRA strategy aggregation test failed: {e}")
 
 

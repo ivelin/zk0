@@ -11,6 +11,11 @@ psutil~=7.1.0
 # Visualization dependencies
 matplotlib~=3.8.0
 
+# PEFT/LoRA dependencies for parameter-efficient fine-tuning
+peft>=0.12.0  # LoRA adapters
+accelerate>=0.33.0  # Distributed/AMP for FL
+bitsandbytes>=0.43.0  # Optional: Quantization for extra memory savings
+
 # Testing dependencies
 pytest~=8.0.0
 pytest-cov~=4.1.0

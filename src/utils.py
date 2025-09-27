@@ -15,141 +15,166 @@ except ImportError:
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
     FilteredLeRobotDataset = None
 from lerobot.datasets.factory import make_dataset
+from lerobot.policies.factory import make_policy
+from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig as VLAConfig
 
 from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
+# Import PEFT components for LoRA
+try:
+    from peft import LoraConfig, get_peft_model, TaskType
+except ImportError:
+    LoraConfig = None
+    get_peft_model = None
+    TaskType = None
+    logger.warning("PEFT not available, LoRA functionality disabled")
+
 def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "auto") -> SmolVLAPolicy:
-    """Load SmolVLA model with environment-based distributed control.
+    """Load SmolVLA model with automatic freezing based on config.
 
-    SmolVLA handles tensor parallelism internally. This function sets environment
-    variables to control distributed behavior based on SMOLVLA_TP_PLAN:
-    - 'none' (default): Single device mode, disable distributed
-    - 'auto': Allow auto-detection of distributed setup
-    - Other values: Reserved for future multi-GPU support
-
-    The actual distributed initialization is handled by SmolVLA's VLM component.
+    The model automatically freezes vision encoder and text model based on
+    SmolVLAConfig parameters (freeze_vision_encoder=True, train_expert_only=True).
 
     Args:
         model_name: Hugging Face model name
         device: Device to load model on ('auto', 'cuda', or 'cpu')
 
     Returns:
-        Loaded SmolVLA model
+        Loaded SmolVLA model with proper freezing applied
 
     Raises:
         RuntimeError: If model loading fails
     """
-    # Load environment variables from .env file
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-    except ImportError:
-        pass  # dotenv not available, continue
-
-
-
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Set environment variables based on TP plan preference
-    tp_plan_str = os.environ.get('SMOLVLA_TP_PLAN', 'none')
-    num_gpus = torch.cuda.device_count()
-    logger.info(f"SMOLVLA_TP_PLAN={tp_plan_str}, num_gpus={num_gpus}")
-
-    if tp_plan_str == 'none':
-        # Force single-device mode
-        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
-        os.environ['TP_PLAN'] = 'disabled'
-        logger.info("Configured for single-device mode (distributed disabled)")
-    elif tp_plan_str == 'auto':
-        # Allow auto-detection
-        if num_gpus > 1:
-            logger.info("Multi-GPU detected, allowing distributed auto-detection")
-        else:
-            logger.info("Single GPU, distributed will be disabled automatically")
-    else:
-        logger.warning(f"Unknown SMOLVLA_TP_PLAN value '{tp_plan_str}', defaulting to single-device mode")
-        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
-        os.environ['TP_PLAN'] = 'disabled'
-
-    # Import SmolVLA after setting environment variables to ensure they take effect
-    from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
-
-    # Log versions for debugging
-    import lerobot
-    logger.info(f"LeRobot version: {lerobot.__version__}")
-    import safetensors
-    logger.info(f"SafeTensors version: {safetensors.__version__}")
-    import ray
-    logger.info(f"Ray version: {ray.__version__}")
-
     logger.info(f"Loading SmolVLA model: {model_name} on device {device}")
 
-    # Try alternative loading strategies to avoid SafeTensors issues
-    strategies = [
-        ("Standard loading", lambda: SmolVLAPolicy.from_pretrained(model_name)),
-        ("Force CPU loading", lambda: SmolVLAPolicy.from_pretrained(model_name, device_map="cpu")),
-        ("Disable device mapping", lambda: SmolVLAPolicy.from_pretrained(model_name, device_map=None)),
-    ]
-
-    for strategy_name, load_func in strategies:
-        try:
-            logger.info(f"Trying {strategy_name}...")
-            model = load_func()
-            logger.info(f"Successfully loaded SmolVLA model using {strategy_name}")
-            model = model.to(device)
-            model.eval()
-            return model
-        except Exception as e:
-            error_msg = str(e)
-            logger.warning(f"{strategy_name} failed: {error_msg}")
-            # If it's a SafeTensors error, try the next strategy
-            if "Attempted to access the data pointer" in error_msg:
-                logger.info("SafeTensors error detected, trying next strategy...")
-                continue
-            # For other errors, still try next strategy
-            continue
-
-    # If all strategies fail, try one final attempt with explicit error handling
+    # Load model - freezing is handled automatically by SmolVLAConfig
     try:
-        logger.info("Final attempt: Loading with explicit SafeTensors bypass...")
-        # Try to load without SafeTensors by using torch.load directly
-        import tempfile
-        import os
-        from huggingface_hub import snapshot_download
-
-        # Download model files to temporary directory
-        with tempfile.TemporaryDirectory() as temp_dir:
-            logger.info("Downloading model files to temporary directory...")
-            model_path = snapshot_download(model_name, cache_dir=temp_dir)
-
-            # Try to load using torch.load instead of SafeTensors
-            model_file = os.path.join(model_path, "pytorch_model.bin")
-            if os.path.exists(model_file):
-                logger.info("Loading model with torch.load...")
-                model = SmolVLAPolicy.from_pretrained(model_name, local_files_only=True)
-                logger.info("Successfully loaded model with torch.load")
-                model = model.to(device)
-                model.eval()
-                return model
-            else:
-                logger.warning("pytorch_model.bin not found, trying safetensors files...")
-                # Fall back to safetensors but with different approach
-                model = SmolVLAPolicy.from_pretrained(model_name, local_files_only=True)
-                logger.info("Successfully loaded model with local safetensors")
-                model = model.to(device)
-                model.eval()
-                return model
-
+        model = SmolVLAPolicy.from_pretrained(model_name)
+        logger.info("Successfully loaded SmolVLA model")
+        model = model.to(device)
+        model.eval()
+        return model
     except Exception as e:
-        logger.error(f"Final loading attempt also failed: {e}")
+        logger.error(f"Failed to load SmolVLA model: {e}")
+        raise RuntimeError(f"SmolVLA model loading failed: {e}")
 
-    # Final error if all strategies fail
-    error_msg = ("SmolVLA model loading failed after all attempts. "
-                "This may be due to SafeTensors compatibility issues with PyTorch/Ray. "
-                "Consider updating PyTorch or SafeTensors versions, or using CPU-only mode.")
-    logger.error(error_msg)
-    raise RuntimeError(error_msg)
+
+def load_lora_policy(config_path: Optional[str] = None, device: torch.device = torch.device("cuda" if torch.cuda.is_available() else "cpu"), peft_config: Optional[dict] = None, dataset_meta: Optional[object] = None) -> torch.nn.Module:
+    """Load SmolVLA policy and apply LoRA if enabled.
+
+    Args:
+        config_path: Path to VLA config file (e.g., "src/configs/policy/vla.yaml")
+        device: Torch device for model placement
+        peft_config: PEFT configuration dict with LoRA settings
+
+    Returns:
+        SmolVLA policy with LoRA applied if enabled, else full model
+    """
+    if LoraConfig is None:
+        if peft_config and peft_config.get("enabled", False):
+            raise RuntimeError("PEFT/LoRA is enabled in configuration but PEFT library is not available. Install PEFT with: pip install peft")
+        logger.warning("PEFT not available, falling back to full fine-tuning")
+        # Use the same approach as standalone training script
+        from lerobot.configs.train import TrainPipelineConfig
+    
+        try:
+            cfg = TrainPipelineConfig.from_pretrained("lerobot/smolvla_base")
+            # Override with our local config if needed
+            import yaml
+            with open(config_path, "r") as f:
+                config_dict = yaml.safe_load(f)
+            # Apply any overrides from local config
+            if "policy" in config_dict:
+                for key, value in config_dict["policy"].items():
+                    if hasattr(cfg.policy, key):
+                        setattr(cfg.policy, key, value)
+        except Exception as e:
+            logger.warning(f"Failed to load config from hub: {e}, using local config only")
+            # Fallback to local config
+            import yaml
+            with open(config_path, "r") as f:
+                config_dict = yaml.safe_load(f)
+            from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
+            from lerobot.configs.default import DatasetConfig
+            policy_cfg = SmolVLAConfig(**config_dict.get("policy", {}))
+            cfg = type('TrainPipelineConfig', (), {
+                'policy': policy_cfg,
+                'dataset': DatasetConfig(repo_id="lerobot/svla_so100_pickplace")  # Dummy dataset
+            })()
+    
+        logger.info(f"About to call make_policy with cfg.policy type: {type(cfg.policy)}, ds_meta type: {type(dataset_meta)}")
+        logger.info(f"Fallback: About to call make_policy with cfg.policy type: {type(cfg.policy)}, ds_meta type: {type(dataset_meta)}")
+        policy = make_policy(cfg.policy, ds_meta=dataset_meta, env_cfg=None)
+        for param in policy.parameters():
+            param.requires_grad = True
+        policy.to(device)
+        return policy
+
+    # Use LeRobot's default config loading with proper SmolVLA freezing parameters
+    from lerobot.configs.train import TrainPipelineConfig
+
+    try:
+        cfg = TrainPipelineConfig.from_pretrained("lerobot/smolvla_base")
+        # Ensure SmolVLA freezing parameters are set correctly (like dev branch get_model)
+        cfg.policy.freeze_vision_encoder = True  # Freeze SigLIP vision encoder
+        cfg.policy.train_expert_only = True       # Only train action expert
+        logger.info("SmolVLA config updated: freeze_vision_encoder=True, train_expert_only=True")
+    except Exception as e:
+        logger.warning(f"Failed to load config from hub: {e}, using default config")
+        from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
+        from lerobot.configs.default import DatasetConfig
+        policy_cfg = SmolVLAConfig()
+        policy_cfg.freeze_vision_encoder = True  # Freeze SigLIP vision encoder
+        policy_cfg.train_expert_only = True       # Only train action expert
+        cfg = type('TrainPipelineConfig', (), {
+            'policy': policy_cfg,
+            'dataset': DatasetConfig(repo_id="lerobot/svla_so100_pickplace")  # Dummy dataset
+        })()
+        logger.info("SmolVLA config set: freeze_vision_encoder=True, train_expert_only=True")
+
+    policy = make_policy(cfg.policy, ds_meta=dataset_meta, env_cfg=None)
+
+    if peft_config and peft_config.get("enabled", False):
+        logger.info("Applying LoRA adapters to SmolVLA action expert only")
+
+        # Apply LoRA only to the action expert (lm_expert) - vision model remains untouched
+        expert_model = policy.model.vlm_with_expert.lm_expert
+
+        # Create LoRA config for expert only
+        lora_cfg = LoraConfig(
+            task_type=TaskType.SEQ_2_SEQ_LM,  # For VLA sequences (HF docs)
+            r=peft_config["rank"],  # 16 (arXiv/FlowerTune recommendation for efficiency)
+            lora_alpha=peft_config["alpha"],  # 32
+            lora_dropout=peft_config["dropout"],  # 0.1
+            target_modules=peft_config["target_modules"],  # Attention + MLP layers in expert
+            modules_to_save=peft_config["modules_to_save"],  # Custom projections in expert
+            inference_mode=False,  # Training
+        )
+
+        # Apply LoRA to expert model only
+        try:
+            peft_expert = get_peft_model(expert_model, lora_cfg)
+            policy.model.vlm_with_expert.lm_expert = peft_expert
+            logger.info("LoRA applied to action expert only (vision model untouched)")
+        except Exception as e:
+            logger.error(f"Failed to apply LoRA to action expert: {e}")
+            raise RuntimeError(f"LoRA application failed: {e}")
+
+        # Log trainable parameters
+        trainable_params = sum(p.numel() for p in policy.parameters() if p.requires_grad)
+        total_params = sum(p.numel() for p in policy.parameters())
+        logger.info(f"LoRA applied - trainable: {trainable_params:,} ({trainable_params/total_params:.1%}), total: {total_params:,}")
+    else:
+        # Full fine-tuning fallback
+        logger.info("LoRA disabled, enabling full fine-tuning")
+        for param in policy.parameters():
+            param.requires_grad = True
+
+    policy.to(device)
+    return policy
 
 
 def has_image_keys(sample):
@@ -275,6 +300,20 @@ else:
 
 def get_tool_config(tool_name: str, file_path: str = "pyproject.toml") -> dict:
     """Load tool configuration from pyproject.toml."""
+    # If file_path is relative, resolve from project root
+    if not os.path.isabs(file_path):
+        # Get project root (parent of src directory)
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        file_path = os.path.join(project_root, file_path)
+
+    logger.debug(f"Loading tool config '{tool_name}' from: {file_path}")
     with open(file_path, "rb") as f:
         config = tomllib.load(f)
     return config.get("tool", {}).get(tool_name, {})
+
+
+def load_vla_config(config_path: str = "src/configs/policy/vla.yaml") -> dict:
+    """Load VLA configuration from YAML file."""
+    import yaml
+    with open(config_path, "r") as f:
+        return yaml.safe_load(f)
