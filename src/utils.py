@@ -317,3 +317,147 @@ def load_vla_config(config_path: str = "src/configs/policy/vla.yaml") -> dict:
     import yaml
     with open(config_path, "r") as f:
         return yaml.safe_load(f)
+
+
+def analyze_model_parameters(model, title: str = "Model Analysis"):
+    """Analyze and log detailed parameter breakdown for SmolVLA model."""
+    logger.info(f"🔍 {title}")
+    logger.info("=" * 60)
+
+    # Get model components
+    vlm_with_expert = model.model.vlm_with_expert
+    vlm_model = vlm_with_expert.get_vlm_model()  # This gives us the underlying SmolVLM model
+    expert = model.model.vlm_with_expert.lm_expert
+
+    # Total model parameters
+    total_params = sum(p.numel() for p in model.parameters())
+    trainable_total = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    frozen_total = total_params - trainable_total
+
+    logger.info("📊 OVERALL MODEL:")
+    logger.info(f"   Total params: {total_params:,}")
+    logger.info(f"   Trainable: {trainable_total:,} ({trainable_total/total_params:.1%})")
+    logger.info(f"   Frozen: {frozen_total:,} ({frozen_total/total_params:.1%})")
+
+    # Vision encoder parameters
+    vision_params = 0
+    vision_trainable = 0
+    if hasattr(vlm_model, 'vision_model'):
+        vision_params = sum(p.numel() for p in vlm_model.vision_model.parameters())
+        vision_trainable = sum(p.numel() for p in vlm_model.vision_model.parameters() if p.requires_grad)
+
+    logger.info("👁️  VISION ENCODER (SigLIP):")
+    logger.info(f"   Total params: {vision_params:,}")
+    if vision_params > 0:
+        logger.info(f"   Trainable: {vision_trainable:,} ({vision_trainable/vision_params:.1%})")
+        logger.info(f"   Frozen: {vision_params - vision_trainable:,} ({(vision_params - vision_trainable)/vision_params:.1%})")
+    else:
+        logger.info("   Trainable: 0 (0.0%)")
+        logger.info("   Frozen: 0 (0.0%)")
+
+    # Text model parameters (if exists)
+    text_params = 0
+    text_trainable = 0
+    if hasattr(vlm_model, 'text_model'):
+        text_params = sum(p.numel() for p in vlm_model.text_model.parameters())
+        text_trainable = sum(p.numel() for p in vlm_model.text_model.parameters() if p.requires_grad)
+
+    logger.info("📝 TEXT MODEL (SmolLM2):")
+    logger.info(f"   Total params: {text_params:,}")
+    if text_params > 0:
+        logger.info(f"   Trainable: {text_trainable:,} ({text_trainable/text_params:.1%})")
+        logger.info(f"   Frozen: {text_params - text_trainable:,} ({(text_params - text_trainable)/text_params:.1%})")
+    else:
+        logger.info("   Trainable: 0 (0.0%)")
+        logger.info("   Frozen: 0 (0.0%)")
+
+    # Action expert parameters
+    expert_params = sum(p.numel() for p in expert.parameters())
+    expert_trainable = sum(p.numel() for p in expert.parameters() if p.requires_grad)
+    expert_frozen = expert_params - expert_trainable
+
+    logger.info("🤖 ACTION EXPERT (lm_expert):")
+    logger.info(f"   Total params: {expert_params:,}")
+    logger.info(f"   Trainable: {expert_trainable:,} ({expert_trainable/expert_params:.1%})")
+    logger.info(f"   Frozen: {expert_frozen:,} ({expert_frozen/expert_params:.1%})")
+
+    # Analyze trainable parameters that are NOT from LoRA
+    lora_param_names = set(name for name, param in model.named_parameters() if 'lora' in name.lower())
+    non_lora_trainable = []
+
+    for name, param in model.named_parameters():
+        if param.requires_grad and name not in lora_param_names:
+            non_lora_trainable.append((name, param.numel()))
+
+    non_lora_total = sum(count for _, count in non_lora_trainable)
+
+    logger.info("🔧 NON-LoRA TRAINABLE PARAMS:")
+    logger.info(f"   Total non-LoRA trainable: {non_lora_total:,}")
+    if non_lora_trainable:
+        # Group by component
+        expert_non_lora = [(name, count) for name, count in non_lora_trainable if 'lm_expert' in name or 'expert' in name]
+        other_non_lora = [(name, count) for name, count in non_lora_trainable if not ('lm_expert' in name or 'expert' in name)]
+
+        expert_non_lora_total = sum(count for _, count in expert_non_lora)
+        other_non_lora_total = sum(count for _, count in other_non_lora)
+
+        logger.info(f"   Expert non-LoRA: {expert_non_lora_total:,} (custom projections like action_out_proj, state_proj)")
+        logger.info(f"   Other non-LoRA: {other_non_lora_total:,}")
+
+        # Show top non-LoRA parameters
+        if len(expert_non_lora) > 0:
+            logger.info("   Top expert non-LoRA params:")
+            for name, count in sorted(expert_non_lora, key=lambda x: x[1], reverse=True)[:3]:
+                logger.info(f"     - {name}: {count:,}")
+
+    # LoRA parameters analysis
+    lora_params = list(lora_param_names)
+    lora_total = len(lora_params)
+
+    # Categorize LoRA parameters more accurately
+    vision_lora = [name for name in lora_params if 'vision' in name.lower()]
+    text_lora = [name for name in lora_params if 'text' in name.lower() and 'vision' not in name.lower()]
+    expert_lora = [name for name in lora_params if 'lm_expert' in name.lower() or ('expert' in name.lower() and 'lm_expert' not in name.lower())]
+
+    logger.info("🎯 LoRA ADAPTERS:")
+    logger.info(f"   Total LoRA params: {lora_total}")
+
+    # Calculate LoRA parameter sizes (not just counts)
+    vision_lora_size = sum(model.state_dict()[name].numel() for name in vision_lora) if vision_lora else 0
+    text_lora_size = sum(model.state_dict()[name].numel() for name in text_lora) if text_lora else 0
+    expert_lora_size = sum(model.state_dict()[name].numel() for name in expert_lora) if expert_lora else 0
+
+    if vision_params > 0:
+        vision_lora_ratio = vision_lora_size / vision_params * 100 if vision_params > 0 else 0
+        logger.info(f"   Vision LoRA: {vision_lora_size:,} ({vision_lora_ratio:.3f}% of vision params)")
+
+    if text_params > 0:
+        text_lora_ratio = text_lora_size / text_params * 100 if text_params > 0 else 0
+        logger.info(f"   Text LoRA: {text_lora_size:,} ({text_lora_ratio:.3f}% of text params)")
+
+    expert_lora_ratio = expert_lora_size / expert_params * 100 if expert_params > 0 else 0
+    logger.info(f"   Expert LoRA: {expert_lora_size:,} ({expert_lora_ratio:.3f}% of expert params)")
+
+    # Efficiency analysis
+    logger.info("⚡ EFFICIENCY ANALYSIS:")
+    if expert_params > 0 and expert_trainable > 0:
+        # Compare to full expert training
+        full_expert_trainable = expert_params  # Assuming all expert params would be trainable without LoRA
+        lora_efficiency = (1 - expert_trainable / full_expert_trainable) * 100
+        logger.info(f"   LoRA efficiency: {lora_efficiency:.1f}% reduction in expert trainable params")
+        logger.info(f"   Expert trainable ratio: {expert_trainable/expert_params:.1f}% of full expert")
+
+    # Memory implications
+    lora_memory_mb = trainable_total * 4 / (1024 * 1024)  # Rough estimate: 4 bytes per param
+    full_memory_mb = total_params * 4 / (1024 * 1024)
+    logger.info(f"   Memory footprint: {lora_memory_mb:.1f}MB trainable vs {full_memory_mb:.1f}MB total")
+
+    # Summary
+    logger.info("📋 SUMMARY:")
+    logger.info(f"   Model size: {total_params/1e6:.1f}M parameters")
+    logger.info(f"   Training efficiency: {trainable_total/total_params:.1%} trainable")
+    if expert_params > 0:
+        logger.info(f"   Expert efficiency: {expert_trainable/expert_params:.1%} of expert trainable")
+    logger.info(f"   Memory savings: {(frozen_total)/total_params:.1%} frozen")
+
+    logger.info("=" * 60)

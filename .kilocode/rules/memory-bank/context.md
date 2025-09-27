@@ -264,31 +264,36 @@ Key Decision: Deferred optimization to exchange only trainable parameters (~100M
 - **Train Script Enhancement**: Added `--steps` parameter to `train.sh` for configurable local training steps per round (default: 200), allowing runtime override of pyproject.toml local-epochs setting
 
 ## Current Focus
-**✅ PEFT/LoRA Implementation and Configuration Consolidation Successfully Completed**
+**✅ SmolVLA PEFT Analysis Complete - Ready for Runtime Error Fixes**
 
-### **LoRA Integration Overview**
-- **Status**: ✅ **COMPLETED** - Full PEFT/LoRA integration implemented for parameter-efficient federated learning
-- **Memory Efficiency**: 80-95% reduction in trainable parameters (450M → ~1-5M), resolving OOM issues in long FL runs
-- **Communication Savings**: Adapter-only exchange (~1MB vs 400MB full model), 90%+ bandwidth reduction
-- **Performance**: 3-5x faster training/aggregation while maintaining SmolVLA accuracy for robotics tasks
-- **Compatibility**: Full LeRobot API compliance, Flower integration, backward-compatible with full fine-tuning
+### **SmolVLA Architecture Understanding Achieved**
+- **Status**: ✅ **COMPLETED** - Comprehensive analysis of SmolVLA components and PEFT integration
+- **Vision Encoder**: SigLIP (86M params) - Always frozen in SmolVLA
+- **Text Model**: SmolLM2 (204M params) - Always frozen in SmolVLA
+- **Action Expert**: Custom transformer (101M params) - Only trainable component
+- **LoRA Application**: Correctly applied only to action expert (3.4M adapters, 96.6% efficiency)
 
-### **Configuration Consolidation**
-- **Status**: ✅ **COMPLETED** - All configurations consolidated into pyproject.toml, eliminated redundancies
-- **Changes**: Migrated PEFT config from src/configs/policy/vla.yaml to [tool.zk0.peft_config], removed unused config sections
-- **Benefits**: Single source of truth, no duplication, easier maintenance, standard TOML format
+### **PEFT FL Training Runtime Errors Identified**
+- **Root Cause**: Incorrect target_modules configuration for SmolVLA expert architecture
+- **Secondary Issues**: LoRA forward pass compatibility, AMP integration, parameter aggregation
+- **Impact**: Prevents successful federated training with LoRA adapters
+
+### **Comprehensive Fix Plan Created**
+- **High Priority**: Fix target_modules configuration (`["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj"]`)
+- **High Priority**: Add LoRA forward pass validation after adapter application
+- **Medium Priority**: Optimize LoRA hyperparameters (rank=8, alpha=16) for SmolVLA
+- **Medium Priority**: Improve AMP integration with LoRA-modified expert
+- **Low Priority**: Enhance LoRAFedAvg parameter aggregation robustness
 
 ### **Key Implementation Components**
-1. **Dependencies**: Consolidated into pyproject.toml with PEFT, accelerate, bitsandbytes
-2. **Policy Loading**: `load_lora_policy()` in src/utils.py wraps SmolVLA with LoRA adapters
-3. **Training Loop**: Updated src/task.py to use LoRA-aware optimizer and AMP
-4. **Client Logic**: Modified src/client_app.py for adapter-only parameter exchange
-5. **Server Aggregation**: Implemented LoRAFedAvg strategy for adapter averaging and merging
-6. **Configuration**: All configs now loaded from pyproject.toml via get_tool_config()
-7. **Script Integration**: train.sh enables LoRA by default with --no-peft option
+1. **Enhanced Analysis**: `analyze_model_parameters()` function provides detailed parameter breakdown
+2. **SmolVLA Understanding**: Vision/text frozen (290M), expert trainable (101M), LoRA adapters (3.4M)
+3. **Configuration Issues**: Current target_modules don't match SmolVLA expert naming conventions
+4. **Validation Tools**: Forward pass testing and parameter analysis for debugging
+5. **Memory Bank Updates**: Architecture and technical documentation updated with findings
 
 ### **System Status**
-The project is in **alpha stage development** with PEFT/LoRA fully integrated and configurations consolidated. Core FL infrastructure operational with memory-efficient parameter updates. Ready for validation testing and production deployment. Next: Unit/integration tests, performance validation, and documentation updates.
+The project is in **alpha stage development** with complete SmolVLA PEFT analysis finished. Root causes of runtime errors identified and comprehensive fix plan created. Ready to implement targeted fixes for successful PEFT FL training. Next: Implement configuration fixes, add validation, optimize hyperparameters, and test comprehensive PEFT integration.
 
 ## Logging System Improvements (2025-09-22) ✅ COMPLETED
 Successfully implemented comprehensive logging system refactoring with complete evaluation statistics capture.

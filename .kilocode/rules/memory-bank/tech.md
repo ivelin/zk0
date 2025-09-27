@@ -13,8 +13,11 @@
 - **Hugging Face Transformers**: Model loading and inference
 - **LeRobot**: Robotics data handling and model integration
 - **PEFT (Parameter-Efficient Fine-Tuning)**: LoRA adapters for memory-efficient training of SmolVLA
-  - **LoRA Configuration**: rank=16, alpha=32, dropout=0.1; targets attention modules (q_proj, k_proj, v_proj, o_proj) and action_head
-  - **Integration**: Wraps SmolVLAPolicy post-loading; trainable params ~1-5M (vs. 450M full); custom aggregation for adapters
+  - **SmolVLA Architecture**: Vision (86M frozen SigLIP) + Text (204M frozen SmolLM2) + Action Expert (101M trainable)
+  - **LoRA Application**: Only to action expert (3.4M adapters, 96.6% efficiency); vision/text untouched
+  - **LoRA Configuration**: rank=16, alpha=32, dropout=0.1; targets ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj"]
+  - **Integration**: Wraps SmolVLAPolicy post-loading; trainable params 5M (1.1% vs 450M full); custom aggregation for adapters
+  - **Runtime Issues**: Target modules mismatch, forward pass compatibility, AMP integration - fixes identified
 
 ### Federated Learning Framework
 - **Flower Framework**: Federated learning orchestration and aggregation
@@ -26,11 +29,11 @@
   - **Custom Strategy**: LoRAFedAvg for adapter-only aggregation and merging (inspired by FlowerTune)
 
 ### SmolVLA Model
-- **Model Size**: 450M parameters total
+- **Model Size**: 453M parameters total (with LoRA adapters)
 - **Vision-Language Model (VLM)**: SmolVLM2 backbone
-  - Vision Encoder: SigLIP
-  - Language Decoder: SmolLM2
-- **Action Expert**: Flow matching transformer (~100M parameters)
+  - **Vision Encoder**: SigLIP (86M params, always frozen)
+  - **Language Decoder**: SmolLM2 (204M params, always frozen)
+- **Action Expert**: Flow matching transformer (101M parameters, only trainable component)
 - **Design Choices for Efficiency and Robustness**:
   - Visual token reduction (64 tokens per frame using PixelShuffle)
   - Layer skipping (half of VLM layers for faster inference)
@@ -41,7 +44,7 @@
 - **Supported Hardware**: Consumer GPUs, CPUs, even MacBooks
 - **Asynchronous Inference**: 30% faster response, 2× task throughput
 - **Real-world Performance**: SO-100 and SO-101 compatibility
-- **LoRA Adaptation**: Low-rank adapters on attention layers and action head; freezes vision encoder for efficiency
+- **LoRA Adaptation**: 3.4M adapters on action expert only (96.6% efficiency); vision/text untouched
 
 ### Datasets
 - **SO-100 Datasets**: Real-world robotics training data from SO-100 robot platform
@@ -345,5 +348,8 @@ Run these commands after any requirements.txt updates or when switching branches
 
 ### LoRA Adapter Exchange
 - **Client-Server Flow**: Clients load base + adapters; train adapters only; send adapter state_dict (~1MB). Server averages A/B matrices, merges into base, broadcasts merged adapters.
-- **Memory Savings**: ~80-95% reduction in trainable params and comms overhead.
+- **Memory Savings**: 98.9% parameters frozen, 19.3MB trainable vs 1729.8MB total; 99.75% bandwidth reduction.
+- **Parameter Breakdown**: 3.4M LoRA adapters on action expert (3.36% of expert params); vision/text untouched.
+- **Runtime Issues**: Target modules configuration mismatch, forward pass compatibility, AMP integration.
+- **Fix Plan**: Update target_modules to SmolVLA expert naming, add validation, optimize hyperparameters.
 - **Compatibility**: Backward-compatible flag in config; falls back to full fine-tuning if disabled.
