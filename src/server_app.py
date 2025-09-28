@@ -470,6 +470,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     try:
         from src.utils import get_tool_config
         peft_config = get_tool_config("zk0.peft_config")
+        logger.debug(f"Loaded PEFT config: {peft_config}")
         if not peft_config:
             logger.warning("No PEFT config found in pyproject.toml, using defaults")
             peft_config = {
