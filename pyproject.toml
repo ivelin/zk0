@@ -61,7 +61,7 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 1 # train rounds
+num-server-rounds = 3 # train rounds (increased for manual testing)
 local-epochs = 5 # steps/epochs per round
 model-name = "lerobot/smolvla_base"
 fraction-fit = 1.0
@@ -122,10 +122,10 @@ clients = [
 
 [tool.zk0.peft_config]
 enabled = true
-rank = 16  # Low-rank (8-64; tune for 24GB GPU)
-alpha = 32  # Scaling (2*rank)
+rank = 16  # Low-rank (8-64; optimized for SmolVLA expert)
+alpha = 16  # Scaling (2*rank)
 dropout = 0.1
-target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]  # Attention + MLP layers (SmolVLMWithExpert)
+target_modules = ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj"]  # SmolVLA expert attention layers only
 modules_to_save = ["action_out_proj", "state_proj"]  # Custom action/state projections (not standard HF)
 
 [tool.wandb]

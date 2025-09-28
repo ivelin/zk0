@@ -143,6 +143,10 @@ def load_lora_policy(config_path: Optional[str] = None, device: torch.device = t
         # Apply LoRA only to the action expert (lm_expert) - vision model remains untouched
         expert_model = policy.model.vlm_with_expert.lm_expert
 
+        # Fix SmolVLAConfig compatibility with PEFT (add dict-like get method)
+        if not hasattr(expert_model.config, 'get'):
+            expert_model.config.get = lambda key, default=None: getattr(expert_model.config, key, default)
+
         # Create LoRA config for expert only
         lora_cfg = LoraConfig(
             task_type=TaskType.SEQ_2_SEQ_LM,  # For VLA sequences (HF docs)
@@ -162,6 +166,7 @@ def load_lora_policy(config_path: Optional[str] = None, device: torch.device = t
         except Exception as e:
             logger.error(f"Failed to apply LoRA to action expert: {e}")
             raise RuntimeError(f"LoRA application failed: {e}")
+
 
         # Log trainable parameters
         trainable_params = sum(p.numel() for p in policy.parameters() if p.requires_grad)

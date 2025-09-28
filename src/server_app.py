@@ -199,7 +199,7 @@ class LoRAFedAvg(FedAvg):
     def aggregate_fit(
         self, server_round: int, results: List[Tuple[ClientProxy, FitRes]], failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]]
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
-        """Aggregate LoRA adapters from clients."""
+        """Aggregate LoRA adapters from clients with enhanced robustness."""
         if not results:
             return None, {}
 
@@ -208,46 +208,111 @@ class LoRAFedAvg(FedAvg):
         # Collect adapter parameters from clients using names from metrics
         client_adapters = []
         total_samples = 0
+        valid_clients = 0
 
         for client_proxy, fit_res in results:
-            # Extract parameters from FitRes (list of ndarrays)
-            params_ndarrays = parameters_to_ndarrays(fit_res.parameters)
-            # Get parameter names from client's training metrics
-            param_names = fit_res.metrics.get("lora_param_names", [])
-            num_samples = fit_res.num_examples
+            try:
+                # Extract parameters from FitRes (list of ndarrays)
+                params_ndarrays = parameters_to_ndarrays(fit_res.parameters)
+                # Get parameter names from client's training metrics
+                param_names = fit_res.metrics.get("lora_param_names", [])
+                num_samples = fit_res.num_examples
 
-            if len(param_names) != len(params_ndarrays):
-                logger.warning(f"Client {client_proxy.cid}: Mismatch between param names ({len(param_names)}) and arrays ({len(params_ndarrays)})")
+                # Validate LoRA parameters
+                if not param_names:
+                    logger.warning(f"Client {client_proxy.cid}: No LoRA parameter names in metrics")
+                    continue
+
+                if len(param_names) != len(params_ndarrays):
+                    logger.warning(f"Client {client_proxy.cid}: Mismatch between param names ({len(param_names)}) and arrays ({len(params_ndarrays)})")
+                    continue
+
+                # Validate that parameters are actually LoRA adapters
+                lora_params = [name for name in param_names if "lora" in name.lower()]
+                if len(lora_params) != len(param_names):
+                    logger.warning(f"Client {client_proxy.cid}: Not all parameters are LoRA ({len(lora_params)}/{len(param_names)})")
+                    continue
+
+                # Convert ndarrays to named adapter dict
+                adapter_dict = {name: torch.from_numpy(arr) for name, arr in zip(param_names, params_ndarrays)}
+                client_adapters.append(adapter_dict)
+                total_samples += num_samples
+                valid_clients += 1
+
+                logger.debug(f"Client {client_proxy.cid}: Valid LoRA adapters ({len(param_names)} params, {num_samples} samples)")
+
+            except Exception as e:
+                logger.warning(f"Client {client_proxy.cid}: Failed to process LoRA adapters: {e}")
                 continue
 
-            # Convert ndarrays to named adapter dict
-            adapter_dict = {name: torch.from_numpy(arr) for name, arr in zip(param_names, params_ndarrays)}
-            client_adapters.append(adapter_dict)
-            total_samples += num_samples
-
         if not client_adapters:
-            logger.warning("No LoRA adapters received from clients")
+            logger.error("No valid LoRA adapters received from any clients")
             return None, {}
 
-        # Average adapter parameters by name
+        logger.info(f"Server: Processing {len(client_adapters)} valid LoRA adapter sets from {valid_clients}/{len(results)} clients")
+
+        # Average adapter parameters by name with robustness checks
         averaged_adapters = {}
-        for param_name in client_adapters[0].keys():
-            param_tensors = [adapter[param_name] for adapter in client_adapters if param_name in adapter]
+        reference_client = client_adapters[0]
+        param_names = list(reference_client.keys())
+
+        for param_name in param_names:
+            param_tensors = []
+            clients_with_param = 0
+
+            for adapter in client_adapters:
+                if param_name in adapter:
+                    param_tensors.append(adapter[param_name])
+                    clients_with_param += 1
+                else:
+                    logger.warning(f"Parameter {param_name} missing from client adapter")
+
             if param_tensors:
-                averaged_adapters[param_name] = torch.mean(torch.stack(param_tensors), dim=0)
+                # Average available parameters
+                averaged_param = torch.mean(torch.stack(param_tensors), dim=0)
+                averaged_adapters[param_name] = averaged_param
+                logger.debug(f"Averaged {param_name}: {clients_with_param}/{len(client_adapters)} clients contributed")
+            else:
+                logger.error(f"No clients provided parameter {param_name}")
 
-        logger.info(f"Server: Averaged {len(averaged_adapters)} LoRA adapter parameters from {len(client_adapters)} clients")
+        if not averaged_adapters:
+            logger.error("No parameters could be averaged")
+            return None, {}
 
-        # Load base model and create PeftModel for merging
-        from src.task import get_model, load_data
-        trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
-        dataset_meta = trainloader.dataset.meta
-        base_model = get_model(dataset_meta=dataset_meta, peft_config=self.peft_config)
+        logger.info(f"Server: Successfully averaged {len(averaged_adapters)} LoRA adapter parameters from {len(client_adapters)} clients")
 
-        # Create PeftModel with averaged adapters
-        peft_model = PeftModel.from_pretrained(base_model, averaged_adapters, adapter_name="aggregated")
-        # Merge and unload to get final model
-        merged_model = peft_model.merge_and_unload()
+        try:
+            # Load base model and create PeftModel for merging
+            from src.task import get_model, load_data
+            trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
+            dataset_meta = trainloader.dataset.meta
+            base_model = get_model(dataset_meta=dataset_meta, peft_config=self.peft_config)
+
+            # Create PeftModel with averaged adapters
+            peft_model = PeftModel.from_pretrained(base_model, averaged_adapters, adapter_name="aggregated")
+
+            # Validate merged model before unloading
+            logger.info("Server: Validating merged LoRA model...")
+            with torch.no_grad():
+                dummy_input = {
+                    'image': torch.randn(1, 3, 224, 224),
+                    'state': torch.randn(1, 7),
+                }
+                dummy_task = "test task"
+                try:
+                    output = peft_model(dummy_input, dummy_task)
+                    logger.info("Server: Merged model validation successful")
+                except Exception as e:
+                    logger.error(f"Server: Merged model validation failed: {e}")
+                    raise RuntimeError(f"LoRA merging produced invalid model: {e}")
+
+            # Merge and unload to get final model
+            merged_model = peft_model.merge_and_unload()
+            logger.info("Server: LoRA adapters successfully merged into base model")
+
+        except Exception as e:
+            logger.error(f"Server: Failed to merge LoRA adapters: {e}")
+            raise RuntimeError(f"LoRA aggregation failed: {e}")
 
         # Return merged LoRA parameters as Parameters object (sorted by key for consistency)
         merged_state = merged_model.state_dict()
@@ -255,9 +320,14 @@ class LoRAFedAvg(FedAvg):
         lora_ndarrays = [merged_state[k].cpu().numpy() for k in lora_keys]
         aggregated_parameters = ndarrays_to_parameters(lora_ndarrays)
 
-        logger.info(f"Server: LoRA aggregation complete - {len(lora_ndarrays)} adapter parameters")
+        logger.info(f"Server: LoRA aggregation complete - {len(lora_ndarrays)} adapter parameters from {len(lora_keys)} keys")
 
-        return aggregated_parameters, {"num_samples": total_samples, "lora_keys": lora_keys}
+        return aggregated_parameters, {
+            "num_samples": total_samples,
+            "lora_keys": lora_keys,
+            "valid_clients": valid_clients,
+            "total_clients": len(results)
+        }
 
 
 def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
@@ -399,16 +469,15 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Load PEFT config from pyproject.toml [tool.zk0.peft_config]
     try:
         from src.utils import get_tool_config
-        zk0_config = get_tool_config("zk0")
-        peft_config = zk0_config.get("peft_config", {})
+        peft_config = get_tool_config("zk0.peft_config")
         if not peft_config:
             logger.warning("No PEFT config found in pyproject.toml, using defaults")
             peft_config = {
                 "enabled": True,
-                "rank": 16,
-                "alpha": 32,
+                "rank": 8,
+                "alpha": 16,
                 "dropout": 0.1,
-                "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+                "target_modules": ["self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj", "self_attn.o_proj"],
                 "modules_to_save": ["action_out_proj", "state_proj"]
             }
     except Exception as e:

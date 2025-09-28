@@ -103,7 +103,8 @@ class SmolVLAClient(NumPyClient):
                 trainloader=self.trainloader,
                 epochs=self.local_epochs,
                 device=self.device,
-                batch_size=config.get("batch_size", 64)
+                batch_size=config.get("batch_size", 64),
+                peft_config=self.peft_config
             )
             logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
         except Exception as e:

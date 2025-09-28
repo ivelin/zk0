@@ -17,10 +17,10 @@
 - **Scope Limitation**: All development work must remain within the project root directory
 
 ### 2. Environment Requirements
-- **Primary Environment**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
-- **Alternative Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
-- **VSCode Integration**: VSCode with Docker integration and automatic environment detection
-- **Training Script**: Use `./train.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
+- **Primary Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
+- **Secondary Environment**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
+- **VSCode Integration**: VSCode with automatic environment detection (conda preferred; Docker integration optional)
+- **Training Script**: Use `conda activate zk0; flwr run . local-simulation-serialized-gpu` for primary conda executions or `./train.sh` for secondary Docker-based executions
 - **Dependencies**: Use pinned versions from `requirements.txt`
 
 ### 3. Technical Focus
@@ -51,10 +51,10 @@
 - **Task Completion Assessment**: When a big task is completed that involves substantial code changes, assess and propose project progress update, but wait for approval before making any changes
 
 ### 5. Testing Execution Requirements
-- **Environment**: All tests must run in Docker container (`zk0`) for consistency
+- **Environment**: All tests must run in primary conda zk0 environment for consistency; use Docker as secondary for isolation
 - **Parallel Execution**: Use `pytest -n auto` for parallel test execution
 - **Coverage**: Always include `--cov=src --cov-report=term-missing` for coverage reporting
-- **Command Format**: Use train.sh or direct Docker run with `python -m pytest -n auto --cov=src --cov-report=term-missing`
+- **Command Format**: Use `conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing` for primary; or train.sh/Docker for secondary
 
 ### 7. Environment Dependency Management
 - **Reproducible Dependencies**: When new OS-level or Python dependencies are needed, update Dockerfile and/or requirements.txt for reproducibility

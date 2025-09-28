@@ -113,3 +113,45 @@ class TestLoRALoading:
             # LoRA forward pass may fail with real data if codec issues, but should not crash on structure
             # This is expected for some environments
             assert "forward" in str(e) or "input" in str(e).lower() or "codec" in str(e).lower()
+
+    def test_lora_forward_pass_validation(self):
+        """Test LoRA forward pass with dummy input to validate compatibility."""
+        from src.utils import get_tool_config
+        peft_config = get_tool_config("zk0.peft_config")
+
+        # Load real dataset for metadata
+        from src.utils import load_lerobot_dataset
+        dataset = load_lerobot_dataset("lerobot/svla_so100_pickplace")
+        dataset_meta = dataset.meta
+
+        model = load_lora_policy(None, "cpu", peft_config, dataset_meta)
+        model.eval()
+
+        # Create dummy input matching SmolVLA's expected format
+        batch_size = 1
+        device = torch.device("cpu")
+        dummy_obs = {
+            'observation.images.top': torch.randn(batch_size, 3, 480, 640).to(device),
+            'observation.images.wrist': torch.randn(batch_size, 3, 480, 640).to(device),
+            'observation.state': torch.randn(batch_size, 6).to(device),
+            'task': "pick and place",
+            'action': torch.tensor([0], dtype=torch.long, device=device),  # SmolVLA action dimension
+        }
+        dummy_task = "pick and place"
+
+        # Test forward pass
+        with torch.no_grad():
+            output = model(dummy_obs, dummy_task)
+
+        assert output is not None
+
+        # Check output structure
+        if isinstance(output, dict):
+            action_key = 'action' if 'action' in output else list(output.keys())[0]
+            action_pred = output[action_key]
+        else:
+            action_pred = output
+
+        assert isinstance(action_pred, torch.Tensor)
+        expected_shape = (batch_size, 7)  # SmolVLA action dimension
+        assert action_pred.shape == expected_shape

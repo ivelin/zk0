@@ -85,9 +85,9 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 4. **Model Aggregation**: Flower's parameter aggregation mechanisms adapted for LoRA (small payloads ~1MB)
 
 ## Development Environment
-- **Primary**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
-- **Alternative**: Conda environment ("zk0") for local development and training runs (validated for federated learning execution)
-- **VSCode**: IDE with Docker integration and automatic environment detection
+- **Primary**: Conda environment ("zk0") for local development and training runs (validated for federated learning execution)
+- **Secondary**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
+- **VSCode**: IDE with automatic environment detection (conda preferred; Docker integration optional)
 - **Git**: Version control with GitHub integration
 - **Pre-commit Hooks**: Code quality and formatting checks
 
@@ -140,55 +140,7 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 
 ## Installation and Setup
 
-### Docker-Based Setup (Recommended)
-```bash
-# Build the Docker image with all dependencies
-docker build -t zk0 .
-
-# Run federated learning with serialized execution
-./train.sh
-
-# Or run directly with Docker
-docker run --gpus all --shm-size=10.24gb \
-  -v $(pwd):/workspace \
-  -v $(pwd)/outputs:/workspace/outputs \
-  -v /tmp:/tmp \
-  -w /workspace \
-  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
-```
-
-### Standard Training Execution
-**ALWAYS use `./train.sh` from the project root directory for training runs.** This script provides:
-- Proper Docker environment setup
-- GPU resource management
-- Cache volume mounting for model persistence
-- Error handling and logging
-- Consistent execution across different systems
-
-**Usage:**
-```bash
-# Basic training (uses pyproject.toml defaults: 1 round, 2 steps/epochs, serialized GPU)
-./train.sh
-
-# For custom config, use direct Flower run with overrides
-flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
-
-# Or with Docker directly (example with overrides)
-docker run --gpus all --shm-size=10.24gb \
-  -v $(pwd):/workspace \
-  -v $(pwd)/outputs:/workspace/outputs \
-  -v /tmp:/tmp \
-  -v $HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface \
-  -w /workspace \
-  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
-```
-
-**Configuration Notes:**
-- Edit `[tool.flwr.app.config]` in `pyproject.toml` for defaults (e.g., num-server-rounds=1, local-epochs=2).
-- Use `local-simulation-serialized-gpu` for reliable execution (prevents SafeTensors issues; max-parallelism=1).
-- train.sh has no CLI parameters; all config via pyproject.toml.
-
-### Conda Environment Setup (Alternative)
+### Conda Environment Setup (Primary)
 #### Create and Configure Conda Environment
 ```bash
 # Create the zk0 environment
@@ -230,7 +182,63 @@ conda activate zk0
 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
 ```
 
-**Note**: Conda execution provides a lightweight alternative to Docker for development and testing, with validated reliability for federated learning runs.
+**Note**: Conda execution is the primary method for development and testing, providing direct access and faster iteration. Use for all routine runs.
+
+### Docker-Based Setup (Secondary)
+```bash
+# Build the Docker image with all dependencies
+docker build -t zk0 .
+
+# Run federated learning with serialized execution
+./train.sh
+
+# Or run directly with Docker
+docker run --gpus all --shm-size=10.24gb \
+  -v $(pwd):/workspace \
+  -v $(pwd)/outputs:/workspace/outputs \
+  -v /tmp:/tmp \
+  -w /workspace \
+  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=2"
+```
+
+### Standard Training Execution
+**Primary: Use conda zk0 environment for training runs.** Activate with `conda activate zk0` or use `conda run -n zk0` for direct execution. For Docker (secondary, isolation/prod), use `./train.sh`.
+
+**Conda Usage:**
+- `conda activate zk0; flwr run . local-simulation-serialized-gpu`
+- Provides direct GPU access, faster debugging, no container overhead.
+
+**Docker Usage (`./train.sh`):**
+This script provides:
+- Isolated reproducible environment
+- GPU resource management
+- Cache volume mounting for model persistence
+- Error handling and logging
+- Use for production-like testing or when conda unavailable
+
+**Usage:**
+```bash
+# Basic training (uses pyproject.toml defaults: 1 round, 2 steps/epochs, serialized GPU)
+./train.sh
+
+# For custom config, use direct Flower run with overrides
+flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
+
+# Or with Docker directly (example with overrides)
+docker run --gpus all --shm-size=10.24gb \
+  -v $(pwd):/workspace \
+  -v $(pwd)/outputs:/workspace/outputs \
+  -v /tmp:/tmp \
+  -v $HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface \
+  -w /workspace \
+  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
+```
+
+**Configuration Notes:**
+- Edit `[tool.flwr.app.config]` in `pyproject.toml` for defaults (e.g., num-server-rounds=1, local-epochs=2).
+- Use `local-simulation-serialized-gpu` for reliable execution (prevents SafeTensors issues; max-parallelism=1).
+- train.sh has no CLI parameters; all config via pyproject.toml.
+
 
 ### Basic Usage Examples
 
