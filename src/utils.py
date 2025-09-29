@@ -46,8 +46,6 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
     except ImportError:
         pass  # dotenv not available, continue
 
-
-
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -115,7 +113,6 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
         logger.info("Final attempt: Loading with explicit SafeTensors bypass...")
         # Try to load without SafeTensors by using torch.load directly
         import tempfile
-        import os
         from huggingface_hub import snapshot_download
 
         # Download model files to temporary directory
@@ -211,7 +208,7 @@ def load_lerobot_dataset(
 
         # Override dataset configuration with our specific dataset
         cfg.dataset.repo_id = repo_id
-        cfg.dataset.decode_videos = True  # Enable video decoding for full metadata (episodes)
+        cfg.dataset.decode_videos = False  # Lazy decode for memory efficiency (match standalone train script)
 
         # Load dataset using LeRobot factory (same as standalone training)
         dataset = make_dataset(cfg)

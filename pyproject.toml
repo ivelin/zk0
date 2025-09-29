@@ -47,16 +47,16 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 50 # train rounds
-local-epochs = 100 # steps/epochs per round
+num-server-rounds = 20 # train rounds
+local-epochs = 1000 # steps/epochs per round (reduced from 100 to prevent hanging)
 model-name = "lerobot/smolvla_base"
 fraction-fit = 0.5
-fraction-evaluate = 5.0
-batch_size = 16 # 64 causes OOM on RTX 3090 24GB GPU
-server-device = "gpu" # "cpu"
-use-wandb = false
-eval-frequency = 5 # Evaluate every round
-eval_mode = "quick" # Quick evaluation
+fraction-evaluate = 1 # Evaluate all clients
+batch_size = 64 # Batch size for training and evaluation (match standalone train script)
+server-device = "gpu" # could be also "cpu"
+use-wandb = true # requires WANDB_API_KEY env var set
+eval-frequency = 2 # Evaluate every eval-frequency rounds
+eval_mode = "quick" # Quick evaluation vs full (full is very slow)
 
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)
@@ -99,8 +99,8 @@ options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avo
 [tool.zk0.datasets]
 clients = [
     {name = "lerobot/svla_so100_pickplace", description = "Pick and place operations - VALIDATED CLEAN", client_id = 0, last_n_episodes_for_eval = 3},
-    {name = "ethanCSL/direction_test", description = "Direction test - REPLACEMENT FOR INVALID REPO", client_id = 1, last_n_episodes_for_eval = 3},
-    {name = "kakimoto/record-hockey-r24_white_1280x720", description = "Air hockey - VALIDATED CLEAN", client_id = 2, last_n_episodes_for_eval = 3},
+    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1, last_n_episodes_for_eval = 3},
+    {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2, last_n_episodes_for_eval = 3},
     {name = "sergiov2000/so100_movella_ball_usability_u3_stack1", description = "Stack the ball on top of the lego structure. - VALIDATED CLEAN", client_id = 3, last_n_episodes_for_eval = 3}
 ]
 

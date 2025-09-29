@@ -9,13 +9,11 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 from datasets.utils.logging import disable_progress_bar
+from loguru import logger
 
 from .utils import load_lerobot_dataset
 
 disable_progress_bar()
-
-
-from loguru import logger
 
 def load_data(
     partition_id: int, num_partitions: int, model_name: str, batch_size=64, device=None
@@ -32,12 +30,18 @@ def load_data(
     # Create dataloader for offline training.
     trainloader = torch.utils.data.DataLoader(
         dataset,
-        num_workers=4,
+        num_workers=0,  # Match standalone train script (no multiprocessing overhead)
         batch_size=batch_size,  # Fixed to 64 to match standalone for stable gradients
         shuffle=True,
-        pin_memory=device != torch.device("cpu"),
+        pin_memory=False,  # Match standalone train script (no VRAM pinning)
         drop_last=True,
     )
+
+    # Log memory usage after dataset loading (for OOM debugging)
+    if torch.cuda.is_available():
+        allocated_gb = torch.cuda.memory_allocated() / 1e9
+        reserved_gb = torch.cuda.memory_reserved() / 1e9
+        logger.info(f"Dataset loading complete - VRAM allocated: {allocated_gb:.2f} GB, reserved: {reserved_gb:.2f} GB")
 
     # SmolVLA doesn't use gym evaluation like PushT
     # Return None for testloader to match Flower's expected interface
@@ -58,6 +62,13 @@ def get_model(dataset_meta=None):
 
     # Use lerobot factory to create policy (like standalone train script)
     policy = make_policy(cfg=cfg, ds_meta=dataset_meta)
+
+    # Log memory usage after model loading (for OOM debugging)
+    if torch.cuda.is_available():
+        allocated_gb = torch.cuda.memory_allocated() / 1e9
+        reserved_gb = torch.cuda.memory_reserved() / 1e9
+        logger.info(f"Model loading complete - VRAM allocated: {allocated_gb:.2f} GB, reserved: {reserved_gb:.2f} GB")
+
     return policy
 
 
@@ -138,7 +149,6 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     from lerobot.configs.train import TrainPipelineConfig
     from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
     from torch.amp import GradScaler
-    from itertools import cycle
     import logging
 
     # Create minimal config for lerobot factories (like standalone script)
@@ -207,34 +217,20 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
         logger.error(traceback.format_exc())
         raise
 
-    try:
-        logger.info(f"Creating cycle iterator for dataloader (len(trainloader)={len(trainloader) if hasattr(trainloader, '__len__') else 'unknown'})...")
-        dl_iter = cycle(trainloader)
-        logger.info("Cycle iterator created successfully.")
-    except Exception as e:
-        logger.error(f"Failed to create cycle iterator: {e}")
-        import traceback
-        logger.error(traceback.format_exc())
-        raise
-
-    # Training loop (reusing lerobot's training loop logic)
+    # Training loop (exactly like standalone lerobot train script)
     from lerobot.scripts.train import update_policy
+    from lerobot.datasets.utils import cycle
     step = 0
-    done = False
-    logger.info(f"Entering training loop: target epochs/steps={epochs}, initial step={step}")
+    logger.info(f"Entering training loop: target steps={epochs}, initial step={step}")
     loop_start_time = time.perf_counter()
-    while not done:
-        try:
-            start_time = time.perf_counter()
-            logger.debug(f"Step {step}: Fetching next batch from dl_iter...")
-            batch = next(dl_iter)
-            train_tracker.dataloading_s = time.perf_counter() - start_time
-            logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
-        except Exception as e:
-            logger.error(f"Step {step}: Failed to fetch batch: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-            raise
+
+    # Use cycle iterator like standalone script
+    dl_iter = cycle(trainloader)
+    for _ in range(step, epochs):
+        start_time = time.perf_counter()
+        batch = next(dl_iter)
+        train_tracker.dataloading_s = time.perf_counter() - start_time
+        logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
 
         try:
             logger.debug(f"Step {step}: Moving batch to device...")
@@ -246,7 +242,10 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
             if torch.cuda.is_available():
                 pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
                 pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
-                logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB")
+                free_memory, total_memory = torch.cuda.mem_get_info(device)
+                free_memory_gb = free_memory / 1e9
+                total_memory_gb = total_memory / 1e9
+                logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB, Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
         except Exception as e:
             logger.error(f"Step {step}: Failed to move batch to device: {e}")
             import traceback
@@ -255,8 +254,6 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
 
         try:
             logger.debug(f"Step {step}: Calling update_policy (policy.training={policy.training})...")
-            if torch.cuda.is_available():
-                pre_vram = torch.cuda.memory_allocated(device)/1e9
             train_tracker, output_dict = update_policy(
                 train_tracker,
                 policy,  # Use the provided model (already has server parameters)
@@ -272,12 +269,17 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
                 post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
                 delta_allocated = post_update_allocated - pre_update_allocated
                 delta_reserved = post_update_reserved - pre_update_reserved
-                logger.info(f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB)")
+                free_memory, total_memory = torch.cuda.mem_get_info(device)
+                free_memory_gb = free_memory / 1e9
+                total_memory_gb = total_memory / 1e9
+                logger.info(f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB), Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
                 # Clear cache after each step to prevent accumulation
                 torch.cuda.empty_cache()
                 cleared_allocated = torch.cuda.memory_allocated(device) / 1e9
                 cleared_reserved = torch.cuda.memory_reserved(device) / 1e9
-                logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB")
+                free_memory, total_memory = torch.cuda.mem_get_info(device)
+                cleared_free_gb = free_memory / 1e9
+                logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
             logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
         except Exception as e:
             logger.error(f"Step {step}: Failed in update_policy: {e}")
@@ -287,7 +289,6 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
 
         step += 1
         train_tracker.step()
-        logger.debug(f"Step {step}: Incremented step, current step={step}, target={epochs}")
 
         # Log progress every 10 steps for diagnosis (in addition to cfg.log_freq)
         if step % 10 == 0:
@@ -300,13 +301,7 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
             logger.info(f"Step {step}: loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, update_s={train_metrics['update_s'].avg:.4f}")
             train_tracker.reset_averages()
 
-        # Check stopping condition
-        if step >= epochs:
-            done = True
-            logger.info(f"Training loop exit: step={step} >= epochs={epochs}, done={done}")
-            break
-
-    logger.info(f"Training loop exited after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s")
+    logger.info(f"Training completed after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s")
 
     # Log post-training param status
     log_param_status(policy, "post-training")
@@ -372,8 +367,8 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
         dataset,
         batch_size=batch_size,  # Use same batch size as training for consistency
         shuffle=False,
-        num_workers=4,
-        pin_memory=device != torch.device("cpu"),
+        num_workers=0,  # Reduce memory overhead by avoiding multiprocessing
+        pin_memory=False,  # Disable pin_memory to reduce VRAM pinning overhead
         drop_last=False,  # Don't drop last batch for evaluation
     )
 
@@ -434,6 +429,11 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
     else:
         logging.warning(f"No batches successfully evaluated for client {partition_id}")
         avg_loss = 1.0
+
+    # Clear GPU cache after evaluation to prevent VRAM accumulation
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        logger.debug("Cleared GPU cache after evaluation")
 
     # Return metrics in Flower format: loss, num_examples, metrics_dict
     # For SmolVLA, the primary metric is the flow matching loss (MSE)

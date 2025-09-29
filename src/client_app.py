@@ -1,9 +1,7 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
-import warnings
 from pathlib import Path
 
-import logging
 import psutil
 
 import torch
@@ -16,16 +14,10 @@ from src.task import (
     test,
     train,
 )
-from transformers import logging
 from loguru import logger
 
 from flwr.client import Client, ClientApp, NumPyClient
 from flwr.common import Context
-
-# Mute warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
-logging.set_verbosity_error()
-
 
 # Flower client
 class SmolVLAClient(NumPyClient):
@@ -44,6 +36,8 @@ class SmolVLAClient(NumPyClient):
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
         policy.to(self.device)
 
+        # Match standalone train script initialization (no extra cache clearing)
+
     def fit(self, parameters, config) -> tuple[list, int, dict]:
         # Setup logging in the actor process
         from src.logger import setup_logging, setup_client_logging
@@ -52,7 +46,8 @@ class SmolVLAClient(NumPyClient):
             setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
             setup_client_logging(Path(log_file_path), self.partition_id)
 
-        logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={config.get('batch_size', 64)}, len(trainloader)={len(self.trainloader)})")
+        batch_size = config.get("batch_size", 64)
+        logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={batch_size}, len(trainloader)={len(self.trainloader)})")
         logger.debug(f"Client {self.partition_id}: Received config: {config}")
 
         if torch.cuda.is_available():
@@ -71,7 +66,7 @@ class SmolVLAClient(NumPyClient):
                 trainloader=self.trainloader,
                 epochs=self.local_epochs,
                 device=self.device,
-                batch_size=config.get("batch_size", 64)
+                batch_size=batch_size
             )
             logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
         except Exception as e:
@@ -80,7 +75,7 @@ class SmolVLAClient(NumPyClient):
             logger.error(traceback.format_exc())
             raise  # Re-raise to fail the client properly
 
-        logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={config.get('batch_size', 64)})")
+        logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={batch_size})")
 
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
         updated_params = get_params(self.net)
@@ -122,12 +117,13 @@ class SmolVLAClient(NumPyClient):
             try:
                 # test() returns (loss, num_examples, metrics)
                 eval_mode = config.get("eval_mode", "quick")
+                eval_batch_size = config.get("eval_batch_size", config.get("batch_size", 64))
                 loss, num_examples, metrics = test(
                     partition_id=self.partition_id,
                     net=self.net,
                     device=self.device,
                     eval_mode=eval_mode,
-                    batch_size=config.get("batch_size", 64)
+                    batch_size=eval_batch_size
                 )
                 accuracy = metrics.get("action_mse", 0.0)  # Use action_mse as accuracy for Flower compatibility
 
