@@ -47,16 +47,18 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 20 # train rounds
-local-epochs = 1000 # steps/epochs per round (reduced from 100 to prevent hanging)
+num-server-rounds = 4 # train rounds
+local-epochs = 200 # steps/epochs per round (reduced from 100 to prevent hanging)
 model-name = "lerobot/smolvla_base"
-fraction-fit = 0.5
+fraction-fit = 1
 fraction-evaluate = 1 # Evaluate all clients
 batch_size = 64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 2 # Evaluate every eval-frequency rounds
 eval_mode = "quick" # Quick evaluation vs full (full is very slow)
+checkpoint_interval = 5 # Save checkpoint every N rounds (0 = disabled)
+hf_repo_id = "ivelin/zk0-smolvla-fl-finetuned" # HF repo for final model push (optional; requires HF_TOKEN env var)
 
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)

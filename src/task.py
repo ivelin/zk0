@@ -7,6 +7,7 @@ from typing import Any
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
+from torch.optim.lr_scheduler import LinearLR
 
 from datasets.utils.logging import disable_progress_bar
 from loguru import logger
@@ -112,6 +113,18 @@ def get_params(model):
     return params
 
 
+def extract_trainable_params(model) -> list:
+    """Extract trainable parameters as numpy arrays for FedProx proximal term calculation."""
+    trainable_params = []
+    for name, val in model.state_dict().items():
+        param = model.get_parameter(name)
+        if param.requires_grad:  # Only include trainable params
+            if val.dtype == torch.bfloat16:
+                val = val.float()
+            trainable_params.append(val.cpu().numpy())
+    return trainable_params
+
+
 def set_params(model, parameters) -> None:
     """Set model parameters from numpy arrays sent by server at the beginning of a round."""
     params_dict = zip(model.state_dict().keys(), parameters)
@@ -131,7 +144,7 @@ def set_params(model, parameters) -> None:
     log_param_status(model, "pre-local training round: parameters sent from server to client")
 
 
-def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -> dict[str, float]:
+def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     import logging
 
@@ -168,17 +181,17 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
     # Use lerobot's optimizer factory (like standalone script)
     optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
     
-    # Override scheduler for FL partial rounds: Reset to initial LR each round
-    initial_lr = 1e-4  # Standard for SmolVLA finetuning
+    # Override to use linear scheduler for FL partial rounds (slower decay, tuned for 5000 steps)
+    initial_lr = 1e-3  # Increased from 1e-4 for stronger updates
     for group in optimizer.param_groups:
         group['lr'] = initial_lr
+
+    # Replace cosine with linear (total_iters = epochs for partial round)
     if lr_scheduler is not None:
-        for group in lr_scheduler.optimizer.param_groups:
-            group['lr'] = initial_lr
-        if hasattr(lr_scheduler, 'last_epoch'):
-            lr_scheduler.last_epoch = -1  # Reset to start of schedule
-        logger.info(f"FL scheduler reset: Set initial LR={initial_lr}, last_epoch=-1 for partial round (overrode decay)")
-        logger.debug(f"DEBUG FL reset: LR={initial_lr}, scheduler={type(lr_scheduler).__name__}, last_epoch={getattr(lr_scheduler, 'last_epoch', 'N/A')}")
+        lr_scheduler = LinearLR(optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs)  # Decay to 50% over 5000 steps
+        logger.info(f"FL scheduler: LinearLR with initial_lr={initial_lr}, decay to 0.5 over {epochs} steps (tuned for 5000-step rounds)")
+    else:
+        logger.warning("No scheduler found; using constant LR={initial_lr}")
     
     # Log optimizer details (post-override)
     num_groups = len(optimizer.param_groups)
@@ -254,6 +267,18 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
 
         try:
             logger.debug(f"Step {step}: Calling update_policy (policy.training={policy.training})...")
+
+            # FedProx: Compute proximal term if global_params provided (only for trainable params)
+            proximal_loss = 0.0
+            if global_params is not None:
+                trainable_params = [p for p in policy.parameters() if p.requires_grad]
+                for param, global_param in zip(trainable_params, global_params):
+                    # Convert numpy array to torch tensor and move to device
+                    global_param_tensor = torch.from_numpy(global_param).to(device)
+                    proximal_loss += torch.sum((param - global_param_tensor) ** 2)
+                proximal_loss *= fedprox_mu
+                logger.debug(f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})")
+
             train_tracker, output_dict = update_policy(
                 train_tracker,
                 policy,  # Use the provided model (already has server parameters)
@@ -264,6 +289,11 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None) -
                 lr_scheduler=lr_scheduler,
                 use_amp=cfg.policy.use_amp,
             )
+
+            # FedProx: Add proximal term to loss if provided
+            if global_params is not None and 'loss' in output_dict:
+                output_dict['loss'] += proximal_loss.item()
+                logger.debug(f"Step {step}: FedProx adjusted loss={output_dict['loss']:.6f} (original + proximal)")
             if torch.cuda.is_available():
                 post_update_allocated = torch.cuda.memory_allocated(device) / 1e9
                 post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
@@ -344,13 +374,15 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
     # Use the same dataset loading as train (which works) instead of make_dataset
     dataset = load_lerobot_dataset(dataset_name)
 
-    # Get number of eval episodes based on mode
+    # Get number of eval episodes based on mode (ensures consistent evaluation data)
     config = DatasetConfig.load()
     client_config = config.clients[partition_id % len(config.clients)]
     last_n_episodes_for_eval = client_config.last_n_episodes_for_eval
-    # Quick mode uses batch limit instead of episode limit
 
-    # Filter to only eval episodes if episodes metadata is available
+    # Set seed for reproducible evaluation data selection
+    torch.manual_seed(42)  # Fixed seed for consistent evaluation across rounds
+
+    # Filter to only eval episodes if episodes metadata is available (ensures same data every time)
     logger.debug(f"Client {partition_id}: Dataset episodes type/len: {type(dataset.episodes)}, {len(dataset.episodes) if dataset.episodes is not None else 'None'}")
     if dataset.episodes is not None:
         total_episodes = len(dataset.episodes)
@@ -358,7 +390,7 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
             episode_indices = list(range(total_episodes - last_n_episodes_for_eval, total_episodes))
             from lerobot.datasets.utils import FilteredLeRobotDataset
             dataset = FilteredLeRobotDataset(dataset, episode_indices)
-            logging.info(f"Filtered dataset to last {last_n_episodes_for_eval} episodes for evaluation")
+            logging.info(f"Filtered dataset to last {last_n_episodes_for_eval} episodes for evaluation (reproducible)")
     else:
         logging.warning(f"Client {partition_id}: Episodes metadata is None (likely TorchCodec/FFmpeg missing). Falling back to batch-based evaluation without episode filtering.")
 

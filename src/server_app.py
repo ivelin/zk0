@@ -10,18 +10,28 @@ from loguru import logger
 
 from flwr.common import Context, Metrics, ndarrays_to_parameters, FitIns, EvaluateIns
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
-from flwr.server.strategy import FedAvg
+from flwr.server.strategy import FedProx
 from typing import List, Tuple, Union, Optional, Dict
 from flwr.server.client_proxy import ClientProxy
 from flwr.common import EvaluateRes, Scalar
 
+from huggingface_hub import HfApi
+from transformers import AutoModel
+import torch
+from safetensors.torch import save_file
 
-class AggregateEvaluationStrategy(FedAvg):
+from huggingface_hub import HfApi
+from transformers import AutoModel
+import torch
+from safetensors.torch import save_file
+
+
+class AggregateEvaluationStrategy(FedProx):
     """Custom strategy that aggregates client evaluation results."""
 
     def __init__(self, *, server_dir: Path = None, log_file: Path = None, save_path: Path = None, evaluate_config_fn=None, num_rounds: int = None, **kwargs):
         # Extract standard FedAvg parameters
-        fedavg_kwargs = {k: v for k, v in kwargs.items() if k in FedAvg.__init__.__code__.co_varnames}
+        fedavg_kwargs = {k: v for k, v in kwargs.items() if k in FedProx.__init__.__code__.co_varnames}
 
         super().__init__(**fedavg_kwargs)
         self.server_dir = server_dir
@@ -325,6 +335,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Add evaluation configuration callback to provide save_path to clients
     eval_frequency = context.run_config.get("eval-frequency", 5)
     eval_mode = context.run_config.get("eval_mode", "quick")
+    logger.info(f"Server: Using eval_frequency={eval_frequency}, eval_mode={eval_mode}")
     evaluate_config_fn = get_evaluate_config_callback(save_path, eval_frequency, eval_mode)
 
     strategy = AggregateEvaluationStrategy(

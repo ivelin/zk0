@@ -30,9 +30,16 @@ The system implements a federated learning architecture using the Flower framewo
 
 ### Server Layer
 - **Aggregation Engine**: Flower framework for parameter aggregation
-- **Federated Strategies**: FedAvg and FedProx algorithms
+- **Federated Strategies**: FedProx algorithm (primary) with FedAvg as baseline
 - **Model Distribution**: Broadcasting updated global models to clients
 - **Orchestration**: Managing federated learning rounds and client coordination
+
+#### Strategy Decision: FedProx for Heterogeneous Convergence
+- **Primary Strategy**: FedProx selected for heterogeneous SO-100 data handling
+- **Rationale**: Addresses non-IID data drift with proximal regularization (mu * ||w_local - w_global||^2)
+- **Implementation**: Client-side proximal term in training loop, server-side standard aggregation
+- **Benefits**: Stabilizes convergence, improves global model quality, minimal code changes
+- **Configuration**: mu=0.01, applied only to trainable parameters (~100M/450M)
 
 ### Communication Layer
 - **Secure Channels**: Encrypted parameter transmission

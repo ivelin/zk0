@@ -59,6 +59,10 @@ class SmolVLAClient(NumPyClient):
         logger.debug(f"Client {self.partition_id}: Setting model parameters")
         set_params(self.net, parameters)
 
+        # FedProx: Extract global params for proximal term calculation (only trainable params)
+        from src.task import extract_trainable_params
+        global_params = extract_trainable_params(self.net)
+
         logger.info(f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}")
         try:
             training_metrics = train(
@@ -66,7 +70,9 @@ class SmolVLAClient(NumPyClient):
                 trainloader=self.trainloader,
                 epochs=self.local_epochs,
                 device=self.device,
-                batch_size=batch_size
+                batch_size=batch_size,
+                global_params=global_params,
+                fedprox_mu=0.01  # Tune this value for convergence
             )
             logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
         except Exception as e:
