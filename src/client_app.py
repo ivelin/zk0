@@ -131,63 +131,59 @@ class SmolVLAClient(NumPyClient):
         set_params(self.net, parameters)
 
         # Handle case where save_path might not be in config (evaluation rounds)
-        if config.get("skip", False):
-            logger.info("Skipping evaluation")
-            accuracy, loss = 0.0, 0.0
-        else:
+        try:
+            # test() returns (loss, num_examples, metrics)
+            eval_mode = config.get("eval_mode", "quick")
+            eval_batch_size = config.get("eval_batch_size", config.get("batch_size", 64))
+            loss, num_examples, metrics = test(
+                partition_id=self.partition_id,
+                net=self.net,
+                device=self.device,
+                eval_mode=eval_mode,
+                batch_size=eval_batch_size
+            )
+            accuracy = metrics.get("action_mse", 0.0)  # Use action_mse as accuracy for Flower compatibility
+
+            # Save client metrics to file
             try:
-                # test() returns (loss, num_examples, metrics)
-                eval_mode = config.get("eval_mode", "quick")
-                eval_batch_size = config.get("eval_batch_size", config.get("batch_size", 64))
-                loss, num_examples, metrics = test(
-                    partition_id=self.partition_id,
-                    net=self.net,
-                    device=self.device,
-                    eval_mode=eval_mode,
-                    batch_size=eval_batch_size
-                )
-                accuracy = metrics.get("action_mse", 0.0)  # Use action_mse as accuracy for Flower compatibility
+                import json
+                from datetime import datetime
 
-                # Save client metrics to file
-                try:
-                    import json
-                    from datetime import datetime
+                # Use timestamp from config for consistent base path
+                save_path = Path(config.get("save_path"))
+                client_dir = save_path / "clients" / f"client_{self.partition_id}"
+                client_dir.mkdir(parents=True, exist_ok=True)
 
-                    # Use timestamp from config for consistent base path
-                    save_path = Path(config.get("save_path"))
-                    client_dir = save_path / "clients" / f"client_{self.partition_id}"
-                    client_dir.mkdir(parents=True, exist_ok=True)
+                # Get round number from config (sent by server)
+                if "round" not in config:
+                    raise ValueError(f"Client {self.partition_id}: 'round' not found in config, cannot save evaluation file")
+                round_num = config["round"]
+                logger.info(f"Client {self.partition_id}: Using round number {round_num} for evaluation file")
 
-                    # Get round number from config (sent by server)
-                    if "round" not in config:
-                        raise ValueError(f"Client {self.partition_id}: 'round' not found in config, cannot save evaluation file")
-                    round_num = config["round"]
-                    logger.info(f"Client {self.partition_id}: Using round number {round_num} for evaluation file")
+                client_file = client_dir / f"round_{round_num}.json"
+                data = {
+                    "client_id": self.partition_id,
+                    "round": round_num,
+                    "timestamp": datetime.now().isoformat(),
+                    "loss": float(loss),
+                    "num_examples": num_examples,
+                    "metrics": metrics
+                }
 
-                    client_file = client_dir / f"round_{round_num}.json"
-                    data = {
-                        "client_id": self.partition_id,
-                        "round": round_num,
-                        "timestamp": datetime.now().isoformat(),
-                        "loss": float(loss),
-                        "num_examples": num_examples,
-                        "metrics": metrics
-                    }
-
-                    with open(client_file, 'w') as f:
-                        json.dump(data, f, indent=2, default=str)
-
-                except Exception as e:
-                    logger.info(f"Failed to save client metrics to file: {e}")
-                    # Continue execution even if file saving fails
+                with open(client_file, 'w') as f:
+                    json.dump(data, f, indent=2, default=str)
 
             except Exception as e:
-                logger.info(f"Client {self.partition_id} evaluation failed: {e}")
-                # Return default values on evaluation failure
-                loss = 1.0  # High loss indicates failure
-                accuracy = 0.0
-                num_examples = 0
-                metrics = {"evaluation_error": str(e)}
+                logger.info(f"Failed to save client metrics to file: {e}")
+                # Continue execution even if file saving fails
+
+        except Exception as e:
+            logger.info(f"Client {self.partition_id} evaluation failed: {e}")
+            # Return default values on evaluation failure
+            loss = 1.0  # High loss indicates failure
+            accuracy = 0.0
+            num_examples = 0
+            metrics = {"evaluation_error": str(e)}
 
         if torch.cuda.is_available():
             vram_gb = torch.cuda.max_memory_allocated() / 1e9

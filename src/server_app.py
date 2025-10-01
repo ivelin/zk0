@@ -144,18 +144,19 @@ def save_model_checkpoint(parameters, server_round: int, models_dir: Path) -> No
 class AggregateEvaluationStrategy(FedProx):
     """Custom strategy that aggregates client evaluation results."""
 
-    def __init__(self, *, proximal_mu: float = 0.01, server_dir: Path = None, log_file: Path = None, save_path: Path = None, evaluate_config_fn=None, num_rounds: int = None, wandb_run=None, context: Context = None, **kwargs):
+    def __init__(self, *, proximal_mu: float = 0.01, server_dir: Path = None, models_dir: Path = None, log_file: Path = None, save_path: Path = None, evaluate_config_fn=None, num_rounds: int = None, wandb_run=None, context: Context = None, **kwargs):
         # Store proximal_mu for FedProx
         self.proximal_mu = proximal_mu
         logger.info(f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}")
-
+    
         # Extract standard FedProx parameters (including proximal_mu)
         fedprox_kwargs = {k: v for k, v in kwargs.items() if k in FedProx.__init__.__code__.co_varnames}
         # Ensure proximal_mu is included
         fedprox_kwargs['proximal_mu'] = proximal_mu
-
+    
         super().__init__(**fedprox_kwargs)
         self.server_dir = server_dir
+        self.models_dir = models_dir
         self.log_file = log_file
         self.save_path = save_path
         self.evaluate_config_fn = evaluate_config_fn
@@ -515,7 +516,6 @@ def get_evaluate_config_callback(save_path: Path, eval_frequency: int = 5, eval_
             "save_path": str(eval_save_path),
             "base_save_path": str(save_path),
             "round": server_round,
-            "skip": eval_frequency > 0 and server_round % eval_frequency != 0,
             "eval_mode": eval_mode
         }
 
@@ -565,6 +565,9 @@ def server_fn(context: Context) -> ServerAppComponents:
     from src.utils import get_tool_config
     flwr_config = get_tool_config("flwr", "pyproject.toml")
     app_config = flwr_config.get("app", {}).get("config", {})
+
+    # Add app-specific configs to context.run_config for strategy access
+    context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
 
     # Initialize wandb if enabled and API key is available
     wandb_run = None
@@ -644,7 +647,9 @@ def server_fn(context: Context) -> ServerAppComponents:
         fraction_evaluate=fraction_evaluate,
         initial_parameters=global_model_init,
         proximal_mu=proximal_mu,  # Required parameter for FedProx
+        evaluate_every_round=eval_frequency,  # Respect eval_frequency to skip evaluate calls
         server_dir=server_dir,
+        models_dir=models_dir,
         log_file=simulation_log_path,
         save_path=save_path,
         evaluate_config_fn=evaluate_config_fn,
