@@ -148,7 +148,6 @@ def setup_training_components(policy, trainloader, epochs, batch_size, device, i
     """Setup training components: optimizer, scheduler, metrics, and configuration."""
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
-    from lerobot.configs.wandb import WandBConfig  # + Import WandBConfig for logging enablement
     from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
     from torch.amp import GradScaler
 
@@ -164,12 +163,6 @@ def setup_training_components(policy, trainloader, epochs, batch_size, device, i
         num_workers=0,
         log_freq=250,
         steps=epochs,
-        wandb=WandBConfig(  # + Enable WandB logging with zk0 project
-            project="zk0",
-            enable=True,
-            mode="online",  # Use "offline" if no internet; defaults to online
-            tags=["federated-learning", "smolvla"],  # Optional tags for filtering
-        ),
     )
 
     # Use lerobot's optimizer factory

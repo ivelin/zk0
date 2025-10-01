@@ -87,7 +87,7 @@ class SmolVLAClient(NumPyClient):
                 global_params=global_params,
                 fedprox_mu=proximal_mu,  # Use value from server config
                 initial_lr=initial_lr,  # Use value from server config
-                use_wandb=use_wandb  # + Pass use_wandb to enable/disable WandB logging
+                # use_wandb=use_wandb  # + Pass use_wandb to enable/disable WandB logging
             )
             logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
         except Exception as e:
