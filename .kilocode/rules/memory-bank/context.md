@@ -1,8 +1,13 @@
 # Current Context
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-09-24
+**Last Updated**: 2025-10-01
 **Author**: Kilo Code
+
+## Latest Update (2025-10-01)
+**✅ Critical Parameter Flow Fix Applied**: Fixed server parameter aggregation issue where clients were starting each round with identical loss values. The root cause was that the server's `aggregate_fit` method was not properly returning aggregated parameters to become the new global model for subsequent rounds. This has been resolved by ensuring the server properly handles and returns aggregated parameters from the FedProx strategy.
+
+**✅ Critical FedProx Fix Applied**: Reduced `proximal_mu` from 0.1 to 0.001 to resolve loss explosion during training. The fix addresses the core issue where proximal regularization was too strong, causing the loss to grow exponentially instead of decreasing. This should restore proper convergence behavior in federated learning rounds.
 
 ## Work Focus
 Successfully implemented Docker-based federated learning execution with serialized client processing. System now provides reproducible, isolated execution environment with clean model loading and reliable FL rounds.
@@ -103,6 +108,196 @@ Successfully transitioned to Docker-based execution for reproducible federated l
 
 ## Current State
 The project is in **alpha stage development** with core infrastructure implemented and lerobot v0.3.3 API compliance achieved. SmolVLA federated learning system now wraps lerobot train script APIs as closely as possible while accommodating FL-specific needs (partial steps per round, config broadcasting, post-round aggregation). Test suite has conditional imports for version compatibility - import issues resolved with fallback handling. System ready for validation FL runs to confirm metrics match standalone lerobot finetuning.
+
+## Context Management Guidelines
+
+### Context Passing Mechanism
+The context passing mechanism ensures that critical information flows seamlessly between tasks, subtasks, and mode transitions without loss or degradation.
+
+#### Core Components
+- **Context Capture**: What to capture and initial extraction
+- **Context Packaging**: How to package and format context
+- **Context Transfer**: How to transfer between tasks and modes
+- **Context Validation**: How to validate context integrity
+
+#### Subtask Creation Protocol
+1. **Context Extraction**: Extract relevant context from parent task, identify inheritance requirements, determine validation needs
+2. **Context Packaging**: Use task context template, include all mandatory constraints, add subtask-specific context
+3. **Context Transfer**: Embed context in subtask description, reference memory bank for details, include validation checkpoints
+4. **Context Validation**: Verify completeness, confirm constraints included, validate success criteria
+
+#### Context Formats
+**Template-Based Format:**
+```markdown
+## Project Constraints (MANDATORY)
+See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
+
+## Task Context
+[Task-specific context]
+
+## Success Criteria
+[Measurable outcomes]
+```
+
+**Structured Format:**
+```json
+{
+  "constraints": {
+    "workDirectory": "local project repository root directory",
+    "environment": "zk0",
+    "focus": "SmolVLA + SO-100"
+  },
+  "context": {
+    "taskId": "TASK-001",
+    "successCriteria": [...],
+    "dependencies": [...]
+  },
+  "validation": {
+    "checklist": [...],
+    "metadata": {
+      "created": "2025-09-03",
+      "version": "1.0"
+    }
+  }
+}
+```
+
+### Context Inheritance Rules
+Context inheritance ensures that critical information, constraints, and requirements are automatically passed from parent tasks to subtasks, preventing loss of important details during task decomposition.
+
+#### Inheritance Levels
+- **Level 1: Mandatory Constraints** (Always inherited - no exceptions): Project working directory, environment requirements, technical focus, scope limitations
+- **Level 2: Task Context** (Inherited for all subtasks): Success criteria, key technical decisions, critical assumptions, risk assessments
+- **Level 3: Operational Context** (Inherited based on relevance): Current system state, recent changes, known issues, performance baselines
+
+#### Inheritance Mechanism
+**Automatic Inheritance:**
+- Project Constraints Block reference
+- Parent Task Reference (ID, success criteria, context summary)
+- Technical Context (current working state, dependencies, known constraints)
+
+**Manual Inheritance:**
+- Business Logic (task purpose, contribution to parent goal, success criteria alignment)
+- Technical Decisions (architecture choices, design patterns, implementation constraints)
+- Risk Context (known risks, mitigation strategies, fallback plans)
+
+### Context Management Strategies
+Context management strategies optimize context handling across session transitions and task workflows.
+
+#### Session Transition Template
+```
+[Memory Bank: Active]
+Project: [project name]
+Status: [current state summary]
+Last Updated: [date]
+Key Technical Context:
+- Environment: [conda env, key dependencies]
+- Architecture: [core components, patterns]
+- Constraints: [critical rules, standards]
+Current Focus: [immediate next task]
+```
+
+#### Context Health Monitoring
+- **Indicators of Approaching Limits**: Increased back-referencing, longer response times, more memory bank consultations
+- **Optimal Transition Points**: After major milestones, before complex debugging, when conversation exceeds 50 messages
+- **Recovery Strategies**: Immediate assessment, memory bank review, gap documentation, user verification
+
+#### Memory Bank Update Rules
+**MANDATORY Updates:**
+- Before session transitions: Update context.md with current task status
+- After major milestones: Document completed features and decisions
+- When critical decisions made: Capture architectural choices and trade-offs
+- Before complex debugging: Document current state and known issues
+- After subtask completion: Update progress and results
+
+### Context Loss Prevention and Recovery
+- **Risk Identification**: High-risk areas include mode transitions, task decomposition, external interruptions
+- **Prevention Strategies**: Template usage, documentation of assumptions, validation checkpoints, context backups
+- **Recovery Procedures**: Immediate stop, assessment, reconstruction using memory bank, validation, resume
+- **Quality Metrics**: Completeness score (>90% Level 2), preservation rate tracking, loss rate monitoring
+
+### Task Context Template
+```
+## Task Information
+**Task ID**: [Unique identifier]
+**Parent Task**: [Parent task ID if applicable]
+**Created**: [Date/time]
+**Mode**: [Current mode]
+**Priority**: [High/Medium/Low]
+
+## Project Constraints (MANDATORY)
+See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
+
+## Task Description
+### Objective
+[Clear, specific description of what needs to be accomplished]
+
+### Scope
+[What is included and what is excluded]
+
+### Success Criteria
+[Measurable outcomes that define success]
+
+## Technical Context
+### Current State
+[Description of current system/project state]
+
+### Dependencies
+- Code dependencies
+- Data dependencies
+- External dependencies
+
+### Constraints
+- Technical constraints
+- Time constraints
+- Resource constraints
+
+## Context to Preserve
+### Critical Information
+[Information that MUST be maintained across subtasks]
+
+### Key Decisions
+[Important decisions made and rationale]
+
+### Assumptions
+[Assumptions that subtasks should be aware of]
+
+## Subtask Requirements
+### Context Inheritance
+[What context each subtask must inherit]
+
+### Handover Information
+[What information needs to be passed to next task/mode]
+
+### Validation Points
+[Points where context preservation should be validated]
+
+## Risk Mitigation
+### Potential Context Loss Points
+[Where context might be lost]
+
+### Recovery Procedures
+[How to recover if context is lost]
+
+### Prevention Measures
+[How to prevent context loss]
+
+## Quality Assurance
+### Pre-Task Checklist
+- [ ] All constraints verified
+- [ ] Context fully captured
+- [ ] Success criteria defined
+- [ ] Dependencies identified
+
+### Post-Task Validation
+- [ ] Success criteria met
+- [ ] Context preserved
+- [ ] Documentation updated
+- [ ] Quality standards maintained
+
+## Mode Transition Notes
+[Notes for transitioning to other modes]
+```
 
 ## Latest Debug Session Results
 Completed comprehensive debugging of small train run with successful execution:
@@ -287,8 +482,20 @@ Key Decision: Deferred optimization to exchange only trainable parameters (~100M
 3. **Reproducible Evaluation**: Fixed seed ensures MSE trends reflect model improvement, not data variance
 4. **Logging Enhancement**: Added proximal loss logging for monitoring regularization effect
 
+### **🔧 Critical FedProx Bug Fixes (2025-10-01)**
+- **Issue Identified**: Model loss was increasing instead of decreasing during training due to incorrect FedProx implementation
+- **Root Cause**: Wrong proximal loss formula (`mu * ||w - w_global||^2` instead of `mu/2 * ||w - w_global||^2`) and incorrect timing of loss addition
+- **Fixes Applied**:
+  - **Corrected Formula**: Changed to proper FedProx formula `(fedprox_mu / 2.0) * proximal_loss`
+  - **Fixed Timing**: Moved proximal calculation after `update_policy()` to use post-forward parameters
+  - **Refactored Architecture**: Broke monolithic `train()` function into focused helpers:
+    - `setup_training_components()`: Optimizer, scheduler, metrics setup
+    - `run_training_step()`: Single training step with FedProx regularization
+    - `run_training_loop()`: Main training loop orchestration
+  - **Improved Maintainability**: Reduced function complexity from ~350 lines to ~50 lines main function
+
 ### **System Status**
-The project is in **alpha stage development** with FedProx-enhanced federated learning infrastructure. SmolVLA FL system now addresses convergence issues with proximal regularization for heterogeneous robotics tasks. Ready for extended 40-round testing to validate MSE improvements and global model quality.
+The project is in **alpha stage development** with FedProx-enhanced federated learning infrastructure. SmolVLA FL system now has corrected convergence behavior with proper proximal regularization for heterogeneous robotics tasks. The refactored training code is more maintainable and testable. Ready for validation testing to confirm loss decreases properly during training.
 
 ## FedProx Implementation Results (2025-09-30)
 
@@ -317,14 +524,27 @@ The project is in **alpha stage development** with FedProx-enhanced federated le
 4. **System Stability**: No errors, full client participation, proper logging
 5. **Performance Ready**: System optimized for production federated learning
 
+### **🔧 Critical FedProx Hyperparameter Fix (2025-10-01)**
+- **Issue Identified**: Loss growing rapidly during training (proximal_loss: 1.201 → 28.832 over 50 steps)
+- **Root Cause**: `proximal_mu = 0.1` too high - proximal term dominating training with 10% loss weight
+- **Fix Applied**: Reduced `proximal_mu` from `0.1` to `0.001` (0.1% loss weight) in `pyproject.toml`
+- **Expected Impact**: Proximal regularization still active but gentle enough for proper model learning
+- **Validation Needed**: Test run to confirm loss decreases properly during training
+
+### **Technical Details**
+1. **Configuration**: `proximal_mu = 0.001` in `[tool.flwr.app.config]` section
+2. **Proximal Term**: Now `(0.001/2) * ||w - w_global||^2` instead of `(0.1/2) * ||w - w_global||^2`
+3. **Training Dynamics**: Reduced regularization strength by 100x for better convergence
+4. **Backward Compatibility**: Existing FedProx implementation unchanged, only parameter value adjusted
+
 ### **Next Optimization Steps**
-1. **Tune FedProx mu**: Try mu=0.005 (less regularization) or mu=0.02 (more) based on MSE trends
-2. **Adjust Linear LR**: Experiment with end_factor=0.7 (slower decay) or end_factor=0.9 (faster)
+1. **Validation Testing**: Run training to confirm loss decreases properly
+2. **Fine-tuning**: If needed, try mu=0.0005 (less) or mu=0.002 (more) based on results
 3. **Extended Testing**: Run 5-10 rounds to observe convergence trends
-4. **Strategy Comparison**: Test FedYogi as alternative if FedProx needs adjustment
+4. **Performance Monitoring**: Track MSE improvement across rounds
 
 ### **System Status**
-The project is in **alpha stage development** with fully functional FedProx-enhanced federated learning. SmolVLA FL system demonstrates reliable execution with improved convergence handling for heterogeneous robotics tasks. Implementation validated and ready for hyperparameter tuning and extended testing.
+The project is in **alpha stage development** with FedProx-enhanced federated learning infrastructure. SmolVLA FL system now has corrected hyperparameter configuration for stable convergence. The proximal_mu fix addresses the core issue of loss explosion during training. Ready for validation testing to confirm proper loss decrease during training rounds.
 
 ## Logging System Improvements (2025-09-22) ✅ COMPLETED
 Successfully implemented comprehensive logging system refactoring with complete evaluation statistics capture.

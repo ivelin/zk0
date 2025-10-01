@@ -38,6 +38,60 @@
 - **Asynchronous Inference**: 30% faster response, 2× task throughput
 - **Real-world Performance**: SO-100 and SO-101 compatibility
 
+#### SmolVLA Usage Examples
+**Finetune Pretrained Model:**
+```bash
+python lerobot/scripts/train.py \
+  --policy.path=lerobot/smolvla_base \
+  --dataset.repo_id=lerobot/svla_so100_stacking \
+  --batch_size=64 \
+  --steps=20000 \
+  --output_dir=outputs/train/my_smolvla \
+  --job_name=my_smolvla_training \
+  --policy.device=cuda \
+  --wandb.enable=true
+```
+
+**Train from Scratch:**
+```bash
+python lerobot/scripts/train.py \
+  --dataset.repo_id=lerobot/svla_so100_stacking \
+  --batch_size=64 \
+  --steps=200000 \
+  --output_dir=outputs/train/my_smolvla \
+  --job_name=my_smolvla_training \
+  --policy.device=cuda \
+  --wandb.enable=true
+```
+
+### Flower Framework
+- **Version**: Flower 1.20.0
+- **Architecture**: Client-Server with Deployment Engine
+- **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
+- **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
+- **Execution Modes**: Simulation Mode, Deployment Mode, GPU Support
+
+#### Flower Installation and Setup
+```bash
+# Install Flower
+pip install flwr[simulation]
+
+# For latest features
+pip install flwr[simulation] --pre
+```
+
+#### Flower Basic Usage
+```bash
+# Run simulation
+flwr run .
+
+# Run with GPU federation
+flwr run . local-simulation-gpu
+
+# Override configuration
+flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0.1"
+```
+
 ### Datasets
 - **SO-100 Datasets**: Real-world robotics training data from SO-100 robot platform
 - **SO-101 Datasets**: Advanced robotics training data from SO-101 robot platform
@@ -102,6 +156,26 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 - **mypy**: Type checking
 - **Documentation**: Complete API documentation
 - **Reproducibility**: Seeds for all experiments
+
+### Testing Standards for zk0 Project
+- **Real Scenario Emphasis**: Prioritize testing actual federated learning workflows, SmolVLA model interactions, and SO-100 dataset processing over isolated mocking
+- **Zk0-Specific Scenarios**: Focus on federated learning client-server communication, model aggregation with Flower strategies, and SmolVLA parameter handling in distributed environments
+- **Integration Points**: Test real data flow between components (e.g., Flower ↔ SmolVLA, client ↔ server parameter exchange)
+- **Parameter Data Types**: Validate correct handling of SmolVLA tensors, Flower NumPy arrays, and SO-100 dataset formats
+- **Strict Dependency Enforcement**: Tests MUST fail when required dependencies are missing - no graceful fallbacks or skips that mask environment setup issues
+- **Environment Validation**: All tests require full environment setup with real dependencies (TorchCodec, FFmpeg, LeRobot, SmolVLA) - no optional dependencies
+- **User Journey Priority**: Focus on complete federated learning rounds and robotics task workflows rather than method-level coverage
+- **Real Environment Testing**: Test against actual conda zk0 environment, real imports, and SO-100 data, not mocked states
+- **Remove Low-Value Tests**: Delete tests that only exercise mocking without testing real federated learning behavior
+- **Fail-Fast Testing**: Tests should expose environment and dependency issues immediately rather than hiding them with fallbacks
+
+### Compliance Requirements
+- **Technical Standards**: Python 3.8+, PyTorch compatible with SmolVLA, CUDA 11.0+, 8GB+ RAM, 4GB+ VRAM
+- **Dataset Standards**: LeRobot format with lerobot tag, clear task descriptions (max 30 characters), standardized camera naming, 30 FPS
+- **Quality Standards**: 80% test coverage minimum, complete API documentation, seeds for reproducibility, regular benchmarking
+- **Implementation Guidelines**: Use conda environment "zk0", follow LeRobot and Flower patterns, comprehensive unit and integration tests, inline documentation
+- **Deployment Considerations**: Match official hardware recommendations, proper TLS setup, logging and monitoring, scalability planning
+- **Maintenance Requirements**: Stay current with SmolVLA and Flower releases, apply security patches, regular optimization, follow community updates
 
 ## Logging and Monitoring
 - **Loguru Framework**: Structured logging with rotation, compression, and multi-process safety

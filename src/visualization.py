@@ -199,7 +199,7 @@ class SmolVLAVisualizer:
         except Exception as e:
             self.logger.error(f"Failed to save video: {e}")
 
-    def plot_federated_metrics(self, round_metrics: List[Dict], save_dir: Path):
+    def plot_federated_metrics(self, round_metrics: List[Dict], save_dir: Path, wandb_run=None):
         """Plot federated learning metrics across rounds."""
         if not MATPLOTLIB_AVAILABLE:
             self.logger.warning("Matplotlib not available for plotting")
@@ -240,10 +240,10 @@ class SmolVLAVisualizer:
 
         self.logger.info(f"Federated metrics plot saved: {save_dir / 'federated_metrics.png'}")
 
-        # Log to wandb if available
-        if WANDB_AVAILABLE and wandb.run is not None:
+        # Log to wandb if available and run is initialized
+        if WANDB_AVAILABLE and wandb_run is not None:
             for metrics in round_metrics:
-                wandb.log({
+                wandb_run.log({
                     "round": metrics['round'],
                     "round_time": metrics['round_time'],
                     "num_clients": metrics['num_clients'],
@@ -256,13 +256,14 @@ class SmolVLAVisualizer:
             json.dump(round_metrics, f, indent=2)
         self.logger.info(f"Federated metrics saved: {metrics_file}")
 
-    def plot_eval_mse_chart(self, mse_history: Dict[int, Dict[str, float]], save_dir: Path):
+    def plot_eval_mse_chart(self, mse_history: Dict[int, Dict[str, float]], save_dir: Path, wandb_run=None):
         """Plot evaluation MSE lines for each client and server average over rounds.
 
         Args:
             mse_history: Dict where keys are round numbers, values are dicts with
                         'client_0', 'client_1', ..., 'server_avg' MSE values.
             save_dir: Directory to save the chart and history JSON.
+            wandb_run: Optional wandb run object for logging metrics.
         """
         if not MATPLOTLIB_AVAILABLE:
             self.logger.warning("Matplotlib not available for MSE chart generation")
@@ -325,6 +326,22 @@ class SmolVLAVisualizer:
         plt.close()
 
         self.logger.info(f"Eval MSE chart saved: {chart_path}")
+
+        # Log final metrics to wandb if run is available
+        if WANDB_AVAILABLE and wandb_run is not None:
+            try:
+                # Log final MSE values for each client and server average
+                final_round = max(mse_history.keys())
+                final_data = mse_history[final_round]
+
+                wandb_metrics = {"final_round": final_round}
+                for key, value in final_data.items():
+                    wandb_metrics[f"final_{key}_mse"] = value
+
+                wandb_run.log(wandb_metrics)
+                self.logger.info(f"Final MSE metrics logged to wandb for round {final_round}")
+            except Exception as e:
+                self.logger.warning(f"Failed to log final metrics to wandb: {e}")
 
         # Save history to JSON for reproducibility
         history_file = save_dir / "eval_mse_history.json"

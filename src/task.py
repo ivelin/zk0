@@ -144,7 +144,190 @@ def set_params(model, parameters) -> None:
     log_param_status(model, "pre-local training round: parameters sent from server to client")
 
 
-def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01) -> dict[str, float]:
+def setup_training_components(policy, trainloader, epochs, batch_size, device, initial_lr):
+    """Setup training components: optimizer, scheduler, metrics, and configuration."""
+    from lerobot.optim.factory import make_optimizer_and_scheduler
+    from lerobot.configs.train import TrainPipelineConfig
+    from lerobot.configs.wandb import WandBConfig  # + Import WandBConfig for logging enablement
+    from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
+    from torch.amp import GradScaler
+
+    # Create minimal config for lerobot factories (like standalone script)
+    from lerobot.configs.default import DatasetConfig
+    cfg = TrainPipelineConfig(
+        dataset=DatasetConfig(repo_id=trainloader.dataset.meta.repo_id),
+        policy=policy.config,
+        use_policy_training_preset=False,
+        optimizer=policy.config.get_optimizer_preset(),
+        scheduler=policy.config.get_scheduler_preset(),
+        batch_size=batch_size,
+        num_workers=0,
+        log_freq=250,
+        steps=epochs,
+        wandb=WandBConfig(  # + Enable WandB logging with zk0 project
+            project="zk0",
+            enable=True,
+            mode="online",  # Use "offline" if no internet; defaults to online
+            tags=["federated-learning", "smolvla"],  # Optional tags for filtering
+        ),
+    )
+
+    # Use lerobot's optimizer factory
+    optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
+
+    # Override to use linear scheduler for FL partial rounds
+    if initial_lr is None:
+        initial_lr = 1e-3
+    for group in optimizer.param_groups:
+        group['lr'] = initial_lr
+
+    # Replace cosine with linear scheduler
+    if lr_scheduler is not None:
+        lr_scheduler = LinearLR(optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs)
+        logger.info(f"FL scheduler: LinearLR with initial_lr={initial_lr}, decay to 0.5 over {epochs} steps")
+    else:
+        logger.warning(f"No scheduler found; using constant LR={initial_lr}")
+
+    # Log optimizer details
+    num_groups = len(optimizer.param_groups)
+    total_opt_params = sum(len(group['params']) for group in optimizer.param_groups)
+    logger.info(f"Optimizer: {type(optimizer).__name__}, {num_groups} groups, {total_opt_params} params optimized")
+    for i, group in enumerate(optimizer.param_groups):
+        logger.info(f"  Group {i}: {len(group['params'])} params, lr={group.get('lr')}, weight_decay={group.get('weight_decay')}")
+
+    # Create gradient scaler
+    grad_scaler = GradScaler(device.type if hasattr(device, 'type') else 'cuda', enabled=cfg.policy.use_amp)
+
+    # Setup metrics tracking
+    train_metrics = {
+        "loss": AverageMeter("loss", ":.3f"),
+        "grad_norm": AverageMeter("grdn", ":.3f"),
+        "lr": AverageMeter("lr", ":0.1e"),
+        "update_s": AverageMeter("updt_s", ":.3f"),
+        "dataloading_s": AverageMeter("data_s", ":.3f"),
+    }
+
+    logger.info(f"Train start: Initial metrics setup - loss_avg={train_metrics['loss'].avg:.4f}, grad_norm_avg={train_metrics['grad_norm'].avg:.4f}, lr_avg={train_metrics['lr'].avg:.4f}")
+
+    # Create MetricsTracker
+    train_tracker = MetricsTracker(cfg.batch_size, 1000, 10, train_metrics, initial_step=0)
+
+    return cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker
+
+
+def run_training_step(step, policy, batch, device, train_tracker, optimizer, grad_scaler, lr_scheduler, cfg, global_params, fedprox_mu):
+    """Run a single training step with FedProx regularization."""
+    from lerobot.scripts.train import update_policy
+
+    # Move batch to device
+    for key in batch:
+        if isinstance(batch[key], torch.Tensor):
+            batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
+
+    # Log VRAM before update
+    if torch.cuda.is_available():
+        pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
+        pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
+        free_memory, total_memory = torch.cuda.mem_get_info(device)
+        free_memory_gb = free_memory / 1e9
+        total_memory_gb = total_memory / 1e9
+        logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB, Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
+
+    # Run update_policy
+    train_tracker, output_dict = update_policy(
+        train_tracker,
+        policy,
+        batch,
+        optimizer,
+        grad_clip_norm=cfg.optimizer.grad_clip_norm,
+        grad_scaler=grad_scaler,
+        lr_scheduler=lr_scheduler,
+        use_amp=cfg.policy.use_amp,
+    )
+
+    # Add FedProx proximal term if provided
+    if global_params is not None and 'loss' in output_dict:
+        # Calculate proximal loss: mu/2 * ||w - w_global||^2
+        proximal_loss = 0.0
+        trainable_params = [p for p in policy.parameters() if p.requires_grad]
+        for param, global_param in zip(trainable_params, global_params):
+            global_param_tensor = torch.from_numpy(global_param).to(device)
+            param_diff = torch.sum((param - global_param_tensor) ** 2)
+            proximal_loss += param_diff
+
+        # Apply correct FedProx formula: mu/2 * ||w - w_global||^2
+        proximal_loss = (fedprox_mu / 2.0) * proximal_loss
+        output_dict['loss'] += proximal_loss.item()
+
+        logger.debug(f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})")
+        logger.debug(f"Step {step}: FedProx adjusted loss={output_dict['loss']:.6f} (original + proximal)")
+
+    # Log VRAM after update
+    if torch.cuda.is_available():
+        post_update_allocated = torch.cuda.memory_allocated(device) / 1e9
+        post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
+        delta_allocated = post_update_allocated - pre_update_allocated
+        delta_reserved = post_update_reserved - pre_update_reserved
+        free_memory, total_memory = torch.cuda.mem_get_info(device)
+        free_memory_gb = free_memory / 1e9
+        total_memory_gb = total_memory / 1e9
+        logger.info(f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB), Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
+
+        # Clear cache after each step
+        torch.cuda.empty_cache()
+        cleared_allocated = torch.cuda.memory_allocated(device) / 1e9
+        cleared_reserved = torch.cuda.memory_reserved(device) / 1e9
+        cleared_free_gb = free_memory / 1e9
+        logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
+
+    logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
+    return train_tracker, output_dict
+
+
+def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker, global_params, fedprox_mu):
+    """Run the main training loop."""
+    from lerobot.datasets.utils import cycle
+
+    step = 0
+    logger.info(f"Entering training loop: target steps={epochs}, initial step={step}")
+    loop_start_time = time.perf_counter()
+
+    # Use cycle iterator like standalone script
+    dl_iter = cycle(trainloader)
+
+    for _ in range(epochs):
+        start_time = time.perf_counter()
+        batch = next(dl_iter)
+        train_tracker.dataloading_s = time.perf_counter() - start_time
+
+        logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
+
+        # Run training step
+        train_tracker, output_dict = run_training_step(
+            step, policy, batch, device, train_tracker, optimizer, grad_scaler,
+            lr_scheduler, cfg, global_params, fedprox_mu
+        )
+
+        step += 1
+        train_tracker.step()
+
+        # Log progress every 10 steps
+        if step % 10 == 0:
+            logger.info(f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s")
+
+        # Log progress (like lerobot train.py)
+        is_log_step = cfg.log_freq > 0 and step % cfg.log_freq == 0
+        if is_log_step:
+            import logging
+            logging.info(train_tracker)
+            logger.info(f"Step {step}: loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, update_s={train_metrics['update_s'].avg:.4f}")
+            train_tracker.reset_averages()
+
+    logger.info(f"Training completed after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s")
+    return step
+
+
+def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01, initial_lr=None) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     import logging
 
@@ -157,187 +340,22 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, g
     # Log pre-training param status
     log_param_status(policy, "pre-training")
 
-    # Log optimizer creation details
-    from lerobot.optim.factory import make_optimizer_and_scheduler
-    from lerobot.configs.train import TrainPipelineConfig
-    from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
-    from torch.amp import GradScaler
-    import logging
-
-    # Create minimal config for lerobot factories (like standalone script)
-    from lerobot.configs.default import DatasetConfig
-    cfg = TrainPipelineConfig(
-        dataset=DatasetConfig(repo_id=trainloader.dataset.meta.repo_id),  # Use client's dataset for consistency
-        policy=policy.config,  # Use the actual policy config
-        use_policy_training_preset=False,  # Set presets manually for FL
-        optimizer=policy.config.get_optimizer_preset(),  # Get SmolVLA's optimizer preset
-        scheduler=policy.config.get_scheduler_preset(),  # Get SmolVLA's scheduler preset
-        batch_size=batch_size,
-        num_workers=0,  # Avoid multiprocessing in FL
-        log_freq=250,  # Log every 250 steps
-        steps=epochs,  # Set total steps
+    # Setup training components
+    cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker = setup_training_components(
+        policy, trainloader, epochs, batch_size, device, initial_lr
     )
 
-    # Use lerobot's optimizer factory (like standalone script)
-    optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
-    
-    # Override to use linear scheduler for FL partial rounds (slower decay, tuned for 5000 steps)
-    initial_lr = 1e-3  # Increased from 1e-4 for stronger updates
-    for group in optimizer.param_groups:
-        group['lr'] = initial_lr
-
-    # Replace cosine with linear (total_iters = epochs for partial round)
-    if lr_scheduler is not None:
-        lr_scheduler = LinearLR(optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs)  # Decay to 50% over 5000 steps
-        logger.info(f"FL scheduler: LinearLR with initial_lr={initial_lr}, decay to 0.5 over {epochs} steps (tuned for 5000-step rounds)")
-    else:
-        logger.warning("No scheduler found; using constant LR={initial_lr}")
-    
-    # Log optimizer details (post-override)
-    num_groups = len(optimizer.param_groups)
-    total_opt_params = sum(len(group['params']) for group in optimizer.param_groups)
-    logger.info(f"Optimizer: {type(optimizer).__name__}, {num_groups} groups, {total_opt_params} params optimized")
-    logger.debug(f"DEBUG Optimizer: {type(optimizer).__name__}, {num_groups} groups, {total_opt_params} params optimized")
-    for i, group in enumerate(optimizer.param_groups):
-        group_size = len(group['params'])
-        logger.info(f"  Group {i}: {group_size} params, lr={group.get('lr', 'N/A')}, weight_decay={group.get('weight_decay', 'N/A')}")
-        logger.debug(f"DEBUG Group {i}: {group_size} params, lr={group.get('lr', 'N/A')}, weight_decay={group.get('weight_decay', 'N/A')}")
-
-    # Create gradient scaler (like standalone script)
-    grad_scaler = GradScaler(device.type if hasattr(device, 'type') else 'cuda', enabled=cfg.policy.use_amp)
-
-    # Setup metrics tracking (like lerobot train.py)
-    train_metrics = {
-        "loss": AverageMeter("loss", ":.3f"),
-        "grad_norm": AverageMeter("grdn", ":.3f"),
-        "lr": AverageMeter("lr", ":0.1e"),
-        "update_s": AverageMeter("updt_s", ":.3f"),
-        "dataloading_s": AverageMeter("data_s", ":.3f"),
-    }
-
-    # Log initial metrics setup (after train_metrics defined)
-    logger.info(f"Train start: Initial metrics setup - loss_avg={train_metrics['loss'].avg:.4f}, grad_norm_avg={train_metrics['grad_norm'].avg:.4f}, lr_avg={train_metrics['lr'].avg:.4f}")
-
-    try:
-        logger.info("Creating MetricsTracker...")
-        train_tracker = MetricsTracker(
-            cfg.batch_size, 1000, 10, train_metrics, initial_step=0  # Dummy values for FL
-        )
-        logger.info("MetricsTracker created successfully.")
-    except Exception as e:
-        logger.error(f"Failed to create MetricsTracker: {e}")
-        import traceback
-        logger.error(traceback.format_exc())
-        raise
-
-    # Training loop (exactly like standalone lerobot train script)
-    from lerobot.scripts.train import update_policy
-    from lerobot.datasets.utils import cycle
-    step = 0
-    logger.info(f"Entering training loop: target steps={epochs}, initial step={step}")
-    loop_start_time = time.perf_counter()
-
-    # Use cycle iterator like standalone script
-    dl_iter = cycle(trainloader)
-    for _ in range(step, epochs):
-        start_time = time.perf_counter()
-        batch = next(dl_iter)
-        train_tracker.dataloading_s = time.perf_counter() - start_time
-        logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys()) if isinstance(batch, dict) else 'Not a dict'}. Sample shapes: { {k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()} if isinstance(batch, dict) else 'N/A' }")
-
-        try:
-            logger.debug(f"Step {step}: Moving batch to device...")
-            # Move batch to device (like lerobot train.py)
-            for key in batch:
-                if isinstance(batch[key], torch.Tensor):
-                    batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
-            logger.debug(f"Step {step}: Batch moved to device successfully.")
-            if torch.cuda.is_available():
-                pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
-                pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
-                free_memory, total_memory = torch.cuda.mem_get_info(device)
-                free_memory_gb = free_memory / 1e9
-                total_memory_gb = total_memory / 1e9
-                logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB, Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
-        except Exception as e:
-            logger.error(f"Step {step}: Failed to move batch to device: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-            raise
-
-        try:
-            logger.debug(f"Step {step}: Calling update_policy (policy.training={policy.training})...")
-
-            # FedProx: Compute proximal term if global_params provided (only for trainable params)
-            proximal_loss = 0.0
-            if global_params is not None:
-                trainable_params = [p for p in policy.parameters() if p.requires_grad]
-                for param, global_param in zip(trainable_params, global_params):
-                    # Convert numpy array to torch tensor and move to device
-                    global_param_tensor = torch.from_numpy(global_param).to(device)
-                    proximal_loss += torch.sum((param - global_param_tensor) ** 2)
-                proximal_loss *= fedprox_mu
-                logger.debug(f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})")
-
-            train_tracker, output_dict = update_policy(
-                train_tracker,
-                policy,  # Use the provided model (already has server parameters)
-                batch,
-                optimizer,
-                grad_clip_norm=cfg.optimizer.grad_clip_norm,
-                grad_scaler=grad_scaler,
-                lr_scheduler=lr_scheduler,
-                use_amp=cfg.policy.use_amp,
-            )
-
-            # FedProx: Add proximal term to loss if provided
-            if global_params is not None and 'loss' in output_dict:
-                output_dict['loss'] += proximal_loss.item()
-                logger.debug(f"Step {step}: FedProx adjusted loss={output_dict['loss']:.6f} (original + proximal)")
-            if torch.cuda.is_available():
-                post_update_allocated = torch.cuda.memory_allocated(device) / 1e9
-                post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
-                delta_allocated = post_update_allocated - pre_update_allocated
-                delta_reserved = post_update_reserved - pre_update_reserved
-                free_memory, total_memory = torch.cuda.mem_get_info(device)
-                free_memory_gb = free_memory / 1e9
-                total_memory_gb = total_memory / 1e9
-                logger.info(f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB), Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
-                # Clear cache after each step to prevent accumulation
-                torch.cuda.empty_cache()
-                cleared_allocated = torch.cuda.memory_allocated(device) / 1e9
-                cleared_reserved = torch.cuda.memory_reserved(device) / 1e9
-                free_memory, total_memory = torch.cuda.mem_get_info(device)
-                cleared_free_gb = free_memory / 1e9
-                logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
-            logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
-        except Exception as e:
-            logger.error(f"Step {step}: Failed in update_policy: {e}")
-            import traceback
-            logger.error(traceback.format_exc())
-            raise
-
-        step += 1
-        train_tracker.step()
-
-        # Log progress every 10 steps for diagnosis (in addition to cfg.log_freq)
-        if step % 10 == 0:
-            logger.info(f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s")
-
-        # Log progress (like lerobot train.py)
-        is_log_step = cfg.log_freq > 0 and step % cfg.log_freq == 0
-        if is_log_step:
-            logging.info(train_tracker)
-            logger.info(f"Step {step}: loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, update_s={train_metrics['update_s'].avg:.4f}")
-            train_tracker.reset_averages()
-
-    logger.info(f"Training completed after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s")
+    # Run training loop
+    final_step = run_training_loop(
+        policy, trainloader, epochs, device, cfg, optimizer, lr_scheduler,
+        grad_scaler, train_metrics, train_tracker, global_params, fedprox_mu
+    )
 
     # Log post-training param status
     log_param_status(policy, "post-training")
 
-    # Log final train_tracker state
-    logger.info(f"Train end: Final metrics - loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, steps_completed={step}")
+    # Log final metrics
+    logger.info(f"Train end: Final metrics - loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, steps_completed={final_step}")
 
     # Collect final metrics for return
     final_metrics = {
@@ -346,11 +364,11 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, g
         "lr": train_metrics["lr"].avg,
         "update_s": train_metrics["update_s"].avg,
         "dataloading_s": train_metrics["dataloading_s"].avg,
-        "steps_completed": step,  # Add actual steps for diagnosis
+        "steps_completed": final_step,
     }
 
     logging.info("End of client training")
-    logging.debug(f"Completed train for {epochs} epochs, actual steps: {step}")
+    logging.debug(f"Completed train for {epochs} epochs, actual steps: {final_step}")
 
     return final_metrics
 

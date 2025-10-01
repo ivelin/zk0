@@ -294,6 +294,10 @@ outputs/date_time/
 │   │   ├── round_1.json  # Individual client eval metrics
 │   │   └── round_n.json
 │   └── client_n/
+├── models/                    # 💾 AUTOMATIC: Model checkpoints saved as .safetensors files
+│   ├── checkpoint_round_5.safetensors    # Checkpoint every 5 rounds (configurable)
+│   ├── checkpoint_round_10.safetensors   # Based on checkpoint_interval setting
+│   └── checkpoint_round_n.safetensors    # Final model always saved at end of training
 └── global_model # Each subdirectory contains the global model of a round
 	├── round_1
 	...
@@ -315,6 +319,60 @@ The system automatically generates comprehensive evaluation charts at the end of
   - Timestamp and metadata for each evaluation
 
 **No manual steps required** - charts appear automatically after training completion. The charts use intuitive client IDs (0-3) instead of long Ray/Flower identifiers for better readability.
+
+### 💾 **Automatic Model Checkpoint Saving**
+
+The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis:
+
+#### **Checkpoint Saving Configuration**
+- **Interval-based saving**: Checkpoints saved every N rounds based on `checkpoint_interval` in `pyproject.toml` (default: 5)
+- **Final model saving**: Always saves the final model at the end of training regardless of interval
+- **Format**: Models saved as `.safetensors` files for efficient storage and loading
+- **Location**: `outputs/YYYY-MM-DD_HH-MM-SS/models/` directory
+
+#### **Checkpoint Features**
+```bash
+# Example checkpoint files
+outputs/2025-01-01_12-00-00/models/
+├── checkpoint_round_5.safetensors     # After round 5
+├── checkpoint_round_10.safetensors    # After round 10
+└── checkpoint_round_20.safetensors    # Final model (end of training)
+```
+
+#### **Configuration Options**
+```toml
+[tool.flwr.app.config]
+checkpoint_interval = 5  # Save checkpoint every 5 rounds (0 = disabled)
+hf_repo_id = "username/zk0-smolvla-federated"  # Optional: Push final model to Hugging Face Hub
+```
+
+#### **Hugging Face Hub Integration**
+- **Automatic pushing**: Final model automatically pushed to Hugging Face Hub if `hf_repo_id` is configured
+- **Authentication**: Requires `HF_TOKEN` environment variable for Hub access
+- **Model format**: Compatible with Hugging Face model repositories
+- **Sharing**: Enables easy model sharing and deployment across different environments
+
+#### **Using Saved Models**
+```python
+# Load a saved checkpoint for inference
+from safetensors.torch import load_file
+from src.task import get_model
+
+# Load model architecture
+checkpoint_path = "outputs/2025-01-01_12-00-00/models/checkpoint_round_20.safetensors"
+state_dict = load_file(checkpoint_path)
+
+# Create model and load weights
+model = get_model(dataset_meta)
+model.load_state_dict(state_dict)
+model.eval()
+
+# Use for inference
+with torch.no_grad():
+    predictions = model(input_data)
+```
+
+**No manual intervention required** - model checkpoints are saved automatically during training and can be used for deployment, analysis, or continued training.
 
 ## Testing
 
