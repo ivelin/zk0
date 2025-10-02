@@ -6,9 +6,10 @@ from pathlib import Path
 from src.task import get_model, get_params
 from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
+from src.utils import compute_parameter_hash
 from loguru import logger
 
-from flwr.common import Context, Metrics, ndarrays_to_parameters, FitIns, EvaluateIns, Parameters, FitRes
+from flwr.common import Context, Metrics, ndarrays_to_parameters, parameters_to_ndarrays, FitIns, EvaluateIns, Parameters, FitRes
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedProx
 from typing import List, Tuple, Union, Optional, Dict
@@ -211,6 +212,17 @@ class AggregateEvaluationStrategy(FedProx):
             updated_fit_config["use_wandb"] = use_wandb
             logger.debug(f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} config")
 
+            # 🛡️ VALIDATE: Server outgoing parameters (for training)
+            from src.utils import validate_and_log_parameters
+            from flwr.common import parameters_to_ndarrays
+            fit_param_hash = validate_and_log_parameters(
+                parameters_to_ndarrays(fit_ins.parameters),
+                f"server_fit_r{server_round}_client{i}"
+            )
+
+            # 🔐 ADD: Include parameter hash in client config for validation
+            updated_fit_config["param_hash"] = fit_param_hash
+
             updated_fit_ins = FitIns(
                 parameters=fit_ins.parameters,
                 config=updated_fit_config
@@ -253,6 +265,16 @@ class AggregateEvaluationStrategy(FedProx):
             updated_evaluate_config["use_wandb"] = use_wandb
             logger.debug(f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} eval config")
 
+            # 🛡️ VALIDATE: Server outgoing parameters (for evaluation)
+            from src.utils import validate_and_log_parameters
+            eval_param_hash = validate_and_log_parameters(
+                parameters_to_ndarrays(evaluate_ins.parameters),
+                f"server_eval_r{server_round}_client{i}"
+            )
+
+            # 🔐 ADD: Include parameter hash in client config for validation
+            updated_evaluate_config["param_hash"] = eval_param_hash
+
             updated_evaluate_ins = EvaluateIns(
                 parameters=evaluate_ins.parameters,
                 config=updated_evaluate_config
@@ -294,12 +316,17 @@ class AggregateEvaluationStrategy(FedProx):
         action_mses = []
         trajectory_lengths = []
 
-        for _, evaluate_res in results:
+        for client_proxy, evaluate_res in results:
             metrics = evaluate_res.metrics
+
+            # 🔐 VALIDATE: Client evaluation metrics include expected fields
+            if "action_mse" not in metrics:
+                logger.warning(f"⚠️ Server: Client {getattr(client_proxy, 'cid', 'unknown')} missing action_mse in evaluation metrics")
+            else:
+                action_mses.append(metrics["action_mse"])
+
             if "success_rate" in metrics:
                 success_rates.append(metrics["success_rate"])
-            if "action_mse" in metrics:
-                action_mses.append(metrics["action_mse"])
             if "trajectory_length" in metrics:
                 trajectory_lengths.append(metrics["trajectory_length"])
 
@@ -395,6 +422,50 @@ class AggregateEvaluationStrategy(FedProx):
         # Log parameter update information
         if aggregated_parameters is not None:
             logger.info(f"✅ Server: Successfully aggregated parameters from {len(results)} clients for round {server_round}")
+
+            # 🛡️ VALIDATE: Server incoming parameters (aggregated from clients)
+            from src.utils import validate_and_log_parameters
+            from flwr.common import parameters_to_ndarrays
+            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+            aggregated_hash = validate_and_log_parameters(aggregated_ndarrays, f"server_aggregated_r{server_round}")
+
+            # 🔐 VALIDATE: Individual client parameter hashes against their actual parameters
+            validation_results = []
+            for client_proxy, fit_res in results:
+                client_metrics = fit_res.metrics
+                if "param_hash" in client_metrics:
+                    client_hash = client_metrics["param_hash"]
+
+                    # Compute hash of client's actual parameters on server side
+                    from flwr.common import parameters_to_ndarrays
+                    client_params = parameters_to_ndarrays(fit_res.parameters)
+                    server_computed_hash = compute_parameter_hash(client_params)
+
+                    # Compare hashes
+                    if server_computed_hash == client_hash:
+                        validation_results.append((client_proxy.cid, True, client_hash))
+                        logger.info(f"✅ Server: Client {client_proxy.cid} parameter hash VALIDATED: {client_hash[:8]}...")
+                    else:
+                        validation_results.append((client_proxy.cid, False, client_hash))
+                        error_msg = f"Parameter hash MISMATCH for client {client_proxy.cid}! Client: {client_hash[:8]}..., Server: {server_computed_hash[:8]}..."
+                        logger.error(f"❌ Server: {error_msg}")
+                        # CRITICAL: Hash validation failure should stop training
+                        raise RuntimeError(f"CRITICAL: Parameter corruption detected for client {client_proxy.cid}. "
+                                         f"Hash mismatch indicates data corruption during transmission. "
+                                         f"Client hash: {client_hash}, Server computed: {server_computed_hash}")
+
+            # Summary of validation results
+            successful_validations = sum(1 for _, success, _ in validation_results if success)
+            total_validations = len(validation_results)
+
+            if total_validations > 0:
+                logger.info(f"🔐 Server: Hash validation complete - {successful_validations}/{total_validations} clients passed")
+                if successful_validations == total_validations:
+                    logger.info("✅ Server: All client parameter hashes validated successfully")
+                else:
+                    logger.error(f"❌ Server: {total_validations - successful_validations} client(s) failed hash validation")
+                    raise RuntimeError(f"CRITICAL: {total_validations - successful_validations} client(s) failed parameter hash validation. "
+                                     "This indicates serious communication or serialization issues.")
             # Log parameter norm to track changes
             try:
                 import numpy as np
@@ -623,6 +694,11 @@ def server_fn(context: Context) -> ServerAppComponents:
     trainloader, _ = load_data(0, 4, "smolvla", device="cpu")  # Use first partition
     dataset_meta = trainloader.dataset.meta
     ndarrays = get_params(get_model(dataset_meta=dataset_meta))
+
+    # 🛡️ VALIDATE: Server outgoing parameters (initial model)
+    from src.utils import validate_and_log_parameters
+    initial_param_hash = validate_and_log_parameters(ndarrays, "server_initial_model")
+
     global_model_init = ndarrays_to_parameters(ndarrays)
 
     # Define strategy with evaluation aggregation

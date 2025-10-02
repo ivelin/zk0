@@ -58,6 +58,21 @@ class SmolVLAClient(NumPyClient):
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit start - Host RAM used")
 
         logger.debug(f"Client {self.partition_id}: Setting model parameters")
+
+        # 🔐 VALIDATE: Client incoming parameters against server hash
+        expected_hash = config.get("param_hash")
+        if expected_hash:
+            from src.utils import compute_parameter_hash
+            received_hash = compute_parameter_hash(parameters)
+            if received_hash != expected_hash:
+                error_msg = f"Parameter hash mismatch! Expected: {expected_hash}, Received: {received_hash}"
+                logger.error(f"❌ Client {self.partition_id}: {error_msg}")
+                raise RuntimeError(error_msg)
+            else:
+                logger.info(f"✅ Client {self.partition_id}: Parameter hash validated: {received_hash[:8]}...")
+        else:
+            logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
+
         set_params(self.net, parameters)
 
         # FedProx: Extract global params for proximal term calculation (only trainable params)
@@ -101,6 +116,14 @@ class SmolVLAClient(NumPyClient):
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
         updated_params = get_params(self.net)
 
+        # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation)
+        from src.utils import compute_parameter_hash
+        client_param_hash = compute_parameter_hash(updated_params)
+        logger.info(f"✅ Client {self.partition_id}: Updated parameters hash: {client_param_hash[:8]}...")
+
+        # Add hash to metrics for server validation
+        training_metrics["param_hash"] = client_param_hash
+
         if torch.cuda.is_available():
             vram_gb = torch.cuda.max_memory_allocated() / 1e9
             logger.bind(vram_gb=f"{vram_gb:.2f}").info("Fit end - VRAM allocated")
@@ -128,6 +151,21 @@ class SmolVLAClient(NumPyClient):
         logger.bind(ram_percent=f"{ram_percent:.1f}").info("Evaluate start - Host RAM used")
 
         logger.debug(f"Client {self.partition_id}: Setting evaluation parameters")
+
+        # 🔐 VALIDATE: Client incoming parameters against server hash
+        expected_hash = config.get("param_hash")
+        if expected_hash:
+            from src.utils import compute_parameter_hash
+            received_hash = compute_parameter_hash(parameters)
+            if received_hash != expected_hash:
+                error_msg = f"Parameter hash mismatch! Expected: {expected_hash}, Received: {received_hash}"
+                logger.error(f"❌ Client {self.partition_id}: {error_msg}")
+                raise RuntimeError(error_msg)
+            else:
+                logger.info(f"✅ Client {self.partition_id}: Parameter hash validated: {received_hash[:8]}...")
+        else:
+            logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
+
         set_params(self.net, parameters)
 
         # Handle case where save_path might not be in config (evaluation rounds)

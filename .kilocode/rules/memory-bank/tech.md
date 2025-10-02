@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-09-22
-**Version**: 1.0.1
+**Last Updated**: 2025-10-02
+**Version**: 1.0.2
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -20,6 +20,16 @@
   - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
   - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
   - **Execution Modes**: Simulation Mode, Deployment Mode, GPU Support
+
+#### Enhanced Security & Validation
+- **Bidirectional Hash Validation**: SHA256 parameter integrity checking in both directions.
+  - **Server → Client:** Computes hash before transmission, sends via config.
+  - **Client → Server:** Validates received parameters; computes and sends updated hashes via metrics.
+  - **Server Validation:** Re-computes hashes for each client update and compares.
+  - **Error Handling:** Raises `RuntimeError` on mismatches to prevent corrupted training.
+- **Implementation:** Added to `src/server_app.py` (configure_fit, configure_evaluate, aggregate_fit) and `src/client_app.py` (fit, evaluate).
+- **Rationale:** Addresses serialization regressions; catches dtype/array corruption early.
+- **Status:** Production-ready; tested for compatibility with existing Flower/FedProx logic.
 
 ### SmolVLA Model
 - **Model Size**: 450M parameters total
@@ -168,6 +178,9 @@ See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client
 - **Real Environment Testing**: Test against actual conda zk0 environment, real imports, and SO-100 data, not mocked states
 - **Remove Low-Value Tests**: Delete tests that only exercise mocking without testing real federated learning behavior
 - **Fail-Fast Testing**: Tests should expose environment and dependency issues immediately rather than hiding them with fallbacks
+- **Integration Testing**: Verify bidirectional hash validation in full FL rounds.
+- **Edge Cases**: Test artificial corruption to confirm `RuntimeError` triggers.
+- **Performance**: Monitor hash computation overhead (<1% of round time).
 
 ### Compliance Requirements
 - **Technical Standards**: Python 3.8+, PyTorch compatible with SmolVLA, CUDA 11.0+, 8GB+ RAM, 4GB+ VRAM

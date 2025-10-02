@@ -5,6 +5,7 @@ from __future__ import annotations
 import os
 import sys
 import torch
+import numpy as np
 from typing import Dict, List, Optional
 from loguru import logger
 
@@ -261,6 +262,60 @@ def load_lerobot_dataset(
     except Exception as e:
         logger.error(f"Failed to load dataset {repo_id}: {e}")
         raise RuntimeError(f"Dataset loading failed: {e}")
+
+
+# Parameter validation utilities for federated learning
+def compute_parameter_hash(parameters: List[np.ndarray]) -> str:
+    """
+    Compute SHA256 hash of model parameters for integrity checking.
+
+    Args:
+        parameters: List of parameter arrays
+
+    Returns:
+        SHA256 hash string of parameter data
+    """
+    import hashlib
+
+    # Convert parameters to tensors and concatenate (deterministic ordering)
+    tensors = [torch.from_numpy(p).flatten() for p in parameters]
+    all_params = torch.cat([t for t in sorted(tensors, key=lambda x: x.numel())])
+    param_bytes = all_params.numpy().tobytes()
+
+    return hashlib.sha256(param_bytes).hexdigest()
+
+
+def validate_and_log_parameters(
+    parameters: List[np.ndarray],
+    gate_name: str,
+    expected_count: int = 506
+) -> str:
+    """
+    Validate parameters and log basic information about them.
+
+    Args:
+        parameters: Parameter arrays to validate and log
+        gate_name: Name of the gate (e.g., "server_initial_model", "client_update")
+        expected_count: Expected number of parameters
+
+    Returns:
+        Parameter hash for downstream validation
+
+    Raises:
+        AssertionError: If validation fails
+    """
+    # Basic validation
+    assert len(parameters) == expected_count, (
+        f"Parameter count mismatch at {gate_name}: expected {expected_count}, got {len(parameters)}"
+    )
+
+    # Compute hash
+    current_hash = compute_parameter_hash(parameters)
+
+    # Log basic information
+    logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:8]}...")
+
+    return current_hash
 
 
 # TOML parsing utility
