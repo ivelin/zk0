@@ -19,6 +19,9 @@ from lerobot.datasets.factory import make_dataset
 
 from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
+# Import torchvision for image transforms
+from torchvision import transforms
+
 def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "auto") -> SmolVLAPolicy:
     """Load SmolVLA model with environment-based distributed control.
 
@@ -193,7 +196,7 @@ def load_lerobot_dataset(
         try:
             cfg = TrainPipelineConfig.from_pretrained("lerobot/smolvla_base")
         except Exception as e:
-            logger.warning(f"Failed to load config from hub: {e}, using default config")
+            logger.warning(f"Failed to load config from hub: {e}, using default config with explicit image transforms")
             # Create minimal config if hub loading fails
             from lerobot.configs.default import DatasetConfig
             from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
@@ -201,10 +204,19 @@ def load_lerobot_dataset(
             policy_config = SmolVLAConfig()
             policy_config.pretrained_path = "lerobot/smolvla_base"
             policy_config.push_to_hub = False  # Disable hub pushing for federated learning
+            policy_config.resize_imgs_with_padding = (224, 224)  # SmolVLA ViT expects 224x224 images
 
             cfg = TrainPipelineConfig(
                 dataset=DatasetConfig(repo_id=repo_id),
                 policy=policy_config
+            )
+
+            # Add explicit image transforms only when using fallback config
+            # Create proper ImageTransformsConfig object (disable random transforms)
+            from lerobot.datasets.transforms import ImageTransformsConfig
+            cfg.dataset.image_transforms = ImageTransformsConfig(
+                enable=False,  # Disable random transforms for deterministic behavior
+                tfs={}  # Empty dict to avoid random color jitter
             )
 
         # Override dataset configuration with our specific dataset

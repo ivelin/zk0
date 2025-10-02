@@ -48,9 +48,9 @@ clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
 num-server-rounds = 10 # train rounds
-local-epochs = 200 # steps/epochs per round
+local-epochs = 1000 # steps/epochs per round
 model-name = "lerobot/smolvla_base"
-fraction-fit = 0.5 # set to 1 for all clients to train each round
+fraction-fit = 1 # set to 1 for all clients to train each round
 fraction-evaluate = 1 # Evaluate all clients
 batch_size = 64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
@@ -59,7 +59,7 @@ eval-frequency = 2 # Evaluate every eval-frequency rounds
 eval_mode = "quick" # Quick evaluation vs full (full is very slow)
 checkpoint_interval = 2 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
-proximal_mu = 0.01 # FedProx proximal regularization strength (reduced from 0.1 to prevent loss explosion)
+proximal_mu = 0.001 # FedProx proximal regularization strength (reduced from 0.1 to prevent loss explosion)
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
  
 [tool.zk0.logging]
