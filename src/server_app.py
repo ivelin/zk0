@@ -466,14 +466,6 @@ class AggregateEvaluationStrategy(FedProx):
                     logger.error(f"❌ Server: {total_validations - successful_validations} client(s) failed hash validation")
                     raise RuntimeError(f"CRITICAL: {total_validations - successful_validations} client(s) failed parameter hash validation. "
                                      "This indicates serious communication or serialization issues.")
-            # Log parameter norm to track changes
-            try:
-                import numpy as np
-                param_norms = [np.linalg.norm(param) for param in aggregated_parameters.tensors]
-                total_norm = sum(param_norms)
-                logger.info(f"📊 Server: Aggregated parameters norm: {total_norm:.4f} (from {len(param_norms)} parameter arrays)")
-            except Exception as e:
-                logger.warning(f"Could not compute parameter norms: {e}")
 
             # Save model checkpoint based on checkpoint_interval configuration
             checkpoint_interval = self.context.run_config.get("checkpoint_interval", 5)

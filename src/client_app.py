@@ -295,7 +295,9 @@ def client_fn(context: Context) -> Client:
     logging.info(f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})")
     try:
         trainloader, _ = load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
-        logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - trainloader length: {len(trainloader)}")
+        total_episodes = len(trainloader.dataset)
+        train_episodes = total_episodes - 3  # Exclude last 3 episodes for validation
+        logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - total episodes: {total_episodes}, training episodes: {train_episodes}, trainloader length: {len(trainloader)}")
     except Exception as e:
         logging.error(f"❌ Client {partition_id}: Failed to load dataset: {e}")
         import traceback

@@ -290,7 +290,14 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
 
     for _ in range(epochs):
         start_time = time.perf_counter()
-        batch = next(dl_iter)
+        try:
+            batch = next(dl_iter)
+        except RuntimeError as e:
+            if "Could not push packet to decoder" in str(e):
+                logger.warning(f"Skipping invalid batch due to video decoding error: {e}")
+                continue
+            else:
+                raise
         train_tracker.dataloading_s = time.perf_counter() - start_time
 
         logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
