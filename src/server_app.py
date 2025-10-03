@@ -166,6 +166,40 @@ class AggregateEvaluationStrategy(FedProx):
         self.context = context
         self.federated_metrics_history = []  # Track metrics across rounds for plotting
 
+    def validate_client_parameters(self, results: List[Tuple[ClientProxy, FitRes]]) -> List[Tuple[ClientProxy, FitRes]]:
+        """Validate client parameter hashes and return only validated results.
+
+        Args:
+            results: List of (client_proxy, fit_result) tuples from successful clients
+
+        Returns:
+            List of validated (client_proxy, fit_result) tuples, excluding corrupted clients
+        """
+        validated_results = []
+        for client_proxy, fit_res in results:
+            client_metrics = fit_res.metrics
+            if "param_hash" in client_metrics:
+                client_hash = client_metrics["param_hash"]
+
+                # Compute hash of client's actual parameters on server side
+                from flwr.common import parameters_to_ndarrays
+                client_params = parameters_to_ndarrays(fit_res.parameters)
+                server_computed_hash = compute_parameter_hash(client_params)
+
+                # Compare hashes
+                if server_computed_hash == client_hash:
+                    logger.info(f"✅ Server: Client {client_proxy.cid} parameter hash VALIDATED: {client_hash[:8]}...")
+                    validated_results.append((client_proxy, fit_res))
+                else:
+                    error_msg = f"Parameter hash MISMATCH for client {client_proxy.cid}! Client: {client_hash[:8]}..., Server: {server_computed_hash[:8]}..."
+                    logger.error(f"❌ Server: {error_msg} - Excluding corrupted client from aggregation")
+            else:
+                # No hash provided, include but log warning
+                logger.warning(f"⚠️ Server: Client {client_proxy.cid} provided no parameter hash - including in aggregation")
+                validated_results.append((client_proxy, fit_res))
+
+        return validated_results
+
     def configure_fit(self, server_round: int, parameters, client_manager):
         """Configure the next round of training."""
         logger.info(f"Server: Configuring fit for round {server_round}")
@@ -416,56 +450,21 @@ class AggregateEvaluationStrategy(FedProx):
                 else:
                     logger.warning(f"  Failure {i}: Client proxy issue")
 
-        # Call parent aggregate_fit (FedProx) and get aggregated parameters
-        aggregated_parameters, metrics = super().aggregate_fit(server_round, results, failures)
+        # 🔐 VALIDATE: Individual client parameter hashes BEFORE aggregation
+        validated_results = self.validate_client_parameters(results)
+
+        # Call parent aggregate_fit (FedProx) with validated results only
+        aggregated_parameters, metrics = super().aggregate_fit(server_round, validated_results, failures)
 
         # Log parameter update information
         if aggregated_parameters is not None:
             logger.info(f"✅ Server: Successfully aggregated parameters from {len(results)} clients for round {server_round}")
 
-            # 🛡️ VALIDATE: Server incoming parameters (aggregated from clients)
+            # 🛡️ VALIDATE: Server incoming parameters (aggregated from validated clients)
             from src.utils import validate_and_log_parameters
             from flwr.common import parameters_to_ndarrays
             aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
             aggregated_hash = validate_and_log_parameters(aggregated_ndarrays, f"server_aggregated_r{server_round}")
-
-            # 🔐 VALIDATE: Individual client parameter hashes against their actual parameters
-            validation_results = []
-            for client_proxy, fit_res in results:
-                client_metrics = fit_res.metrics
-                if "param_hash" in client_metrics:
-                    client_hash = client_metrics["param_hash"]
-
-                    # Compute hash of client's actual parameters on server side
-                    from flwr.common import parameters_to_ndarrays
-                    client_params = parameters_to_ndarrays(fit_res.parameters)
-                    server_computed_hash = compute_parameter_hash(client_params)
-
-                    # Compare hashes
-                    if server_computed_hash == client_hash:
-                        validation_results.append((client_proxy.cid, True, client_hash))
-                        logger.info(f"✅ Server: Client {client_proxy.cid} parameter hash VALIDATED: {client_hash[:8]}...")
-                    else:
-                        validation_results.append((client_proxy.cid, False, client_hash))
-                        error_msg = f"Parameter hash MISMATCH for client {client_proxy.cid}! Client: {client_hash[:8]}..., Server: {server_computed_hash[:8]}..."
-                        logger.error(f"❌ Server: {error_msg}")
-                        # CRITICAL: Hash validation failure should stop training
-                        raise RuntimeError(f"CRITICAL: Parameter corruption detected for client {client_proxy.cid}. "
-                                         f"Hash mismatch indicates data corruption during transmission. "
-                                         f"Client hash: {client_hash}, Server computed: {server_computed_hash}")
-
-            # Summary of validation results
-            successful_validations = sum(1 for _, success, _ in validation_results if success)
-            total_validations = len(validation_results)
-
-            if total_validations > 0:
-                logger.info(f"🔐 Server: Hash validation complete - {successful_validations}/{total_validations} clients passed")
-                if successful_validations == total_validations:
-                    logger.info("✅ Server: All client parameter hashes validated successfully")
-                else:
-                    logger.error(f"❌ Server: {total_validations - successful_validations} client(s) failed hash validation")
-                    raise RuntimeError(f"CRITICAL: {total_validations - successful_validations} client(s) failed parameter hash validation. "
-                                     "This indicates serious communication or serialization issues.")
 
             # Save model checkpoint based on checkpoint_interval configuration
             checkpoint_interval = self.context.run_config.get("checkpoint_interval", 5)

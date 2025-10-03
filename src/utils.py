@@ -223,8 +223,17 @@ def load_lerobot_dataset(
         cfg.dataset.repo_id = repo_id
         cfg.dataset.decode_videos = False  # Lazy decode for memory efficiency (match standalone train script)
 
-        # Load dataset using LeRobot factory (same as standalone training)
-        dataset = make_dataset(cfg)
+        # Try loading with TorchCodec first, fallback to OpenCV if TorchCodec fails
+        try:
+            dataset = make_dataset(cfg)
+        except Exception as e:
+            if "TorchCodec" in str(e) or "torchcodec" in str(e).lower():
+                logger.warning(f"TorchCodec failed: {e}. Retrying with OpenCV video backend.")
+                cfg.dataset.video_backend = "opencv"
+                dataset = make_dataset(cfg)
+                logger.info("Successfully loaded dataset with OpenCV backend.")
+            else:
+                raise
         logger.info(f"Dataset contains {dataset.num_episodes} total episodes")
 
         # Log basic dataset info for debugging using decoded sample

@@ -290,14 +290,24 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
 
     for _ in range(epochs):
         start_time = time.perf_counter()
-        try:
-            batch = next(dl_iter)
-        except RuntimeError as e:
-            if "Could not push packet to decoder" in str(e):
-                logger.warning(f"Skipping invalid batch due to video decoding error: {e}")
-                continue
-            else:
-                raise
+        batch = None
+        max_attempts = 5  # Try up to 5 times to find a valid batch
+        attempts = 0
+        while batch is None and attempts < max_attempts:
+            try:
+                batch = next(dl_iter)
+            except Exception as e:
+                attempts += 1
+                if "Invalid data found when processing input" in str(e) or "Could not push packet to decoder" in str(e):
+                    logger.warning(f"Skipping corrupt batch due to decoding error: {e} (attempt {attempts}/{max_attempts})")
+                    continue
+                else:
+                    logger.error(f"Unexpected error in data loader: {e}")
+                    raise
+        if batch is None:
+            error_msg = f"Failed to find valid batch after {max_attempts} attempts due to corrupt data. Training cannot proceed."
+            logger.error(error_msg)
+            raise RuntimeError(error_msg)
         train_tracker.dataloading_s = time.perf_counter() - start_time
 
         logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
