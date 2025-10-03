@@ -7,12 +7,7 @@ import psutil
 import torch
 from src.task import (
     compute_param_norms,
-    get_model,
-    get_params,
-    load_data,
-    set_params,
-    test,
-    train,
+    SmolVLATrainer,
 )
 
 from loguru import logger
@@ -31,7 +26,23 @@ class SmolVLAClient(NumPyClient):
         # Load dataset metadata for model creation (like lerobot train script)
         # Get dataset metadata from the trainloader's dataset
         dataset_meta = trainloader.dataset.meta if hasattr(trainloader.dataset, 'meta') else None
-        self.net = get_model(dataset_meta)
+
+        # Create SmolVLATrainer instance for training logic
+        self.trainer = SmolVLATrainer(
+            client_id=partition_id,
+            device=nn_device,
+            use_wandb=False,  # Will be set per round from config
+            dataset_meta=dataset_meta,
+            local_epochs=local_epochs,
+            batch_size=64  # Default, will be overridden per round if needed
+        )
+
+        # Load model using trainer
+        self.net = self.trainer.get_model()
+
+        # Set the model and data in the trainer
+        self.trainer.policy = self.net
+        self.trainer.trainloader = trainloader
 
         policy = self.net
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
@@ -48,7 +59,9 @@ class SmolVLAClient(NumPyClient):
             setup_client_logging(Path(log_file_path), self.partition_id)
 
         batch_size = config.get("batch_size", 64)
+        dataset_repo_id = config.get("dataset_repo_id", "unknown")
         logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={batch_size}, len(trainloader)={len(self.trainloader)})")
+        logger.info(f"Client {self.partition_id}: Loading dataset '{dataset_repo_id}' for training")
         logger.debug(f"Client {self.partition_id}: Received config: {config}")
 
         if torch.cuda.is_available():
@@ -73,11 +86,10 @@ class SmolVLAClient(NumPyClient):
         else:
             logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
 
-        set_params(self.net, parameters)
+        SmolVLATrainer.set_params(self.net, parameters)
 
         # FedProx: Extract global params for proximal term calculation (only trainable params)
-        from src.task import extract_trainable_params
-        global_params = extract_trainable_params(self.net)
+        global_params = SmolVLATrainer.extract_trainable_params(self.net)
 
         # FedProx: Get proximal_mu from server config (default to 0.01 if not provided)
         proximal_mu = config.get("proximal_mu", 0.01)
@@ -87,26 +99,28 @@ class SmolVLAClient(NumPyClient):
         initial_lr = config.get("initial_lr", 1e-3)
         logger.info(f"Client {self.partition_id}: Using initial_lr={initial_lr} for training")
 
-        # + Get use_wandb from server config (default to False)
+        # Get use_wandb from server config (default to False)
         use_wandb = config.get("use_wandb", False)
         logger.info(f"Client {self.partition_id}: Using use_wandb={use_wandb} for training")
 
-        logger.info(f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}")
+        # Set round config in trainer
+        self.trainer.set_round_config(
+            round_num=config.get("round", 0),
+            global_params=global_params,
+            fedprox_mu=proximal_mu,
+            initial_lr=initial_lr
+        )
+        self.trainer.use_wandb = use_wandb
+
+        # Update batch_size in trainer if different from default
+        self.trainer.batch_size = batch_size
+
+        logger.info(f"Client {self.partition_id}: About to call trainer.train() with epochs={self.local_epochs}")
         try:
-            training_metrics = train(
-                net=self.net,
-                trainloader=self.trainloader,
-                epochs=self.local_epochs,
-                device=self.device,
-                batch_size=batch_size,
-                global_params=global_params,
-                fedprox_mu=proximal_mu,  # Use value from server config
-                initial_lr=initial_lr,  # Use value from server config
-                # use_wandb=use_wandb  # + Pass use_wandb to enable/disable WandB logging
-            )
-            logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
+            training_metrics = self.trainer.train()
+            logger.info(f"Client {self.partition_id}: trainer.train() returned successfully with metrics: {training_metrics}")
         except Exception as e:
-            logger.error(f"Client {self.partition_id}: Exception in train(): {e}")
+            logger.error(f"Client {self.partition_id}: Exception in trainer.train(): {e}")
             import traceback
             logger.error(traceback.format_exc())
             raise  # Re-raise to fail the client properly
@@ -114,7 +128,7 @@ class SmolVLAClient(NumPyClient):
         logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={batch_size})")
 
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
-        updated_params = get_params(self.net)
+        updated_params = SmolVLATrainer.get_params(self.net)
 
         # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation)
         from src.utils import compute_parameter_hash
@@ -141,7 +155,9 @@ class SmolVLAClient(NumPyClient):
             setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
             setup_client_logging(Path(log_file_path), self.partition_id)
 
+        dataset_repo_id = config.get("dataset_repo_id", "unknown")
         logger.info(f"Client {self.partition_id}: Starting evaluate operation")
+        logger.info(f"Client {self.partition_id}: Loading dataset '{dataset_repo_id}' for evaluation")
         logger.debug(f"Client {self.partition_id}: Evaluate config: {config}")
 
         if torch.cuda.is_available():
@@ -166,14 +182,14 @@ class SmolVLAClient(NumPyClient):
         else:
             logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
 
-        set_params(self.net, parameters)
+        SmolVLATrainer.set_params(self.net, parameters)
 
         # Handle case where save_path might not be in config (evaluation rounds)
         try:
             # test() returns (loss, num_examples, metrics)
             eval_mode = config.get("eval_mode", "quick")
             eval_batch_size = config.get("eval_batch_size", config.get("batch_size", 64))
-            loss, num_examples, metrics = test(
+            loss, num_examples, metrics = SmolVLATrainer.test(
                 partition_id=self.partition_id,
                 net=self.net,
                 device=self.device,
@@ -294,7 +310,7 @@ def client_fn(context: Context) -> Client:
     # Load dataset first to get metadata for model creation
     logging.info(f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})")
     try:
-        trainloader, _ = load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
+        trainloader, _ = SmolVLATrainer.load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
         total_episodes = len(trainloader.dataset)
         train_episodes = total_episodes - 3  # Exclude last 3 episodes for validation
         logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - total episodes: {total_episodes}, training episodes: {train_episodes}, trainloader length: {len(trainloader)}")

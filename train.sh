@@ -6,8 +6,7 @@
 set -e  # Exit on any error
 
 # Configuration managed via pyproject.toml
-FEDERATION=local-simulation-serialized-gpu
-DOCKER_IMAGE=zk0
+#FEDERATION=local-simulation-serialized-gpu
 USE_DOCKER=false
 
 # Colors for output

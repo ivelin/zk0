@@ -8,10 +8,20 @@
 ## Source Code Paths
 - **Client Application**: [`src/client_app.py`](src/client_app.py)
 - **Server Application**: [`src/server_app.py`](src/server_app.py)
-- **Configuration Files**:
-  - [`src/configs/default.yaml`](src/configs/default.yaml)
-  - [`src/configs/policy/vla.yaml`](src/configs/policy/vla.yaml)
-  - [`src/configs/datasets.yaml`](src/configs/datasets.yaml) - Dataset configuration and validation
+## Configuration System
+
+**Centralized Configuration Architecture:**
+- **`pyproject.toml`** - Primary configuration file containing:
+  - `[tool.flwr.app.config]` - Flower federated learning parameters (rounds, epochs, strategies)
+  - `[tool.zk0.datasets]` - Client dataset assignments and evaluation configurations
+  - `[project]` - Project metadata and dependencies
+- **`.env`** - Environment variables for sensitive configuration (API keys, paths)
+- **Code defaults** - Fallback values in source code for robustness
+
+**Configuration Loading:**
+- Dataset configuration loaded via `src/configs/datasets.py` → `DatasetConfig.load()`
+- Flower configuration loaded via `src/utils.py` → `get_tool_config()`
+- Environment variables loaded via `python-dotenv`
 - **Test Suite**: [`tests/`](tests/)
   - Unit tests: [`tests/unit/`](tests/unit/)
   - Integration tests: [`tests/integration/`](tests/integration/)
@@ -69,7 +79,7 @@ The system implements a federated learning architecture using the Flower framewo
 The system implements a carefully designed federated learning strategy to ensure robust, privacy-preserving training of SmolVLA models across distributed clients.
 
 #### Client Task Assignments
-Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning. See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client dataset configuration including:
+Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning. See [Configuration System](#configuration-system) for complete client dataset configuration including:
 - **4 validated clients** with diverse robotics manipulation tasks
 - **Dataset sizes and validation status** for each client
 - **Train/eval episode splits** for proper federated learning setup
@@ -88,7 +98,7 @@ Each client is assigned a unique robotics manipulation task to prevent data over
 - **Data Leak Prevention**: Strict validation to ensure no evaluation data in training sets
 
 #### Server Evaluation Datasets (Unseen Tasks)
-The server evaluates the global model on all client tasks as well as additional unseen tasks to verify generalization capabilities. See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for the complete list of validated evaluation datasets including:
+The server evaluates the global model on all client tasks as well as additional unseen tasks to verify generalization capabilities. See [Configuration System](#configuration-system) for the complete list of validated evaluation datasets including:
 - **SO-101 cross-platform datasets** for generalization testing
 - **Research laboratory scenarios** for specialized task validation
 - **Comprehensive test suites** for thorough evaluation

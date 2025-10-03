@@ -92,6 +92,33 @@
 **Context:** Fixed loss explosion by reducing proximal_mu from 0.1 to 0.001
 **Files modified:** `pyproject.toml`
 
+## Client Logging Enhancement Workflow
+**Last performed:** 2025-10-03
+**Context:** Improved client logging for better debugging of federated learning runs, especially for data corruption issues
+**Files modified:** `src/client_app.py`, `src/task.py`
+
+**Steps:**
+1. **Dataset Name Logging**: Add dataset repository ID logging in client fit() and evaluate() methods for traceability
+2. **Batch Skipping Tracking**: Implement skipped_batches counter in training loops to track corrupt frame handling
+3. **Max Attempts Increase**: Increase max_attempts from 5 to 50 in both global and SmolVLATrainer run_training_loop functions
+4. **Enhanced Error Details**: Include attempt counts and total skipped batches in warning messages
+5. **Completion Logging**: Add skipped_batches count to training completion logs
+6. **Code Quality Check**: Run ruff check to ensure no linting issues
+7. **Memory Bank Update**: Document changes in context.md
+
+**Important notes:**
+- Dataset name logging helps identify which client is using which dataset during debugging
+- Increased max_attempts (50) allows clients with corrupted datasets to complete more training steps
+- Skipped batch tracking provides visibility into data quality issues
+- Changes apply to both the global run_training_loop and SmolVLATrainer.run_training_loop methods
+- All changes maintain backward compatibility and existing functionality
+
+**Common Issues Addressed:**
+- Unclear which dataset a failing client is using
+- Insufficient attempts to skip corrupt frames, causing premature training failure
+- Lack of visibility into how many batches are being skipped due to data corruption
+- Incomplete logging of training completion status
+
 ## Server Parameter Aggregation Fix Workflow
 **Last performed:** 2025-10-01
 **Context:** Fixed issue where clients started each round with identical loss values due to server not properly returning aggregated parameters
@@ -149,6 +176,113 @@
 - Too low proximal_mu: No regularization benefit, poor convergence on heterogeneous data
 - Loss trends: Monitor both proximal_loss and adjusted_loss for proper convergence
 - Validation: Always run test training after hyperparameter changes
+
+## Context Management Guidelines
+
+### Context Passing Mechanism
+The context passing mechanism ensures that critical information flows seamlessly between tasks, subtasks, and mode transitions without loss or degradation.
+
+#### Core Components
+- **Context Capture**: What to capture and initial extraction
+- **Context Packaging**: How to package and format context
+- **Context Transfer**: How to transfer between tasks and modes
+- **Context Validation**: How to validate context integrity
+
+#### Subtask Creation Protocol
+1. **Context Extraction**: Extract relevant context from parent task, identify inheritance requirements, determine validation needs
+2. **Context Packaging**: Use task context template, include all mandatory constraints, add subtask-specific context
+3. **Context Transfer**: Embed context in subtask description, reference memory bank for details, include validation checkpoints
+4. **Context Validation**: Verify completeness, confirm constraints included, validate success criteria
+
+#### Context Formats
+**Template-Based Format:**
+```markdown
+## Project Constraints (MANDATORY)
+See [.kilocode/rules/memory-bank/project-constraints.md](.kilocode/rules/memory-bank/project-constraints.md) for the complete list of project constraints.
+
+## Task Context
+[Task-specific context]
+
+## Success Criteria
+[Measurable outcomes]
+```
+
+**Structured Format:**
+```json
+{
+  "constraints": {
+    "workDirectory": "local project repository root directory",
+    "environment": "zk0",
+    "focus": "SmolVLA + SO-100"
+  },
+  "context": {
+    "taskId": "TASK-001",
+    "successCriteria": [...],
+    "dependencies": [...]
+  },
+  "validation": {
+    "checklist": [...],
+    "metadata": {
+      "created": "2025-09-03",
+      "version": "1.0"
+    }
+  }
+}
+```
+
+### Context Inheritance Rules
+Context inheritance ensures that critical information, constraints, and requirements are automatically passed from parent tasks to subtasks, preventing loss of important details during task decomposition.
+
+#### Inheritance Levels
+- **Level 1: Mandatory Constraints** (Always inherited - no exceptions): Project working directory, environment requirements, technical focus, scope limitations
+- **Level 2: Task Context** (Inherited for all subtasks): Success criteria, key technical decisions, critical assumptions, risk assessments
+- **Level 3: Operational Context** (Inherited based on relevance): Current system state, recent changes, known issues, performance baselines
+
+#### Inheritance Mechanism
+**Automatic Inheritance:**
+- Project Constraints Block reference
+- Parent Task Reference (ID, success criteria, context summary)
+- Technical Context (current working state, dependencies, known constraints)
+
+**Manual Inheritance:**
+- Business Logic (task purpose, contribution to parent goal, success criteria alignment)
+- Technical Decisions (architecture choices, design patterns, implementation constraints)
+- Risk Context (known risks, mitigation strategies, fallback plans)
+
+### Context Management Strategies
+Context management strategies optimize context handling across session transitions and task workflows.
+
+#### Session Transition Template
+```
+[Memory Bank: Active]
+Project: [project name]
+Status: [current state summary]
+Last Updated: [date]
+Key Technical Context:
+- Environment: [conda env, key dependencies]
+- Architecture: [core components, patterns]
+- Constraints: [critical rules, standards]
+Current Focus: [immediate next task]
+```
+
+#### Context Health Monitoring
+- **Indicators of Approaching Limits**: Increased back-referencing, longer response times, more memory bank consultations
+- **Optimal Transition Points**: After major milestones, before complex debugging, when conversation exceeds 50 messages
+- **Recovery Strategies**: Immediate assessment, memory bank review, gap documentation, user verification
+
+#### Memory Bank Update Rules
+**MANDATORY Updates:**
+- Before session transitions: Update context.md with current task status
+- After major milestones: Document completed features and decisions
+- When critical decisions made: Capture architectural choices and trade-offs
+- Before complex debugging: Document current state and known issues
+- After subtask completion: Update progress and results
+
+### Context Loss Prevention and Recovery
+- **Risk Identification**: High-risk areas include mode transitions, task decomposition, external interruptions
+- **Prevention Strategies**: Template usage, documentation of assumptions, validation checkpoints, context backups
+- **Recovery Procedures**: Immediate stop, assessment, reconstruction using memory bank, validation, resume
+- **Quality Metrics**: Completeness score (>90% Level 2), preservation rate tracking, loss rate monitoring
 
 ## Appendix: Task Context Template
 

@@ -111,10 +111,8 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 - **Frame Rate**: 30 FPS for SO-100/SO-101 datasets
 - **Synchronization**: Proper tolerance (0.0001s = 1/fps) for accurate timestamp validation
 - **Quality Assurance**: Automatic hotfix for doubled datasets (GitHub issue #1875)
-- **Configuration**: Centralized YAML configuration in [`src/configs/datasets.yaml`](src/configs/datasets.yaml)
-
 #### Federated Learning Client Datasets
-See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for complete client dataset configuration including:
+See [Configuration System](architecture.md#configuration-system) in `pyproject.toml` under `[tool.zk0.datasets]` for complete client dataset configuration including:
 - **4 validated clients** with diverse robotics manipulation tasks
 - **Dataset sizes and validation status** for each client
 - **Train/eval episode splits** for proper federated learning setup
@@ -319,7 +317,7 @@ python lerobot/scripts/train.py \
   --policy.device=cuda \
   --wandb.enable=true
 ```
-*See [`src/configs/datasets.yaml`](src/configs/datasets.yaml) for available dataset options*
+*See [Configuration System](architecture.md#configuration-system) for available dataset options*
 
 #### Flower Simulation
 ```bash

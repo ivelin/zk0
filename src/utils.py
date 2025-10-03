@@ -223,17 +223,22 @@ def load_lerobot_dataset(
         cfg.dataset.repo_id = repo_id
         cfg.dataset.decode_videos = False  # Lazy decode for memory efficiency (match standalone train script)
 
-        # Try loading with TorchCodec first, fallback to OpenCV if TorchCodec fails
+        # Try loading with default config, fallback to OpenCV if it fails
         try:
             dataset = make_dataset(cfg)
+            logger.info(f"Successfully loaded dataset {repo_id} with default video backend")
         except Exception as e:
-            if "TorchCodec" in str(e) or "torchcodec" in str(e).lower():
-                logger.warning(f"TorchCodec failed: {e}. Retrying with OpenCV video backend.")
+            logger.warning(f"Dataset loading failed with default config: {e}")
+            logger.info(f"Retrying with OpenCV video backend for dataset {repo_id}")
+            try:
                 cfg.dataset.video_backend = "opencv"
                 dataset = make_dataset(cfg)
-                logger.info("Successfully loaded dataset with OpenCV backend.")
-            else:
-                raise
+                logger.info(f"Successfully loaded dataset {repo_id} with OpenCV backend")
+            except Exception as opencv_e:
+                logger.error(f"Dataset {repo_id} failed to load with both default and OpenCV backends")
+                logger.error(f"Default backend error: {e}")
+                logger.error(f"OpenCV backend error: {opencv_e}")
+                raise RuntimeError(f"Dataset {repo_id} is corrupted and unusable with available video backends")
         logger.info(f"Dataset contains {dataset.num_episodes} total episodes")
 
         # Log basic dataset info for debugging using decoded sample
