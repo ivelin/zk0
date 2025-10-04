@@ -211,14 +211,14 @@ def setup_training_components(policy, trainloader, epochs, batch_size, device, i
 
 def run_training_step(step, policy, batch, device, train_tracker, optimizer, grad_scaler, lr_scheduler, cfg, global_params, fedprox_mu):
     """Run a single training step with FedProx regularization."""
-    from lerobot.scripts.train import update_policy
+    from contextlib import nullcontext
 
     # Move batch to device
     for key in batch:
         if isinstance(batch[key], torch.Tensor):
             batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
 
-    # Log VRAM before update
+    # Log VRAM before forward (matching LeRobot)
     if torch.cuda.is_available():
         pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
         pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
@@ -227,34 +227,55 @@ def run_training_step(step, policy, batch, device, train_tracker, optimizer, gra
         total_memory_gb = total_memory / 1e9
         logger.info(f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB, Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB")
 
-    # Run update_policy
-    train_tracker, output_dict = update_policy(
-        train_tracker,
-        policy,
-        batch,
-        optimizer,
-        grad_clip_norm=cfg.optimizer.grad_clip_norm,
-        grad_scaler=grad_scaler,
-        lr_scheduler=lr_scheduler,
-        use_amp=cfg.policy.use_amp,
-    )
+    # Manual replication of LeRobot's update_policy for FedProx integration
+    start_time = time.perf_counter()  # For update_s metric
 
-    # Add FedProx proximal term if provided
-    if global_params is not None and 'loss' in output_dict:
-        # Calculate proximal loss: mu/2 * ||w - w_global||^2
-        proximal_loss = 0.0
+    policy.train()
+    with torch.autocast(device_type=device.type) if cfg.policy.use_amp else nullcontext():
+        main_loss, output_dict = policy.forward(batch)  # Main loss from LeRobot forward
+
+    # Compute proximal loss BEFORE backprop (FedProx core)
+    proximal_loss = 0.0
+    if global_params is not None:
         trainable_params = [p for p in policy.parameters() if p.requires_grad]
         for param, global_param in zip(trainable_params, global_params):
             global_param_tensor = torch.from_numpy(global_param).to(device)
             param_diff = torch.sum((param - global_param_tensor) ** 2)
             proximal_loss += param_diff
-
-        # Apply correct FedProx formula: mu/2 * ||w - w_global||^2
         proximal_loss = (fedprox_mu / 2.0) * proximal_loss
-        output_dict['loss'] += proximal_loss.item()
-
         logger.debug(f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})")
-        logger.debug(f"Step {step}: FedProx adjusted loss={output_dict['loss']:.6f} (original + proximal)")
+
+    # Total loss for backprop: main_loss + proximal_loss
+    total_loss = main_loss + proximal_loss
+    logger.debug(f"Step {step}: FedProx total_loss={total_loss:.6f} (main={main_loss.item():.6f} + proximal={proximal_loss:.6f})")
+
+    # Backprop on total_loss (replicate LeRobot's flow)
+    grad_scaler.scale(total_loss).backward()
+
+    # Unscale gradients (as in LeRobot)
+    grad_scaler.unscale_(optimizer)
+
+    # Clip gradients (as in LeRobot)
+    grad_norm = torch.nn.utils.clip_grad_norm_(
+        policy.parameters(),
+        grad_clip_norm=cfg.optimizer.grad_clip_norm,
+        error_if_nonfinite=False,
+    )
+
+    # Step optimizer (as in LeRobot)
+    grad_scaler.step(optimizer)
+    grad_scaler.update()
+    optimizer.zero_grad()
+
+    # Step scheduler if present (as in LeRobot)
+    if lr_scheduler is not None:
+        lr_scheduler.step()
+
+    # Update metrics (as in LeRobot, but with total_loss)
+    train_tracker.train_metrics.loss = total_loss.item()
+    train_tracker.train_metrics.grad_norm = grad_norm.item()
+    train_tracker.train_metrics.lr = optimizer.param_groups[0]["lr"] if optimizer.param_groups else 0.0
+    train_tracker.train_metrics.update_s = time.perf_counter() - start_time
 
     # Log VRAM after update
     if torch.cuda.is_available():
@@ -274,7 +295,7 @@ def run_training_step(step, policy, batch, device, train_tracker, optimizer, gra
         cleared_free_gb = free_memory / 1e9
         logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
 
-    logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
+    logger.debug(f"Step {step}: Training step completed successfully. Total loss: {total_loss.item():.6f}")
     return train_tracker, output_dict
 
 
