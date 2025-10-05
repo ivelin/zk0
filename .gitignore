@@ -172,3 +172,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+
+# Wandb artifacts
+wandb/
