@@ -246,6 +246,17 @@ class AggregateEvaluationStrategy(FedProx):
             updated_fit_config["use_wandb"] = use_wandb
             logger.debug(f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} config")
 
+            # Add batch_size from pyproject.toml to override client defaults
+            batch_size = app_config.get("batch_size", 64)
+            updated_fit_config["batch_size"] = batch_size
+            logger.debug(f"Server: Added batch_size={batch_size} to client {client_proxy.cid} config")
+
+            # Add WandB group for unified logging
+            wandb_group = self.context.run_config.get("wandb_group")
+            if wandb_group:
+                updated_fit_config["wandb_group"] = wandb_group
+                logger.debug(f"Server: Added wandb_group={wandb_group} to client {client_proxy.cid} config")
+
             # 🛡️ VALIDATE: Server outgoing parameters (for training)
             from src.utils import validate_and_log_parameters
             from flwr.common import parameters_to_ndarrays
@@ -298,6 +309,17 @@ class AggregateEvaluationStrategy(FedProx):
             use_wandb = app_config.get("use-wandb", False)
             updated_evaluate_config["use_wandb"] = use_wandb
             logger.debug(f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} eval config")
+
+            # Add batch_size from pyproject.toml to override client defaults (for eval)
+            batch_size = app_config.get("batch_size", 64)
+            updated_evaluate_config["batch_size"] = batch_size
+            logger.debug(f"Server: Added batch_size={batch_size} to client {client_proxy.cid} eval config")
+
+            # Add WandB group for unified logging (for eval)
+            wandb_group = self.context.run_config.get("wandb_group")
+            if wandb_group:
+                updated_evaluate_config["wandb_group"] = wandb_group
+                logger.debug(f"Server: Added wandb_group={wandb_group} to client {client_proxy.cid} eval config")
 
             # 🛡️ VALIDATE: Server outgoing parameters (for evaluation)
             from src.utils import validate_and_log_parameters
@@ -425,6 +447,27 @@ class AggregateEvaluationStrategy(FedProx):
                 # Also plot federated metrics if we have them
                 if hasattr(self, 'federated_metrics_history') and self.federated_metrics_history:
                     visualizer.plot_federated_metrics(self.federated_metrics_history, self.server_dir, wandb_run=self.wandb_run)
+
+                # Log final aggregated metrics to WandB
+                if self.wandb_run and aggregated_metrics:
+                    from src.wandb_utils import log_wandb_metrics
+                    final_metrics = {
+                        "final_round": server_round,
+                        "final_server_avg_mse": aggregated_metrics.get("avg_action_mse", 0.0),
+                        "num_clients": len(results),
+                        "fraction_fit": self.fraction_fit,
+                        "fraction_evaluate": self.fraction_evaluate,
+                        "checkpoint_interval": self.context.run_config.get("checkpoint_interval", 2),
+                        "eval_frequency": self.context.run_config.get("eval-frequency", 5),
+                        "eval_mode": self.context.run_config.get("eval_mode", "quick"),
+                        "proximal_mu": self.proximal_mu,
+                        "num_server_rounds": self.num_rounds,
+                        "model_name": self.context.run_config.get("model-name", "lerobot/smolvla_base"),
+                        "hf_repo_id": self.context.run_config.get("hf_repo_id"),
+                    }
+                    log_wandb_metrics(final_metrics)
+                    logger.info(f"Logged final aggregated metrics to WandB: {final_metrics}")
+
                 logger.info("Eval MSE chart generated for final round")
             except Exception as e:
                 logger.error(f"Failed to generate eval MSE chart: {e}")
@@ -631,28 +674,19 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Add app-specific configs to context.run_config for strategy access
     context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
 
-    # Initialize wandb if enabled and API key is available
+    # Initialize WandB if enabled
+    from src.wandb_utils import init_wandb
     wandb_run = None
+    wandb_group = f"fl-run-{folder_name}"  # Group name for all clients and server
     if app_config.get("use-wandb", False):
-        try:
-            import os
-            import wandb
-
-            wandb_api_key = os.environ.get("WANDB_API_KEY")
-            if wandb_api_key:
-                wandb_run = wandb.init(
-                    project="zk0",  # + Align with client project for unified dashboard
-                    name=f"fl-run-{folder_name}",
-                    config=dict(app_config),
-                    dir=str(save_path)
-                )
-                logger.info(f"Wandb initialized: {wandb_run.name} in project {wandb_run.project}")
-            else:
-                logger.warning("WANDB_API_KEY not found in environment variables. Wandb logging disabled.")
-        except ImportError:
-            logger.warning("wandb not available. Install with: pip install wandb")
-        except Exception as e:
-            logger.error(f"Failed to initialize wandb: {e}")
+        wandb_run = init_wandb(
+            project="zk0",
+            name=f"server-{folder_name}",
+            group=wandb_group,
+            config=dict(app_config),
+            dir=str(save_path),
+            notes=f"Federated Learning Server - {num_rounds} rounds"
+        )
 
     # Store wandb run in context for access by visualization functions
     context.run_config["wandb_run"] = wandb_run
@@ -660,6 +694,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Add save_path and log_file_path to run config for clients (for client log paths)
     context.run_config["log_file_path"] = str(simulation_log_path)
     context.run_config["save_path"] = str(save_path)
+    context.run_config["wandb_group"] = wandb_group  # Pass WandB group to clients for unified logging
 
     # Save configuration snapshot
     import json

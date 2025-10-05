@@ -17,7 +17,7 @@ from flwr.common import Context
 
 # Flower client
 class SmolVLAClient(NumPyClient):
-    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None) -> None:
+    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, use_wandb=False, wandb_group=None, batch_size=64) -> None:
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.local_epochs = local_epochs
@@ -31,11 +31,43 @@ class SmolVLAClient(NumPyClient):
         self.trainer = SmolVLATrainer(
             client_id=partition_id,
             device=nn_device,
-            use_wandb=False,  # Will be set per round from config
+            use_wandb=use_wandb,
             dataset_meta=dataset_meta,
             local_epochs=local_epochs,
-            batch_size=64  # Default, will be overridden per round if needed
+            batch_size=batch_size  # Use the batch_size passed from server config
         )
+
+        # Initialize WandB if enabled
+        if use_wandb:
+            from src.wandb_utils import init_wandb
+            dataset_name = dataset_meta.repo_id if hasattr(dataset_meta, 'repo_id') else "unknown"
+            if wandb_group:
+                # Group under server's run
+                self.wandb_run = init_wandb(
+                    project="zk0",
+                    name=f"client_{partition_id}",
+                    group=wandb_group,
+                    config={
+                        "client_id": partition_id,
+                        "dataset": dataset_name,
+                        "local_epochs": local_epochs,
+                        "batch_size": batch_size,
+                    },
+                    notes=f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
+                )
+            else:
+                # Fallback: create separate run (legacy behavior)
+                self.wandb_run = init_wandb(
+                    project="zk0",
+                    name=f"client_{partition_id}_{dataset_name}",
+                    config={
+                        "client_id": partition_id,
+                        "dataset": dataset_name,
+                        "local_epochs": local_epochs,
+                        "batch_size": batch_size,
+                    },
+                    notes=f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
+                )
 
         # Load model using trainer
         self.net = self.trainer.get_model()
@@ -110,7 +142,7 @@ class SmolVLAClient(NumPyClient):
             fedprox_mu=proximal_mu,
             initial_lr=initial_lr
         )
-        self.trainer.use_wandb = use_wandb
+        # Note: use_wandb is already set during client initialization
 
         # Update batch_size in trainer if different from default
         self.trainer.batch_size = batch_size
@@ -305,7 +337,9 @@ def client_fn(context: Context) -> Client:
         logging.warning(f"⚠️ Client {partition_id}: No log_file_path provided in config")
 
     batch_size = context.run_config.get("batch_size", 64)
-    logging.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
+    use_wandb = context.run_config.get("use-wandb", False)
+    wandb_group = context.run_config.get("wandb_group")
+    logging.info(f"✅ Client {partition_id}: Batch size set to {batch_size}, use_wandb={use_wandb}, wandb_group={wandb_group}")
 
     # Load dataset first to get metadata for model creation
     logging.info(f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})")
@@ -327,6 +361,9 @@ def client_fn(context: Context) -> Client:
             local_epochs=local_epochs,
             trainloader=trainloader,
             nn_device=nn_device,
+            use_wandb=use_wandb,
+            wandb_group=wandb_group,
+            batch_size=batch_size,
         )
         logging.info(f"✅ Client {partition_id}: SmolVLAClient created successfully")
         logging.info(f"🚀 Client {partition_id}: Converting to Flower client")

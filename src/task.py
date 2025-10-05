@@ -145,12 +145,17 @@ def set_params(model, parameters) -> None:
     log_param_status(model, "pre-local training round: parameters sent from server to client")
 
 
-def setup_training_components(policy, trainloader, epochs, batch_size, device, initial_lr):
+def setup_training_components(policy, trainloader, epochs, batch_size, device, initial_lr, use_wandb=False, partition_id=None):
     """Setup training components: optimizer, scheduler, metrics, and configuration."""
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
+    from lerobot.configs.default import WandBConfig  # + Import WandBConfig for logging enablement
     from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
     from torch.amp import GradScaler
+
+    # Create client-specific WandB configuration to prevent metric overlap
+    client_id = partition_id if partition_id is not None else "unknown"
+    dataset_name = trainloader.dataset.meta.repo_id if hasattr(trainloader.dataset, 'meta') else "unknown"
 
     # Create minimal config for lerobot factories (like standalone script)
     from lerobot.configs.default import DatasetConfig
@@ -164,6 +169,13 @@ def setup_training_components(policy, trainloader, epochs, batch_size, device, i
         num_workers=0,
         log_freq=250,
         steps=epochs,
+        wandb=WandBConfig(  # + Enable WandB logging with zk0 project
+            project="zk0",
+            enable=use_wandb,  # Use parameter passed from Flower framework
+            mode="online",  # Use "offline" if no internet; defaults to online
+            run_id=f"client_{client_id}_{dataset_name}",  # Unique run ID per client
+            notes=f"Federated Learning Client {client_id} - Dataset: {dataset_name}",  # Client description
+        ),
     )
 
     # Use lerobot's optimizer factory
@@ -296,7 +308,7 @@ def run_training_step(step, policy, batch, device, train_tracker, optimizer, gra
         logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
 
     logger.debug(f"Step {step}: Training step completed successfully. Total loss: {total_loss.item():.6f}")
-    return train_tracker, output_dict
+    return train_tracker, output_dict, main_loss.item(), proximal_loss.item()
 
 
 def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker, global_params, fedprox_mu):
@@ -337,7 +349,7 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
         logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
 
         # Run training step
-        train_tracker, output_dict = run_training_step(
+        train_tracker, output_dict, main_loss_val, proximal_loss_val = run_training_step(
             step, policy, batch, device, train_tracker, optimizer, grad_scaler,
             lr_scheduler, cfg, global_params, fedprox_mu
         )
@@ -361,7 +373,7 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
     return step
 
 
-def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01, initial_lr=None) -> dict[str, float]:
+def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01, initial_lr=None, use_wandb=False, partition_id=None) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     import logging
 
@@ -376,7 +388,7 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, g
 
     # Setup training components
     cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker = setup_training_components(
-        policy, trainloader, epochs, batch_size, device, initial_lr
+        policy, trainloader, epochs, batch_size, device, initial_lr, use_wandb, partition_id
     )
 
     # Run training loop
@@ -698,8 +710,12 @@ class SmolVLATrainer:
         """Setup training components: optimizer, scheduler, metrics, and configuration."""
         from lerobot.optim.factory import make_optimizer_and_scheduler
         from lerobot.configs.train import TrainPipelineConfig
+        from lerobot.configs.default import WandBConfig  # + Import WandBConfig for logging enablement
         from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
         from torch.amp import GradScaler
+
+        # Create client-specific WandB configuration to prevent metric overlap
+        dataset_name = self.trainloader.dataset.meta.repo_id if hasattr(self.trainloader.dataset, 'meta') else "unknown"
 
         # Create minimal config for lerobot factories (like standalone script)
         from lerobot.configs.default import DatasetConfig
@@ -713,6 +729,13 @@ class SmolVLATrainer:
             num_workers=0,
             log_freq=250,
             steps=epochs,
+            wandb=WandBConfig(  # + Enable WandB logging with zk0 project
+                project="zk0",
+                enable=self.use_wandb,  # Use parameter passed from Flower framework
+                mode="online",  # Use "offline" if no internet; defaults to online
+                run_id=f"client_{self.client_id}_{dataset_name}",  # Unique run ID per client
+                notes=f"Federated Learning Client {self.client_id} - Dataset: {dataset_name}",  # Client description
+            ),
         )
 
         # Use lerobot's optimizer factory
@@ -824,7 +847,7 @@ class SmolVLATrainer:
             logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
 
         logger.debug(f"Step {step}: update_policy completed successfully. Loss from output: {output_dict.get('loss', 'N/A')}")
-        return self.train_tracker, output_dict
+        return self.train_tracker, output_dict, output_dict.get('loss', 0.0), 0.0  # Return loss and fedprox_loss (placeholder)
 
     def run_training_loop(self, epochs: int) -> int:
         """Run the main training loop."""
@@ -864,7 +887,7 @@ class SmolVLATrainer:
             logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
 
             # Run training step
-            self.train_tracker, output_dict = self.run_training_step(step, batch)
+            self.train_tracker, output_dict, main_loss_val, proximal_loss_val = self.run_training_step(step, batch)
 
             step += 1
             self.train_tracker.step()
@@ -881,8 +904,12 @@ class SmolVLATrainer:
                 logger.info(f"Step {step}: loss={self.train_metrics['loss'].avg:.4f}, grad_norm={self.train_metrics['grad_norm'].avg:.4f}, lr={self.train_metrics['lr'].avg:.4f}, update_s={self.train_metrics['update_s'].avg:.4f}")
                 self.train_tracker.reset_averages()
 
-            # Log to WandB with low overhead (every 20 steps)
-            self._log_training_metrics(step, {"fedprox_loss": 0.0})  # FedProx loss tracking could be added here
+            # Log to WandB with low overhead (every 10 steps in _log_training_metrics)
+            self._log_training_metrics(step, {
+                "model_forward_loss": main_loss_val,
+                "fedprox_regularization_loss": proximal_loss_val,
+                "skipped_batches": skipped_batches
+            })
 
         logger.info(f"Training completed after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s, skipped_batches={skipped_batches}")
         return step
@@ -927,27 +954,31 @@ class SmolVLATrainer:
         return final_metrics
 
     def _log_training_metrics(self, step: int, metrics: Dict[str, Any]) -> None:
-        """Log training metrics to WandB with low overhead."""
+        """Log comprehensive training metrics to WandB with clear loss breakdowns."""
         if not self.use_wandb:
             return
 
-        try:
-            import wandb
-            # Log every 20 steps to minimize overhead
-            if step % 20 == 0:
-                wandb.log({
-                    "client_id": self.client_id,
-                    "round": self.round_num,
-                    "step": step,
-                    "train_loss": self.train_metrics['loss'].avg,
-                    "learning_rate": self.train_metrics['lr'].avg,
-                    "grad_norm": self.train_metrics['grad_norm'].avg,
-                    "fedprox_loss": metrics.get('fedprox_loss', 0.0),
-                })
-        except ImportError:
-            logger.warning("WandB not available, skipping logging")
-        except Exception as e:
-            logger.warning(f"WandB logging failed: {e}")
+        # Log every 10 steps to capture frequent metrics for detailed analysis
+        if step % 10 == 0:
+            from src.wandb_utils import log_wandb_metrics
+
+            # Extract loss components for clear dashboard visualization
+            model_forward_loss = metrics.get('model_forward_loss', 0.0)  # Original LeRobot forward loss
+            fedprox_regularization_loss = metrics.get('fedprox_regularization_loss', 0.0)  # FedProx proximal term
+            total_training_loss = self.train_metrics['loss'].avg  # Final loss used for backprop (model_forward + fedprox)
+
+            log_wandb_metrics({
+                "federated_client_id": self.client_id,
+                "federated_round_number": self.round_num,
+                "training_step": step,
+                "model_forward_loss": model_forward_loss,  # Loss from SmolVLA forward pass (LeRobot)
+                "fedprox_regularization_loss": fedprox_regularization_loss,  # FedProx proximal regularization term
+                "total_training_loss": total_training_loss,  # Combined loss for model update (forward + regularization)
+                "learning_rate": self.train_metrics['lr'].avg,
+                "gradient_norm": self.train_metrics['grad_norm'].avg,
+                "steps_completed": step,
+                "skipped_batches": metrics.get('skipped_batches', 0),
+            })
 
     def _log_system_metrics(self) -> None:
         """Log system metrics (GPU memory, etc.) to WandB."""
@@ -1022,7 +1053,7 @@ class SmolVLATrainer:
         total_batches_processed = 0
 
         # Set evaluation limit based on mode
-        max_batches_for_eval = 10 if eval_mode == "quick" else None
+        max_batches_for_eval = 3 if eval_mode == "quick" else None
 
         # Evaluate all batches in the dataloader
         for batch in eval_loader:

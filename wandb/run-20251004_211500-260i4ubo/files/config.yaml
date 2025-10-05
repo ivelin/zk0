@@ -1,0 +1,153 @@
+_wandb:
+    value:
+        cli_version: 0.22.0
+        e:
+            64uyf5basj7nz7qbr3yhck63muk3l1gb:
+                args:
+                    - --node-ip-address=192.168.86.46
+                    - --node-manager-port=35609
+                    - --object-store-name=/tmp/ray/session_2025-10-04_21-14-25_250889_69268/sockets/plasma_store
+                    - --raylet-name=/tmp/ray/session_2025-10-04_21-14-25_250889_69268/sockets/raylet
+                    - --redis-address=None
+                    - --metrics-agent-port=56543
+                    - --runtime-env-agent-port=58280
+                    - --logging-rotate-bytes=536870912
+                    - --logging-rotate-backup-count=5
+                    - --runtime-env-agent-port=58280
+                    - --gcs-address=192.168.86.46:61603
+                    - --session-name=session_2025-10-04_21-14-25_250889_69268
+                    - --temp-dir=/tmp/ray
+                    - --webui=
+                    - --cluster-id=1a74f669528ff83030a746fcba7f90850092f2b2a1894b1a8b0a8828
+                    - --startup-token=20
+                    - --worker-launch-time-ms=1759630468030
+                    - --node-id=623eb80cc8264eb359ebc17eada830126cf35fe7925770cb7a5b2c8f
+                    - --runtime-env-hash=2017448351
+                cpu_count: 12
+                cpu_count_logical: 20
+                cudaVersion: "12.8"
+                disk:
+                    /:
+                        total: "1958315118592"
+                        used: "1192514179072"
+                email: ivelin.eth@gmail.com
+                executable: /home/ivelin/anaconda3/envs/zk0/bin/python3.10
+                git:
+                    commit: 5d9533dd78cf6dfdad36e5a8b4e1f6db13baf37c
+                    remote: https://github.com/ivelin/zk0.git
+                gpu: NVIDIA GeForce RTX 3090
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 10496
+                      memoryTotal: "25769803776"
+                      name: NVIDIA GeForce RTX 3090
+                      uuid: GPU-553ea7fe-1bde-e03b-93e0-9d60ed99a1bc
+                host: pop-os
+                memory:
+                    total: "101092651008"
+                os: Linux-6.16.3-76061603-generic-x86_64-with-glibc2.35
+                program: /home/ivelin/anaconda3/envs/zk0/lib/python3.10/site-packages/ray/_private/workers/default_worker.py
+                python: CPython 3.10.18
+                root: /home/ivelin/zk0
+                startedAt: "2025-10-05T02:15:00.730506Z"
+                writerId: 64uyf5basj7nz7qbr3yhck63muk3l1gb
+        m:
+            - "1": model_forward_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 1
+            - "1": training_step
+              "6": []
+              "7": []
+            - "1": fedprox_regularization_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 3
+            - "1": total_training_loss
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 1
+              "8": 1
+            - "1": learning_rate
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 5
+            - "1": gradient_norm
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 3
+            - "1": federated_client_id
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 5
+            - "1": federated_round_number
+              "5": 2
+              "6":
+                - 1
+                - 3
+              "7":
+                - 2
+        python_version: 3.10.18
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 30
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "2":
+                - 1
+                - 5
+                - 11
+                - 30
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "3":
+                - 7
+                - 13
+                - 16
+                - 24
+                - 62
+                - 63
+                - 64
+            "4": 3.10.18
+            "5": 0.22.0
+            "6": 4.51.3
+            "10":
+                - 18
+            "12": 0.22.0
+            "13": linux-x86_64
+batch_size:
+    value: 64
+client_id:
+    value: 0
+dataset:
+    value: lerobot/svla_so100_pickplace
+local_epochs:
+    value: 20
