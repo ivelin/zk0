@@ -7,7 +7,13 @@ import psutil
 import torch
 from src.task import (
     compute_param_norms,
-    SmolVLATrainer,
+    load_data,
+    get_model,
+    set_params,
+    extract_trainable_params,
+    get_params,
+    test,
+    train,
 )
 
 from loguru import logger
@@ -17,64 +23,31 @@ from flwr.common import Context
 
 # Flower client
 class SmolVLAClient(NumPyClient):
-    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, use_wandb=False, wandb_group=None, batch_size=64) -> None:
+    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, wandb_run=None, batch_size=64, wandb_dir=None) -> None:
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.local_epochs = local_epochs
         self.device = nn_device
+        self.wandb_dir = wandb_dir
 
         # Load dataset metadata for model creation (like lerobot train script)
         # Get dataset metadata from the trainloader's dataset
         dataset_meta = trainloader.dataset.meta if hasattr(trainloader.dataset, 'meta') else None
 
-        # Create SmolVLATrainer instance for training logic
-        self.trainer = SmolVLATrainer(
-            client_id=partition_id,
-            device=nn_device,
-            use_wandb=use_wandb,
-            dataset_meta=dataset_meta,
-            local_epochs=local_epochs,
-            batch_size=batch_size  # Use the batch_size passed from server config
-        )
+        # WandB run passed from client_fn
+        self.wandb_run = wandb_run
 
-        # Initialize WandB if enabled
-        if use_wandb:
-            from src.wandb_utils import init_wandb
-            dataset_name = dataset_meta.repo_id if hasattr(dataset_meta, 'repo_id') else "unknown"
-            if wandb_group:
-                # Group under server's run
-                self.wandb_run = init_wandb(
-                    project="zk0",
-                    name=f"client_{partition_id}",
-                    group=wandb_group,
-                    config={
-                        "client_id": partition_id,
-                        "dataset": dataset_name,
-                        "local_epochs": local_epochs,
-                        "batch_size": batch_size,
-                    },
-                    notes=f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
-                )
-            else:
-                # Fallback: create separate run (legacy behavior)
-                self.wandb_run = init_wandb(
-                    project="zk0",
-                    name=f"client_{partition_id}_{dataset_name}",
-                    config={
-                        "client_id": partition_id,
-                        "dataset": dataset_name,
-                        "local_epochs": local_epochs,
-                        "batch_size": batch_size,
-                    },
-                    notes=f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
-                )
+        # Load model using global function
+        self.net = get_model(dataset_meta)
 
-        # Load model using trainer
-        self.net = self.trainer.get_model()
+        # Store data
+        self.trainloader = trainloader
 
-        # Set the model and data in the trainer
-        self.trainer.policy = self.net
-        self.trainer.trainloader = trainloader
+        # Round-specific state
+        self.round_num = None
+        self.global_params = None
+        self.fedprox_mu = 0.01
+        self.initial_lr = None
 
         policy = self.net
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
@@ -118,10 +91,18 @@ class SmolVLAClient(NumPyClient):
         else:
             logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
 
-        SmolVLATrainer.set_params(self.net, parameters)
+        set_params(self.net, parameters)
+
+        # Log pre-training norms (separate trainable vs frozen)
+        from src.task import compute_param_norms
+        full_norm, full_num, _ = compute_param_norms(self.net, trainable_only=False)
+        train_norm, train_num, _ = compute_param_norms(self.net, trainable_only=True)
+        total_params = sum(p.numel() for p in self.net.parameters())
+        trainable_params = sum(p.numel() for p in self.net.parameters() if p.requires_grad)
+        logger.info(f"Client {self.partition_id} R{self.round_num} PRE-TRAIN: Full norm={full_norm:.4f} ({full_num} tensors, {total_params} elems), Trainable norm={train_norm:.4f} ({train_num} tensors, {trainable_params} elems)")
 
         # FedProx: Extract global params for proximal term calculation (only trainable params)
-        global_params = SmolVLATrainer.extract_trainable_params(self.net)
+        global_params = extract_trainable_params(self.net)
 
         # FedProx: Get proximal_mu from server config (default to 0.01 if not provided)
         proximal_mu = config.get("proximal_mu", 0.01)
@@ -135,24 +116,30 @@ class SmolVLAClient(NumPyClient):
         use_wandb = config.get("use_wandb", False)
         logger.info(f"Client {self.partition_id}: Using use_wandb={use_wandb} for training")
 
-        # Set round config in trainer
-        self.trainer.set_round_config(
-            round_num=config.get("round", 0),
-            global_params=global_params,
-            fedprox_mu=proximal_mu,
-            initial_lr=initial_lr
-        )
-        # Note: use_wandb is already set during client initialization
+        # Set round config
+        self.round_num = config.get("round", 0)
+        self.global_params = global_params
+        self.fedprox_mu = proximal_mu
+        self.initial_lr = initial_lr
 
-        # Update batch_size in trainer if different from default
-        self.trainer.batch_size = batch_size
-
-        logger.info(f"Client {self.partition_id}: About to call trainer.train() with epochs={self.local_epochs}")
+        logger.info(f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}")
         try:
-            training_metrics = self.trainer.train()
-            logger.info(f"Client {self.partition_id}: trainer.train() returned successfully with metrics: {training_metrics}")
+            training_metrics = train(
+                net=self.net,
+                trainloader=self.trainloader,
+                epochs=self.local_epochs,
+                batch_size=batch_size,
+                device=self.device,
+                global_params=self.global_params,
+                fedprox_mu=self.fedprox_mu,
+                initial_lr=self.initial_lr,
+                use_wandb=use_wandb,
+                partition_id=self.partition_id,
+                round_num=self.round_num
+            )
+            logger.info(f"Client {self.partition_id}: train() returned successfully with metrics: {training_metrics}")
         except Exception as e:
-            logger.error(f"Client {self.partition_id}: Exception in trainer.train(): {e}")
+            logger.error(f"Client {self.partition_id}: Exception in train(): {e}")
             import traceback
             logger.error(traceback.format_exc())
             raise  # Re-raise to fail the client properly
@@ -160,7 +147,14 @@ class SmolVLAClient(NumPyClient):
         logger.info(f"Client {self.partition_id}: Training completed ({self.local_epochs} epochs, batch_size={batch_size})")
 
         logger.debug(f"Client {self.partition_id}: Extracting updated parameters")
-        updated_params = SmolVLATrainer.get_params(self.net)
+        updated_params = get_params(self.net)
+
+        # Log post-training norms (separate trainable vs frozen)
+        full_norm, full_num, _ = compute_param_norms(self.net, trainable_only=False)
+        train_norm, train_num, _ = compute_param_norms(self.net, trainable_only=True)
+        total_params = sum(p.numel() for p in self.net.parameters())
+        trainable_params = sum(p.numel() for p in self.net.parameters() if p.requires_grad)
+        logger.info(f"Client {self.partition_id} R{self.round_num} POST-TRAIN: Full norm={full_norm:.4f} ({full_num} tensors, {total_params} elems), Trainable norm={train_norm:.4f} ({train_num} tensors, {trainable_params} elems)")
 
         # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation)
         from src.utils import compute_parameter_hash
@@ -214,14 +208,14 @@ class SmolVLAClient(NumPyClient):
         else:
             logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
 
-        SmolVLATrainer.set_params(self.net, parameters)
+        set_params(self.net, parameters)
 
         # Handle case where save_path might not be in config (evaluation rounds)
         try:
             # test() returns (loss, num_examples, metrics)
             eval_mode = config.get("eval_mode", "quick")
             eval_batch_size = config.get("eval_batch_size", config.get("batch_size", 64))
-            loss, num_examples, metrics = SmolVLATrainer.test(
+            loss, num_examples, metrics = test(
                 partition_id=self.partition_id,
                 net=self.net,
                 device=self.device,
@@ -317,6 +311,11 @@ def client_fn(context: Context) -> Client:
     num_partitions = context.node_config["num-partitions"]
     logging.info(f"✅ Client {partition_id}: Extracted partition_id={partition_id}, num_partitions={num_partitions}")
 
+    # Extract save_path for WandB dir isolation
+    save_path = context.run_config.get("save_path")
+    wandb_dir = f"{save_path}/clients/client_{partition_id}" if save_path else None
+    logging.info(f"✅ Client {partition_id}: WandB dir set to {wandb_dir}")
+
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     logging.info(f"✅ Client {partition_id}: Device set to {nn_device}")
@@ -338,13 +337,13 @@ def client_fn(context: Context) -> Client:
 
     batch_size = context.run_config.get("batch_size", 64)
     use_wandb = context.run_config.get("use-wandb", False)
-    wandb_group = context.run_config.get("wandb_group")
-    logging.info(f"✅ Client {partition_id}: Batch size set to {batch_size}, use_wandb={use_wandb}, wandb_group={wandb_group}")
+    wandb_run_id = context.run_config.get("wandb_run_id")
+    logging.info(f"✅ Client {partition_id}: Batch size set to {batch_size}, use_wandb={use_wandb}, wandb_run_id={wandb_run_id}")
 
     # Load dataset first to get metadata for model creation
     logging.info(f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})")
     try:
-        trainloader, _ = SmolVLATrainer.load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
+        trainloader, _ = load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
         total_episodes = len(trainloader.dataset)
         train_episodes = total_episodes - 3  # Exclude last 3 episodes for validation
         logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - total episodes: {total_episodes}, training episodes: {train_episodes}, trainloader length: {len(trainloader)}")
@@ -354,6 +353,20 @@ def client_fn(context: Context) -> Client:
         logging.error(f"❌ Client {partition_id}: Dataset loading traceback: {traceback.format_exc()}")
         raise
 
+    # Initialize WandB if enabled
+    wandb_run = None
+    if use_wandb:
+        from src.wandb_utils import init_client_wandb
+        dataset_name = trainloader.dataset.meta.repo_id if hasattr(trainloader.dataset, 'meta') and hasattr(trainloader.dataset.meta, 'repo_id') else "unknown"
+        wandb_run = init_client_wandb(
+            partition_id=partition_id,
+            dataset_name=dataset_name,
+            local_epochs=local_epochs,
+            batch_size=batch_size,
+            wandb_run_id=wandb_run_id,
+            wandb_dir=wandb_dir
+        )
+
     logging.info(f"🏗️ Client {partition_id}: Creating SmolVLAClient with {local_epochs} epochs")
     try:
         client = SmolVLAClient(
@@ -361,9 +374,9 @@ def client_fn(context: Context) -> Client:
             local_epochs=local_epochs,
             trainloader=trainloader,
             nn_device=nn_device,
-            use_wandb=use_wandb,
-            wandb_group=wandb_group,
+            wandb_run=wandb_run,
             batch_size=batch_size,
+            wandb_dir=wandb_dir,
         )
         logging.info(f"✅ Client {partition_id}: SmolVLAClient created successfully")
         logging.info(f"🚀 Client {partition_id}: Converting to Flower client")

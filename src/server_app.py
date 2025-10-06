@@ -3,7 +3,13 @@
 from datetime import datetime
 from pathlib import Path
 
-from src.task import get_model, get_params
+from src.task import (
+    get_model,
+    get_params,
+    compute_param_norms,
+    set_params,
+    load_data
+)
 from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
 from src.utils import compute_parameter_hash
@@ -16,15 +22,9 @@ from typing import List, Tuple, Union, Optional, Dict
 from flwr.server.client_proxy import ClientProxy
 from flwr.common import EvaluateRes, Scalar
 
-from huggingface_hub import HfApi
-from transformers import AutoModel
 import torch
 from safetensors.torch import save_file
 
-from huggingface_hub import HfApi
-from transformers import AutoModel
-import torch
-from safetensors.torch import save_file
 
 
 def push_model_to_hub(parameters, server_round: int, models_dir: Path, hf_repo_id: str, wandb_run=None) -> None:
@@ -251,11 +251,7 @@ class AggregateEvaluationStrategy(FedProx):
             updated_fit_config["batch_size"] = batch_size
             logger.debug(f"Server: Added batch_size={batch_size} to client {client_proxy.cid} config")
 
-            # Add WandB group for unified logging
-            wandb_group = self.context.run_config.get("wandb_group")
-            if wandb_group:
-                updated_fit_config["wandb_group"] = wandb_group
-                logger.debug(f"Server: Added wandb_group={wandb_group} to client {client_proxy.cid} config")
+            # WandB run_id not needed in fit config - client already initialized wandb in client_fn
 
             # 🛡️ VALIDATE: Server outgoing parameters (for training)
             from src.utils import validate_and_log_parameters
@@ -315,11 +311,7 @@ class AggregateEvaluationStrategy(FedProx):
             updated_evaluate_config["batch_size"] = batch_size
             logger.debug(f"Server: Added batch_size={batch_size} to client {client_proxy.cid} eval config")
 
-            # Add WandB group for unified logging (for eval)
-            wandb_group = self.context.run_config.get("wandb_group")
-            if wandb_group:
-                updated_evaluate_config["wandb_group"] = wandb_group
-                logger.debug(f"Server: Added wandb_group={wandb_group} to client {client_proxy.cid} eval config")
+            # WandB run_id not needed in evaluate config - client already initialized wandb in client_fn
 
             # 🛡️ VALIDATE: Server outgoing parameters (for evaluation)
             from src.utils import validate_and_log_parameters
@@ -401,6 +393,21 @@ class AggregateEvaluationStrategy(FedProx):
             for key, value in aggregated_metrics.items():
                 logger.info(f"  {key}: {value:.4f}")
 
+            # Log to WandB with server prefix (unified run)
+            if self.wandb_run:
+                from src.wandb_utils import log_wandb_metrics
+                server_prefix = "server_"
+                wandb_metrics = {
+                    f"{server_prefix}round": server_round,
+                    f"{server_prefix}avg_action_mse": aggregated_metrics.get("avg_action_mse", 0.0),
+                    f"{server_prefix}avg_success_rate": aggregated_metrics.get("avg_success_rate", 0.0),
+                    f"{server_prefix}avg_trajectory_length": aggregated_metrics.get("avg_trajectory_length", 0.0),
+                    f"{server_prefix}num_clients": len(results),
+                    f"{server_prefix}participation_rate": len(results) / (len(results) + len(failures)) if (len(results) + len(failures)) > 0 else 0.0,
+                }
+                log_wandb_metrics(wandb_metrics)
+                logger.debug(f"Logged server eval metrics to WandB: {wandb_metrics}")
+
         # Track metrics for plotting (add timing and participation info)
         if aggregated_metrics:
             round_metrics = {
@@ -438,7 +445,7 @@ class AggregateEvaluationStrategy(FedProx):
             with open(server_file, 'w') as f:
                 json.dump(data, f, indent=2, default=str)
 
-        # Generate chart on the last round
+        # Generate chart and other house cleaning on the last round
         if self.num_rounds and server_round == self.num_rounds:
             try:
                 mse_history = aggregate_eval_mse_history(self.server_dir)
@@ -452,21 +459,26 @@ class AggregateEvaluationStrategy(FedProx):
                 if self.wandb_run and aggregated_metrics:
                     from src.wandb_utils import log_wandb_metrics
                     final_metrics = {
-                        "final_round": server_round,
-                        "final_server_avg_mse": aggregated_metrics.get("avg_action_mse", 0.0),
-                        "num_clients": len(results),
-                        "fraction_fit": self.fraction_fit,
-                        "fraction_evaluate": self.fraction_evaluate,
-                        "checkpoint_interval": self.context.run_config.get("checkpoint_interval", 2),
-                        "eval_frequency": self.context.run_config.get("eval-frequency", 5),
-                        "eval_mode": self.context.run_config.get("eval_mode", "quick"),
-                        "proximal_mu": self.proximal_mu,
-                        "num_server_rounds": self.num_rounds,
-                        "model_name": self.context.run_config.get("model-name", "lerobot/smolvla_base"),
-                        "hf_repo_id": self.context.run_config.get("hf_repo_id"),
+                        "server_final_round": server_round,
+                        "server_final_server_avg_mse": aggregated_metrics.get("avg_action_mse", 0.0),
+                        "server_num_clients": len(results),
+                        "server_fraction_fit": self.fraction_fit,
+                        "server_fraction_evaluate": self.fraction_evaluate,
+                        "server_checkpoint_interval": self.context.run_config.get("checkpoint_interval", 2),
+                        "server_eval_frequency": self.context.run_config.get("eval-frequency", 5),
+                        "server_eval_mode": self.context.run_config.get("eval_mode", "quick"),
+                        "server_proximal_mu": self.proximal_mu,
+                        "server_num_server_rounds": self.num_rounds,
+                        "server_model_name": self.context.run_config.get("model-name", "lerobot/smolvla_base"),
+                        "server_hf_repo_id": self.context.run_config.get("hf_repo_id"),
                     }
                     log_wandb_metrics(final_metrics)
                     logger.info(f"Logged final aggregated metrics to WandB: {final_metrics}")
+
+                    # Finish WandB run after final round
+                    from src.wandb_utils import finish_wandb
+                    finish_wandb()
+                    logger.info("WandB run finished after final round")
 
                 logger.info("Eval MSE chart generated for final round")
             except Exception as e:
@@ -499,9 +511,47 @@ class AggregateEvaluationStrategy(FedProx):
         # Call parent aggregate_fit (FedProx) with validated results only
         aggregated_parameters, metrics = super().aggregate_fit(server_round, validated_results, failures)
 
+        # Log post-aggregation global norms (now aggregated_parameters is defined)
+        if aggregated_parameters is not None:
+            # Import here to avoid scope/shadowing issues
+            from flwr.common import parameters_to_ndarrays
+            # Convert Flower Parameters to numpy arrays for set_params
+            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+            # Reconstruct temp model for norm computation
+            trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
+            dataset_meta = trainloader.dataset.meta
+            temp_model = get_model(dataset_meta)
+            set_params(temp_model, aggregated_ndarrays)
+            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(temp_model, trainable_only=False)
+            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(temp_model, trainable_only=True)
+            total_params = sum(p.numel() for p in temp_model.parameters())
+            trainable_params = sum(p.numel() for p in temp_model.parameters() if p.requires_grad)
+            logger.info(f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)")
+
+        # Log post-aggregation global norms (now aggregated_parameters is defined)
+        if aggregated_parameters is not None:
+            # Convert Flower Parameters to numpy arrays for set_params
+            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+            # Reconstruct temp model for norm computation
+            trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
+            dataset_meta = trainloader.dataset.meta
+            temp_model = get_model(dataset_meta)
+            set_params(temp_model, aggregated_ndarrays)
+            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(temp_model, trainable_only=False)
+            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(temp_model, trainable_only=True)
+            total_params = sum(p.numel() for p in temp_model.parameters())
+            trainable_params = sum(p.numel() for p in temp_model.parameters() if p.requires_grad)
+            logger.info(f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)")
+
         # Log parameter update information
         if aggregated_parameters is not None:
             logger.info(f"✅ Server: Successfully aggregated parameters from {len(results)} clients for round {server_round}")
+
+            # 🛡️ VALIDATE: Server aggregated parameters (import inside to avoid shadowing)
+            from flwr.common import parameters_to_ndarrays
+            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+            from src.utils import validate_and_log_parameters
+            aggregated_hash = validate_and_log_parameters(aggregated_ndarrays, f"server_aggregated_r{server_round}")
 
             # 🛡️ VALIDATE: Server incoming parameters (aggregated from validated clients)
             from src.utils import validate_and_log_parameters
@@ -531,7 +581,7 @@ class AggregateEvaluationStrategy(FedProx):
                     if hf_repo_id:
                         logger.info(f"🚀 Server: Pushing final model to Hugging Face Hub: {hf_repo_id}")
                         push_model_to_hub(aggregated_parameters, server_round, self.models_dir, hf_repo_id, self.wandb_run)
-                        logger.info(f"✅ Server: Model pushed to Hugging Face Hub successfully")
+                        logger.info("✅ Server: Model pushed to Hugging Face Hub successfully")
                     else:
                         logger.info("ℹ️ Server: No hf_repo_id configured, skipping Hub push")
 
@@ -677,12 +727,11 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Initialize WandB if enabled
     from src.wandb_utils import init_wandb
     wandb_run = None
-    wandb_group = f"fl-run-{folder_name}"  # Group name for all clients and server
+    run_id = f"zk0-sim-fl-run-{folder_name}"
     if app_config.get("use-wandb", False):
         wandb_run = init_wandb(
             project="zk0",
-            name=f"server-{folder_name}",
-            group=wandb_group,
+            run_id=run_id,
             config=dict(app_config),
             dir=str(save_path),
             notes=f"Federated Learning Server - {num_rounds} rounds"
@@ -694,7 +743,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Add save_path and log_file_path to run config for clients (for client log paths)
     context.run_config["log_file_path"] = str(simulation_log_path)
     context.run_config["save_path"] = str(save_path)
-    context.run_config["wandb_group"] = wandb_group  # Pass WandB group to clients for unified logging
+    context.run_config["wandb_run_id"] = run_id  # Pass shared run_id to clients for unified logging
 
     # Save configuration snapshot
     import json

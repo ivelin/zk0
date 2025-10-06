@@ -7,12 +7,13 @@ from typing import Optional, Dict, Any
 logger = logging.getLogger(__name__)
 
 
-def init_wandb(project: str = "zk0", name: str = None, group: str = None, config: Dict[str, Any] = None, dir: str = None, notes: str = None) -> Optional[Any]:
+def init_wandb(project: str = "zk0", name: str = None, run_id: str = None, group: str = None, config: Dict[str, Any] = None, dir: str = None, notes: str = None) -> Optional[Any]:
     """Initialize WandB run if enabled and API key is available.
 
     Args:
         project: WandB project name
-        name: Run name
+        name: Run name (used to create new run)
+        run_id: Run ID (used to join existing run)
         config: Configuration dict to log
         dir: Directory for WandB files
         notes: Run description/notes
@@ -29,10 +30,14 @@ def init_wandb(project: str = "zk0", name: str = None, group: str = None, config
         if wandb_api_key:
             init_kwargs = {
                 "project": project,
-                "name": name,
-                "group": group,
                 "config": config or {},
             }
+            if name:
+                init_kwargs["name"] = name
+            if run_id:
+                init_kwargs["id"] = run_id
+            if group:
+                init_kwargs["group"] = group
             if dir:
                 init_kwargs["dir"] = dir
             if notes:
@@ -40,27 +45,7 @@ def init_wandb(project: str = "zk0", name: str = None, group: str = None, config
 
             wandb_run = wandb.init(**init_kwargs)
 
-            # Define metrics with meaningful descriptions for clear dashboard
-            wandb.define_metric("model_forward_loss", step_metric="training_step", summary="min")
-            wandb.define_metric("fedprox_regularization_loss", step_metric="training_step", summary="mean")
-            wandb.define_metric("total_training_loss", step_metric="training_step", summary="min", goal="minimize")
-            wandb.define_metric("learning_rate", step_metric="training_step", summary="last")
-            wandb.define_metric("gradient_norm", step_metric="training_step", summary="mean")
-            wandb.define_metric("federated_client_id", step_metric="training_step", summary="last")
-            wandb.define_metric("federated_round_number", step_metric="training_step", summary="max")
-
-            # Set detailed descriptions for dashboard clarity
-            wandb.run.summary.update({
-                "model_forward_loss": "Loss from SmolVLA model forward pass (LeRobot's main loss)",
-                "fedprox_regularization_loss": "FedProx proximal regularization term (mu/2 * ||w - w_global||^2)",
-                "total_training_loss": "Combined loss for backpropagation (model_forward_loss + fedprox_regularization_loss)",
-                "learning_rate": "Current learning rate used by optimizer",
-                "gradient_norm": "L2 norm of gradients after clipping",
-                "federated_client_id": "Unique identifier for the federated learning client",
-                "federated_round_number": "Current federated learning round number"
-            })
-
-            logger.info(f"WandB initialized: {wandb_run.name} in project {wandb_run.project}")
+            logger.info(f"WandB initialized: {wandb_run.name} (ID: {wandb_run.id}) in project {wandb_run.project}")
         else:
             logger.warning("WANDB_API_KEY not found in environment variables. WandB logging disabled.")
 
@@ -92,6 +77,63 @@ def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None) -> No
         logger.debug("wandb not available, skipping metrics logging")
     except Exception as e:
         logger.warning(f"Failed to log metrics to WandB: {e}")
+
+
+def init_client_wandb(partition_id: int, dataset_name: str, local_epochs: int, batch_size: int, wandb_run_id: Optional[str] = None, wandb_dir: Optional[str] = None) -> Optional[Any]:
+    """Initialize WandB for a federated learning client.
+
+    Args:
+        partition_id: Client partition ID
+        dataset_name: Dataset repository ID
+        local_epochs: Number of local training epochs
+        batch_size: Training batch size
+        wandb_run_id: Server's WandB run ID to join (if provided)
+        wandb_dir: Directory for WandB files
+
+    Returns:
+        WandB run object if initialized, None otherwise
+    """
+    wandb_run = None
+
+    try:
+        import wandb
+
+        wandb_api_key = os.environ.get("WANDB_API_KEY")
+        if wandb_api_key:
+            init_kwargs = {
+                "project": "zk0",
+                "config": {
+                    f"client_{partition_id}_id": partition_id,
+                    f"client_{partition_id}_dataset": dataset_name,
+                    f"client_{partition_id}_local_epochs": local_epochs,
+                    f"client_{partition_id}_batch_size": batch_size,
+                },
+                "notes": f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
+            }
+
+            if wandb_dir:
+                init_kwargs["dir"] = wandb_dir
+
+            if wandb_run_id:
+                # Join server's unified run
+                init_kwargs["id"] = wandb_run_id
+                wandb_run = wandb.init(**init_kwargs)
+                logger.info(f"Client {partition_id}: Joined unified WandB run {wandb_run.name} (ID: {wandb_run.id})")
+            else:
+                # Fallback: create separate run (should not happen in normal operation)
+                fallback_name = f"client_{partition_id}_{dataset_name}"
+                init_kwargs["name"] = fallback_name
+                wandb_run = wandb.init(**init_kwargs)
+                logger.warning(f"Client {partition_id}: Created separate WandB run {wandb_run.name} (ID: {wandb_run.id}) - no server run_id provided")
+        else:
+            logger.warning("WANDB_API_KEY not found in environment variables. WandB logging disabled.")
+
+    except ImportError:
+        logger.warning("wandb not available. Install with: pip install wandb")
+    except Exception as e:
+        logger.error(f"Failed to initialize WandB for client {partition_id}: {e}")
+
+    return wandb_run
 
 
 def finish_wandb() -> None:

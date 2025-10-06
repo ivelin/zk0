@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-02
-**Version**: 1.0.2
+**Last Updated**: 2025-10-05
+**Version**: 1.0.3
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -117,6 +117,7 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Dataset sizes and validation status** for each client
 - **Train/eval episode splits** for proper federated learning setup
 - **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
+- **Latest Update (2025-10-05)**: Replaced lerobot/svla_so100_pickplace with shaunkirby/record-test ("Put the red LEGO in the bin") for improved task diversity and reduced complexity
 
 #### Evaluation Datasets
 - **choyf3/so101_test_20250908**: SO-101 test dataset (12 episodes, 9,128 frames)
@@ -200,6 +201,19 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Rotation Policy**: 500MB files with 10-day retention and zip compression
 - **Diagnostics**: VRAM/RAM monitoring, training metrics, error tracking, and resource usage
 - **Configuration**: Automatic setup via `src/logger.py` with client/server coordination; clean separation prevents log duplication
+
+## Experiment Tracking and Monitoring
+
+### WandB Integration
+- **Unified Run Management**: Single WandB run per federated learning experiment with client-prefixed metrics
+- **Run Naming**: `zk0-sim-fl-run-{timestamp}` format for server-created runs
+- **Client Participation**: Clients join server's run using `run_id` passed via `context.run_config`
+- **Metric Prefixing**: Client metrics use `client_{id}_` prefix (e.g., `client_0_training_loss`, `client_1_fedprox_regularization_loss`)
+- **Server Metrics**: Server aggregates use `server_` prefix (e.g., `server_avg_action_mse`, `server_num_clients`)
+- **Session Management**: Automatic `wandb.finish()` call after final evaluation round
+- **Configuration**: Enabled via `use-wandb: true` in `pyproject.toml` `[tool.flwr.app.config]`
+- **Integration Points**: `src/wandb_utils.py` provides initialization and logging utilities
+- **Validation**: Ensures no duplicate runs - clients join existing run, don't create separate ones
 
 ## Deployment and Operations
 - **Docker**: Containerization for reproducible deployments

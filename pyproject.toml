@@ -47,11 +47,11 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 20 # train rounds
-local-epochs = 20 # steps/epochs per round
+num-server-rounds = 50 # train rounds
+local-epochs = 30 # steps/epochs per round
 model-name = "lerobot/smolvla_base"
 fraction-fit = 1 # set to 1 for all clients to train each round
-fraction-evaluate = 0.1 # Evaluate all clients
+fraction-evaluate = 1 # Evaluate all clients
 batch_size = 64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
@@ -59,7 +59,7 @@ eval-frequency = 1 # Evaluate every eval-frequency rounds
 eval_mode = "quick" # Quick evaluation vs full (full is very slow)
 checkpoint_interval = 2 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
-proximal_mu = 0.001 # FedProx proximal regularization strength (reduced from 0.01 to 0.001 for SO-100 heterogeneity; prevents loss explosion while maintaining anchoring)
+proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 5e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
 
 [tool.zk0.logging]
@@ -102,7 +102,7 @@ options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avo
 
 [tool.zk0.datasets]
 clients = [
-    {name = "lerobot/svla_so100_pickplace", description = "Pick and place operations - VALIDATED CLEAN", client_id = 0, last_n_episodes_for_eval = 3},
+    {name = "shaunkirby/record-test", description = "Put the red LEGO in the bin", client_id = 0, last_n_episodes_for_eval = 3},
     {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1, last_n_episodes_for_eval = 3},
     {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2, last_n_episodes_for_eval = 3},
     {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 3, last_n_episodes_for_eval = 3}

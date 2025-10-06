@@ -168,6 +168,11 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
         )
         logger.info(f"Server-specific logging to {server_log_file}")
 
+    # Configure Flower logger to prevent duplicates
+    flwr_logger = logging.getLogger('flwr')
+    flwr_logger.propagate = False  # Prevent propagation to root logger
+    flwr_logger.setLevel(level)
+
     # Suppress noisy logging from standard library
     logging.getLogger('logging').setLevel(logging.WARNING)
     logging.getLogger('urllib3').setLevel(logging.WARNING)

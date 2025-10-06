@@ -1,8 +1,8 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-01
-**Version**: 1.0.0
+**Last Updated**: 2025-10-05
+**Version**: 1.0.1
 **Author**: Kilo Code
 
 ## Latest Update (2025-10-01)
@@ -176,6 +176,34 @@
 - Too low proximal_mu: No regularization benefit, poor convergence on heterogeneous data
 - Loss trends: Monitor both proximal_loss and adjusted_loss for proper convergence
 - Validation: Always run test training after hyperparameter changes
+
+## WandB Integration Debugging Workflow
+**Last performed:** 2025-10-05
+**Context:** Verified and fixed WandB integration to ensure clients join unified server run instead of creating separate runs
+**Files modified:** `src/server_app.py`, `src/client_app.py`, `src/wandb_utils.py`
+
+**Steps:**
+1. **Issue Detection**: Check WandB dashboard for multiple runs with "client_..." prefixes instead of unified "zk0-sim-fl-run-..." run
+2. **Server Run Creation**: Verify server creates WandB run in `server_fn` and passes `run_id` via `context.run_config["wandb_run_id"]`
+3. **Client Run Joining**: Confirm clients read `wandb_run_id` from `context.run_config` in `client_fn` and use `init_client_wandb(run_id=...)`
+4. **Redundant Config Removal**: Remove unnecessary `wandb_run_id` passing in fit/evaluate configs (clients already have initialized wandb instance)
+5. **Session Cleanup**: Ensure `finish_wandb()` is called after last server round in `aggregate_evaluate()`
+6. **Validation**: Run federated learning simulation and verify single unified WandB run with client-prefixed metrics
+7. **Memory Bank Update**: Document WandB integration details in tech.md and fixes in context.md
+
+**Important notes:**
+- WandB initialization happens once per client in `client_fn`, not per fit/evaluate round
+- Server passes `run_id` via `context.run_config` (not fit/evaluate configs) since wandb should be initialized once
+- Clients use `self.wandb_run` in fit/evaluate methods (already initialized)
+- Session cleanup happens automatically via `wandb.finish()` after final evaluation round
+- Unified logging ensures all metrics go to single run with proper client/server prefixes
+
+**Common Issues:**
+- Clients creating separate runs: `run_id` not passed correctly in `context.run_config`
+- Multiple WandB sessions: `finish_wandb()` not called after training completion
+- Redundant config passing: `wandb_run_id` passed in fit/evaluate configs unnecessarily
+- Metric conflicts: Client metrics not properly prefixed (should use `client_{id}_` prefix)
+- Session leaks: WandB runs not properly closed, causing resource accumulation
 
 ## Context Management Guidelines
 

@@ -20,7 +20,6 @@ from lerobot.datasets.factory import make_dataset
 from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
 # Import torchvision for image transforms
-from torchvision import transforms
 
 def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "auto") -> SmolVLAPolicy:
     """Load SmolVLA model with environment-based distributed control.
