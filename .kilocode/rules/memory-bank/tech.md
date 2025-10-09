@@ -144,6 +144,7 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **VSCode**: IDE with Docker integration and automatic environment detection
 - **Git**: Version control with GitHub integration
 - **Pre-commit Hooks**: Code quality and formatting checks
+- **Time Zone Handling**: Always check environment_details for the current user time zone when interpreting timestamps in logs, file modification times, or system outputs, as it may vary between sessions and developers.
 
 ## Command Execution Requirements (CRITICAL)
 
