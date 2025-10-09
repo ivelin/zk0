@@ -7,7 +7,6 @@ import psutil
 import torch
 from src.task import (
     compute_param_norms,
-    load_data,
     get_model,
     set_params,
     extract_trainable_params,
@@ -15,6 +14,7 @@ from src.task import (
     test,
     train,
 )
+from src.utils import load_lerobot_dataset
 
 from loguru import logger
 
@@ -23,12 +23,16 @@ from flwr.common import Context
 
 # Flower client
 class SmolVLAClient(NumPyClient):
-    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, wandb_run=None, batch_size=64, wandb_dir=None) -> None:
+    def __init__(self, partition_id, local_epochs, trainloader, nn_device=None, wandb_run=None, batch_size=64, wandb_dir=None, dataset_repo_id=None) -> None:
         self.partition_id = partition_id
         self.trainloader = trainloader
         self.local_epochs = local_epochs
         self.device = nn_device
         self.wandb_dir = wandb_dir
+        self.dataset_repo_id = dataset_repo_id  # Cache dataset name to avoid repeated loading
+
+        # Validate required parameters
+        assert self.dataset_repo_id is not None, f"dataset_repo_id must be provided for client {self.partition_id}"
 
         # Load dataset metadata for model creation (like lerobot train script)
         # Get dataset metadata from the trainloader's dataset
@@ -64,9 +68,8 @@ class SmolVLAClient(NumPyClient):
             setup_client_logging(Path(log_file_path), self.partition_id)
 
         batch_size = config.get("batch_size", 64)
-        dataset_repo_id = config.get("dataset_repo_id", "unknown")
         logger.info(f"Client {self.partition_id}: Starting fit operation (epochs={self.local_epochs}, batch_size={batch_size}, len(trainloader)={len(self.trainloader)})")
-        logger.info(f"Client {self.partition_id}: Loading dataset '{dataset_repo_id}' for training")
+        logger.info(f"Client {self.partition_id}: Loading dataset '{self.dataset_repo_id}' for training")
         logger.debug(f"Client {self.partition_id}: Received config: {config}")
 
         if torch.cuda.is_available():
@@ -181,9 +184,8 @@ class SmolVLAClient(NumPyClient):
             setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
             setup_client_logging(Path(log_file_path), self.partition_id)
 
-        dataset_repo_id = config.get("dataset_repo_id", "unknown")
         logger.info(f"Client {self.partition_id}: Starting evaluate operation")
-        logger.info(f"Client {self.partition_id}: Loading dataset '{dataset_repo_id}' for evaluation")
+        logger.info(f"Client {self.partition_id}: Loading dataset '{self.dataset_repo_id}' for evaluation")
         logger.debug(f"Client {self.partition_id}: Evaluate config: {config}")
 
         if torch.cuda.is_available():
@@ -343,10 +345,27 @@ def client_fn(context: Context) -> Client:
     # Load dataset first to get metadata for model creation
     logging.info(f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})")
     try:
-        trainloader, _ = load_data(partition_id, num_partitions, model_name, batch_size=batch_size, device=nn_device)
-        total_episodes = len(trainloader.dataset)
-        train_episodes = total_episodes - 3  # Exclude last 3 episodes for validation
-        logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - total episodes: {total_episodes}, training episodes: {train_episodes}, trainloader length: {len(trainloader)}")
+        # Load dataset configuration
+        from src.configs import DatasetConfig
+        config = DatasetConfig.load()
+        client_config = config.clients[partition_id % len(config.clients)]
+        dataset_name = client_config.name
+
+        # Load dataset directly
+        dataset = load_lerobot_dataset(dataset_name)
+
+        # Create dataloader (clients use full dataset for training)
+        trainloader = torch.utils.data.DataLoader(
+            dataset,
+            num_workers=0,
+            batch_size=batch_size,
+            shuffle=True,
+            pin_memory=False,
+            drop_last=True,
+        )
+
+        train_episodes = len(dataset)
+        logging.info(f"✅ Client {partition_id}: Dataset loaded successfully - training episodes: {train_episodes}, trainloader length: {len(trainloader)}")
     except Exception as e:
         logging.error(f"❌ Client {partition_id}: Failed to load dataset: {e}")
         import traceback
@@ -377,6 +396,7 @@ def client_fn(context: Context) -> Client:
             wandb_run=wandb_run,
             batch_size=batch_size,
             wandb_dir=wandb_dir,
+            dataset_repo_id=dataset_name,
         )
         logging.info(f"✅ Client {partition_id}: SmolVLAClient created successfully")
         logging.info(f"🚀 Client {partition_id}: Converting to Flower client")

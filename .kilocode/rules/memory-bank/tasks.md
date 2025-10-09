@@ -5,8 +5,8 @@
 **Version**: 1.0.1
 **Author**: Kilo Code
 
-## Latest Update (2025-10-01)
-**✅ Added FedProx Hyperparameter Tuning Workflow**: Documented the process for fixing loss explosion issues by adjusting proximal_mu values. This addresses the critical issue where proximal regularization was too strong, causing training loss to grow exponentially instead of decreasing.
+## Latest Update (2025-10-08)
+**✅ Added Debug Fixes Workflow**: Documented fixes for HF push 403 Forbidden and server-side eval issues, including repo auto-creation, proper eval flow via evaluate_fn, model reuse optimization, and code cleanup.
 
 ## Model Training Workflow
 1. **Environment Setup**: Activate conda environment "zk0"
@@ -177,33 +177,68 @@
 - Loss trends: Monitor both proximal_loss and adjusted_loss for proper convergence
 - Validation: Always run test training after hyperparameter changes
 
-## WandB Integration Debugging Workflow
-**Last performed:** 2025-10-05
-**Context:** Verified and fixed WandB integration to ensure clients join unified server run instead of creating separate runs
-**Files modified:** `src/server_app.py`, `src/client_app.py`, `src/wandb_utils.py`
+## Server-Side Evaluation Transition Workflow
+**Last performed:** 2025-10-08
+**Context:** Transitioned from client-side to server-side evaluation only, removing episode filtering logic that wasn't working with current datasets
+**Files modified:** `src/task.py`, `src/server_app.py`
 
 **Steps:**
-1. **Issue Detection**: Check WandB dashboard for multiple runs with "client_..." prefixes instead of unified "zk0-sim-fl-run-..." run
-2. **Server Run Creation**: Verify server creates WandB run in `server_fn` and passes `run_id` via `context.run_config["wandb_run_id"]`
-3. **Client Run Joining**: Confirm clients read `wandb_run_id` from `context.run_config` in `client_fn` and use `init_client_wandb(run_id=...)`
-4. **Redundant Config Removal**: Remove unnecessary `wandb_run_id` passing in fit/evaluate configs (clients already have initialized wandb instance)
-5. **Session Cleanup**: Ensure `finish_wandb()` is called after last server round in `aggregate_evaluate()`
-6. **Validation**: Run federated learning simulation and verify single unified WandB run with client-prefixed metrics
-7. **Memory Bank Update**: Document WandB integration details in tech.md and fixes in context.md
+1. **Issue Detection**: Identified that `dataset.episodes` is None in current datasets (like "shaunkirby/record-test") due to codec/FFmpeg issues, making episode-based filtering impossible
+2. **Episode Filtering Removal**: Removed `filter_dataset_by_split()` and `load_data()` functions that relied on unavailable episode metadata
+3. **Test Function Update**: Modified `test()` function to use server evaluation dataset directly, limiting evaluation to first N episodes by tracking episode changes during iteration
+4. **Server Strategy Modification**: Updated `configure_evaluate()` to return empty config (no client evaluation requests) and `aggregate_evaluate()` to perform server-side evaluation
+5. **Parameter Storage**: Added `current_parameters` attribute to strategy to store aggregated parameters for server evaluation
+6. **Code Cleanup**: Removed duplicate code sections and updated all `load_data` calls to use `load_lerobot_dataset` directly
+7. **Validation**: Run syntax checks and test federated learning simulation to verify server-side evaluation works correctly
+8. **Memory Bank Update**: Document architecture changes in context.md, architecture.md, product.md, and tech.md
 
 **Important notes:**
-- WandB initialization happens once per client in `client_fn`, not per fit/evaluate round
-- Server passes `run_id` via `context.run_config` (not fit/evaluate configs) since wandb should be initialized once
-- Clients use `self.wandb_run` in fit/evaluate methods (already initialized)
-- Session cleanup happens automatically via `wandb.finish()` after final evaluation round
-- Unified logging ensures all metrics go to single run with proper client/server prefixes
+- Server-side evaluation ensures consistent evaluation across rounds using dedicated evaluation datasets
+- Training uses all available episodes (no filtering needed), evaluation uses first N episodes from server datasets
+- Current datasets have `dataset.episodes = None` due to codec issues, making episode-based filtering impossible
+- Server evaluates the latest aggregated model parameters after each round
+- Cleaner architecture with simplified data handling and more reliable evaluation
 
-**Common Issues:**
-- Clients creating separate runs: `run_id` not passed correctly in `context.run_config`
-- Multiple WandB sessions: `finish_wandb()` not called after training completion
-- Redundant config passing: `wandb_run_id` passed in fit/evaluate configs unnecessarily
-- Metric conflicts: Client metrics not properly prefixed (should use `client_{id}_` prefix)
-- Session leaks: WandB runs not properly closed, causing resource accumulation
+**Common Issues Addressed:**
+- Episode filtering failing silently when `dataset.episodes` is None
+- Inconsistent train/eval episode separation between manual filtering and automated filtering
+- Client-side evaluation creating unnecessary complexity and potential inconsistencies
+- Dataset loading issues with current SO-100 datasets due to codec problems
+
+**Benefits:**
+- More reliable evaluation that doesn't depend on episode metadata availability
+- Simplified architecture with server-only evaluation
+- Consistent evaluation methodology across all federated learning rounds
+- Better separation of concerns between training (clients) and evaluation (server)
+
+## Debug Fixes Workflow
+**Last performed:** 2025-10-08
+**Context:** Fixed HF push 403 Forbidden and server-side eval issues in federated learning setup
+**Files modified:** `src/server_app.py`
+
+**Steps:**
+1. **HF Push 403 Diagnosis**: Identified 403 Forbidden error during model push to Hugging Face Hub due to non-existent repo "ivelin/zk0-smolvla-fl"
+2. **Repo Auto-Creation Fix**: Added `api.create_repo(exist_ok=True)` in `push_model_to_hub` to automatically create missing repos
+3. **Token Validation**: Added logging to check HF_TOKEN presence and repo existence before upload
+4. **Server Eval Flow Fix**: Removed redundant eval block from `aggregate_fit`; eval now runs exclusively via `evaluate_fn` (called by Flower's `strategy.evaluate` post-fit, gated by `eval-frequency`)
+5. **Model Reuse Optimization**: Replaced redundant model creation in `_server_evaluate` and norm computation with cached `self.template_model`
+6. **Code Cleanup**: Removed unused `get_evaluate_config_callback` function and redundant imports
+7. **Validation**: Added detailed logging for debugging (entry/exit points, dataset loading, model operations)
+8. **Memory Bank Update**: Documented fixes in context.md and tasks.md
+
+**Important notes:**
+- HF 403 was due to missing repo; auto-creation ensures reliable uploads
+- Server eval must use `evaluate_fn` for proper Flower integration, not manual blocks in `aggregate_fit`
+- Cached `template_model` eliminates redundant model loading across rounds
+- Eval frequency gating prevents unnecessary evaluations
+- All changes maintain Flower compatibility and FedProx inheritance
+
+**Common Issues Addressed:**
+- HF push failures due to missing repos or invalid tokens
+- Duplicate eval execution causing confusion and overhead
+- Unnecessary model recreation impacting performance
+- Missing logging for debugging complex FL flows
+- Unused code cluttering the codebase
 
 ## Context Management Guidelines
 

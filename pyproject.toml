@@ -102,10 +102,13 @@ options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avo
 
 [tool.zk0.datasets]
 clients = [
-    {name = "shaunkirby/record-test", description = "Put the red LEGO in the bin", client_id = 0, last_n_episodes_for_eval = 3},
-    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1, last_n_episodes_for_eval = 3},
-    {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2, last_n_episodes_for_eval = 3},
-    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 3, last_n_episodes_for_eval = 3}
+    {name = "shaunkirby/record-test", description = "Put the red LEGO in the bin", client_id = 0},
+    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1},
+    {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2},
+    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 3}
+]
+server = [
+    {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", first_n_episodes_for_eval = 3},
 ]
 
 # Dataset loading configuration

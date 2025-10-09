@@ -92,10 +92,10 @@ Each client is assigned a unique robotics manipulation task to prevent data over
 - **Evaluation Isolation**: Separate evaluation datasets never seen during training
 
 #### Evaluation Strategy
-- **Client-Specific Evaluation**: Each client evaluated on their assigned task
-- **Cross-Task Evaluation**: Global model evaluated on all client tasks
-- **Unseen Task Evaluation**: Additional evaluation on completely novel SO-100/SO-101 tasks
+- **Server-Side Evaluation**: Global model evaluated server-side using dedicated evaluation datasets
+- **Unseen Task Evaluation**: Evaluation on completely novel SO-100/SO-101 tasks not seen during training
 - **Data Leak Prevention**: Strict validation to ensure no evaluation data in training sets
+- **Episode Limiting**: Evaluation limited to first N episodes from evaluation datasets
 
 #### Server Evaluation Datasets (Unseen Tasks)
 The server evaluates the global model on all client tasks as well as additional unseen tasks to verify generalization capabilities. See [Configuration System](#configuration-system) for the complete list of validated evaluation datasets including:
@@ -114,11 +114,11 @@ The server evaluates the global model on all client tasks as well as additional 
 
 1. **Initialization**: Server distributes initial SmolVLA model to clients
 2. **Task Assignment**: Each client receives unique task dataset for training
-3. **Local Training**: Clients train on their assigned SO-100 task datasets
+3. **Local Training**: Clients train on their assigned SO-100 task datasets (all episodes used)
 4. **Parameter Upload**: Clients send model updates to server
 5. **Aggregation**: Server combines updates using federated strategies
 6. **Model Update**: Server broadcasts improved global model
-7. **Cross-Evaluation**: Global model evaluated on all client tasks plus unseen tasks
+7. **Server Evaluation**: Global model evaluated server-side on dedicated evaluation datasets
 8. **Iteration**: Process repeats for multiple rounds with performance tracking
 
 ## Security Architecture

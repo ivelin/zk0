@@ -13,40 +13,9 @@ from datasets.utils.logging import disable_progress_bar
 from loguru import logger
 
 from .utils import load_lerobot_dataset
-
 disable_progress_bar()
 
-def load_data(
-    partition_id: int, num_partitions: int, model_name: str, batch_size=64, device=None
-) -> tuple[DataLoader[Any], DataLoader[Any]]:
-    """Load SO-100 data (training and eval)"""
-    # Load dataset configuration
-    from .configs import DatasetConfig
-    config = DatasetConfig.load()
 
-    # Get dataset name for this partition
-    dataset_name = config.clients[partition_id % len(config.clients)].name
-    dataset = load_lerobot_dataset(dataset_name)
-
-    # Create dataloader for offline training.
-    trainloader = torch.utils.data.DataLoader(
-        dataset,
-        num_workers=0,  # Match standalone train script (no multiprocessing overhead)
-        batch_size=batch_size,  # Fixed to 64 to match standalone for stable gradients
-        shuffle=True,
-        pin_memory=False,  # Match standalone train script (no VRAM pinning)
-        drop_last=True,
-    )
-
-    # Log memory usage after dataset loading (for OOM debugging)
-    if torch.cuda.is_available():
-        allocated_gb = torch.cuda.memory_allocated() / 1e9
-        reserved_gb = torch.cuda.memory_reserved() / 1e9
-        logger.info(f"Dataset loading complete - VRAM allocated: {allocated_gb:.2f} GB, reserved: {reserved_gb:.2f} GB")
-
-    # SmolVLA doesn't use gym evaluation like PushT
-    # Return None for testloader to match Flower's expected interface
-    return trainloader, None
 
 
 def get_model(dataset_meta=None):
@@ -471,54 +440,47 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, g
     return final_metrics
 
 
-def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, int, dict[str, float]]:
-    """Evaluate SmolVLA model using LeRobot's evaluation approach (aligned with standalone train script)."""
+def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, int, dict[str, float]]:
+    """Evaluate SmolVLA model using server evaluation dataset."""
     import logging
     from .utils import load_lerobot_dataset
+
+    # Convert device string to torch.device object if needed
+    if isinstance(device, str):
+        device = torch.device(device)
 
     # In SmolVLA terminology policy is the neural network
     policy = net
     policy.eval()
 
-    logging.info(f"Evaluating client {partition_id} policy")
+    logging.info("Evaluating on server dataset")
 
-    # Load client's dataset for evaluation using LeRobot's approach
+    # Load server evaluation dataset
     from .configs import DatasetConfig
     config = DatasetConfig.load()
-    dataset_name = config.clients[partition_id % len(config.clients)].name
 
-    # Use the same dataset loading as train (which works) instead of make_dataset
+    if not config.server:
+        raise ValueError("No server evaluation dataset configured")
+
+    server_config = config.server[0]  # Use first server dataset
+    dataset_name = server_config.name
+
     dataset = load_lerobot_dataset(dataset_name)
 
-    # Get number of eval episodes based on mode (ensures consistent evaluation data)
-    config = DatasetConfig.load()
-    client_config = config.clients[partition_id % len(config.clients)]
-    last_n_episodes_for_eval = client_config.last_n_episodes_for_eval
-
-    # Set seed for reproducible evaluation data selection
-    torch.manual_seed(42)  # Fixed seed for consistent evaluation across rounds
-
-    # Filter to only eval episodes if episodes metadata is available (ensures same data every time)
-    logger.debug(f"Client {partition_id}: Dataset episodes type/len: {type(dataset.episodes)}, {len(dataset.episodes) if dataset.episodes is not None else 'None'}")
-    if dataset.episodes is not None:
-        total_episodes = len(dataset.episodes)
-        if last_n_episodes_for_eval < total_episodes:
-            episode_indices = list(range(total_episodes - last_n_episodes_for_eval, total_episodes))
-            from lerobot.datasets.utils import FilteredLeRobotDataset
-            dataset = FilteredLeRobotDataset(dataset, episode_indices)
-            logging.info(f"Filtered dataset to last {last_n_episodes_for_eval} episodes for evaluation (reproducible)")
-    else:
-        logging.warning(f"Client {partition_id}: Episodes metadata is None (likely TorchCodec/FFmpeg missing). Falling back to batch-based evaluation without episode filtering.")
-
-    # Create evaluation dataloader with proper batching (like standalone script)
+    # Create evaluation dataloader (will limit to first N episodes in the loop)
     eval_loader = torch.utils.data.DataLoader(
         dataset,
-        batch_size=batch_size,  # Use same batch size as training for consistency
-        shuffle=False,
-        num_workers=0,  # Reduce memory overhead by avoiding multiprocessing
-        pin_memory=False,  # Disable pin_memory to reduce VRAM pinning overhead
-        drop_last=False,  # Don't drop last batch for evaluation
+        num_workers=0,
+        batch_size=batch_size,
+        shuffle=False,  # No shuffle for evaluation
+        pin_memory=False,
+        drop_last=False,
     )
+
+    # Track episodes processed
+    episodes_processed = 0
+    max_episodes = server_config.first_n_episodes_for_eval
+    logger.info(f"Server evaluation using first {max_episodes} episodes from {dataset_name}")
 
     total_loss = 0.0
     total_samples = 0
@@ -528,9 +490,21 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
     # Set evaluation limit based on mode
     max_batches_for_eval = 10 if eval_mode == "quick" else None
 
-    # Evaluate all batches in the dataloader
+    # Evaluate batches, limiting to first N episodes
+    current_episode = None
     for batch in eval_loader:
         total_batches_processed += 1
+
+        # Check episode limit
+        batch_episode = int(batch['episode_index'][0].item()) if 'episode_index' in batch else 0
+        if current_episode != batch_episode:
+            current_episode = batch_episode
+            episodes_processed += 1
+
+        # Stop if we've processed enough episodes
+        if episodes_processed > max_episodes:
+            logger.info(f"Reached episode limit ({max_episodes}), stopping evaluation")
+            break
 
         try:
             # Move batch to device
@@ -562,7 +536,7 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
                     continue
 
         except Exception as e:
-            logging.error(f"Failed to evaluate batch {total_batches_processed} for client {partition_id}: {e} - this indicates a serious evaluation issue that needs fixing")
+            logging.error(f"Failed to evaluate batch {total_batches_processed}: {e} - this indicates a serious evaluation issue that needs fixing")
             # Do not increment successful_batches for failed batches
             continue
 
@@ -575,7 +549,7 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
         avg_loss = total_loss / total_samples
         logging.info(f"Successfully evaluated {successful_batches} batches with {total_samples} total samples, avg_MSE={avg_loss:.4f}")
     else:
-        logging.warning(f"No batches successfully evaluated for client {partition_id}")
+        logging.warning("No batches successfully evaluated")
         avg_loss = 1.0
 
     # Clear GPU cache after evaluation to prevent VRAM accumulation
@@ -594,6 +568,6 @@ def test(partition_id: int, net, device, batch_size=64, eval_mode: str = "quick"
         "total_samples": total_samples,  # Total number of samples evaluated
     }
 
-    logging.info(f"Client {partition_id} evaluation: loss={avg_loss:.4f}, successful_batches={successful_batches}, total_batches={total_batches_processed}, samples={total_samples}")
+    logging.info(f"Server evaluation: loss={avg_loss:.4f}, successful_batches={successful_batches}, total_batches={total_batches_processed}, samples={total_samples}")
 
     return float(loss), num_examples, metrics

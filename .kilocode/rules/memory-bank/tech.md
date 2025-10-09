@@ -139,11 +139,28 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 4. **Model Aggregation**: Flower's parameter aggregation mechanisms
 
 ## Development Environment
-- **Primary**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
-- **Alternative**: Conda environment ("zk0") for local development and training runs (validated for federated learning execution)
+- **Primary**: Conda environment ("zk0") for local development and training runs (validated for federated learning execution)
+- **Alternative**: Docker container (`zk0`) via train.sh for fallback execution
 - **VSCode**: IDE with Docker integration and automatic environment detection
 - **Git**: Version control with GitHub integration
 - **Pre-commit Hooks**: Code quality and formatting checks
+
+## Command Execution Requirements (CRITICAL)
+
+**MANDATORY ENVIRONMENT CONSTRAINTS FOR ALL COMMANDS**:
+
+1. **Primary Environment**: ALL code execution, testing, and validation MUST use Conda environment "zk0" (`conda run -n zk0 <command>`)
+2. **Alternative Environment**: Docker container (`zk0`) via `train.sh` for fallback execution
+3. **Prohibited**: Never use system Python or bare commands without proper environment activation
+4. **Validation**: Always verify environment before execution - check that required packages (torch, lerobot, etc.) are available
+
+**EXECUTION PATTERNS**:
+- **Testing**: `conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing`
+- **Syntax Check**: `conda run -n zk0 python -c "import ast; ast.parse(open('file.py').read())"`
+- **Code Execution**: `conda run -n zk0 python -c "your code here"`
+- **Training**: `conda run -n zk0 flwr run . local-simulation-serialized-gpu` or `./train.sh` (Docker fallback)
+
+**FAILURE TO COMPLY**: Commands will fail with import errors (ModuleNotFoundError). Always use proper environment activation.
 
 ## Dependencies Management
 - **requirements.txt**: Pinned versions for reproducibility
@@ -353,9 +370,10 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 ## Evaluation and Visualization
 
 ### Evaluation System
+- **Server-Side Evaluation**: Global model evaluated server-side using dedicated evaluation datasets
 - **Robot Rollout Evaluation**: Comprehensive evaluation with predicted vs ground truth action comparison
-- **Metrics Calculation**: Success rate, action MSE, trajectory length analysis
-- **Multi-Episode Support**: Evaluate across multiple SO-100 episodes
+- **Metrics Calculation**: Action MSE, trajectory length analysis
+- **Episode Limiting**: Evaluation limited to first N episodes from evaluation datasets
 - **Fallback Mechanisms**: Graceful degradation when real evaluation unavailable
 
 ### Visualization Tools

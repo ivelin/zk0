@@ -132,7 +132,7 @@ execute_conda_training() {
     # Execute the training command
     conda run -n zk0 python -m lerobot.scripts.train \
       --policy.path=lerobot/smolvla_base \
-      --dataset.repo_id="shaunkirby/record-test" \
+      --dataset.repo_id="Hupy440/Two_Cubes_and_Two_Buckets_v2" \
       --batch_size=64 \
       --steps=$STEPS \
       --output_dir=outputs/train/my_smolvla \
@@ -173,7 +173,7 @@ execute_docker_training() {
     DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
     DOCKER_CMD="$DOCKER_CMD sh -c \"uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && PYTHONPATH=/workspace python -m lerobot.scripts.train \
       --policy.path=lerobot/smolvla_base \
-      --dataset.repo_id=gimarchetti/so101-winnie-us5 \
+      --dataset.repo_id=tinkhireeva/so101_duck_sort \
       --batch_size=64 \
       --steps=$STEPS \
       --output_dir=outputs/train/my_smolvla \

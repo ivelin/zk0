@@ -69,3 +69,25 @@
 **Baseline for Future Improvements**: This run establishes the performance ceiling with static hyperparameters. Target: 10-20% MSE reduction (~2450-2600) via dynamic adaptations. Compare future runs against this baseline using eval_mse_history.json and aggregated metrics.
 
 **Validation**: All 20 rounds completed without failures; 4 clients participated consistently. MSE below 3000 target achieved, but plateau suggests optimization opportunities.
+
+**Latest Debug Fixes (2025-10-08)**: Fixed HF push 403 Forbidden and server-side eval issues. Optimized model reuse and removed redundant code.
+
+**Debug Fixes Applied**:
+- **HF Push 403 Fixed**: Added `api.create_repo(exist_ok=True)` in `push_model_to_hub` to auto-create missing repos (e.g., "ivelin/zk0-smolvla-fl"). Added token/repo validation logs.
+- **Server-Side Eval Fixed**: Removed redundant eval block from `aggregate_fit`; eval now runs exclusively via `evaluate_fn` (called by Flower's `strategy.evaluate` post-fit, gated by `eval-frequency`).
+- **Model Reuse Optimized**: Cached `template_model` reused for eval, norm computation, and save/push operations (no redundant creation).
+- **Code Cleanup**: Removed unused `get_evaluate_config_callback` function and redundant eval logic. Added detailed logging for debugging.
+- **Import Fixes**: Resolved UnboundLocalError for `get_model` in norm computation.
+
+**Key Changes**:
+- `push_model_to_hub`: Auto-creates repo if missing, validates existence, logs token status.
+- `_server_evaluate`: Handles server-side eval with frequency gating, metrics logging to console/WandB/JSON.
+- `aggregate_fit`: Removed manual eval block; uses cached model for norms.
+- Strategy: `evaluate_fn = self._server_evaluate` for proper Flower integration.
+- Removed: `get_evaluate_config_callback` (unused for server-only eval).
+
+**Rationale**: HF 403 was due to non-existent repo; server eval was duplicated and incorrectly placed. Optimizations reduce model loading overhead.
+
+**Impact**: Reliable HF uploads, correct server eval flow, improved performance, cleaner code. Eval metrics saved to `round_X_server_eval.json`, model pushed to HF Hub.
+
+**Validation**: Code runs without errors, eval triggers post-aggregation, HF push succeeds. Ready for production FL runs.

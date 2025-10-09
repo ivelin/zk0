@@ -7,18 +7,17 @@ from src.task import (
     get_model,
     get_params,
     compute_param_norms,
-    set_params,
-    load_data
+    set_params
 )
 from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
 from src.utils import compute_parameter_hash
 from loguru import logger
 
-from flwr.common import Context, Metrics, ndarrays_to_parameters, parameters_to_ndarrays, FitIns, EvaluateIns, Parameters, FitRes
+from flwr.common import Context, EvaluateRes, FitIns, FitRes, Metrics, MetricsAggregationFn, NDArrays, Parameters, Scalar, ndarrays_to_parameters, parameters_to_ndarrays
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedProx
-from typing import List, Tuple, Union, Optional, Dict
+from typing import Callable, Dict, List, Optional, Tuple, Union
 from flwr.server.client_proxy import ClientProxy
 from flwr.common import EvaluateRes, Scalar
 
@@ -27,144 +26,228 @@ from safetensors.torch import save_file
 
 
 
-def push_model_to_hub(parameters, server_round: int, models_dir: Path, hf_repo_id: str, wandb_run=None) -> None:
-    """Push model checkpoint to Hugging Face Hub.
-
-    Args:
-        parameters: Flower Parameters object containing model weights
-        server_round: Current server round number
-        models_dir: Directory containing the saved checkpoint
-        hf_repo_id: Hugging Face repository ID (e.g., "username/repo-name")
-        wandb_run: Optional wandb run for logging
-    """
-    try:
-        # Convert Flower Parameters to numpy arrays
-        from flwr.common import parameters_to_ndarrays
-        ndarrays = parameters_to_ndarrays(parameters)
-
-        # Create a state dict from the numpy arrays
-        # We need to create a dummy model to get the parameter names
-        from src.task import get_model, load_data
-        trainloader, _ = load_data(0, 4, "smolvla", device="cpu")  # Use first partition
-        dataset_meta = trainloader.dataset.meta
-        model = get_model(dataset_meta)
-
-        # Create state dict with proper parameter names
-        state_dict = {}
-        for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
-            # Convert numpy array back to torch tensor
-            tensor = torch.from_numpy(ndarray)
-            # Convert back to the original dtype if it was BFloat16
-            original_param = model.state_dict()[name]
-            if original_param.dtype == torch.bfloat16:
-                tensor = tensor.bfloat16()
-            state_dict[name] = tensor
-
-        # Push to Hugging Face Hub
-        from huggingface_hub import HfApi
-        import os
-
-        # Get HF token from environment
-        hf_token = os.environ.get("HF_TOKEN")
-        if not hf_token:
-            raise ValueError("HF_TOKEN environment variable not found. Required for pushing to Hugging Face Hub.")
-
-        api = HfApi(token=hf_token)
-
-        # Save model locally first, then push
-        temp_model_path = models_dir / f"temp_model_round_{server_round}"
-        temp_model_path.mkdir(exist_ok=True)
-
-        # Save model config and state dict
-        model.config.save_pretrained(temp_model_path)
-        torch.save(state_dict, temp_model_path / "pytorch_model.bin")
-
-        # Push to Hub
-        api.upload_folder(
-            folder_path=str(temp_model_path),
-            repo_id=hf_repo_id,
-            repo_type="model",
-            commit_message=f"Upload federated learning checkpoint from round {server_round}"
-        )
-
-        logger.info(f"🚀 Model pushed to Hugging Face Hub: https://huggingface.co/{hf_repo_id}")
-        logger.info(f"📊 Pushed {len(state_dict)} parameter tensors to round {server_round}")
-
-        # Clean up temp directory
-        import shutil
-        shutil.rmtree(temp_model_path)
-
-    except Exception as e:
-        logger.error(f"❌ Failed to push model to Hugging Face Hub for round {server_round}: {e}")
-        raise
-
-
-def save_model_checkpoint(parameters, server_round: int, models_dir: Path) -> None:
-    """Save model checkpoint to disk using safetensors format.
-
-    Args:
-        parameters: Flower Parameters object containing model weights
-        server_round: Current server round number
-        models_dir: Directory to save the checkpoint
-    """
-    try:
-        # Convert Flower Parameters to numpy arrays
-        from flwr.common import parameters_to_ndarrays
-        ndarrays = parameters_to_ndarrays(parameters)
-
-        # Create a state dict from the numpy arrays
-        # We need to create a dummy model to get the parameter names
-        from src.task import get_model, load_data
-        trainloader, _ = load_data(0, 4, "smolvla", device="cpu")  # Use first partition
-        dataset_meta = trainloader.dataset.meta
-        model = get_model(dataset_meta)
-
-        # Create state dict with proper parameter names
-        state_dict = {}
-        for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
-            # Convert numpy array back to torch tensor
-            tensor = torch.from_numpy(ndarray)
-            # Convert back to the original dtype if it was BFloat16
-            original_param = model.state_dict()[name]
-            if original_param.dtype == torch.bfloat16:
-                tensor = tensor.bfloat16()
-            state_dict[name] = tensor
-
-        # Save using safetensors format
-        checkpoint_path = models_dir / f"checkpoint_round_{server_round}.safetensors"
-        save_file(state_dict, checkpoint_path)
-
-        logger.info(f"💾 Model checkpoint saved: {checkpoint_path}")
-        logger.info(f"📊 Checkpoint contains {len(state_dict)} parameter tensors")
-
-    except Exception as e:
-        logger.error(f"❌ Failed to save model checkpoint for round {server_round}: {e}")
-        raise
 
 
 class AggregateEvaluationStrategy(FedProx):
     """Custom strategy that aggregates client evaluation results."""
 
-    def __init__(self, *, proximal_mu: float = 0.01, server_dir: Path = None, models_dir: Path = None, log_file: Path = None, save_path: Path = None, evaluate_config_fn=None, num_rounds: int = None, wandb_run=None, context: Context = None, **kwargs):
-        # Store proximal_mu for FedProx
-        self.proximal_mu = proximal_mu
-        logger.info(f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}")
-    
-        # Extract standard FedProx parameters (including proximal_mu)
-        fedprox_kwargs = {k: v for k, v in kwargs.items() if k in FedProx.__init__.__code__.co_varnames}
-        # Ensure proximal_mu is included
-        fedprox_kwargs['proximal_mu'] = proximal_mu
-    
-        super().__init__(**fedprox_kwargs)
+    def __init__(
+        self,
+        *,
+        fraction_fit: float = 1.0,
+        fraction_evaluate: float = 1.0,
+        min_fit_clients: int = 2,
+        min_evaluate_clients: int = 2,
+        min_available_clients: int = 2,
+        evaluate_fn: Optional[Callable[[int, NDArrays, Dict[str, Scalar]], Optional[Tuple[float, Dict[str, Scalar]]]]] = None,
+        on_fit_config_fn: Optional[Callable[[int], Dict[str, Scalar]]] = None,
+        on_evaluate_config_fn: Optional[Callable[[int], Dict[str, Scalar]]] = None,
+        accept_failures: bool = True,
+        initial_parameters: Optional[Parameters] = None,
+        fit_metrics_aggregation_fn: Optional[MetricsAggregationFn] = None,
+        evaluate_metrics_aggregation_fn: Optional[MetricsAggregationFn] = None,
+        proximal_mu: float = 0.01,
+        server_dir: Path = None,
+        models_dir: Path = None,
+        log_file: Path = None,
+        save_path: Path = None,
+        num_rounds: int = None,
+        wandb_run=None,
+        context: Context = None,
+    ) -> None:
+        # Call FedProx super().__init__ with all standard params
+        super().__init__(
+            fraction_fit=fraction_fit,
+            fraction_evaluate=fraction_evaluate,
+            min_fit_clients=min_fit_clients,
+            min_evaluate_clients=min_evaluate_clients,
+            min_available_clients=min_available_clients,
+            evaluate_fn=evaluate_fn,
+            on_fit_config_fn=on_fit_config_fn,
+            on_evaluate_config_fn=on_evaluate_config_fn,
+            accept_failures=accept_failures,
+            initial_parameters=initial_parameters,
+            fit_metrics_aggregation_fn=fit_metrics_aggregation_fn,
+            evaluate_metrics_aggregation_fn=evaluate_metrics_aggregation_fn,
+            proximal_mu=proximal_mu,
+        )
+
+        # Custom params
         self.server_dir = server_dir
         self.models_dir = models_dir
         self.log_file = log_file
         self.save_path = save_path
-        self.evaluate_config_fn = evaluate_config_fn
         self.num_rounds = num_rounds
         self.wandb_run = wandb_run
         self.context = context
         self.federated_metrics_history = []  # Track metrics across rounds for plotting
+        self.current_parameters = None  # Store current global model parameters for server evaluation
+
+        # Get eval_frequency from config (default 1)
+        self.eval_frequency = context.run_config.get("eval-frequency", 1) if context else 1
+        logger.info(f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}")
+
+        # Override evaluate_fn for server-side evaluation (called by strategy.evaluate every round, gated by frequency)
+        # This replaces the default None evaluate_fn to enable server-side eval via Flower's standard flow
+        self.evaluate_fn = self._server_evaluate
+
+        # Create reusable model template for parameter name extraction (server is stateful, no race conditions)
+        try:
+            from src.utils import load_lerobot_dataset
+            from src.configs import DatasetConfig
+            from src.task import get_model
+            dataset_config = DatasetConfig.load()
+            server_config = dataset_config.server[0]
+            dataset = load_lerobot_dataset(server_config.name)
+            dataset_meta = dataset.meta
+            self.template_model = get_model(dataset_meta=dataset_meta)
+            logger.info("✅ Server: Created reusable model template for parameter operations")
+        except Exception as e:
+            logger.error(f"❌ Server: Failed to create model template: {e}")
+            raise RuntimeError(f"Critical error: Cannot create model template for server operations: {e}") from e
+
+    def _server_evaluate(self, server_round: int, parameters: NDArrays, config: Dict[str, Scalar]) -> Optional[Tuple[float, Dict[str, Scalar]]]:
+        """Server-side evaluation function (called by strategy.evaluate). Gated by eval_frequency.
+
+        This replaces client-side evaluation with server-only eval using dedicated datasets.
+        Called automatically by Flower's strategy.evaluate after each fit round.
+        """
+        # Gate by frequency (skip if not time for eval) - prevents unnecessary evaluations
+        if server_round % self.eval_frequency != 0:
+            logger.info(f"ℹ️ Server: Skipping _server_evaluate for round {server_round} (not multiple of eval_frequency={self.eval_frequency})")
+            return None
+
+        logger.info(f"🔍 Server: _server_evaluate called for round {server_round} (frequency check passed)")
+
+        try:
+            from src.task import test, get_model, set_params
+            from src.utils import load_lerobot_dataset
+            from src.configs import DatasetConfig
+            from flwr.common import ndarrays_to_parameters
+
+            # Store parameters for use in aggregate_fit if needed
+            self.current_parameters = ndarrays_to_parameters(parameters)
+
+            logger.info(f"🔍 Server: Loading DatasetConfig...")
+            dataset_config = DatasetConfig.load()
+            logger.info(f"🔍 Server: config.server length: {len(dataset_config.server) if dataset_config.server else 0}")
+            if dataset_config.server:
+                logger.info(f"🔍 Server: First server dataset: {dataset_config.server[0].name}")
+
+            if not dataset_config.server:
+                raise ValueError("No server evaluation dataset configured")
+
+            server_config = dataset_config.server[0]
+            logger.info(f"🔍 Server: Loading dataset '{server_config.name}'...")
+            dataset = load_lerobot_dataset(server_config.name)
+            logger.info(f"✅ Server: Dataset loaded successfully (episodes: {len(dataset) if hasattr(dataset, '__len__') else 'unknown'})")
+            dataset_meta = dataset.meta
+            logger.info(f"🔍 Server: dataset_meta info keys: {list(dataset_meta.info.keys()) if dataset_meta else 'None'}")
+
+            # Use cached template model for evaluation (no redundant creation)
+            logger.info(f"🔍 Server: Using cached template model for evaluation...")
+            model = self.template_model
+            logger.info(f"✅ Server: Template model ready (total params: {sum(p.numel() for p in model.parameters())}")
+
+            # Set parameters
+            logger.info(f"🔍 Server: Setting parameters...")
+            set_params(model, parameters)
+            logger.info(f"✅ Server: Parameters set successfully")
+
+            # Perform evaluation
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            logger.info(f"🔍 Server: Running test() on device '{device}'...")
+            loss, num_examples, metrics = test(model, device=device)
+            logger.info(f"✅ Server: test() completed - loss={loss}, num_examples={num_examples}, metrics keys={list(metrics.keys()) if metrics else 'Empty'}")
+            logger.info(f"Server evaluation round {server_round}: loss={loss:.4f}, num_examples={num_examples}")
+            logger.info(f"Server evaluation metrics: {metrics}")
+
+            # Log to WandB
+            if self.wandb_run:
+                from src.wandb_utils import log_wandb_metrics
+                server_prefix = "server_"
+                wandb_metrics = {
+                    f"{server_prefix}round": server_round,
+                    f"{server_prefix}eval_loss": loss,
+                    f"{server_prefix}eval_action_mse": metrics.get("action_mse", 0.0),
+                    f"{server_prefix}eval_successful_batches": metrics.get("successful_batches", 0),
+                    f"{server_prefix}eval_total_batches": metrics.get("total_batches_processed", 0),
+                    f"{server_prefix}eval_total_samples": metrics.get("total_samples", 0),
+                }
+                log_wandb_metrics(wandb_metrics)
+                logger.debug(f"Logged server eval metrics to WandB: {wandb_metrics}")
+
+            # Track metrics for plotting
+            round_metrics = {
+                'round': server_round,
+                'round_time': 0.0,
+                'num_clients': 0,
+                'avg_action_mse': metrics.get("action_mse", 0.0),
+            }
+            self.federated_metrics_history.append(round_metrics)
+
+            # Save evaluation results to file
+            if self.server_dir:
+                import json
+                from datetime import datetime
+
+                server_file = self.server_dir / f"round_{server_round}_server_eval.json"
+                data = {
+                    "round": server_round,
+                    "timestamp": datetime.now().isoformat(),
+                    "evaluation_type": "server_side",
+                    "loss": loss,
+                    "num_examples": num_examples,
+                    "metrics": metrics,
+                }
+
+                with open(server_file, 'w') as f:
+                    json.dump(data, f, indent=2, default=str)
+                logger.info(f"✅ Server: Eval results saved to {server_file}")
+
+            # Generate chart on last round
+            if self.num_rounds and server_round == self.num_rounds:
+                try:
+                    from src.visualization import SmolVLAVisualizer
+                    mse_history = aggregate_eval_mse_history(self.server_dir)
+                    visualizer = SmolVLAVisualizer()
+                    visualizer.plot_eval_mse_chart(mse_history, self.server_dir, wandb_run=self.wandb_run)
+                    if self.federated_metrics_history:
+                        visualizer.plot_federated_metrics(self.federated_metrics_history, self.server_dir, wandb_run=self.wandb_run)
+
+                    # Final WandB metrics
+                    if self.wandb_run:
+                        from src.wandb_utils import log_wandb_metrics
+                        final_metrics = {
+                            "server_final_round": server_round,
+                            "server_final_eval_loss": loss,
+                            "server_final_eval_action_mse": metrics.get("action_mse", 0.0),
+                            "server_final_eval_successful_batches": metrics.get("successful_batches", 0),
+                            "server_final_eval_total_batches": metrics.get("total_batches_processed", 0),
+                            "server_final_eval_total_samples": metrics.get("total_samples", 0),
+                            "server_proximal_mu": self.proximal_mu,
+                            "server_num_server_rounds": self.num_rounds,
+                        }
+                        log_wandb_metrics(final_metrics)
+                        logger.info(f"Logged final evaluation metrics to WandB: {final_metrics}")
+
+                        from src.wandb_utils import finish_wandb
+                        finish_wandb()
+                        logger.info("WandB run finished after final round")
+
+                    logger.info("Eval MSE chart generated for final round")
+                except Exception as e:
+                    logger.error(f"Failed to generate eval MSE chart: {e}")
+
+            logger.info(f"✅ Server: _server_evaluate completed for round {server_round}")
+            return loss, metrics
+
+        except Exception as e:
+            logger.error(f"❌ Server: Failed _server_evaluate for round {server_round}: {e}")
+            logger.error(f"🔍 Detailed error: type={type(e).__name__}, args={e.args}")
+            import traceback
+            logger.error(f"Full traceback: {traceback.format_exc()}")
+            return None, {}
 
     def validate_client_parameters(self, results: List[Tuple[ClientProxy, FitRes]]) -> List[Tuple[ClientProxy, FitRes]]:
         """Validate client parameter hashes and return only validated results.
@@ -274,63 +357,9 @@ class AggregateEvaluationStrategy(FedProx):
         return updated_config
 
     def configure_evaluate(self, server_round: int, parameters, client_manager):
-        """Configure the evaluation round."""
-        logger.info(f"Server: Configuring evaluate for round {server_round}")
-
-        # Get base config from parent
-        config = super().configure_evaluate(server_round, parameters, client_manager)
-        logger.info(f"✅ Server: Base config generated for {len(config)} clients")
-
-        # Monitor client availability for evaluation
-        if len(config) == 0:
-            logger.error(f"❌ Server: NO CLIENTS AVAILABLE for evaluation in round {server_round}")
-            logger.error("❌ Server: This indicates clients failed to register or crashed during initialization")
-
-        # + Load app_config for use-wandb (same as in configure_fit)
-        from src.utils import get_tool_config
-        flwr_config = get_tool_config("flwr", "pyproject.toml")
-        app_config = flwr_config.get("app", {}).get("config", {})
-
-        # Add round number, log_file_path, and save_path for client logging and eval stats
-        updated_config = []
-        for i, (client_proxy, evaluate_ins) in enumerate(config):
-            logger.debug(f"Server: Configuring client {i} (CID: {client_proxy.cid}) for evaluation")
-            updated_evaluate_config = evaluate_ins.config.copy()
-            updated_evaluate_config["round"] = server_round
-            updated_evaluate_config["log_file_path"] = str(self.log_file)
-            updated_evaluate_config["save_path"] = str(self.save_path)
-            updated_evaluate_config["base_save_path"] = str(self.save_path)
-
-            # + Add use_wandb flag for client-side WandB enablement (even in eval)
-            use_wandb = app_config.get("use-wandb", False)
-            updated_evaluate_config["use_wandb"] = use_wandb
-            logger.debug(f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} eval config")
-
-            # Add batch_size from pyproject.toml to override client defaults (for eval)
-            batch_size = app_config.get("batch_size", 64)
-            updated_evaluate_config["batch_size"] = batch_size
-            logger.debug(f"Server: Added batch_size={batch_size} to client {client_proxy.cid} eval config")
-
-            # WandB run_id not needed in evaluate config - client already initialized wandb in client_fn
-
-            # 🛡️ VALIDATE: Server outgoing parameters (for evaluation)
-            from src.utils import validate_and_log_parameters
-            eval_param_hash = validate_and_log_parameters(
-                parameters_to_ndarrays(evaluate_ins.parameters),
-                f"server_eval_r{server_round}_client{i}"
-            )
-
-            # 🔐 ADD: Include parameter hash in client config for validation
-            updated_evaluate_config["param_hash"] = eval_param_hash
-
-            updated_evaluate_ins = EvaluateIns(
-                parameters=evaluate_ins.parameters,
-                config=updated_evaluate_config
-            )
-            updated_config.append((client_proxy, updated_evaluate_ins))
-
-        logger.info(f"✅ Server: Evaluate configuration complete for round {server_round}")
-        return updated_config
+        """Configure the evaluation round - skip client evaluation (server-side only via evaluate_fn)."""
+        logger.info(f"ℹ️ Server: configure_evaluate for round {server_round} - skipping client eval (server-side via evaluate_fn)")
+        return []  # No client evaluation
 
     def aggregate_evaluate(
         self,
@@ -338,153 +367,9 @@ class AggregateEvaluationStrategy(FedProx):
         results: List[Tuple[ClientProxy, EvaluateRes]],
         failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
     ) -> Tuple[Optional[float], Dict[str, Scalar]]:
-        """Aggregate evaluation results from clients."""
-
-        logger.info(f"Server: Aggregating evaluation results for round {server_round}")
-        logger.info(f"📊 Server: Received {len(results)} successful results, {len(failures)} failures")
-
-        # Monitor for excessive failures
-        if len(failures) > 0:
-            logger.warning(f"⚠️ Server: {len(failures)} client failures in round {server_round}")
-            for i, failure in enumerate(failures):
-                if isinstance(failure, BaseException):
-                    logger.warning(f"  Failure {i}: {type(failure).__name__}: {failure}")
-                else:
-                    logger.warning(f"  Failure {i}: Client proxy issue")
-
-        if not results:
-            logger.warning("Server: No evaluation results received from clients")
-            return None, {}
-
-        # Call aggregate_evaluate from base class (FedAvg) to aggregate loss
-        aggregated_loss, _ = super().aggregate_evaluate(server_round, results, failures)
-
-        # Extract custom metrics from client results
-        success_rates = []
-        action_mses = []
-        trajectory_lengths = []
-
-        for client_proxy, evaluate_res in results:
-            metrics = evaluate_res.metrics
-
-            # 🔐 VALIDATE: Client evaluation metrics include expected fields
-            if "action_mse" not in metrics:
-                logger.warning(f"⚠️ Server: Client {getattr(client_proxy, 'cid', 'unknown')} missing action_mse in evaluation metrics")
-            else:
-                action_mses.append(metrics["action_mse"])
-
-            if "success_rate" in metrics:
-                success_rates.append(metrics["success_rate"])
-            if "trajectory_length" in metrics:
-                trajectory_lengths.append(metrics["trajectory_length"])
-
-        # Aggregate metrics
-        aggregated_metrics = {}
-        if success_rates:
-            aggregated_metrics["avg_success_rate"] = sum(success_rates) / len(success_rates)
-        if action_mses:
-            aggregated_metrics["avg_action_mse"] = sum(action_mses) / len(action_mses)
-        if trajectory_lengths:
-            aggregated_metrics["avg_trajectory_length"] = sum(trajectory_lengths) / len(trajectory_lengths)
-
-        # Log aggregated results
-        if aggregated_metrics:
-            logger.info(f"Round {server_round} aggregated evaluation metrics:")
-            for key, value in aggregated_metrics.items():
-                logger.info(f"  {key}: {value:.4f}")
-
-            # Log to WandB with server prefix (unified run)
-            if self.wandb_run:
-                from src.wandb_utils import log_wandb_metrics
-                server_prefix = "server_"
-                wandb_metrics = {
-                    f"{server_prefix}round": server_round,
-                    f"{server_prefix}avg_action_mse": aggregated_metrics.get("avg_action_mse", 0.0),
-                    f"{server_prefix}avg_success_rate": aggregated_metrics.get("avg_success_rate", 0.0),
-                    f"{server_prefix}avg_trajectory_length": aggregated_metrics.get("avg_trajectory_length", 0.0),
-                    f"{server_prefix}num_clients": len(results),
-                    f"{server_prefix}participation_rate": len(results) / (len(results) + len(failures)) if (len(results) + len(failures)) > 0 else 0.0,
-                }
-                log_wandb_metrics(wandb_metrics)
-                logger.debug(f"Logged server eval metrics to WandB: {wandb_metrics}")
-
-        # Track metrics for plotting (add timing and participation info)
-        if aggregated_metrics:
-            round_metrics = {
-                'round': server_round,
-                'round_time': 0.0,  # Would need to be tracked separately
-                'num_clients': len(results),
-                **aggregated_metrics
-            }
-            self.federated_metrics_history.append(round_metrics)
-
-        # Save aggregated results to file
-        if self.server_dir and aggregated_metrics:
-            import json
-            from datetime import datetime
-
-            server_file = self.server_dir / f"round_{server_round}_aggregated.json"
-            data = {
-                "round": server_round,
-                "timestamp": datetime.now().isoformat(),
-                "participation": {
-                    "clients": len(results),
-                    "failures": len(failures)
-                },
-                "aggregated_metrics": aggregated_metrics,
-                "individual_results": [
-                    {
-                        "client_id": getattr(client_proxy, 'cid', 'unknown'),
-                        "loss": evaluate_res.loss,
-                        "metrics": dict(evaluate_res.metrics)
-                    }
-                    for client_proxy, evaluate_res in results
-                ]
-            }
-
-            with open(server_file, 'w') as f:
-                json.dump(data, f, indent=2, default=str)
-
-        # Generate chart and other house cleaning on the last round
-        if self.num_rounds and server_round == self.num_rounds:
-            try:
-                mse_history = aggregate_eval_mse_history(self.server_dir)
-                visualizer = SmolVLAVisualizer()
-                visualizer.plot_eval_mse_chart(mse_history, self.server_dir, wandb_run=self.wandb_run)
-                # Also plot federated metrics if we have them
-                if hasattr(self, 'federated_metrics_history') and self.federated_metrics_history:
-                    visualizer.plot_federated_metrics(self.federated_metrics_history, self.server_dir, wandb_run=self.wandb_run)
-
-                # Log final aggregated metrics to WandB
-                if self.wandb_run and aggregated_metrics:
-                    from src.wandb_utils import log_wandb_metrics
-                    final_metrics = {
-                        "server_final_round": server_round,
-                        "server_final_server_avg_mse": aggregated_metrics.get("avg_action_mse", 0.0),
-                        "server_num_clients": len(results),
-                        "server_fraction_fit": self.fraction_fit,
-                        "server_fraction_evaluate": self.fraction_evaluate,
-                        "server_checkpoint_interval": self.context.run_config.get("checkpoint_interval", 2),
-                        "server_eval_frequency": self.context.run_config.get("eval-frequency", 5),
-                        "server_eval_mode": self.context.run_config.get("eval_mode", "quick"),
-                        "server_proximal_mu": self.proximal_mu,
-                        "server_num_server_rounds": self.num_rounds,
-                        "server_model_name": self.context.run_config.get("model-name", "lerobot/smolvla_base"),
-                        "server_hf_repo_id": self.context.run_config.get("hf_repo_id"),
-                    }
-                    log_wandb_metrics(final_metrics)
-                    logger.info(f"Logged final aggregated metrics to WandB: {final_metrics}")
-
-                    # Finish WandB run after final round
-                    from src.wandb_utils import finish_wandb
-                    finish_wandb()
-                    logger.info("WandB run finished after final round")
-
-                logger.info("Eval MSE chart generated for final round")
-            except Exception as e:
-                logger.error(f"Failed to generate eval MSE chart: {e}")
-
-        return aggregated_loss, aggregated_metrics
+        """No-op for client evaluation (server-side eval via evaluate_fn)."""
+        logger.info(f"ℹ️ Server: aggregate_evaluate called for round {server_round} - no client results expected, returning empty")
+        return None, {}
 
     def aggregate_fit(
         self,
@@ -511,37 +396,24 @@ class AggregateEvaluationStrategy(FedProx):
         # Call parent aggregate_fit (FedProx) with validated results only
         aggregated_parameters, metrics = super().aggregate_fit(server_round, validated_results, failures)
 
+        # Store the aggregated parameters for server-side evaluation
+        self.current_parameters = aggregated_parameters
+
         # Log post-aggregation global norms (now aggregated_parameters is defined)
         if aggregated_parameters is not None:
             # Import here to avoid scope/shadowing issues
             from flwr.common import parameters_to_ndarrays
+            from src.task import set_params
             # Convert Flower Parameters to numpy arrays for set_params
             aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            # Reconstruct temp model for norm computation
-            trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
-            dataset_meta = trainloader.dataset.meta
-            temp_model = get_model(dataset_meta)
-            set_params(temp_model, aggregated_ndarrays)
-            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(temp_model, trainable_only=False)
-            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(temp_model, trainable_only=True)
-            total_params = sum(p.numel() for p in temp_model.parameters())
-            trainable_params = sum(p.numel() for p in temp_model.parameters() if p.requires_grad)
+            # Use cached template model for norm computation (no redundant creation)
+            set_params(self.template_model, aggregated_ndarrays)
+            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(self.template_model, trainable_only=False)
+            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(self.template_model, trainable_only=True)
+            total_params = sum(p.numel() for p in self.template_model.parameters())
+            trainable_params = sum(p.numel() for p in self.template_model.parameters() if p.requires_grad)
             logger.info(f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)")
 
-        # Log post-aggregation global norms (now aggregated_parameters is defined)
-        if aggregated_parameters is not None:
-            # Convert Flower Parameters to numpy arrays for set_params
-            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            # Reconstruct temp model for norm computation
-            trainloader, _ = load_data(0, 4, "smolvla", device="cpu")
-            dataset_meta = trainloader.dataset.meta
-            temp_model = get_model(dataset_meta)
-            set_params(temp_model, aggregated_ndarrays)
-            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(temp_model, trainable_only=False)
-            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(temp_model, trainable_only=True)
-            total_params = sum(p.numel() for p in temp_model.parameters())
-            trainable_params = sum(p.numel() for p in temp_model.parameters() if p.requires_grad)
-            logger.info(f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)")
 
         # Log parameter update information
         if aggregated_parameters is not None:
@@ -564,7 +436,7 @@ class AggregateEvaluationStrategy(FedProx):
             if checkpoint_interval > 0 and server_round % checkpoint_interval == 0:
                 try:
                     logger.info(f"💾 Server: Saving model checkpoint for round {server_round} (interval: {checkpoint_interval})")
-                    save_model_checkpoint(aggregated_parameters, server_round, self.models_dir)
+                    self.save_model_checkpoint(aggregated_parameters, server_round, self.models_dir)
                     logger.info(f"✅ Server: Model checkpoint saved successfully for round {server_round}")
                 except Exception as e:
                     logger.error(f"❌ Server: Failed to save model checkpoint for round {server_round}: {e}")
@@ -573,14 +445,14 @@ class AggregateEvaluationStrategy(FedProx):
             if self.num_rounds and server_round == self.num_rounds:
                 try:
                     logger.info(f"💾 Server: Saving final model checkpoint for round {server_round} (end of training)")
-                    save_model_checkpoint(aggregated_parameters, server_round, self.models_dir)
+                    self.save_model_checkpoint(aggregated_parameters, server_round, self.models_dir)
                     logger.info(f"✅ Server: Final model checkpoint saved successfully for round {server_round}")
 
                     # Push to Hugging Face Hub if configured
                     hf_repo_id = self.context.run_config.get("hf_repo_id")
                     if hf_repo_id:
                         logger.info(f"🚀 Server: Pushing final model to Hugging Face Hub: {hf_repo_id}")
-                        push_model_to_hub(aggregated_parameters, server_round, self.models_dir, hf_repo_id, self.wandb_run)
+                        self.push_model_to_hub(aggregated_parameters, server_round, hf_repo_id)
                         logger.info("✅ Server: Model pushed to Hugging Face Hub successfully")
                     else:
                         logger.info("ℹ️ Server: No hf_repo_id configured, skipping Hub push")
@@ -591,6 +463,138 @@ class AggregateEvaluationStrategy(FedProx):
             logger.warning(f"⚠️ Server: No parameters aggregated for round {server_round}")
 
         return aggregated_parameters, metrics
+
+    def save_model_checkpoint(self, parameters, server_round: int, models_dir: Path) -> None:
+        """Save model checkpoint to disk using safetensors format.
+
+        Args:
+            parameters: Flower Parameters object containing model weights
+            server_round: Current server round number
+            models_dir: Directory to save the checkpoint
+        """
+        try:
+            # Convert Flower Parameters to numpy arrays
+            from flwr.common import parameters_to_ndarrays
+            ndarrays = parameters_to_ndarrays(parameters)
+
+            # Create a state dict from the numpy arrays
+            # Use the reusable template model for parameter names
+            model = self.template_model
+
+            # Create state dict with proper parameter names
+            state_dict = {}
+            for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
+                # Convert numpy array back to torch tensor
+                tensor = torch.from_numpy(ndarray)
+                # Convert back to the original dtype if it was BFloat16
+                original_param = model.state_dict()[name]
+                if original_param.dtype == torch.bfloat16:
+                    tensor = tensor.bfloat16()
+                state_dict[name] = tensor
+
+            # Save using safetensors format
+            checkpoint_path = models_dir / f"checkpoint_round_{server_round}.safetensors"
+            save_file(state_dict, checkpoint_path)
+
+            logger.info(f"💾 Model checkpoint saved: {checkpoint_path}")
+            logger.info(f"📊 Checkpoint contains {len(state_dict)} parameter tensors")
+
+        except Exception as e:
+            logger.error(f"❌ Failed to save model checkpoint for round {server_round}: {e}")
+            raise
+
+    def push_model_to_hub(self, parameters, server_round: int, hf_repo_id: str) -> None:
+        """Push model checkpoint to Hugging Face Hub.
+
+        Args:
+            parameters: Flower Parameters object containing model weights
+            server_round: Current server round number
+            hf_repo_id: Hugging Face repository ID (e.g., "username/repo-name")
+        """
+        try:
+            # Convert Flower Parameters to numpy arrays
+            from flwr.common import parameters_to_ndarrays
+            ndarrays = parameters_to_ndarrays(parameters)
+
+            # Create a state dict from the numpy arrays
+            # Use the reusable template model for parameter names
+            model = self.template_model
+
+            # Create state dict with proper parameter names
+            state_dict = {}
+            for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
+                # Convert numpy array back to torch tensor
+                tensor = torch.from_numpy(ndarray)
+                # Convert back to the original dtype if it was BFloat16
+                original_param = model.state_dict()[name]
+                if original_param.dtype == torch.bfloat16:
+                    tensor = tensor.bfloat16()
+                state_dict[name] = tensor
+
+            # Push to Hugging Face Hub
+            from huggingface_hub import HfApi
+            import os
+
+            # Get HF token from environment
+            hf_token = os.environ.get("HF_TOKEN")
+            logger.info(f"🔍 HF_TOKEN check: {'Set' if hf_token else 'MISSING (this will cause 403)'}")
+            if not hf_token:
+                raise ValueError("HF_TOKEN environment variable not found. Required for pushing to Hugging Face Hub.")
+
+            api = HfApi(token=hf_token)
+
+            # 🔍 Create repo if it doesn't exist (fixes 403 for non-existent repo)
+            # This auto-creates the repo to avoid "Cannot access content" errors
+            try:
+                logger.info(f"🔍 Creating/ensuring repo '{hf_repo_id}' exists...")
+                api.create_repo(
+                    repo_id=hf_repo_id,
+                    repo_type="model",
+                    exist_ok=True,
+                    private=False  # Set to True if private repo needed
+                )
+                logger.info(f"✅ Repo '{hf_repo_id}' created or already exists")
+            except Exception as create_err:
+                logger.error(f"❌ Repo creation failed: {create_err}")
+                raise
+
+            # 🔍 Validate repo existence AFTER creation
+            try:
+                repo_info = api.repo_info(repo_id=hf_repo_id, repo_type="model")
+                logger.info(f"✅ Repo '{hf_repo_id}' validated: {repo_info.id} (private: {repo_info.private})")
+            except Exception as repo_err:
+                logger.error(f"❌ Repo '{hf_repo_id}' validation failed post-creation: {repo_err}")
+                raise
+
+            # Save model locally first, then push
+            temp_model_path = self.models_dir / f"temp_model_round_{server_round}"
+            temp_model_path.mkdir(exist_ok=True)
+
+            # Save model config and state dict
+            model.config.save_pretrained(temp_model_path)
+            torch.save(state_dict, temp_model_path / "pytorch_model.bin")
+
+            logger.info(f"🔍 Preparing upload: folder={temp_model_path}, repo={hf_repo_id}, commit='Upload federated learning checkpoint from round {server_round}'")
+
+            # Push to Hub
+            api.upload_folder(
+                folder_path=str(temp_model_path),
+                repo_id=hf_repo_id,
+                repo_type="model",
+                commit_message=f"Upload federated learning checkpoint from round {server_round}"
+            )
+
+            logger.info(f"🚀 Model pushed to Hugging Face Hub: https://huggingface.co/{hf_repo_id}")
+            logger.info(f"📊 Pushed {len(state_dict)} parameter tensors to round {server_round}")
+
+            # Clean up temp directory
+            import shutil
+            shutil.rmtree(temp_model_path)
+
+        except Exception as e:
+            logger.error(f"❌ Failed to push model to Hugging Face Hub for round {server_round}: {e}")
+            logger.error(f"🔍 Detailed error type: {type(e).__name__}, args: {e.args}")
+            raise
 
 
 def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
@@ -656,25 +660,6 @@ def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
     return mse_history
 
 
-def get_evaluate_config_callback(save_path: Path, eval_frequency: int = 5, eval_mode: str = "quick"):
-    """Return a function to configure an evaluate round.
-
-    Args:
-        save_path: Base path for saving evaluation results
-        eval_frequency: Evaluate every N rounds (default: 5, 0 = every round)
-        eval_mode: Evaluation mode ('quick' or 'full')
-    """
-
-    def evaluate_config_fn(server_round: int) -> Metrics:
-        eval_save_path = save_path / "evaluate" / f"round_{server_round}"
-        return {
-            "save_path": str(eval_save_path),
-            "base_save_path": str(save_path),
-            "round": server_round,
-            "eval_mode": eval_mode
-        }
-
-    return evaluate_config_fn
 
 
 def server_fn(context: Context) -> ServerAppComponents:
@@ -765,9 +750,12 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Set global model initialization
     # Load a minimal dataset to get metadata for SmolVLA initialization
-    from src.task import load_data
-    trainloader, _ = load_data(0, 4, "smolvla", device="cpu")  # Use first partition
-    dataset_meta = trainloader.dataset.meta
+    from src.utils import load_lerobot_dataset
+    from src.configs import DatasetConfig
+    dataset_config = DatasetConfig.load()
+    server_config = dataset_config.server[0]  # Use server dataset for consistent initialization
+    dataset = load_lerobot_dataset(server_config.name)
+    dataset_meta = dataset.meta
     ndarrays = get_params(get_model(dataset_meta=dataset_meta))
 
     # 🛡️ VALIDATE: Server outgoing parameters (initial model)
@@ -784,7 +772,6 @@ def server_fn(context: Context) -> ServerAppComponents:
     eval_frequency = context.run_config.get("eval-frequency", 5)
     eval_mode = context.run_config.get("eval_mode", "quick")
     logger.info(f"Server: Using eval_frequency={eval_frequency}, eval_mode={eval_mode}")
-    evaluate_config_fn = get_evaluate_config_callback(save_path, eval_frequency, eval_mode)
 
     # FedProx requires proximal_mu parameter - get from config or use default
     from src.utils import get_tool_config
@@ -798,12 +785,10 @@ def server_fn(context: Context) -> ServerAppComponents:
         fraction_evaluate=fraction_evaluate,
         initial_parameters=global_model_init,
         proximal_mu=proximal_mu,  # Required parameter for FedProx
-        evaluate_every_round=eval_frequency,  # Respect eval_frequency to skip evaluate calls
         server_dir=server_dir,
         models_dir=models_dir,
         log_file=simulation_log_path,
         save_path=save_path,
-        evaluate_config_fn=evaluate_config_fn,
         num_rounds=num_rounds,  # Pass total rounds for chart generation
         wandb_run=wandb_run,  # Pass wandb run for logging
         context=context,  # Pass context for checkpoint configuration

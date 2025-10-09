@@ -15,4 +15,4 @@ Federated learning enables training AI models on distributed data without compro
 - Resource constraints in distributed environments
 
 ## How It Should Work
-Clients train SmolVLA models locally on their SO-100 datasets, send model updates to a central server, which aggregates them using Flower framework strategies. The aggregated model is then distributed back to clients for improved performance on robotics manipulation tasks.
+Clients train SmolVLA models locally on their SO-100 datasets, send model updates to a central server, which aggregates them using Flower framework strategies. The aggregated model is evaluated server-side on dedicated evaluation datasets and then distributed back to clients for improved performance on robotics manipulation tasks.

@@ -17,13 +17,21 @@ class ClientConfig:
     name: str
     description: str
     client_id: int
-    last_n_episodes_for_eval: int
+
+
+@dataclass
+class ServerConfig:
+    """Configuration for server evaluation dataset."""
+    name: str
+    description: str
+    first_n_episodes_for_eval: int
 
 
 @dataclass
 class DatasetConfig:
     """Configuration for all FL datasets."""
     clients: List[ClientConfig]
+    server: List[ServerConfig]
 
     @classmethod
     def load(cls) -> "DatasetConfig":
@@ -37,10 +45,15 @@ class DatasetConfig:
         # Extract datasets configuration
         datasets_config = pyproject_data.get("tool", {}).get("zk0", {}).get("datasets", {})
         clients_data = datasets_config.get("clients", [])
+        server_data = datasets_config.get("server", [])
 
-        # Convert to ClientConfig objects
+        # Convert to config objects
         clients = []
         for client_data in clients_data:
             clients.append(ClientConfig(**client_data))
 
-        return cls(clients=clients)
+        server = []
+        for server_item in server_data:
+            server.append(ServerConfig(**server_item))
+
+        return cls(clients=clients, server=server)
