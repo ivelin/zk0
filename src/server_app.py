@@ -82,6 +82,8 @@ class AggregateEvaluationStrategy(FedProx):
         self.context = context
         self.federated_metrics_history = []  # Track metrics across rounds for plotting
         self.current_parameters = None  # Store current global model parameters for server evaluation
+        self.previous_parameters = None  # Store previous round parameters for update norm calculation
+        self.last_aggregated_metrics = {}  # Store last round's aggregated client metrics
 
         # Get eval_frequency from config (default 1)
         self.eval_frequency = context.run_config.get("eval-frequency", 1) if context else 1
@@ -156,8 +158,9 @@ class AggregateEvaluationStrategy(FedProx):
 
             # Perform evaluation
             device = "cuda" if torch.cuda.is_available() else "cpu"
-            logger.info(f"🔍 Server: Running test() on device '{device}'...")
-            loss, num_examples, metrics = test(model, device=device)
+            eval_mode = self.context.run_config.get("eval_mode", "quick")
+            logger.info(f"🔍 Server: Running test() on device '{device}' with eval_mode='{eval_mode}'...")
+            loss, num_examples, metrics = test(model, device=device, eval_mode=eval_mode)
             logger.info(f"✅ Server: test() completed - loss={loss}, num_examples={num_examples}, metrics keys={list(metrics.keys()) if metrics else 'Empty'}")
             logger.info(f"Server evaluation round {server_round}: loss={loss:.4f}, num_examples={num_examples}")
             logger.info(f"Server evaluation metrics: {metrics}")
@@ -181,8 +184,10 @@ class AggregateEvaluationStrategy(FedProx):
             round_metrics = {
                 'round': server_round,
                 'round_time': 0.0,
-                'num_clients': 0,
-                'avg_action_mse': metrics.get("action_mse", 0.0),
+                'num_clients': self.last_aggregated_metrics.get('num_clients', 0),
+                'avg_action_mse': metrics.get("raw_action_mse", 0.0),
+                'avg_client_loss': self.last_aggregated_metrics.get('avg_client_loss', 0.0),
+                'param_update_norm': self.last_aggregated_metrics.get('param_update_norm', 0.0),
             }
             self.federated_metrics_history.append(round_metrics)
 
@@ -199,6 +204,13 @@ class AggregateEvaluationStrategy(FedProx):
                     "loss": loss,
                     "num_examples": num_examples,
                     "metrics": metrics,
+                    "metrics_descriptions": {
+                        "policy_loss": "Average policy forward loss per batch (primary evaluation metric for SmolVLA flow-matching model)",
+                        "action_dim": "Number of action dimensions detected from batch (default 7 for SO-100 joints + gripper)",
+                        "successful_batches": "Number of batches successfully processed during evaluation",
+                        "total_batches_processed": "Total batches attempted (including failed)",
+                        "total_samples": "Total number of action samples evaluated"
+                    }
                 }
 
                 with open(server_file, 'w') as f:
@@ -209,9 +221,9 @@ class AggregateEvaluationStrategy(FedProx):
             if self.num_rounds and server_round == self.num_rounds:
                 try:
                     from src.visualization import SmolVLAVisualizer
-                    mse_history = aggregate_eval_mse_history(self.server_dir)
+                    policy_loss_history = aggregate_eval_policy_loss_history(self.server_dir)
                     visualizer = SmolVLAVisualizer()
-                    visualizer.plot_eval_mse_chart(mse_history, self.server_dir, wandb_run=self.wandb_run)
+                    visualizer.plot_eval_policy_loss_chart(policy_loss_history, self.server_dir, wandb_run=self.wandb_run)
                     if self.federated_metrics_history:
                         visualizer.plot_federated_metrics(self.federated_metrics_history, self.server_dir, wandb_run=self.wandb_run)
 
@@ -336,13 +348,21 @@ class AggregateEvaluationStrategy(FedProx):
 
             # WandB run_id not needed in fit config - client already initialized wandb in client_fn
 
-            # 🛡️ VALIDATE: Server outgoing parameters (for training)
+            # 🛡️ VALIDATE: Server outgoing parameters (for training) - with detailed logging
             from src.utils import validate_and_log_parameters
             from flwr.common import parameters_to_ndarrays
+            fit_ndarrays = parameters_to_ndarrays(fit_ins.parameters)
+            logger.debug(f"Server: Pre-serialization params for client {client_proxy.cid}: {len(fit_ndarrays)} arrays")
+            for j, ndarray in enumerate(fit_ndarrays[:3]):  # Log first 3
+                logger.debug(f"  Pre-serial param {j}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}")
+            if len(fit_ndarrays) > 3:
+                logger.debug(f"  ... and {len(fit_ndarrays) - 3} more")
+            
             fit_param_hash = validate_and_log_parameters(
-                parameters_to_ndarrays(fit_ins.parameters),
+                fit_ndarrays,
                 f"server_fit_r{server_round}_client{i}"
             )
+            logger.debug(f"Server: Computed hash on pre-Flower params: {fit_param_hash}")
 
             # 🔐 ADD: Include parameter hash in client config for validation
             updated_fit_config["param_hash"] = fit_param_hash
@@ -393,11 +413,42 @@ class AggregateEvaluationStrategy(FedProx):
         # 🔐 VALIDATE: Individual client parameter hashes BEFORE aggregation
         validated_results = self.validate_client_parameters(results)
 
+        # Aggregate client metrics before calling parent
+        import numpy as np
+        client_losses = [fit_res.metrics.get("loss", 0.0) for _, fit_res in validated_results]
+        client_proximal_losses = [fit_res.metrics.get("fedprox_loss", 0.0) for _, fit_res in validated_results]
+        client_grad_norms = [fit_res.metrics.get("grad_norm", 0.0) for _, fit_res in validated_results]
+
+        aggregated_client_metrics = {
+            "avg_client_loss": float(np.mean(client_losses)) if client_losses else 0.0,
+            "std_client_loss": float(np.std(client_losses)) if len(client_losses) > 1 else 0.0,
+            "avg_client_proximal_loss": float(np.mean(client_proximal_losses)) if client_proximal_losses else 0.0,
+            "avg_client_grad_norm": float(np.mean(client_grad_norms)) if client_grad_norms else 0.0,
+            "num_clients": len(validated_results),
+        }
+
         # Call parent aggregate_fit (FedProx) with validated results only
-        aggregated_parameters, metrics = super().aggregate_fit(server_round, validated_results, failures)
+        aggregated_parameters, parent_metrics = super().aggregate_fit(server_round, validated_results, failures)
+
+        # Compute parameter update norm if we have previous parameters
+        if self.previous_parameters is not None and aggregated_parameters is not None:
+            from flwr.common import parameters_to_ndarrays
+            current_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+            previous_ndarrays = parameters_to_ndarrays(self.previous_parameters)
+            param_diff_norm = np.sqrt(sum(np.sum((c - p)**2) for c, p in zip(current_ndarrays, previous_ndarrays)))
+            aggregated_client_metrics["param_update_norm"] = float(param_diff_norm)
+
+        # Store for use in _server_evaluate
+        self.last_aggregated_metrics = aggregated_client_metrics
+
+        # Merge client metrics with parent metrics
+        metrics = {**parent_metrics, **aggregated_client_metrics}
 
         # Store the aggregated parameters for server-side evaluation
         self.current_parameters = aggregated_parameters
+
+        # Store previous parameters for next round's update norm calculation
+        self.previous_parameters = aggregated_parameters
 
         # Log post-aggregation global norms (now aggregated_parameters is defined)
         if aggregated_parameters is not None:
@@ -597,30 +648,30 @@ class AggregateEvaluationStrategy(FedProx):
             raise
 
 
-def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
-    """Aggregate evaluation MSE history from server aggregated JSON files.
+def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
+    """Aggregate evaluation policy loss history from server eval JSON files.
 
     Args:
-        server_dir: Directory containing round_N_aggregated.json files.
+        server_dir: Directory containing round_X_server_eval.json files.
 
     Returns:
-        Dict where keys are round numbers, values are dicts with client MSEs and server avg.
+        Dict where keys are round numbers, values are dicts with server policy loss values.
 
     Raises:
         ValueError: If no evaluation data is found.
     """
     import json
-    mse_history = {}
+    policy_loss_history = {}
 
-    # Find all server aggregated files
-    server_files = list(server_dir.glob("round_*_aggregated.json"))
+    # Find all server eval files (server-side evaluation)
+    server_files = list(server_dir.glob("round_*_server_eval.json"))
     if not server_files:
-        raise ValueError("No server evaluation data found. Ensure evaluation occurred.")
+        raise ValueError("No server evaluation data found. Ensure server-side evaluation occurred.")
 
     for server_file in server_files:
-        # Extract round number from filename (round_N_aggregated.json)
+        # Extract round number from filename (round_X_server_eval.json)
         parts = server_file.stem.split('_')
-        if len(parts) >= 2 and parts[0] == 'round':
+        if len(parts) >= 3 and parts[0] == 'round' and parts[2] == 'server':
             try:
                 round_num = int(parts[1])
             except ValueError:
@@ -632,32 +683,24 @@ def aggregate_eval_mse_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
 
                 round_data = {}
 
-                # Extract client MSEs from individual_results
-                individual_results = server_data.get('individual_results', [])
-                for result in individual_results:
-                    metrics = result.get('metrics', {})
-                    partition_id = metrics.get('partition_id')
-                    mse_val = metrics.get('action_mse')
-                    if partition_id is not None and mse_val is not None:
-                        round_data[f'client_{partition_id}'] = float(mse_val)
-
-                # Extract server average
-                aggregated_metrics = server_data.get('aggregated_metrics', {})
-                server_avg = aggregated_metrics.get('avg_action_mse')
-                if server_avg is not None:
-                    round_data['server_avg'] = float(server_avg)
+                # Extract server policy loss from metrics
+                metrics = server_data.get('metrics', {})
+                policy_loss = metrics.get('policy_loss')
+                if policy_loss is not None:
+                    round_data['server_policy_loss'] = float(policy_loss)
+                round_data['action_dim'] = metrics.get('action_dim', 7)
 
                 if round_data:
-                    mse_history[round_num] = round_data
+                    policy_loss_history[round_num] = round_data
 
             except (json.JSONDecodeError, KeyError) as e:
-                logger.warning(f"Failed to parse server aggregated file {server_file}: {e}")
+                logger.warning(f"Failed to parse server eval file {server_file}: {e}")
                 continue
 
-    if not mse_history:
-        raise ValueError("No valid evaluation MSE data found in server files.")
+    if not policy_loss_history:
+        raise ValueError("No valid server evaluation policy loss data found in server files.")
 
-    return mse_history
+    return policy_loss_history
 
 
 

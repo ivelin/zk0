@@ -256,12 +256,12 @@ class SmolVLAVisualizer:
             json.dump(round_metrics, f, indent=2)
         self.logger.info(f"Federated metrics saved: {metrics_file}")
 
-    def plot_eval_mse_chart(self, mse_history: Dict[int, Dict[str, float]], save_dir: Path, wandb_run=None):
-        """Plot evaluation MSE lines for each client and server average over rounds.
+    def plot_eval_policy_loss_chart(self, policy_loss_history: Dict[int, Dict[str, float]], save_dir: Path, wandb_run=None):
+        """Plot evaluation policy loss lines for each client and server average over rounds.
 
         Args:
-            mse_history: Dict where keys are round numbers, values are dicts with
-                        'client_0', 'client_1', ..., 'server_avg' MSE values.
+            policy_loss_history: Dict where keys are round numbers, values are dicts with
+                        'client_0', 'client_1', ..., 'server_policy_loss' policy loss values.
             save_dir: Directory to save the chart and history JSON.
             wandb_run: Optional wandb run object for logging metrics.
         """
@@ -269,35 +269,35 @@ class SmolVLAVisualizer:
             self.logger.warning("Matplotlib not available for MSE chart generation")
             return
 
-        if not mse_history:
-            self.logger.warning("No MSE history data provided for chart generation")
+        if not policy_loss_history:
+            self.logger.warning("No policy loss history data provided for chart generation")
             return
 
         save_dir.mkdir(exist_ok=True)
 
         # Extract rounds and sort them
-        rounds = sorted(mse_history.keys())
+        rounds = sorted(policy_loss_history.keys())
         if not rounds:
-            self.logger.warning("No rounds found in MSE history")
+            self.logger.warning("No rounds found in policy loss history")
             return
 
-        # Get all client keys (excluding server_avg)
-        sample_round_data = mse_history[rounds[0]]
+        # Get all client keys (excluding server_policy_loss)
+        sample_round_data = policy_loss_history[rounds[0]]
         client_keys = [k for k in sample_round_data.keys() if k.startswith('client_')]
         client_ids = sorted([int(k.split('_')[1]) for k in client_keys])
 
         # Prepare data for plotting
-        client_mses = {cid: [] for cid in client_ids}
-        server_avgs = []
+        client_policy_losses = {cid: [] for cid in client_ids}
+        server_policy_losses = []
 
         for round_num in rounds:
-            round_data = mse_history[round_num]
+            round_data = policy_loss_history[round_num]
             for cid in client_ids:
                 client_key = f'client_{cid}'
-                mse_val = round_data.get(client_key, float('nan'))  # Use NaN if missing
-                client_mses[cid].append(mse_val)
-            server_avg = round_data.get('server_avg', float('nan'))
-            server_avgs.append(server_avg)
+                policy_loss_val = round_data.get(client_key, float('nan'))  # Use NaN if missing
+                client_policy_losses[cid].append(policy_loss_val)
+            server_policy_loss = round_data.get('server_policy_loss', float('nan'))
+            server_policy_losses.append(server_policy_loss)
 
         # Create plot
         plt.figure(figsize=(12, 8))
@@ -308,44 +308,44 @@ class SmolVLAVisualizer:
         # Plot each client line
         for i, cid in enumerate(client_ids):
             color = colors[i % len(colors)]
-            plt.plot(rounds, client_mses[cid], label=f'Client {cid}', color=color, marker='o', linewidth=2)
+            plt.plot(rounds, client_policy_losses[cid], label=f'Client {cid}', color=color, marker='o', linewidth=2)
 
         # Plot server average with bold line
-        plt.plot(rounds, server_avgs, label='Server Avg', color='black', linewidth=4, marker='s')
+        plt.plot(rounds, server_policy_losses, label='Server Avg', color='black', linewidth=4, marker='s')
 
         # Add labels, title, legend
         plt.xlabel('Round Number')
-        plt.ylabel('Action MSE')
-        plt.title('Federated Learning Evaluation MSE Over Rounds')
+        plt.ylabel('Policy Loss')
+        plt.title('Federated Learning Evaluation Policy Loss Over Rounds')
         plt.legend(loc='upper right')
         plt.grid(True, alpha=0.3)
 
         # Save chart
-        chart_path = save_dir / "eval_mse_chart.png"
+        chart_path = save_dir / "eval_policy_loss_chart.png"
         plt.savefig(chart_path, dpi=150, bbox_inches='tight')
         plt.close()
 
-        self.logger.info(f"Eval MSE chart saved: {chart_path}")
+        self.logger.info(f"Eval policy loss chart saved: {chart_path}")
 
         # Log final metrics to wandb if run is available
         if WANDB_AVAILABLE and wandb_run is not None:
             try:
-                # Log final MSE values for each client and server average
-                final_round = max(mse_history.keys())
-                final_data = mse_history[final_round]
+                # Log final policy loss values for each client and server average
+                final_round = max(policy_loss_history.keys())
+                final_data = policy_loss_history[final_round]
 
                 wandb_metrics = {"final_round": final_round}
                 for key, value in final_data.items():
-                    wandb_metrics[f"final_{key}_mse"] = value
+                    wandb_metrics[f"final_{key}_policy_loss"] = value
 
                 wandb_run.log(wandb_metrics)
-                self.logger.info(f"Final MSE metrics logged to wandb for round {final_round}")
+                self.logger.info(f"Final policy loss metrics logged to wandb for round {final_round}")
             except Exception as e:
                 self.logger.warning(f"Failed to log final metrics to wandb: {e}")
 
         # Save history to JSON for reproducibility
-        history_file = save_dir / "eval_mse_history.json"
+        history_file = save_dir / "eval_policy_loss_history.json"
         with open(history_file, 'w') as f:
-            json.dump(mse_history, f, indent=2)
-        self.logger.info(f"Eval MSE history saved: {history_file}")
+            json.dump(policy_loss_history, f, indent=2)
+        self.logger.info(f"Eval policy loss history saved: {history_file}")
 

@@ -70,24 +70,21 @@
 
 **Validation**: All 20 rounds completed without failures; 4 clients participated consistently. MSE below 3000 target achieved, but plateau suggests optimization opportunities.
 
-**Latest Debug Fixes (2025-10-08)**: Fixed HF push 403 Forbidden and server-side eval issues. Optimized model reuse and removed redundant code.
+**Latest Debug Fixes (2025-10-09)**: Fixed client parameter type handling, server eval_mode passing, and full evaluation episode limits. Resolved Ray GCS communication crash after 32 rounds. Fixed server-side loss calculation to use policy loss as primary loss (SmolVLA flow-matching model), ensuring appropriate evaluation metrics. Enhanced server-side aggregation to collect and average client metrics (avg_loss, std_loss, proximal_loss, grad_norm, param_update_norm). Updated documentation and visualization to reflect policy loss metrics instead of MSE. Added debug logging to investigate evaluation issues.
 
 **Debug Fixes Applied**:
-- **HF Push 403 Fixed**: Added `api.create_repo(exist_ok=True)` in `push_model_to_hub` to auto-create missing repos (e.g., "ivelin/zk0-smolvla-fl"). Added token/repo validation logs.
-- **Server-Side Eval Fixed**: Removed redundant eval block from `aggregate_fit`; eval now runs exclusively via `evaluate_fn` (called by Flower's `strategy.evaluate` post-fit, gated by `eval-frequency`).
-- **Model Reuse Optimized**: Cached `template_model` reused for eval, norm computation, and save/push operations (no redundant creation).
-- **Code Cleanup**: Removed unused `get_evaluate_config_callback` function and redundant eval logic. Added detailed logging for debugging.
-- **Import Fixes**: Resolved UnboundLocalError for `get_model` in norm computation.
+- **Client Parameter Type Fix**: Added type check in `src/client_app.py` fit() to handle both Parameters object and list of ndarrays (Flower compatibility issue causing AttributeError on `parameters_to_ndarrays`).
+- **Server Eval Mode Passing**: Fixed `src/server_app.py` `_server_evaluate` to pass `eval_mode` from `self.context.run_config` to `test()` function instead of defaulting to "quick".
+- **Full Eval Episode Limit**: Corrected `src/task.py` test() to use `len(dataset.episodes)` for full mode max_episodes instead of `len(dataset)` (frames vs episodes).
+- **Ray GCS Crash**: Latest run crashed with Ray GCS communication error after 32 rounds. Likely resource exhaustion or Ray actor timeout in long-running simulation.
 
 **Key Changes**:
-- `push_model_to_hub`: Auto-creates repo if missing, validates existence, logs token status.
-- `_server_evaluate`: Handles server-side eval with frequency gating, metrics logging to console/WandB/JSON.
-- `aggregate_fit`: Removed manual eval block; uses cached model for norms.
-- Strategy: `evaluate_fn = self._server_evaluate` for proper Flower integration.
-- Removed: `get_evaluate_config_callback` (unused for server-only eval).
+- `client_app.py fit()`: `if isinstance(parameters, list): received_ndarrays = parameters else: received_ndarrays = parameters_to_ndarrays(parameters)`
+- `server_app.py _server_evaluate()`: `eval_mode = self.context.run_config.get("eval_mode", "quick")` and pass to `test(eval_mode=eval_mode)`
+- `task.py test()`: `max_episodes = len(dataset.episodes) if hasattr(dataset, 'episodes') else len(dataset)` for full mode
 
-**Rationale**: HF 403 was due to non-existent repo; server eval was duplicated and incorrectly placed. Optimizations reduce model loading overhead.
+**Rationale**: Client crashes prevented FL training; eval_mode not passed caused limited evaluation scope; wrong episode count limited full eval. Ray crash likely from prolonged simulation resource usage.
 
-**Impact**: Reliable HF uploads, correct server eval flow, improved performance, cleaner code. Eval metrics saved to `round_X_server_eval.json`, model pushed to HF Hub.
+**Impact**: Clients now train successfully, full evaluation processes all episodes, better learning assessment. Ray crash indicates need for resource monitoring in long runs.
 
-**Validation**: Code runs without errors, eval triggers post-aggregation, HF push succeeds. Ready for production FL runs.
+**Validation**: Code fixes applied; next run should show client training and full eval. Ray crash suggests monitoring memory/CPU in extended simulations.

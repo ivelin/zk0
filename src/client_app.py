@@ -80,21 +80,44 @@ class SmolVLAClient(NumPyClient):
 
         logger.debug(f"Client {self.partition_id}: Setting model parameters")
 
-        # 🔐 VALIDATE: Client incoming parameters against server hash
+        # 🔐 VALIDATE: Client incoming parameters against server hash - with detailed logging, hash before set_params
         expected_hash = config.get("param_hash")
         if expected_hash:
             from src.utils import compute_parameter_hash
-            received_hash = compute_parameter_hash(parameters)
+            # Log received parameters details before hashing
+            from flwr.common import parameters_to_ndarrays
+            # Handle both Parameters object and list of ndarrays
+            if isinstance(parameters, list):
+                received_ndarrays = parameters
+            else:
+                received_ndarrays = parameters_to_ndarrays(parameters)
+            logger.debug(f"Client {self.partition_id}: Received {len(received_ndarrays)} parameter arrays")
+            for i, ndarray in enumerate(received_ndarrays[:5]):  # Log first 5 for brevity
+                logger.debug(f"  Received param {i}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}")
+            if len(received_ndarrays) > 5:
+                logger.debug(f"  ... and {len(received_ndarrays) - 5} more parameters")
+
+            # Compute hash on received ndarrays directly (before any model modification)
+            received_hash = compute_parameter_hash(received_ndarrays)
+            logger.debug(f"Client {self.partition_id}: Computed hash on raw received ndarrays: {received_hash}")
+
             if received_hash != expected_hash:
                 error_msg = f"Parameter hash mismatch! Expected: {expected_hash}, Received: {received_hash}"
                 logger.error(f"❌ Client {self.partition_id}: {error_msg}")
+                logger.error(f"  Server sent hash (pre-serialization?): {expected_hash}")
+                logger.error(f"  Client computed hash (raw ndarrays): {received_hash}")
+                # Additional debug: Compare sample values (no model load needed)
+                if len(received_ndarrays) > 0:
+                    sample_param = received_ndarrays[0]
+                    logger.error(f"  Sample received param (first 10 elems): {sample_param.flatten()[:10]}")
                 raise RuntimeError(error_msg)
             else:
-                logger.info(f"✅ Client {self.partition_id}: Parameter hash validated: {received_hash[:8]}...")
+                logger.info(f"✅ Client {self.partition_id}: Parameter hash validated: {received_hash[:8]}... (matches server expected)")
+                # Now safe to load into model
+                set_params(self.net, parameters)
         else:
             logger.warning(f"⚠️ Client {self.partition_id}: No param_hash provided by server, skipping validation")
-
-        set_params(self.net, parameters)
+            set_params(self.net, parameters)
 
         # Log pre-training norms (separate trainable vs frozen)
         from src.task import compute_param_norms
@@ -159,9 +182,17 @@ class SmolVLAClient(NumPyClient):
         trainable_params = sum(p.numel() for p in self.net.parameters() if p.requires_grad)
         logger.info(f"Client {self.partition_id} R{self.round_num} POST-TRAIN: Full norm={full_norm:.4f} ({full_num} tensors, {total_params} elems), Trainable norm={train_norm:.4f} ({train_num} tensors, {trainable_params} elems)")
 
-        # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation)
+        # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation) - with detailed logging
         from src.utils import compute_parameter_hash
+        # Log extracted params details before hashing
+        logger.debug(f"Client {self.partition_id}: Extracted {len(updated_params)} parameter arrays for upload")
+        for i, ndarray in enumerate(updated_params[:5]):  # Log first 5
+            logger.debug(f"  Upload param {i}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}")
+        if len(updated_params) > 5:
+            logger.debug(f"  ... and {len(updated_params) - 5} more parameters")
+        
         client_param_hash = compute_parameter_hash(updated_params)
+        logger.debug(f"Client {self.partition_id}: Computed hash on extracted params: {client_param_hash}")
         logger.info(f"✅ Client {self.partition_id}: Updated parameters hash: {client_param_hash[:8]}...")
 
         # Add hash to metrics for server validation

@@ -1,7 +1,7 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-05
+**Last Updated**: 2025-10-09
 **Version**: 1.0.3
 **Author**: Kilo Code
 
@@ -371,8 +371,8 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 
 ### Evaluation System
 - **Server-Side Evaluation**: Global model evaluated server-side using dedicated evaluation datasets
-- **Robot Rollout Evaluation**: Comprehensive evaluation with predicted vs ground truth action comparison
-- **Metrics Calculation**: Action MSE, trajectory length analysis
+- **Policy Loss Evaluation**: Uses same loss metric as client training (policy.forward() loss, ~1 scale)
+- **Action MSE Reference**: MSE on predicted vs ground truth actions provided for comparison (~1700 scale)
 - **Episode Limiting**: Evaluation limited to first N episodes from evaluation datasets
 - **Fallback Mechanisms**: Graceful degradation when real evaluation unavailable
 

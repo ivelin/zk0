@@ -303,9 +303,9 @@ class TestSmallSampleAppFlow:
                 # Simulation may fail due to various reasons, but we check it doesn't crash immediately
                 pytest.skip(f"FL simulation failed: {e}")
 
-    def test_eval_mse_chart_generation(self):
-        """Test that eval MSE chart is generated from mock evaluation data."""
-        from src.server_app import aggregate_eval_mse_history
+    def test_eval_policy_loss_chart_generation(self):
+        """Test that eval policy loss chart is generated from mock evaluation data."""
+        from src.server_app import aggregate_eval_policy_loss_history
         from src.visualization import SmolVLAVisualizer
         from pathlib import Path
         import tempfile
@@ -313,67 +313,46 @@ class TestSmallSampleAppFlow:
 
         with tempfile.TemporaryDirectory() as temp_dir:
             temp_path = Path(temp_dir)
-            clients_dir = temp_path / "clients"
             server_dir = temp_path / "server"
-            clients_dir.mkdir()
             server_dir.mkdir()
 
-            # Create mock client directories and JSON files
-            for client_id in [0, 1, 2]:
-                client_subdir = clients_dir / f"client_{client_id}"
-                client_subdir.mkdir()
-
-                # Create round 1 and 2 JSON files for each client
-                for round_num in [1, 2]:
-                    client_file = client_subdir / f"round_{round_num}.json"
-                    data = {
-                        "client_id": client_id,
-                        "round": round_num,
-                        "metrics": {
-                            "action_mse": 0.1 + client_id * 0.05 + round_num * 0.02  # Varying MSE values
-                        }
-                    }
-                    with open(client_file, 'w') as f:
-                        json.dump(data, f)
-
-            # Create mock server aggregated JSON files
+            # Create mock server eval JSON files
             for round_num in [1, 2]:
-                server_file = server_dir / f"round_{round_num}_aggregated.json"
+                server_file = server_dir / f"round_{round_num}_server_eval.json"
                 data = {
                     "round": round_num,
-                    "aggregated_metrics": {
-                        "avg_action_mse": 0.12 + round_num * 0.01  # Server avg MSE
+                    "metrics": {
+                        "policy_loss": 0.5 + round_num * 0.1  # Varying policy loss values
                     }
                 }
                 with open(server_file, 'w') as f:
                     json.dump(data, f)
 
             # Test aggregation
-            mse_history = aggregate_eval_mse_history(clients_dir, server_dir)
+            policy_loss_history = aggregate_eval_policy_loss_history(server_dir)
 
             # Verify structure
-            assert 1 in mse_history
-            assert 2 in mse_history
-            assert 'client_0' in mse_history[1]
-            assert 'client_1' in mse_history[1]
-            assert 'client_2' in mse_history[1]
-            assert 'server_avg' in mse_history[1]
+            assert 1 in policy_loss_history
+            assert 2 in policy_loss_history
+            assert 'server_policy_loss' in policy_loss_history[1]
 
             # Test chart generation
             visualizer = SmolVLAVisualizer()
-            visualizer.plot_eval_mse_chart(mse_history, server_dir)
+            visualizer.plot_eval_policy_loss_chart(policy_loss_history, server_dir)
 
             # Verify chart file was created
-            chart_file = server_dir / "eval_mse_chart.png"
-            assert chart_file.exists(), "Eval MSE chart PNG was not generated"
+            chart_file = server_dir / "eval_policy_loss_chart.png"
+            assert chart_file.exists(), "Eval policy loss chart PNG was not generated"
 
             # Verify history JSON was saved
-            history_file = server_dir / "eval_mse_history.json"
-            assert history_file.exists(), "Eval MSE history JSON was not saved"
+            history_file = server_dir / "eval_policy_loss_history.json"
+            assert history_file.exists(), "Eval policy loss history JSON was not saved"
 
-            # Verify history content
+            # Verify history content (JSON converts int keys to str)
             with open(history_file, 'r') as f:
                 saved_history = json.load(f)
-            assert saved_history == mse_history
+            # Convert string keys back to int for comparison
+            saved_history_int_keys = {int(k): v for k, v in saved_history.items()}
+            assert saved_history_int_keys == policy_loss_history
 
 

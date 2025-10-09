@@ -1,13 +1,78 @@
 # System Architecture
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-09-07
-**Version**: 1.0.0
+**Last Updated**: 2025-10-09
+**Version**: 1.0.1
 **Author**: Kilo Code
 
 ## Source Code Paths
 - **Client Application**: [`src/client_app.py`](src/client_app.py)
 - **Server Application**: [`src/server_app.py`](src/server_app.py)
+
+## Directory Structure
+
+```
+zk0/
+├── src/                          # Source code
+│   ├── __init__.py
+│   ├── client_app.py            # Flower client implementation
+│   ├── server_app.py            # Flower server implementation
+│   ├── task.py                  # Model training and evaluation functions
+│   ├── utils.py                 # Utility functions (model loading, dataset handling)
+│   ├── logger.py                # Logging configuration
+│   ├── visualization.py         # Evaluation visualization tools
+│   ├── wandb_utils.py           # Weights & Biases integration
+│   └── configs/                 # Configuration management
+│       ├── __init__.py
+│       └── datasets.py          # Dataset configuration
+├── tests/                       # Test suite
+│   ├── __init__.py
+│   ├── conftest.py              # Pytest configuration
+│   ├── unit/                    # Unit tests
+│   │   ├── test_basic_functionality.py
+│   │   ├── test_dataset_loading.py
+│   │   ├── test_dataset_splitting.py
+│   │   ├── test_dataset_validation.py
+│   │   ├── test_error_handling.py
+│   │   ├── test_logger.py
+│   │   ├── test_model_loading.py
+│   │   └── test_smolvla_client.py
+│   └── integration/             # Integration tests
+│       ├── __init__.py
+│       └── test_integration.py
+├── outputs/                     # Runtime outputs (created during execution)
+│   └── [timestamp]/             # Timestamped run directories
+│       ├── simulation.log       # Unified logging output
+│       ├── server/              # Server-side outputs
+│       │   ├── server.log       # Server-specific logs
+│       │   ├── round_N_server_eval.json  # Server evaluation results
+│       │   ├── federated_metrics.json     # Aggregated FL metrics
+│       │   ├── federated_metrics.png      # Metrics visualization
+│       │   ├── eval_mse_chart.png         # MSE chart
+│       │   └── eval_mse_history.json      # Historical MSE data
+│       ├── clients/              # Client-side outputs
+│       │   └── client_N/         # Per-client directories
+│       │       ├── client.log    # Client-specific logs
+│       │       └── round_N.json  # Client evaluation metrics
+│       └── models/               # Saved model checkpoints
+│           └── checkpoint_round_N.safetensors
+├── .kilocode/                   # Kilo Code configuration
+│   └── rules/
+│       └── memory-bank/         # Memory bank documentation
+├── pyproject.toml               # Project configuration
+├── requirements.txt             # Python dependencies
+├── train.sh                     # Docker training script
+├── train-lerobot-standalone.sh  # Standalone training script
+├── Dockerfile                   # Docker container definition
+├── LICENSE                      # License file
+├── README.md                    # Project documentation
+├── CONTRIBUTING.md              # Contribution guidelines
+├── datasets.yaml                # Dataset metadata
+├── .gitignore                   # Git ignore patterns
+├── .env.example                 # Environment variables template
+└── CNAME                        # GitHub Pages domain
+```
+
 ## Configuration System
 
 **Centralized Configuration Architecture:**
@@ -105,8 +170,8 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Real-time performance datasets** for inference validation
 
 #### Evaluation Metrics
-- **Task Success Rate**: Percentage of successfully completed episodes
-- **Action Accuracy**: Precision of predicted vs. ground truth actions
+- **Policy Loss**: Average policy forward loss per batch (same as client training loss, ~1 scale)
+- **Action MSE**: Raw mean squared error on predicted vs ground truth actions (reference metric, ~1700 scale)
 - **Generalization Score**: Performance on unseen evaluation tasks
 - **Cross-Task Performance**: Average performance across all evaluation datasets
 

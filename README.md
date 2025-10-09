@@ -82,6 +82,7 @@ The server evaluates the global model on additional unseen tasks to verify gener
 - **Real-time performance datasets** for inference validation
 
 ### Evaluation Metrics
+- **Policy Loss**: Average policy forward loss per batch (primary evaluation metric for SmolVLA flow-matching model)
 - **Task Success Rate**: Percentage of successfully completed episodes
 - **Action Accuracy**: Precision of predicted vs. ground truth actions
 - **Generalization Score**: Performance on unseen evaluation tasks
@@ -285,8 +286,8 @@ outputs/date_time/
 │   ...
 │   └── round_n   	# local client model checkpoint
 ├── server/
-│   ├── eval_mse_chart.png      # 📊 AUTOMATIC: Line chart of per-client and server avg MSE over rounds
-│   ├── eval_mse_history.json   # 📊 AUTOMATIC: Historical MSE data for reproducibility
+│   ├── eval_policy_loss_chart.png      # 📊 AUTOMATIC: Line chart of per-client and server avg policy loss over rounds
+│   ├── eval_policy_loss_history.json   # 📊 AUTOMATIC: Historical policy loss data for reproducibility
 │   ├── round_1_aggregated.json # Aggregated metrics per round
 │   └── round_n_aggregated.json
 ├── clients/
@@ -308,13 +309,13 @@ outputs/date_time/
 
 The system automatically generates comprehensive evaluation charts at the end of each training session:
 
-- **📈 `eval_mse_chart.png`**: Interactive line chart showing:
-  - Individual client MSE progression over rounds (Client 0, 1, 2, 3)
-  - Server average MSE across all clients
+- **📈 `eval_policy_loss_chart.png`**: Interactive line chart showing:
+  - Individual client policy loss progression over rounds (Client 0, 1, 2, 3)
+  - Server average policy loss across all clients
   - Clear visualization of federated learning convergence
 
-- **📋 `eval_mse_history.json`**: Raw data for reproducibility and analysis:
-  - Per-round MSE values for each client
+- **📋 `eval_policy_loss_history.json`**: Raw data for reproducibility and analysis:
+  - Per-round policy loss values for each client
   - Server aggregated metrics
   - Timestamp and metadata for each evaluation
 

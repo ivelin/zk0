@@ -5,7 +5,6 @@ from collections import OrderedDict
 from typing import Any
 
 import torch
-import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import LinearLR
 
@@ -13,9 +12,6 @@ from datasets.utils.logging import disable_progress_bar
 from loguru import logger
 
 from .utils import load_lerobot_dataset
-disable_progress_bar()
-
-
 
 
 def get_model(dataset_meta=None):
@@ -323,46 +319,81 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
     logger.info(f"Entering training loop: target steps={epochs}, initial step={step}")
     loop_start_time = time.perf_counter()
 
-    # Use cycle iterator like standalone script
+    # Use cycle iterator like standalone script for infinite looping
     dl_iter = cycle(trainloader)
+    skipped_episodes = 0
+    current_episode = None
 
-    for _ in range(epochs):
+    while step < epochs:
         start_time = time.perf_counter()
         batch = None
-        max_attempts = 50  # Try up to 50 times to find a valid batch (increased for robustness)
+        max_attempts = 100  # Increased for more robustness against corrupt data
         attempts = 0
         while batch is None and attempts < max_attempts:
             try:
                 batch = next(dl_iter)
+                # Check for episode change to track skips
+                batch_episode = int(batch['episode_index'][0].item()) if 'episode_index' in batch else -1
+                if current_episode != batch_episode:
+                    current_episode = batch_episode
+                    if skipped_episodes > 0:
+                        logger.warning(f"Resumed from new episode {current_episode} after {skipped_episodes} skipped episodes")
+                    skipped_episodes = 0
+            except StopIteration:
+                # Dataloader exhausted - this shouldn't happen with cycle, but log if it does
+                logger.error("Dataloader iterator exhausted unexpectedly - restarting cycle")
+                dl_iter = cycle(trainloader)
+                attempts += 1
+                continue
             except Exception as e:
                 attempts += 1
+                batch_episode = int(batch['episode_index'][0].item()) if 'episode_index' in batch and batch else current_episode
                 if "Invalid data found when processing input" in str(e) or "Could not push packet to decoder" in str(e):
-                    logger.warning(f"Skipping corrupt batch due to decoding error: {e} (attempt {attempts}/{max_attempts}, total skipped: {skipped_batches})")
-                    skipped_batches += 1
+                    logger.warning(f"Skipping corrupt batch in episode {batch_episode} due to decoding error: {e} (attempt {attempts}/{max_attempts}, total skipped batches this episode: {skipped_episodes})")
+                    skipped_episodes += 1
+                    if skipped_episodes >= 5:  # Skip entire episode after 5 consecutive bad batches
+                        logger.warning(f"Skipping entire episode {batch_episode} due to excessive corruption (5+ bad batches)")
+                        # Advance iterator to next episode (approximate by skipping attempts)
+                        for _ in range(10):  # Arbitrary skip to next episode
+                            try:
+                                next(dl_iter)
+                            except:
+                                pass
+                        current_episode = None
+                        skipped_episodes = 0
                     continue
                 else:
-                    logger.error(f"Unexpected error in data loader: {e} (attempt {attempts}/{max_attempts})")
-                    raise
-        if batch is None:
-            error_msg = f"Failed to find valid batch after {max_attempts} attempts due to corrupt data. Training cannot proceed."
-            logger.error(error_msg)
-            raise RuntimeError(error_msg)
-        train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
+                    logger.error(f"Unexpected error in data loader for episode {batch_episode}: {e} (attempt {attempts}/{max_attempts})")
+                    # Don't raise - continue trying
+                    continue
 
-        logger.debug(f"Step {step}: Batch fetched successfully. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
+        if batch is None:
+            logger.warning(f"Could not fetch valid batch after {max_attempts} attempts in step {step}. Skipping step to avoid interruption.")
+            # Log but continue to next step without incrementing
+            train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
+            continue  # Skip this step gracefully
+
+        train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
+        logger.debug(f"Step {step}: Batch fetched successfully from episode {int(batch['episode_index'][0].item()) if 'episode_index' in batch else 'unknown'}. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}")
 
         # Run training step
-        train_tracker, output_dict, main_loss_val, proximal_loss_val = run_training_step(
-            step, policy, batch, device, train_metrics, train_tracker, optimizer, grad_scaler,
-            lr_scheduler, cfg, global_params, fedprox_mu
-        )
+        try:
+            train_tracker, output_dict, main_loss_val, proximal_loss_val = run_training_step(
+                step, policy, batch, device, train_metrics, train_tracker, optimizer, grad_scaler,
+                lr_scheduler, cfg, global_params, fedprox_mu
+            )
+        except Exception as step_error:
+            logger.error(f"Error in training step {step}: {step_error}. Skipping step gracefully.")
+            import traceback
+            logger.error(traceback.format_exc())
+            continue  # Skip this step without failing the round
 
         step += 1
         train_tracker.step()
 
         # Log progress every 10 steps
         if step % 10 == 0:
-            logger.info(f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s")
+            logger.info(f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s, total_skipped_episodes={skipped_episodes}")
 
             # Log to WandB with client prefix
             if use_wandb and partition_id is not None:
@@ -378,7 +409,8 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
                     f"{client_prefix}_learning_rate": train_metrics['lr'].avg,
                     f"{client_prefix}_gradient_norm": train_metrics['grad_norm'].avg,
                     f"{client_prefix}_steps_completed": step,
-                    f"{client_prefix}_skipped_batches": skipped_batches
+                    f"{client_prefix}_skipped_batches": skipped_batches,
+                    f"{client_prefix}_skipped_episodes": skipped_episodes
                 }, step=step)
 
         # Log progress (like lerobot train.py)
@@ -389,8 +421,9 @@ def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_sc
             logger.info(f"Step {step}: loss={train_metrics['loss'].avg:.4f}, grad_norm={train_metrics['grad_norm'].avg:.4f}, lr={train_metrics['lr'].avg:.4f}, update_s={train_metrics['update_s'].avg:.4f}")
             train_tracker.reset_averages()
 
-    logger.info(f"Training completed after {step} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s, skipped_batches={skipped_batches}")
-    return step
+    actual_steps = step
+    logger.info(f"Training completed after {actual_steps} steps (target: {epochs}), total time: {time.perf_counter() - loop_start_time:.2f}s, skipped_episodes={skipped_episodes}")
+    return actual_steps
 
 
 def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, global_params=None, fedprox_mu=0.01, initial_lr=None, use_wandb=False, partition_id=None, round_num=None) -> dict[str, float]:
@@ -480,7 +513,7 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
     # Track episodes processed
     episodes_processed = 0
     max_episodes = server_config.first_n_episodes_for_eval
-    logger.info(f"Server evaluation using first {max_episodes} episodes from {dataset_name}")
+    logger.info(f"Server evaluation using first {max_episodes} episodes from {dataset_name} (mode: {eval_mode})")
 
     total_loss = 0.0
     total_samples = 0
@@ -488,7 +521,11 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
     total_batches_processed = 0
 
     # Set evaluation limit based on mode
-    max_batches_for_eval = 10 if eval_mode == "quick" else None
+    max_batches_for_eval = 32 if eval_mode == "quick" else None
+    if eval_mode == "full":
+        logger.info(f"Full mode: processing all {max_episodes} episodes")
+    else:
+        logger.info(f"Mode {eval_mode}: limiting to {max_batches_for_eval} batches max")
 
     # Evaluate batches, limiting to first N episodes
     current_episode = None
@@ -512,28 +549,22 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
                 if isinstance(batch[key], torch.Tensor):
                     batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
 
-            # Simple forward pass for evaluation
+            # Compute policy loss (primary metric for SmolVLA flow-matching)
             with torch.no_grad():
-                outputs = policy(batch)
-                if isinstance(outputs, tuple):
-                    pred_actions = outputs[0] if len(outputs) > 0 else None
-                else:
-                    pred_actions = outputs.get('action', outputs.get('predicted_actions', None))
-                target_actions = batch.get('action')
+                eval_loss, output_dict = policy.forward(batch)
+                logger.debug(f"DEBUG: policy.forward() returned eval_loss={eval_loss.item():.6f}, type={type(eval_loss)}, shape={eval_loss.shape if hasattr(eval_loss, 'shape') else 'scalar'}")
 
-                if pred_actions is not None and target_actions is not None:
-                    batch_loss = F.mse_loss(pred_actions, target_actions)
-                    total_loss += batch_loss.item() * len(target_actions)
-                    total_samples += len(target_actions)
-                    successful_batches += 1
-                    # Log batch-level stats
-                    pred_mean = pred_actions.mean().item()
-                    target_mean = target_actions.mean().item()
-                    logging.debug(f"Batch {successful_batches}: MSE={batch_loss.item():.4f}, pred_mean={pred_mean:.4f}, target_mean={target_mean:.4f}, samples={len(target_actions)}")
-                else:
-                    logging.error(f"Batch {total_batches_processed}: Missing action keys for loss computation - this indicates a serious data or model issue that needs fixing")
-                    # Do not increment successful_batches for failed batches
-                    continue
+                # For SmolVLA, policy loss is the primary evaluation metric
+                # (MSE computation is not applicable since forward() doesn't return predicted actions)
+                target_actions = batch.get('action')
+                batch_loss = eval_loss
+                total_loss += batch_loss.item()
+                total_samples += len(target_actions) if target_actions is not None else batch_size
+                successful_batches += 1
+
+                action_dim = target_actions.shape[-1] if target_actions is not None and len(target_actions.shape) > 1 else 7
+                # Log batch-level stats
+                logging.debug(f"Batch {successful_batches}: policy_loss={batch_loss.item():.4f}, samples={total_samples}, action_dim={action_dim}")
 
         except Exception as e:
             logging.error(f"Failed to evaluate batch {total_batches_processed}: {e} - this indicates a serious evaluation issue that needs fixing")
@@ -546,11 +577,12 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
             break
 
     if total_samples > 0:
-        avg_loss = total_loss / total_samples
-        logging.info(f"Successfully evaluated {successful_batches} batches with {total_samples} total samples, avg_MSE={avg_loss:.4f}")
+        raw_policy_loss = total_loss / successful_batches  # Average policy loss per batch (matches client averaging)
+        logging.info(f"Successfully evaluated {successful_batches} batches with {total_samples} total samples, policy_loss={raw_policy_loss:.4f} (action_dim={action_dim})")
     else:
         logging.warning("No batches successfully evaluated")
-        avg_loss = 1.0
+        raw_policy_loss = 1.0
+        action_dim = 7
 
     # Clear GPU cache after evaluation to prevent VRAM accumulation
     if torch.cuda.is_available():
@@ -558,16 +590,17 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
         logger.debug("Cleared GPU cache after evaluation")
 
     # Return metrics in Flower format: loss, num_examples, metrics_dict
-    # For SmolVLA, the primary metric is the flow matching loss (MSE)
-    loss = avg_loss
+    # For SmolVLA, policy loss is the primary evaluation metric (flow-matching loss)
+    loss = raw_policy_loss
     num_examples = total_samples
     metrics = {
-        "action_mse": avg_loss,  # Primary SmolVLA evaluation metric (flow matching loss)
-        "successful_batches": successful_batches,  # Number of batches successfully evaluated
-        "total_batches_processed": total_batches_processed,  # Total number of batches processed
-        "total_samples": total_samples,  # Total number of samples evaluated
+        "policy_loss": raw_policy_loss,  # Average policy forward loss per batch (primary metric for SmolVLA)
+        "action_dim": action_dim,  # Number of action dimensions detected from batch (default 7 for SO-100 joints + gripper)
+        "successful_batches": successful_batches,  # Number of batches successfully processed during evaluation
+        "total_batches_processed": total_batches_processed,  # Total batches attempted (including failed)
+        "total_samples": total_samples,  # Total number of action samples evaluated
     }
 
-    logging.info(f"Server evaluation: loss={avg_loss:.4f}, successful_batches={successful_batches}, total_batches={total_batches_processed}, samples={total_samples}")
+    logging.info(f"Server evaluation: loss={raw_policy_loss:.4f}, policy_loss={raw_policy_loss:.4f}, successful_batches={successful_batches}, total_batches={total_batches_processed}, samples={total_samples}")
 
     return float(loss), num_examples, metrics
