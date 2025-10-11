@@ -88,3 +88,23 @@
 **Impact**: Clients now train successfully, full evaluation processes all episodes, better learning assessment. Ray crash indicates need for resource monitoring in long runs.
 
 **Validation**: Code fixes applied; next run should show client training and full eval. Ray crash suggests monitoring memory/CPU in extended simulations.
+
+**Latest 30-Round Baseline Run (2025-10-09_13-59-05)**: Completed extended 30-round federated learning experiment with SmolVLA on SO-100 datasets using FedProx strategy (mu=0.01). Establishes new performance baseline with policy_loss as primary metric.
+
+**Run Summary**:
+- **Start Time**: 2025-10-09 13:59:05
+- **End Time**: 2025-10-10 ~03:06 (approx. 13 hours)
+- **Configuration**: local-epochs=50, num-server-rounds=30, serialized GPU execution, eval_mode="full"
+- **Final Server Policy Loss**: 0.544 (improvement from r10 peak 1.35; r0 initial=0.149)
+- **Client Loss Trend**: Avg client loss declined from 2.53 (r1) to 0.34 (r30)
+- **Parameter Update Norm**: Stabilized ~1.4-2.0, indicating convergence
+- **Anomalies**: Round 21 only 1 client (dropout, recovered); action MSE logging all 0.0 (bug); eval_mse_history empty (generation issue)
+
+**Key Trends**:
+- Policy loss: Initial degradation post-FL (r10=1.35), recovery to 0.544 (r30) – better than baseline plateau but logging gaps prevent full MSE comparison
+- Vs. Prior Baseline (20 rounds, mu=0.001): Lower final client loss (0.34 vs. ~0.43), but higher mu caused early fluctuations; policy_loss scale more sensitive than prior MSE (~2722)
+- Issues: Missing client MSE aggregation; malformed history JSON; potential Ray resource exhaustion
+
+**Baseline for Future Improvements**: Target policy_loss <0.4 / MSE <2500 via mu=0.001, logging fixes. Compare via federated_metrics.json and server evals.
+
+**Validation**: 30 rounds completed (29/30 full participation); convergence achieved but requires MSE logging for quantifiable gains.

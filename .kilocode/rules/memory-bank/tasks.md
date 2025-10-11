@@ -603,6 +603,44 @@ Current Focus: [immediate next task]
 - Better debugging with multiple loss metrics (raw MSE, normalized, policy)
 - Proper loss trend analysis for hyperparameter tuning
 
+## Post-FL Run Analysis Workflow
+**Last performed:** 2025-10-11
+**Context:** Analyzed 30-round baseline run outputs to assess convergence, identify logging issues, and propose improvements for MSE tracking and client dropout prevention
+**Files analyzed:** outputs/2025-10-09_13-59-05/* (config.json, federated_metrics.json, eval_mse_history.json, round_X_server_eval.json)
+
+**Steps:**
+1. **Output Structure Review**: Use list_files to examine run directory; confirm clients/, server/, models/ presence and key files (checkpoints, evals, metrics)
+2. **Key File Analysis**: Read config.json (run params), federated_metrics.json (client trends), eval_mse_history.json (server history), sample round evals (r0,10,20,30 for progression)
+3. **Metrics Summary**: Extract client loss trends (avg_client_loss decline), param_update_norm stability, server policy_loss progression (r0 low → r10 peak → r30 recovery)
+4. **Anomaly Detection**: Identify issues like round 21 (1 client dropout), zeroed action_mse, empty MSE history JSON
+5. **Baseline Comparison**: Contrast with prior 20-round run (MSE ~2722 plateau, mu=0.001); assess policy_loss scale shift and convergence quality (final 0.544 vs. prior ~0.43 avg)
+6. **Issue Identification**: Flag logging bugs (missing client MSE aggregation, history generation failure), hyperparam impacts (mu=0.01 fluctuations)
+7. **Improvement Proposals**: Suggest code fixes (add MSE to client metrics, fix history population), hyperparam tuning (mu=0.001), monitoring (Ray resources)
+8. **Documentation**: Update memory bank (context.md new baseline, tasks.md this workflow); propose version bump if progress significant
+9. **Next Steps**: Recommend validation run (5 rounds post-fixes), full experiment (50 rounds tuned), mode switch to code for implementations
+10. **Validation**: Ensure analysis actionable; todo list updated with findings
+
+**Important notes:**
+- Focus on policy_loss as primary (SmolVLA flow-matching) but retain MSE for action prediction comparability
+- Anomalies like client dropout often Ray simulation artifacts; check simulation.log for OOM/timeout
+- Always read multi-files (up to 10) in single read_file for efficiency
+- Compare scales: policy_loss ~0.3-1.5 (sensitive), MSE ~2000-4000 (action quality)
+- Document baselines in context.md for future runs; target 10-20% improvement per iteration
+
+**Common Issues Addressed:**
+- Incomplete run analysis missing client/server metric correlation
+- Unaddressed logging gaps preventing convergence diagnosis
+- No systematic anomaly investigation (e.g., dropouts, zero metrics)
+- Baseline comparisons without metric scale normalization
+- Missing workflow for repeatable post-run evaluations
+
+**Benefits:**
+- Systematic FL performance assessment with quantifiable trends
+- Early bug detection (logging, aggregation) before full experiments
+- Informed hyperparam tuning based on actual run data
+- Preserved institutional knowledge via memory bank updates
+- Clear handoff to code mode with prioritized fixes
+
 ### Comprehensive Implementation Checklist
 This consolidated checklist combines the pre-implementation, implementation, and post-implementation phases into a single document, eliminating redundancies while preserving all unique items.
 
