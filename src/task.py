@@ -555,13 +555,13 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
                 logger.debug(f"DEBUG: policy.forward() returned eval_loss={eval_loss.item():.6f}, type={type(eval_loss)}, shape={eval_loss.shape if hasattr(eval_loss, 'shape') else 'scalar'}")
 
                 # For SmolVLA, policy loss is the primary evaluation metric
-                # (MSE computation is not applicable since forward() doesn't return predicted actions)
+                # (MSE computation removed for standardization on policy_loss)
                 target_actions = batch.get('action')
                 batch_loss = eval_loss
                 total_loss += batch_loss.item()
                 total_samples += len(target_actions) if target_actions is not None else batch_size
                 successful_batches += 1
-
+            
                 action_dim = target_actions.shape[-1] if target_actions is not None and len(target_actions.shape) > 1 else 7
                 # Log batch-level stats
                 logging.debug(f"Batch {successful_batches}: policy_loss={batch_loss.item():.4f}, samples={total_samples}, action_dim={action_dim}")

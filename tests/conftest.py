@@ -13,22 +13,32 @@ sys.path.insert(0, str(Path(__file__).parent.parent / "smolvla_example"))
 @pytest.fixture
 def sample_client_config():
     """Sample client configuration for testing."""
+    from unittest.mock import MagicMock
+    mock_trainloader = MagicMock()
+    mock_trainloader.dataset.meta.repo_id = "test/repo"
+
     return {
-        "model_name": "lerobot/smolvla_base",
-        "device": "cpu",
         "partition_id": 0,
-        "num_partitions": 2
+        "local_epochs": 1,
+        "trainloader": mock_trainloader,
+        "nn_device": "cpu",
+        "dataset_repo_id": "test/repo"
     }
 
 
 @pytest.fixture
 def client_config():
     """Default client configuration for integration tests."""
+    from unittest.mock import MagicMock
+    mock_trainloader = MagicMock()
+    mock_trainloader.dataset.meta.repo_id = "test/repo"
+
     return {
-        "model_name": "lerobot/smolvla_base",
-        "device": "cpu",
         "partition_id": 0,
-        "num_partitions": 2
+        "local_epochs": 1,
+        "trainloader": mock_trainloader,
+        "nn_device": "cpu",
+        "dataset_repo_id": "test/repo"
     }
 
 

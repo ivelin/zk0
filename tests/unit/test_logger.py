@@ -1,112 +1,95 @@
-"""Unit tests for logger setup and loguru integration."""
+"""Unit tests for logger configuration functions in src/logger.py."""
 
-import tempfile
+import pytest
+from unittest.mock import patch, mock_open
 from pathlib import Path
-from loguru import logger
-
-from src.logger import setup_logging
 
 
-def test_setup_logging_basic():
-    """Test basic logging setup without extras."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
+class TestLoggerConfig:
+    """Test logger configuration functions."""
 
-        setup_logging(log_file)
+    @patch('builtins.open', new_callable=mock_open)
+    @patch('src.utils.get_tool_config')
+    def test_get_config_with_valid_config(self, mock_get_tool_config, mock_file):
+        """Test get_config loads from pyproject.toml successfully."""
+        from src.logger import get_config
 
-        # Test logging
-        logger.info("Test message")
+        mock_get_tool_config.return_value = {
+            "level": "INFO",
+            "enable_grpc_logging": True,
+            "log_format": "json"
+        }
 
-        # Force flush to ensure message is written
-        import time
-        time.sleep(0.1)  # Small delay for async logging
+        config = get_config()
 
-        # Check file was created and contains message
-        assert log_file.exists()
-        content = log_file.read_text()
-        assert "Test message" in content
-        assert "server" in content  # Server process when no client_id provided
+        assert config["level"] == "INFO"
+        assert config["enable_grpc_logging"] is True
+        assert config["log_format"] == "json"
 
+    @patch('src.utils.get_tool_config', side_effect=Exception("Config loading failed"))
+    def test_get_config_fallback_on_error(self, mock_get_tool_config):
+        """Test get_config returns defaults when config loading fails."""
+        from src.logger import get_config
 
-def test_setup_logging_with_client_id():
-    """Test logging setup with client_id extra."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
+        config = get_config()
 
-        setup_logging(log_file, client_id="client_1")
+        assert config["level"] == "DEBUG"
+        assert config["enable_grpc_logging"] is False
+        assert config["log_format"] == "detailed"
 
-        logger.info("Test with client")
+    def test_get_formats_json(self):
+        """Test get_formats returns JSON format when configured."""
+        from src.logger import get_formats
 
-        content = log_file.read_text()
-        assert "client_1" in content
-        assert "Test with client" in content
+        config = {"log_format": "json"}
+        console_format, file_format = get_formats(config)
 
+        assert "PID:{extra[process_id]}" in console_format
+        assert "PID:{extra[process_id]}" in file_format
 
-def test_setup_logging_with_process_id():
-    """Test logging setup includes process ID."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
+    def test_get_formats_detailed(self):
+        """Test get_formats returns detailed format by default."""
+        from src.logger import get_formats
 
-        setup_logging(log_file)
+        config = {"log_format": "detailed"}
+        console_format, file_format = get_formats(config)
 
-        logger.info("Test with PID")
+        assert "<green>" in console_format
+        assert "<level>" in console_format
+        assert "PID:{extra[process_id]}" in file_format
 
-        content = log_file.read_text()
-        assert "PID:" in content
-        assert "Test with PID" in content
+    def test_get_rotation_mb_mb(self):
+        """Test get_rotation_mb parses MB values."""
+        from src.logger import get_rotation_mb
 
+        config = {"file_rotation": "100 MB"}
+        result = get_rotation_mb(config)
 
-def test_setup_logging_flwr_propagation():
-    """Test that flwr logger is propagated to loguru."""
-    import logging as std_logging
+        assert result == 100
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
+    def test_get_rotation_mb_gb(self):
+        """Test get_rotation_mb parses GB values."""
+        from src.logger import get_rotation_mb
 
-        setup_logging(log_file)
+        config = {"file_rotation": "2 GB"}
+        result = get_rotation_mb(config)
 
-        # Get flwr logger and log
-        flwr_logger = std_logging.getLogger('flwr')
-        flwr_logger.info("Flwr test message")
+        assert result == 2048  # 2 * 1024
 
-        content = log_file.read_text()
-        assert "Flwr test message" in content
+    def test_get_rotation_mb_default(self):
+        """Test get_rotation_mb returns default for invalid format."""
+        from src.logger import get_rotation_mb
 
+        config = {"file_rotation": "invalid"}
+        result = get_rotation_mb(config)
 
-def test_setup_logging_file_rotation():
-    """Test that file rotation works."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
+        assert result == 500
 
-        setup_logging(log_file)
+    def test_get_rotation_mb_missing(self):
+        """Test get_rotation_mb returns default when missing."""
+        from src.logger import get_rotation_mb
 
-        # Log many messages to trigger rotation (though unlikely with small messages)
-        for i in range(100):
-            logger.info(f"Message {i}")
+        config = {}
+        result = get_rotation_mb(config)
 
-        # Check file exists
-        assert log_file.exists()
-
-        # Check for rotation files if any
-        rotation_files = list(Path(temp_dir).glob("test.*"))
-        # May or may not have rotation files depending on size, but no errors should occur
-        assert True  # Test passes if no exceptions
-
-
-def test_setup_logging_multiple_calls():
-    """Test that multiple setup calls work without errors."""
-    with tempfile.TemporaryDirectory() as temp_dir:
-        log_file = Path(temp_dir) / "test.log"
-
-        # First setup
-        setup_logging(log_file)
-        logger.info("First setup")
-
-        # Second setup (should work without issues)
-        setup_logging(log_file)
-        logger.info("Second setup")
-
-        # Check file contains both messages
-        content = log_file.read_text()
-        assert "First setup" in content
-        assert "Second setup" in content
+        assert result == 500

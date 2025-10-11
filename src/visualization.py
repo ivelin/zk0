@@ -321,11 +321,11 @@ class SmolVLAVisualizer:
         plt.grid(True, alpha=0.3)
 
         # Save chart
-        chart_path = save_dir / "eval_policy_loss_chart.png"
+        chart_path = save_dir / "policy_loss_chart.png"
         plt.savefig(chart_path, dpi=150, bbox_inches='tight')
         plt.close()
 
-        self.logger.info(f"Eval policy loss chart saved: {chart_path}")
+        self.logger.info(f"Policy loss chart saved: {chart_path}")
 
         # Log final metrics to wandb if run is available
         if WANDB_AVAILABLE and wandb_run is not None:
@@ -344,8 +344,8 @@ class SmolVLAVisualizer:
                 self.logger.warning(f"Failed to log final metrics to wandb: {e}")
 
         # Save history to JSON for reproducibility
-        history_file = save_dir / "eval_policy_loss_history.json"
+        history_file = save_dir / "policy_loss_history.json"
         with open(history_file, 'w') as f:
             json.dump(policy_loss_history, f, indent=2)
-        self.logger.info(f"Eval policy loss history saved: {history_file}")
+        self.logger.info(f"Policy loss history saved: {history_file}")
 

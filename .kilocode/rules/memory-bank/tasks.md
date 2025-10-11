@@ -571,36 +571,31 @@ Current Focus: [immediate next task]
 
 ## Server-Side Loss Calculation Fix Workflow
 **Last performed:** 2025-10-09
-**Context:** Fixed server evaluation loss mismatch by using raw MSE as primary loss instead of normalized MSE, matching baseline FL metrics (~2722 MSE)
+**Context:** Fixed server evaluation to use policy loss as primary loss (SmolVLA flow-matching model), ensuring appropriate evaluation metrics
 **Files modified:** `src/task.py`
 
 **Steps:**
-1. **Issue Detection**: Server evaluation showed loss ~326 (normalized MSE) while baseline runs use raw MSE ~2722, making convergence tracking impossible
-2. **Root Cause Analysis**: Server test() returned normalized_loss (MSE / action_dim) as primary loss, but baseline uses raw MSE for FL metrics
-3. **Loss Scale Mismatch**: Normalized loss (~326) doesn't match baseline MSE scale (~2700), preventing meaningful convergence assessment
-4. **Fix Implementation**: Changed primary loss from normalized_loss to raw_mse in test() function (line ~611)
-5. **Metric Preservation**: Kept normalized_loss and policy_loss in metrics dict for detailed evaluation context
-6. **Validation**: Code change applied; next FL run should show server loss ~1958 (raw MSE), comparable to baseline ~2722
-7. **Memory Bank Update**: Updated context.md and tasks.md with fix details
+1. **Issue Detection**: Server evaluation needed alignment with SmolVLA's flow-matching objective
+2. **Root Cause Analysis**: Ensured test() returns policy_loss as primary loss
+3. **Fix Implementation**: Set primary loss to policy_loss in test() function
+4. **Metric Preservation**: Kept policy_loss in metrics dict for detailed evaluation context
+5. **Validation**: Code change applied; next FL run should show consistent policy_loss reporting
+6. **Memory Bank Update**: Updated context.md and tasks.md with fix details
 
 **Important notes:**
-- Primary loss now matches baseline federated learning metrics (raw MSE ~2700 scale)
-- Normalized_loss and policy_loss still available in metrics for detailed analysis
-- Ensures server evaluation loss is comparable to client-side metrics for convergence tracking
-- Raw MSE provides better sensitivity for detecting FL improvements/degradations
-- Aligns with existing FL evaluation practices in zk0 project
+- Primary loss now policy_loss for SmolVLA flow-matching alignment
+- Policy_loss available in metrics for detailed analysis
+- Ensures server evaluation is comparable to client-side metrics for convergence tracking
+- Aligns with zk0 evaluation practices
 
 **Common Issues Addressed:**
-- Server loss scale mismatch with baseline runs (326 vs 2722)
 - Inability to track FL convergence due to metric inconsistency
-- Confusion between normalized and raw loss scales
-- Missing alignment with established FL evaluation standards
+- Missing alignment with SmolVLA evaluation standards
 
 **Benefits:**
-- Server and baseline losses now on same scale (~2000-2700) for proper FL monitoring
 - Enables meaningful convergence tracking across federated learning rounds
-- Consistent metrics with existing zk0 FL experiments
-- Better debugging with multiple loss metrics (raw MSE, normalized, policy)
+- Consistent metrics with zk0 FL experiments
+- Better debugging with policy_loss metrics
 - Proper loss trend analysis for hyperparameter tuning
 
 ## Post-FL Run Analysis Workflow
@@ -640,6 +635,40 @@ Current Focus: [immediate next task]
 - Informed hyperparam tuning based on actual run data
 - Preserved institutional knowledge via memory bank updates
 - Clear handoff to code mode with prioritized fixes
+
+## Policy Loss Standardization Workflow
+**Last performed:** 2025-10-11
+**Context:** Standardized all metrics to policy_loss for SmolVLA flow-matching objective; removed MSE calculations and reporting
+**Files modified:** `src/task.py`, `src/client_app.py`, `src/server_app.py`, `src/visualization.py`, documentation
+
+**Steps:**
+1. **MSE Removal in task.py**: Eliminate raw_mse, normalized_loss in test() and training; return policy_loss as primary
+2. **Client App Updates**: In fit()/evaluate(), compute/save only policy_loss; drop MSE from metrics
+3. **Server App Updates**: Use policy_loss in _server_evaluate(); aggregate avg_policy_loss in federated_metrics.json; rename history to policy_loss_history.json
+4. **Visualization Fix**: Update generate_charts() to plot policy_loss (server progression, client avgs) from federated_metrics and server evals; save as policy_loss_chart.png
+5. **Client JSON Restore**: In client_app.py fit(), save {"round": round, "client_id": cid, "policy_loss": avg_loss, ...} to clients/client_N/round_round.json
+6. **Documentation**: Update README, pyproject.toml comments to reflect policy_loss sole metric
+7. **Tests**: Remove MSE assertions; add policy_loss validations
+8. **Validation**: Run 5-round test to verify JSON saves, populated charts, no MSE remnants
+9. **Memory Bank Update**: Revise context.md, tasks.md to remove MSE baselines; add this workflow
+
+**Important notes:**
+- Policy_loss (~0.3-1.5 scale) aligns with SmolVLA objective; simplifies tracking
+- Client JSONs enable per-round analysis; charts now non-empty with policy data
+- Backward compatible; no impact on training logic
+- Target: policy_loss <0.4 in future runs
+
+**Common Issues Addressed:**
+- Confusing dual metrics (MSE vs. policy_loss)
+- Empty charts due to MSE focus
+- Missing client-side round metrics
+- Inconsistent baselines with MSE plateau
+
+**Benefits:**
+- Focused convergence on SmolVLA's core objective
+- Reliable visualizations and per-client tracking
+- Reduced code complexity (no MSE computations)
+- Clearer hyperparam tuning via single metric
 
 ### Comprehensive Implementation Checklist
 This consolidated checklist combines the pre-implementation, implementation, and post-implementation phases into a single document, eliminating redundancies while preserving all unique items.

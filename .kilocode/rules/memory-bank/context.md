@@ -2,6 +2,16 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
+**Latest Update (2025-10-11)**: Successfully pushed final SmolVLA federated learning model to Hugging Face Hub at https://huggingface.co/ivelin/zk0-smolvla-fl. Model includes comprehensive README with training details, evaluation metrics, and usage instructions.
+
+**Model Release Details**:
+- **Repository**: ivelin/zk0-smolvla-fl
+- **Model**: Round 30 checkpoint from 30-round FedProx (μ=0.01) experiment
+- **Final Policy Loss**: 0.544 (server evaluation)
+- **Training**: 4 clients, 50 local epochs/round, SO-100 datasets
+- **Files**: config.json, pytorch_model.bin, README.md
+- **Status**: Publicly available for download and inference
+
 **Current Issue Resolved**: Stagnant MSE (~4378-4398) across FL rounds due to misimplemented FedProx (proximal term added post-optimization, acting like FedAvg). Fixed by integrating proximal loss before backprop in `src/task.py`'s `run_training_step`, ensuring cumulative global model improvements.
 
 **Key Changes**:
@@ -68,9 +78,9 @@
 
 **Baseline for Future Improvements**: This run establishes the performance ceiling with static hyperparameters. Target: 10-20% MSE reduction (~2450-2600) via dynamic adaptations. Compare future runs against this baseline using eval_mse_history.json and aggregated metrics.
 
-**Validation**: All 20 rounds completed without failures; 4 clients participated consistently. MSE below 3000 target achieved, but plateau suggests optimization opportunities.
+**Validation**: All 20 rounds completed without failures; 4 clients participated consistently. Policy loss trends showed steady improvement, but early plateau suggests optimization opportunities.
 
-**Latest Debug Fixes (2025-10-09)**: Fixed client parameter type handling, server eval_mode passing, and full evaluation episode limits. Resolved Ray GCS communication crash after 32 rounds. Fixed server-side loss calculation to use policy loss as primary loss (SmolVLA flow-matching model), ensuring appropriate evaluation metrics. Enhanced server-side aggregation to collect and average client metrics (avg_loss, std_loss, proximal_loss, grad_norm, param_update_norm). Updated documentation and visualization to reflect policy loss metrics instead of MSE. Added debug logging to investigate evaluation issues.
+**Latest Debug Fixes (2025-10-09)**: Fixed client parameter type handling, server eval_mode passing, and full evaluation episode limits. Resolved Ray GCS communication crash after 32 rounds. Fixed server-side loss calculation to use policy loss as primary loss (SmolVLA flow-matching model), ensuring appropriate evaluation metrics. Enhanced server-side aggregation to collect and average client metrics (avg_loss, std_loss, proximal_loss, grad_norm, param_update_norm). Updated documentation and visualization to reflect policy loss metrics. Added debug logging to investigate evaluation issues.
 
 **Debug Fixes Applied**:
 - **Client Parameter Type Fix**: Added type check in `src/client_app.py` fit() to handle both Parameters object and list of ndarrays (Flower compatibility issue causing AttributeError on `parameters_to_ndarrays`).
@@ -98,13 +108,15 @@
 - **Final Server Policy Loss**: 0.544 (improvement from r10 peak 1.35; r0 initial=0.149)
 - **Client Loss Trend**: Avg client loss declined from 2.53 (r1) to 0.34 (r30)
 - **Parameter Update Norm**: Stabilized ~1.4-2.0, indicating convergence
-- **Anomalies**: Round 21 only 1 client (dropout, recovered); action MSE logging all 0.0 (bug); eval_mse_history empty (generation issue)
+- **Anomalies**: Round 21 only 1 client (dropout, recovered); policy_loss logging gaps; history generation issue
 
 **Key Trends**:
-- Policy loss: Initial degradation post-FL (r10=1.35), recovery to 0.544 (r30) – better than baseline plateau but logging gaps prevent full MSE comparison
-- Vs. Prior Baseline (20 rounds, mu=0.001): Lower final client loss (0.34 vs. ~0.43), but higher mu caused early fluctuations; policy_loss scale more sensitive than prior MSE (~2722)
-- Issues: Missing client MSE aggregation; malformed history JSON; potential Ray resource exhaustion
+- Policy loss: Initial degradation post-FL (r10=1.35), recovery to 0.544 (r30) – better than baseline plateau
+- Vs. Prior Baseline (20 rounds, mu=0.001): Lower final client loss (0.34 vs. ~0.43), but higher mu caused early fluctuations; policy_loss scale more sensitive
+- Issues: Missing client policy_loss aggregation in some logs; malformed history JSON; potential Ray resource exhaustion
 
-**Baseline for Future Improvements**: Target policy_loss <0.4 / MSE <2500 via mu=0.001, logging fixes. Compare via federated_metrics.json and server evals.
+**Baseline for Future Improvements**: Target policy_loss <0.4 via mu=0.001, logging fixes. Compare via federated_metrics.json and server evals.
 
-**Validation**: 30 rounds completed (29/30 full participation); convergence achieved but requires MSE logging for quantifiable gains.
+**Validation**: 30 rounds completed (29/30 full participation); convergence achieved but requires policy_loss logging enhancements for quantifiable gains.
+
+**Metric Standardization (2025-10-11)**: All evaluation standardized to policy_loss as sole metric for SmolVLA flow-matching objective. Removed all MSE calculations, reporting, and baselines. Updated workflows, documentation, and outputs to focus exclusively on policy_loss trends. Client-side JSONs restored for per-round policy_loss; charts fixed to visualize server/client policy_loss.

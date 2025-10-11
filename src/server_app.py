@@ -185,7 +185,7 @@ class AggregateEvaluationStrategy(FedProx):
                 'round': server_round,
                 'round_time': 0.0,
                 'num_clients': self.last_aggregated_metrics.get('num_clients', 0),
-                'avg_action_mse': metrics.get("raw_action_mse", 0.0),
+                'avg_policy_loss': metrics.get("policy_loss", 0.0),
                 'avg_client_loss': self.last_aggregated_metrics.get('avg_client_loss', 0.0),
                 'param_update_norm': self.last_aggregated_metrics.get('param_update_norm', 0.0),
             }
@@ -387,9 +387,18 @@ class AggregateEvaluationStrategy(FedProx):
         results: List[Tuple[ClientProxy, EvaluateRes]],
         failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
     ) -> Tuple[Optional[float], Dict[str, Scalar]]:
-        """No-op for client evaluation (server-side eval via evaluate_fn)."""
-        logger.info(f"ℹ️ Server: aggregate_evaluate called for round {server_round} - no client results expected, returning empty")
-        return None, {}
+        """Aggregate client evaluation results (policy_loss only)."""
+        import numpy as np
+        logger.info(f"Server: Aggregating evaluate results for round {server_round}")
+        if results:
+            # Extract policy_loss from client results
+            client_policy_losses = [res.metrics.get("policy_loss", 0.0) for _, res in results]
+            avg_policy_loss = float(np.mean(client_policy_losses)) if client_policy_losses else 0.0
+            logger.info(f"Server: Aggregated client policy_loss: {avg_policy_loss:.4f} from {len(results)} clients")
+            return avg_policy_loss, {"avg_client_policy_loss": avg_policy_loss}
+        else:
+            logger.info(f"ℹ️ Server: No client evaluation results for round {server_round}")
+            return None, {}
 
     def aggregate_fit(
         self,

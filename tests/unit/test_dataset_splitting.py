@@ -1,5 +1,6 @@
 """Real dataset tests for episode splitting - tests actual LeRobot dataset functionality."""
 
+import os
 import pytest
 
 
@@ -26,6 +27,12 @@ from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
 class TestRealDatasetSplitting:
     """Test dataset splitting with actual LeRobot datasets."""
+
+    @pytest.fixture(autouse=True)
+    def skip_if_no_hf_token(self):
+        """Skip tests if HF_TOKEN is not available to avoid rate limiting."""
+        if not os.getenv('HF_TOKEN'):
+            pytest.skip("HF_TOKEN not available - skipping real dataset tests to avoid rate limiting")
 
     @pytest.mark.parametrize("dataset_name", [
         "lerobot/svla_so100_stacking",
