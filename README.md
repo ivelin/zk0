@@ -129,8 +129,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Repository Branches
 
-- **main**: Latest stable release. Use this for production setups and quick starts.
-- **dev**: Active development branch. Pull requests should target dev. Clone or switch with `git checkout dev` for latest features (may be unstable).
+- **main**: Stable releases. Use this for production setups and quick starts.
+- **staging**: Final polish before merging with main. No new features. Only bug fixes and docs polish.
+- **dev**: Active feature development. Pull requests should target dev. Clone or switch with `git checkout dev` for latest features (may be unstable).
 
 ## Project Status
 
