@@ -127,6 +127,11 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 **Tested**: Completes 100 rounds in ~50s; policy loss tracks convergence.
 
+## Repository Branches
+
+- **main**: Latest stable release. Use this for production setups and quick starts.
+- **dev**: Active development branch. Pull requests should target dev. Clone or switch with `git checkout dev` for latest features (may be unstable).
+
 ## Project Status
 
 ### 🚀 Current Stage: Beta
