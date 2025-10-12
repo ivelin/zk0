@@ -162,6 +162,7 @@ Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baseli
 - [Architecture](docs/ARCHITECTURE.md): FL design, components.
 - [Development](docs/DEVELOPMENT.md): Testing, logging, guidelines.
 - [Technical Overview](docs/TECHNICAL-OVERVIEW.md): Comparisons, reproducibility, videos.
+- [Roadmap](docs/ROADMAP.md): Production deployment plan.
 
 Internal: `.kilocode/rules/memory-bank/` (e.g., [brief.md](.kilocode/rules/memory-bank/brief.md)).
 
