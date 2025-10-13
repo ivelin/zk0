@@ -244,6 +244,41 @@ def setup_training_components(policy, trainloader, epochs, batch_size, device, i
     return cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker
 
 
+def reset_learning_rate_scheduler(optimizer, lr_scheduler, initial_lr, epochs):
+    """Reset learning rate scheduler for federated learning rounds.
+
+    This function ensures that each federated learning round starts with the
+    correct initial learning rate, preventing decay across rounds.
+
+    Args:
+        optimizer: PyTorch optimizer with param_groups
+        lr_scheduler: PyTorch learning rate scheduler (or None)
+        initial_lr: Initial learning rate to reset to
+        epochs: Number of epochs for this round (for scheduler setup)
+
+    Returns:
+        Updated lr_scheduler (may be recreated if needed)
+    """
+    # Reset optimizer learning rates to initial value
+    for group in optimizer.param_groups:
+        group['lr'] = initial_lr
+
+    # Reset or recreate scheduler to start fresh
+    if lr_scheduler is not None:
+        # Reset LinearLR scheduler to start from initial_lr again
+        if hasattr(lr_scheduler, 'start_factor'):
+            # This is a LinearLR scheduler, reset it
+            lr_scheduler = LinearLR(optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs)
+        else:
+            # For other scheduler types, try to reset last_epoch
+            lr_scheduler.last_epoch = -1
+        logger.info(f"FL scheduler reset: Set initial LR={initial_lr}, scheduler reset for {epochs} epochs")
+    else:
+        logger.warning(f"No scheduler to reset; using constant LR={initial_lr}")
+
+    return lr_scheduler
+
+
 def run_training_step(step, policy, batch, device, train_metrics, train_tracker, optimizer, grad_scaler, lr_scheduler, cfg, global_params, fedprox_mu):
     """Run a single training step with FedProx regularization."""
     from contextlib import nullcontext
@@ -464,6 +499,10 @@ def train(net=None, trainloader=None, epochs=None, batch_size=64, device=None, g
         policy, trainloader, epochs, batch_size, device, initial_lr, use_wandb, partition_id
     )
 
+    # CRITICAL FIX: Reset learning rate scheduler for federated learning rounds
+    # This ensures each FL round starts with the correct initial_lr, not decayed values
+    lr_scheduler = reset_learning_rate_scheduler(optimizer, lr_scheduler, initial_lr, epochs)
+
     # Run training loop
     final_step = run_training_loop(
         policy, trainloader, epochs, device, cfg, optimizer, lr_scheduler,
@@ -623,4 +662,37 @@ def test(net, device, batch_size=64, eval_mode: str = "quick") -> tuple[float, i
 
     logging.info(f"Server evaluation: loss={raw_policy_loss:.4f}, policy_loss={raw_policy_loss:.4f}, successful_batches={successful_batches}, total_batches={total_batches_processed}, samples={total_samples}")
 
+def compute_dynamic_lr_adjustment(recent_losses, current_lr, min_lr=1e-5, max_lr=1e-3):
+    """Compute dynamic learning rate adjustment based on recent loss trends.
+
+    Args:
+        recent_losses: List of recent policy loss values (last N rounds)
+        current_lr: Current learning rate
+        min_lr: Minimum allowed learning rate (default: 1e-5)
+        max_lr: Maximum allowed learning rate (default: 1e-3)
+
+    Returns:
+        tuple: (new_lr, adjustment_reason) where adjustment_reason is a string explaining the change
+    """
+    if len(recent_losses) < 3:
+        return current_lr, "insufficient_data"
+
+    # Calculate improvement over the last 3 rounds
+    recent_3 = recent_losses[-3:]
+    improvement = (recent_3[0] - recent_3[-1]) / max(recent_3[0], 1e-8)  # Avoid division by zero
+
+    # Check for stalling (less than 1% improvement over 3 rounds)
+    if improvement < 0.01:
+        new_lr = current_lr * 0.8  # Reduce LR by 20%
+        new_lr = max(new_lr, min_lr)  # Clamp to min
+        return new_lr, f"stall_detected_{improvement:.4f}"
+
+    # Check for divergence (loss increased by more than 5%)
+    elif improvement < -0.05:
+        new_lr = current_lr * 1.1  # Increase LR by 10%
+        new_lr = min(new_lr, max_lr)  # Clamp to max
+        return new_lr, f"divergence_detected_{improvement:.4f}"
+
+    # No adjustment needed
+    return current_lr, "stable_progress"
     return float(loss), num_examples, metrics

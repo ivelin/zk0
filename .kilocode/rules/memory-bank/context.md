@@ -135,6 +135,7 @@
 | **2025-10-09_13-59-05** | **50** | **30** | **0.01** | **0.0001** | **Policy Loss: 0.544** | **✅ MOST SUCCESSFUL: Full convergence, best final metric** |
 | 2025-10-11_07-31-37 | 1000 | 30 (planned) | 0.01 | 0.0005 | Policy Loss: 1.088 (round 3) | Terminated early; severe overfitting and divergence |
 | 2025-10-12_17-38-52 | 200 | 100 (planned) | 0.01 | 0.0005 | Policy Loss: 0.570 (round 3) | Terminated early; moderate divergence, better than 1000-epoch run |
+| **2025-10-13_00-34-24** | **50** | **500** | **0.01** | **0.0005** | **Policy Loss: 1.064 (round 30)** | **❌ LR SCHEDULER BUG: Loss not decreasing due to decayed LR across rounds** |
 
 **Table Notes**:
 - **MSE vs Policy Loss**: Earlier runs used MSE; later runs standardized to Policy Loss for SmolVLA flow-matching objective

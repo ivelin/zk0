@@ -37,6 +37,61 @@ def compute_server_param_update_norm(previous_params, current_params):
     return float(param_diff_norm)
 
 
+def check_early_stopping(eval_loss: float, best_loss: float, rounds_without_improvement: int, patience: int) -> tuple[bool, int]:
+    """Check if early stopping should be triggered based on evaluation loss.
+
+    Args:
+        eval_loss: Current evaluation loss
+        best_loss: Best evaluation loss seen so far
+        rounds_without_improvement: Current count of rounds without improvement
+        patience: Number of rounds to wait before stopping
+
+    Returns:
+        tuple: (should_stop, updated_rounds_without_improvement)
+    """
+    if patience <= 0:
+        return False, 0
+
+    if eval_loss < best_loss:
+        # Improvement detected
+        return False, 0
+    else:
+        # No improvement
+        new_rounds_without_improvement = rounds_without_improvement + 1
+        should_stop = new_rounds_without_improvement >= patience
+        return should_stop, new_rounds_without_improvement
+
+
+def update_early_stopping_tracking(strategy, server_round: int, eval_loss: float) -> None:
+    """Update early stopping tracking and log status.
+
+    Args:
+        strategy: The AggregateEvaluationStrategy instance
+        server_round: Current server round number
+        eval_loss: Current evaluation loss
+    """
+    if strategy.early_stopping_triggered:
+        return
+
+    should_stop, strategy.rounds_without_improvement = check_early_stopping(
+        eval_loss=eval_loss,
+        best_loss=strategy.best_eval_loss,
+        rounds_without_improvement=strategy.rounds_without_improvement,
+        patience=strategy.early_stopping_patience
+    )
+
+    if eval_loss < strategy.best_eval_loss:
+        strategy.best_eval_loss = eval_loss
+        logger.info(f"🆕 New best eval loss: {eval_loss:.4f} (round {server_round})")
+    else:
+        logger.info(f"📈 No improvement in eval loss for {strategy.rounds_without_improvement}/{strategy.early_stopping_patience} rounds")
+
+    if should_stop:
+        strategy.early_stopping_triggered = True
+        logger.warning(f"🛑 Early stopping triggered after {server_round} rounds (no eval loss improvement for {strategy.early_stopping_patience} rounds)")
+        logger.warning(f"   Best eval loss: {strategy.best_eval_loss:.4f}, Current: {eval_loss:.4f}")
+
+
 def aggregate_client_metrics(validated_results):
     """Aggregate client metrics from validated fit results.
 
@@ -146,7 +201,14 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Get eval_frequency from config (default 1)
         self.eval_frequency = context.run_config.get("eval-frequency", 1) if context else 1
-        logger.info(f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}")
+
+        # Early stopping configuration
+        self.early_stopping_patience = context.run_config.get("early_stopping_patience", 10) if context else 10
+        self.best_eval_loss = float('inf')
+        self.rounds_without_improvement = 0
+        self.early_stopping_triggered = False
+
+        logger.info(f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}, early_stopping_patience={self.early_stopping_patience}")
 
         # Override evaluate_fn for server-side evaluation (called by strategy.evaluate every round, gated by frequency)
         # This replaces the default None evaluate_fn to enable server-side eval via Flower's standard flow
@@ -249,6 +311,9 @@ class AggregateEvaluationStrategy(FedProx):
                 'param_update_norm': self.last_aggregated_metrics.get('param_update_norm', 0.0),
             }
             self.federated_metrics_history.append(round_metrics)
+
+            # Update early stopping tracking
+            update_early_stopping_tracking(self, server_round, loss)
 
             # Save evaluation results to file
             if self.server_dir:
@@ -493,6 +558,11 @@ class AggregateEvaluationStrategy(FedProx):
             aggregated_client_metrics["param_update_norm"] = param_update_norm
 
         # Store for use in _server_evaluate
+        # Store for use in _server_evaluate
+        self.last_aggregated_metrics = aggregated_client_metrics
+
+        # Apply dynamic LR adjustment based on recent server evaluation losses
+        self.adjust_learning_rate_dynamically()
         self.last_aggregated_metrics = aggregated_client_metrics
 
         # Merge client metrics with parent metrics
@@ -503,6 +573,14 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Store previous parameters for next round's update norm calculation
         self.previous_parameters = aggregated_parameters
+
+        # Check if early stopping should terminate training
+        if self.early_stopping_triggered:
+            logger.warning(f"🛑 Early stopping: Terminating training after round {server_round}")
+            logger.warning(f"   Best eval loss achieved: {self.best_eval_loss:.4f}")
+            logger.warning(f"   Rounds without improvement: {self.rounds_without_improvement}")
+            # Signal to Flower that training should stop by returning None
+            return None, metrics
 
         # Log post-aggregation global norms (now aggregated_parameters is defined)
         if aggregated_parameters is not None:
@@ -567,7 +645,29 @@ class AggregateEvaluationStrategy(FedProx):
         else:
             logger.warning(f"⚠️ Server: No parameters aggregated for round {server_round}")
 
-        return aggregated_parameters, metrics
+    def adjust_learning_rate_dynamically(self):
+        """Adjust learning rate dynamically based on recent server evaluation losses.
+
+        This method tracks server evaluation losses and adjusts the learning rate
+        for subsequent rounds if convergence appears stalled or diverging.
+        """
+        # Initialize server evaluation losses tracking if not exists
+        if not hasattr(self, 'server_eval_losses'):
+            self.server_eval_losses = []
+
+        # Dynamic LR adjustment based on recent server evaluation losses
+        if len(self.server_eval_losses) >= 3:
+            from src.task import compute_dynamic_lr_adjustment
+            current_lr = self.context.run_config.get("initial_lr", 0.0005)
+            new_lr, adjustment_reason = compute_dynamic_lr_adjustment(
+                self.server_eval_losses, current_lr
+            )
+            if new_lr != current_lr:
+                logger.info(f"🔄 Dynamic LR adjustment: {current_lr:.6f} → {new_lr:.6f} ({adjustment_reason})")
+                # Update config for next round
+                self.context.run_config["initial_lr"] = new_lr
+            else:
+                logger.debug(f"Dynamic LR: No adjustment needed ({adjustment_reason})")
 
     def save_model_checkpoint(self, parameters, server_round: int, models_dir: Path) -> None:
         """Save model checkpoint to disk using safetensors format.
@@ -829,10 +929,20 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Save configuration snapshot
     import json
+    # Get project version from pyproject.toml using existing utility
+    try:
+        from src.utils import get_tool_config
+        project_config = get_tool_config("project", "pyproject.toml")
+        project_version = project_config.get("version", "unknown")
+    except Exception as e:
+        logger.warning(f"Could not read project version from pyproject.toml: {e}")
+        project_version = "unknown"
+
     config_snapshot = {
         "timestamp": current_time.isoformat(),
         "run_config": dict(context.run_config),
         "federation": context.run_config.get("federation", "default"),
+        "project_version": project_version,
         "output_structure": {
             "base_dir": str(save_path),
             "simulation_log": str(simulation_log_path),
