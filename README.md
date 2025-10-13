@@ -1,12 +1,12 @@
 # zk0 [zee-ˈkō]
 
-An Open Source humanoid trained collaboratively by a community of builders.
+Open Source Humanoid AI trained collaboratively by a community of builders.
 
-<img src="https://github.com/user-attachments/assets/9dd876a0-6668-4b9f-ad0d-94a540353418" width=300>
+<img width="464" height="688" alt="image" src="docs/images/robots.png" />
 
 ## 🚀 **Latest Model Release**
 
-The zk0 SmolVLA federated learning model is now available on Hugging Face!
+The zk0.bot SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
 - **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
@@ -29,7 +29,7 @@ config = AutoConfig.from_pretrained("ivelin/zk0-smolvla-fl")
 
 AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1786367513137233933) that within a decade most people will have their own humanoid buddy. By some estimates humanoids will become $100 Trillion market (5B humanoids * $20,000 per unit).
 
-[Today's leading closed source humanoid](https://x.com/Tesla_Optimus/status/1846294753144361371) is trained on [100,000 GPU farm](https://nvidianews.nvidia.com/news/spectrum-x-ethernet-networking-xai-colossus) with real world data collected from millions of cars labeled by able human drivers. This is an enormous scale of compute and data that is hard to compete with as a centralized entity. However it would be interesting to see if a decentralized approach might produce useful results over time. On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.
+[Today's leading closed source humanoid](https://x.com/Tesla_Optimus/status/1846294753144361371) is trained on [100,000+ GPU farm](https://nvidianews.nvidia.com/news/spectrum-x-ethernet-networking-xai-colossus) with real world data collected from millions of cars labeled by able human drivers and a growing number of humanoid robot prototypes used in real world manufacturing environment. This is an enormous scale of compute and data that is hard to compete with as a centralized entity. However it would be interesting to see if a decentralized approach might produce useful results over time. On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.
 
 ## Community Events
 
