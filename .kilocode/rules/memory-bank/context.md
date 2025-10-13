@@ -119,6 +119,20 @@
 
 **Validation**: 30 rounds completed (29/30 full participation); convergence achieved but requires policy_loss logging enhancements for quantifiable gains.
 
+**Early Stopping Implementation (2025-10-13)**: Added configurable server-side early stopping to prevent wasted computation when evaluation loss plateaus. Training terminates automatically if no improvement occurs for configurable patience rounds (default: 10). Set `early_stopping_patience = 0` to disable.
+
+**Implementation Details**:
+- **Configuration**: `early_stopping_patience` parameter in `pyproject.toml` [tool.flwr.app.config]
+- **Logic**: Monitors server evaluation loss after each round; triggers when no improvement for N consecutive rounds
+- **Safety**: Only activates after consistent lack of progress; preserves best model achieved
+- **Logging**: Clear messages when early stopping triggers with best loss and termination reason
+- **Testing**: Comprehensive unit tests for all early stopping scenarios in `tests/unit/test_server_app.py`
+
+**Key Functions**:
+- `check_early_stopping()`: Pure function determining if stopping criteria met
+- `update_early_stopping_tracking()`: Updates strategy state and logs status
+- Integration in `AggregateEvaluationStrategy` for seamless FL workflow
+
 **Metric Standardization (2025-10-11)**: All evaluation standardized to policy_loss as sole metric for SmolVLA flow-matching objective. Removed all MSE calculations, reporting, and baselines. Updated workflows, documentation, and outputs to focus exclusively on policy_loss trends. Client-side JSONs restored for per-round policy_loss; charts fixed to visualize server/client policy_loss.
 
 **High Local Epochs Experiment (2025-10-11_07-31-37)**: Tested 1,000 local epochs per round (30 rounds planned) to assess impact on convergence. Run terminated after 4 rounds due to computational intensity. Policy loss showed concerning divergence: Round 0 (0.150 baseline) → Round 1 (0.438) → Round 2 (1.001) → Round 3 (1.088). This indicates severe overfitting to local datasets, counterproductive for federated learning generalization.

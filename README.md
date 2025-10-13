@@ -154,7 +154,7 @@ Advanced development with core FL for SmolVLA on SO-100. Recent updates: Policy 
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
-**Config**: 4 clients (pickplace, stacking, etc.); 30+ rounds; policy loss metric.
+**Config**: 4 clients (pickplace, stacking, etc.); 30+ rounds; policy loss metric; early stopping (patience=10).
 
 ## Documentation
 
