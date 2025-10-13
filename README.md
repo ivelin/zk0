@@ -2,7 +2,7 @@
 
 Open Source Humanoid AI trained collaboratively by a community of builders.
 
-<img width="464" height="688" alt="image" src="docs/images/robots.png" />
+<a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="image" src="docs/images/robots.png" /></a>
 
 ## 🚀 **Latest Model Release**
 
