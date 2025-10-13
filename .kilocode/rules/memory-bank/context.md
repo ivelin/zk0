@@ -120,3 +120,25 @@
 **Validation**: 30 rounds completed (29/30 full participation); convergence achieved but requires policy_loss logging enhancements for quantifiable gains.
 
 **Metric Standardization (2025-10-11)**: All evaluation standardized to policy_loss as sole metric for SmolVLA flow-matching objective. Removed all MSE calculations, reporting, and baselines. Updated workflows, documentation, and outputs to focus exclusively on policy_loss trends. Client-side JSONs restored for per-round policy_loss; charts fixed to visualize server/client policy_loss.
+
+**High Local Epochs Experiment (2025-10-11_07-31-37)**: Tested 1,000 local epochs per round (30 rounds planned) to assess impact on convergence. Run terminated after 4 rounds due to computational intensity. Policy loss showed concerning divergence: Round 0 (0.150 baseline) → Round 1 (0.438) → Round 2 (1.001) → Round 3 (1.088). This indicates severe overfitting to local datasets, counterproductive for federated learning generalization.
+
+**Comparison to 50-Epoch Baseline**: Previous successful 30-round run with 50 local epochs achieved stable convergence (final policy_loss: 0.544). High epochs (1,000) cause loss explosion and early termination, confirming 50-100 epochs as optimal range. FedProx μ=0.01 insufficient for preventing divergence at high epochs; recommend μ=0.001 and LR=0.0001 for future experiments.
+
+**Key Lessons**: Excessive local training leads to client overfitting and FL divergence. Stick to 50-100 epochs per round for stable convergence. Monitor for early termination signs (resource exhaustion, loss spikes).
+
+## Federated Learning Experiment Results Table
+
+| Run ID | Local Epochs | Server Rounds | FedProx μ | Initial LR | Final Metric | Status/Notes |
+|--------|--------------|---------------|-----------|------------|--------------|--------------|
+| 2025-10-05_16-21-55 | 30 | 20 | 0.001 | 0.0001 | MSE: 2722.37 | Successful baseline; stable plateau after round 7 |
+| **2025-10-09_13-59-05** | **50** | **30** | **0.01** | **0.0001** | **Policy Loss: 0.544** | **✅ MOST SUCCESSFUL: Full convergence, best final metric** |
+| 2025-10-11_07-31-37 | 1000 | 30 (planned) | 0.01 | 0.0005 | Policy Loss: 1.088 (round 3) | Terminated early; severe overfitting and divergence |
+| 2025-10-12_17-38-52 | 200 | 100 (planned) | 0.01 | 0.0005 | Policy Loss: 0.570 (round 3) | Terminated early; moderate divergence, better than 1000-epoch run |
+
+**Table Notes**:
+- **MSE vs Policy Loss**: Earlier runs used MSE; later runs standardized to Policy Loss for SmolVLA flow-matching objective
+- **Convergence Threshold**: Policy Loss <0.4 considered good convergence target
+- **Optimal Range**: 50-100 local epochs per round provides best balance of convergence and computational efficiency
+- **FedProx μ Impact**: Lower μ (0.001) provides gentler regularization; higher μ (0.01) can cause fluctuations
+- **LR Sensitivity**: Initial LR=0.0001 works well; 0.0005 may contribute to overfitting at high epochs

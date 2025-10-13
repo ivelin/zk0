@@ -16,6 +16,27 @@ from src.task import (
     test,
     train,
 )
+
+
+def compute_param_update_norm(pre_params, post_params):
+    """Compute L2 norm of parameter differences between pre and post training.
+
+    Args:
+        pre_params: List of numpy arrays (pre-training parameters)
+        post_params: List of numpy arrays (post-training parameters)
+
+    Returns:
+        float: L2 norm of parameter differences
+    """
+    if pre_params is None or post_params is None:
+        return 0.0
+
+    if len(pre_params) != len(post_params):
+        return 0.0
+
+    import numpy as np
+    param_diff_norm = np.sqrt(sum(np.sum((post - pre)**2) for post, pre in zip(post_params, pre_params)))
+    return float(param_diff_norm)
 from src.utils import load_lerobot_dataset
 
 from loguru import logger
@@ -177,12 +198,22 @@ class SmolVLAClient(NumPyClient):
             timestamp = config.get("timestamp", "unknown")
             output_dir = f"outputs/{timestamp}/clients/client_{self.partition_id}"
             os.makedirs(output_dir, exist_ok=True)
+
+            # Compute parameter update norm: L2 distance between pre-training and post-training parameters
+            param_update_norm = 0.0
+            if self.global_params is not None:
+                # Get post-training trainable parameters
+                post_train_params = extract_trainable_params(self.net)
+                # Compute L2 norm of parameter differences
+                param_update_norm = compute_param_update_norm(self.global_params, post_train_params)
+                logger.info(f"Client {self.partition_id}: Computed param_update_norm={param_update_norm:.6f}")
+
             json_data = {
                 "round": self.round_num,
                 "client_id": self.partition_id,
                 "policy_loss": training_metrics.get("loss", 0.0),
                 "num_steps": training_metrics.get("steps_completed", 0),
-                "param_update_norm": 0.0  # Placeholder, could compute if needed
+                "param_update_norm": param_update_norm
             }
             with open(f"{output_dir}/round_{self.round_num}.json", "w") as f:
                 json.dump(json_data, f, indent=2)

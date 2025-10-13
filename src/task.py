@@ -125,6 +125,30 @@ def extract_trainable_params(model) -> list:
     return trainable_params
 
 
+def compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu):
+    """Compute FedProx proximal regularization loss.
+
+    Args:
+        trainable_params: List of torch tensors (current model parameters)
+        global_params: List of numpy arrays (global model parameters from server)
+        fedprox_mu: FedProx regularization coefficient
+
+    Returns:
+        float: Proximal loss value
+    """
+    if global_params is None or fedprox_mu <= 0:
+        return 0.0
+
+    proximal_loss = 0.0
+    for param, global_param in zip(trainable_params, global_params):
+        # Convert global param to same device/dtype as current param
+        global_param_tensor = torch.from_numpy(global_param).to(param.device, dtype=param.dtype)
+        param_diff = torch.sum((param - global_param_tensor) ** 2)
+        proximal_loss += param_diff.item()
+
+    return (fedprox_mu / 2.0) * proximal_loss
+
+
 def set_params(model, parameters) -> None:
     """Set model parameters from numpy arrays sent by server at the beginning of a round."""
     params_dict = zip(model.state_dict().keys(), parameters)
@@ -249,11 +273,7 @@ def run_training_step(step, policy, batch, device, train_metrics, train_tracker,
     proximal_loss = 0.0
     if global_params is not None:
         trainable_params = [p for p in policy.parameters() if p.requires_grad]
-        for param, global_param in zip(trainable_params, global_params):
-            global_param_tensor = torch.from_numpy(global_param).to(device)
-            param_diff = torch.sum((param - global_param_tensor) ** 2)
-            proximal_loss += param_diff
-        proximal_loss = (fedprox_mu / 2.0) * proximal_loss
+        proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
         logger.debug(f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})")
 
     # Total loss for backprop: main_loss + proximal_loss
@@ -307,7 +327,7 @@ def run_training_step(step, policy, batch, device, train_metrics, train_tracker,
         logger.debug(f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB")
 
     logger.debug(f"Step {step}: Training step completed successfully. Total loss: {total_loss.item():.6f}")
-    return train_tracker, output_dict, main_loss.item(), proximal_loss.item()
+    return train_tracker, output_dict, main_loss.item(), proximal_loss
 
 
 def run_training_loop(policy, trainloader, epochs, device, cfg, optimizer, lr_scheduler, grad_scaler, train_metrics, train_tracker, global_params, fedprox_mu, use_wandb=False, partition_id=None, round_num=None):

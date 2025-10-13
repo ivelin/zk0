@@ -13,25 +13,25 @@ The zk0 system enables rigorous benchmarking between federated and centralized t
 - **Controlled Variables**: Identical hyperparameters (lr=1e-4, cosine scheduler), architecture, total steps (~50k+).
 - **Evaluation**: Same held-out validation set (unseen SO-101 tasks).
 
-### Expected Characteristics
+### Federated Learning Characteristics
 
-| Metric                  | Federated                  | Centralized                |
-|-------------------------|----------------------------|----------------------------|
-| **Final Policy Loss**   | 0.544 (30 rounds)         | ~0.43 (fewer epochs)      |
-| **Convergence Rounds**  | 150+ (communication overhead) | 80 (direct optimization) |
-| **Training Efficiency** | 0.85 (parallel clients)   | 1.0 (optimal single-GPU)  |
-| **Privacy**             | High (parameters only)    | None (full data access)   |
-| **Scalability**         | Horizontal (10+ clients)  | Vertical (more compute)   |
+| Metric                  | Federated (Best Config)    |
+|-------------------------|----------------------------|
+| **Final Policy Loss**   | 0.544 (30 rounds x 50 epochs) |
+| **Convergence Rounds**  | 30+ (more rounds could further improve convergence) |
+| **Training Efficiency** | 0.85 (parallel clients)   |
+| **Privacy**             | High (parameters only)    |
+| **Scalability**         | Horizontal (10+ clients)  |
 
-- **Federated Insights**: 5-15% higher loss due to heterogeneity; FedProx stabilizes but requires more rounds. Benefits: Privacy, distributed compute.
-- **Centralized Insights**: Faster convergence but centralized data risks.
-- **Reproduction**: Run both with seed=42; compare via `federated_metrics.json` vs. centralized logs.
+- **Federated Insights**: FedProx (μ=0.01) stabilizes convergence across heterogeneous clients. Benefits: Privacy, distributed compute.
+- **Reproduction**: Run with seed=42; monitor via `federated_metrics.json`.
 
-Example metrics from baseline run (30 rounds, μ=0.01):
+Example metrics from best FL config (30 rounds, 50 epochs, μ=0.01, LR=0.0001):
 - Final Server Policy Loss: 0.544 (improved from initial 0.149).
 - Client Avg Loss: 0.34 (decline from 2.53).
+- **Best Config**: 50 local epochs, FedProx μ=0.01, LR=0.0001 (see experiment results table).
 
-For full benchmarks, see [memory-bank/context.md](.kilocode/rules/memory-bank/context.md) (run summaries).
+For full benchmarks, see [memory-bank/context.md](.kilocode/rules/memory-bank/context.md) (run summaries and experiment results table).
 
 ## Reproducing Experiments
 

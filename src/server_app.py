@@ -9,6 +9,65 @@ from src.task import (
     compute_param_norms,
     set_params
 )
+
+
+def compute_server_param_update_norm(previous_params, current_params):
+    """Compute L2 norm of parameter differences between server rounds.
+
+    Args:
+        previous_params: Flower Parameters object from previous round
+        current_params: Flower Parameters object from current round
+
+    Returns:
+        float: L2 norm of parameter differences
+    """
+    if previous_params is None or current_params is None:
+        return 0.0
+
+    from flwr.common import parameters_to_ndarrays
+    import numpy as np
+
+    current_ndarrays = parameters_to_ndarrays(current_params)
+    previous_ndarrays = parameters_to_ndarrays(previous_params)
+
+    if len(current_ndarrays) != len(previous_ndarrays):
+        return 0.0
+
+    param_diff_norm = np.sqrt(sum(np.sum((c - p)**2) for c, p in zip(current_ndarrays, previous_ndarrays)))
+    return float(param_diff_norm)
+
+
+def aggregate_client_metrics(validated_results):
+    """Aggregate client metrics from validated fit results.
+
+    Args:
+        validated_results: List of (client_proxy, fit_result) tuples
+
+    Returns:
+        dict: Aggregated client metrics
+    """
+    import numpy as np
+
+    if not validated_results:
+        return {
+            "avg_client_loss": 0.0,
+            "std_client_loss": 0.0,
+            "avg_client_proximal_loss": 0.0,
+            "avg_client_grad_norm": 0.0,
+            "num_clients": 0,
+        }
+
+    client_losses = [fit_res.metrics.get("loss", 0.0) for _, fit_res in validated_results]
+    client_proximal_losses = [fit_res.metrics.get("fedprox_loss", 0.0) for _, fit_res in validated_results]
+    client_grad_norms = [fit_res.metrics.get("grad_norm", 0.0) for _, fit_res in validated_results]
+
+    return {
+        "avg_client_loss": float(np.mean(client_losses)) if client_losses else 0.0,
+        "std_client_loss": float(np.std(client_losses)) if len(client_losses) > 1 else 0.0,
+        "avg_client_proximal_loss": float(np.mean(client_proximal_losses)) if client_proximal_losses else 0.0,
+        "avg_client_grad_norm": float(np.mean(client_grad_norms)) if client_grad_norms else 0.0,
+        "num_clients": len(validated_results),
+    }
 from src.logger import setup_logging
 from src.visualization import SmolVLAVisualizer
 from src.utils import compute_parameter_hash
@@ -423,29 +482,15 @@ class AggregateEvaluationStrategy(FedProx):
         validated_results = self.validate_client_parameters(results)
 
         # Aggregate client metrics before calling parent
-        import numpy as np
-        client_losses = [fit_res.metrics.get("loss", 0.0) for _, fit_res in validated_results]
-        client_proximal_losses = [fit_res.metrics.get("fedprox_loss", 0.0) for _, fit_res in validated_results]
-        client_grad_norms = [fit_res.metrics.get("grad_norm", 0.0) for _, fit_res in validated_results]
-
-        aggregated_client_metrics = {
-            "avg_client_loss": float(np.mean(client_losses)) if client_losses else 0.0,
-            "std_client_loss": float(np.std(client_losses)) if len(client_losses) > 1 else 0.0,
-            "avg_client_proximal_loss": float(np.mean(client_proximal_losses)) if client_proximal_losses else 0.0,
-            "avg_client_grad_norm": float(np.mean(client_grad_norms)) if client_grad_norms else 0.0,
-            "num_clients": len(validated_results),
-        }
+        aggregated_client_metrics = aggregate_client_metrics(validated_results)
 
         # Call parent aggregate_fit (FedProx) with validated results only
         aggregated_parameters, parent_metrics = super().aggregate_fit(server_round, validated_results, failures)
 
         # Compute parameter update norm if we have previous parameters
         if self.previous_parameters is not None and aggregated_parameters is not None:
-            from flwr.common import parameters_to_ndarrays
-            current_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            previous_ndarrays = parameters_to_ndarrays(self.previous_parameters)
-            param_diff_norm = np.sqrt(sum(np.sum((c - p)**2) for c, p in zip(current_ndarrays, previous_ndarrays)))
-            aggregated_client_metrics["param_update_norm"] = float(param_diff_norm)
+            param_update_norm = compute_server_param_update_norm(self.previous_parameters, aggregated_parameters)
+            aggregated_client_metrics["param_update_norm"] = param_update_norm
 
         # Store for use in _server_evaluate
         self.last_aggregated_metrics = aggregated_client_metrics
