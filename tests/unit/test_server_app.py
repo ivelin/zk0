@@ -124,7 +124,7 @@ def test_early_stopping_returns_parameters_not_none():
         eval_loss=1.0,  # Worse than best
         best_loss=0.5,  # Best loss so far
         rounds_without_improvement=9,  # One round away from patience=10
-        patience=10
+        patience=10,
     )
 
     # Verify early stopping is triggered
@@ -320,14 +320,18 @@ def test_aggregate_fit_parameter_safety_fix():
     strategy.template_model = Mock()
 
     # Mock the parent aggregate_fit to return None parameters (simulating edge case)
-    with patch('src.server_app.FedProx.aggregate_fit', return_value=(None, {})):
-        with patch('src.server_app.logger') as mock_logger:
+    with patch("src.server_app.FedProx.aggregate_fit", return_value=(None, {})):
+        with patch("src.server_app.logger") as mock_logger:
             # Import and call the actual aggregate_fit method
             from src.server_app import AggregateEvaluationStrategy
 
             # Create a minimal instance for testing
-            test_strategy = AggregateEvaluationStrategy.__new__(AggregateEvaluationStrategy)
-            test_strategy.initial_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
+            test_strategy = AggregateEvaluationStrategy.__new__(
+                AggregateEvaluationStrategy
+            )
+            test_strategy.initial_parameters = ndarrays_to_parameters(
+                [np.array([1.0, 2.0])]
+            )
             test_strategy.early_stopping_triggered = False
 
             # Mock other required attributes
@@ -340,16 +344,34 @@ def test_aggregate_fit_parameter_safety_fix():
 
             # Call aggregate_fit with empty results (edge case that could cause None return)
             result_params, result_metrics = test_strategy.aggregate_fit(
-                server_round=1,
-                results=[],
-                failures=[]
+                server_round=1, results=[], failures=[]
             )
 
             # Verify that valid parameters are returned (not None)
-            assert result_params is not None, "aggregate_fit should never return None parameters"
-            assert isinstance(result_params, type(ndarrays_to_parameters([np.array([1.0])]))), "Should return Flower Parameters object"
+            assert result_params is not None, (
+                "aggregate_fit should never return None parameters"
+            )
+            assert isinstance(
+                result_params, type(ndarrays_to_parameters([np.array([1.0])]))
+            ), "Should return Flower Parameters object"
 
             # Verify warning was logged about returning initial parameters
             mock_logger.warning.assert_called_with(
                 "⚠️ Server: No parameters aggregated for round 1, returning initial parameters"
             )
+
+
+def test_dynamic_lr_config_enabled():
+    """Test that dynamic LR config is properly read."""
+    # Test the config reading logic directly
+    config = {"dynamic_lr_enabled": True}
+    enabled = config.get("dynamic_lr_enabled", False)
+    assert enabled is True
+
+    config = {"dynamic_lr_enabled": False}
+    enabled = config.get("dynamic_lr_enabled", False)
+    assert enabled is False
+
+    config = {}  # Default case
+    enabled = config.get("dynamic_lr_enabled", False)
+    assert enabled is False

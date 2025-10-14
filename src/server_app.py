@@ -813,8 +813,11 @@ class AggregateEvaluationStrategy(FedProx):
         if not hasattr(self, "last_client_metrics") or self.last_client_metrics is None:
             self.last_client_metrics = []
 
-        # Apply dynamic LR adjustment based on recent server evaluation losses
-        self.adjust_learning_rate_dynamically()
+        # Apply dynamic LR adjustment based on recent server evaluation losses (if enabled)
+        if self.context.run_config.get("dynamic_lr_enabled", False):
+            self.adjust_learning_rate_dynamically()
+        else:
+            logger.debug("Dynamic LR adjustment disabled via config")
 
         # Merge client metrics with parent metrics
         metrics = {**parent_metrics, **aggregated_client_metrics}
