@@ -7,8 +7,38 @@ from typing import Optional, Dict, Any
 logger = logging.getLogger(__name__)
 
 
-def init_wandb(project: str = "zk0", name: str = None, run_id: str = None, group: str = None, config: Dict[str, Any] = None, dir: str = None, notes: str = None) -> Optional[Any]:
-    """Initialize WandB run if enabled and API key is available.
+def _load_wandb_env_and_log_key(context: str = "") -> Optional[str]:
+    """Load environment variables from .env file and log WANDB_API_KEY status.
+
+    Args:
+        context: Context string for logging (e.g., "server", "client")
+
+    Returns:
+        WANDB_API_KEY if available, None otherwise
+    """
+    # Load environment variables from .env file
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+        logger.debug(f"Environment variables loaded from .env file in {context}")
+    except ImportError:
+        logger.debug(f"python-dotenv not available in {context}, skipping .env loading")
+
+    # Log WANDB_API_KEY status without revealing full key
+    wandb_key = os.environ.get("WANDB_API_KEY")
+    if wandb_key:
+        key_preview = wandb_key[-8:] if len(wandb_key) >= 8 else wandb_key
+        context_prefix = f" in {context}" if context else ""
+        logger.info(f"WANDB_API_KEY loaded{context_prefix}: Yes (ends with ...{key_preview})")
+    else:
+        context_prefix = f" for {context}" if context else ""
+        logger.warning(f"WANDB_API_KEY not found in environment variables{context_prefix}. WandB logging disabled.")
+
+    return wandb_key
+
+
+def init_server_wandb(project: str = "zk0", name: str = None, run_id: str = None, group: str = None, config: Dict[str, Any] = None, dir: str = None, notes: str = None) -> Optional[Any]:
+    """Initialize WandB run for server-side logging if enabled and API key is available.
 
     Args:
         project: WandB project name
@@ -23,11 +53,12 @@ def init_wandb(project: str = "zk0", name: str = None, run_id: str = None, group
     """
     wandb_run = None
 
+    wandb_key = _load_wandb_env_and_log_key("server")
+
     try:
         import wandb
 
-        wandb_api_key = os.environ.get("WANDB_API_KEY")
-        if wandb_api_key:
+        if wandb_key:
             init_kwargs = {
                 "project": project,
                 "config": config or {},
@@ -57,12 +88,13 @@ def init_wandb(project: str = "zk0", name: str = None, run_id: str = None, group
     return wandb_run
 
 
-def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None) -> None:
+def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None, description: Optional[str] = None) -> None:
     """Log metrics to WandB if WandB is initialized.
 
     Args:
         metrics: Dict of metrics to log
         step: Optional step number
+        description: Optional description for the metrics (for better chart legends)
     """
     try:
         import wandb
@@ -71,6 +103,8 @@ def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None) -> No
                 wandb.log(metrics, step=step)
             else:
                 wandb.log(metrics)
+            if description:
+                logger.debug(f"Logged WandB metrics: {description}")
         else:
             logger.debug("WandB run not initialized, skipping metrics logging")
     except ImportError:
@@ -79,61 +113,6 @@ def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None) -> No
         logger.warning(f"Failed to log metrics to WandB: {e}")
 
 
-def init_client_wandb(partition_id: int, dataset_name: str, local_epochs: int, batch_size: int, wandb_run_id: Optional[str] = None, wandb_dir: Optional[str] = None) -> Optional[Any]:
-    """Initialize WandB for a federated learning client.
-
-    Args:
-        partition_id: Client partition ID
-        dataset_name: Dataset repository ID
-        local_epochs: Number of local training epochs
-        batch_size: Training batch size
-        wandb_run_id: Server's WandB run ID to join (if provided)
-        wandb_dir: Directory for WandB files
-
-    Returns:
-        WandB run object if initialized, None otherwise
-    """
-    wandb_run = None
-
-    try:
-        import wandb
-
-        wandb_api_key = os.environ.get("WANDB_API_KEY")
-        if wandb_api_key:
-            init_kwargs = {
-                "project": "zk0",
-                "config": {
-                    f"client_{partition_id}_id": partition_id,
-                    f"client_{partition_id}_dataset": dataset_name,
-                    f"client_{partition_id}_local_epochs": local_epochs,
-                    f"client_{partition_id}_batch_size": batch_size,
-                },
-                "notes": f"Federated Learning Client {partition_id} - Dataset: {dataset_name}"
-            }
-
-            if wandb_dir:
-                init_kwargs["dir"] = wandb_dir
-
-            if wandb_run_id:
-                # Join server's unified run
-                init_kwargs["id"] = wandb_run_id
-                wandb_run = wandb.init(**init_kwargs)
-                logger.info(f"Client {partition_id}: Joined unified WandB run {wandb_run.name} (ID: {wandb_run.id})")
-            else:
-                # Fallback: create separate run (should not happen in normal operation)
-                fallback_name = f"client_{partition_id}_{dataset_name}"
-                init_kwargs["name"] = fallback_name
-                wandb_run = wandb.init(**init_kwargs)
-                logger.warning(f"Client {partition_id}: Created separate WandB run {wandb_run.name} (ID: {wandb_run.id}) - no server run_id provided")
-        else:
-            logger.warning("WANDB_API_KEY not found in environment variables. WandB logging disabled.")
-
-    except ImportError:
-        logger.warning("wandb not available. Install with: pip install wandb")
-    except Exception as e:
-        logger.error(f"Failed to initialize WandB for client {partition_id}: {e}")
-
-    return wandb_run
 
 
 def finish_wandb() -> None:

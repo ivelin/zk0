@@ -178,12 +178,15 @@ def _collect_client_metrics(validated_results):
         list: List of individual client metric dictionaries
     """
     from src.utils import create_client_metrics_dict
+
     client_metrics = []
     for client_proxy, fit_res in validated_results:
         # Use the simple client_id from metrics (0,1,2,3) instead of the long Flower proxy ID
         simple_client_id = fit_res.metrics.get("client_id", client_proxy.cid)
         raw_metrics = fit_res.metrics
-        logger.info(f"DEBUG SERVER COLLECT: Client {simple_client_id} raw metrics keys: {list(raw_metrics.keys())}, fedprox={raw_metrics.get('fedprox_loss', 'MISSING')}, param_norm={raw_metrics.get('param_update_norm', 'MISSING')}, policy_loss={raw_metrics.get('policy_loss', 'MISSING')}")
+        logger.info(
+            f"DEBUG SERVER COLLECT: Client {simple_client_id} raw metrics keys: {list(raw_metrics.keys())}, fedprox={raw_metrics.get('fedprox_loss', 'MISSING')}, param_norm={raw_metrics.get('param_update_norm', 'MISSING')}, policy_loss={raw_metrics.get('policy_loss', 'MISSING')}"
+        )
         base_metrics = create_client_metrics_dict(
             round_num=0,  # Round will be set in _server_evaluate
             client_id=simple_client_id,
@@ -193,11 +196,13 @@ def _collect_client_metrics(validated_results):
             grad_norm=raw_metrics.get("grad_norm", 0.0),
             param_hash=raw_metrics.get("param_hash", ""),
             num_steps=raw_metrics.get("steps_completed", 0),
-            param_update_norm=raw_metrics.get("param_update_norm", 0.0)
+            param_update_norm=raw_metrics.get("param_update_norm", 0.0),
         )
         # Add Flower-specific field
         base_metrics["flower_proxy_cid"] = client_proxy.cid
-        logger.info(f"DEBUG SERVER PROCESSED: Client {simple_client_id} final metrics: policy_loss={base_metrics['policy_loss']}, fedprox_loss={base_metrics['fedprox_loss']}, param_update_norm={base_metrics['param_update_norm']}")
+        logger.info(
+            f"DEBUG SERVER PROCESSED: Client {simple_client_id} final metrics: policy_loss={base_metrics['policy_loss']}, fedprox_loss={base_metrics['fedprox_loss']}, param_update_norm={base_metrics['param_update_norm']}"
+        )
         client_metrics.append(base_metrics)
     return client_metrics
 
@@ -296,7 +301,9 @@ class AggregateEvaluationStrategy(FedProx):
         )
         self.last_aggregated_metrics = {}  # Store last round's aggregated client metrics
         self.last_client_metrics = []  # Store last round's individual client metrics
-        self.initial_parameters = initial_parameters  # Store initial parameters for early stopping fallback
+        self.initial_parameters = (
+            initial_parameters  # Store initial parameters for early stopping fallback
+        )
 
         # Get eval_frequency from config (default 1)
         self.eval_frequency = (
@@ -423,24 +430,20 @@ class AggregateEvaluationStrategy(FedProx):
             # Log to WandB
             if self.wandb_run:
                 from src.wandb_utils import log_wandb_metrics
+                from src.utils import prepare_server_wandb_metrics
 
-                server_prefix = "server_"
-                wandb_metrics = {
-                    f"{server_prefix}round": server_round,
-                    f"{server_prefix}eval_loss": loss,
-                    f"{server_prefix}eval_action_mse": metrics.get("action_mse", 0.0),
-                    f"{server_prefix}eval_successful_batches": metrics.get(
-                        "successful_batches", 0
-                    ),
-                    f"{server_prefix}eval_total_batches": metrics.get(
-                        "total_batches_processed", 0
-                    ),
-                    f"{server_prefix}eval_total_samples": metrics.get(
-                        "total_samples", 0
-                    ),
-                }
-                log_wandb_metrics(wandb_metrics)
-                logger.debug(f"Logged server eval metrics to WandB: {wandb_metrics}")
+                # Use utility function to prepare WandB metrics with same structure as JSON files
+                # This ensures WandB metrics structure matches JSON file structure
+                wandb_metrics = prepare_server_wandb_metrics(
+                    server_round=server_round,
+                    server_loss=loss,
+                    server_metrics=metrics,
+                    aggregated_client_metrics=self.last_aggregated_metrics,
+                    individual_client_metrics=self.last_client_metrics,
+                )
+
+                log_wandb_metrics(wandb_metrics, step=server_round)
+                logger.debug(f"Logged server eval + client metrics to WandB using utility function: {list(wandb_metrics.keys())}")
 
             # Track metrics for plotting
             round_metrics = {
@@ -527,37 +530,10 @@ class AggregateEvaluationStrategy(FedProx):
                             wandb_run=self.wandb_run,
                         )
 
-                    # Final WandB metrics
-                    if self.wandb_run:
-                        from src.wandb_utils import log_wandb_metrics
+                    from src.wandb_utils import finish_wandb
 
-                        final_metrics = {
-                            "server_final_round": server_round,
-                            "server_final_eval_loss": loss,
-                            "server_final_eval_action_mse": metrics.get(
-                                "action_mse", 0.0
-                            ),
-                            "server_final_eval_successful_batches": metrics.get(
-                                "successful_batches", 0
-                            ),
-                            "server_final_eval_total_batches": metrics.get(
-                                "total_batches_processed", 0
-                            ),
-                            "server_final_eval_total_samples": metrics.get(
-                                "total_samples", 0
-                            ),
-                            "server_proximal_mu": self.proximal_mu,
-                            "server_num_server_rounds": self.num_rounds,
-                        }
-                        log_wandb_metrics(final_metrics)
-                        logger.info(
-                            f"Logged final evaluation metrics to WandB: {final_metrics}"
-                        )
-
-                        from src.wandb_utils import finish_wandb
-
-                        finish_wandb()
-                        logger.info("WandB run finished after final round")
+                    finish_wandb()
+                    logger.info("WandB run finished after final round")
 
                     logger.info("Eval MSE chart generated for final round")
                 except Exception as e:
@@ -789,7 +765,9 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Aggregate client metrics before calling parent
         aggregated_client_metrics = aggregate_client_metrics(validated_results)
-        logger.info(f"DEBUG SERVER AGGREGATE: Aggregated metrics: {aggregated_client_metrics}")
+        logger.info(
+            f"DEBUG SERVER AGGREGATE: Aggregated metrics: {aggregated_client_metrics}"
+        )
 
         # Call parent aggregate_fit (FedProx) with validated results only
         aggregated_parameters, parent_metrics = super().aggregate_fit(
@@ -839,7 +817,11 @@ class AggregateEvaluationStrategy(FedProx):
             )
             # Return the aggregated parameters from this round (or initial if none aggregated)
             # This ensures we always return valid parameters to avoid Flower unpacking errors
-            final_parameters = aggregated_parameters if aggregated_parameters is not None else self.initial_parameters
+            final_parameters = (
+                aggregated_parameters
+                if aggregated_parameters is not None
+                else self.initial_parameters
+            )
             logger.info(
                 f"✅ Server: Early stopping - returning parameters from round {server_round}"
             )
@@ -932,7 +914,10 @@ class AggregateEvaluationStrategy(FedProx):
                         )
                         # Convert Parameters to NDArrays for _server_evaluate
                         from flwr.common import parameters_to_ndarrays
-                        aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+
+                        aggregated_ndarrays = parameters_to_ndarrays(
+                            aggregated_parameters
+                        )
                         self._server_evaluate(server_round, aggregated_ndarrays, {})
                     except Exception as e:
                         logger.error(
@@ -1271,12 +1256,12 @@ def server_fn(context: Context) -> ServerAppComponents:
     context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
 
     # Initialize WandB if enabled
-    from src.wandb_utils import init_wandb
+    from src.wandb_utils import init_server_wandb
 
     wandb_run = None
     run_id = f"zk0-sim-fl-run-{folder_name}"
     if app_config.get("use-wandb", False):
-        wandb_run = init_wandb(
+        wandb_run = init_server_wandb(
             project="zk0",
             run_id=run_id,
             config=dict(app_config),
@@ -1363,7 +1348,9 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Add evaluation configuration callback to provide save_path to clients
     eval_frequency = context.run_config.get("eval-frequency", 1)
     eval_batches = context.run_config.get("eval_batches", 0)
-    logger.info(f"Server: Using eval_frequency={eval_frequency}, eval_batches={eval_batches}")
+    logger.info(
+        f"Server: Using eval_frequency={eval_frequency}, eval_batches={eval_batches}"
+    )
 
     # FedProx requires proximal_mu parameter - get from config or use default
     from src.utils import get_tool_config

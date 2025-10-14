@@ -364,11 +364,11 @@ def create_client_metrics_dict(
     grad_norm: float,
     param_hash: str,
     num_steps: int,
-    param_update_norm: float
+    param_update_norm: float,
 ) -> dict:
     """
     Create standardized client metrics dictionary for JSON logging and server aggregation.
-    
+
     Args:
         round_num: Current federated learning round
         client_id: Client identifier
@@ -379,7 +379,10 @@ def create_client_metrics_dict(
         param_hash: SHA256 hash of parameters
         num_steps: Number of training steps completed
         param_update_norm: L2 norm of parameter updates
-    
+        latest_local_epochs: Number of local epochs run by this client in the most recent round
+        cumulative_rounds_for_dataset: Total federated rounds this client has participated in for its dataset
+        cumulative_epochs_for_dataset: Total local epochs accumulated by this client for its dataset across all rounds
+
     Returns:
         Standardized metrics dict for consistent client/server use
     """
@@ -394,5 +397,59 @@ def create_client_metrics_dict(
         "grad_norm": grad_norm,
         "param_hash": param_hash,
         "num_steps": num_steps,
-        "param_update_norm": param_update_norm
+        "param_update_norm": param_update_norm,
     }
+
+
+def prepare_server_wandb_metrics(
+    server_round: int,
+    server_loss: float,
+    server_metrics: dict,
+    aggregated_client_metrics: dict,
+    individual_client_metrics: list,
+) -> dict:
+    """
+    Prepare server metrics for WandB logging using the same structure as JSON files.
+
+    This function creates a flattened metrics dictionary suitable for WandB logging
+    that mirrors the structure used in server JSON evaluation files.
+
+    Args:
+        server_round: Current server round number
+        server_loss: Server evaluation loss
+        server_metrics: Server evaluation metrics dictionary
+        aggregated_client_metrics: Aggregated client metrics from last round
+        individual_client_metrics: List of individual client metrics from last round
+
+    Returns:
+        Dictionary of metrics formatted for WandB logging with appropriate prefixes
+    """
+    wandb_metrics = {}
+
+    # Add server metrics with server_ prefix
+    server_prefix = "server_"
+    wandb_metrics[f"{server_prefix}round"] = server_round
+    wandb_metrics[f"{server_prefix}eval_loss"] = server_loss
+    wandb_metrics[f"{server_prefix}eval_policy_loss"] = server_metrics.get("policy_loss", 0.0)
+    wandb_metrics[f"{server_prefix}eval_action_mse"] = server_metrics.get("action_mse", 0.0)
+    wandb_metrics[f"{server_prefix}eval_successful_batches"] = server_metrics.get("successful_batches", 0)
+    wandb_metrics[f"{server_prefix}eval_total_batches"] = server_metrics.get("total_batches_processed", 0)
+    wandb_metrics[f"{server_prefix}eval_total_samples"] = server_metrics.get("total_samples", 0)
+    wandb_metrics[f"{server_prefix}eval_action_dim"] = server_metrics.get("action_dim", 7)
+
+    # Add aggregated client metrics with server_ prefix
+    if aggregated_client_metrics:
+        for key, value in aggregated_client_metrics.items():
+            wandb_metrics[f"{server_prefix}{key}"] = value
+
+    # Add individual client metrics with client_{id}_ prefix
+    for client_metric in individual_client_metrics:
+        client_id = client_metric.get("client_id", "unknown")
+        prefix = f"client_{client_id}_"
+
+        # Add all client metrics except internal Flower fields
+        for key, value in client_metric.items():
+            if key not in ["flower_proxy_cid"]:  # Exclude internal fields
+                wandb_metrics[f"{prefix}{key}"] = value
+
+    return wandb_metrics

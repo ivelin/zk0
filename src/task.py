@@ -200,7 +200,6 @@ def setup_training_components(
     batch_size,
     device,
     initial_lr,
-    use_wandb=False,
     partition_id=None,
 ):
     """Setup training components: optimizer, scheduler, metrics, and configuration."""
@@ -469,7 +468,6 @@ def run_training_loop(
     train_tracker,
     global_params,
     fedprox_mu,
-    use_wandb=False,
     partition_id=None,
     round_num=None,
 ):
@@ -600,31 +598,7 @@ def run_training_loop(
                 f"DIAG: Step {step}/{epochs} completed, loss_avg={train_metrics['loss'].avg:.4f}, time_elapsed={time.perf_counter() - loop_start_time:.2f}s, total_skipped_episodes={skipped_episodes}"
             )
 
-            # Log to WandB with client prefix
-            if use_wandb and partition_id is not None:
-                from src.wandb_utils import log_wandb_metrics
-
-                client_prefix = f"client_{partition_id}"
-                log_wandb_metrics(
-                    {
-                        f"{client_prefix}_federated_client_id": partition_id,
-                        f"{client_prefix}_federated_round_number": round_num or 0,
-                        f"{client_prefix}_training_step": step,
-                        f"{client_prefix}_model_forward_loss": main_loss_val,
-                        f"{client_prefix}_fedprox_regularization_loss": proximal_loss_val,
-                        f"{client_prefix}_total_training_loss": train_metrics[
-                            "loss"
-                        ].avg,
-                        f"{client_prefix}_learning_rate": train_metrics["lr"].avg,
-                        f"{client_prefix}_gradient_norm": train_metrics[
-                            "grad_norm"
-                        ].avg,
-                        f"{client_prefix}_steps_completed": step,
-                        f"{client_prefix}_skipped_batches": skipped_batches,
-                        f"{client_prefix}_skipped_episodes": skipped_episodes,
-                    },
-                    step=step,
-                )
+            # Client-side WandB logging removed - clients get recycled between rounds
 
         # Log progress (like lerobot train.py)
         is_log_step = cfg.log_freq > 0 and step % cfg.log_freq == 0
@@ -653,7 +627,6 @@ def train(
     global_params=None,
     fedprox_mu=0.01,
     initial_lr=None,
-    use_wandb=False,
     partition_id=None,
     round_num=None,
 ) -> dict[str, float]:
@@ -680,7 +653,6 @@ def train(
             batch_size,
             device,
             initial_lr,
-            use_wandb,
             partition_id,
         )
     )
@@ -705,7 +677,6 @@ def train(
         train_tracker,
         global_params,
         fedprox_mu,
-        use_wandb,
         partition_id,
         round_num,
     )

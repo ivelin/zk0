@@ -161,10 +161,18 @@ def test_setup_training_components_metrics_initialization():
             }
             self.action_dim = 7
             self.stats = {}  # Mock stats to satisfy make_policy
+            self.info = {}  # Add info attribute to avoid AttributeError
 
     mock_ds_meta = MockDatasetMetadata()
     policy = make_policy(cfg=cfg, ds_meta=mock_ds_meta)
-    mock_loader = DataLoader(TensorDataset(torch.randn(10, 1)), batch_size=1)
+    # Create a mock dataset with meta attribute
+    class MockDataset:
+        def __init__(self):
+            self.meta = Mock()
+            self.meta.repo_id = "test/repo"
+
+    mock_dataset = MockDataset()
+    mock_loader = DataLoader(mock_dataset, batch_size=1)
     device = torch.device("cpu")
 
     # Call setup

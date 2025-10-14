@@ -53,7 +53,7 @@ fraction-fit = 1 # set to 1 for all clients to train each round
 fraction-evaluate = 1 # Evaluate all clients
 batch_size =  64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
-use-wandb = false # requires WANDB_API_KEY env var set
+use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
 eval_batches = 0 # Number of batches to evaluate (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
 checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
