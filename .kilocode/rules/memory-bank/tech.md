@@ -1,7 +1,7 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-09
+**Last Updated**: 2025-10-14
 **Version**: 1.0.3
 **Author**: Kilo Code
 
@@ -117,9 +117,14 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Dataset sizes and validation status** for each client
 - **Train/eval episode splits** for proper federated learning setup
 - **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
-- **Latest Update (2025-10-05)**: Replaced lerobot/svla_so100_pickplace with shaunkirby/record-test ("Put the red LEGO in the bin") for improved task diversity and reduced complexity
+- **Latest Update (2025-10-14)**: Updated to 4 validated clients with diverse SO-100/SO-101 tasks:
+  - **Client 0**: shaunkirby/record-test - "Put the red LEGO in the bin"
+  - **Client 1**: ethanCSL/direction_test - "turn to the right side" (VALIDATED CLEAN)
+  - **Client 2**: gimarchetti/so101-winnie-us5 - "rub the plush toy with the bottle" (VALIDATED CLEAN)
+  - **Client 3**: olingoudey/so101_stationary_mug445 - "Put the stuffed animal in the mug" (VALIDATED CLEAN)
 
 #### Evaluation Datasets
+- **Hupy440/Two_Cubes_and_Two_Buckets_v2**: SO-101 test dataset (12 episodes, 9,128 frames) - "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket."
 - **choyf3/so101_test_20250908**: SO-101 test dataset (12 episodes, 9,128 frames)
 - **griffinlabs/record-trial-2**: Research laboratory trials (20 episodes, 14,607 frames)
 - **JamesChen007/so101-test**: SO-101 comprehensive test (10 episodes, 3,946 frames)

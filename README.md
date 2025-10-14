@@ -122,10 +122,10 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 ./train.sh --docker
 ```
 
-- **Defaults**: 100 rounds, 10 clients, SO-100 datasets.
+- **Defaults**: 500 rounds, 4 clients, SO-100/SO-101 datasets.
 - **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoints (`.safetensors`), videos.
 
-**Tested**: Completes 100 rounds in ~50s; policy loss tracks convergence.
+**Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
 
 ## Repository Branches
 
@@ -137,16 +137,18 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ### 🚀 Current Stage: Beta
 
-Advanced development with core FL for SmolVLA on SO-100. Recent updates: Policy loss standardization, multi-repo partitioning, server eval.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. Recent updates: Enhanced security, consolidated metrics, early stopping, dynamic learning rate.
 
 #### Completed Milestones
 
-- ✅ Core Infrastructure: Flower 1.21.0 + Ray 2.31.0 + LeRobot 0.3.3.
+- ✅ Core Infrastructure: Flower 1.20.0 + Ray 2.31.0 + LeRobot 0.3.0.
 - ✅ Client Implementation: SmolVLA training, dataset partitioning.
 - ✅ Testing: 80%+ coverage, unit/integration suites.
 - ✅ CI/CD: GitHub Actions, auto-testing.
 - ✅ Config/Tooling: YAML datasets, env management.
-- ✅ Consolidated Metrics: Server-side evaluation files now include both aggregated and individual client metrics with dataset identification (v0.1.16).
+- ✅ Enhanced Security: Bidirectional SHA256 parameter validation.
+- ✅ Consolidated Metrics: Server-side evaluation files now include both aggregated and individual client metrics with dataset identification (v0.1.19).
+- ✅ Early Stopping: Configurable server-side early stopping with patience-based termination.
 
 #### In Progress
 
@@ -155,7 +157,7 @@ Advanced development with core FL for SmolVLA on SO-100. Recent updates: Policy 
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
-**Config**: 4 clients (pickplace, stacking, etc.); 30+ rounds; policy loss metric; early stopping (patience=10).
+**Config**: 4 clients (LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; early stopping (patience=10); FedProx (μ=0.01).
 
 ## Documentation
 

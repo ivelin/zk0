@@ -71,7 +71,7 @@
 **Files modified:** `src/server_app.py`, `src/client_app.py`, `pyproject.toml`
 
 **Steps:**
-1. **Version Increment**: Updated project version from 0.1.15 to 0.1.16 in pyproject.toml
+1. **Version Increment**: Updated project version from 0.1.15 to 0.1.19 in pyproject.toml
 2. **Server Aggregation Storage**: Modified `aggregate_fit()` in server_app.py to store individual client metrics (client_id, loss, fedprox_loss, grad_norm, param_hash, dataset_name) in `self.last_client_metrics`
 3. **Server Eval Consolidation**: Updated `_server_evaluate()` to include both `aggregated_client_metrics` and `individual_client_metrics` in round_X_server_eval.json files
 4. **Client Dataset Reporting**: Added `dataset_name` to client fit() metrics in client_app.py for server-side aggregation
@@ -193,7 +193,7 @@
 - Minimal resource usage for frequent testing during development
 
 ## Post-FL Run Analysis Workflow
-**Last performed:** 2025-10-11
+**Last performed:** 2025-10-14
 **Context:** Analyzed 30-round baseline run outputs to assess convergence, identify logging issues, and propose improvements for policy_loss tracking and client dropout prevention
 
 **Steps:**

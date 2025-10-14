@@ -48,8 +48,8 @@ zk0/
 │       │   ├── round_N_server_eval.json  # Server evaluation results
 │       │   ├── federated_metrics.json     # Aggregated FL metrics
 │       │   ├── federated_metrics.png      # Metrics visualization
-│       │   ├── eval_mse_chart.png         # MSE chart
-│       │   └── eval_mse_history.json      # Historical MSE data
+│       │   ├── eval_policy_loss_chart.png  # Policy loss chart
+│       │   └── eval_policy_loss_history.json # Historical policy loss data
 │       ├── clients/              # Client-side outputs
 │       │   └── client_N/         # Per-client directories
 │       │       ├── client.log    # Client-specific logs
@@ -77,8 +77,9 @@ zk0/
 
 **Centralized Configuration Architecture:**
 - **`pyproject.toml`** - Primary configuration file containing:
-  - `[tool.flwr.app.config]` - Flower federated learning parameters (rounds, epochs, strategies)
+  - `[tool.flwr.app.config]` - Flower federated learning parameters (rounds, epochs, strategies, early stopping, model checkpointing)
   - `[tool.zk0.datasets]` - Client dataset assignments and evaluation configurations
+  - `[tool.zk0.logging]` - Application logging configuration
   - `[project]` - Project metadata and dependencies
 - **`.env`** - Environment variables for sensitive configuration (API keys, paths)
 - **Code defaults** - Fallback values in source code for robustness
@@ -87,6 +88,13 @@ zk0/
 - Dataset configuration loaded via `src/configs/datasets.py` → `DatasetConfig.load()`
 - Flower configuration loaded via `src/utils.py` → `get_tool_config()`
 - Environment variables loaded via `python-dotenv`
+
+**Key Configuration Parameters:**
+- **Federated Learning**: `num-server-rounds`, `local-epochs`, `fraction-fit`, `fraction-evaluate`, `batch_size`
+- **Model Settings**: `model-name`, `proximal_mu`, `initial_lr`, `server-device`
+- **Evaluation**: `eval-frequency`, `eval_batches`, `early_stopping_patience`
+- **Experiment Tracking**: `use-wandb`, `hf_repo_id`, `checkpoint_interval`
+- **Advanced Features**: `dynamic_lr_enabled` for adaptive learning rate adjustment
 - **Test Suite**: [`tests/`](tests/)
   - Unit tests: [`tests/unit/`](tests/unit/)
   - Integration tests: [`tests/integration/`](tests/integration/)
@@ -145,7 +153,11 @@ The system implements a carefully designed federated learning strategy to ensure
 
 #### Client Task Assignments
 Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning. See [Configuration System](#configuration-system) for complete client dataset configuration including:
-- **4 validated clients** with diverse robotics manipulation tasks
+- **4 validated clients** with diverse robotics manipulation tasks:
+  - **Client 0**: shaunkirby/record-test - "Put the red LEGO in the bin"
+  - **Client 1**: ethanCSL/direction_test - "turn to the right side" (VALIDATED CLEAN)
+  - **Client 2**: gimarchetti/so101-winnie-us5 - "rub the plush toy with the bottle" (VALIDATED CLEAN)
+  - **Client 3**: olingoudey/so101_stationary_mug445 - "Put the stuffed animal in the mug" (VALIDATED CLEAN)
 - **Dataset sizes and validation status** for each client
 - **Train/eval episode splits** for proper federated learning setup
 - **Quality assurance indicators** (CLEAN vs HOTFIX APPLIED)
@@ -164,6 +176,7 @@ Each client is assigned a unique robotics manipulation task to prevent data over
 
 #### Server Evaluation Datasets (Unseen Tasks)
 The server evaluates the global model on all client tasks as well as additional unseen tasks to verify generalization capabilities. See [Configuration System](#configuration-system) for the complete list of validated evaluation datasets including:
+- **Hupy440/Two_Cubes_and_Two_Buckets_v2**: SO-101 test dataset (12 episodes, 9,128 frames) - "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket."
 - **SO-101 cross-platform datasets** for generalization testing
 - **Research laboratory scenarios** for specialized task validation
 - **Comprehensive test suites** for thorough evaluation
@@ -192,6 +205,9 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Encrypted Communication**: TLS for all client-server interactions
 - **Access Control**: Authentication and authorization mechanisms
 - **Audit Logging**: Comprehensive logging for compliance
+- **Parameter Validation**: Bidirectional SHA256 hash checking ensures parameter integrity
+- **Corruption Detection**: Automatic detection and exclusion of corrupted client updates
+- **Fail-Fast Security**: Runtime errors raised immediately on validation failures
 
 ## Integration Requirements
 
@@ -266,19 +282,19 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (minor, major, breaking, etc.)
 - **Task Completion Assessment**: When a big task is completed that involves substantial code changes, assess and propose project progress update, but wait for approval before making any changes
 
-### 5. Testing Execution Requirements
+### 7. Testing Execution Requirements
 - **Environment**: All tests must run in Docker container (`zk0`) for consistency
 - **Parallel Execution**: Use `pytest -n auto` for parallel test execution
 - **Coverage**: Always include `--cov=src --cov-report=term-missing` for coverage reporting
 - **Command Format**: Use train.sh or direct Docker run with `python -m pytest -n auto --cov=src --cov-report=term-missing`
 
-### 7. Environment Dependency Management
+### 8. Environment Dependency Management
 - **Reproducible Dependencies**: When new OS-level or Python dependencies are needed, update Dockerfile and/or requirements.txt for reproducibility
 - **Docker-first**: Prefer Docker-based dependency management over local environment modifications
 - **Version Pinning**: Always pin dependency versions in requirements.txt to ensure consistent environments
 - **Documentation**: Document any new dependencies and their purpose in commit messages and memory bank
 
-### 6. Testing and CI Standards
+### 9. Testing and CI Standards
 - **NO STANDALONE TEST FILES**: If anything needs testing about runtime environment, dependencies, models, datasets, integration interfaces, or app logic, it MUST be part of the CI test suite, not standalone files
 - **CI Test Suite Usage**: Anytime you want to check runtime environment correctness and readiness, run tests from the existing test suite
 - **Reusable Test Code**: Do not write code outside of the test suite if it can be reused for CI needs
