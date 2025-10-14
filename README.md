@@ -146,6 +146,7 @@ Advanced development with core FL for SmolVLA on SO-100. Recent updates: Policy 
 - ✅ Testing: 80%+ coverage, unit/integration suites.
 - ✅ CI/CD: GitHub Actions, auto-testing.
 - ✅ Config/Tooling: YAML datasets, env management.
+- ✅ Consolidated Metrics: Server-side evaluation files now include both aggregated and individual client metrics with dataset identification (v0.1.16).
 
 #### In Progress
 

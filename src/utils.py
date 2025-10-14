@@ -355,3 +355,44 @@ def get_tool_config(tool_name: str, file_path: str = "pyproject.toml") -> dict:
     with open(file_path, "rb") as f:
         config = tomllib.load(f)
     return config.get("tool", {}).get(tool_name, {})
+def create_client_metrics_dict(
+    round_num: int,
+    client_id: str,
+    dataset_name: str,
+    policy_loss: float,
+    fedprox_loss: float,
+    grad_norm: float,
+    param_hash: str,
+    num_steps: int,
+    param_update_norm: float
+) -> dict:
+    """
+    Create standardized client metrics dictionary for JSON logging and server aggregation.
+    
+    Args:
+        round_num: Current federated learning round
+        client_id: Client identifier
+        dataset_name: Dataset repository ID
+        policy_loss: Pure SmolVLA policy loss
+        fedprox_loss: FedProx regularization loss
+        grad_norm: Gradient norm
+        param_hash: SHA256 hash of parameters
+        num_steps: Number of training steps completed
+        param_update_norm: L2 norm of parameter updates
+    
+    Returns:
+        Standardized metrics dict for consistent client/server use
+    """
+    total_loss = policy_loss + fedprox_loss
+    return {
+        "round": round_num,
+        "client_id": client_id,
+        "dataset_name": dataset_name,
+        "loss": total_loss,  # Total loss for compatibility
+        "policy_loss": policy_loss,  # Pure SmolVLA flow-matching loss
+        "fedprox_loss": fedprox_loss,  # FedProx term
+        "grad_norm": grad_norm,
+        "param_hash": param_hash,
+        "num_steps": num_steps,
+        "param_update_norm": param_update_norm
+    }

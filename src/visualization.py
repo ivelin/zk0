@@ -262,6 +262,7 @@ class SmolVLAVisualizer:
         Args:
             policy_loss_history: Dict where keys are round numbers, values are dicts with
                         'client_0', 'client_1', ..., 'server_policy_loss' policy loss values.
+                        Can also include aggregated metrics from consolidated server eval files.
             save_dir: Directory to save the chart and history JSON.
             wandb_run: Optional wandb run object for logging metrics.
         """

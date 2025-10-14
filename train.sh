@@ -40,9 +40,13 @@ while [[ $# -gt 0 ]]; do
             USE_DOCKER=true
             shift
             ;;
+        --tiny)
+            TINY_TRAIN=true
+            shift
+            ;;
         *)
             print_error "Unknown option: $1"
-            print_info "Usage: $0 [--docker]"
+            print_info "Usage: $0 [--docker] [--tiny]"
             exit 1
             ;;
     esac
@@ -130,7 +134,7 @@ if [ "$USE_DOCKER" = true ]; then
     DOCKER_CMD="$DOCKER_CMD -e RAY_DEDUP_LOGS=0"
     DOCKER_CMD="$DOCKER_CMD -e RAY_COLOR_PREFIX=1"
     DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
-    DOCKER_CMD="$DOCKER_CMD sh -c \"uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && PYTHONPATH=/workspace flwr run . $FEDERATION\""
+    DOCKER_CMD="$DOCKER_CMD sh -c 'uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && pip install -e . && PYTHONPATH=/workspace flwr run . $FEDERATION'"
 
     print_info "Executing Docker command:"
     print_info "$DOCKER_CMD"
@@ -143,7 +147,11 @@ else
     export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
     # Build the conda command with explicit channel configuration
-    CONDA_CMD="conda run -n zk0 flwr run . $FEDERATION"
+    if [ "$TINY_TRAIN" = true ]; then
+        CONDA_CMD="conda run -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION --run-config \"num-server-rounds=1 local-epochs=1 batch_size=1 eval_batches=1 fraction-fit=0.1 fraction-evaluate=0.1\"'"
+    else
+        CONDA_CMD="conda run -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION'"
+    fi
 
     print_info "Executing conda command:"
     print_info "$CONDA_CMD"

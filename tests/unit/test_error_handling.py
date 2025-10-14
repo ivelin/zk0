@@ -35,7 +35,7 @@ class TestFitEvaluateExceptionHandling:
             return client
 
     def test_evaluate_handles_missing_round_in_config(self, mock_client):
-        """Test that evaluate raises error when round is missing from config."""
+        """Test that evaluate handles missing round in config gracefully."""
         # Mock parameters
         parameters = [np.array([1.0, 2.0]), np.array([3.0])]
 
@@ -47,8 +47,15 @@ class TestFitEvaluateExceptionHandling:
             "save_path": "/tmp/test"
         }
 
-        with pytest.raises(ValueError, match="'round' not found in config"):
-            mock_client.evaluate(parameters, config)
+        # Mock set_params to avoid model loading issues
+        with patch('src.client_app.set_params') as mock_set_params:
+            # Should not raise, but handle gracefully
+            loss, num_examples, metrics = mock_client.evaluate(parameters, config)
+            assert loss == 1.0
+            assert num_examples == 1
+            assert "evaluation_error" in metrics
+            assert "policy_loss" in metrics
+            assert "partition_id" in metrics
 
     def test_evaluate_handles_test_exception(self, mock_client):
         """Test that evaluate returns default values when test() fails."""
@@ -74,3 +81,6 @@ class TestFitEvaluateExceptionHandling:
             assert loss == 1.0
             assert num_examples == 1  # Fixed: should be 1, not 0 based on test output
             assert "evaluation_error" in metrics
+            assert metrics["evaluation_error"] == "Test failed"
+            assert "policy_loss" in metrics
+            assert "partition_id" in metrics

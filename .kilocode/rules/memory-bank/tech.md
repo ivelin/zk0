@@ -159,7 +159,11 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Testing**: `conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing`
 - **Syntax Check**: `conda run -n zk0 python -c "import ast; ast.parse(open('file.py').read())"`
 - **Code Execution**: `conda run -n zk0 python -c "your code here"`
-- **Training**: `conda run -n zk0 flwr run . local-simulation-serialized-gpu` or `./train.sh` (Docker fallback)
+- **Training**: **ALWAYS use `./train.sh` for training runs** (preferred over direct flwr commands)
+  - **Tiny Training**: `./train.sh --tiny` for quick validation runs
+  - **Full Training**: `./train.sh` for standard training with pyproject.toml config
+  - **Docker Training**: `./train.sh --docker` for containerized execution
+  - **Direct FL Commands**: Only use `conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "..."` for debugging or custom configurations when train.sh cannot accommodate
 
 **FAILURE TO COMPLY**: Commands will fail with import errors (ModuleNotFoundError). Always use proper environment activation.
 
@@ -267,6 +271,7 @@ docker run --gpus all --shm-size=10.24gb \
 - Cache volume mounting for model persistence
 - Error handling and logging
 - Consistent execution across different systems
+- **Local package installation**: Automatically installs the project as an editable package (`pip install -e .`) to ensure the latest version is used
 
 **Usage:**
 ```bash
@@ -373,7 +378,6 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 ### Evaluation System
 - **Server-Side Evaluation**: Global model evaluated server-side using dedicated evaluation datasets
 - **Policy Loss Evaluation**: Uses same loss metric as client training (policy.forward() loss, ~1 scale)
-- **Action MSE Reference**: MSE on predicted vs ground truth actions provided for comparison (~1700 scale)
 - **Episode Limiting**: Evaluation limited to first N episodes from evaluation datasets
 - **Fallback Mechanisms**: Graceful degradation when real evaluation unavailable
 
@@ -382,8 +386,8 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
 - **Robot Rollout Videos**: Animated visualizations of predicted trajectories
 - **Comparison Visualizations**: Side-by-side comparison of predicted vs ground truth
 - **Progress Tracking**: Visual progress across federated learning rounds
-- **Eval MSE Chart**: End-of-session line chart showing per-client and server average action_mse over all rounds (eval_mse_chart.png)
-- **MSE History JSON**: Reproducible historical MSE data saved as eval_mse_history.json
+- **Eval Policy Loss Chart**: End-of-session line chart showing per-client and server average policy_loss over all rounds (eval_policy_loss_chart.png)
+- **Policy Loss History JSON**: Reproducible historical policy_loss data saved as eval_policy_loss_history.json
 
 ### Key Modules
 - **src/evaluation.py**: SmolVLAEvaluator class for comprehensive robot rollout evaluation
