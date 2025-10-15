@@ -2,6 +2,12 @@
 
 Open Source Humanoid AI trained collaboratively by a community of builders.
 
+First Milestone:
+
+[![Lerobot + Flower Quickstart Tutorial](docs/images/lerobot_flower_splash.png)](https://x.com/flwrlabs/status/1879571258532036739)
+
+Ultimate Goal and Massive Transformative Purpose:
+
 <a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="image" src="docs/images/robots.png" /></a>
 
 ## 🚀 **Latest Model Release**
