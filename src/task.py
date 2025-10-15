@@ -808,7 +808,6 @@ def test(
                 )
 
                 # For SmolVLA, policy loss is the primary evaluation metric
-                # (MSE computation removed for standardization on policy_loss)
                 target_actions = batch.get("action")
                 batch_loss = eval_loss
                 total_loss += batch_loss.item()
@@ -816,7 +815,7 @@ def test(
                     len(target_actions) if target_actions is not None else batch_size
                 )
                 successful_batches += 1
-
+    
                 action_dim = (
                     target_actions.shape[-1]
                     if target_actions is not None and len(target_actions.shape) > 1

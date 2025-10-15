@@ -431,7 +431,6 @@ def prepare_server_wandb_metrics(
     wandb_metrics[f"{server_prefix}round"] = server_round
     wandb_metrics[f"{server_prefix}eval_loss"] = server_loss
     wandb_metrics[f"{server_prefix}eval_policy_loss"] = server_metrics.get("policy_loss", 0.0)
-    wandb_metrics[f"{server_prefix}eval_action_mse"] = server_metrics.get("action_mse", 0.0)
     wandb_metrics[f"{server_prefix}eval_successful_batches"] = server_metrics.get("successful_batches", 0)
     wandb_metrics[f"{server_prefix}eval_total_batches"] = server_metrics.get("total_batches_processed", 0)
     wandb_metrics[f"{server_prefix}eval_total_samples"] = server_metrics.get("total_samples", 0)

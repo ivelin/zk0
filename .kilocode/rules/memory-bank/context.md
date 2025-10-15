@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-14)**: Training run comparison analysis completed. Identified early stopping configuration as root cause of divergence in 500-round run. Tiny training validation successful. Memory bank and documentation updated to align with latest code and configuration. Project version updated to 0.1.20.
+**Latest Update (2025-10-15)**: Project version updated to 0.2.0 for major update with significant new features. Previous updates including training run analysis, early stopping fixes, and consolidated metrics remain current.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics

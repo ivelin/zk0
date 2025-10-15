@@ -236,7 +236,7 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Run Naming**: `zk0-sim-fl-run-{timestamp}` format for server-created runs
 - **Client Participation**: Clients join server's run using `run_id` passed via `context.run_config`
 - **Metric Prefixing**: Client metrics use `client_{id}_` prefix (e.g., `client_0_training_loss`, `client_1_fedprox_regularization_loss`)
-- **Server Metrics**: Server aggregates use `server_` prefix (e.g., `server_avg_action_mse`, `server_num_clients`)
+- **Server Metrics**: Server aggregates use `server_` prefix (e.g., `server_avg_policy_loss`, `server_num_clients`)
 - **Session Management**: Automatic `wandb.finish()` call after final evaluation round
 - **Configuration**: Enabled via `use-wandb: true` in `pyproject.toml` `[tool.flwr.app.config]`
 - **Integration Points**: `src/wandb_utils.py` provides initialization and logging utilities

@@ -184,7 +184,6 @@ The server evaluates the global model on all client tasks as well as additional 
 
 #### Evaluation Metrics
 - **Policy Loss**: Average policy forward loss per batch (same as client training loss, ~1 scale)
-- **Action MSE**: Raw mean squared error on predicted vs ground truth actions (reference metric, ~1700 scale)
 - **Generalization Score**: Performance on unseen evaluation tasks
 - **Cross-Task Performance**: Average performance across all evaluation datasets
 
