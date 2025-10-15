@@ -14,6 +14,8 @@ Ultimate Goal and Massive Transformative Purpose:
 
 The zk0.bot SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
+You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
+
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
 - **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
 - **Final Policy Loss**: 0.544
