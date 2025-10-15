@@ -165,6 +165,7 @@ def test_setup_training_components_metrics_initialization():
 
     mock_ds_meta = MockDatasetMetadata()
     policy = make_policy(cfg=cfg, ds_meta=mock_ds_meta)
+
     # Create a mock dataset with meta attribute
     class MockDataset:
         def __init__(self):

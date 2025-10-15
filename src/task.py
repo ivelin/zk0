@@ -493,11 +493,10 @@ def run_training_loop(
             try:
                 batch = next(dl_iter)
                 # Check for episode change to track skips
-                batch_episode = (
-                    int(batch["episode_index"][0].item())
-                    if "episode_index" in batch
-                    else -1
-                )
+                if batch is not None and "episode_index" in batch:
+                    batch_episode = int(batch["episode_index"][0].item())
+                else:
+                    batch_episode = -1
                 if current_episode != batch_episode:
                     current_episode = batch_episode
                     if skipped_episodes > 0:
@@ -515,11 +514,11 @@ def run_training_loop(
                 continue
             except Exception as e:
                 attempts += 1
-                batch_episode = (
-                    int(batch["episode_index"][0].item())
-                    if "episode_index" in batch and batch
-                    else current_episode
-                )
+                # Fix: Check if batch is not None before accessing its keys
+                if batch is not None and "episode_index" in batch:
+                    batch_episode = int(batch["episode_index"][0].item())
+                else:
+                    batch_episode = current_episode
                 if "Invalid data found when processing input" in str(
                     e
                 ) or "Could not push packet to decoder" in str(e):
@@ -558,9 +557,16 @@ def run_training_loop(
             continue  # Skip this step gracefully
 
         train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
-        logger.debug(
-            f"Step {step}: Batch fetched successfully from episode {int(batch['episode_index'][0].item()) if 'episode_index' in batch else 'unknown'}. Keys: {list(batch.keys())}, Sample shapes: {{k: v.shape if hasattr(v, 'shape') else type(v) for k,v in batch.items()}}"
-        )
+        # Safe logging that handles None batch
+        if batch is not None:
+            episode_info = int(batch['episode_index'][0].item()) if 'episode_index' in batch else 'unknown'
+            keys_info = list(batch.keys())
+            shapes_info = {k: v.shape if hasattr(v, 'shape') else type(v) for k, v in batch.items()}
+            logger.debug(
+                f"Step {step}: Batch fetched successfully from episode {episode_info}. Keys: {keys_info}, Sample shapes: {shapes_info}"
+            )
+        else:
+            logger.debug(f"Step {step}: Batch is None - skipping detailed logging")
 
         # Run training step
         try:

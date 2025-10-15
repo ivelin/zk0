@@ -46,7 +46,7 @@ publisher = "flwrlabs"
 serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 [tool.flwr.app.config]
-num-server-rounds = 500 # train rounds
+num-server-rounds = 30 # Total should be 400 rounds for a combined 400x50 epochs = 20,000 epochs/steps per dataset
 local-epochs = 50 # steps/epochs per round
 model-name = "lerobot/smolvla_base" # fl advanced: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 1 # set to 1 for all clients to train each round
