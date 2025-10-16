@@ -1,21 +1,20 @@
 # Core dependencies for SmolVLA Federated Learning
-flwr[simulation]~=1.20.0
-transformers~=4.51.0
-flwr-datasets~=0.5.0
-torch~=2.6.0
-evaluate~=0.4.0
-scikit-learn~=1.5.0
-num2words~=0.5.14
-accelerate~=1.10.0
-gymnasium~=0.29.0
-omegaconf~=2.3.0
-pyyaml~=6.0.0
+flwr[simulation]~=1.21.0
+# LeRobot from PyPI - pin to compatible version
+lerobot[smolvla]==0.3.3
+
+python-dotenv~=1.1.1
+
+psutil~=7.1.0
+
+
+# Visualization dependencies
+matplotlib~=3.8.0
 
 # Testing dependencies
 pytest~=8.0.0
 pytest-cov~=4.1.0
 pytest-mock~=3.12.0
 pytest-asyncio~=0.23.0
-
-# LeRobot from PyPI
-lerobot[smolvla]>=0.3.0
+pytest-xdist~=3.8.0
+loguru==0.7.3

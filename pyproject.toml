@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.1.11"
+version = "0.2.0"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -33,6 +33,7 @@ test = [
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
     "pytest-asyncio>=0.23.0",
+    "pytest-xdist>=3.6.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -44,26 +45,75 @@ publisher = "flwrlabs"
 [tool.flwr.app.components]
 serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
-
 [tool.flwr.app.config]
-num-server-rounds = 100 # for good results, total number of training rounds should be over 100,000: num-server-rounds*local_epochs > 50,000
-model-name = "lerobot/smolvla_base"
-fraction-fit = 0.4
-fraction-evaluate = 0.4
-local-epochs = 200
-server-device = "cpu"
-use-wandb = true
+num-server-rounds = 30 # Total should be 400 rounds for a combined 400x50 epochs = 20,000 epochs/steps per dataset
+local-epochs = 50 # steps/epochs per round
+model-name = "lerobot/smolvla_base" # fl advanced: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
+fraction-fit = 1 # set to 1 for all clients to train each round
+fraction-evaluate = 1 # Evaluate all clients
+batch_size =  64 # Batch size for training and evaluation (match standalone train script)
+server-device = "gpu" # could be also "cpu"
+use-wandb = true # requires WANDB_API_KEY env var set
+eval-frequency = 1 # Evaluate every eval-frequency rounds
+eval_batches = 0 # Number of batches to evaluate (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
+checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
+hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
+proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
+initial_lr = 5e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
+early_stopping_patience = 0 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
+dynamic_lr_enabled = false # Enable dynamic learning rate adjustment based on eval loss trends (default: disabled for stability)
+
+[tool.zk0.logging]
+# Application logging configuration (automatically applied to Flower/Ray)
+level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
+enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
+enable_ray_logging = true   # Enable Ray distributed execution logs
+enable_audit_logging = false  # Disable JSON audit logging (requires Flower Enterprise)
+log_format = "detailed"  # simple, detailed, json
+file_rotation = "500 MB"  # File rotation size
+file_retention = "10 days"  # Log retention period
+ray_log_to_driver = true  # Route Ray worker logs to driver (server)
+ray_color_prefix = true  # Enable colored Ray actor prefixes
+# Note: Ray logging configuration (ray_dedup_logs, ray_log_to_stderr) is handled via environment variables in train.sh
+# for simulation mode, as Ray must be configured before ray.init() is called by Flower
 
 [tool.flwr.federations]
-default = "local-simulation"
+default = "local-simulation-serialized-gpu" # Serialized GPU execution prevents SafeTensors issues
 
 [tool.flwr.federations.local-simulation]
-options.num-supernodes = 10 # relatively low number of supernodes because SmolVLA is memory efficient
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks (consistent with GPU version)
 
 [tool.flwr.federations.local-simulation-gpu]
 options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
 options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4CPUs
 options.backend.client-resources.num-gpus = 0.25 # SmolVLA is more memory efficient, allowing more parallelism
+
+[tool.flwr.federations.local-simulation-serialized-gpu]
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
+options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
+options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
+backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time
+options.backend.max-parallelism = 1 # serialize execution - only 1 client runs at a time
+
+[tool.flwr.federations.local-simulation-multiprocess]
+options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
+options.backend.type = "multiprocess" # Use Python multiprocessing instead of Ray
+options.backend.client-resources.num-cpus = 4 # CPU resources per client
+options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
+
+[tool.zk0.datasets]
+clients = [
+    {name = "shaunkirby/record-test", description = "Put the red LEGO in the bin", client_id = 0},
+    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1},
+    {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2},
+    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 3}
+]
+server = [
+    {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", first_n_episodes_for_eval = 3},
+]
+
+# Dataset loading configuration
+force_opencv_backend = true  # Force OpenCV video backend to avoid TorchCodec frame corruption issues
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -75,6 +125,8 @@ addopts = [
     "--tb=short",
     "--strict-markers",
     "--disable-warnings",
+    "--durations=10",
+    "-n=auto",
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",

@@ -1,3 +1,36 @@
+# Add to the top of .gitignore
+htmlcov/
+prof/
+**/htmlcov/
+**/prof/
+
+
+# Project specific
+outputs/
+
+# Profiling data
+prof/
+
+
+# ruff cache
+.ruff_cache/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -36,20 +69,6 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-cover/
 
 # Translations
 *.mo
@@ -154,6 +173,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Project specific
-outputs/
 
+# Wandb artifacts
+wandb/
