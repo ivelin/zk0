@@ -1,6 +1,8 @@
 # Architecture Overview
 
-This document provides a detailed overview of the zk0 project's architecture, focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
+This document provides a detailed overview of the zk0 project's architecture (v0.2.3), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
+
+**Recent Updates (v0.2.3)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), configurable early stopping (patience-based termination), and optional dynamic learning rate adjustment based on evaluation trends.
 
 For the full system architecture, including directory structure and configuration, see [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md).
 
@@ -56,7 +58,7 @@ See [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md) for SmolVLA detai
 - **Evaluation**:
   - Server-side on unseen tasks (e.g., SO-101 cross-platform).
   - Metrics: Policy loss (sole metric, ~0.3-1.5 scale) for flow-matching objective.
-  - Recent Update: Standardized to policy_loss; MSE removed for simplicity.
+  - v0.2.3: Consolidated metrics in `round_N_server_eval.json` include both aggregated (avg_client_loss, std_client_loss, etc.) and individual client metrics (per-client policy_loss, fedprox_loss, dataset_name) for unified analysis.
 
 ### Data Flow
 

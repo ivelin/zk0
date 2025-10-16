@@ -12,11 +12,11 @@ Ultimate Goal and Massive Transformative Purpose:
 
 ## 🚀 **Latest Model Release**
 
-The zk0.bot SmolVLA Federated Learning model is now available on Hugging Face Hub!
+The zk0 v0.2.3 SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
 You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
 
-- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
+- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.2.3)
 - **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
 - **Final Policy Loss**: 0.544
 - **Clients**: 4 clients on diverse SO-100 robotics tasks
@@ -143,9 +143,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Project Status
 
-### 🚀 Current Stage: Beta
+### 🚀 Current Stage: Beta (v0.2.3)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. Recent updates: Enhanced security, consolidated metrics, early stopping, dynamic learning rate.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.2.3 updates: Enhanced security (bidirectional SHA256 validation), consolidated metrics (aggregated + individual client metrics), early stopping (patience-based termination), dynamic learning rate adjustment.
 
 #### Completed Milestones
 

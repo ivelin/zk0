@@ -155,19 +155,25 @@ def compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu):
         fedprox_mu: FedProx regularization coefficient
 
     Returns:
-        float: Proximal loss value
+        torch.Tensor: Proximal loss tensor (for consistent backprop with main_loss)
     """
-    if global_params is None or fedprox_mu <= 0:
-        return 0.0
+    if global_params is None or fedprox_mu <= 0 or not trainable_params:
+        return torch.tensor(
+            0.0,
+            device=trainable_params[0].device if trainable_params else "cpu",
+            dtype=torch.float32,
+        )
 
-    proximal_loss = 0.0
+    proximal_loss = torch.tensor(
+        0.0, device=trainable_params[0].device, dtype=trainable_params[0].dtype
+    )
     for param, global_param in zip(trainable_params, global_params):
         # Convert global param to same device/dtype as current param
         global_param_tensor = torch.from_numpy(global_param).to(
             param.device, dtype=param.dtype
         )
         param_diff = torch.sum((param - global_param_tensor) ** 2)
-        proximal_loss += param_diff.item()
+        proximal_loss += param_diff
 
     return (fedprox_mu / 2.0) * proximal_loss
 
@@ -250,13 +256,13 @@ def setup_training_components(
     for group in optimizer.param_groups:
         group["lr"] = initial_lr
 
-    # Replace cosine with linear scheduler
+    # Replace cosine with CosineAnnealingLR for smoother decay
+    from torch.optim.lr_scheduler import CosineAnnealingLR
     if lr_scheduler is not None:
-        lr_scheduler = LinearLR(
-            optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs
-        )
+        eta_min = initial_lr * 0.1  # Decay to 10% of initial LR
+        lr_scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
         logger.info(
-            f"FL scheduler: LinearLR with initial_lr={initial_lr}, decay to 0.5 over {epochs} steps"
+            f"FL scheduler: CosineAnnealingLR with initial_lr={initial_lr}, eta_min={eta_min} over {epochs} steps"
         )
     else:
         logger.warning(f"No scheduler found; using constant LR={initial_lr}")
@@ -374,25 +380,27 @@ def run_training_step(
         main_loss, output_dict = policy.forward(batch)  # Main loss from LeRobot forward
 
     # Compute proximal loss BEFORE backprop (FedProx core)
-    proximal_loss = 0.0
+    proximal_loss = torch.tensor(
+        0.0, device=policy.parameters().__next__().device, dtype=torch.float32
+    )
     if global_params is not None:
         trainable_params = [p for p in policy.parameters() if p.requires_grad]
         proximal_loss = compute_fedprox_proximal_loss(
             trainable_params, global_params, fedprox_mu
         )
         logger.debug(
-            f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})"
+            f"Step {step}: FedProx proximal_loss={proximal_loss.item():.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})"
         )
 
-    # Total loss for backprop: main_loss + proximal_loss
+    # Total loss for backprop: main_loss + proximal_loss (both tensors for consistent dtype)
     total_loss = main_loss + proximal_loss
     logger.debug(
-        f"Step {step}: FedProx total_loss={total_loss:.6f} (main={main_loss.item():.6f} + proximal={proximal_loss:.6f})"
+        f"Step {step}: FedProx total_loss={total_loss.item():.6f} (main={main_loss.item():.6f} + proximal={proximal_loss.item():.6f})"
     )
 
     # Update separate metrics for policy and fedprox losses
     train_metrics["policy_loss"].update(main_loss.item())
-    train_metrics["fedprox_loss"].update(proximal_loss)
+    train_metrics["fedprox_loss"].update(proximal_loss.item())
     # Update 'loss' as total for compatibility (no separate total_loss meter)
     train_metrics["loss"].update(total_loss.item())
 
@@ -559,9 +567,15 @@ def run_training_loop(
         train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
         # Safe logging that handles None batch
         if batch is not None:
-            episode_info = int(batch['episode_index'][0].item()) if 'episode_index' in batch else 'unknown'
+            episode_info = (
+                int(batch["episode_index"][0].item())
+                if "episode_index" in batch
+                else "unknown"
+            )
             keys_info = list(batch.keys())
-            shapes_info = {k: v.shape if hasattr(v, 'shape') else type(v) for k, v in batch.items()}
+            shapes_info = {
+                k: v.shape if hasattr(v, "shape") else type(v) for k, v in batch.items()
+            }
             logger.debug(
                 f"Step {step}: Batch fetched successfully from episode {episode_info}. Keys: {keys_info}, Sample shapes: {shapes_info}"
             )
@@ -699,7 +713,9 @@ def train(
     # Collect final metrics for return
     # 'loss' is total (policy + fedprox) for Flower compatibility
     final_metrics = {
-        "loss": train_metrics["loss"].avg,  # Total loss (policy + fedprox) for compatibility
+        "loss": train_metrics[
+            "loss"
+        ].avg,  # Total loss (policy + fedprox) for compatibility
         "policy_loss": train_metrics["policy_loss"].avg,
         "fedprox_loss": train_metrics["fedprox_loss"].avg,
         "grad_norm": train_metrics["grad_norm"].avg,
@@ -772,7 +788,9 @@ def test(
     if eval_batches == 0:
         logger.info(f"Full evaluation: processing all {max_episodes} episodes")
     else:
-        logger.info(f"Limited evaluation: processing up to {max_batches_for_eval} batches")
+        logger.info(
+            f"Limited evaluation: processing up to {max_batches_for_eval} batches"
+        )
 
     # Evaluate batches, limiting to first N episodes
     current_episode = None
@@ -815,7 +833,7 @@ def test(
                     len(target_actions) if target_actions is not None else batch_size
                 )
                 successful_batches += 1
-    
+
                 action_dim = (
                     target_actions.shape[-1]
                     if target_actions is not None and len(target_actions.shape) > 1
@@ -879,13 +897,17 @@ def test(
 def create_train_metrics():
     """Create the train_metrics dictionary with all required AverageMeter instances."""
     from lerobot.utils.logging_utils import AverageMeter
-    
+
     # 'loss' is total_loss (policy_loss + fedprox_loss) for Flower compatibility
     # 'policy_loss' is pure model forward loss
     # 'fedprox_loss' is FedProx regularization (separate for analysis)
     return {
-        "loss": AverageMeter("loss", ":.3f"),  # Total loss (policy + fedprox) for compatibility
-        "policy_loss": AverageMeter("policy_loss", ":.3f"),  # Pure SmolVLA flow-matching loss
+        "loss": AverageMeter(
+            "loss", ":.3f"
+        ),  # Total loss (policy + fedprox) for compatibility
+        "policy_loss": AverageMeter(
+            "policy_loss", ":.3f"
+        ),  # Pure SmolVLA flow-matching loss
         "fedprox_loss": AverageMeter("fedprox_loss", ":.3f"),  # FedProx proximal term
         "grad_norm": AverageMeter("grdn", ":.3f"),
         "lr": AverageMeter("lr", ":0.1e"),

@@ -468,6 +468,10 @@ class AggregateEvaluationStrategy(FedProx):
                 import json
                 from datetime import datetime
 
+                # Fix metrics bug: Update round number in individual_client_metrics before saving
+                for metric in self.last_client_metrics:
+                    metric["round"] = server_round
+
                 server_file = self.server_dir / f"round_{server_round}_server_eval.json"
                 data = {
                     "round": server_round,
@@ -503,6 +507,7 @@ class AggregateEvaluationStrategy(FedProx):
                             "num_steps": "Number of training steps completed by this client",
                             "param_update_norm": "L2 norm of parameter changes from global model",
                             "flower_proxy_cid": "Flower internal client proxy identifier (for debugging)",
+                            "round": "The server round this metric was collected in",
                         },
                     },
                 }
@@ -638,10 +643,12 @@ class AggregateEvaluationStrategy(FedProx):
             updated_fit_config["timestamp"] = (
                 self.save_path.name
             )  # Pass the output folder name to clients for JSON saving
-            # FedProx: Add proximal_mu parameter for client-side proximal term calculation
-            updated_fit_config["proximal_mu"] = self.proximal_mu
-            logger.debug(
-                f"Server: Added proximal_mu={self.proximal_mu} to client {client_proxy.cid} config"
+            # FedProx: Dynamically adjust proximal_mu (halve every 10 rounds for gradual relaxation)
+            initial_mu = self.proximal_mu
+            current_mu = initial_mu / (2 ** (server_round // 10))
+            updated_fit_config["proximal_mu"] = current_mu
+            logger.info(
+                f"Server R{server_round}: Adjusted proximal_mu={current_mu:.6f} (initial={initial_mu}, factor=2^(server_round//10))"
             )
 
             # Add initial_lr parameter for client-side training

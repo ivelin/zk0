@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-15)**: Project version updated to 0.2.0 for major update with significant new features. Previous updates including training run analysis, early stopping fixes, and consolidated metrics remain current.
+**Latest Update (2025-10-16)**: Project version bumped to 0.2.3. Memory bank and documentation updated to reflect stable implementation of consolidated metrics, early stopping with parameter safety, bidirectional SHA256 validation, and dynamic learning rate adjustment. Core FL pipeline remains robust with FedProx integration and server-side evaluation on unseen SO-101 tasks.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics

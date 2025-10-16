@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.2.3"
+version = "0.1.13"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -47,22 +47,20 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 30 # Total should be 400 rounds for a combined 400x50 epochs = 20,000 epochs/steps per dataset
-local-epochs = 50 # steps/epochs per round
-model-name = "lerobot/smolvla_base" # fl advanced: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
+num-server-rounds = 50 # train rounds
+local-epochs = 30 # steps/epochs per round
+model-name = "lerobot/smolvla_base"
 fraction-fit = 1 # set to 1 for all clients to train each round
 fraction-evaluate = 1 # Evaluate all clients
-batch_size =  64 # Batch size for training and evaluation (match standalone train script)
+batch_size = 64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
-eval_batches = 0 # Number of batches to evaluate (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
-checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
+eval_mode = "quick" # Quick evaluation vs full (full is very slow)
+checkpoint_interval = 2 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 5e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
-early_stopping_patience = 0 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
-dynamic_lr_enabled = false # Enable dynamic learning rate adjustment based on eval loss trends (default: disabled for stability)
 
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)

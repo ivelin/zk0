@@ -1,6 +1,8 @@
 # Technical Overview
 
-This document provides advanced technical details on zk0's federated learning implementation, focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
+This document provides advanced technical details on zk0's federated learning implementation (v0.2.3), focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
+
+**Recent Updates (v0.2.3)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), configurable early stopping (patience-based termination), and optional dynamic learning rate adjustment based on evaluation trends.
 
 ## Federated vs. Centralized Training Comparison
 
@@ -8,7 +10,7 @@ The zk0 system enables rigorous benchmarking between federated and centralized t
 
 ### Objective Performance Benchmarking
 
-- **Federated Setup**: 4-10 clients, partitioned SO-100 subsets, FedProx aggregation (μ=0.01).
+- **Federated Setup** (v0.2.3): 4-10 clients, partitioned SO-100 subsets, FedProx aggregation (μ=0.01) with bidirectional parameter validation and consolidated metrics reporting.
 - **Centralized Baseline**: Single model on full SO-100 dataset.
 - **Controlled Variables**: Identical hyperparameters (lr=1e-4, cosine scheduler), architecture, total steps (~50k+).
 - **Evaluation**: Same held-out validation set (unseen SO-101 tasks).
@@ -23,7 +25,7 @@ The zk0 system enables rigorous benchmarking between federated and centralized t
 | **Privacy**             | High (parameters only)    |
 | **Scalability**         | Horizontal (10+ clients)  |
 
-- **Federated Insights**: FedProx (μ=0.01) stabilizes convergence across heterogeneous clients. Benefits: Privacy, distributed compute.
+- **Federated Insights** (v0.2.3): FedProx (μ=0.01) stabilizes convergence across heterogeneous clients with early stopping and dynamic LR. Benefits: Privacy, distributed compute, robust parameter handling.
 - **Reproduction**: Run with seed=42; monitor via `federated_metrics.json`.
 
 Example metrics from best FL config (30 rounds, 50 epochs, μ=0.01, LR=0.0001):
