@@ -15,7 +15,7 @@
 
 ### Federated Learning Framework
 - **Flower Framework**: Federated learning orchestration and aggregation
-  - **Version**: Flower 1.20.0
+  - **Version**: Flower 1.22.0
   - **Architecture**: Client-Server with Deployment Engine
   - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
   - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -75,7 +75,7 @@ python lerobot/scripts/train.py \
 ```
 
 ### Flower Framework
-- **Version**: Flower 1.20.0
+- **Version**: Flower 1.22.0
 - **Architecture**: Client-Server with Deployment Engine
 - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
 - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -132,7 +132,7 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 ## Integration Specifications
 
 ### SmolVLA + Flower Integration
-- **Framework Compatibility**: Flower 1.20.0 with Ray 2.31.0
+- **Framework Compatibility**: Flower 1.22.0 with Ray 2.10.0
 - **Dataset Format**: Flower Datasets for partitioning
 - **Model Loading**: Direct integration with LeRobot SmolVLA models
 - **Federated Dataset**: FederatedLeRobotDataset for distributed data

@@ -284,6 +284,13 @@ class AggregateEvaluationStrategy(FedProx):
             proximal_mu=proximal_mu,
         )
 
+        # Log CUDA availability on instantiation
+        logger.info(f"Server: Instantiated - CUDA available: {torch.cuda.is_available()}")
+
+        # Set device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logger.info(f"Server: Using device {self.device}")
+
         # Custom params
         self.server_dir = server_dir
         self.models_dir = models_dir
@@ -361,6 +368,11 @@ class AggregateEvaluationStrategy(FedProx):
             )
             return None
 
+        # Log CUDA before evaluation
+        logger.info(
+            f"Server: Starting evaluation round {server_round} - CUDA available: {torch.cuda.is_available()}"
+        )
+
         logger.info(
             f"🔍 Server: _server_evaluate called for round {server_round} (frequency check passed)"
         )
@@ -410,14 +422,17 @@ class AggregateEvaluationStrategy(FedProx):
             set_params(model, parameters)
             logger.info(f"✅ Server: Parameters set successfully")
 
+            # Move model to device
+            model = model.to(self.device)
+            logger.info(f"✅ Server: Model moved to device '{self.device}'")
+
             # Perform evaluation
-            device = "cuda" if torch.cuda.is_available() else "cpu"
             eval_batches = self.context.run_config.get("eval_batches", 0)
             logger.info(
-                f"🔍 Server: Running test() on device '{device}' with eval_batches={eval_batches}"
+                f"🔍 Server: Running test() on device '{self.device}' with eval_batches={eval_batches}"
             )
             loss, num_examples, metrics = test(
-                model, device=device, eval_batches=eval_batches
+                model, device=self.device, eval_batches=eval_batches
             )
             logger.info(
                 f"✅ Server: test() completed - loss={loss}, num_examples={num_examples}, metrics keys={list(metrics.keys()) if metrics else 'Empty'}"
@@ -653,6 +668,11 @@ class AggregateEvaluationStrategy(FedProx):
 
     def configure_fit(self, server_round: int, parameters, client_manager):
         """Configure the next round of training."""
+        # Log CUDA before training round
+        logger.info(
+            f"Server: Starting training round {server_round} - CUDA available: {torch.cuda.is_available()}"
+        )
+
         logger.info(f"Server: Configuring fit for round {server_round}")
 
         # Get configuration from pyproject.toml

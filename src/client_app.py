@@ -1,5 +1,6 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
+
 from pathlib import Path
 import json
 import os
@@ -111,6 +112,11 @@ class SmolVLAClient(NumPyClient):
             dataset_repo_id  # Cache dataset name to avoid repeated loading
         )
 
+        # Log CUDA availability on instantiation
+        logger.info(
+            f"Client {self.partition_id}: Instantiated - CUDA available: {torch.cuda.is_available()}, using device: {self.device}"
+        )
+
         # Validate required parameters
         assert self.dataset_repo_id is not None, (
             f"dataset_repo_id must be provided for client {self.partition_id}"
@@ -139,7 +145,9 @@ class SmolVLAClient(NumPyClient):
 
         policy = self.net
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
+        logger.info(f"Client {self.partition_id}: Moving model to device {self.device}")
         policy.to(self.device)
+        logger.info(f"Client {self.partition_id}: Model moved to {self.device} - VRAM allocated: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")
 
         # Match standalone train script initialization (no extra cache clearing)
 
@@ -262,6 +270,11 @@ class SmolVLAClient(NumPyClient):
         self.fedprox_mu = proximal_mu
         self.initial_lr = initial_lr
 
+        # Log CUDA before training
+        logger.info(
+            f"Client {self.partition_id}: Starting training - CUDA available: {torch.cuda.is_available()}, device: {self.device}"
+        )
+
         logger.info(
             f"Client {self.partition_id}: About to call train() with epochs={self.local_epochs}"
         )
@@ -373,58 +386,45 @@ class SmolVLAClient(NumPyClient):
 
 def client_fn(context: Context) -> Client:
     """Construct a Client that will be run in a ClientApp."""
-    import logging
 
     # Load environment variables from .env file (excluding WANDB_API_KEY for clients)
     try:
         from dotenv import load_dotenv
 
         load_dotenv()
-        logging.debug("Environment variables loaded from .env file in client")
+        logger.debug("Environment variables loaded from .env file in client")
     except ImportError:
-        logging.debug("python-dotenv not available in client, skipping .env loading")
-
-    # Setup logging for client (DEBUG level for console and propagation)
-    root_logger = logging.getLogger()
-    root_logger.setLevel(logging.DEBUG)
-
-    # Ensure console handler for DEBUG
-    if not any(isinstance(h, logging.StreamHandler) for h in root_logger.handlers):
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.DEBUG)
-        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-        console_handler.setFormatter(formatter)
-        root_logger.addHandler(console_handler)
+        logger.debug("python-dotenv not available in client, skipping .env loading")
 
     partition_id = context.node_config.get("partition-id", "unknown")
-    logging.info(f"🚀 Client function STARTED for partition {partition_id}")
-    logging.debug(
+    logger.info(f"🚀 Client function STARTED for partition {partition_id}")
+    logger.debug(
         f"Client {partition_id}: Full context.node_config: {context.node_config}"
     )
-    logging.debug(
+    logger.debug(
         f"Client {partition_id}: Full context.run_config: {context.run_config}"
     )
 
     # Read the node_config to fetch data partition associated to this node
-    partition_id = context.node_config["partition-id"]
+    partition_id = int(context.node_config["partition-id"])
     num_partitions = context.node_config["num-partitions"]
-    logging.info(
+    logger.info(
         f"✅ Client {partition_id}: Extracted partition_id={partition_id}, num_partitions={num_partitions}"
     )
 
     # Extract save_path for WandB dir isolation
     save_path = context.run_config.get("save_path")
     wandb_dir = f"{save_path}/clients/client_{partition_id}" if save_path else None
-    logging.info(f"✅ Client {partition_id}: WandB dir set to {wandb_dir}")
+    logger.info(f"✅ Client {partition_id}: WandB dir set to {wandb_dir}")
 
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    logging.info(f"✅ Client {partition_id}: Device set to {nn_device}")
+    logger.info(f"✅ Client {partition_id}: Device set to {nn_device}")
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
     local_epochs = int(context.run_config["local-epochs"])
-    logging.info(
+    logger.info(
         f"✅ Client {partition_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
     )
 
@@ -437,27 +437,32 @@ def client_fn(context: Context) -> Client:
         setup_client_logging(Path(log_file_path), partition_id)
         logger.info(f"✅ Client {partition_id}: Logging setup complete")
     else:
-        logging.warning(f"⚠️ Client {partition_id}: No log_file_path provided in config")
+        logger.warning(f"⚠️ Client {partition_id}: No log_file_path provided in config")
 
     batch_size = context.run_config.get("batch_size", 64)
-    logging.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
+    logger.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
 
     # Load dataset first to get metadata for model creation
-    logging.info(
+    logger.info(
         f"📊 Client {partition_id}: Loading dataset (partition_id={partition_id}, num_partitions={num_partitions})"
     )
     try:
         # Load dataset configuration
         from src.configs import DatasetConfig
 
+        logger.info(f"🔍 Client {partition_id}: Loading DatasetConfig")
         config = DatasetConfig.load()
         client_config = config.clients[partition_id % len(config.clients)]
         dataset_name = client_config.name
+        logger.info(f"🔍 Client {partition_id}: Selected dataset: {dataset_name}")
 
         # Load dataset directly
+        logger.info(f"📥 Client {partition_id}: Calling load_lerobot_dataset({dataset_name})")
         dataset = load_lerobot_dataset(dataset_name)
+        logger.info(f"✅ Client {partition_id}: Dataset loaded - episodes: {len(dataset)}")
 
         # Create dataloader (clients use full dataset for training)
+        logger.info(f"🔄 Client {partition_id}: Creating DataLoader (batch_size={batch_size}, num_workers=0)")
         trainloader = torch.utils.data.DataLoader(
             dataset,
             num_workers=0,
@@ -466,16 +471,17 @@ def client_fn(context: Context) -> Client:
             pin_memory=False,
             drop_last=True,
         )
+        logger.info(f"✅ Client {partition_id}: DataLoader created - length: {len(trainloader)}")
 
         train_episodes = len(dataset)
-        logging.info(
+        logger.info(
             f"✅ Client {partition_id}: Dataset loaded successfully - training episodes: {train_episodes}, trainloader length: {len(trainloader)}"
         )
     except Exception as e:
-        logging.error(f"❌ Client {partition_id}: Failed to load dataset: {e}")
+        logger.error(f"❌ Client {partition_id}: Failed to load dataset: {e}")
         import traceback
 
-        logging.error(
+        logger.error(
             f"❌ Client {partition_id}: Dataset loading traceback: {traceback.format_exc()}"
         )
         raise
@@ -483,10 +489,11 @@ def client_fn(context: Context) -> Client:
     # Client-side WandB removed - clients get recycled between rounds
     wandb_run = None
 
-    logging.info(
+    logger.info(
         f"🏗️ Client {partition_id}: Creating SmolVLAClient with {local_epochs} epochs"
     )
     try:
+        logger.info(f"🔧 Client {partition_id}: Instantiating SmolVLAClient")
         client = SmolVLAClient(
             partition_id=partition_id,
             local_epochs=local_epochs,
@@ -495,18 +502,18 @@ def client_fn(context: Context) -> Client:
             batch_size=batch_size,
             dataset_repo_id=dataset_name,
         )
-        logging.info(f"✅ Client {partition_id}: SmolVLAClient created successfully")
-        logging.info(f"🚀 Client {partition_id}: Converting to Flower client")
+        logger.info(f"✅ Client {partition_id}: SmolVLAClient created successfully")
+        logger.info(f"🚀 Client {partition_id}: Converting to Flower client")
         flower_client = client.to_client()
-        logging.info(
+        logger.info(
             f"✅ Client {partition_id}: Client initialization COMPLETE - returning to Flower"
         )
         return flower_client
     except Exception as e:
-        logging.error(f"❌ Client {partition_id}: Failed during client creation: {e}")
+        logger.error(f"❌ Client {partition_id}: Failed during client creation: {e}")
         import traceback
 
-        logging.error(
+        logger.error(
             f"❌ Client {partition_id}: Client creation traceback: {traceback.format_exc()}"
         )
         raise

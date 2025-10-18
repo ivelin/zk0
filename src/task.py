@@ -748,6 +748,7 @@ def test(
 
     # In SmolVLA terminology policy is the neural network
     policy = net
+    policy = policy.to(device)
     policy.eval()
 
     logging.info("Evaluating on server dataset")
