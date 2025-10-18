@@ -115,6 +115,34 @@ def log_wandb_metrics(metrics: Dict[str, Any], step: Optional[int] = None, descr
 
 
 
+def log_scheduler_metrics(client_id, scheduler, mu, adaptive_factor, loss_std):
+    """Log scheduler and adaptive learning parameters to WandB.
+
+    Args:
+        client_id: Client identifier
+        scheduler: PyTorch learning rate scheduler
+        mu: FedProx regularization coefficient
+        adaptive_factor: LR boost factor applied
+        loss_std: Client loss standard deviation
+    """
+    try:
+        import wandb
+        if wandb.run is not None:
+            metrics = {
+                f"client_{client_id}_scheduler_type": type(scheduler).__name__,
+                f"client_{client_id}_current_lr": scheduler.get_last_lr()[0],
+                f"client_{client_id}_mu": mu,
+                f"client_{client_id}_adaptive_factor": adaptive_factor,
+                f"client_{client_id}_loss_std": loss_std,
+            }
+            wandb.log(metrics)
+            logger.debug(f"Logged scheduler metrics for client {client_id}")
+    except ImportError:
+        logger.debug("wandb not available, skipping scheduler metrics logging")
+    except Exception as e:
+        logger.warning(f"Failed to log scheduler metrics to WandB: {e}")
+
+
 def finish_wandb() -> None:
     """Finish WandB run if active."""
     try:

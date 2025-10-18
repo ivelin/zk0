@@ -418,3 +418,182 @@ class TestJointAdjustment:
         assert adjusted_mu == 0.008  # 0.01 * 0.8
         assert adjusted_lr == 1e-5  # Clamped to min_lr
         assert reason == "stall_detected"
+
+
+class TestCreateScheduler:
+    """Test the create_scheduler function."""
+
+    def test_create_cosine_scheduler(self):
+        """Test creating CosineAnnealingLR scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {"scheduler_type": "cosine", "eta_min": 1e-6}
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        assert scheduler.T_max == 50
+        assert scheduler.eta_min == 1e-6
+
+    def test_create_cosine_warm_restarts_scheduler(self):
+        """Test creating CosineAnnealingWarmRestarts scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine_warm_restarts",
+            "cosine_warm_restarts_T_0": 15,
+            "cosine_warm_restarts_T_mult": 2,  # Must be integer
+            "eta_min": 5e-7
+        }
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+        assert isinstance(scheduler, CosineAnnealingWarmRestarts)
+        assert scheduler.T_0 == 15
+        assert scheduler.T_mult == 2
+        assert scheduler.eta_min == 5e-7
+
+    def test_create_reduce_on_plateau_scheduler(self):
+        """Test creating ReduceLROnPlateau scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "reduce_on_plateau",
+            "stall_patience": 5,
+            "eta_min": 1e-6
+        }
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import ReduceLROnPlateau
+        assert isinstance(scheduler, ReduceLROnPlateau)
+        assert scheduler.patience == 5
+        assert scheduler.min_lrs[0] == 1e-6  # min_lrs is a list
+
+    def test_create_scheduler_defaults(self):
+        """Test scheduler creation with default values."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {}  # Empty config
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        assert scheduler.T_max == 50
+        # eta_min should default to optimizer lr * 0.1
+        assert scheduler.eta_min == 0.001 * 0.1
+
+
+class TestComputeAdaptiveLrFactor:
+    """Test the compute_adaptive_lr_factor function."""
+
+    def test_no_adaptive_lr(self):
+        """Test when adaptive LR is disabled."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {"adaptive_lr_enabled": False}
+        client_history = {"avg_loss": 1.0, "current_loss": 2.0}
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+    def test_no_client_history(self):
+        """Test with no client history."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {"adaptive_lr_enabled": True}
+        client_history = None
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+    def test_adaptive_lr_boost(self):
+        """Test LR boost for hard clients."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 2.5}  # 2.5 > 1.0 * 2.0
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.15
+
+    def test_no_boost_needed(self):
+        """Test no boost when loss is not high enough."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 1.5}  # 1.5 < 1.0 * 2.0
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+
+class TestResetSchedulerAdaptive:
+    """Test the reset_scheduler_adaptive function."""
+
+    def test_reset_with_adaptive_boost(self):
+        """Test scheduler reset with adaptive LR boost."""
+        from src.task import reset_scheduler_adaptive
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine",
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 2.5}
+
+        scheduler = reset_scheduler_adaptive(optimizer, None, 0.001, 50, client_history, cfg)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        # Check that LR was boosted: 0.001 * 1.15 = 0.00115
+        assert abs(optimizer.param_groups[0]["lr"] - 0.00115) < 1e-6
+
+    def test_reset_without_boost(self):
+        """Test scheduler reset without adaptive boost."""
+        from src.task import reset_scheduler_adaptive
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine_warm_restarts",
+            "cosine_warm_restarts_T_0": 15,
+            "cosine_warm_restarts_T_mult": 1.2,
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 1.5}  # No boost
+
+        scheduler = reset_scheduler_adaptive(optimizer, None, 0.001, 50, client_history, cfg)
+
+        from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+        assert isinstance(scheduler, CosineAnnealingWarmRestarts)
+        assert optimizer.param_groups[0]["lr"] == 0.001  # No boost

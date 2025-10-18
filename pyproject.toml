@@ -1,4 +1,4 @@
-[build-system]
+ [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.2.6"
+version = "0.2.7"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -20,7 +20,8 @@ dependencies = [
     "transformers>=4.50.3,<4.52.0",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
-    "torch==2.9.0",  # Pinned for CUDA compatibility; lerobot installed --no-deps after to avoid conflicts
+    # "torch>=2.9.0",  # torch version is managed separately to ensure compatibility with lerobot on DGX Spark and other CUDA environments
+    "torchvision>=0.20.0",  # Compatible with torch 2.9.0+ to fix torchvision operator registration issues
     "evaluate>=0.4.0,<1.0",
     "scikit-learn>=1.3.1, <2.0",
     "num2words>=0.5.14",
@@ -63,8 +64,25 @@ checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 5e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
-early_stopping_patience = 0 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
+early_stopping_patience = 20 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
 dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
+# New parameters for LR/MU scheduling enhancements (v0.2.6)
+scheduler_type = "cosine_warm_restarts"  # "cosine" (current), "cosine_warm_restarts", "reduce_on_plateau"
+cosine_warm_restarts_T_0 = 15  # Restart period (rounds) for warm restarts
+cosine_warm_restarts_T_mult = 2  # Multiply T_0 after each restart (must be integer)
+eta_min = 5e-7  # Minimum LR (global)
+adaptive_lr_enabled = true  # Enable per-client LR boosts
+adaptive_mu_enabled = true  # Enable dynamic mu
+stall_patience = 5  # Rounds flat for ReduceLROnPlateau fallback
+high_loss_multiplier = 2.0  # Threshold for hard clients (loss > avg * this)
+lr_boost_factor = 1.15  # LR boost for hard clients
+loss_std_threshold = 1.2  # Trigger mu increase if client loss std > this
+mu_adjust_factor = 1.05  # Scale mu/LR on divergence
+mu_min = 0.001  # Minimum mu value to prevent over-regularization
+adjustment_window = 5  # Rounds for trend analysis (vs. 3)
+spike_threshold = 0.5  # Hold if loss delta > this (prevent spikes)
+max_adjust_factor = 1.05  # Cap adjustments early (<R20)
+# outlier_client_ids = [1]  # Client IDs for priority boosts (e.g., direction_test) - dynamically detected
 
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)

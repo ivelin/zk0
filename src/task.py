@@ -6,7 +6,7 @@ from typing import Any
 
 import torch
 from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import LinearLR
+from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, CosineAnnealingWarmRestarts, ReduceLROnPlateau
 
 from datasets.utils.logging import disable_progress_bar
 from loguru import logger
@@ -951,6 +951,85 @@ def compute_adjustment_factor(eval_losses):
 
     # Stable progress
     return 1.0  # No adjustment needed
+
+
+def create_scheduler(optimizer, cfg, epochs):
+    """Factory function for creating different types of learning rate schedulers.
+
+    Args:
+        optimizer: PyTorch optimizer with param_groups
+        cfg: Configuration object with scheduler parameters
+        epochs: Number of epochs for this round
+
+    Returns:
+        PyTorch learning rate scheduler or None
+    """
+    scheduler_type = cfg.get("scheduler_type", "cosine")
+    eta_min = cfg.get("eta_min", optimizer.param_groups[0]["lr"] * 0.1)
+
+    if scheduler_type == "cosine_warm_restarts":
+        T_0 = cfg.get("cosine_warm_restarts_T_0", 15)
+        T_mult = cfg.get("cosine_warm_restarts_T_mult", 1.2)
+        return CosineAnnealingWarmRestarts(optimizer, T_0=T_0, T_mult=T_mult, eta_min=eta_min)
+    elif scheduler_type == "reduce_on_plateau":
+        patience = cfg.get("stall_patience", 5)
+        return ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=patience, min_lr=eta_min)
+    else:  # "cosine" default
+        return CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
+
+
+def compute_adaptive_lr_factor(client_history, cfg):
+    """Compute adaptive learning rate boost factor for hard clients.
+
+    Args:
+        client_history: Dict with client training history (avg_loss, current_loss)
+        cfg: Configuration object with adaptive LR parameters
+
+    Returns:
+        float: LR boost factor (1.0 for no boost, >1.0 for boost)
+    """
+    if not cfg.get("adaptive_lr_enabled", False) or not client_history:
+        return 1.0
+
+    avg_prior_loss = client_history.get("avg_loss", 1.0)
+    current_loss = client_history.get("current_loss", avg_prior_loss)
+    threshold = cfg.get("high_loss_multiplier", 2.0)
+
+    if current_loss > avg_prior_loss * threshold:
+        return cfg.get("lr_boost_factor", 1.15)
+    return 1.0
+
+
+def reset_scheduler_adaptive(optimizer, lr_scheduler, initial_lr, epochs, client_history, cfg):
+    """Reset learning rate scheduler with adaptive LR boosts for federated learning rounds.
+
+    This function ensures each FL round starts with correct initial LR, with adaptive boosts
+    for hard clients based on training history.
+
+    Args:
+        optimizer: PyTorch optimizer with param_groups
+        lr_scheduler: PyTorch learning rate scheduler (or None)
+        initial_lr: Base initial learning rate to reset to
+        epochs: Number of epochs for this round
+        client_history: Dict with client training history for adaptive boosts
+        cfg: Configuration object with scheduler and adaptive LR parameters
+
+    Returns:
+        Updated lr_scheduler (may be recreated if needed)
+    """
+    adaptive_factor = compute_adaptive_lr_factor(client_history, cfg)
+    adjusted_lr = initial_lr * adaptive_factor
+
+    for group in optimizer.param_groups:
+        group["lr"] = adjusted_lr
+
+    if lr_scheduler is None:
+        lr_scheduler = create_scheduler(optimizer, cfg, epochs)
+    else:
+        lr_scheduler = create_scheduler(optimizer, cfg, epochs)  # Recreate for type safety
+
+    logger.info(f"Adaptive reset: LR={adjusted_lr:.6f} (factor={adaptive_factor}), scheduler={type(lr_scheduler).__name__}")
+    return lr_scheduler
 
 
 def compute_joint_adjustment(

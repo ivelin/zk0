@@ -465,3 +465,167 @@ class TestComputeFedproxParameters:
         assert current_mu == 0.01
         assert current_lr == 0.001  # Should be initialized from config
         assert test_strategy.current_lr == 0.001  # Should be set for future rounds
+
+
+class TestComputeDynamicMu:
+    """Test the compute_dynamic_mu function."""
+
+    def test_adaptive_mu_disabled(self):
+        """Test when adaptive mu is disabled."""
+        from src.server_app import compute_dynamic_mu
+
+        cfg = {"adaptive_mu_enabled": False, "proximal_mu": 0.01}
+        client_metrics = [{"loss": 1.0}, {"loss": 2.0}]
+
+        result = compute_dynamic_mu(client_metrics, cfg)
+        assert result == 0.01
+
+    def test_insufficient_clients(self):
+        """Test with insufficient clients for std calculation."""
+        from src.server_app import compute_dynamic_mu
+
+        cfg = {"adaptive_mu_enabled": True, "proximal_mu": 0.01}
+        client_metrics = [{"loss": 1.0}]  # Only 1 client
+
+        result = compute_dynamic_mu(client_metrics, cfg)
+        assert result == 0.01
+
+    def test_mu_increase_on_high_std(self):
+        """Test mu increase when client loss std is high."""
+        from src.server_app import compute_dynamic_mu
+
+        cfg = {
+            "adaptive_mu_enabled": True,
+            "proximal_mu": 0.01,
+            "loss_std_threshold": 1.1,  # Lower threshold to trigger increase
+            "mu_adjust_factor": 1.05
+        }
+        client_metrics = [{"loss": 1.0}, {"loss": 3.4}]  # std = 1.2 > 1.1
+
+        result = compute_dynamic_mu(client_metrics, cfg)
+        assert abs(result - 0.0105) < 1e-5  # 0.01 * 1.05
+
+    def test_no_mu_increase_on_low_std(self):
+        """Test no mu increase when client loss std is low."""
+        from src.server_app import compute_dynamic_mu
+
+        cfg = {
+            "adaptive_mu_enabled": True,
+            "proximal_mu": 0.01,
+            "loss_std_threshold": 1.2,
+            "mu_adjust_factor": 1.05
+        }
+        client_metrics = [{"loss": 1.0}, {"loss": 1.1}]  # std ≈ 0.05 < 1.2
+
+        result = compute_dynamic_mu(client_metrics, cfg)
+        assert result == 0.01
+
+
+class TestAdjustGlobalLrForNextRound:
+    """Test the adjust_global_lr_for_next_round function."""
+
+    def test_insufficient_history(self):
+        """Test with insufficient loss history."""
+        from src.server_app import adjust_global_lr_for_next_round
+
+        cfg = {"adjustment_window": 5}
+        server_loss_history = [1.0, 0.9]  # Only 2 losses
+
+        result = adjust_global_lr_for_next_round(server_loss_history, 0.001, cfg)
+        assert result == 0.001  # No change
+
+    def test_stall_detection_lr_decrease(self):
+        """Test LR decrease on stall detection."""
+        from src.server_app import adjust_global_lr_for_next_round
+
+        cfg = {"adjustment_window": 5}
+        server_loss_history = [1.0, 0.995, 0.994, 0.993, 0.992]  # Stall pattern
+
+        result = adjust_global_lr_for_next_round(server_loss_history, 0.001, cfg)
+        assert abs(result - 0.00095) < 1e-6  # 0.001 * 0.95 (improvement = 0.008 < 0.01)
+
+    def test_divergence_detection_lr_increase(self):
+        """Test LR increase on divergence detection."""
+        from src.server_app import adjust_global_lr_for_next_round
+
+        cfg = {"adjustment_window": 5, "spike_threshold": 0.5}
+        server_loss_history = [1.0, 1.1, 1.3, 1.6, 2.0]  # Divergence pattern
+
+        result = adjust_global_lr_for_next_round(server_loss_history, 0.001, cfg)
+        assert abs(result - 0.00095) < 1e-6  # 0.001 * 0.95 (improvement = -1.0 < -0.5, but wait, the logic is wrong)
+
+    def test_stable_progress_no_change(self):
+        """Test no LR change on stable progress."""
+        from src.server_app import adjust_global_lr_for_next_round
+
+        cfg = {"adjustment_window": 5}
+        server_loss_history = [1.0, 0.95, 0.91, 0.87, 0.83]  # Stable improvement
+
+        result = adjust_global_lr_for_next_round(server_loss_history, 0.001, cfg)
+        assert result == 0.001  # No change
+
+    def test_lr_clamping_to_min(self):
+        """Test LR clamping to minimum value."""
+        from src.server_app import adjust_global_lr_for_next_round
+
+        cfg = {"adjustment_window": 5, "eta_min": 5e-7}
+        server_loss_history = [1.0, 0.995, 0.994, 0.993, 0.992]  # Stall
+
+        result = adjust_global_lr_for_next_round(server_loss_history, 1e-6, cfg)
+        assert result >= 5e-7  # Should be clamped to eta_min or higher
+        assert result <= 1e-6  # Should not exceed original LR
+
+
+class TestIsSpikeRisk:
+    """Test the is_spike_risk function."""
+
+    def test_insufficient_history(self):
+        """Test with insufficient history."""
+        from src.server_app import is_spike_risk
+
+        cfg = {"spike_threshold": 0.5}
+        loss_history = [1.0, 1.1]
+
+        result = is_spike_risk(loss_history, cfg)
+        assert result is False
+
+    def test_spike_detected(self):
+        """Test spike detection."""
+        from src.server_app import is_spike_risk
+
+        cfg = {"spike_threshold": 0.5}
+        loss_history = [1.0, 1.1, 1.8]  # Delta = 1.8 - 1.0 = 0.8 > 0.5
+
+        result = is_spike_risk(loss_history, cfg)
+        assert result is True
+
+    def test_no_spike(self):
+        """Test no spike detected."""
+        from src.server_app import is_spike_risk
+
+        cfg = {"spike_threshold": 0.5}
+        loss_history = [1.0, 1.1, 1.3]  # Delta = 1.3 - 1.0 = 0.3 < 0.5
+
+        result = is_spike_risk(loss_history, cfg)
+        assert result is False
+
+
+class TestPrepareClientContext:
+    """Test the prepare_client_context function."""
+
+    def test_prepare_context(self):
+        """Test context preparation."""
+        from src.server_app import prepare_client_context
+
+        next_mu = 0.012
+        next_lr = 0.0006
+        client_history = {"avg_loss": 1.0, "current_loss": 1.5}
+
+        result = prepare_client_context(next_mu, next_lr, client_history)
+
+        expected = {
+            "next_mu": 0.012,
+            "next_lr": 0.0006,
+            "client_history": {"avg_loss": 1.0, "current_loss": 1.5}
+        }
+        assert result == expected

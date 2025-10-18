@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-16)**: Project version bumped to 0.2.3. Memory bank and documentation updated to reflect stable implementation of consolidated metrics, early stopping with parameter safety, bidirectional SHA256 validation, and dynamic learning rate adjustment. Core FL pipeline remains robust with FedProx integration and server-side evaluation on unseen SO-101 tasks.
+**Latest Update (2025-10-18)**: Project version bumped to 0.2.6. Implemented advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
@@ -30,6 +30,7 @@
 - Enhanced security with bidirectional SHA256 parameter validation
 - Consolidated metrics implementation for unified reporting
 - Dynamic learning rate adjustment capability
+- Advanced LR/MU scheduling with warm restarts, adaptive boosts, dynamic mu, and spike detection
 
 **Federated Learning Experiment Results Table**
 

@@ -355,6 +355,76 @@ def get_tool_config(tool_name: str, file_path: str = "pyproject.toml") -> dict:
     with open(file_path, "rb") as f:
         config = tomllib.load(f)
     return config.get("tool", {}).get(tool_name, {})
+
+
+def validate_scheduler_config(cfg: dict) -> None:
+    """Validate scheduler configuration parameters.
+
+    Args:
+        cfg: Configuration dictionary with scheduler parameters
+
+    Raises:
+        ValueError: If configuration is invalid
+    """
+    # Validate scheduler type
+    valid_types = ["cosine", "cosine_warm_restarts", "reduce_on_plateau"]
+    scheduler_type = cfg.get("scheduler_type", "cosine")
+    if scheduler_type not in valid_types:
+        raise ValueError(f"Invalid scheduler_type '{scheduler_type}'. Must be one of {valid_types}")
+
+    # Validate cosine_warm_restarts specific parameters
+    if scheduler_type == "cosine_warm_restarts":
+        T_0 = cfg.get("cosine_warm_restarts_T_0", 15)
+        T_mult = cfg.get("cosine_warm_restarts_T_mult", 1.2)
+        if not isinstance(T_0, (int, float)) or T_0 <= 0:
+            raise ValueError(f"cosine_warm_restarts_T_0 must be positive number, got {T_0}")
+        if not isinstance(T_mult, (int, float)) or T_mult < 1.0:
+            raise ValueError(f"cosine_warm_restarts_T_mult must be >= 1.0, got {T_mult}")
+
+    # Validate common parameters
+    eta_min = cfg.get("eta_min", 5e-7)
+    if not isinstance(eta_min, (int, float)) or eta_min <= 0:
+        raise ValueError(f"eta_min must be positive number, got {eta_min}")
+
+    # Validate adaptive parameters
+    if cfg.get("adaptive_lr_enabled", False):
+        lr_boost_factor = cfg.get("lr_boost_factor", 1.15)
+        high_loss_multiplier = cfg.get("high_loss_multiplier", 2.0)
+        if not isinstance(lr_boost_factor, (int, float)) or lr_boost_factor < 1.0:
+            raise ValueError(f"lr_boost_factor must be >= 1.0, got {lr_boost_factor}")
+        if not isinstance(high_loss_multiplier, (int, float)) or high_loss_multiplier <= 1.0:
+            raise ValueError(f"high_loss_multiplier must be > 1.0, got {high_loss_multiplier}")
+
+    # Validate mu parameters
+    if cfg.get("adaptive_mu_enabled", False):
+        mu_adjust_factor = cfg.get("mu_adjust_factor", 1.05)
+        loss_std_threshold = cfg.get("loss_std_threshold", 1.2)
+        mu_min = cfg.get("mu_min", 0.001)
+        if not isinstance(mu_adjust_factor, (int, float)) or mu_adjust_factor <= 1.0:
+            raise ValueError(f"mu_adjust_factor must be > 1.0, got {mu_adjust_factor}")
+        if not isinstance(loss_std_threshold, (int, float)) or loss_std_threshold <= 0:
+            raise ValueError(f"loss_std_threshold must be positive, got {loss_std_threshold}")
+        if not isinstance(mu_min, (int, float)) or mu_min < 0:
+            raise ValueError(f"mu_min must be non-negative, got {mu_min}")
+
+    # Validate spike detection parameters
+    spike_threshold = cfg.get("spike_threshold", 0.5)
+    adjustment_window = cfg.get("adjustment_window", 5)
+    max_adjust_factor = cfg.get("max_adjust_factor", 1.05)
+    if not isinstance(spike_threshold, (int, float)) or spike_threshold <= 0:
+        raise ValueError(f"spike_threshold must be positive, got {spike_threshold}")
+    if not isinstance(adjustment_window, int) or adjustment_window < 1:
+        raise ValueError(f"adjustment_window must be positive integer, got {adjustment_window}")
+    if not isinstance(max_adjust_factor, (int, float)) or max_adjust_factor < 1.0:
+        raise ValueError(f"max_adjust_factor must be >= 1.0, got {max_adjust_factor}")
+
+    # Validate outlier client IDs
+    outlier_client_ids = cfg.get("outlier_client_ids", [])
+    if not isinstance(outlier_client_ids, list):
+        raise ValueError(f"outlier_client_ids must be a list, got {type(outlier_client_ids)}")
+    for client_id in outlier_client_ids:
+        if not isinstance(client_id, int) or client_id < 0:
+            raise ValueError(f"outlier_client_ids must contain non-negative integers, got {client_id}")
 def create_client_metrics_dict(
     round_num: int,
     client_id: str,

@@ -1207,6 +1207,89 @@ class AggregateEvaluationStrategy(FedProx):
             raise
 
 
+def compute_dynamic_mu(client_metrics, cfg):
+    """Compute dynamic FedProx mu based on client loss standard deviation.
+
+    Args:
+        client_metrics: List of client metric dictionaries
+        cfg: Configuration object with mu parameters
+
+    Returns:
+        float: Adjusted mu value
+    """
+    if not cfg.get("adaptive_mu_enabled", False) or len(client_metrics) < 2:
+        return cfg.get("proximal_mu", 0.01)
+
+    import numpy as np
+    losses = [m["loss"] for m in client_metrics]
+    loss_std = np.std(losses)
+    threshold = cfg.get("loss_std_threshold", 1.2)
+
+    if loss_std > threshold:
+        return cfg["proximal_mu"] * cfg.get("mu_adjust_factor", 1.05)
+    return cfg["proximal_mu"]
+
+
+def adjust_global_lr_for_next_round(server_loss_history, current_lr, cfg):
+    """Adjust global learning rate based on server evaluation loss trends.
+
+    Args:
+        server_loss_history: List of recent server evaluation losses
+        current_lr: Current learning rate
+        cfg: Configuration object with LR adjustment parameters
+
+    Returns:
+        float: Adjusted learning rate
+    """
+    if len(server_loss_history) < cfg.get("adjustment_window", 5):
+        return current_lr
+
+    recent_losses = server_loss_history[-cfg["adjustment_window"]:]
+    improvement = (recent_losses[0] - recent_losses[-1]) / max(recent_losses[0], 1e-8)
+
+    if improvement < 0.01:  # Stall
+        factor = 0.95
+    elif improvement < -cfg.get("spike_threshold", 0.5):  # Divergence
+        factor = 1.05
+    else:
+        factor = 1.0
+
+    new_lr = current_lr * factor
+    return max(new_lr, cfg.get("eta_min", 5e-7))
+
+
+def is_spike_risk(loss_history, cfg):
+    """Check if current loss trends indicate spike risk.
+
+    Args:
+        loss_history: List of recent loss values
+        cfg: Configuration object with spike detection parameters
+
+    Returns:
+        bool: True if spike risk detected
+    """
+    if len(loss_history) < 3:
+        return False
+
+    recent = loss_history[-3:]
+    delta = recent[-1] - recent[0]
+    return delta > cfg.get("spike_threshold", 0.5)
+
+
+def prepare_client_context(next_mu, next_lr, client_history):
+    """Prepare context dictionary for client configuration.
+
+    Args:
+        next_mu: Next round's FedProx mu value
+        next_lr: Next round's learning rate
+        client_history: Client training history for adaptive boosts
+
+    Returns:
+        dict: Context dictionary for Flower client configuration
+    """
+    return {"next_mu": next_mu, "next_lr": next_lr, "client_history": client_history}
+
+
 def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
     """Aggregate evaluation policy loss history from server eval JSON files.
 

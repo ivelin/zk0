@@ -5,8 +5,8 @@
 **Version**: 1.0.2
 **Author**: Kilo Code
 
-## Latest Update (2025-10-14)
-**✅ Memory Bank Cleanup**: Consolidated repetitive workflows, removed outdated experiment details, updated metadata. Preserved essential technical workflows while reducing file size.
+## Latest Update (2025-10-18)
+**✅ LR/MU Scheduling Enhancement**: Implemented advanced LR/MU scheduling with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Added comprehensive unit tests, documentation updates, and memory bank entries. Targets <0.15 server policy loss with 100% client engagement.
 
 ## Critical Bug Fixes
 
@@ -123,6 +123,8 @@
 **✅ Added Client Metrics Aggregation Fix Workflow**: Enhanced server-side aggregation to collect and average client metrics (avg_loss, std_loss, proximal_loss, grad_norm, param_update_norm) for proper federated learning monitoring
 
 **✅ Added Documentation Update Workflow**: Updated README.md, visualization.py, server_app.py, and tests to reflect policy loss metrics, including chart generation, file names, and metric descriptions
+
+**✅ Added LR/MU Scheduling Enhancement Workflow**: Implemented advanced LR/MU scheduling with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Added comprehensive unit tests, documentation updates, and memory bank entries. Targets <0.15 server policy loss with 100% client engagement.
 
 ## Model Training Workflow
 1. **Environment Setup**: Activate conda environment "zk0"
