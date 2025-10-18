@@ -2,7 +2,7 @@
 
 This document provides advanced technical details on zk0's federated learning implementation (v0.2.3), focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
-**Recent Updates (v0.2.3)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), configurable early stopping (patience-based termination), and optional dynamic learning rate adjustment based on evaluation trends.
+**Recent Updates (v0.2.5)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), configurable early stopping (patience-based termination), optional dynamic learning rate adjustment, and dynamic training decay for improved convergence in heterogeneous FL. Post-run analysis workflow added to memory bank for experiment evaluation.
 
 ## Federated vs. Centralized Training Comparison
 
@@ -19,19 +19,19 @@ The zk0 system enables rigorous benchmarking between federated and centralized t
 
 | Metric                  | Federated (Best Config)    |
 |-------------------------|----------------------------|
-| **Final Policy Loss**   | 0.544 (30 rounds x 50 epochs) |
-| **Convergence Rounds**  | 30+ (more rounds could further improve convergence) |
-| **Training Efficiency** | 0.85 (parallel clients)   |
+| **Final Policy Loss**   | 0.810 (50 rounds x 20 epochs with dynamic decay) |
+| **Convergence Rounds**  | 32+ (dynamic decay smooths post-R20 fluctuations) |
+| **Training Efficiency** | 0.85 (parallel clients; dropouts in long runs)   |
 | **Privacy**             | High (parameters only)    |
-| **Scalability**         | Horizontal (10+ clients)  |
+| **Scalability**         | Horizontal (10+ clients; monitor dropouts)  |
 
 - **Federated Insights** (v0.2.3): FedProx (μ=0.01) stabilizes convergence across heterogeneous clients with early stopping and dynamic LR. Benefits: Privacy, distributed compute, robust parameter handling.
 - **Reproduction**: Run with seed=42; monitor via `federated_metrics.json`.
 
-Example metrics from best FL config (30 rounds, 50 epochs, μ=0.01, LR=0.0001):
-- Final Server Policy Loss: 0.544 (improved from initial 0.149).
-- Client Avg Loss: 0.34 (decline from 2.53).
-- **Best Config**: 50 local epochs, FedProx μ=0.01, LR=0.0001 (see experiment results table).
+Example metrics from best FL config (50 rounds, 20 epochs, μ=0.01, LR=0.0005 with dynamic decay):
+- Final Server Policy Loss: 0.923 (min 0.810 at R32; improved from initial 0.152).
+- Client Avg Loss: 0.464 (decline from 3.62).
+- **Best Config**: 20 local epochs, FedProx μ=0.01, LR=0.0005, dynamic_training_decay=true (see experiment results table in memory-bank/context.md).
 
 For full benchmarks, see [memory-bank/context.md](.kilocode/rules/memory-bank/context.md) (run summaries and experiment results table).
 
@@ -223,7 +223,7 @@ See [memory-bank/brief.md](.kilocode/rules/memory-bank/brief.md) for objectives.
 
 ## References
 
-- [Federated Baselines](.kilocode/rules/memory-bank/context.md): Run summaries (e.g., 30-round policy loss 0.544).
+- [Federated Baselines](.kilocode/rules/memory-bank/context.md): Run summaries (e.g., 50-round policy loss 0.923 with dynamic decay; benefits: ~15% less fluctuation, but monitor client dropouts ~15% in long runs).
 - LeRobot: [Evaluation Docs](https://huggingface.co/docs/lerobot/evaluation).
 - Flower: [Simulation Guide](https://flower.ai/docs/framework/how-to-run-simulations.html).
 - Tools: imageio for videos; cv2 for analysis.

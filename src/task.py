@@ -208,7 +208,10 @@ def setup_training_components(
     initial_lr,
     partition_id=None,
 ):
-    """Setup training components: optimizer, scheduler, metrics, and configuration."""
+    """Setup training components: optimizer, scheduler, metrics, and configuration.
+
+    Used by client-side training to initialize components.
+    """
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
     from lerobot.configs.default import (
@@ -258,6 +261,7 @@ def setup_training_components(
 
     # Replace cosine with CosineAnnealingLR for smoother decay
     from torch.optim.lr_scheduler import CosineAnnealingLR
+
     if lr_scheduler is not None:
         eta_min = initial_lr * 0.1  # Decay to 10% of initial LR
         lr_scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
@@ -916,38 +920,65 @@ def create_train_metrics():
     }
 
 
-def compute_dynamic_lr_adjustment(recent_losses, current_lr, min_lr=1e-5, max_lr=1e-3):
-    """Compute dynamic learning rate adjustment based on recent loss trends.
+def compute_adjustment_factor(eval_losses):
+    """Compute adjustment factor for joint mu/LR tuning based on evaluation loss trends.
+
+    Used by server-side strategy to determine if mu and LR should be adjusted together.
 
     Args:
-        recent_losses: List of recent policy loss values (last N rounds)
+        eval_losses: List of recent server evaluation loss values
+
+    Returns:
+        float: Adjustment factor (0.8 for stall, 1.1 for divergence, 1.0 for stable)
+    """
+    if len(eval_losses) < 3:
+        return 1.0  # No adjustment with insufficient data
+
+    # Calculate improvement over the last 3 rounds
+    recent_3 = eval_losses[-3:]
+    improvement = (recent_3[0] - recent_3[-1]) / max(
+        recent_3[0], 1e-8
+    )  # Avoid division by zero
+
+    # Check for divergence first (most severe condition)
+    if improvement < -0.05:
+        return 1.1  # Increase both mu and LR by 10%
+
+    # Check for stalling (less than 1% improvement over 3 rounds)
+    elif improvement < 0.01:
+        return 0.8  # Reduce both mu and LR by 20%
+
+    # Stable progress
+    return 1.0  # No adjustment needed
+
+
+def compute_joint_adjustment(
+    eval_losses, current_mu, current_lr, min_lr=1e-5, max_lr=1e-3
+):
+    """Compute joint adjustment for both mu and LR based on evaluation loss trends.
+
+    Used by server-side strategy to compute synchronized mu/LR adjustments.
+
+    Args:
+        eval_losses: List of recent server evaluation loss values
+        current_mu: Current FedProx mu value
         current_lr: Current learning rate
         min_lr: Minimum allowed learning rate (default: 1e-5)
         max_lr: Maximum allowed learning rate (default: 1e-3)
 
     Returns:
-        tuple: (new_lr, adjustment_reason) where adjustment_reason is a string explaining the change
+        tuple: (new_mu, new_lr, adjustment_reason) where adjustment_reason explains the change
     """
-    if len(recent_losses) < 3:
-        return current_lr, "insufficient_data"
-
-    # Calculate improvement over the last 3 rounds
-    recent_3 = recent_losses[-3:]
-    improvement = (recent_3[0] - recent_3[-1]) / max(
-        recent_3[0], 1e-8
-    )  # Avoid division by zero
-
-    # Check for stalling (less than 1% improvement over 3 rounds)
-    if improvement < 0.01:
-        new_lr = current_lr * 0.8  # Reduce LR by 20%
-        new_lr = max(new_lr, min_lr)  # Clamp to min
-        return new_lr, f"stall_detected_{improvement:.4f}"
-
-    # Check for divergence (loss increased by more than 5%)
-    elif improvement < -0.05:
-        new_lr = current_lr * 1.1  # Increase LR by 10%
-        new_lr = min(new_lr, max_lr)  # Clamp to max
-        return new_lr, f"divergence_detected_{improvement:.4f}"
-
-    # No adjustment needed
-    return current_lr, "stable_progress"
+    factor = compute_adjustment_factor(eval_losses)
+    if factor == 1.0:
+        return current_mu, current_lr, "convergence_progress"
+    elif factor < 1.0:
+        new_mu = current_mu * factor
+        new_lr = max(current_lr * factor, min_lr)
+        return new_mu, new_lr, "stall_detected"
+    elif factor > 1.0:
+        new_mu = current_mu * factor
+        new_lr = min(current_lr * factor, max_lr)
+        return new_mu, new_lr, "divergence_detected"
+    else:
+        return current_mu, current_lr, "unknown_factor"

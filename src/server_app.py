@@ -443,7 +443,9 @@ class AggregateEvaluationStrategy(FedProx):
                 )
 
                 log_wandb_metrics(wandb_metrics, step=server_round)
-                logger.debug(f"Logged server eval + client metrics to WandB using utility function: {list(wandb_metrics.keys())}")
+                logger.debug(
+                    f"Logged server eval + client metrics to WandB using utility function: {list(wandb_metrics.keys())}"
+                )
 
             # Track metrics for plotting
             round_metrics = {
@@ -462,6 +464,14 @@ class AggregateEvaluationStrategy(FedProx):
 
             # Update early stopping tracking
             update_early_stopping_tracking(self, server_round, loss)
+
+            # Track server eval losses for dynamic adjustment
+            if not hasattr(self, "server_eval_losses"):
+                self.server_eval_losses = []
+            self.server_eval_losses.append(loss)
+            # Keep only last 10 losses to prevent unbounded growth
+            if len(self.server_eval_losses) > 10:
+                self.server_eval_losses = self.server_eval_losses[-10:]
 
             # Save evaluation results to file
             if self.server_dir:
@@ -559,6 +569,45 @@ class AggregateEvaluationStrategy(FedProx):
             logger.error(f"Full traceback: {traceback.format_exc()}")
             return None, {}
 
+    def compute_fedprox_parameters(self, server_round: int, app_config: Dict[str, Scalar]) -> Tuple[float, float]:
+        """Compute FedProx mu and learning rate parameters for the current round.
+
+        Args:
+            server_round: Current server round number
+            app_config: Application configuration from pyproject.toml
+
+        Returns:
+            tuple: (current_mu, current_lr) for this round
+        """
+        # FedProx: Dynamically adjust proximal_mu and LR based on evaluation trends
+        initial_mu = self.proximal_mu
+        current_mu = initial_mu
+        # Track current LR across rounds (initialize if not set)
+        if not hasattr(self, "current_lr"):
+            self.current_lr = app_config.get("initial_lr", 1e-3)
+        current_lr = self.current_lr
+
+        # Check if dynamic training decay is enabled
+        dynamic_training_decay = app_config.get("dynamic_training_decay", False)
+        if dynamic_training_decay and hasattr(self, "server_eval_losses") and len(self.server_eval_losses) >= 3:
+            from src.task import compute_joint_adjustment
+            current_mu, current_lr, reason = compute_joint_adjustment(
+                self.server_eval_losses, initial_mu, current_lr
+            )
+            logger.info(
+                f"Server R{server_round}: Dynamic decay mu={current_mu:.6f}, lr={current_lr:.6f} ({reason}, eval_trend={self.server_eval_losses[-3:]})"
+            )
+            # Update tracked LR for next round
+            self.current_lr = current_lr
+        else:
+            # Fallback to fixed halving for early rounds or when disabled
+            current_mu = initial_mu / (2 ** (server_round // 10))
+            logger.info(
+                f"Server R{server_round}: Fixed adjust mu={current_mu:.6f} (initial={initial_mu}, factor=2^(server_round//10))"
+            )
+
+        return current_mu, current_lr
+
     def validate_client_parameters(
         self, results: List[Tuple[ClientProxy, FitRes]]
     ) -> List[Tuple[ClientProxy, FitRes]]:
@@ -643,13 +692,11 @@ class AggregateEvaluationStrategy(FedProx):
             updated_fit_config["timestamp"] = (
                 self.save_path.name
             )  # Pass the output folder name to clients for JSON saving
-            # FedProx: Dynamically adjust proximal_mu (halve every 10 rounds for gradual relaxation)
-            initial_mu = self.proximal_mu
-            current_mu = initial_mu / (2 ** (server_round // 10))
+            # FedProx: Dynamically adjust proximal_mu and LR based on evaluation trends
+            current_mu, current_lr = self.compute_fedprox_parameters(server_round, app_config)
+
             updated_fit_config["proximal_mu"] = current_mu
-            logger.info(
-                f"Server R{server_round}: Adjusted proximal_mu={current_mu:.6f} (initial={initial_mu}, factor=2^(server_round//10))"
-            )
+            updated_fit_config["initial_lr"] = current_lr
 
             # Add initial_lr parameter for client-side training
             initial_lr = app_config.get("initial_lr", 1e-3)
@@ -798,14 +845,28 @@ class AggregateEvaluationStrategy(FedProx):
         if not hasattr(self, "last_client_metrics") or self.last_client_metrics is None:
             self.last_client_metrics = []
 
-        # Apply dynamic LR adjustment based on recent server evaluation losses (if enabled)
-        if self.context.run_config.get("dynamic_lr_enabled", False):
-            self.adjust_learning_rate_dynamically()
-        else:
-            logger.debug("Dynamic LR adjustment disabled via config")
 
         # Merge client metrics with parent metrics
         metrics = {**parent_metrics, **aggregated_client_metrics}
+
+        # DIAGNOSIS METRICS: Add current mu, LR, and eval trend to metrics for JSON/WandB logging
+        current_mu = (
+            self.proximal_mu
+        )  # Initial mu; actual per-round mu adjusted in configure_fit
+        current_lr = self.context.run_config.get("initial_lr", "N/A")
+        eval_trend = (
+            self.server_eval_losses[-3:]
+            if hasattr(self, "server_eval_losses") and self.server_eval_losses
+            else "N/A (no eval history)"
+        )
+        metrics["diagnosis_mu"] = current_mu
+        metrics["diagnosis_lr"] = current_lr
+        metrics["diagnosis_eval_trend"] = str(
+            eval_trend
+        )  # Convert to string for JSON serialization
+        logger.info(
+            f"DIAG R{server_round}: Added to metrics - mu={current_mu}, lr={current_lr}, eval_trend={eval_trend}"
+        )
 
         # Store the aggregated parameters for server-side evaluation
         self.current_parameters = aggregated_parameters
@@ -967,32 +1028,6 @@ class AggregateEvaluationStrategy(FedProx):
 
         return aggregated_parameters, metrics
 
-    def adjust_learning_rate_dynamically(self):
-        """Adjust learning rate dynamically based on recent server evaluation losses.
-
-        This method tracks server evaluation losses and adjusts the learning rate
-        for subsequent rounds if convergence appears stalled or diverging.
-        """
-        # Initialize server evaluation losses tracking if not exists
-        if not hasattr(self, "server_eval_losses"):
-            self.server_eval_losses = []
-
-        # Dynamic LR adjustment based on recent server evaluation losses
-        if len(self.server_eval_losses) >= 3:
-            from src.task import compute_dynamic_lr_adjustment
-
-            current_lr = self.context.run_config.get("initial_lr", 0.0005)
-            new_lr, adjustment_reason = compute_dynamic_lr_adjustment(
-                self.server_eval_losses, current_lr
-            )
-            if new_lr != current_lr:
-                logger.info(
-                    f"🔄 Dynamic LR adjustment: {current_lr:.6f} → {new_lr:.6f} ({adjustment_reason})"
-                )
-                # Update config for next round
-                self.context.run_config["initial_lr"] = new_lr
-            else:
-                logger.debug(f"Dynamic LR: No adjustment needed ({adjustment_reason})")
 
     def save_model_checkpoint(
         self, parameters, server_round: int, models_dir: Path

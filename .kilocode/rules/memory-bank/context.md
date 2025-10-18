@@ -39,6 +39,7 @@
 | 2025-10-11_07-31-37_divergence_e1000_r3 | 1000 | 30 | 0.01 | 0.0005 | 1.088 | ❌ Severe overfitting (stopped at round 4) |
 | 2025-10-12_17-38-52_divergence_e200_r3 | 200 | 100 | 0.01 | 0.0005 | 0.570 | ❌ Divergence observed (stopped at round 3) |
 | 2025-10-14_00-17-44_e50_r500 | 50 | 500 | 0.01 | 0.0005 | N/A | ❌ Early stopping triggered (round 16) due to aggressive patience=10 |
+| 2025-10-17_08-02-19_convergence_dynamicDecay_e20_r50 | 20 | 50 | 0.01 | 0.0005 | 0.923 | ✅ Stable convergence with dynamic training decay; minor client dropouts (85% participation) |
 
 **Performance Insights**:
 - **Optimal Range**: 50 local epochs per round for stable convergence

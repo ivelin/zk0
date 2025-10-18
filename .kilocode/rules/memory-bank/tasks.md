@@ -193,8 +193,8 @@
 - Minimal resource usage for frequent testing during development
 
 ## Post-FL Run Analysis Workflow
-**Last performed:** 2025-10-14
-**Context:** Analyzed 30-round baseline run outputs to assess convergence, identify logging issues, and propose improvements for policy_loss tracking and client dropout prevention
+**Last performed:** 2025-10-18
+**Context:** Analyzed 50-round dynamic decay run (2025-10-17_08-02-19) vs. 30-round baseline; confirmed decay smooths convergence (min loss 0.810 vs. 0.827), but highlights client dropouts (85% participation) in extended runs. Propose mu=0.05 and patience=10 for future stability.
 
 **Steps:**
 1. **Output Structure Review**: Use list_files to examine run directory; confirm clients/, server/, models/ presence and key files (checkpoints, evals, metrics)
