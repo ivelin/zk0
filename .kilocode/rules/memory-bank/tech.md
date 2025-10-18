@@ -175,6 +175,7 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 ## Dependencies Management
 - **requirements.txt**: Pinned versions for reproducibility
 - **pyproject.toml**: Project configuration and metadata
+- **Dependency Installation**: All dependencies must be declared in pyproject.toml for reproducibility. No one-off pip installs allowed - update pyproject.toml and reinstall the environment.
 
 ## Hardware Requirements
 - **Python Version**: 3.8+ (recommended 3.10)

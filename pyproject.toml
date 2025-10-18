@@ -26,6 +26,7 @@ dependencies = [
     "num2words>=0.5.14",
     "accelerate>=1.7.0",
     "loguru>=0.7.3",
+    "python-dotenv>=1.0.0,<2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -88,7 +89,7 @@ options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks (consistent with GPU v
 [tool.flwr.federations.local-simulation-gpu]
 options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
 options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4CPUs
-options.backend.client-resources.num-gpus = 0.25 # SmolVLA is more memory efficient, allowing more parallelism
+options.backend.client-resources.num-gpus = 0.2 # 20% for each for 4 clients and 20% for server process (eval). SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
 options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
