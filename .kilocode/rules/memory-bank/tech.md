@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-14
-**Version**: 1.0.3
+**Last Updated**: 2025-10-19
+**Version**: 1.0.5
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -150,6 +150,14 @@ See [Configuration System](architecture.md#configuration-system) in `pyproject.t
 - **Git**: Version control with GitHub integration
 - **Pre-commit Hooks**: Code quality and formatting checks
 - **Time Zone Handling**: Always check environment_details for the current user time zone when interpreting timestamps in logs, file modification times, or system outputs, as it may vary between sessions and developers.
+
+### Training Execution Best Practices (Anti-Hang Rule)
+- **Detached Sessions for Long-Running Training**: To prevent hangs or process termination due to VSCode client crashes or terminal disconnections, always run training in a detached tmux session. This isolates the process from VSCode terminal dependencies, particularly critical for remote VSCode connections (e.g., VSCode Server over SSH) where client disconnections are common and can detach terminals, causing apparent freezes without stopping the underlying processes.
+  - **Command**: `tmux new -s zk0-training ./train.sh`
+  - **Reattach**: `tmux attach -t zk0-training` (after reconnection)
+  - **Kill Session**: `tmux kill-session -t zk0-training` (if needed)
+  - **Rationale**: VSCode crashes or disconnections detach terminals but tmux keeps processes running independently. Essential for GPU-intensive FL simulations that can run hours/days. For local VSCode (running directly on the machine), terminal detachment is less severe (processes may continue in the background), but tmux is still recommended as a best practice for reliability and easy reattachment/monitoring.
+  - **Fallback**: Use `nohup ./train.sh > train.log 2>&1 &` if tmux unavailable, but tmux preferred for interactive monitoring.
 
 ## Command Execution Requirements (CRITICAL)
 

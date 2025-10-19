@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.2.7"
+version = "0.2.8"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -63,7 +63,7 @@ eval_batches = 8 # Number of batches to evaluate (0 = all eval split batches (ab
 checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
-initial_lr = 5e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
+initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
 early_stopping_patience = 20 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
 dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
 # New parameters for LR/MU scheduling enhancements (v0.2.6)

@@ -45,9 +45,18 @@ while [[ $# -gt 0 ]]; do
             TINY_TRAIN=true
             shift
             ;;
+        --detached)
+            USE_DETACHED=true
+            shift
+            ;;
+        --no-detached)
+            # Internal flag to prevent recursion when called from tmux
+            USE_DETACHED=false
+            shift
+            ;;
         *)
             print_error "Unknown option: $1"
-            print_info "Usage: $0 [--docker] [--tiny]"
+            print_info "Usage: $0 [--docker] [--tiny] [--detached]"
             exit 1
             ;;
     esac
@@ -64,8 +73,22 @@ if [ "$USE_DOCKER" = true ]; then
 else
     print_info "Runtime: Conda (zk0 environment)"
 fi
+if [ "$USE_DETACHED" = true ]; then
+    print_info "Mode: Detached (tmux session)"
+else
+    print_info "Mode: Interactive"
+fi
 print_info "(Configuration loaded from pyproject.toml)"
 print_info ""
+
+# Check tmux availability if detached mode requested
+if [ "$USE_DETACHED" = true ]; then
+    if ! command -v tmux &> /dev/null; then
+        print_error "tmux is not installed or not in PATH. Required for detached mode."
+        print_info "Install tmux or run without --detached flag."
+        exit 1
+    fi
+fi
 
 # Check runtime availability and GPU support
 if [ "$USE_DOCKER" = true ]; then
@@ -162,6 +185,23 @@ else
 
     # Execute the conda command
     eval "$CONDA_CMD"
+fi
+
+# Handle detached execution with tmux
+if [ "$USE_DETACHED" = true ]; then
+    # Generate unique session name
+    SESSION_NAME="zk0-training-$(date +%Y%m%d_%H%M%S)"
+
+    print_info "Starting training in detached tmux session: $SESSION_NAME"
+    print_info "To attach and monitor: tmux attach -t $SESSION_NAME"
+    print_info "To kill session: tmux kill-session -t $SESSION_NAME"
+    print_info "To list sessions: tmux ls"
+
+    # Create detached tmux session and execute the script recursively without --detached
+    tmux new-session -d -s "$SESSION_NAME" "$0" "$@" --no-detached
+    print_success "Training started in detached session $SESSION_NAME"
+    print_info "Use 'tmux attach -t $SESSION_NAME' to monitor progress"
+    exit 0
 fi
 
 # Check exit status
