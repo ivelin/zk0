@@ -37,8 +37,14 @@ The `train.sh` script runs with configuration from `pyproject.toml` (defaults: 1
 # Basic usage with conda (default)
 ./train.sh
 
+# Detached mode (anti-hang rule - prevents VSCode client crashes from stopping training)
+./train.sh --detached
+
 # Use Docker instead of conda
 ./train.sh --docker
+
+# Detached mode with Docker
+./train.sh --docker --detached
 
 # For custom config, use direct Flower run with overrides
 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
@@ -63,11 +69,13 @@ docker run --gpus all --shm-size=10.24gb \
 ### ⚠️ Important Notes
 
 - **Default execution uses conda** for fast development iteration.
+- **Use `--detached` flag** to prevent VSCode client crashes from stopping training (anti-hang rule).
 - **Use `--docker` flag** for reproducible, isolated execution when needed.
 - **Use `local-simulation-serialized-gpu`** for reliable execution (prevents SafeTensors multiprocessing conflicts).
 - **GPU support** requires NVIDIA drivers (conda) or `--gpus all` flag (Docker).
 - **Conda provides flexibility** with direct host resource access.
 - **Docker provides isolation** and eliminates environment-specific issues.
+- **Detached mode** uses tmux sessions for process isolation (critical for remote VSCode connections).
 
 ## Result Output
 
@@ -167,6 +175,8 @@ with torch.no_grad():
 
 ## Troubleshooting
 
+- **Training Appears Hung/Stuck**: Use `./train.sh --detached` to isolate training in tmux sessions (anti-hang rule). VSCode client crashes won't stop training processes.
+- **Detached Session Management**: `tmux ls` to list sessions, `tmux attach -t <session-name>` to monitor, `tmux kill-session -t <session-name>` to stop.
 - **Missing Logs**: Ensure output directory permissions (conda) or Docker volume mounting (`-v $(pwd)/outputs:/workspace/outputs`).
 - **Permission Issues**: Check user permissions for log file creation in both conda and Docker environments.
 - **Multi-Process Conflicts**: Use `local-simulation-serialized-gpu` for reliable execution.
