@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-20)**: ✅ **Successful tiny training run validation completed!** Run 2025-10-19_23-14-14 confirmed federated learning pipeline is production-ready. All components working: multi-client coordination, parameter aggregation, model persistence to HF Hub, and comprehensive logging. Project version updated to 0.2.8. Previous analysis of 50-round runs showed LR optimization needed around 1e-4 for stable convergence.
+**Latest Update (2025-10-20)**: ✅ **Successful tiny training run validation completed!** Run 2025-10-19_23-14-14 confirmed federated learning pipeline is production-ready. All components working: multi-client coordination, parameter aggregation, model persistence to HF Hub, and comprehensive logging. Project version updated to 0.2.9. Previous analysis of 50-round runs showed LR optimization needed around 1e-4 for stable convergence.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics

@@ -143,9 +143,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Project Status
 
-### 🚀 Current Stage: Beta (v0.2.8)
+### 🚀 Current Stage: Beta (v0.2.9)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.2.8 updates: Federated learning pipeline validation completed with successful model persistence and HF Hub integration.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.2.9 updates: Federated learning pipeline validation completed with successful model persistence and HF Hub integration.
 
 #### Completed Milestones
 
