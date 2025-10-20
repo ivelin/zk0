@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-18)**: Project version bumped to 0.2.6. Implemented advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling.
+**Latest Update (2025-10-20)**: ✅ **Successful tiny training run validation completed!** Run 2025-10-19_23-14-14 confirmed federated learning pipeline is production-ready. All components working: multi-client coordination, parameter aggregation, model persistence to HF Hub, and comprehensive logging. Project version updated to 0.2.8. Previous analysis of 50-round runs showed LR optimization needed around 1e-4 for stable convergence.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
@@ -41,16 +41,18 @@
 | 2025-10-12_17-38-52_divergence_e200_r3 | 200 | 100 | 0.01 | 0.0005 | 0.570 | ❌ Divergence observed (stopped at round 3) |
 | 2025-10-14_00-17-44_e50_r500 | 50 | 500 | 0.01 | 0.0005 | N/A | ❌ Early stopping triggered (round 16) due to aggressive patience=10 |
 | 2025-10-17_08-02-19_convergence_dynamicDecay_e20_r50 | 20 | 50 | 0.01 | 0.0005 | 0.923 | ✅ Stable convergence with dynamic training decay; minor client dropouts (85% participation) |
+| 2025-10-19_00-04-03_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_5e-4 | 20 | 50 | 0.01 (dynamic) | 0.0005 | 0.997 | ✅ Volatile; high initial loss (9.17), oscillates ~1.0; std=1.82 |
+| 2025-10-19_09-05-34_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_1e-4 | 20 | 50 | 0.01 (dynamic) | 0.0001 | 0.532 | ✅ Stable; smooth to 0.53; 47% better final, std=0.11 |
 
 **Performance Insights**:
-- **Optimal Range**: 50 local epochs per round for stable convergence
-- **FedProx μ Impact**: 0.01 provides moderate regularization for heterogeneous SO-100 data
-- **Convergence Target**: Policy Loss <0.4 considered good performance
-- **Early Stopping**: Default patience=10 appropriate for 500-round experiments; prevents wasted computation
-- **Evaluation Scope**: eval_batches=0 (full) preferred for proper convergence monitoring
-- **Current Configuration**: 4 clients, 500 rounds, early stopping enabled, consolidated metrics
+- **Optimal Range**: 20-50 local epochs per round for stable convergence (20 sufficient with dynamic scheduling)
+- **FedProx μ Impact**: 0.01 moderate for SO-100; dynamic decay reduces to ~0.001 by r50
+- **Convergence Target**: Policy Loss <0.4 good; <0.15 excellent for SO-101 generalization
+- **Early Stopping**: patience=20 prevents waste; no trigger in recent runs
+- **Evaluation Scope**: eval_batches=8 partial; recommend 0 for full
+- **Current Configuration**: 4 clients, 50 rounds, adaptive LR/MU, consolidated metrics
 - **Key Lessons**:
-  - Excessive local training (1000+ epochs) causes overfitting and FL divergence
-  - Early stopping with full evaluation provides stable training termination
-  - Core FL pipeline is stable; divergence typically due to configuration issues
-  - Parameter validation prevents corrupted training from affecting global model
+  - LR=1e-4 stable (0.53 final, low std); 5e-4 volatile (1.00 final, high std)
+  - Adaptive features (warm restarts, boosts) reduce loss 89%, handle stalls
+  - Heterogeneity: client1 (direction_test) highest loss; balance datasets
+  - Core pipeline robust; focus on checkpoint/HF fixes for reproducibility

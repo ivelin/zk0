@@ -403,3 +403,12 @@ Based on analysis of the Flower LeRobot pusht example, the following improvement
 6. **Output Management**: Standardize output directories for models, evaluations, and videos across clients and server.
 
 These changes would align zk0 more closely with LeRobot best practices while maintaining SmolVLA focus.
+
+## LR Hyperparameter Comparison (from 2025-10-19 Runs)
+
+| Initial LR | Final Policy Loss (r50) | Stability (Std Dev r1-50) | Initial Loss (r1) | Notes |
+|------------|--------------------------|---------------------------|-------------------|-------|
+| 5e-4      | 0.997                   | 1.82 (volatile)          | 9.165            | Aggressive updates; oscillation post-r20; higher param norms. |
+| 1e-4      | 0.532                   | 0.11 (stable)            | 0.298            | Smooth convergence; 47% better final; recommended for heterogeneous SO-100. |
+
+**Note**: History file is `policy_loss_history.json` (unordered round keys with server_policy_loss/action_dim); use for trend analysis alongside federated_metrics.json.

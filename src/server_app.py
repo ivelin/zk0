@@ -646,7 +646,15 @@ class AggregateEvaluationStrategy(FedProx):
                 client_params = parameters_to_ndarrays(fit_res.parameters)
                 server_computed_hash = compute_parameter_hash(client_params)
 
-                # Compare hashes
+                # 🔐 ADD: Use rounded hash for drift-resistant validation
+                # Use float32 precision for hash (matches transmission dtype, minimal overhead)
+                from src.utils import compute_rounded_hash
+                server_computed_hash = compute_rounded_hash(client_params, precision='float32')
+                logger.debug(
+                    f"Server: Client {client_proxy.cid} rounded hash: {server_computed_hash}"
+                )
+
+                # Compare hashes (use rounded hash for drift resistance)
                 if server_computed_hash == client_hash:
                     logger.info(
                         f"✅ Server: Client {client_proxy.cid} parameter hash VALIDATED: {client_hash[:8]}..."

@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.2.7"
+version = "0.2.8"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -52,7 +52,7 @@ clientapp = "src.client_app:app"
 [tool.flwr.app.config]
 num-server-rounds = 50 # Total should be 400 rounds for a combined 400x50 epochs = 20,000 epochs/steps per dataset
 local-epochs = 20 # steps/epochs per round
-model-name = "lerobot/smolvla_base" # fl advanced: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
+model-name = "lerobot/smolvla_base" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 1 # set to 1 for all clients to train each round
 fraction-evaluate = 1 # Evaluate all clients
 batch_size =  64 # Batch size for training and evaluation (match standalone train script)
@@ -64,7 +64,7 @@ checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
-early_stopping_patience = 20 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
+early_stopping_patience = 30 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
 dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
 # New parameters for LR/MU scheduling enhancements (v0.2.6)
 scheduler_type = "cosine_warm_restarts"  # "cosine" (current), "cosine_warm_restarts", "reduce_on_plateau"

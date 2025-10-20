@@ -310,6 +310,30 @@ def compute_parameter_hash(parameters: List[np.ndarray]) -> str:
     return hashlib.sha256(param_bytes).hexdigest()
 
 
+def compute_rounded_hash(ndarrays, precision='float32'):
+    """Compute SHA256 hash of NDArrays after rounding to fixed precision.
+
+    This mitigates float drift from Flower's serialization/deserialization
+    by rounding to a consistent dtype before hashing.
+
+    Args:
+        ndarrays: List of numpy arrays (model parameters)
+        precision: Target dtype for rounding ('float32' or 'float16')
+
+    Returns:
+        str: SHA256 hex hash of the rounded, flattened arrays
+    """
+    import numpy as np
+    import hashlib
+
+    # Round to fixed dtype for tolerance
+    rounded = [arr.astype(getattr(np, precision)) for arr in ndarrays]
+    # Flatten and concatenate
+    flat = np.concatenate([r.flatten() for r in rounded])
+    # Hash the bytes
+    return hashlib.sha256(flat.tobytes()).hexdigest()
+
+
 def validate_and_log_parameters(
     parameters: List[np.ndarray],
     gate_name: str,

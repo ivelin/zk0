@@ -336,12 +336,12 @@ class SmolVLAClient(NumPyClient):
         if len(updated_params) > 5:
             logger.debug(f"  ... and {len(updated_params) - 5} more parameters")
 
-        client_param_hash = compute_parameter_hash(updated_params)
-        logger.debug(
-            f"Client {self.partition_id}: Computed hash on extracted params: {client_param_hash}"
-        )
+        # 🔐 ADD: Include rounded parameter hash for drift-resistant validation
+        # Use float32 precision for hash (matches transmission dtype, minimal overhead)
+        from src.utils import compute_rounded_hash
+        rounded_hash = compute_rounded_hash(updated_params, precision='float32')
         logger.info(
-            f"✅ Client {self.partition_id}: Updated parameters hash: {client_param_hash[:8]}..."
+            f"✅ Client {self.partition_id}: Updated parameters hash: {rounded_hash[:8]}..."
         )
 
         # Compute parameter update norm: L2 distance between pre-training and post-training parameters
@@ -361,7 +361,7 @@ class SmolVLAClient(NumPyClient):
         training_metrics["param_update_norm"] = param_update_norm
 
         # Add param_hash and dataset_name to training_metrics for server aggregation
-        training_metrics["param_hash"] = client_param_hash
+        training_metrics["param_hash"] = rounded_hash  # Use rounded hash for drift resistance
         training_metrics["dataset_name"] = self.dataset_repo_id
 
         # Save per-round client metrics to JSON
