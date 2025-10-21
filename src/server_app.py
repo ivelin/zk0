@@ -385,7 +385,9 @@ class AggregateEvaluationStrategy(FedProx):
             self.current_parameters = ndarrays_to_parameters(parameters)
 
             # Prepare model for evaluation
-            model = prepare_evaluation_model(parameters, self.device, self.template_model)
+            model = prepare_evaluation_model(
+                parameters, self.device, self.template_model
+            )
 
             # Load dataset config for evaluation
             dataset_config = DatasetConfig.load()
@@ -413,17 +415,33 @@ class AggregateEvaluationStrategy(FedProx):
 
             # Process evaluation metrics and update tracking
             process_evaluation_metrics(
-                self, server_round, loss, metrics, self.last_aggregated_metrics, self.last_client_metrics
+                self,
+                server_round,
+                loss,
+                metrics,
+                self.last_aggregated_metrics,
+                self.last_client_metrics,
             )
 
             # Log to WandB
             log_evaluation_to_wandb(
-                self, server_round, loss, metrics, self.last_aggregated_metrics, self.last_client_metrics
+                self,
+                server_round,
+                loss,
+                metrics,
+                self.last_aggregated_metrics,
+                self.last_client_metrics,
             )
 
             # Save evaluation results to file
             save_evaluation_results(
-                self, server_round, loss, num_examples, metrics, self.last_aggregated_metrics, self.last_client_metrics
+                self,
+                server_round,
+                loss,
+                num_examples,
+                metrics,
+                self.last_aggregated_metrics,
+                self.last_client_metrics,
             )
 
             # Generate chart on last round
@@ -432,6 +450,7 @@ class AggregateEvaluationStrategy(FedProx):
             # Finish WandB run after all logging is complete (always called on final round)
             if self.num_rounds and server_round == self.num_rounds:
                 from src.wandb_utils import finish_wandb
+
                 finish_wandb()
                 logger.info("WandB run finished after final round")
 
@@ -1214,6 +1233,7 @@ def evaluate_single_dataset(
 
     # Create per-dataset policy instance using dataset metadata
     from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
+
     cfg = SmolVLAConfig()
     cfg.pretrained_path = "lerobot/smolvla_base"
     policy = make_policy_fn(cfg=cfg, ds_meta=dataset.meta)
@@ -1367,6 +1387,7 @@ def prepare_evaluation_model(
     # Set parameters
     logger.info(f"🔍 Server: Setting parameters...")
     from src.task import set_params
+
     set_params(model, parameters)
     logger.info(f"✅ Server: Parameters set successfully")
 
@@ -1377,10 +1398,13 @@ def prepare_evaluation_model(
     return model
 
 
-
-
 def process_evaluation_metrics(
-    strategy, server_round: int, loss: float, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+    strategy,
+    server_round: int,
+    loss: float,
+    metrics: dict,
+    aggregated_client_metrics: dict,
+    individual_client_metrics: list,
 ) -> None:
     """Process evaluation metrics and update tracking.
 
@@ -1395,15 +1419,10 @@ def process_evaluation_metrics(
     # Track metrics for plotting
     round_metrics = {
         "round": server_round,
-        "round_time": 0.0,
         "num_clients": aggregated_client_metrics.get("num_clients", 0),
         "avg_policy_loss": metrics.get("policy_loss", 0.0),
-        "avg_client_loss": aggregated_client_metrics.get(
-            "avg_client_loss", 0.0
-        ),
-        "param_update_norm": aggregated_client_metrics.get(
-            "param_update_norm", 0.0
-        ),
+        "avg_client_loss": aggregated_client_metrics.get("avg_client_loss", 0.0),
+        "param_update_norm": aggregated_client_metrics.get("param_update_norm", 0.0),
     }
     strategy.federated_metrics_history.append(round_metrics)
 
@@ -1420,7 +1439,12 @@ def process_evaluation_metrics(
 
 
 def log_evaluation_to_wandb(
-    strategy, server_round: int, loss: float, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+    strategy,
+    server_round: int,
+    loss: float,
+    metrics: dict,
+    aggregated_client_metrics: dict,
+    individual_client_metrics: list,
 ) -> None:
     """Log evaluation results to WandB.
 
@@ -1453,7 +1477,13 @@ def log_evaluation_to_wandb(
 
 
 def save_evaluation_results(
-    strategy, server_round: int, loss: float, num_examples: int, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+    strategy,
+    server_round: int,
+    loss: float,
+    num_examples: int,
+    metrics: dict,
+    aggregated_client_metrics: dict,
+    individual_client_metrics: list,
 ) -> None:
     """Save evaluation results to JSON file.
 

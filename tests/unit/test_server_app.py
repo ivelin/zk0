@@ -926,9 +926,10 @@ class TestProcessEvaluationMetrics:
         assert len(strategy.federated_metrics_history) == 1
         round_metrics = strategy.federated_metrics_history[0]
         assert round_metrics["round"] == server_round
+        assert round_metrics["num_clients"] == 3
         assert round_metrics["avg_policy_loss"] == 0.8
         assert round_metrics["avg_client_loss"] == 1.2
-        assert round_metrics["num_clients"] == 3
+        assert "round_time" not in round_metrics  # Should not have round_time field
 
 
 class TestLogEvaluationToWandb:

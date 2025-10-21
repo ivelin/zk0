@@ -209,26 +209,19 @@ class SmolVLAVisualizer:
 
         # Extract data
         rounds = [m['round'] for m in round_metrics]
-        round_times = [m['round_time'] for m in round_metrics]
         num_clients = [m['num_clients'] for m in round_metrics]
         avg_losses = [m.get('avg_client_loss', 0) for m in round_metrics]
 
-        # Plot round times
+        # Plot federated metrics
         plt.figure(figsize=(12, 8))
 
         plt.subplot(2, 2, 1)
-        plt.plot(rounds, round_times, marker='o')
-        plt.title('Round Time')
-        plt.xlabel('Round')
-        plt.ylabel('Time (s)')
-
-        plt.subplot(2, 2, 2)
         plt.plot(rounds, num_clients, marker='s')
         plt.title('Active Clients per Round')
         plt.xlabel('Round')
         plt.ylabel('Number of Clients')
 
-        plt.subplot(2, 2, 3)
+        plt.subplot(2, 2, 2)
         plt.plot(rounds, avg_losses, marker='^')
         plt.title('Average Client Loss')
         plt.xlabel('Round')
@@ -250,7 +243,6 @@ class SmolVLAVisualizer:
                     for metrics in round_metrics:
                         wandb_run.log({
                             "round": metrics['round'],
-                            "round_time": metrics['round_time'],
                             "num_clients": metrics['num_clients'],
                             "avg_client_loss": metrics.get('avg_client_loss', 0)
                         }, step=metrics['round'])
