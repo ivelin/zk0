@@ -132,7 +132,7 @@ execute_conda_training() {
     # Execute the training command
     conda run -n zk0 python -m lerobot.scripts.train \
       --policy.path=lerobot/smolvla_base \
-      --dataset.repo_id="Hupy440/Two_Cubes_and_Two_Buckets_v2" \
+      --dataset.repo_id="RickRain/Imperio" \
       --batch_size=64 \
       --steps=$STEPS \
       --output_dir=outputs/train/my_smolvla \

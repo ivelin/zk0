@@ -240,15 +240,22 @@ class SmolVLAVisualizer:
 
         self.logger.info(f"Federated metrics plot saved: {save_dir / 'federated_metrics.png'}")
 
-        # Log to wandb if available and run is initialized
+        # Log to wandb if available and run is initialized and not finished
         if WANDB_AVAILABLE and wandb_run is not None:
-            for metrics in round_metrics:
-                wandb_run.log({
-                    "round": metrics['round'],
-                    "round_time": metrics['round_time'],
-                    "num_clients": metrics['num_clients'],
-                    "avg_client_loss": metrics.get('avg_client_loss', 0)
-                }, step=metrics['round'])
+            try:
+                # Check if wandb run is still active (not finished)
+                if hasattr(wandb_run, '_state') and wandb_run._state == 'finished':
+                    self.logger.warning("WandB run is already finished, skipping federated metrics logging")
+                else:
+                    for metrics in round_metrics:
+                        wandb_run.log({
+                            "round": metrics['round'],
+                            "round_time": metrics['round_time'],
+                            "num_clients": metrics['num_clients'],
+                            "avg_client_loss": metrics.get('avg_client_loss', 0)
+                        }, step=metrics['round'])
+            except Exception as e:
+                self.logger.warning(f"Failed to log federated metrics to wandb: {e}")
 
         # Save metrics to JSON
         metrics_file = save_dir / "federated_metrics.json"
@@ -328,19 +335,23 @@ class SmolVLAVisualizer:
 
         self.logger.info(f"Policy loss chart saved: {chart_path}")
 
-        # Log final metrics to wandb if run is available
+        # Log final metrics to wandb if run is available and not finished
         if WANDB_AVAILABLE and wandb_run is not None:
             try:
-                # Log final policy loss values for each client and server average
-                final_round = max(policy_loss_history.keys())
-                final_data = policy_loss_history[final_round]
+                # Check if wandb run is still active (not finished)
+                if hasattr(wandb_run, '_state') and wandb_run._state == 'finished':
+                    self.logger.warning("WandB run is already finished, skipping final metrics logging")
+                else:
+                    # Log final policy loss values for each client and server average
+                    final_round = max(policy_loss_history.keys())
+                    final_data = policy_loss_history[final_round]
 
-                wandb_metrics = {"final_round": final_round}
-                for key, value in final_data.items():
-                    wandb_metrics[f"final_{key}_policy_loss"] = value
+                    wandb_metrics = {"final_round": final_round}
+                    for key, value in final_data.items():
+                        wandb_metrics[f"final_{key}_policy_loss"] = value
 
-                wandb_run.log(wandb_metrics)
-                self.logger.info(f"Final policy loss metrics logged to wandb for round {final_round}")
+                    wandb_run.log(wandb_metrics)
+                    self.logger.info(f"Final policy loss metrics logged to wandb for round {final_round}")
             except Exception as e:
                 self.logger.warning(f"Failed to log final metrics to wandb: {e}")
 

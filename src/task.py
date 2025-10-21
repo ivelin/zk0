@@ -6,7 +6,12 @@ from typing import Any
 
 import torch
 from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import LinearLR, CosineAnnealingLR, CosineAnnealingWarmRestarts, ReduceLROnPlateau
+from torch.optim.lr_scheduler import (
+    LinearLR,
+    CosineAnnealingLR,
+    CosineAnnealingWarmRestarts,
+    ReduceLROnPlateau,
+)
 
 from datasets.utils.logging import disable_progress_bar
 from loguru import logger
@@ -736,11 +741,13 @@ def train(
 
 
 def test(
-    net, device, batch_size=64, eval_batches: int = 0
+    net, device, batch_size=64, eval_batches: int = 0, dataset=None
 ) -> tuple[float, int, dict[str, float]]:
     """Evaluate SmolVLA model using server evaluation dataset."""
     import logging
-    from .utils import load_lerobot_dataset
+
+    # Assert dataset is provided (required for server evaluation)
+    assert dataset is not None, "dataset parameter is required for test() function"
 
     # Convert device string to torch.device object if needed
     if isinstance(device, str):
@@ -753,18 +760,13 @@ def test(
 
     logging.info("Evaluating on server dataset")
 
-    # Load server evaluation dataset
-    from .configs import DatasetConfig
-
-    config = DatasetConfig.load()
-
-    if not config.server:
-        raise ValueError("No server evaluation dataset configured")
-
-    server_config = config.server[0]  # Use first server dataset
-    dataset_name = server_config.name
-
-    dataset = load_lerobot_dataset(dataset_name)
+    # Use the provided dataset
+    dataset_name = (
+        getattr(dataset, "meta", {}).get("repo_id", "provided_dataset")
+        if hasattr(dataset, "meta") and hasattr(dataset.meta, "get")
+        else "provided_dataset"
+    )
+    logging.info(f"Using provided dataset: {dataset_name}")
 
     # Create evaluation dataloader (will limit to first N episodes in the loop)
     eval_loader = torch.utils.data.DataLoader(
@@ -778,9 +780,10 @@ def test(
 
     # Track episodes processed
     episodes_processed = 0
-    max_episodes = server_config.first_n_episodes_for_eval
+    # Use eval_batches to control evaluation scope instead of episodes
+    max_episodes = float("inf")  # No episode limit when using eval_batches
     logger.info(
-        f"Server evaluation using first {max_episodes} episodes from {dataset_name} (eval_batches: {eval_batches})"
+        f"Server evaluation using {dataset_name} (eval_batches: {eval_batches})"
     )
 
     total_loss = 0.0
@@ -969,11 +972,15 @@ def create_scheduler(optimizer, cfg, epochs):
 
     if scheduler_type == "cosine_warm_restarts":
         T_0 = cfg.get("cosine_warm_restarts_T_0", 15)
-        T_mult = cfg.get("cosine_warm_restarts_T_mult", 1.2)
-        return CosineAnnealingWarmRestarts(optimizer, T_0=T_0, T_mult=T_mult, eta_min=eta_min)
+        T_mult = int(cfg.get("cosine_warm_restarts_T_mult", 2))  # Must be integer >= 1
+        return CosineAnnealingWarmRestarts(
+            optimizer, T_0=T_0, T_mult=T_mult, eta_min=eta_min
+        )
     elif scheduler_type == "reduce_on_plateau":
         patience = cfg.get("stall_patience", 5)
-        return ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=patience, min_lr=eta_min)
+        return ReduceLROnPlateau(
+            optimizer, mode="min", factor=0.5, patience=patience, min_lr=eta_min
+        )
     else:  # "cosine" default
         return CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
 
@@ -1000,7 +1007,9 @@ def compute_adaptive_lr_factor(client_history, cfg):
     return 1.0
 
 
-def reset_scheduler_adaptive(optimizer, lr_scheduler, initial_lr, epochs, client_history, cfg):
+def reset_scheduler_adaptive(
+    optimizer, lr_scheduler, initial_lr, epochs, client_history, cfg
+):
     """Reset learning rate scheduler with adaptive LR boosts for federated learning rounds.
 
     This function ensures each FL round starts with correct initial LR, with adaptive boosts
@@ -1026,9 +1035,13 @@ def reset_scheduler_adaptive(optimizer, lr_scheduler, initial_lr, epochs, client
     if lr_scheduler is None:
         lr_scheduler = create_scheduler(optimizer, cfg, epochs)
     else:
-        lr_scheduler = create_scheduler(optimizer, cfg, epochs)  # Recreate for type safety
+        lr_scheduler = create_scheduler(
+            optimizer, cfg, epochs
+        )  # Recreate for type safety
 
-    logger.info(f"Adaptive reset: LR={adjusted_lr:.6f} (factor={adaptive_factor}), scheduler={type(lr_scheduler).__name__}")
+    logger.info(
+        f"Adaptive reset: LR={adjusted_lr:.6f} (factor={adaptive_factor}), scheduler={type(lr_scheduler).__name__}"
+    )
     return lr_scheduler
 
 

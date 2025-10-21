@@ -449,7 +449,7 @@ class TestCreateScheduler:
         cfg = {
             "scheduler_type": "cosine_warm_restarts",
             "cosine_warm_restarts_T_0": 15,
-            "cosine_warm_restarts_T_mult": 2,  # Must be integer
+            "cosine_warm_restarts_T_mult": 2,  # Must be integer >= 1
             "eta_min": 5e-7
         }
 
@@ -586,7 +586,7 @@ class TestResetSchedulerAdaptive:
         cfg = {
             "scheduler_type": "cosine_warm_restarts",
             "cosine_warm_restarts_T_0": 15,
-            "cosine_warm_restarts_T_mult": 1.2,
+            "cosine_warm_restarts_T_mult": 2,
             "adaptive_lr_enabled": True,
             "high_loss_multiplier": 2.0
         }

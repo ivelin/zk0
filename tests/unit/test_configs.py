@@ -25,12 +25,12 @@ class TestDatasetConfig:
         config = ServerConfig(
             name="test/server",
             description="Test server",
-            first_n_episodes_for_eval=10
+            evaldata_id=0
         )
 
         assert config.name == "test/server"
         assert config.description == "Test server"
-        assert config.first_n_episodes_for_eval == 10
+        assert config.evaldata_id == 0
 
     def test_dataset_config_creation(self):
         """Test DatasetConfig dataclass creation."""
@@ -39,7 +39,7 @@ class TestDatasetConfig:
             ClientConfig(name="client2", description="Client 2", client_id=1)
         ]
         server = [
-            ServerConfig(name="server1", description="Server 1", first_n_episodes_for_eval=5)
+            ServerConfig(name="server1", description="Server 1", evaldata_id=0)
         ]
 
         config = DatasetConfig(clients=clients, server=server)
@@ -47,7 +47,7 @@ class TestDatasetConfig:
         assert len(config.clients) == 2
         assert len(config.server) == 1
         assert config.clients[0].name == "client1"
-        assert config.server[0].first_n_episodes_for_eval == 5
+        assert config.server[0].evaldata_id == 0
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('src.configs.datasets.tomllib.load')
@@ -68,7 +68,7 @@ class TestDatasetConfig:
                             {
                                 "name": "lerobot/svla_so101_pickplace",
                                 "description": "Server evaluation",
-                                "first_n_episodes_for_eval": 10
+                                "evaldata_id": 0
                             }
                         ]
                     }
@@ -82,7 +82,7 @@ class TestDatasetConfig:
         assert len(config.server) == 1
         assert config.clients[0].name == "lerobot/svla_so100_stacking"
         assert config.clients[0].client_id == 0
-        assert config.server[0].first_n_episodes_for_eval == 10
+        assert config.server[0].evaldata_id == 0
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('src.configs.datasets.tomllib.load')

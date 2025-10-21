@@ -233,6 +233,7 @@ from flwr.common import EvaluateRes, Scalar
 
 import torch
 from safetensors.torch import save_file
+import numpy as np
 
 
 class AggregateEvaluationStrategy(FedProx):
@@ -285,7 +286,9 @@ class AggregateEvaluationStrategy(FedProx):
         )
 
         # Log CUDA availability on instantiation
-        logger.info(f"Server: Instantiated - CUDA available: {torch.cuda.is_available()}")
+        logger.info(
+            f"Server: Instantiated - CUDA available: {torch.cuda.is_available()}"
+        )
 
         # Set device
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -362,10 +365,7 @@ class AggregateEvaluationStrategy(FedProx):
         Called automatically by Flower's strategy.evaluate after each fit round.
         """
         # Gate by frequency (skip if not time for eval) - prevents unnecessary evaluations
-        if server_round % self.eval_frequency != 0:
-            logger.info(
-                f"ℹ️ Server: Skipping _server_evaluate for round {server_round} (not multiple of eval_frequency={self.eval_frequency})"
-            )
+        if should_skip_evaluation(server_round, self.eval_frequency):
             return None
 
         # Log CUDA before evaluation
@@ -378,196 +378,62 @@ class AggregateEvaluationStrategy(FedProx):
         )
 
         try:
-            from src.task import test, get_model, set_params
-            from src.utils import load_lerobot_dataset
             from src.configs import DatasetConfig
             from flwr.common import ndarrays_to_parameters
 
             # Store parameters for use in aggregate_fit if needed
             self.current_parameters = ndarrays_to_parameters(parameters)
 
-            logger.info(f"🔍 Server: Loading DatasetConfig...")
-            dataset_config = DatasetConfig.load()
-            logger.info(
-                f"🔍 Server: config.server length: {len(dataset_config.server) if dataset_config.server else 0}"
-            )
-            if dataset_config.server:
-                logger.info(
-                    f"🔍 Server: First server dataset: {dataset_config.server[0].name}"
-                )
+            # Prepare model for evaluation
+            model = prepare_evaluation_model(parameters, self.device, self.template_model)
 
+            # Load dataset config for evaluation
+            dataset_config = DatasetConfig.load()
             if not dataset_config.server:
                 raise ValueError("No server evaluation dataset configured")
 
-            server_config = dataset_config.server[0]
-            logger.info(f"🔍 Server: Loading dataset '{server_config.name}'...")
-            dataset = load_lerobot_dataset(server_config.name)
-            logger.info(
-                f"✅ Server: Dataset loaded successfully (episodes: {len(dataset) if hasattr(dataset, '__len__') else 'unknown'})"
-            )
-            dataset_meta = dataset.meta
-            logger.info(
-                f"🔍 Server: dataset_meta info keys: {list(dataset_meta.info.keys()) if dataset_meta else 'None'}"
-            )
-
-            # Use cached template model for evaluation (no redundant creation)
-            logger.info(f"🔍 Server: Using cached template model for evaluation...")
-            model = self.template_model
-            logger.info(
-                f"✅ Server: Template model ready (total params: {sum(p.numel() for p in model.parameters())}"
-            )
-
-            # Set parameters
-            logger.info(f"🔍 Server: Setting parameters...")
-            set_params(model, parameters)
-            logger.info(f"✅ Server: Parameters set successfully")
-
-            # Move model to device
-            model = model.to(self.device)
-            logger.info(f"✅ Server: Model moved to device '{self.device}'")
-
-            # Perform evaluation
+            # Perform composite evaluation across all server datasets
             eval_batches = self.context.run_config.get("eval_batches", 0)
-            logger.info(
-                f"🔍 Server: Running test() on device '{self.device}' with eval_batches={eval_batches}"
+            (
+                composite_eval_loss,
+                total_examples,
+                composite_metrics,
+                per_dataset_results,
+            ) = evaluate_model_on_datasets(
+                global_parameters=parameters,
+                datasets_config=dataset_config.server,
+                device=self.device,
+                eval_batches=eval_batches,
             )
-            loss, num_examples, metrics = test(
-                model, device=self.device, eval_batches=eval_batches
+
+            # Use composite loss as the primary loss
+            loss = composite_eval_loss
+            num_examples = total_examples
+            metrics = composite_metrics
+
+            # Process evaluation metrics and update tracking
+            process_evaluation_metrics(
+                self, server_round, loss, metrics, self.last_aggregated_metrics, self.last_client_metrics
             )
-            logger.info(
-                f"✅ Server: test() completed - loss={loss}, num_examples={num_examples}, metrics keys={list(metrics.keys()) if metrics else 'Empty'}"
-            )
-            logger.info(
-                f"Server evaluation round {server_round}: loss={loss:.4f}, num_examples={num_examples}"
-            )
-            logger.info(f"Server evaluation metrics: {metrics}")
 
             # Log to WandB
-            if self.wandb_run:
-                from src.wandb_utils import log_wandb_metrics
-                from src.utils import prepare_server_wandb_metrics
-
-                # Use utility function to prepare WandB metrics with same structure as JSON files
-                # This ensures WandB metrics structure matches JSON file structure
-                wandb_metrics = prepare_server_wandb_metrics(
-                    server_round=server_round,
-                    server_loss=loss,
-                    server_metrics=metrics,
-                    aggregated_client_metrics=self.last_aggregated_metrics,
-                    individual_client_metrics=self.last_client_metrics,
-                )
-
-                log_wandb_metrics(wandb_metrics, step=server_round)
-                logger.debug(
-                    f"Logged server eval + client metrics to WandB using utility function: {list(wandb_metrics.keys())}"
-                )
-
-            # Track metrics for plotting
-            round_metrics = {
-                "round": server_round,
-                "round_time": 0.0,
-                "num_clients": self.last_aggregated_metrics.get("num_clients", 0),
-                "avg_policy_loss": metrics.get("policy_loss", 0.0),
-                "avg_client_loss": self.last_aggregated_metrics.get(
-                    "avg_client_loss", 0.0
-                ),
-                "param_update_norm": self.last_aggregated_metrics.get(
-                    "param_update_norm", 0.0
-                ),
-            }
-            self.federated_metrics_history.append(round_metrics)
-
-            # Update early stopping tracking
-            update_early_stopping_tracking(self, server_round, loss)
-
-            # Track server eval losses for dynamic adjustment
-            if not hasattr(self, "server_eval_losses"):
-                self.server_eval_losses = []
-            self.server_eval_losses.append(loss)
-            # Keep only last 10 losses to prevent unbounded growth
-            if len(self.server_eval_losses) > 10:
-                self.server_eval_losses = self.server_eval_losses[-10:]
+            log_evaluation_to_wandb(
+                self, server_round, loss, metrics, self.last_aggregated_metrics, self.last_client_metrics
+            )
 
             # Save evaluation results to file
-            if self.server_dir:
-                import json
-                from datetime import datetime
-
-                # Fix metrics bug: Update round number in individual_client_metrics before saving
-                for metric in self.last_client_metrics:
-                    metric["round"] = server_round
-
-                server_file = self.server_dir / f"round_{server_round}_server_eval.json"
-                data = {
-                    "round": server_round,
-                    "timestamp": datetime.now().isoformat(),
-                    "evaluation_type": "server_side",
-                    "loss": loss,
-                    "num_examples": num_examples,
-                    "metrics": metrics,
-                    "aggregated_client_metrics": self.last_aggregated_metrics,  # Consolidated aggregated metrics
-                    "individual_client_metrics": self.last_client_metrics,  # Individual client metrics with IDs
-                    "metrics_descriptions": {
-                        "policy_loss": "Average policy forward loss per batch (primary evaluation metric for SmolVLA flow-matching model)",
-                        "action_dim": "Number of action dimensions detected from batch (default 7 for SO-100 joints + gripper)",
-                        "successful_batches": "Number of batches successfully processed during evaluation",
-                        "total_batches_processed": "Total batches attempted (including failed)",
-                        "total_samples": "Total number of action samples evaluated",
-                        "aggregated_client_metrics": {
-                            "avg_client_loss": "Average total training loss (policy + fedprox) across all clients in this round",
-                            "std_client_loss": "Standard deviation of client total training losses",
-                            "avg_client_proximal_loss": "Average FedProx proximal regularization loss across clients",
-                            "avg_client_grad_norm": "Average gradient norm across clients",
-                            "num_clients": "Number of clients that participated in this round",
-                            "param_update_norm": "L2 norm of parameter changes from previous round",
-                        },
-                        "individual_client_metrics": {
-                            "client_id": "Unique client identifier (corresponds to dataset partition)",
-                            "loss": "Total training loss for this client (policy_loss + fedprox_loss)",
-                            "policy_loss": "Pure SmolVLA flow-matching training loss for this client",
-                            "fedprox_loss": "FedProx proximal regularization loss for this client (added to policy_loss during training: total_loss = policy_loss + fedprox_loss)",
-                            "grad_norm": "Gradient norm for this client",
-                            "param_hash": "SHA256 hash of client's parameter update",
-                            "dataset_name": "Name of the dataset this client is training on",
-                            "num_steps": "Number of training steps completed by this client",
-                            "param_update_norm": "L2 norm of parameter changes from global model",
-                            "flower_proxy_cid": "Flower internal client proxy identifier (for debugging)",
-                            "round": "The server round this metric was collected in",
-                        },
-                    },
-                }
-
-                with open(server_file, "w") as f:
-                    json.dump(data, f, indent=2, default=str)
-                logger.info(f"✅ Server: Eval results saved to {server_file}")
+            save_evaluation_results(
+                self, server_round, loss, num_examples, metrics, self.last_aggregated_metrics, self.last_client_metrics
+            )
 
             # Generate chart on last round
+            generate_evaluation_charts(self, server_round)
+
+            # Finish WandB run after all logging is complete (always called on final round)
             if self.num_rounds and server_round == self.num_rounds:
-                try:
-                    from src.visualization import SmolVLAVisualizer
-
-                    policy_loss_history = aggregate_eval_policy_loss_history(
-                        self.server_dir
-                    )
-                    visualizer = SmolVLAVisualizer()
-                    visualizer.plot_eval_policy_loss_chart(
-                        policy_loss_history, self.server_dir, wandb_run=self.wandb_run
-                    )
-                    if self.federated_metrics_history:
-                        visualizer.plot_federated_metrics(
-                            self.federated_metrics_history,
-                            self.server_dir,
-                            wandb_run=self.wandb_run,
-                        )
-
-                    from src.wandb_utils import finish_wandb
-
-                    finish_wandb()
-                    logger.info("WandB run finished after final round")
-
-                    logger.info("Eval MSE chart generated for final round")
-                except Exception as e:
-                    logger.error(f"Failed to generate eval MSE chart: {e}")
+                from src.wandb_utils import finish_wandb
+                finish_wandb()
+                logger.info("WandB run finished after final round")
 
             logger.info(
                 f"✅ Server: _server_evaluate completed for round {server_round}"
@@ -584,7 +450,9 @@ class AggregateEvaluationStrategy(FedProx):
             logger.error(f"Full traceback: {traceback.format_exc()}")
             return None, {}
 
-    def compute_fedprox_parameters(self, server_round: int, app_config: Dict[str, Scalar]) -> Tuple[float, float]:
+    def compute_fedprox_parameters(
+        self, server_round: int, app_config: Dict[str, Scalar]
+    ) -> Tuple[float, float]:
         """Compute FedProx mu and learning rate parameters for the current round.
 
         Args:
@@ -604,8 +472,13 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Check if dynamic training decay is enabled
         dynamic_training_decay = app_config.get("dynamic_training_decay", False)
-        if dynamic_training_decay and hasattr(self, "server_eval_losses") and len(self.server_eval_losses) >= 3:
+        if (
+            dynamic_training_decay
+            and hasattr(self, "server_eval_losses")
+            and len(self.server_eval_losses) >= 3
+        ):
             from src.task import compute_joint_adjustment
+
             current_mu, current_lr, reason = compute_joint_adjustment(
                 self.server_eval_losses, initial_mu, current_lr
             )
@@ -649,7 +522,10 @@ class AggregateEvaluationStrategy(FedProx):
                 # 🔐 ADD: Use rounded hash for drift-resistant validation
                 # Use float32 precision for hash (matches transmission dtype, minimal overhead)
                 from src.utils import compute_rounded_hash
-                server_computed_hash = compute_rounded_hash(client_params, precision='float32')
+
+                server_computed_hash = compute_rounded_hash(
+                    client_params, precision="float32"
+                )
                 logger.debug(
                     f"Server: Client {client_proxy.cid} rounded hash: {server_computed_hash}"
                 )
@@ -721,7 +597,9 @@ class AggregateEvaluationStrategy(FedProx):
                 self.save_path.name
             )  # Pass the output folder name to clients for JSON saving
             # FedProx: Dynamically adjust proximal_mu and LR based on evaluation trends
-            current_mu, current_lr = self.compute_fedprox_parameters(server_round, app_config)
+            current_mu, current_lr = self.compute_fedprox_parameters(
+                server_round, app_config
+            )
 
             updated_fit_config["proximal_mu"] = current_mu
             updated_fit_config["initial_lr"] = current_lr
@@ -872,7 +750,6 @@ class AggregateEvaluationStrategy(FedProx):
         # Initialize last_client_metrics if not set (for round 0 evaluation)
         if not hasattr(self, "last_client_metrics") or self.last_client_metrics is None:
             self.last_client_metrics = []
-
 
         # Merge client metrics with parent metrics
         metrics = {**parent_metrics, **aggregated_client_metrics}
@@ -1056,7 +933,6 @@ class AggregateEvaluationStrategy(FedProx):
 
         return aggregated_parameters, metrics
 
-
     def save_model_checkpoint(
         self, parameters, server_round: int, models_dir: Path
     ) -> None:
@@ -1229,6 +1105,7 @@ def compute_dynamic_mu(client_metrics, cfg):
         return cfg.get("proximal_mu", 0.01)
 
     import numpy as np
+
     losses = [m["loss"] for m in client_metrics]
     loss_std = np.std(losses)
     threshold = cfg.get("loss_std_threshold", 1.2)
@@ -1252,7 +1129,7 @@ def adjust_global_lr_for_next_round(server_loss_history, current_lr, cfg):
     if len(server_loss_history) < cfg.get("adjustment_window", 5):
         return current_lr
 
-    recent_losses = server_loss_history[-cfg["adjustment_window"]:]
+    recent_losses = server_loss_history[-cfg["adjustment_window"] :]
     improvement = (recent_losses[0] - recent_losses[-1]) / max(recent_losses[0], 1e-8)
 
     if improvement < 0.01:  # Stall
@@ -1298,6 +1175,381 @@ def prepare_client_context(next_mu, next_lr, client_history):
     return {"next_mu": next_mu, "next_lr": next_lr, "client_history": client_history}
 
 
+def evaluate_single_dataset(
+    global_parameters: List[np.ndarray],
+    dataset_name: str,
+    evaldata_id: Optional[int],
+    device,
+    eval_batches: int,
+    load_lerobot_dataset_fn,
+    make_policy_fn,
+    set_params_fn,
+    test_fn,
+):
+    """Evaluate shared FL parameters on a single dataset.
+
+    Args:
+        global_parameters: Shared FL model parameters (numpy arrays)
+        dataset_name: Name of the dataset to evaluate
+        evaldata_id: Optional evaldata_id for metrics
+        device: Device to run evaluation on
+        eval_batches: Number of batches to evaluate (0 = all)
+        load_lerobot_dataset_fn: Function to load dataset
+        make_policy_fn: Function to create policy
+        set_params_fn: Function to set parameters
+        test_fn: Function to run evaluation
+
+    Returns:
+        dict: Dataset evaluation result
+    """
+    logger.info(
+        f"🔍 Server: Evaluating dataset '{dataset_name}' (evaldata_id={evaldata_id})"
+    )
+
+    # Load dataset
+    dataset = load_lerobot_dataset_fn(dataset_name)
+    logger.info(
+        f"✅ Server: Dataset '{dataset_name}' loaded successfully (episodes: {len(dataset) if hasattr(dataset, '__len__') else 'unknown'})"
+    )
+
+    # Create per-dataset policy instance using dataset metadata
+    from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
+    cfg = SmolVLAConfig()
+    cfg.pretrained_path = "lerobot/smolvla_base"
+    policy = make_policy_fn(cfg=cfg, ds_meta=dataset.meta)
+    logger.info(
+        f"✅ Server: Created policy instance for '{dataset_name}' using dataset meta"
+    )
+
+    # Set shared FL parameters to this policy instance
+    set_params_fn(policy, global_parameters)
+    logger.info(f"✅ Server: Set shared FL parameters to policy instance")
+
+    # Perform evaluation on this dataset-specific policy
+    dataset_loss, dataset_num_examples, dataset_metric = test_fn(
+        policy, device=device, eval_batches=eval_batches, dataset=dataset
+    )
+    logger.info(
+        f"✅ Server: Dataset '{dataset_name}' evaluation completed - loss={dataset_loss:.4f}, num_examples={dataset_num_examples}"
+    )
+
+    # Clean up to prevent VRAM accumulation
+    del policy
+    torch.cuda.empty_cache()
+
+    return {
+        "dataset_name": dataset_name,
+        "evaldata_id": evaldata_id,
+        "loss": dataset_loss,
+        "num_examples": dataset_num_examples,
+        "metrics": dataset_metric,
+    }
+
+
+def evaluate_model_on_datasets(
+    global_parameters: List[np.ndarray],
+    datasets_config: List[ServerConfig],
+    device,
+    eval_batches: int = 0,
+):
+    """Evaluate shared FL parameters on multiple datasets using per-dataset policy instances.
+
+    For each dataset, create a fresh policy configured for that dataset's meta (camera views),
+    set the shared FL parameters, and run evaluation. This mirrors client-side behavior.
+
+    Args:
+        global_parameters: Shared FL model parameters (numpy arrays)
+        datasets_config: List of dataset configurations from pyproject.toml
+        device: Device to run evaluation on
+        eval_batches: Number of batches to evaluate per dataset (0 = all)
+
+    Returns:
+        tuple: (composite_loss, total_examples, composite_metrics, per_dataset_results)
+    """
+    from src.task import test, set_params
+    from src.utils import load_lerobot_dataset
+    from lerobot.policies.factory import make_policy
+    import numpy as np
+
+    dataset_losses = []
+    per_dataset_results = []
+    total_examples = 0
+
+    for server_config in datasets_config:
+        dataset_result = evaluate_single_dataset(
+            global_parameters=global_parameters,
+            dataset_name=server_config.name,
+            evaldata_id=getattr(server_config, "evaldata_id", None),
+            device=device,
+            eval_batches=eval_batches,
+            load_lerobot_dataset_fn=load_lerobot_dataset,
+            make_policy_fn=make_policy,
+            set_params_fn=set_params,
+            test_fn=test,
+        )
+
+        dataset_losses.append(dataset_result["loss"])
+        total_examples += dataset_result["num_examples"]
+        per_dataset_results.append(dataset_result)
+
+    # Compute composite loss (average across datasets)
+    if dataset_losses:
+        composite_eval_loss = float(np.mean(dataset_losses))
+        logger.info(
+            f"✅ Server: Composite evaluation completed - average loss={composite_eval_loss:.4f}, total_examples={total_examples}"
+        )
+        logger.info(
+            f"📊 Per-dataset losses: {[f'{loss:.4f}' for loss in dataset_losses]}"
+        )
+    else:
+        composite_eval_loss = 0.0
+        logger.warning(
+            "⚠️ Server: No dataset losses computed, using 0.0 as composite loss"
+        )
+
+    # Create composite metrics
+    composite_metrics = {}
+    if per_dataset_results:
+        # Use first dataset's metrics as base
+        composite_metrics.update(per_dataset_results[0]["metrics"])
+
+        # Add per-dataset loss metrics with evaldata_id suffix
+        for result in per_dataset_results:
+            evaldata_id = result.get("evaldata_id")
+            if evaldata_id is not None:
+                loss_key = f"loss_evaldata_id_{evaldata_id}"
+                composite_metrics[loss_key] = result["loss"]
+
+    composite_metrics["composite_eval_loss"] = composite_eval_loss
+    composite_metrics["num_datasets_evaluated"] = len(dataset_losses)
+    composite_metrics["per_dataset_results"] = per_dataset_results
+
+    return composite_eval_loss, total_examples, composite_metrics, per_dataset_results
+
+
+def should_skip_evaluation(server_round: int, eval_frequency: int) -> bool:
+    """Check if evaluation should be skipped based on frequency.
+
+    Args:
+        server_round: Current server round number
+        eval_frequency: How often to perform evaluation (1 = every round)
+
+    Returns:
+        bool: True if evaluation should be skipped
+    """
+    if server_round % eval_frequency != 0:
+        logger.info(
+            f"ℹ️ Server: Skipping _server_evaluate for round {server_round} (not multiple of eval_frequency={eval_frequency})"
+        )
+        return True
+    return False
+
+
+def prepare_evaluation_model(
+    parameters: NDArrays, device: torch.device, template_model
+) -> torch.nn.Module:
+    """Prepare model for evaluation by setting parameters and moving to device.
+
+    Args:
+        parameters: Model parameters as NDArrays
+        device: Target device for evaluation
+        template_model: Cached template model instance
+
+    Returns:
+        torch.nn.Module: Prepared model ready for evaluation
+    """
+    logger.info(f"🔍 Server: Using cached template model for evaluation...")
+    model = template_model
+    logger.info(
+        f"✅ Server: Template model ready (total params: {sum(p.numel() for p in model.parameters())}"
+    )
+
+    # Set parameters
+    logger.info(f"🔍 Server: Setting parameters...")
+    from src.task import set_params
+    set_params(model, parameters)
+    logger.info(f"✅ Server: Parameters set successfully")
+
+    # Move model to device
+    model = model.to(device)
+    logger.info(f"✅ Server: Model moved to device '{device}'")
+
+    return model
+
+
+
+
+def process_evaluation_metrics(
+    strategy, server_round: int, loss: float, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+) -> None:
+    """Process evaluation metrics and update tracking.
+
+    Args:
+        strategy: The AggregateEvaluationStrategy instance
+        server_round: Current server round number
+        loss: Evaluation loss
+        metrics: Evaluation metrics dictionary
+        aggregated_client_metrics: Aggregated client metrics
+        individual_client_metrics: Individual client metrics
+    """
+    # Track metrics for plotting
+    round_metrics = {
+        "round": server_round,
+        "round_time": 0.0,
+        "num_clients": aggregated_client_metrics.get("num_clients", 0),
+        "avg_policy_loss": metrics.get("policy_loss", 0.0),
+        "avg_client_loss": aggregated_client_metrics.get(
+            "avg_client_loss", 0.0
+        ),
+        "param_update_norm": aggregated_client_metrics.get(
+            "param_update_norm", 0.0
+        ),
+    }
+    strategy.federated_metrics_history.append(round_metrics)
+
+    # Update early stopping tracking
+    update_early_stopping_tracking(strategy, server_round, loss)
+
+    # Track server eval losses for dynamic adjustment
+    if not hasattr(strategy, "server_eval_losses"):
+        strategy.server_eval_losses = []
+    strategy.server_eval_losses.append(loss)
+    # Keep only last 10 losses to prevent unbounded growth
+    if len(strategy.server_eval_losses) > 10:
+        strategy.server_eval_losses = strategy.server_eval_losses[-10:]
+
+
+def log_evaluation_to_wandb(
+    strategy, server_round: int, loss: float, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+) -> None:
+    """Log evaluation results to WandB.
+
+    Args:
+        strategy: The AggregateEvaluationStrategy instance
+        server_round: Current server round number
+        loss: Evaluation loss
+        metrics: Evaluation metrics dictionary
+        aggregated_client_metrics: Aggregated client metrics
+        individual_client_metrics: Individual client metrics
+    """
+    if strategy.wandb_run:
+        from src.wandb_utils import log_wandb_metrics
+        from src.utils import prepare_server_wandb_metrics
+
+        # Use utility function to prepare WandB metrics with same structure as JSON files
+        # This ensures WandB metrics structure matches JSON file structure
+        wandb_metrics = prepare_server_wandb_metrics(
+            server_round=server_round,
+            server_loss=loss,
+            server_metrics=metrics,
+            aggregated_client_metrics=aggregated_client_metrics,
+            individual_client_metrics=individual_client_metrics,
+        )
+
+        log_wandb_metrics(wandb_metrics, step=server_round)
+        logger.debug(
+            f"Logged server eval + client metrics to WandB using utility function: {list(wandb_metrics.keys())}"
+        )
+
+
+def save_evaluation_results(
+    strategy, server_round: int, loss: float, num_examples: int, metrics: dict, aggregated_client_metrics: dict, individual_client_metrics: list
+) -> None:
+    """Save evaluation results to JSON file.
+
+    Args:
+        strategy: The AggregateEvaluationStrategy instance
+        server_round: Current server round number
+        loss: Evaluation loss
+        num_examples: Number of examples evaluated
+        metrics: Evaluation metrics dictionary
+        aggregated_client_metrics: Aggregated client metrics
+        individual_client_metrics: Individual client metrics
+    """
+    if strategy.server_dir:
+        import json
+        from datetime import datetime
+
+        # Fix metrics bug: Update round number in individual_client_metrics before saving
+        for metric in individual_client_metrics:
+            metric["round"] = server_round
+
+        server_file = strategy.server_dir / f"round_{server_round}_server_eval.json"
+        data = {
+            "round": server_round,
+            "timestamp": datetime.now().isoformat(),
+            "evaluation_type": "server_side",
+            "loss": loss,
+            "num_examples": num_examples,
+            "metrics": metrics,
+            "aggregated_client_metrics": aggregated_client_metrics,  # Consolidated aggregated metrics
+            "individual_client_metrics": individual_client_metrics,  # Individual client metrics with IDs
+            "metrics_descriptions": {
+                "policy_loss": "Average policy forward loss per batch (primary evaluation metric for SmolVLA flow-matching model)",
+                "action_dim": "Number of action dimensions detected from batch (default 7 for SO-100 joints + gripper)",
+                "successful_batches": "Number of batches successfully processed during evaluation",
+                "total_batches_processed": "Total batches attempted (including failed)",
+                "total_samples": "Total number of action samples evaluated",
+                "aggregated_client_metrics": {
+                    "avg_client_loss": "Average total training loss (policy + fedprox) across all clients in this round",
+                    "std_client_loss": "Standard deviation of client total training losses",
+                    "avg_client_proximal_loss": "Average FedProx proximal regularization loss across clients",
+                    "avg_client_grad_norm": "Average gradient norm across clients",
+                    "num_clients": "Number of clients that participated in this round",
+                    "param_update_norm": "L2 norm of parameter changes from previous round",
+                },
+                "individual_client_metrics": {
+                    "client_id": "Unique client identifier (corresponds to dataset partition)",
+                    "loss": "Total training loss for this client (policy_loss + fedprox_loss)",
+                    "policy_loss": "Pure SmolVLA flow-matching training loss for this client",
+                    "fedprox_loss": "FedProx proximal regularization loss for this client (added to policy_loss during training: total_loss = policy_loss + fedprox_loss)",
+                    "grad_norm": "Gradient norm for this client",
+                    "param_hash": "SHA256 hash of client's parameter update",
+                    "dataset_name": "Name of the dataset this client is training on",
+                    "num_steps": "Number of training steps completed by this client",
+                    "param_update_norm": "L2 norm of parameter changes from global model",
+                    "flower_proxy_cid": "Flower internal client proxy identifier (for debugging)",
+                    "round": "The server round this metric was collected in",
+                },
+            },
+        }
+
+        with open(server_file, "w") as f:
+            json.dump(data, f, indent=2, default=str)
+        logger.info(f"✅ Server: Eval results saved to {server_file}")
+
+
+def generate_evaluation_charts(strategy, server_round: int) -> None:
+    """Generate evaluation charts on final round.
+
+    Args:
+        strategy: The AggregateEvaluationStrategy instance
+        server_round: Current server round number
+    """
+    if strategy.num_rounds and server_round == strategy.num_rounds:
+        try:
+            from src.visualization import SmolVLAVisualizer
+
+            policy_loss_history = aggregate_eval_policy_loss_history(
+                strategy.server_dir
+            )
+            visualizer = SmolVLAVisualizer()
+            visualizer.plot_eval_policy_loss_chart(
+                policy_loss_history, strategy.server_dir, wandb_run=strategy.wandb_run
+            )
+            if strategy.federated_metrics_history:
+                visualizer.plot_federated_metrics(
+                    strategy.federated_metrics_history,
+                    strategy.server_dir,
+                    wandb_run=strategy.wandb_run,
+                )
+
+            logger.info("Eval charts generated for final round")
+
+        except Exception as e:
+            logger.error(f"Failed to generate eval charts: {e}")
+
+
 def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
     """Aggregate evaluation policy loss history from server eval JSON files.
 
@@ -1336,9 +1588,11 @@ def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, 
 
                 round_data = {}
 
-                # Extract server policy loss from metrics
+                # Extract server policy loss from metrics (prefer composite_eval_loss if available)
                 metrics = server_data.get("metrics", {})
-                policy_loss = metrics.get("policy_loss")
+                policy_loss = metrics.get("composite_eval_loss") or metrics.get(
+                    "policy_loss"
+                )
                 if policy_loss is not None:
                     round_data["server_policy_loss"] = float(policy_loss)
                 round_data["action_dim"] = metrics.get("action_dim", 7)

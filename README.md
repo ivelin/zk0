@@ -143,9 +143,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Project Status
 
-### 🚀 Current Stage: Beta (v0.2.9)
+### 🚀 Current Stage: Beta (v0.3.0)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.2.9 updates: Federated learning pipeline validation completed with successful model persistence and HF Hub integration.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.0 updates: Server evaluation refactoring completed - moved to server-side evaluation with multiple evaluation datasets for better generalization testing. Improved code maintainability with atomic functions.
 
 #### Completed Milestones
 
@@ -165,7 +165,7 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.2.9 updates: 
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
-**Config**: 4 clients (LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; early stopping (patience=10); FedProx (μ=0.01).
+**Config**: 12 clients available (4 active: LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; early stopping (patience=30); FedProx (μ=0.01); server-side evaluation with 3 diverse evaluation datasets.
 
 ## Documentation
 
