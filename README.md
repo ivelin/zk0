@@ -145,9 +145,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Project Status
 
-### 🚀 Current Stage: Beta (v0.3.0)
+### 🚀 Current Stage: Beta (v0.3.1)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.0 updates: Server evaluation refactoring completed - moved to server-side evaluation with multiple evaluation datasets for better generalization testing. Improved code maintainability with atomic functions.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.1 updates: Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
 
 #### Completed Milestones
 

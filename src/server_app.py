@@ -916,18 +916,26 @@ class AggregateEvaluationStrategy(FedProx):
                             f"❌ Server: Failed final evaluation for round {server_round}: {e}"
                         )
 
-                    # Push to Hugging Face Hub if configured
+                    # Push to Hugging Face Hub if configured (always attempt, even if save failed)
                     hf_repo_id = self.context.run_config.get("hf_repo_id")
                     if hf_repo_id:
-                        logger.info(
-                            f"🚀 Server: Pushing final model to Hugging Face Hub: {hf_repo_id}"
-                        )
-                        self.push_model_to_hub(
-                            aggregated_parameters, server_round, hf_repo_id
-                        )
-                        logger.info(
-                            "✅ Server: Model pushed to Hugging Face Hub successfully"
-                        )
+                        try:
+                            logger.info(
+                                f"🚀 Server: Pushing final model to Hugging Face Hub: {hf_repo_id}"
+                            )
+                            self.push_model_to_hub(
+                                aggregated_parameters, server_round, hf_repo_id
+                            )
+                            logger.info(
+                                "✅ Server: Model pushed to Hugging Face Hub successfully"
+                            )
+                        except Exception as push_e:
+                            logger.error(
+                                f"❌ Server: Failed to push final model to Hub: {push_e}"
+                            )
+                            logger.warning(
+                                "⚠️ Server: Continuing training despite Hub push failure"
+                            )
                     else:
                         logger.info(
                             "ℹ️ Server: No hf_repo_id configured, skipping Hub push"
@@ -935,8 +943,25 @@ class AggregateEvaluationStrategy(FedProx):
 
                 except Exception as e:
                     logger.error(
-                        f"❌ Server: Failed to save final model or push to Hub: {e}"
+                        f"❌ Server: Failed to save final model: {e}"
                     )
+                    # Still attempt Hub push even if checkpoint save failed
+                    hf_repo_id = self.context.run_config.get("hf_repo_id")
+                    if hf_repo_id:
+                        try:
+                            logger.info(
+                                f"🚀 Server: Attempting Hub push despite checkpoint save failure: {hf_repo_id}"
+                            )
+                            self.push_model_to_hub(
+                                aggregated_parameters, server_round, hf_repo_id
+                            )
+                            logger.info(
+                                "✅ Server: Model pushed to Hub successfully despite checkpoint failure"
+                            )
+                        except Exception as push_e:
+                            logger.error(
+                                f"❌ Server: Both checkpoint save and Hub push failed: {push_e}"
+                            )
         else:
             logger.warning(
                 f"⚠️ Server: No parameters aggregated for round {server_round}"
@@ -963,10 +988,13 @@ class AggregateEvaluationStrategy(FedProx):
             models_dir: Directory to save the checkpoint
         """
         try:
+            logger.info(f"💾 Starting checkpoint save for round {server_round}")
+
             # Convert Flower Parameters to numpy arrays
             from flwr.common import parameters_to_ndarrays
 
             ndarrays = parameters_to_ndarrays(parameters)
+            logger.debug(f"Converted {len(ndarrays)} parameters to ndarrays")
 
             # Create a state dict from the numpy arrays
             # Use the reusable template model for parameter names
@@ -974,14 +1002,33 @@ class AggregateEvaluationStrategy(FedProx):
 
             # Create state dict with proper parameter names
             state_dict = {}
-            for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
-                # Convert numpy array back to torch tensor
-                tensor = torch.from_numpy(ndarray)
-                # Convert back to the original dtype if it was BFloat16
-                original_param = model.state_dict()[name]
-                if original_param.dtype == torch.bfloat16:
-                    tensor = tensor.bfloat16()
-                state_dict[name] = tensor
+            conversion_errors = []
+            for i, ((name, original_param), ndarray) in enumerate(zip(model.state_dict().items(), ndarrays)):
+                try:
+                    # Convert numpy array back to torch tensor
+                    tensor = torch.from_numpy(ndarray)
+
+                    # Always convert to the original dtype to handle dtype drift from FedProx/aggregation
+                    if original_param.dtype != tensor.dtype:
+                        logger.debug(f"Converting param {name} from {tensor.dtype} to {original_param.dtype}")
+                        tensor = tensor.to(original_param.dtype)
+
+                    # Validate shape matches
+                    if tensor.shape != original_param.shape:
+                        raise ValueError(f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}")
+
+                    state_dict[name] = tensor
+
+                except Exception as param_e:
+                    error_msg = f"Failed to convert param {i} ({name}): {param_e}"
+                    logger.error(f"❌ {error_msg}")
+                    conversion_errors.append(error_msg)
+                    # Continue with other parameters
+
+            if conversion_errors:
+                logger.warning(f"⚠️ {len(conversion_errors)} parameter conversion errors during checkpoint save for round {server_round}")
+                if len(conversion_errors) > len(state_dict) * 0.1:  # More than 10% failed
+                    raise RuntimeError(f"Too many parameter conversion errors ({len(conversion_errors)}/{len(ndarrays)})")
 
             # Save using safetensors format
             checkpoint_path = (
@@ -989,13 +1036,16 @@ class AggregateEvaluationStrategy(FedProx):
             )
             save_file(state_dict, checkpoint_path)
 
-            logger.info(f"💾 Model checkpoint saved: {checkpoint_path}")
+            # Log success with details
+            checkpoint_size = checkpoint_path.stat().st_size if checkpoint_path.exists() else 0
+            logger.info(f"✅ Model checkpoint saved: {checkpoint_path} ({checkpoint_size} bytes)")
             logger.info(f"📊 Checkpoint contains {len(state_dict)} parameter tensors")
 
         except Exception as e:
             logger.error(
                 f"❌ Failed to save model checkpoint for round {server_round}: {e}"
             )
+            logger.error(f"🔍 Error type: {type(e).__name__}, details: {e.args}")
             raise
 
     def push_model_to_hub(self, parameters, server_round: int, hf_repo_id: str) -> None:
@@ -1007,10 +1057,13 @@ class AggregateEvaluationStrategy(FedProx):
             hf_repo_id: Hugging Face repository ID (e.g., "username/repo-name")
         """
         try:
+            logger.info(f"🚀 Starting HF Hub push for round {server_round} to {hf_repo_id}")
+
             # Convert Flower Parameters to numpy arrays
             from flwr.common import parameters_to_ndarrays
 
             ndarrays = parameters_to_ndarrays(parameters)
+            logger.debug(f"Converted {len(ndarrays)} parameters for HF push")
 
             # Create a state dict from the numpy arrays
             # Use the reusable template model for parameter names
@@ -1018,14 +1071,33 @@ class AggregateEvaluationStrategy(FedProx):
 
             # Create state dict with proper parameter names
             state_dict = {}
-            for (name, _), ndarray in zip(model.state_dict().items(), ndarrays):
-                # Convert numpy array back to torch tensor
-                tensor = torch.from_numpy(ndarray)
-                # Convert back to the original dtype if it was BFloat16
-                original_param = model.state_dict()[name]
-                if original_param.dtype == torch.bfloat16:
-                    tensor = tensor.bfloat16()
-                state_dict[name] = tensor
+            conversion_errors = []
+            for i, ((name, original_param), ndarray) in enumerate(zip(model.state_dict().items(), ndarrays)):
+                try:
+                    # Convert numpy array back to torch tensor
+                    tensor = torch.from_numpy(ndarray)
+
+                    # Always convert to the original dtype to handle dtype drift from FedProx/aggregation
+                    if original_param.dtype != tensor.dtype:
+                        logger.debug(f"Converting param {name} for HF push from {tensor.dtype} to {original_param.dtype}")
+                        tensor = tensor.to(original_param.dtype)
+
+                    # Validate shape matches
+                    if tensor.shape != original_param.shape:
+                        raise ValueError(f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}")
+
+                    state_dict[name] = tensor
+
+                except Exception as param_e:
+                    error_msg = f"Failed to convert param {i} ({name}) for HF push: {param_e}"
+                    logger.error(f"❌ {error_msg}")
+                    conversion_errors.append(error_msg)
+                    # Continue with other parameters
+
+            if conversion_errors:
+                logger.warning(f"⚠️ {len(conversion_errors)} parameter conversion errors during HF push for round {server_round}")
+                if len(conversion_errors) > len(state_dict) * 0.1:  # More than 10% failed
+                    raise RuntimeError(f"Too many parameter conversion errors for HF push ({len(conversion_errors)}/{len(ndarrays)})")
 
             # Push to Hugging Face Hub
             from huggingface_hub import HfApi

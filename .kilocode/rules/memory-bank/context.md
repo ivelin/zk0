@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-21)**: ✅ **Server evaluation refactoring completed!** Successfully broke down bloated `_server_evaluate` method into 6 atomic, testable functions: `should_skip_evaluation`, `prepare_evaluation_model`, `process_evaluation_metrics`, `log_evaluation_to_wandb`, `save_evaluation_results`, and `generate_evaluation_charts`. All tests pass (46/46), functionality preserved. Improved code maintainability and testability.
+**Latest Update (2025-10-22)**: ✅ **Prepare for commit workflow established!** Added standardized "Prepare for Commit" workflow to memory bank tasks.md for consistent code quality assurance. Version bumped to 0.3.1 for recent enhancements. All tests pass (46/46, >=80% coverage). Ready for final documentation updates and git operations.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics

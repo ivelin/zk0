@@ -5,8 +5,8 @@
 **Version**: 1.0.2
 **Author**: Kilo Code
 
-## Latest Update (2025-10-18)
-**✅ LR/MU Scheduling Enhancement**: Implemented advanced LR/MU scheduling with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Added comprehensive unit tests, documentation updates, and memory bank entries. Targets <0.15 server policy loss with 100% client engagement.
+## Latest Update (2025-10-22)
+**✅ Prepare for Commit Workflow**: Added standardized workflow for preparing code changes for commit, ensuring quality, version management, and documentation consistency. Use this workflow for "prepare for commit", "wrap it up", or similar requests. Includes version bump, testing, memory bank updates, documentation, and git operations.
 
 ## Critical Bug Fixes
 
@@ -125,6 +125,45 @@
 **✅ Added Documentation Update Workflow**: Updated README.md, visualization.py, server_app.py, and tests to reflect policy loss metrics, including chart generation, file names, and metric descriptions
 
 **✅ Added LR/MU Scheduling Enhancement Workflow**: Implemented advanced LR/MU scheduling with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Added comprehensive unit tests, documentation updates, and memory bank entries. Targets <0.15 server policy loss with 100% client engagement.
+
+## Prepare for Commit Workflow
+**Last performed:** 2025-10-22
+**Context:** Standardized workflow for preparing code changes for commit, ensuring quality, version management, and documentation consistency. Use this workflow for "prepare for commit", "wrap it up", or similar requests.
+
+**Trigger Phrases:**
+- "prepare for commit"
+- "wrap it up"
+- "ready for commit"
+- "finalize changes"
+
+**Steps:**
+1. **Version Management**: Read pyproject.toml, increment version based on change scope (patch/minor/major), update version field
+2. **Testing & Quality**: Run full test suite with coverage (`conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing`), verify all pass (>=80% coverage), fix any failures
+3. **Rules Compliance**: Review and update project rules as needed, document new workflows in memory bank
+4. **Memory Bank Updates**: Revise context.md with recent progress, add new repetitive tasks to tasks.md, preserve knowledge
+5. **Documentation Updates**: Update README.md with new features/changes, update technical docs for architecture changes
+6. **Git Operations**: Stage changes, commit with conventional format message, create annotated tag, push to origin main
+
+**Success Criteria:**
+- All tests pass with >=80% coverage
+- Version incremented appropriately
+- Memory bank updated with progress
+- Documentation current
+- Git commit created with descriptive message
+- Tag created and pushed
+
+**Benefits:**
+- Consistent code quality and standards
+- Proper version management
+- Complete documentation trail
+- Reliable git history
+- Easy future reference for similar tasks
+
+**Important Notes:**
+- Switch to code mode if test failures require fixes
+- Use semantic versioning for version bumps
+- Follow conventional commit format for messages
+- Update memory bank before final commit
 
 ## Model Training Workflow
 1. **Environment Setup**: Activate conda environment "zk0"
