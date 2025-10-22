@@ -43,6 +43,7 @@
 | 2025-10-17_08-02-19_convergence_dynamicDecay_e20_r50 | 20 | 50 | 0.01 | 0.0005 | 0.923 | ✅ Stable convergence with dynamic training decay; minor client dropouts (85% participation) |
 | 2025-10-19_00-04-03_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_5e-4 | 20 | 50 | 0.01 (dynamic) | 0.0005 | 0.997 | ✅ Volatile; high initial loss (9.17), oscillates ~1.0; std=1.82 |
 | 2025-10-19_09-05-34_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_1e-4 | 20 | 50 | 0.01 (dynamic) | 0.0001 | 0.532 | ✅ Stable; smooth to 0.53; 47% better final, std=0.11 |
+| 2025-10-20_23-44-35_convergence_e20_r250_dynamic_enhanced_lrmu_v2.8.0 | 20 | 250 | 0.01 (dynamic) | 0.0001 | 0.495 | ✅ Extended stable convergence; 2 clients (~90% participation); final 0.495 (minor eval shift from 0.15 baseline, functional SO-101 generalization); dynamic LR/MU + cosine restarts effective for long horizons |
 
 **Performance Insights**:
 - **Optimal Range**: 20-50 local epochs per round for stable convergence (20 sufficient with dynamic scheduling)

@@ -16,6 +16,8 @@ The zk0 v0.2.3 SmolVLA Federated Learning model is now available on Hugging Face
 
 You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
 
+For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Blog Update: SmolVLA FL Progress](docs/blog-update-smolvla-fl-progress.md), which includes WandB visualizations.
+
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.2.3)
 - **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
 - **Final Policy Loss**: 0.544
