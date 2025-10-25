@@ -111,7 +111,7 @@ options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4C
 options.backend.client-resources.num-gpus = 0.2 # 20% for each for 4 clients and 20% for server process (eval). SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
-options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
+options.num-supernodes = 12 # in the zk0 sim setup, number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping 
 options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
 options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
 backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time

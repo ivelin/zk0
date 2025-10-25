@@ -207,7 +207,7 @@ def _collect_client_metrics(validated_results):
     return client_metrics
 
 
-from src.logger import setup_logging
+from src.logger import setup_server_logging
 from src.visualization import SmolVLAVisualizer
 from src.utils import compute_parameter_hash
 from loguru import logger
@@ -351,6 +351,11 @@ class AggregateEvaluationStrategy(FedProx):
                 "✅ Server: Created reusable model template for parameter operations"
             )
         except Exception as e:
+            import sys
+            import traceback
+            print(f"[DEBUG __init__] Model template creation failed: {e}", file=sys.stderr)
+            print(f"[DEBUG __init__] Full traceback: {traceback.format_exc()}", file=sys.stderr)
+            sys.stderr.flush()
             logger.error(f"❌ Server: Failed to create model template: {e}")
             raise RuntimeError(
                 f"Critical error: Cannot create model template for server operations: {e}"
@@ -464,9 +469,10 @@ class AggregateEvaluationStrategy(FedProx):
                 f"❌ Server: Failed _server_evaluate for round {server_round}: {e}"
             )
             logger.error(f"🔍 Detailed error: type={type(e).__name__}, args={e.args}")
-            import traceback
-
-            logger.error(f"Full traceback: {traceback.format_exc()}")
+            logger.exception("Full traceback in _server_evaluate")
+            # Additional diagnostics: Check CUDA state post-failure
+            if torch.cuda.is_available():
+                logger.error(f"CUDA memory after eval failure: {torch.cuda.memory_summary()}")
             return None, {}
 
     def compute_fedprox_parameters(
@@ -885,6 +891,7 @@ class AggregateEvaluationStrategy(FedProx):
                     logger.error(
                         f"❌ Server: Failed to save model checkpoint for round {server_round}: {e}"
                     )
+                    logger.exception("Traceback in save_model_checkpoint")
 
             # Save final model checkpoint at the end of training (regardless of checkpoint_interval)
             if self.num_rounds and server_round == self.num_rounds:
@@ -915,6 +922,7 @@ class AggregateEvaluationStrategy(FedProx):
                         logger.error(
                             f"❌ Server: Failed final evaluation for round {server_round}: {e}"
                         )
+                        logger.exception("Traceback in final _server_evaluate")
 
                     # Push to Hugging Face Hub if configured (always attempt, even if save failed)
                     hf_repo_id = self.context.run_config.get("hf_repo_id")
@@ -933,6 +941,7 @@ class AggregateEvaluationStrategy(FedProx):
                             logger.error(
                                 f"❌ Server: Failed to push final model to Hub: {push_e}"
                             )
+                            logger.exception("Traceback in push_model_to_hub")
                             logger.warning(
                                 "⚠️ Server: Continuing training despite Hub push failure"
                             )
@@ -942,9 +951,7 @@ class AggregateEvaluationStrategy(FedProx):
                         )
 
                 except Exception as e:
-                    logger.error(
-                        f"❌ Server: Failed to save final model: {e}"
-                    )
+                    logger.error(f"❌ Server: Failed to save final model: {e}")
                     # Still attempt Hub push even if checkpoint save failed
                     hf_repo_id = self.context.run_config.get("hf_repo_id")
                     if hf_repo_id:
@@ -975,6 +982,10 @@ class AggregateEvaluationStrategy(FedProx):
             )
             aggregated_parameters = self.initial_parameters
 
+        # Final logging before return to catch any late exceptions
+        logger.info(f"✅ Server: aggregate_fit completing for round {server_round} - returning {aggregated_parameters is not None}")
+        if self.early_stopping_triggered:
+            logger.info(f"Early stopping active - final params from round {server_round}")
         return aggregated_parameters, metrics
 
     def save_model_checkpoint(
@@ -1003,19 +1014,25 @@ class AggregateEvaluationStrategy(FedProx):
             # Create state dict with proper parameter names
             state_dict = {}
             conversion_errors = []
-            for i, ((name, original_param), ndarray) in enumerate(zip(model.state_dict().items(), ndarrays)):
+            for i, ((name, original_param), ndarray) in enumerate(
+                zip(model.state_dict().items(), ndarrays)
+            ):
                 try:
                     # Convert numpy array back to torch tensor
                     tensor = torch.from_numpy(ndarray)
 
                     # Always convert to the original dtype to handle dtype drift from FedProx/aggregation
                     if original_param.dtype != tensor.dtype:
-                        logger.debug(f"Converting param {name} from {tensor.dtype} to {original_param.dtype}")
+                        logger.debug(
+                            f"Converting param {name} from {tensor.dtype} to {original_param.dtype}"
+                        )
                         tensor = tensor.to(original_param.dtype)
 
                     # Validate shape matches
                     if tensor.shape != original_param.shape:
-                        raise ValueError(f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}")
+                        raise ValueError(
+                            f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}"
+                        )
 
                     state_dict[name] = tensor
 
@@ -1026,9 +1043,15 @@ class AggregateEvaluationStrategy(FedProx):
                     # Continue with other parameters
 
             if conversion_errors:
-                logger.warning(f"⚠️ {len(conversion_errors)} parameter conversion errors during checkpoint save for round {server_round}")
-                if len(conversion_errors) > len(state_dict) * 0.1:  # More than 10% failed
-                    raise RuntimeError(f"Too many parameter conversion errors ({len(conversion_errors)}/{len(ndarrays)})")
+                logger.warning(
+                    f"⚠️ {len(conversion_errors)} parameter conversion errors during checkpoint save for round {server_round}"
+                )
+                if (
+                    len(conversion_errors) > len(state_dict) * 0.1
+                ):  # More than 10% failed
+                    raise RuntimeError(
+                        f"Too many parameter conversion errors ({len(conversion_errors)}/{len(ndarrays)})"
+                    )
 
             # Save using safetensors format
             checkpoint_path = (
@@ -1037,8 +1060,12 @@ class AggregateEvaluationStrategy(FedProx):
             save_file(state_dict, checkpoint_path)
 
             # Log success with details
-            checkpoint_size = checkpoint_path.stat().st_size if checkpoint_path.exists() else 0
-            logger.info(f"✅ Model checkpoint saved: {checkpoint_path} ({checkpoint_size} bytes)")
+            checkpoint_size = (
+                checkpoint_path.stat().st_size if checkpoint_path.exists() else 0
+            )
+            logger.info(
+                f"✅ Model checkpoint saved: {checkpoint_path} ({checkpoint_size} bytes)"
+            )
             logger.info(f"📊 Checkpoint contains {len(state_dict)} parameter tensors")
 
         except Exception as e:
@@ -1046,6 +1073,7 @@ class AggregateEvaluationStrategy(FedProx):
                 f"❌ Failed to save model checkpoint for round {server_round}: {e}"
             )
             logger.error(f"🔍 Error type: {type(e).__name__}, details: {e.args}")
+            logger.exception("Full traceback in save_model_checkpoint")
             raise
 
     def push_model_to_hub(self, parameters, server_round: int, hf_repo_id: str) -> None:
@@ -1057,7 +1085,9 @@ class AggregateEvaluationStrategy(FedProx):
             hf_repo_id: Hugging Face repository ID (e.g., "username/repo-name")
         """
         try:
-            logger.info(f"🚀 Starting HF Hub push for round {server_round} to {hf_repo_id}")
+            logger.info(
+                f"🚀 Starting HF Hub push for round {server_round} to {hf_repo_id}"
+            )
 
             # Convert Flower Parameters to numpy arrays
             from flwr.common import parameters_to_ndarrays
@@ -1072,32 +1102,46 @@ class AggregateEvaluationStrategy(FedProx):
             # Create state dict with proper parameter names
             state_dict = {}
             conversion_errors = []
-            for i, ((name, original_param), ndarray) in enumerate(zip(model.state_dict().items(), ndarrays)):
+            for i, ((name, original_param), ndarray) in enumerate(
+                zip(model.state_dict().items(), ndarrays)
+            ):
                 try:
                     # Convert numpy array back to torch tensor
                     tensor = torch.from_numpy(ndarray)
 
                     # Always convert to the original dtype to handle dtype drift from FedProx/aggregation
                     if original_param.dtype != tensor.dtype:
-                        logger.debug(f"Converting param {name} for HF push from {tensor.dtype} to {original_param.dtype}")
+                        logger.debug(
+                            f"Converting param {name} for HF push from {tensor.dtype} to {original_param.dtype}"
+                        )
                         tensor = tensor.to(original_param.dtype)
 
                     # Validate shape matches
                     if tensor.shape != original_param.shape:
-                        raise ValueError(f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}")
+                        raise ValueError(
+                            f"Shape mismatch for {name}: {tensor.shape} vs {original_param.shape}"
+                        )
 
                     state_dict[name] = tensor
 
                 except Exception as param_e:
-                    error_msg = f"Failed to convert param {i} ({name}) for HF push: {param_e}"
+                    error_msg = (
+                        f"Failed to convert param {i} ({name}) for HF push: {param_e}"
+                    )
                     logger.error(f"❌ {error_msg}")
                     conversion_errors.append(error_msg)
                     # Continue with other parameters
 
             if conversion_errors:
-                logger.warning(f"⚠️ {len(conversion_errors)} parameter conversion errors during HF push for round {server_round}")
-                if len(conversion_errors) > len(state_dict) * 0.1:  # More than 10% failed
-                    raise RuntimeError(f"Too many parameter conversion errors for HF push ({len(conversion_errors)}/{len(ndarrays)})")
+                logger.warning(
+                    f"⚠️ {len(conversion_errors)} parameter conversion errors during HF push for round {server_round}"
+                )
+                if (
+                    len(conversion_errors) > len(state_dict) * 0.1
+                ):  # More than 10% failed
+                    raise RuntimeError(
+                        f"Too many parameter conversion errors for HF push ({len(conversion_errors)}/{len(ndarrays)})"
+                    )
 
             # Push to Hugging Face Hub
             from huggingface_hub import HfApi
@@ -1179,6 +1223,7 @@ class AggregateEvaluationStrategy(FedProx):
                 f"❌ Failed to push model to Hugging Face Hub for round {server_round}: {e}"
             )
             logger.error(f"🔍 Detailed error type: {type(e).__name__}, args: {e.args}")
+            logger.exception("Full traceback in push_model_to_hub")
             raise
 
 
@@ -1716,9 +1761,16 @@ def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, 
 
 def server_fn(context: Context) -> ServerAppComponents:
     """Construct components for ServerApp."""
+    import sys
+    print("[DEBUG server_fn] Starting server_fn execution", file=sys.stderr)
+    sys.stderr.flush()
+
     # Construct ServerConfig
     num_rounds = context.run_config["num-server-rounds"]
     config = ServerConfig(num_rounds=num_rounds)
+
+    print(f"[DEBUG server_fn] Initialized ServerConfig with {num_rounds} rounds", file=sys.stderr)
+    sys.stderr.flush()
 
     logger.info(f"🔧 Server: Initializing with {num_rounds} rounds")
 
@@ -1727,6 +1779,9 @@ def server_fn(context: Context) -> ServerAppComponents:
     folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_path = Path(f"outputs/{folder_name}")
     save_path.mkdir(parents=True, exist_ok=True)
+
+    print(f"[DEBUG server_fn] Created output dir: {save_path}", file=sys.stderr)
+    sys.stderr.flush()
 
     # Create structured output directories
     clients_dir = save_path / "clients"
@@ -1743,17 +1798,30 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Setup unified logging with loguru
     simulation_log_path = save_path / "simulation.log"
-    setup_logging(simulation_log_path, client_id="server")
+    print(f"[DEBUG server_fn] Setting up logging at {simulation_log_path}", file=sys.stderr)
+    sys.stderr.flush()
+    setup_server_logging(simulation_log_path)
     logger.info("Server logging initialized")
+    print("[DEBUG server_fn] Logging setup complete", file=sys.stderr)
+    sys.stderr.flush()
 
     # Load environment variables from .env file
+    print("[DEBUG server_fn] Loading .env", file=sys.stderr)
+    sys.stderr.flush()
     try:
         from dotenv import load_dotenv
 
         load_dotenv()
+        print("[DEBUG server_fn] .env loaded successfully", file=sys.stderr)
+        sys.stderr.flush()
         logger.debug("Environment variables loaded from .env file")
-    except ImportError:
+    except ImportError as e:
+        print(f"[DEBUG server_fn] .env load failed (ImportError): {e}", file=sys.stderr)
+        sys.stderr.flush()
         logger.debug("python-dotenv not available, skipping .env loading")
+    except Exception as e:
+        print(f"[DEBUG server_fn] .env load failed: {e}", file=sys.stderr)
+        sys.stderr.flush()
 
     # Get wandb configuration from pyproject.toml
     from src.utils import get_tool_config
@@ -1765,18 +1833,35 @@ def server_fn(context: Context) -> ServerAppComponents:
     context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
 
     # Initialize WandB if enabled
+    print("[DEBUG server_fn] Checking WandB config", file=sys.stderr)
+    sys.stderr.flush()
     from src.wandb_utils import init_server_wandb
 
     wandb_run = None
     run_id = f"zk0-sim-fl-run-{folder_name}"
-    if app_config.get("use-wandb", False):
-        wandb_run = init_server_wandb(
-            project="zk0",
-            run_id=run_id,
-            config=dict(app_config),
-            dir=str(save_path),
-            notes=f"Federated Learning Server - {num_rounds} rounds",
-        )
+    use_wandb = app_config.get("use-wandb", False)
+    print(f"[DEBUG server_fn] use-wandb={use_wandb}", file=sys.stderr)
+    sys.stderr.flush()
+    if use_wandb:
+        try:
+            print("[DEBUG server_fn] Initializing WandB", file=sys.stderr)
+            sys.stderr.flush()
+            wandb_run = init_server_wandb(
+                project="zk0",
+                run_id=run_id,
+                config=dict(app_config),
+                dir=str(save_path),
+                notes=f"Federated Learning Server - {num_rounds} rounds",
+            )
+            print("[DEBUG server_fn] WandB initialized successfully", file=sys.stderr)
+            sys.stderr.flush()
+        except Exception as e:
+            print(f"[DEBUG server_fn] WandB init failed: {e}", file=sys.stderr)
+            sys.stderr.flush()
+            wandb_run = None
+    else:
+        print("[DEBUG server_fn] Skipping WandB (disabled)", file=sys.stderr)
+        sys.stderr.flush()
 
     # Store wandb run in context for access by visualization functions
     context.run_config["wandb_run"] = wandb_run
@@ -1831,17 +1916,51 @@ def server_fn(context: Context) -> ServerAppComponents:
         json.dump(config_snapshot, f, indent=2, default=str)
 
     # Set global model initialization
+    print("[DEBUG server_fn] Loading DatasetConfig", file=sys.stderr)
+    sys.stderr.flush()
     # Load a minimal dataset to get metadata for SmolVLA initialization
     from src.utils import load_lerobot_dataset
     from src.configs import DatasetConfig
 
-    dataset_config = DatasetConfig.load()
-    server_config = dataset_config.server[
-        0
-    ]  # Use server dataset for consistent initialization
-    dataset = load_lerobot_dataset(server_config.name)
+    try:
+        dataset_config = DatasetConfig.load()
+        print("[DEBUG server_fn] DatasetConfig loaded", file=sys.stderr)
+        sys.stderr.flush()
+    except Exception as e:
+        print(f"[DEBUG server_fn] DatasetConfig.load failed: {e}", file=sys.stderr)
+        sys.stderr.flush()
+        raise
+
+    if not dataset_config.server:
+        print("[DEBUG server_fn] No server datasets configured - aborting", file=sys.stderr)
+        sys.stderr.flush()
+        raise ValueError("No server evaluation dataset configured")
+
+    server_config = dataset_config.server[0]  # Use server dataset for consistent initialization
+    print(f"[DEBUG server_fn] Loading server dataset: {server_config.name}", file=sys.stderr)
+    sys.stderr.flush()
+
+    try:
+        dataset = load_lerobot_dataset(server_config.name)
+        print("[DEBUG server_fn] Dataset loaded successfully", file=sys.stderr)
+        sys.stderr.flush()
+    except Exception as e:
+        print(f"[DEBUG server_fn] load_lerobot_dataset failed for {server_config.name}: {e}", file=sys.stderr)
+        sys.stderr.flush()
+        raise
+
     dataset_meta = dataset.meta
-    ndarrays = get_params(get_model(dataset_meta=dataset_meta))
+    print("[DEBUG server_fn] Getting initial model params", file=sys.stderr)
+    sys.stderr.flush()
+
+    try:
+        ndarrays = get_params(get_model(dataset_meta=dataset_meta))
+        print(f"[DEBUG server_fn] Initial params obtained: {len(ndarrays)} arrays", file=sys.stderr)
+        sys.stderr.flush()
+    except Exception as e:
+        print(f"[DEBUG server_fn] get_params/get_model failed: {e}", file=sys.stderr)
+        sys.stderr.flush()
+        raise
 
     # 🛡️ VALIDATE: Server outgoing parameters (initial model)
     from src.utils import validate_and_log_parameters
@@ -1869,19 +1988,35 @@ def server_fn(context: Context) -> ServerAppComponents:
     proximal_mu = app_config.get("proximal_mu", 0.01)
     logger.info(f"Server: Using proximal_mu={proximal_mu} for FedProx strategy")
 
-    strategy = AggregateEvaluationStrategy(
-        fraction_fit=fraction_fit,
-        fraction_evaluate=fraction_evaluate,
-        initial_parameters=global_model_init,
-        proximal_mu=proximal_mu,  # Required parameter for FedProx
-        server_dir=server_dir,
-        models_dir=models_dir,
-        log_file=simulation_log_path,
-        save_path=save_path,
-        num_rounds=num_rounds,  # Pass total rounds for chart generation
-        wandb_run=wandb_run,  # Pass wandb run for logging
-        context=context,  # Pass context for checkpoint configuration
-    )
+    print("[DEBUG server_fn] Creating AggregateEvaluationStrategy", file=sys.stderr)
+    sys.stderr.flush()
+
+    try:
+        strategy = AggregateEvaluationStrategy(
+            fraction_fit=fraction_fit,
+            fraction_evaluate=fraction_evaluate,
+            initial_parameters=global_model_init,
+            proximal_mu=proximal_mu,  # Required parameter for FedProx
+            server_dir=server_dir,
+            models_dir=models_dir,
+            log_file=simulation_log_path,
+            save_path=save_path,
+            num_rounds=num_rounds,  # Pass total rounds for chart generation
+            wandb_run=wandb_run,  # Pass wandb run for logging
+            context=context,  # Pass context for checkpoint configuration
+        )
+        print("[DEBUG server_fn] Strategy created successfully", file=sys.stderr)
+        sys.stderr.flush()
+    except Exception as e:
+        print(f"[DEBUG server_fn] AggregateEvaluationStrategy creation failed: {e}", file=sys.stderr)
+        sys.stderr.flush()
+        import traceback
+        print(f"[DEBUG server_fn] Full traceback: {traceback.format_exc()}", file=sys.stderr)
+        sys.stderr.flush()
+        raise
+
+    print("[DEBUG server_fn] Returning ServerAppComponents", file=sys.stderr)
+    sys.stderr.flush()
 
     return ServerAppComponents(config=config, strategy=strategy)
 

@@ -151,7 +151,7 @@ else
     if [ "$TINY_TRAIN" = true ]; then
         export RAY_LOG_TO_STDERR=1
         export RAY_LOG_LEVEL=DEBUG
-        CONDA_CMD="conda run --live-stream -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION --run-config \"num-server-rounds=1 local-epochs=1 batch_size=1 eval_batches=1 fraction-fit=0.1 fraction-evaluate=0.1\"'"
+        CONDA_CMD="conda run --live-stream -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION --run-config \"num-server-rounds=2 local-epochs=2 batch_size=2 eval_batches=2 fraction-fit=0.2 fraction-evaluate=0.2\"'"
     else
         CONDA_CMD="conda run --live-stream -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION'"
     fi

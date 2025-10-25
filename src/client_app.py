@@ -1,6 +1,5 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
-
 from pathlib import Path
 import json
 import os
@@ -147,18 +146,38 @@ class SmolVLAClient(NumPyClient):
         # SmolVLA uses flow matching, not diffusion, so no diffusion.num_inference_steps to set
         logger.info(f"Client {self.partition_id}: Moving model to device {self.device}")
         policy.to(self.device)
-        logger.info(f"Client {self.partition_id}: Model moved to {self.device} - VRAM allocated: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB")
+        logger.info(
+            f"Client {self.partition_id}: Model moved to {self.device} - VRAM allocated: {torch.cuda.max_memory_allocated() / 1e9:.2f} GB"
+        )
 
         # Match standalone train script initialization (no extra cache clearing)
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
-        # Setup logging in the actor process
-        from src.logger import setup_logging, setup_client_logging
+        partition_id = config.get("partition-id", self.partition_id)
+        if partition_id != self.partition_id:
+            logger.error(
+                f"Partition ID from client_fn mismatch with partition ID in fit(): {partition_id} != {self.partition_id}"
+            )
 
+        # Setup logging in the actor process
+        from src.logger import setup_client_logging
+
+        # this is necessary due to the way flower / ray recycle actors in the same python process
         log_file_path = config.get("log_file_path")
         if log_file_path:
-            setup_logging(Path(log_file_path), client_id=f"client_{self.partition_id}")
-            setup_client_logging(Path(log_file_path), self.partition_id)
+            setup_client_logging(
+                Path(log_file_path), partition_id
+            )  # Now handles cleanup internally
+            logger.info(
+                f"Client {partition_id}: Dynamic logging setup (partition from config: {partition_id})"
+            )
+
+        # Sync instance if mismatch (for safety, though rare post-client_fn)
+        if partition_id != self.partition_id:
+            logger.error(
+                f"Partition sync: Updating self.partition_id from {self.partition_id} to {partition_id}"
+            )
+            self.partition_id = partition_id
 
         batch_size = config.get("batch_size", 64)
         logger.info(
@@ -339,7 +358,8 @@ class SmolVLAClient(NumPyClient):
         # 🔐 ADD: Include rounded parameter hash for drift-resistant validation
         # Use float32 precision for hash (matches transmission dtype, minimal overhead)
         from src.utils import compute_rounded_hash
-        rounded_hash = compute_rounded_hash(updated_params, precision='float32')
+
+        rounded_hash = compute_rounded_hash(updated_params, precision="float32")
         logger.info(
             f"✅ Client {self.partition_id}: Updated parameters hash: {rounded_hash[:8]}..."
         )
@@ -361,7 +381,9 @@ class SmolVLAClient(NumPyClient):
         training_metrics["param_update_norm"] = param_update_norm
 
         # Add param_hash and dataset_name to training_metrics for server aggregation
-        training_metrics["param_hash"] = rounded_hash  # Use rounded hash for drift resistance
+        training_metrics["param_hash"] = (
+            rounded_hash  # Use rounded hash for drift resistance
+        )
         training_metrics["dataset_name"] = self.dataset_repo_id
 
         # Save per-round client metrics to JSON
@@ -387,6 +409,34 @@ class SmolVLAClient(NumPyClient):
 def client_fn(context: Context) -> Client:
     """Construct a Client that will be run in a ClientApp."""
 
+    # DEBUG: Log types and values before conversion for diagnosis
+    raw_partition_id = context.node_config["partition-id"]
+    logger.debug(
+        f"DEBUG client_fn: raw_partition_id='{raw_partition_id}' (type: {type(raw_partition_id)}), context.node_id={context.node_id} (type: {type(context.node_id)})"
+    )
+
+    # Convert to int early for type consistency and assertion
+    try:
+        partition_id = int(raw_partition_id)
+    except ValueError:
+        logger.error(
+            f"❌ client_fn: Invalid partition-id '{raw_partition_id}' - must be integer"
+        )
+        raise ValueError(f"Invalid partition-id in node_config: {raw_partition_id}")
+
+    # Setup client logging once using fixed node_id == partition_id
+    from src.logger import setup_client_logging
+
+    log_file_path = context.run_config.get("log_file_path")
+
+    if log_file_path:
+        setup_client_logging(Path(log_file_path), partition_id)
+        logger.info(
+            f"✅ Client {partition_id}: Logging setup complete (fixed CID for invariant client directories)"
+        )
+    else:
+        logger.warning(f"⚠️ Client {partition_id}: No log_file_path provided in config")
+
     # Load environment variables from .env file (excluding WANDB_API_KEY for clients)
     try:
         from dotenv import load_dotenv
@@ -396,8 +446,35 @@ def client_fn(context: Context) -> Client:
     except ImportError:
         logger.debug("python-dotenv not available in client, skipping .env loading")
 
-    partition_id = context.node_config.get("partition-id", "unknown")
-    logger.info(f"🚀 Client function STARTED for partition {partition_id}")
+    # DEBUG: Log types and values before conversion for diagnosis
+    raw_partition_id = context.node_config["partition-id"]
+    logger.debug(
+        f"DEBUG client_fn: raw_partition_id='{raw_partition_id}' (type: {type(raw_partition_id)}), context.node_id={context.node_id} (type: {type(context.node_id)})"
+    )
+
+    # Convert to int early for type consistency and assertion
+    try:
+        partition_id = int(raw_partition_id)
+    except ValueError:
+        logger.error(
+            f"❌ client_fn: Invalid partition-id '{raw_partition_id}' - must be integer"
+        )
+        raise ValueError(f"Invalid partition-id in node_config: {raw_partition_id}")
+
+    # flower API has evolved, but essentially cid == node_id == partition_id by default
+    if partition_id != context.node_id:
+        logger.error(
+            f"Partition ID mismatch after conversion: {partition_id} (int) != {context.node_id} (int)"
+        )
+
+    # DEBUG: Confirm post-conversion match
+    logger.debug(
+        f"DEBUG client_fn: Converted partition_id={partition_id} (type: {type(partition_id)}) matches node_id={context.node_id} (type: {type(context.node_id)})"
+    )
+
+    logger.info(
+        f"🚀 client_fn: Client function STARTED with node_id={context.node_id} and partition {partition_id}"
+    )
     logger.debug(
         f"Client {partition_id}: Full context.node_config: {context.node_config}"
     )
@@ -406,7 +483,7 @@ def client_fn(context: Context) -> Client:
     )
 
     # Read the node_config to fetch data partition associated to this node
-    partition_id = int(context.node_config["partition-id"])
+    # (partition_id already converted above; reuse it)
     num_partitions = context.node_config["num-partitions"]
     logger.info(
         f"✅ Client {partition_id}: Extracted partition_id={partition_id}, num_partitions={num_partitions}"
@@ -428,17 +505,6 @@ def client_fn(context: Context) -> Client:
         f"✅ Client {partition_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
     )
 
-    # Setup client logging
-    from src.logger import setup_logging, setup_client_logging
-
-    log_file_path = context.run_config.get("log_file_path")
-    if log_file_path:
-        setup_logging(Path(log_file_path), client_id=f"client_{partition_id}")
-        setup_client_logging(Path(log_file_path), partition_id)
-        logger.info(f"✅ Client {partition_id}: Logging setup complete")
-    else:
-        logger.warning(f"⚠️ Client {partition_id}: No log_file_path provided in config")
-
     batch_size = context.run_config.get("batch_size", 64)
     logger.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
 
@@ -457,12 +523,18 @@ def client_fn(context: Context) -> Client:
         logger.info(f"🔍 Client {partition_id}: Selected dataset: {dataset_name}")
 
         # Load dataset directly
-        logger.info(f"📥 Client {partition_id}: Calling load_lerobot_dataset({dataset_name})")
+        logger.info(
+            f"📥 Client {partition_id}: Calling load_lerobot_dataset({dataset_name})"
+        )
         dataset = load_lerobot_dataset(dataset_name)
-        logger.info(f"✅ Client {partition_id}: Dataset loaded - episodes: {len(dataset)}")
+        logger.info(
+            f"✅ Client {partition_id}: Dataset loaded - episodes: {len(dataset)}"
+        )
 
         # Create dataloader (clients use full dataset for training)
-        logger.info(f"🔄 Client {partition_id}: Creating DataLoader (batch_size={batch_size}, num_workers=0)")
+        logger.info(
+            f"🔄 Client {partition_id}: Creating DataLoader (batch_size={batch_size}, num_workers=0)"
+        )
         trainloader = torch.utils.data.DataLoader(
             dataset,
             num_workers=0,
@@ -471,7 +543,9 @@ def client_fn(context: Context) -> Client:
             pin_memory=False,
             drop_last=True,
         )
-        logger.info(f"✅ Client {partition_id}: DataLoader created - length: {len(trainloader)}")
+        logger.info(
+            f"✅ Client {partition_id}: DataLoader created - length: {len(trainloader)}"
+        )
 
         train_episodes = len(dataset)
         logger.info(
