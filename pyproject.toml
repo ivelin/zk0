@@ -50,7 +50,7 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
+num-server-rounds = 1000 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
 local-epochs = 20 # steps/epochs per round
 model-name = "lerobot/smolvla_base" # fl advanced: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 0.3 # set to 1 for all clients to train each round; 0.5 for half of all

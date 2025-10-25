@@ -194,3 +194,148 @@ class TestFedProxProximalLoss:
 
         result = compute_fedprox_proximal_loss(current_params, None, fedprox_mu=0.01)
         assert result == 0.0
+
+
+class TestSaveClientRoundMetrics:
+    """Test cases for save_client_round_metrics function."""
+
+    @patch('src.client_app.json.dump')
+    @patch('src.client_app.os.makedirs')
+    @patch('src.client_app.open', new_callable=MagicMock)
+    def test_save_client_round_metrics_success(self, mock_open, mock_makedirs, mock_json_dump):
+        """Test successful saving of client round metrics."""
+        from src.client_app import save_client_round_metrics
+
+        config = {"timestamp": "2023-01-01_12-00-00"}
+        training_metrics = {
+            "policy_loss": 0.5,
+            "fedprox_loss": 0.1,
+            "grad_norm": 1.0,
+            "param_hash": "abc123",
+            "steps_completed": 100,
+            "param_update_norm": 0.05,
+            "dataset_name": "test_dataset"
+        }
+        round_num = 1
+        partition_id = 0
+        logger = MagicMock()
+
+        save_client_round_metrics(config, training_metrics, round_num, partition_id, logger)
+
+        # Verify directory creation
+        mock_makedirs.assert_called_once_with("outputs/2023-01-01_12-00-00/clients/client_0", exist_ok=True)
+
+        # Verify file operations
+        mock_open.assert_called_once_with("outputs/2023-01-01_12-00-00/clients/client_0/round_1.json", "w")
+
+        # Verify JSON dump was called
+        assert mock_json_dump.call_count == 1
+
+        # Verify logger was called
+        logger.info.assert_called_once()
+
+    @patch('src.client_app.os.makedirs', side_effect=OSError("Permission denied"))
+    def test_save_client_round_metrics_failure(self, mock_makedirs):
+        """Test handling of failure when saving client round metrics."""
+        from src.client_app import save_client_round_metrics
+
+        config = {"timestamp": "2023-01-01_12-00-00"}
+        training_metrics = {"policy_loss": 0.5}
+        round_num = 1
+        partition_id = 0
+        logger = MagicMock()
+
+        save_client_round_metrics(config, training_metrics, round_num, partition_id, logger)
+
+        # Verify warning was logged
+        logger.warning.assert_called_once()
+
+
+class TestClientFn:
+    """Test cases for client_fn function."""
+
+    @patch('src.client_app.load_dotenv')
+    @patch('src.client_app.logger')
+    def test_client_fn_loads_env(self, mock_logger, mock_load_dotenv):
+        """Test that client_fn loads environment variables."""
+        from src.client_app import client_fn
+        from flwr.common import Context
+
+        context = Context(
+            node_config={"partition-id": "0", "num-partitions": "4"},
+            run_config={
+                "model-name": "test_model",
+                "local-epochs": "1",
+                "batch_size": "32",
+                "save_path": "/tmp",
+                "log_file_path": "/tmp/log.txt"
+            }
+        )
+
+        with patch('src.client_app.SmolVLAClient') as mock_client_class:
+            mock_client = MagicMock()
+            mock_client.to_client.return_value = MagicMock()
+            mock_client_class.return_value = mock_client
+
+            with patch('src.client_app.DatasetConfig') as mock_config_class:
+                mock_config = MagicMock()
+                mock_config.clients = [MagicMock(name="test_dataset")]
+                mock_config_class.load.return_value = mock_config
+
+                with patch('src.client_app.load_lerobot_dataset') as mock_load_dataset:
+                    mock_dataset = MagicMock()
+                    mock_dataset.__len__ = MagicMock(return_value=10)
+                    mock_load_dataset.return_value = mock_dataset
+
+                    with patch('torch.utils.data.DataLoader') as mock_dataloader:
+                        mock_dataloader.return_value = MagicMock()
+
+                        # Should not raise exception
+                        result = client_fn(context)
+
+                        # Verify dotenv was loaded
+                        mock_load_dotenv.assert_called_once()
+
+                        # Verify client was created and converted
+                        mock_client_class.assert_called_once()
+                        mock_client.to_client.assert_called_once()
+
+    @patch('src.client_app.load_dotenv', side_effect=ImportError)
+    @patch('src.client_app.logger')
+    def test_client_fn_handles_missing_dotenv(self, mock_logger, mock_load_dotenv):
+        """Test that client_fn handles missing dotenv gracefully."""
+        from src.client_app import client_fn
+        from flwr.common import Context
+
+        context = Context(
+            node_config={"partition-id": "0", "num-partitions": "4"},
+            run_config={
+                "model-name": "test_model",
+                "local-epochs": "1",
+                "batch_size": "32"
+            }
+        )
+
+        with patch('src.client_app.SmolVLAClient') as mock_client_class:
+            mock_client = MagicMock()
+            mock_client.to_client.return_value = MagicMock()
+            mock_client_class.return_value = mock_client
+
+            with patch('src.client_app.DatasetConfig') as mock_config_class:
+                mock_config = MagicMock()
+                mock_config.clients = [MagicMock(name="test_dataset")]
+                mock_config_class.load.return_value = mock_config
+
+                with patch('src.client_app.load_lerobot_dataset') as mock_load_dataset:
+                    mock_dataset = MagicMock()
+                    mock_dataset.__len__ = MagicMock(return_value=10)
+                    mock_load_dataset.return_value = mock_dataset
+
+                    with patch('torch.utils.data.DataLoader') as mock_dataloader:
+                        mock_dataloader.return_value = MagicMock()
+
+                        # Should not raise exception
+                        result = client_fn(context)
+
+                        # Verify debug message was logged
+                        mock_logger.debug.assert_any_call("python-dotenv not available in client, skipping .env loading")
