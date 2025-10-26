@@ -254,7 +254,7 @@ class TestSaveClientRoundMetrics:
 class TestClientFn:
     """Test cases for client_fn function."""
 
-    @patch('src.client_app.load_dotenv')
+    @patch('dotenv.load_dotenv')
     @patch('src.client_app.logger')
     def test_client_fn_loads_env(self, mock_logger, mock_load_dotenv):
         """Test that client_fn loads environment variables."""
@@ -262,6 +262,9 @@ class TestClientFn:
         from flwr.common import Context
 
         context = Context(
+            run_id="test_run",
+            node_id="test_node",
+            state={},
             node_config={"partition-id": "0", "num-partitions": "4"},
             run_config={
                 "model-name": "test_model",
@@ -277,7 +280,7 @@ class TestClientFn:
             mock_client.to_client.return_value = MagicMock()
             mock_client_class.return_value = mock_client
 
-            with patch('src.client_app.DatasetConfig') as mock_config_class:
+            with patch('src.configs.DatasetConfig') as mock_config_class:
                 mock_config = MagicMock()
                 mock_config.clients = [MagicMock(name="test_dataset")]
                 mock_config_class.load.return_value = mock_config
@@ -300,7 +303,7 @@ class TestClientFn:
                         mock_client_class.assert_called_once()
                         mock_client.to_client.assert_called_once()
 
-    @patch('src.client_app.load_dotenv', side_effect=ImportError)
+    @patch('dotenv.load_dotenv', side_effect=ImportError)
     @patch('src.client_app.logger')
     def test_client_fn_handles_missing_dotenv(self, mock_logger, mock_load_dotenv):
         """Test that client_fn handles missing dotenv gracefully."""
@@ -308,6 +311,9 @@ class TestClientFn:
         from flwr.common import Context
 
         context = Context(
+            run_id="test_run",
+            node_id="test_node",
+            state={},
             node_config={"partition-id": "0", "num-partitions": "4"},
             run_config={
                 "model-name": "test_model",
@@ -321,7 +327,7 @@ class TestClientFn:
             mock_client.to_client.return_value = MagicMock()
             mock_client_class.return_value = mock_client
 
-            with patch('src.client_app.DatasetConfig') as mock_config_class:
+            with patch('src.configs.DatasetConfig') as mock_config_class:
                 mock_config = MagicMock()
                 mock_config.clients = [MagicMock(name="test_dataset")]
                 mock_config_class.load.return_value = mock_config

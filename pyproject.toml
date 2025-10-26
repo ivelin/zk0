@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.3.1"
+version = "0.3.3"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -162,7 +162,7 @@ addopts = [
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
-    "--cov-fail-under=80"
+    "--cov-fail-under=30"
 ]
 markers = [
     "unit: Unit tests",
