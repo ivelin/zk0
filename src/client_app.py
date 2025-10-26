@@ -424,7 +424,7 @@ def client_fn(context: Context) -> Client:
         )
         raise ValueError(f"Invalid partition-id in node_config: {raw_partition_id}")
 
-    # Setup client logging once using fixed node_id == partition_id
+    # Setup client logging once using partition_id
     from src.logger import setup_client_logging
 
     log_file_path = context.run_config.get("log_file_path")
@@ -460,17 +460,6 @@ def client_fn(context: Context) -> Client:
             f"❌ client_fn: Invalid partition-id '{raw_partition_id}' - must be integer"
         )
         raise ValueError(f"Invalid partition-id in node_config: {raw_partition_id}")
-
-    # flower API has evolved, but essentially cid == node_id == partition_id by default
-    if partition_id != context.node_id:
-        logger.error(
-            f"Partition ID mismatch after conversion: {partition_id} (int) != {context.node_id} (int)"
-        )
-
-    # DEBUG: Confirm post-conversion match
-    logger.debug(
-        f"DEBUG client_fn: Converted partition_id={partition_id} (type: {type(partition_id)}) matches node_id={context.node_id} (type: {type(context.node_id)})"
-    )
 
     logger.info(
         f"🚀 client_fn: Client function STARTED with node_id={context.node_id} and partition {partition_id}"
