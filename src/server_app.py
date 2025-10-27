@@ -310,6 +310,7 @@ class AggregateEvaluationStrategy(FedProx):
                 metrics,
                 self.last_aggregated_metrics,
                 self.last_client_metrics,
+                per_dataset_results,
             )
 
             # Save evaluation results to file
@@ -1363,6 +1364,7 @@ def log_evaluation_to_wandb(
     metrics: dict,
     aggregated_client_metrics: dict,
     individual_client_metrics: list,
+    per_dataset_results: Optional[List[Dict]] = None,
 ) -> None:
     """Log evaluation results to WandB.
 
@@ -1373,6 +1375,7 @@ def log_evaluation_to_wandb(
         metrics: Evaluation metrics dictionary
         aggregated_client_metrics: Aggregated client metrics
         individual_client_metrics: Individual client metrics
+        per_dataset_results: Optional list of per-dataset evaluation results
     """
     if strategy.wandb_run:
         from src.wandb_utils import log_wandb_metrics
@@ -1386,6 +1389,7 @@ def log_evaluation_to_wandb(
             server_metrics=metrics,
             aggregated_client_metrics=aggregated_client_metrics,
             individual_client_metrics=individual_client_metrics,
+            per_dataset_results=per_dataset_results,
         )
 
         log_wandb_metrics(wandb_metrics, step=server_round)

@@ -832,6 +832,65 @@ class TestLogEvaluationToWandb:
             # Verify log was not called
             mock_log.assert_not_called()
 
+    def test_log_evaluation_to_wandb_with_per_dataset_results(self):
+        """Test WandB logging with per-dataset results passed through."""
+        from unittest.mock import Mock, patch
+
+        # Mock strategy with wandb run
+        strategy = Mock()
+        strategy.wandb_run = Mock()
+
+        server_round = 49
+        loss = 0.22341731128593287
+        metrics = {"policy_loss": 0.20069279242306948}
+        aggregated_client_metrics = {"num_clients": 3}
+        individual_client_metrics = [{"client_id": "client_3"}]
+
+        # Mock per_dataset_results matching JSON structure
+        per_dataset_results = [
+            {
+                "dataset_name": "Hupy440/Two_Cubes_and_Two_Buckets_v2",
+                "evaldata_id": 0,
+                "loss": 0.20069279242306948,
+                "num_examples": 1024,
+                "metrics": {
+                    "policy_loss": 0.20069279242306948,
+                    "successful_batches": 16,
+                    "total_samples": 1024,
+                },
+            },
+            {
+                "dataset_name": "shuohsuan/grasp1",
+                "evaldata_id": 3,
+                "loss": 0.209683109074831,
+                "num_examples": 1024,
+                "metrics": {
+                    "policy_loss": 0.209683109074831,
+                    "successful_batches": 16,
+                    "total_samples": 1024,
+                },
+            },
+        ]
+
+        with patch("src.wandb_utils.log_wandb_metrics") as mock_log:
+            with patch("src.utils.prepare_server_wandb_metrics") as mock_prepare:
+                mock_prepare.return_value = {"loss_evaldata_id_0": 0.20069279242306948}
+
+                log_evaluation_to_wandb(
+                    strategy, server_round, loss, metrics, aggregated_client_metrics, individual_client_metrics, per_dataset_results
+                )
+
+                # Verify prepare was called with per_dataset_results
+                mock_prepare.assert_called_once_with(
+                    server_round=server_round,
+                    server_loss=loss,
+                    server_metrics=metrics,
+                    aggregated_client_metrics=aggregated_client_metrics,
+                    individual_client_metrics=individual_client_metrics,
+                    per_dataset_results=per_dataset_results,
+                )
+                mock_log.assert_called_once_with({"loss_evaldata_id_0": 0.20069279242306948}, step=server_round)
+
 
 class TestSaveEvaluationResults:
     """Test the save_evaluation_results function."""

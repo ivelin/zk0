@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.3.4"
+version = "0.3.5"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -50,7 +50,7 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 1000 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
+num-server-rounds = 200 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
 local-epochs = 20 # steps/epochs per round
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
@@ -61,11 +61,11 @@ server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
 eval_batches = 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
-checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
+checkpoint_interval = 20 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
-early_stopping_patience = 30 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
+early_stopping_patience = 0 # Stop training if no eval loss improvement for this many rounds (0 = disabled)
 dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
 # New parameters for LR/MU scheduling enhancements (v0.2.6)
 scheduler_type = "cosine_warm_restarts"  # "cosine" (current), "cosine_warm_restarts", "reduce_on_plateau"
