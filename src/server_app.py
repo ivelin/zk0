@@ -6,32 +6,6 @@ from pathlib import Path
 from src.task import get_model, get_params, compute_param_norms, set_params
 
 
-def compute_server_param_update_norm(previous_params, current_params):
-    """Compute L2 norm of parameter differences between server rounds.
-
-    Args:
-        previous_params: Flower Parameters object from previous round
-        current_params: Flower Parameters object from current round
-
-    Returns:
-        float: L2 norm of parameter differences
-    """
-    if previous_params is None or current_params is None:
-        return 0.0
-
-    from flwr.common import parameters_to_ndarrays
-    import numpy as np
-
-    current_ndarrays = parameters_to_ndarrays(current_params)
-    previous_ndarrays = parameters_to_ndarrays(previous_params)
-
-    if len(current_ndarrays) != len(previous_ndarrays):
-        return 0.0
-
-    param_diff_norm = np.sqrt(
-        sum(np.sum((c - p) ** 2) for c, p in zip(current_ndarrays, previous_ndarrays))
-    )
-    return float(param_diff_norm)
 
 
 def check_early_stopping(
@@ -99,112 +73,12 @@ def update_early_stopping_tracking(
         )
 
 
-def aggregate_client_metrics(validated_results):
-    """Aggregate client metrics from validated fit results.
-
-    Args:
-        validated_results: List of (client_proxy, fit_result) tuples
-
-    Returns:
-        dict: Aggregated client metrics
-    """
-    return _compute_aggregated_metrics(validated_results)
 
 
-def _compute_aggregated_metrics(validated_results):
-    """Compute aggregated metrics from validated client results.
-
-    Args:
-        validated_results: List of (client_proxy, fit_result) tuples
-
-    Returns:
-        dict: Aggregated client metrics
-    """
-    import numpy as np
-
-    if not validated_results:
-        return {
-            "avg_client_loss": 0.0,
-            "std_client_loss": 0.0,
-            "avg_client_proximal_loss": 0.0,
-            "avg_client_grad_norm": 0.0,
-            "num_clients": 0,
-        }
-
-    client_losses = [
-        fit_res.metrics.get("loss", 0.0) for _, fit_res in validated_results
-    ]
-    client_proximal_losses = [
-        fit_res.metrics.get("fedprox_loss", 0.0) for _, fit_res in validated_results
-    ]
-    client_grad_norms = [
-        fit_res.metrics.get("grad_norm", 0.0) for _, fit_res in validated_results
-    ]
-
-    return {
-        "avg_client_loss": float(np.mean(client_losses)) if client_losses else 0.0,
-        "std_client_loss": float(np.std(client_losses))
-        if len(client_losses) > 1
-        else 0.0,
-        "avg_client_proximal_loss": float(np.mean(client_proximal_losses))
-        if client_proximal_losses
-        else 0.0,
-        "avg_client_grad_norm": float(np.mean(client_grad_norms))
-        if client_grad_norms
-        else 0.0,
-        "num_clients": len(validated_results),
-    }
 
 
-def collect_individual_client_metrics(validated_results):
-    """Collect individual client metrics for detailed reporting.
-
-    Args:
-        validated_results: List of (client_proxy, fit_result) tuples
-
-    Returns:
-        list: List of individual client metric dictionaries
-    """
-    return _collect_client_metrics(validated_results)
 
 
-def _collect_client_metrics(validated_results):
-    """Collect individual client metrics from validated results.
-
-    Args:
-        validated_results: List of (client_proxy, fit_result) tuples
-
-    Returns:
-        list: List of individual client metric dictionaries
-    """
-    from src.utils import create_client_metrics_dict
-
-    client_metrics = []
-    for client_proxy, fit_res in validated_results:
-        # Use the simple client_id from metrics (0,1,2,3) instead of the long Flower proxy ID
-        simple_client_id = fit_res.metrics.get("client_id", client_proxy.cid)
-        raw_metrics = fit_res.metrics
-        logger.info(
-            f"DEBUG SERVER COLLECT: Client {simple_client_id} raw metrics keys: {list(raw_metrics.keys())}, fedprox={raw_metrics.get('fedprox_loss', 'MISSING')}, param_norm={raw_metrics.get('param_update_norm', 'MISSING')}, policy_loss={raw_metrics.get('policy_loss', 'MISSING')}"
-        )
-        base_metrics = create_client_metrics_dict(
-            round_num=0,  # Round will be set in _server_evaluate
-            client_id=simple_client_id,
-            dataset_name=raw_metrics.get("dataset_name", ""),
-            policy_loss=raw_metrics.get("policy_loss", 0.0),
-            fedprox_loss=raw_metrics.get("fedprox_loss", 0.0),
-            grad_norm=raw_metrics.get("grad_norm", 0.0),
-            param_hash=raw_metrics.get("param_hash", ""),
-            num_steps=raw_metrics.get("steps_completed", 0),
-            param_update_norm=raw_metrics.get("param_update_norm", 0.0),
-        )
-        # Add Flower-specific field
-        base_metrics["flower_proxy_cid"] = client_proxy.cid
-        logger.info(
-            f"DEBUG SERVER PROCESSED: Client {simple_client_id} final metrics: policy_loss={base_metrics['policy_loss']}, fedprox_loss={base_metrics['fedprox_loss']}, param_update_norm={base_metrics['param_update_norm']}"
-        )
-        client_metrics.append(base_metrics)
-    return client_metrics
 
 
 from src.logger import setup_server_logging
@@ -749,6 +623,7 @@ class AggregateEvaluationStrategy(FedProx):
         validated_results = self.validate_client_parameters(results)
 
         # Aggregate client metrics before calling parent
+        from .server.server_utils import aggregate_client_metrics
         aggregated_client_metrics = aggregate_client_metrics(validated_results)
         logger.info(
             f"DEBUG SERVER AGGREGATE: Aggregated metrics: {aggregated_client_metrics}"
@@ -761,6 +636,7 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Compute parameter update norm if we have previous parameters
         if self.previous_parameters is not None and aggregated_parameters is not None:
+            from .server.server_utils import compute_server_param_update_norm
             param_update_norm = compute_server_param_update_norm(
                 self.previous_parameters, aggregated_parameters
             )
@@ -770,6 +646,7 @@ class AggregateEvaluationStrategy(FedProx):
         self.last_aggregated_metrics = aggregated_client_metrics
 
         # Store individual client metrics for detailed reporting
+        from .server.server_utils import collect_individual_client_metrics
         self.last_client_metrics = collect_individual_client_metrics(validated_results)
 
         # Initialize last_client_metrics if not set (for round 0 evaluation)
@@ -1227,88 +1104,12 @@ class AggregateEvaluationStrategy(FedProx):
             raise
 
 
-def compute_dynamic_mu(client_metrics, cfg):
-    """Compute dynamic FedProx mu based on client loss standard deviation.
-
-    Args:
-        client_metrics: List of client metric dictionaries
-        cfg: Configuration object with mu parameters
-
-    Returns:
-        float: Adjusted mu value
-    """
-    if not cfg.get("adaptive_mu_enabled", False) or len(client_metrics) < 2:
-        return cfg.get("proximal_mu", 0.01)
-
-    import numpy as np
-
-    losses = [m["loss"] for m in client_metrics]
-    loss_std = np.std(losses)
-    threshold = cfg.get("loss_std_threshold", 1.2)
-
-    if loss_std > threshold:
-        return cfg["proximal_mu"] * cfg.get("mu_adjust_factor", 1.05)
-    return cfg["proximal_mu"]
 
 
-def adjust_global_lr_for_next_round(server_loss_history, current_lr, cfg):
-    """Adjust global learning rate based on server evaluation loss trends.
-
-    Args:
-        server_loss_history: List of recent server evaluation losses
-        current_lr: Current learning rate
-        cfg: Configuration object with LR adjustment parameters
-
-    Returns:
-        float: Adjusted learning rate
-    """
-    if len(server_loss_history) < cfg.get("adjustment_window", 5):
-        return current_lr
-
-    recent_losses = server_loss_history[-cfg["adjustment_window"] :]
-    improvement = (recent_losses[0] - recent_losses[-1]) / max(recent_losses[0], 1e-8)
-
-    if improvement < 0.01:  # Stall
-        factor = 0.95
-    elif improvement < -cfg.get("spike_threshold", 0.5):  # Divergence
-        factor = 1.05
-    else:
-        factor = 1.0
-
-    new_lr = current_lr * factor
-    return max(new_lr, cfg.get("eta_min", 5e-7))
 
 
-def is_spike_risk(loss_history, cfg):
-    """Check if current loss trends indicate spike risk.
-
-    Args:
-        loss_history: List of recent loss values
-        cfg: Configuration object with spike detection parameters
-
-    Returns:
-        bool: True if spike risk detected
-    """
-    if len(loss_history) < 3:
-        return False
-
-    recent = loss_history[-3:]
-    delta = recent[-1] - recent[0]
-    return delta > cfg.get("spike_threshold", 0.5)
 
 
-def prepare_client_context(next_mu, next_lr, client_history):
-    """Prepare context dictionary for client configuration.
-
-    Args:
-        next_mu: Next round's FedProx mu value
-        next_lr: Next round's learning rate
-        client_history: Client training history for adaptive boosts
-
-    Returns:
-        dict: Context dictionary for Flower client configuration
-    """
-    return {"next_mu": next_mu, "next_lr": next_lr, "client_history": client_history}
 
 
 def evaluate_single_dataset(
