@@ -8,7 +8,7 @@ Usage:
     python push_to_hf.py /path/to/checkpoint/directory [--repo-id REPO_ID]
 
 Arguments:
-    checkpoint_dir: Path to directory containing model files (config.json, pytorch_model.bin, README.md)
+    checkpoint_dir: Path to directory containing model files (config.json, model.safetensors, README.md)
 
 Options:
     --repo-id: Hugging Face repository ID (default: ivelin/zk0-smolvla-fl)
@@ -18,7 +18,7 @@ Environment Variables:
 
 Examples:
     python push_to_hf.py outputs/2025-10-09_13-59-05/models/temp_model_round_30
-    python push_to_hf.py /path/to/my/model/dir --repo-id myuser/my-model
+    python push_to_hf.py /path/to/my/model/checkpoint/dir --repo-id myuser/my-model
 """
 
 import os
@@ -47,7 +47,7 @@ Examples:
     parser.add_argument(
         "checkpoint_dir",
         type=str,
-        help="Path to directory containing model files (config.json, pytorch_model.bin, README.md)"
+        help="Path to directory containing model files (config.json, model.safetensors, README.md)"
     )
     parser.add_argument(
         "--repo-id",
@@ -66,7 +66,7 @@ Examples:
     if not model_dir.exists():
         raise FileNotFoundError(f"Checkpoint directory does not exist: {model_dir}")
 
-    required_files = ["config.json", "pytorch_model.bin", "README.md"]
+    required_files = ["config.json", "model.safetensors", "README.md"]
     missing_files = []
     for file in required_files:
         if not (model_dir / file).exists():
