@@ -169,3 +169,154 @@ class TestWandbUtils:
         log_wandb_metrics(final_metrics)
 
         mock_wandb_module.log.assert_called_once_with(final_metrics)
+
+    def test_prepare_server_wandb_metrics_with_per_dataset_results(self, mock_wandb_module):
+        """Test prepare_server_wandb_metrics with per-dataset results (mirroring JSON structure)."""
+        from src.utils import prepare_server_wandb_metrics
+
+        # Mock per_dataset_results matching JSON structure from round_49_server_eval.json
+        per_dataset_results = [
+            {
+                "dataset_name": "Hupy440/Two_Cubes_and_Two_Buckets_v2",
+                "evaldata_id": 0,
+                "loss": 0.20069279242306948,
+                "num_examples": 1024,
+                "metrics": {
+                    "policy_loss": 0.20069279242306948,
+                    "successful_batches": 16,
+                    "total_samples": 1024,
+                },
+            },
+            {
+                "dataset_name": "dll-hackathon-102025/oct_19_440pm",
+                "evaldata_id": 1,
+                "loss": 0.2598760323598981,
+                "num_examples": 1024,
+                "metrics": {
+                    "policy_loss": 0.2598760323598981,
+                    "successful_batches": 16,
+                    "total_samples": 1024,
+                },
+            },
+            {
+                "dataset_name": "shuohsuan/grasp1",
+                "evaldata_id": 3,
+                "loss": 0.209683109074831,
+                "num_examples": 1024,
+                "metrics": {
+                    "policy_loss": 0.209683109074831,
+                    "successful_batches": 16,
+                    "total_samples": 1024,
+                },
+            },
+        ]
+
+        # Mock other required inputs
+        server_round = 49
+        server_loss = 0.22341731128593287
+        server_metrics = {
+            "policy_loss": 0.20069279242306948,
+            "successful_batches": 16,
+            "total_batches_processed": 16,
+            "total_samples": 1024,
+        }
+        aggregated_client_metrics = {
+            "avg_client_loss": 0.3579804907242457,
+            "std_client_loss": 0.10909716768415591,
+            "num_clients": 3,
+        }
+        individual_client_metrics = [
+            {
+                "client_id": 3,
+                "loss": 0.43921390622854234,
+                "policy_loss": 0.4124728783965111,
+            }
+        ]
+
+        result = prepare_server_wandb_metrics(
+            server_round=server_round,
+            server_loss=server_loss,
+            server_metrics=server_metrics,
+            aggregated_client_metrics=aggregated_client_metrics,
+            individual_client_metrics=individual_client_metrics,
+            per_dataset_results=per_dataset_results,
+        )
+
+        # Verify composite metrics are present
+        assert result["server_round"] == 49
+        assert result["server_eval_loss"] == 0.22341731128593287
+        assert result["server_eval_policy_loss"] == 0.20069279242306948
+
+        # Verify per-dataset metrics match JSON structure
+        assert result["loss_evaldata_id_0"] == 0.20069279242306948
+        assert result["policy_loss_evaldata_id_0"] == 0.20069279242306948
+        assert result["num_examples_evaldata_id_0"] == 1024
+        assert result["successful_batches_evaldata_id_0"] == 16
+        assert result["total_samples_evaldata_id_0"] == 1024
+        assert result["dataset_name_evaldata_id_0"] == "Hupy440/Two_Cubes_and_Two_Buckets_v2"
+
+        assert result["loss_evaldata_id_1"] == 0.2598760323598981
+        assert result["policy_loss_evaldata_id_1"] == 0.2598760323598981
+        assert result["num_examples_evaldata_id_1"] == 1024
+        assert result["successful_batches_evaldata_id_1"] == 16
+        assert result["total_samples_evaldata_id_1"] == 1024
+        assert result["dataset_name_evaldata_id_1"] == "dll-hackathon-102025/oct_19_440pm"
+
+        assert result["loss_evaldata_id_3"] == 0.209683109074831
+        assert result["policy_loss_evaldata_id_3"] == 0.209683109074831
+        assert result["num_examples_evaldata_id_3"] == 1024
+        assert result["successful_batches_evaldata_id_3"] == 16
+        assert result["total_samples_evaldata_id_3"] == 1024
+        assert result["dataset_name_evaldata_id_3"] == "shuohsuan/grasp1"
+
+        # Verify client metrics are still present
+        assert result["client_3_loss"] == 0.43921390622854234
+        assert result["client_3_policy_loss"] == 0.4124728783965111
+
+    def test_prepare_server_wandb_metrics_without_per_dataset_results(self, mock_wandb_module):
+        """Test prepare_server_wandb_metrics without per-dataset results (backward compatibility)."""
+        from src.utils import prepare_server_wandb_metrics
+
+        result = prepare_server_wandb_metrics(
+            server_round=1,
+            server_loss=0.5,
+            server_metrics={},
+            aggregated_client_metrics={},
+            individual_client_metrics=[],
+            per_dataset_results=None,  # No per-dataset results
+        )
+
+        # Verify no per-dataset keys are added
+        per_dataset_keys = [k for k in result.keys() if "evaldata_id" in k]
+        assert len(per_dataset_keys) == 0
+
+        # Verify basic metrics are still present
+        assert result["server_round"] == 1
+        assert result["server_eval_loss"] == 0.5
+
+    def test_prepare_server_wandb_metrics_with_missing_evaldata_id(self, mock_wandb_module):
+        """Test prepare_server_wandb_metrics with missing evaldata_id (fallback to dataset_name)."""
+        from src.utils import prepare_server_wandb_metrics
+
+        per_dataset_results = [
+            {
+                "dataset_name": "test_dataset",
+                "loss": 0.5,
+                "num_examples": 100,
+                "metrics": {"policy_loss": 0.5},
+                # Missing evaldata_id
+            }
+        ]
+
+        result = prepare_server_wandb_metrics(
+            server_round=1,
+            server_loss=0.5,
+            server_metrics={},
+            aggregated_client_metrics={},
+            individual_client_metrics=[],
+            per_dataset_results=per_dataset_results,
+        )
+
+        # Should use sanitized dataset_name as fallback
+        assert result["loss_evaldata_id_test_dataset"] == 0.5
+        assert result["dataset_name_evaldata_id_test_dataset"] == "test_dataset"

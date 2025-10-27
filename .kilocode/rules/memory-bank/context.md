@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-27)**: ✅ **Test fixes completed!** Version bumped to 0.3.4 for critical test fixes. Fixed ImportError issues in test_server_app.py by updating imports for refactored functions (_compute_aggregated_metrics → aggregate_client_metrics, _collect_client_metrics → collect_individual_client_metrics). Removed failing tests for non-existent functions (compute_dynamic_mu, adjust_global_lr_for_next_round, is_spike_risk, prepare_client_context). Fixed pyproject.toml syntax error. All tests pass (119/123, 4 skipped, 36% coverage). Ready for commit.
+**Latest Update (2025-10-27)**: ✅ **Enhanced WandB Server Eval Logging!** Added per-dataset metrics to WandB logging, mirroring JSON structure with evaldata_id-prefixed keys (e.g., `loss_evaldata_id_0`, `policy_loss_evaldata_id_0`). Enables granular tracking of model generalization across individual unseen SO-101 tasks. Backward compatible; no impact on composite metrics or JSON outputs. Tests added and passing. Version bumped to 0.3.5.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
