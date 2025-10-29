@@ -197,7 +197,7 @@ We welcome contributions from the community! At this Beta stage, we're particula
 
 - **Hardware**: LeRobot SO100 or SO101 robotic arm. Contributors can either:
   - Build a DIY arm using the official [LeRobot SO101 repository](https://huggingface.co/docs/lerobot/so101)
-  - Or order a pre-built kit, for example [this one](https://www.ebay.com/itm/357715554253) from Florin who runs the [Austin Robotics Meetup](https://austinrobotics.io/).
+  - Or order a pre-built kit, for example [this one](https://www.ebay.com/str/ovobot) from Florin who runs the [Austin Robotics Meetup](https://austinrobotics.io/).
 - **Compute**: Local machine with RTX 3090 GPU or better, compatible with LeRobot library
 - **Network**: Stable internet connection for federated communication
 - **Data**: Unique training data from your robotics setup
