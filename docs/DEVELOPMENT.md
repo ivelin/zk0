@@ -1,6 +1,6 @@
 # Development Guide
 
-This guide covers development workflows for the zk0 project, including testing, logging, guidelines, and contributing. It extracts key practices from the project setup, with references to the memory bank for deeper constraints (`.kilocode/rules/memory-bank/`).
+This guide covers development workflows for the zk0 project, including testing, logging, guidelines, and contributing. It extracts key practices from the project setup.
 
 For project status and roadmap, see [README.md](README.md). For architecture, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -12,21 +12,8 @@ The project includes a comprehensive test suite built with pytest to ensure reli
 
 ```
 tests/
-├── __init__.py
-├── conftest.py                    # Pytest fixtures and configuration
-├── unit/                          # Unit tests
-│   ├── __init__.py
-│   ├── test_basic_functionality.py # Basic functionality verification
-│   ├── test_dataset_loading.py     # Dataset loading and validation
-│   ├── test_dataset_splitting.py   # Partitioning logic
-│   ├── test_dataset_validation.py  # Timestamp sync and quality checks
-│   ├── test_error_handling.py      # Failure scenarios
-│   ├── test_logger.py              # Logging utilities
-│   ├── test_model_loading.py       # SmolVLA loading
-│   └── test_smolvla_client.py      # Flower API integration
-└── integration/                   # Integration tests
-    ├── __init__.py
-    └── test_integration.py        # End-to-end FL workflow
+├── unit/                          # Unit tests for individual components
+└── integration/                   # Integration tests for end-to-end workflows
 ```
 
 ### Running Tests
@@ -98,8 +85,6 @@ addopts = [
 - **Execution**: Always in Docker (`zk0`) or conda (`zk0`) for consistency.
 - **Parallel**: `pytest -n auto` with coverage reporting.
 
-For full test details, see [memory-bank/tasks.md](.kilocode/rules/memory-bank/tasks.md) (e.g., FedProx debugging workflows).
-
 ## Logging
 
 ### Unified Logging Architecture
@@ -153,13 +138,13 @@ logger.error("Model loading failed: {error}", error=str(e))
 - **Conflicts**: Use serialized GPU mode.
 - **Analysis**: Grep for client_id or round_N.
 
-See [`src/logger.py`](src/logger.py) for implementation. For advanced integration, reference [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md).
+See [`src/logger.py`](src/logger.py) for implementation.
 
 ## Development Guidelines
 
 ### Mandatory Project Constraints
 
-From memory bank – **MANDATORY** for all work:
+The following constraints are mandatory for all work:
 
 1. **Working Directory**: Only within `/home/ivelin/zk0` (project root).
 2. **Environment**: Use conda "zk0" or Docker "zk0" via `train.sh`.
@@ -169,8 +154,6 @@ From memory bank – **MANDATORY** for all work:
 6. **No Mocks in Prod**: Real dependencies; fail-fast on issues.
 7. **Testing**: Integrate into pytest suite; no standalone scripts.
 
-Full list: [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md#project-constraints).
-
 ### Best Practices
 
 - **Code Style**: PEP 8, type hints, docstrings.
@@ -178,18 +161,46 @@ Full list: [memory-bank/architecture.md](.kilocode/rules/memory-bank/architectur
 - **Error Handling**: Raise RuntimeError for missing deps.
 - **Reproducibility**: Pin deps in pyproject.toml; use seeds (e.g., 42).
 - **Tool Usage**: Batch file reads; diff format for edits.
-- **Context**: Read memory bank at task start; update on changes.
+- **Context Management**: Maintain project context through documentation updates and reviews.
 - **Performance**: GPU optimization, AMP; monitor VRAM.
 
 ### Workflow
 
-- **New Task**: Read memory bank; use [Memory Bank Instructions](.kilocode/rules/memory-bank/memory-bank-instructions.md).
+- **New Task**: Follow established development practices.
 - **Edits**: Use apply_diff for targeted changes; full content for new files.
 - **Testing**: Run after changes: `pytest -n auto --cov=src`.
-- **Prepare for Commit**: Standardized workflow for version management, full test suite with coverage, memory bank updates, documentation consistency, and git operations to ensure quality.
-- **CI**: GitHub Actions with consolidated single matrix job for unit and integration tests, Python 3.10 standardization, lerobot CI fixes, no standalone test files, for auto-testing on push/PR.
+- **Prepare for Commit**: Standardized workflow for version management, full test suite with coverage, documentation consistency, and git operations to ensure quality.
+- **CI**: GitHub Actions using Docker-based testing with the project's Dockerfile for isolated, reproducible runs; no caching to prevent space issues; auto-testing on push/PR.
 
-For repetitive tasks (e.g., FedProx tuning), see [memory-bank/tasks.md](.kilocode/rules/memory-bank/tasks.md).
+## CI/CD Pipeline
+
+### Docker-Based Testing
+
+The CI pipeline uses the project's Dockerfile to build a containerized environment for testing, ensuring isolation and reproducibility. This avoids dependency conflicts and space issues from direct pip installs.
+
+#### Local Simulation
+
+To test CI locally:
+
+```bash
+# Build the CI image
+docker build -t zk0-ci .
+
+# Run tests in container (with GPU if available)
+docker run --rm -v $(pwd):/workspace --gpus all zk0-ci \
+  bash -c "cd /workspace && uv pip install -e '.[test]' && pytest tests/ --cov=src --cov-report=xml -n auto"
+
+# Or without GPU
+docker run --rm -v $(pwd):/workspace zk0-ci \
+  bash -c "cd /workspace && uv pip install -e '.[test]' && pytest tests/ --cov=src --cov-report=xml -n auto"
+```
+
+#### Troubleshooting
+
+- **Space Issues**: If Docker runs out of space, prune: `docker system prune -f`
+- **GPU Not Available**: Remove `--gpus all` for CPU-only testing
+- **Build Failures**: Ensure Dockerfile and requirements.txt are up-to-date
+- **Test Failures**: Check logs for missing dependencies or environment issues
 
 ## Contributing
 
@@ -204,6 +215,6 @@ We welcome contributions! At Beta stage, focus on:
   4. Run tests (`pytest`).
   5. Submit PR.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details. Adhere to constraints; suggest memory bank updates for significant changes.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details. Adhere to constraints; suggest improvements for significant changes.
 
-For questions, reference [memory-bank/brief.md](.kilocode/rules/memory-bank/brief.md) or open an issue.
+For questions, see [README.md](README.md) or open an issue.
