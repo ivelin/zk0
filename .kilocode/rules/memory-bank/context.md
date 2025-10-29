@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **Complete Checkpoint Directory HF Push Workflow!** Implemented comprehensive checkpoint directory-based HF Hub push system. Server creates full HF-ready directories with model.safetensors, config.json, tokenizer files, README.md, and metrics.json. Push function uploads entire directories using api.upload_folder(). Eliminates shape mismatches and reconstruction complexity. Standalone script validates and pushes checkpoint directories. Updated documentation and added comprehensive unit tests. Version bumped to 0.3.8.
+**Latest Update (2025-10-29)**: ✅ **CI Fix for Dependency Installation** Updated GitHub Actions CI workflow to use pyproject.toml instead of missing requirements.txt file. Changed dependency installation from `pip install -r requirements.txt` to `pip install -e .` and updated cache keys accordingly. Version bumped to 0.3.9.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
