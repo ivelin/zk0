@@ -143,9 +143,9 @@ clients = [
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
     {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
-    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=3},    
-    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=4},    
-    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=5},    
+    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
+    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    
+    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=4},    
 ]
 
 # Dataset loading configuration
