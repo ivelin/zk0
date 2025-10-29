@@ -13,7 +13,7 @@ jobs:
         include:
           - test-type: all
             python-version: '3.10'
-            test-path: tests/unit/
+            test-path: tests/
             cov-fail-under: 30
             parallel: 4
             flags: all-tests
