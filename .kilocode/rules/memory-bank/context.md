@@ -2,11 +2,11 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **CI Docker Overhaul** Switched GitHub Actions to Docker-based testing using project's Dockerfile for isolation and reproducibility. Disabled pip caching to prevent space exhaustion. Tests run inside container with volume mounts, eliminating dependency conflicts. Updated documentation with CI/CD pipeline section including local simulation commands. Version remains 0.3.12.
+**Latest Update (2025-10-29)**: ✅ **Documentation Enhancements** Updated CONTRIBUTING.md and README.md with hardware setup options for node operators (DIY SO100/101 builds via LeRobot repo and pre-built kits from Austin Robotics Meetup). Moved Node Operators section to README.md for visibility, added "Other Ways to Contribute" list, streamlined Contributing section, removed internal Memory Bank links, moved Share section to bottom, removed checkpoint structure from README.md (moved to RUNNING.md), removed specific version tags. Version incremented to 0.3.13 (patch for docs). CI Docker overhaul remains from previous update.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 
-**Recent Updates Summary (v0.3.12)**:
+**Recent Updates Summary (v0.3.13)**:
 - CI Docker overhaul: Switched to containerized testing with project's Dockerfile for isolation, disabled caching to prevent space issues, updated documentation with CI/CD pipeline section.
 - CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization.
 - Enhanced security with bidirectional SHA256 parameter validation.

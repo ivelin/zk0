@@ -25,6 +25,7 @@ from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
 
 
+@pytest.mark.skipif(os.getenv("CI") == "true", reason="Dataset download not available in CI")
 class TestRealDatasetSplitting:
     """Test dataset splitting with actual LeRobot datasets."""
 

@@ -2,8 +2,6 @@
 
 This document provides advanced technical details on zk0's federated learning implementation (v0.3.11), focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
-**Recent Updates (v0.3.11)**: Advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. New scheduler types (cosine_warm_restarts, reduce_on_plateau), configurable adaptive parameters, and comprehensive validation. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling. CI workflow consolidation and code refactoring for modularity.
-
 ## Federated vs. Centralized Training Comparison
 
 The zk0 system enables rigorous benchmarking between federated and centralized training to evaluate privacy-efficiency trade-offs.
@@ -31,9 +29,7 @@ The zk0 system enables rigorous benchmarking between federated and centralized t
 Example metrics from best FL config (50 rounds, 20 epochs, μ=0.01, LR=0.0005 with dynamic decay):
 - Final Server Policy Loss: 0.923 (min 0.810 at R32; improved from initial 0.152).
 - Client Avg Loss: 0.464 (decline from 3.62).
-- **Best Config**: 20 local epochs, FedProx μ=0.01, LR=0.0005, dynamic_training_decay=true (see experiment results table in memory-bank/context.md).
-
-For full benchmarks, see [memory-bank/context.md](.kilocode/rules/memory-bank/context.md) (run summaries and experiment results table).
+- **Best Config**: 20 local epochs, FedProx μ=0.01, LR=0.0005, dynamic_training_decay=true (see [HYPERPARAMETER_ANALYSIS.md](HYPERPARAMETER_ANALYSIS.md) for detailed analysis).
 
 ## Reproducing Experiments
 
@@ -111,8 +107,6 @@ torch.save(model.state_dict(), "centralized_checkpoint.pt")
       --seed 42
   ```
 - **Statistical Testing**: 95% CI on metrics; expect federated within 10-20% of centralized.
-
-See [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md) for hardware reproducibility.
 
 ## Evaluation Video Recordings and Playback
 
@@ -195,7 +189,6 @@ with open("video_analysis.json", "w") as f:
 - **Visualization**: Upload to [LeRobot Dataset Visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset) for interactive playback.
 - **Progress Tracking**: Videos show improvement (e.g., smoother actions over rounds).
 
-For integration with WandB, see [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md#wandb-integration).
 
 ## Next Steps and Current Configuration
 
@@ -414,11 +407,9 @@ For code, see `src/task.py` (client-side), `src/server_app.py` (server-side). Fu
 - Hyperparam auto-tuning.
 - ZK proofs for verifiable contributions.
 
-See [memory-bank/brief.md](.kilocode/rules/memory-bank/brief.md) for objectives.
 
 ## References
 
-- [Federated Baselines](.kilocode/rules/memory-bank/context.md): Run summaries (e.g., 50-round policy loss 0.923 with dynamic decay; benefits: ~15% less fluctuation, but monitor client dropouts ~15% in long runs).
 - LeRobot: [Evaluation Docs](https://huggingface.co/docs/lerobot/evaluation).
 - Flower: [Simulation Guide](https://flower.ai/docs/framework/how-to-run-simulations.html).
 - Tools: imageio for videos; cv2 for analysis.

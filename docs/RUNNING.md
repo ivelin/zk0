@@ -2,6 +2,8 @@
 
 This guide covers executing the zk0 federated learning simulation, including default and alternative methods, output details, and troubleshooting.
 
+For environment setup and installation, see [INSTALLATION.md](INSTALLATION.md).
+
 ## Default: Conda Environment Execution (Primary - Fast/Flexible)
 
 By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility, making it ideal for development and local testing.
@@ -88,7 +90,20 @@ outputs/date_time/
 │       ├── client.log   # Client-specific logs
 │       └── round_N.json # Client evaluation metrics (policy_loss, etc.)
 └── models/              # Saved model checkpoints
-    └── checkpoint_round_N.safetensors
+    └── checkpoint_round_N/  # Complete HF-compatible directory
+        ├── model.safetensors          # Model weights in safetensors format
+        ├── config.json               # Model configuration
+        ├── README.md                 # Auto-generated model card with training details
+        ├── metrics.json              # Training metrics and insights
+        ├── tokenizer.json            # Tokenizer configuration
+        ├── tokenizer_config.json     # Tokenizer settings
+        ├── special_tokens_map.json   # Special token mappings
+        ├── vocab.json                # Vocabulary
+        ├── merges.txt                # BPE merges (if applicable)
+        ├── generation_config.json    # Text generation settings
+        ├── preprocessor_config.json  # Input preprocessing config
+        ├── policy_preprocessor.json  # SmolVLA policy preprocessor
+        └── policy_postprocessor.json # SmolVLA policy postprocessor
 ```
 
 ### 📊 Automatic Evaluation Chart Generation
@@ -109,22 +124,43 @@ The system automatically generates comprehensive evaluation charts at the end of
 
 ### 💾 Automatic Model Checkpoint Saving
 
-The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis:
+The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis. Each checkpoint is a complete Hugging Face Hub-compatible directory.
 
 #### Checkpoint Saving Configuration
 
 - **Interval-based saving**: Checkpoints saved every N rounds based on `checkpoint_interval` in `pyproject.toml` (default: 5)
 - **Final model saving**: Always saves the final model at the end of training regardless of interval
-- **Format**: Models saved as `.safetensors` files for efficient storage and loading
+- **Format**: Complete directories with `.safetensors` weights and all supporting files
 - **Location**: `outputs/YYYY-MM-DD_HH-MM-SS/models/` directory
 
 #### Example Checkpoint Files
 
 ```
 outputs/2025-01-01_12-00-00/models/
-├── checkpoint_round_5.safetensors     # After round 5
-├── checkpoint_round_10.safetensors    # After round 10
-└── checkpoint_round_20.safetensors    # Final model (end of training)
+├── checkpoint_round_5/     # After round 5
+├── checkpoint_round_10/    # After round 10
+└── checkpoint_round_20/    # Final model (end of training)
+```
+
+#### Checkpoint Directory Structure
+
+Each checkpoint is saved as a complete directory containing all Hugging Face Hub-compatible files:
+
+```
+checkpoint_round_N/
+├── model.safetensors          # Model weights in safetensors format
+├── config.json               # Model configuration
+├── README.md                 # Auto-generated model card with training details
+├── metrics.json              # Training metrics and insights
+├── tokenizer.json            # Tokenizer configuration
+├── tokenizer_config.json     # Tokenizer settings
+├── special_tokens_map.json   # Special token mappings
+├── vocab.json                # Vocabulary
+├── merges.txt                # BPE merges (if applicable)
+├── generation_config.json    # Text generation settings
+├── preprocessor_config.json  # Input preprocessing config
+├── policy_preprocessor.json  # SmolVLA policy preprocessor
+└── policy_postprocessor.json # SmolVLA policy postprocessor
 ```
 
 #### Configuration Options
@@ -150,7 +186,7 @@ from safetensors.torch import load_file
 from src.task import get_model  # Assuming get_model is available
 
 # Load model architecture
-checkpoint_path = "outputs/2025-01-01_12-00-00/models/checkpoint_round_20.safetensors"
+checkpoint_path = "outputs/2025-01-01_12-00-00/models/checkpoint_round_20/model.safetensors"
 state_dict = load_file(checkpoint_path)
 
 # Create model and load weights
@@ -180,4 +216,4 @@ with torch.no_grad():
 
 For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW.md](TECHNICAL-OVERVIEW.md).
 
-If issues persist, ensure you're following the constraints in [INSTALLATION.md](INSTALLATION.md) and the memory bank in `.kilocode/rules/memory-bank/`.
+If issues persist, ensure you're following the constraints in [INSTALLATION.md](INSTALLATION.md) and the development guidelines in [DEVELOPMENT.md](DEVELOPMENT.md).

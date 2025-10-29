@@ -13,7 +13,7 @@ jobs:
         include:
           - test-type: all
             python-version: '3.10'
-            test-path: tests/unit/
+            test-path: tests/
             cov-fail-under: 30
             parallel: auto
             flags: all-tests
@@ -38,11 +38,11 @@ jobs:
           zk0-ci:latest \
           bash -c "
             cd /workspace &&
+            export CI=true &&
             uv pip install -e '.[test]' &&
             pytest ${{ matrix.test-path }} -x --tb=short --durations=10 \
               --cov=src --cov-report=term-missing --cov-report=xml \
-              --cov-fail-under=${{ matrix.cov-fail-under }} -n ${{ matrix.parallel }} \
-              --ignore=tests/unit/test_dataset_splitting.py &&
+              --cov-fail-under=${{ matrix.cov-fail-under }} -n ${{ matrix.parallel }} &&
             cp coverage.xml /coverage/
           "
 
