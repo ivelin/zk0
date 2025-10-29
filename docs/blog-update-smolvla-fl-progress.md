@@ -116,7 +116,6 @@ Here's an updated summary of our FL runs, showing progressive improvements in co
 | 2025-10-09 | 50 | 30 | 0.01 | 0.0005 | 0.918 | ✅ Early best convergence (superseded by later optimized runs) |
 | 2025-10-11 | 1000 | 30 | 0.01 | 0.0005 | 1.088 | ❌ Severe overfitting (stopped at round 4) |
 | 2025-10-12 | 200 | 100 | 0.01 | 0.0005 | 0.570 | ❌ Divergence observed (stopped at round 3) |
-| 2025-10-14 | 50 | 500 | 0.01 | 0.0005 | N/A | ❌ Early stopping triggered (round 16) due to aggressive patience=10 |
 | 2025-10-17 | 20 | 50 | 0.01 | 0.0005 | 0.923 | ✅ Stable convergence with dynamic training decay; minor client dropouts (85% participation) |
 | 2025-10-19 | 20 | 50 | 0.01 (dynamic) | 0.0005 | 0.997 | ✅ Volatile; high initial loss (9.17), oscillates ~1.0; std=1.82 |
 | 2025-10-19 | 20 | 50 | 0.01 (dynamic) | 0.0001 | 0.532 | ✅ Stable; smooth to 0.53; 47% better final, std=0.11 |

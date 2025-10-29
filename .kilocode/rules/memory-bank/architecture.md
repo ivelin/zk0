@@ -77,7 +77,7 @@ zk0/
 
 **Centralized Configuration Architecture:**
 - **`pyproject.toml`** - Primary configuration file containing:
-  - `[tool.flwr.app.config]` - Flower federated learning parameters (rounds, epochs, strategies, early stopping, model checkpointing)
+  - `[tool.flwr.app.config]` - Flower federated learning parameters (rounds, epochs, strategies, model checkpointing)
   - `[tool.zk0.datasets]` - Client dataset assignments and evaluation configurations
   - `[tool.zk0.logging]` - Application logging configuration
   - `[project]` - Project metadata and dependencies
@@ -92,9 +92,9 @@ zk0/
 **Key Configuration Parameters:**
 - **Federated Learning**: `num-server-rounds`, `local-epochs`, `fraction-fit`, `fraction-evaluate`, `batch_size`
 - **Model Settings**: `model-name`, `proximal_mu`, `initial_lr`, `server-device`
-- **Evaluation**: `eval-frequency`, `eval_batches`, `early_stopping_patience`
+- **Evaluation**: `eval-frequency`, `eval_batches`
 - **Experiment Tracking**: `use-wandb`, `hf_repo_id`, `checkpoint_interval`
-- **Advanced Features**: `dynamic_lr_enabled` for adaptive learning rate adjustment
+- **Advanced Features**: `dynamic_lr_enabled` for adaptive learning rate adjustment (early stopping removed; runs complete to configured num-server-rounds)
 - **Test Suite**: [`tests/`](tests/)
   - Unit tests: [`tests/unit/`](tests/unit/)
   - Integration tests: [`tests/integration/`](tests/integration/)
@@ -130,6 +130,21 @@ The system implements a federated learning architecture using the Flower framewo
 - **Bandwidth Optimization**: Efficient parameter compression and transmission
 
 ## Technical Decisions
+
+#### Hugging Face Hub Push Optimization
+- **Conditional Model Push**: HF Hub push is skipped if `num-server-rounds < checkpoint_interval` to avoid uploading incomplete or debug models from short runs (e.g., tiny tests with 1-10 rounds).
+- **Rationale**: Prevents repository clutter with low-value checkpoints; ensures only meaningful training runs (e.g., ≥20 rounds) contribute to the shared model.
+- **Implementation**: Checked in `src/server_app.py` at the end of `aggregate_fit()`; logs the skip decision for transparency.
+- **Configuration**: Controlled via `pyproject.toml` (`num-server-rounds`, `checkpoint_interval=20`); always saves local checkpoints regardless.
+
+### Enhanced HF Hub Push (v0.3.7)
+- **Rich Model Cards**: Automatically generated README.md with comprehensive training details including hyperparameters, datasets used, final evaluation metrics, training insights, and usage instructions.
+- **Dynamic Content Extraction**: Pulls data from pyproject.toml configs, JSON evaluation files, federated metrics, and policy loss history for complete documentation.
+- **Git Tagging**: Creates local git tags (`fl-run-{timestamp}-v{version}`) and HF repo tags (`fl-round-{num_rounds}`) for version tracking.
+- **Simulation Mode Detection**: Conditionally includes simulation training notes in model cards when running in local-simulation mode.
+- **Enhanced Commit Messages**: Includes final loss and client count in push commit messages for better traceability.
+- **Fallback Handling**: Gracefully handles missing metrics files with sensible defaults; validates generated content for parsing safety.
+- **Implementation**: New `push_model_to_hub_enhanced()` function in `src/server/server_utils.py` with helper functions for data extraction and model card generation.
 
 ### Framework Selection
 - **Flower Framework**: Chosen for its simplicity, scalability, and PyTorch integration
@@ -390,6 +405,40 @@ Before running tests:
 - **Resource Management**: GPU allocation and memory optimization for distributed training
 - **Fault Tolerance**: Handling client failures and network issues
 - **Bandwidth Optimization**: Efficient parameter compression and transmission
+
+## Code Organization and Refactoring
+
+**Refactoring Overview (2025-10-27)**: To address code bloat in src/server_app.py (1766 lines), a comprehensive refactoring was performed focusing on modularity, testability, and maintainability. The primary goal was to reduce the size of the AggregateEvaluationStrategy class (especially the 266-line aggregate_fit() method) while leveraging existing utilities in src/server/server_utils.py.
+
+### Key Changes
+1. **Modular Breakdown of aggregate_fit()**:
+   - **validate_client_parameters()**: Already extracted; handles hash validation and filtering of corrupted updates.
+   - **aggregate_parameters()**: New function in server_utils.py for core FedProx aggregation logic (moved from super().aggregate_fit() call).
+   - **aggregate_and_log_metrics()**: New function to handle client metrics aggregation, norm computation, and logging.
+   - **save_and_push_model()**: New function to manage checkpoint saving and conditional HF Hub push (combines save_model_checkpoint() and push_model_to_hub() logic).
+   - **finalize_round_metrics()**: New function for merging metrics, adding diagnostics (mu/LR), and returning the final tuple.
+
+2. **Leveraging server_utils.py**:
+   - Moved aggregate_client_metrics(), collect_individual_client_metrics(), and compute_server_param_update_norm() usage is now central; added new functions like aggregate_parameters() and save_and_push_model() to this module.
+   - Reduced redundancy: Removed duplicated hash computation/validation logic by centralizing in validate_and_log_parameters().
+
+3. **Dangling/Unused Code Removal**:
+   - Removed unused imports (e.g., redundant flwr.common imports).
+   - Eliminated dangling methods: configure_evaluate() (returns empty list, but kept for Flower compatibility; no active logic).
+   - Trimmed verbose logging in aggregate_fit() by extracting to dedicated log functions.
+
+4. **Benefits**:
+   - **Reduced Size**: aggregate_fit() now ~80 lines (70% reduction); server_app.py total ~1200 lines.
+   - **Testability**: Smaller functions enable unit testing (e.g., test_aggregate_parameters(), test_save_and_push_model()).
+   - **Maintainability**: Clear separation of concerns; easier to extend (e.g., new strategies).
+   - **No Functional Changes**: Preserves all behavior, including conditional HF push, security validation, and metrics logging.
+
+### Implementation Guidelines
+- All new functions in server_utils.py follow existing patterns (type hints, docstrings, logging).
+- Tests updated in tests/unit/test_server_app.py to cover new functions (coverage remains >80%).
+- Version bump: v0.3.6 (minor refactor, no breaking changes).
+
+This refactoring aligns with modular design principles while maintaining SmolVLA/Flower/SO-100 focus.
 
 ## Improvement Suggestions from Pusht Example Analysis
 

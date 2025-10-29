@@ -586,7 +586,7 @@ def prepare_server_wandb_metrics(
         server_metrics: Server evaluation metrics dictionary
         aggregated_client_metrics: Aggregated client metrics from last round
         individual_client_metrics: List of individual client metrics from last round
-        per_dataset_results: Optional list of per-dataset evaluation results from server eval
+        server_eval_dataset_results: Optional list of per-dataset evaluation results from server eval
 
     Returns:
         Dictionary of metrics formatted for WandB logging with appropriate prefixes
