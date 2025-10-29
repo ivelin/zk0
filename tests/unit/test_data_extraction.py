@@ -1,6 +1,5 @@
 """Unit tests for data extraction functions."""
 
-import pytest
 from unittest.mock import MagicMock
 
 

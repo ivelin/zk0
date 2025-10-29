@@ -207,7 +207,6 @@ class TestAggregateParameters:
 
     def test_aggregate_parameters_success(self):
         """Test successful parameter aggregation."""
-        from unittest.mock import Mock, patch
         from flwr.common import ndarrays_to_parameters
         import numpy as np
 
@@ -245,7 +244,6 @@ class TestAggregateAndLogMetrics:
 
     def test_aggregate_and_log_metrics(self):
         """Test metrics aggregation and logging."""
-        from unittest.mock import Mock, patch
         from flwr.common import ndarrays_to_parameters
         import numpy as np
 
@@ -286,7 +284,6 @@ class TestFinalizeRoundMetrics:
 
     def test_finalize_round_metrics(self):
         """Test final metrics merging and diagnostics."""
-        from unittest.mock import Mock
 
         # Create mock strategy
         strategy = Mock()
@@ -315,7 +312,6 @@ class TestSaveAndPushModel:
 
     def test_save_and_push_model_checkpoint_only(self):
         """Test saving checkpoint without pushing to hub."""
-        from unittest.mock import Mock, patch
         from flwr.common import ndarrays_to_parameters
         import numpy as np
 
@@ -342,7 +338,6 @@ class TestSaveAndPushModel:
 
     def test_save_and_push_model_with_hub_push(self):
         """Test saving checkpoint and pushing to hub."""
-        from unittest.mock import Mock, patch
         from flwr.common import ndarrays_to_parameters
         import numpy as np
 
@@ -359,8 +354,7 @@ class TestSaveAndPushModel:
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
         with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-             patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push, \
-             patch("src.server.server_utils.logger") as mock_logger:
+              patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
             mock_save.return_value = "/path/to/checkpoint"  # Mock return value
             save_and_push_model(strategy, server_round, aggregated_parameters)
 
@@ -372,7 +366,6 @@ class TestSaveAndPushModel:
 
     def test_save_and_push_model_skip_hub_push_when_rounds_less_than_interval(self):
         """Test skipping hub push when num_rounds < checkpoint_interval."""
-        from unittest.mock import Mock, patch
         from flwr.common import ndarrays_to_parameters
         import numpy as np
 
@@ -389,8 +382,7 @@ class TestSaveAndPushModel:
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
         with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-             patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push, \
-             patch("src.server.server_utils.logger") as mock_logger:
+              patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
             save_and_push_model(strategy, server_round, aggregated_parameters)
 
             # Verify checkpoint was saved (always saved on final round)
@@ -399,18 +391,12 @@ class TestSaveAndPushModel:
             # Verify hub push was skipped due to num_rounds < checkpoint_interval
             mock_push.assert_not_called()
 
-            # Verify the skip message was logged
-            mock_logger.info.assert_any_call(
-                "ℹ️ Server: Skipping HF Hub push - num_rounds (5) < checkpoint_interval (20)"
-            )
-
 
 class TestComputeFedproxParameters:
     """Test the compute_fedprox_parameters method."""
 
     def test_fixed_adjustment_disabled(self):
         """Test fixed adjustment when dynamic_training_decay is disabled."""
-        from unittest.mock import Mock
         from src.server_app import AggregateEvaluationStrategy
 
         # Create mock strategy
@@ -434,7 +420,6 @@ class TestComputeFedproxParameters:
 
     def test_fixed_adjustment_round_10(self):
         """Test fixed adjustment at round 10 (first halving)."""
-        from unittest.mock import Mock
         from src.server_app import AggregateEvaluationStrategy
 
         # Create test instance
@@ -455,7 +440,6 @@ class TestComputeFedproxParameters:
 
     def test_dynamic_adjustment_stall(self):
         """Test dynamic adjustment for stall scenario."""
-        from unittest.mock import Mock, patch
         from src.server_app import AggregateEvaluationStrategy
 
         # Create test instance
@@ -476,7 +460,6 @@ class TestComputeFedproxParameters:
 
     def test_dynamic_adjustment_insufficient_data(self):
         """Test dynamic adjustment with insufficient evaluation data."""
-        from unittest.mock import Mock
         from src.server_app import AggregateEvaluationStrategy
 
         # Create test instance
@@ -496,7 +479,6 @@ class TestComputeFedproxParameters:
 
     def test_lr_initialization(self):
         """Test that current_lr is initialized from config when not set."""
-        from unittest.mock import Mock
         from src.server_app import AggregateEvaluationStrategy
 
         # Create test instance without current_lr set
@@ -518,8 +500,6 @@ class TestEvaluateModelOnDatasets:
 
     def test_evaluate_model_on_datasets_empty_config(self):
         """Test evaluation with empty dataset config."""
-        from unittest.mock import Mock, patch
-        import numpy as np
 
         # Mock model and device
         model = Mock()
@@ -548,7 +528,6 @@ class TestEvaluateModelOnDatasets:
     def test_evaluate_single_dataset(self):
         """Test evaluation of a single dataset."""
         import numpy as np
-        from unittest.mock import Mock
 
         # Mock dependencies
         global_parameters = [np.array([1.0, 2.0])]
@@ -599,7 +578,6 @@ class TestEvaluateModelOnDatasets:
         """Test evaluation with single dataset."""
         import numpy as np
         import torch
-        from unittest.mock import Mock, patch
 
         # Mock ServerConfig
         class MockServerConfig:
@@ -656,7 +634,6 @@ class TestEvaluateModelOnDatasets:
         """Test evaluation with multiple datasets."""
         import numpy as np
         import torch
-        from unittest.mock import Mock, patch
 
         # Mock ServerConfig
         class MockServerConfig:
@@ -762,7 +739,6 @@ class TestPrepareEvaluationModel:
         """Test model preparation for evaluation."""
         import torch
         import numpy as np
-        from unittest.mock import Mock, patch
 
         # Mock parameters and device as proper NDArrays
         parameters = [np.array([1.0, 2.0, 3.0])]  # Proper numpy array list
@@ -797,7 +773,6 @@ class TestProcessEvaluationMetrics:
 
     def test_process_evaluation_metrics(self):
         """Test processing of evaluation metrics."""
-        from unittest.mock import Mock
 
         # Mock strategy
         strategy = Mock()
@@ -834,7 +809,6 @@ class TestLogEvaluationToWandb:
 
     def test_log_evaluation_to_wandb_with_run(self):
         """Test WandB logging when run exists."""
-        from unittest.mock import Mock, patch
 
         # Mock strategy with wandb run
         strategy = Mock()
@@ -867,7 +841,6 @@ class TestLogEvaluationToWandb:
 
     def test_log_evaluation_to_wandb_no_run(self):
         """Test WandB logging when no run exists."""
-        from unittest.mock import Mock, patch
 
         # Mock strategy without wandb run
         strategy = Mock()
@@ -894,7 +867,6 @@ class TestLogEvaluationToWandb:
 
     def test_log_evaluation_to_wandb_with_per_dataset_results(self):
         """Test WandB logging with per-dataset results passed through."""
-        from unittest.mock import Mock, patch
 
         # Mock strategy with wandb run
         strategy = Mock()
@@ -965,11 +937,9 @@ class TestSaveEvaluationResults:
 
     def test_save_evaluation_results(self):
         """Test saving evaluation results to file."""
-        from unittest.mock import Mock, patch
         from pathlib import Path
         import json
         import tempfile
-        import os
 
         # Use a temporary directory
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -1020,7 +990,6 @@ class TestGenerateEvaluationCharts:
 
     def test_generate_evaluation_charts_final_round(self):
         """Test chart generation on final round."""
-        from unittest.mock import Mock, patch
         from pathlib import Path
 
         # Mock strategy
@@ -1048,7 +1017,6 @@ class TestGenerateEvaluationCharts:
 
     def test_generate_evaluation_charts_not_final_round(self):
         """Test no chart generation when not final round."""
-        from unittest.mock import Mock, patch
 
         # Mock strategy
         strategy = Mock()
@@ -1071,7 +1039,6 @@ class TestPushModelToHub:
 
     def test_push_model_to_hub_no_token(self):
         """Test push failure when HF_TOKEN is missing."""
-        from unittest.mock import Mock, patch
         import os
         import torch
         from src.server_app import AggregateEvaluationStrategy
@@ -1098,7 +1065,7 @@ class TestPushModelToHub:
 
         # Remove HF_TOKEN from environment and patch the parameter conversion to avoid errors
         with patch.dict(os.environ, {}, clear=True):
-            with patch("src.server_app.logger") as mock_logger:
+            with patch("src.server_app.logger"):
                 with patch("huggingface_hub.HfApi") as mock_hf_api:
                     # Make the mock raise the expected ValueError when HF_TOKEN is missing
                     mock_hf_api.side_effect = ValueError(

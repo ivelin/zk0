@@ -13,9 +13,15 @@ from src.task import (
     set_params,
     extract_trainable_params,
     get_params,
-    test,
     train,
 )
+
+from src.utils import load_lerobot_dataset
+
+from loguru import logger
+
+from flwr.client import Client, ClientApp, NumPyClient
+from flwr.common import Context
 
 
 def compute_param_update_norm(pre_params, post_params):
@@ -82,14 +88,6 @@ def save_client_round_metrics(
         )
     except Exception as e:
         logger.warning(f"Client {partition_id}: Failed to save per-round metrics: {e}")
-
-
-from src.utils import load_lerobot_dataset
-
-from loguru import logger
-
-from flwr.client import Client, ClientApp, NumPyClient
-from flwr.common import Context
 
 
 # Flower client
@@ -254,7 +252,6 @@ class SmolVLAClient(NumPyClient):
             set_params(self.net, parameters)
 
         # Log pre-training norms (separate trainable vs frozen)
-        from src.task import compute_param_norms
 
         full_norm, full_num, _ = compute_param_norms(self.net, trainable_only=False)
         train_norm, train_num, _ = compute_param_norms(self.net, trainable_only=True)
@@ -550,7 +547,6 @@ def client_fn(context: Context) -> Client:
         raise
 
     # Client-side WandB removed - clients get recycled between rounds
-    wandb_run = None
 
     logger.info(
         f"🏗️ Client {partition_id}: Creating SmolVLAClient with {local_epochs} epochs"

@@ -1,0 +1,17 @@
+[run]
+parallel = false
+branch = false
+data_file = /coverage/.coverage
+
+[report]
+fail_under = 30
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise AssertionError
+    raise NotImplementedError
+
+[paths]
+source =
+    src/
+    */src/

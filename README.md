@@ -12,13 +12,13 @@ Ultimate Goal and Massive Transformative Purpose:
 
 ## 🚀 **Latest Model Release**
 
-The zk0 v0.3.11 SmolVLA Federated Learning model is now available on Hugging Face Hub!
+The zk0 SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
 You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
 
 For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Update: SmolVLA Federated Learning Progress](https://open.substack.com/pub/ivelin117/p/update-smolvla-federated-learning?r=42d25&utm_campaign=post&utm_medium=web), which includes WandB visualizations.
 
-- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.3.11)
+- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
 - **Training**: 250 rounds of federated learning with FedProx (μ=0.01, dynamic LR/MU scheduling)
 - **Final Policy Loss**: 0.495
 - **Clients**: 4 clients on diverse SO-100 robotics tasks
@@ -56,7 +56,7 @@ AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1
 
 Join our Discord server to connect with other contributors, ask questions, and stay updated on the latest developments:
 
-[Join zk0 Discord](https://discord.gg/uue3uKSA)
+[Join zk0 Discord](https://discord.gg/dhMnEne7RP)
 
 For more detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
@@ -66,13 +66,13 @@ zk0 is composed of several major building blocks:
 
 - Physical Embodiment:
   * Open Source 3D printed robot parts
-  * Base 3D model so100 series from [HuggingFace LeRobot](https://huggingface.co/lerobot)
+  * Base: 3D model so100 series from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Generative AI:
   * End-to-end Vision Language Action models.
-  * Base SmolVLA model from [HuggingFace LeRobot](https://huggingface.co/lerobot)
+  * Base: SmolVLA model from [HuggingFace LeRobot](https://huggingface.co/lerobot)
 - Federated Learning:
   * Distributed network of nodes contributing local data and training compute to a shared model.
-  * FL framework: [Flower](https://flower.ai/)
+  * Base: [Flower FL framework](https://flower.ai/)
 
 ## Roadmap
 
@@ -85,10 +85,6 @@ zk0 is composed of several major building blocks:
   * Immutable contribution history
   * Programmable network participation rules, incentives and project governance
   * Hosting blockchain: TBD
-
-## Share
-
-![image](https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f)
 
 ## Quick Start
 
@@ -111,7 +107,6 @@ conda activate zk0
 conda install ffmpeg=7.1.1 -c conda-forge
 
 # Install deps
-pip install -r requirements.txt
 pip install -e .
 
 # Env vars
@@ -146,26 +141,6 @@ conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/che
 conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30 --repo-id your-username/your-model
 ```
 
-#### Checkpoint Directory Structure
-
-Each checkpoint is saved as a complete directory containing all Hugging Face Hub-compatible files:
-
-```
-checkpoint_round_N/
-├── model.safetensors          # Model weights in safetensors format
-├── config.json               # Model configuration
-├── README.md                 # Auto-generated model card with training details
-├── metrics.json              # Training metrics and insights
-├── tokenizer.json            # Tokenizer configuration
-├── tokenizer_config.json     # Tokenizer settings
-├── special_tokens_map.json   # Special token mappings
-├── vocab.json                # Vocabulary
-├── merges.txt                # BPE merges (if applicable)
-├── generation_config.json    # Text generation settings
-├── preprocessor_config.json  # Input preprocessing config
-├── policy_preprocessor.json  # SmolVLA policy preprocessor
-└── policy_postprocessor.json # SmolVLA policy postprocessor
-```
 
 - **Defaults**: 500 rounds, 4 clients, SO-100/SO-101 datasets.
 - **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoint directories, videos.
@@ -181,7 +156,7 @@ checkpoint_round_N/
 
 ## Project Status
 
-### 🚀 Current Stage: Beta (v0.3.11)
+### 🚀 Current Stage: Beta
 
 Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization, and removed redundant artifacts. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
 
@@ -189,7 +164,7 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates:
 
 - ✅ Core Infrastructure: Flower 1.20.0 + Ray 2.31.0 + LeRobot 0.3.0.
 - ✅ Client Implementation: SmolVLA training, dataset partitioning.
-- ✅ Testing: 80%+ coverage, unit/integration suites.
+- ✅ Testing: 30%+ coverage, unit/integration suites.
 - ✅ CI/CD: GitHub Actions, auto-testing.
 - ✅ Config/Tooling: YAML datasets, env management.
 - ✅ Enhanced Security: Bidirectional SHA256 parameter validation.
@@ -212,7 +187,34 @@ Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baseli
 - [Development](docs/DEVELOPMENT.md): Testing, logging, guidelines.
 - [Technical Overview](docs/TECHNICAL-OVERVIEW.md): Comparisons, reproducibility, videos.
 
-Internal: `.kilocode/rules/memory-bank/` (e.g., [brief.md](.kilocode/rules/memory-bank/brief.md)).
+## Contributing
+
+We welcome contributions from the community! At this Beta stage, we're particularly interested in:
+
+### Node Operators
+
+#### Requirements
+
+- **Hardware**: LeRobot SO100 or SO101 robotic arm. Contributors can either:
+  - Build a DIY arm using the official [LeRobot SO101 repository](https://huggingface.co/docs/lerobot/so101)
+  - Or order a pre-built kit, for example [this one](https://www.ebay.com/itm/357715554253) from Florin who runs the [Austin Robotics Meetup](https://austinrobotics.io/).
+- **Compute**: Local machine with RTX 3090 GPU or better, compatible with LeRobot library
+- **Network**: Stable internet connection for federated communication
+- **Data**: Unique training data from your robotics setup
+
+If you meet these requirements, we'd love for you to join as a node operator. Your unique training data and compute resources will help improve the federated learning system. For detailed setup instructions, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+### Other Ways to Contribute
+
+There are several ways you can contribute to this project:
+
+1. **Node Operators**: Join the federated network with your hardware and data
+2. **Code Contributors**: Improve the codebase, add features, fix bugs
+3. **Documentation**: Help improve documentation and tutorials
+4. **Testing**: Report bugs, test new features, improve test coverage
+5. **Feedback**: Share your experience and suggestions
+
+For more details on each, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Social Media
 
@@ -224,32 +226,14 @@ Internal: `.kilocode/rules/memory-bank/` (e.g., [brief.md](.kilocode/rules/memor
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br><br>This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br><br>In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-## Contributing
 
-We welcome contributions from the community! At this Beta stage, we're particularly interested in:
-
-### Node Operators
-
-If you have access to a LeRobot SO100 arm (or the newer SO101 version) and a local machine with an RTX 3090 GPU or better compatible with the LeRobot library, we'd love for you to join as a node operator. Your unique training data and compute resources will help improve the federated learning system.
-
-### Code Contributors
-
-We're also looking for developers to help with:
-- Bug fixes and improvements
-- Documentation enhancements
-- New feature development
-- Testing and quality assurance
-
-### Getting Started
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
 
 
 ---
 
-**License**: [LICENSE](LICENSE)  
-**Repository**: [GitHub](https://github.com/ivelin/zk0)  
-**Memory Bank**: Internal docs in `.kilocode/rules/memory-bank/` for contributors.
+## Share
+
+![image](https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f)
+
+**License**: [LICENSE](LICENSE)
+**Repository**: [GitHub](https://github.com/ivelin/zk0)

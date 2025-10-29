@@ -1,10 +1,6 @@
 # Architecture Overview
 
-This document provides a detailed overview of the zk0 project's architecture (v0.3.11), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
-
-**Recent Updates (v0.3.11)**: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization. Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Code refactoring for modularity (70% reduction in aggregate_fit method size), conditional HF push logic to avoid incomplete model uploads.
-
-For the full system architecture, including directory structure and configuration, see [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md).
+This document provides a detailed overview of the zk0 project's architecture (v0.3.11), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation.
 
 ## Overview
 
@@ -12,10 +8,28 @@ The zk0 project implements a federated learning architecture using the Flower fr
 
 Key goals:
 - Privacy: No raw data leaves client environments.
-- Scalability: Supports multiple clients with heterogeneous data.
+- Scalability: Supports large number of clients with heterogeneous data.
+- Breadth: Enable contributions of edge cases from many diverse environments that no single contributor has access to alone.
 - Efficiency: Optimized for GPU/CPU, with automatic device detection.
 
 The architecture is modular, drawing from Flower's quickstart-lerobot example but adapted for SmolVLA and multi-repo datasets.
+
+## Directory Structure
+
+```
+zk0/
+├── .github/                     # GitHub workflows and configurations
+├── .kilocode/                   # Kilo Code configuration and rules
+├── docs/                        # Project documentation and images
+│   └── images/                  # Images for documentation
+├── src/                         # Source code modules
+│   ├── configs/                 # Dataset and configuration files
+│   └── server/                  # Server utilities and strategies
+├── tests/                       # Unit and integration test suites
+│   ├── integration/             # End-to-end federated learning tests
+│   └── unit/                    # Individual component tests
+└── outputs/                     # Generated outputs from runs
+```
 
 ## Core Components
 
@@ -29,7 +43,6 @@ The architecture is modular, drawing from Flower's quickstart-lerobot example bu
 - **Parameter Exchange**: Secure transmission of model updates to the server.
 - **Implementation**: [`src/client_app.py`](src/client_app.py) extends Flower's NumPyClient.
 
-See [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md) for SmolVLA details.
 
 ### Server Layer
 - **Aggregation Engine**: Flower's FedProx strategy for parameter aggregation.
@@ -115,7 +128,6 @@ This diagram captures the iterative cycle: model distribution, local training, a
 - **FedProx Benefits**: Stabilizes convergence on heterogeneous data.
 - Benchmarks: 78.3% SO-100 success rate; 30% faster async inference.
 
-See [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md) for directory structure and configs.
 
 ## Data Source and Loading
 
@@ -175,7 +187,10 @@ dataset = LeRobotDataset(repo_id="lerobot/svla_so100_pickplace", tolerance_s=0.0
 For implementation details, see source files like [`src/task.py`](src/task.py) for training/eval logic.
 
 ## References
-- [Memory Bank Architecture](.kilocode/rules/memory-bank/architecture.md): Full system design.
-- [Tech Stack](.kilocode/rules/memory-bank/tech.md): Dependencies and setup.
 - Flower Docs: [Quickstart-LeRobot](https://flower.ai/docs/examples/quickstart-lerobot.html).
 - LeRobot: [SmolVLA](https://huggingface.co/docs/lerobot/smolvla).
+- [TECHNICAL-OVERVIEW.md](TECHNICAL-OVERVIEW.md) for advanced technical details and evaluation mechanisms.
+- [DEVELOPMENT.md](DEVELOPMENT.md) for development guidelines and testing.
+- [HYPERPARAMETER_ANALYSIS.md](HYPERPARAMETER_ANALYSIS.md) for hyperparameter tuning and analysis.
+- [INSTALLATION.md](INSTALLATION.md) for environment setup.
+- [RUNNING.md](RUNNING.md) for execution instructions.

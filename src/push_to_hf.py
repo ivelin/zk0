@@ -20,12 +20,8 @@ Examples:
     python -m zk0.push_to_hf /path/to/my/checkpoint/dir --repo-id myuser/my-model
 """
 
-import os
 import argparse
 from pathlib import Path
-from huggingface_hub import HfApi
-import json
-from datetime import datetime
 
 # Load environment variables
 try:
@@ -55,8 +51,6 @@ def push_to_hf(
         Exception: If upload fails
     """
     from src.server.server_utils import push_model_to_hub_enhanced
-    from pathlib import Path
-    import os
 
     # Load environment variables
     try:

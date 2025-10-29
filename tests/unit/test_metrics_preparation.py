@@ -1,6 +1,5 @@
 """Unit tests for in-memory metrics preparation functions."""
 
-import pytest
 from unittest.mock import patch, MagicMock
 import tempfile
 from pathlib import Path
@@ -75,7 +74,7 @@ class TestInMemoryExtractFinalMetrics:
             }
 
             # Call save_model_checkpoint (which uses in-memory extraction)
-            checkpoint_dir = save_model_checkpoint(mock_strategy, mock_parameters, 2)
+            save_model_checkpoint(mock_strategy, mock_parameters, 2)
 
             # Verify generate_model_card was called with correct metrics
             mock_generate.assert_called_once()

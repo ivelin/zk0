@@ -1,6 +1,5 @@
 """Unit tests for checkpoint saving functions."""
 
-import pytest
 from unittest.mock import patch, MagicMock, mock_open
 import tempfile
 from pathlib import Path
@@ -59,11 +58,11 @@ class TestSaveModelCheckpoint:
         mock_parameters = MagicMock()
 
         with patch("flwr.common.parameters_to_ndarrays") as mock_ndarrays, \
-              patch("builtins.open", mock_open()) as mock_file:
+              patch("builtins.open", mock_open()):
 
             mock_ndarrays.return_value = [np.array([1.0, 2.0])]
 
-            checkpoint_dir = save_model_checkpoint(mock_strategy, mock_parameters, 2)
+            save_model_checkpoint(mock_strategy, mock_parameters, 2)
 
             # Verify in-memory usage
             # mock_compute_insights.assert_called_once_with(mock_strategy)
@@ -111,7 +110,7 @@ class TestSaveModelCheckpoint:
             mock_insights.return_value = {"convergence_trend": "N/A", "avg_client_loss_trend": "N/A", "client_participation_rate": "N/A", "anomalies": []}
             mock_generate.return_value = "# Empty Model Card"
 
-            checkpoint_dir = save_model_checkpoint(mock_strategy, mock_parameters, 2)
+            save_model_checkpoint(mock_strategy, mock_parameters, 2)
 
             # Verify fallbacks to N/A/empty
             mock_generate.assert_called_once()

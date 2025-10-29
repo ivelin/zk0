@@ -1,9 +1,7 @@
 """Integration tests for SmolVLA federated learning - focused on real Flower API integration."""
 
 import pytest
-import numpy as np
 
-from src.client_app import SmolVLAClient
 
 # Import LeRobot for real dataset testing
 # TorchCodec import removed - not required for basic functionality

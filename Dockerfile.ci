@@ -1,5 +1,5 @@
-# Use the official LeRobot GPU base image
-FROM huggingface/lerobot-gpu:latest
+# Use the official LeRobot CPU base image for CI compatibility
+FROM huggingface/lerobot-cpu:latest
 
 # Install OpenCV for video processing in LeRobot datasets
 

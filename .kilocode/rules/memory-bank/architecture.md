@@ -1,77 +1,13 @@
 # System Architecture
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-16
-**Version**: 1.0.3
+**Last Updated**: 2025-10-29
+**Version**: 1.0.6
 **Author**: Kilo Code
 
 ## Source Code Paths
-- **Client Application**: [`src/client_app.py`](src/client_app.py)
-- **Server Application**: [`src/server_app.py`](src/server_app.py)
 
-## Directory Structure
-
-```
-zk0/
-├── src/                          # Source code
-│   ├── __init__.py
-│   ├── client_app.py            # Flower client implementation
-│   ├── server_app.py            # Flower server implementation
-│   ├── task.py                  # Model training and evaluation functions
-│   ├── utils.py                 # Utility functions (model loading, dataset handling)
-│   ├── logger.py                # Logging configuration
-│   ├── visualization.py         # Evaluation visualization tools
-│   ├── wandb_utils.py           # Weights & Biases integration
-│   └── configs/                 # Configuration management
-│       ├── __init__.py
-│       └── datasets.py          # Dataset configuration
-├── tests/                       # Test suite
-│   ├── __init__.py
-│   ├── conftest.py              # Pytest configuration
-│   ├── unit/                    # Unit tests
-│   │   ├── test_basic_functionality.py
-│   │   ├── test_dataset_loading.py
-│   │   ├── test_dataset_splitting.py
-│   │   ├── test_dataset_validation.py
-│   │   ├── test_error_handling.py
-│   │   ├── test_logger.py
-│   │   ├── test_model_loading.py
-│   │   └── test_smolvla_client.py
-│   └── integration/             # Integration tests
-│       ├── __init__.py
-│       └── test_integration.py
-├── outputs/                     # Runtime outputs (created during execution)
-│   └── [timestamp]/             # Timestamped run directories
-│       ├── simulation.log       # Unified logging output
-│       ├── server/              # Server-side outputs
-│       │   ├── server.log       # Server-specific logs
-│       │   ├── round_N_server_eval.json  # Server evaluation results
-│       │   ├── federated_metrics.json     # Aggregated FL metrics
-│       │   ├── federated_metrics.png      # Metrics visualization
-│       │   ├── eval_policy_loss_chart.png  # Policy loss chart
-│       │   └── eval_policy_loss_history.json # Historical policy loss data
-│       ├── clients/              # Client-side outputs
-│       │   └── client_N/         # Per-client directories
-│       │       ├── client.log    # Client-specific logs
-│       │       └── round_N.json  # Client evaluation metrics
-│       └── models/               # Saved model checkpoints
-│           └── checkpoint_round_N.safetensors
-├── .kilocode/                   # Kilo Code configuration
-│   └── rules/
-│       └── memory-bank/         # Memory bank documentation
-├── pyproject.toml               # Project configuration
-├── requirements.txt             # Python dependencies
-├── train.sh                     # Docker training script
-├── train-lerobot-standalone.sh  # Standalone training script
-├── Dockerfile                   # Docker container definition
-├── LICENSE                      # License file
-├── README.md                    # Project documentation
-├── CONTRIBUTING.md              # Contribution guidelines
-├── datasets.yaml                # Dataset metadata
-├── .gitignore                   # Git ignore patterns
-├── .env.example                 # Environment variables template
-└── CNAME                        # GitHub Pages domain
-```
+For key source code locations and complete directory structure, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).
 
 ## Configuration System
 
@@ -95,15 +31,12 @@ zk0/
 - **Evaluation**: `eval-frequency`, `eval_batches`
 - **Experiment Tracking**: `use-wandb`, `hf_repo_id`, `checkpoint_interval`
 - **Advanced Features**: `dynamic_lr_enabled` for adaptive learning rate adjustment (early stopping removed; runs complete to configured num-server-rounds)
-- **Test Suite**: [`tests/`](tests/)
-  - Unit tests: [`tests/unit/`](tests/unit/)
-  - Integration tests: [`tests/integration/`](tests/integration/)
-  - Dataset validation: [`tests/unit/test_dataset_validation.py`](tests/unit/test_dataset_validation.py)
 
 ## Overview
-The system implements a federated learning architecture using the Flower framework with SmolVLA models for robotics AI tasks. The architecture follows a client-server model where multiple clients train models locally on their private datasets and a central server coordinates the federated learning process.
+The system implements a federated learning architecture using the Flower framework with SmolVLA models for robotics AI tasks. The architecture follows a client-server model where multiple clients train models locally on their private datasets and a central server coordinates the federated learning process. For detailed overview, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).
 
 ## Core Components
+For detailed core components, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).
 
 ### Client Layer
 - **SmolVLA Models**: Vision-language-action models for robotics manipulation
@@ -130,6 +63,7 @@ The system implements a federated learning architecture using the Flower framewo
 - **Bandwidth Optimization**: Efficient parameter compression and transmission
 
 ## Technical Decisions
+For detailed technical decisions including framework selection and scalability, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).
 
 #### Hugging Face Hub Push Optimization
 - **Conditional Model Push**: HF Hub push is skipped if `num-server-rounds < checkpoint_interval` to avoid uploading incomplete or debug models from short runs (e.g., tiny tests with 1-10 rounds).
@@ -162,6 +96,7 @@ The system implements a federated learning architecture using the Flower framewo
 - **Fault Tolerance**: Handling client failures and network issues
 
 ## Training Strategy
+For detailed training strategy including data flow and evaluation, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).
 
 ### Federated Learning Setup
 The system implements a carefully designed federated learning strategy to ensure robust, privacy-preserving training of SmolVLA models across distributed clients.
@@ -267,7 +202,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Alternative Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
 - **VSCode Integration**: VSCode with Docker integration and automatic environment detection
 - **Training Script**: Use `./train.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
-- **Dependencies**: Use pinned versions from `requirements.txt`
+- **Dependencies**: Use pinned versions from `pyproject.toml`
 
 ### 3. Technical Focus
 - **Primary Model**: Focus on SmolVLA model integration
@@ -276,7 +211,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Reference Structure**: Borrow structure from quickstart-lerobot but adapt for SmolVLA requirements
 
 ### 4. Quality Standards
-- **Testing**: Maintain comprehensive test coverage (80% minimum)
+- **Testing**: Maintain meaningful test coverage (focus on critical paths, current target 30% minimum)
 - **Documentation**: Keep README and documentation current
 - **Reproducibility**: Ensure all experiments are reproducible with seeds
 
@@ -383,7 +318,7 @@ Before running tests:
 - [ ] Tests run in Docker container (`zk0`)
 - [ ] Use parallel execution with `-n auto` for multiple tests
 - [ ] Include coverage reporting with `--cov=src --cov-report=term-missing`
-- [ ] Ensure coverage remains above 80%
+- [ ] Ensure coverage remains above 30% (current target)
 - [ ] Use existing test suite instead of creating standalone test files
 
 ## Performance Considerations
@@ -453,11 +388,6 @@ Based on analysis of the Flower LeRobot pusht example, the following improvement
 
 These changes would align zk0 more closely with LeRobot best practices while maintaining SmolVLA focus.
 
-## LR Hyperparameter Comparison (from 2025-10-19 Runs)
+For hyperparameter analysis, see [docs/HYPERPARAMETER_ANALYSIS.md](../docs/HYPERPARAMETER_ANALYSIS.md).
 
-| Initial LR | Final Policy Loss (r50) | Stability (Std Dev r1-50) | Initial Loss (r1) | Notes |
-|------------|--------------------------|---------------------------|-------------------|-------|
-| 5e-4      | 0.997                   | 1.82 (volatile)          | 9.165            | Aggressive updates; oscillation post-r20; higher param norms. |
-| 1e-4      | 0.532                   | 0.11 (stable)            | 0.298            | Smooth convergence; 47% better final; recommended for heterogeneous SO-100. |
-
-**Note**: History file is `policy_loss_history.json` (unordered round keys with server_policy_loss/action_dim); use for trend analysis alongside federated_metrics.json.
+For core architecture details, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).

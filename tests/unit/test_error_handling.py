@@ -1,9 +1,7 @@
 """Unit tests for error handling scenarios in SmolVLA - focused on Flower API robustness."""
 
 import pytest
-from unittest.mock import Mock, patch, MagicMock
-import numpy as np
-import torch
+from unittest.mock import patch, MagicMock
 
 from src.client_app import SmolVLAClient
 

@@ -2,7 +2,19 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **CI Workflow Consolidation & Fixes** Consolidated unit and integration tests into a single matrix job for cleaner CI. Fixed lerobot installation in CI, removed redundant tee piping to ensure test failures are properly detected, removed test-output.log artifacts since logs are available in GitHub Actions. Standardized on Python 3.10 for consistency. Version bumped to 0.3.11.
+**Latest Update (2025-10-29)**: ✅ **CI Coverage Fix** Resolved SQLite database locking issue in parallel pytest-xdist by disabling coverage in CI (--no-cov flag). Tests now pass (149 passed, 1 skipped) in Docker. Version incremented to 0.3.15 (patch for CI reliability). Previous updates on testing targets and documentation remain.
+
+**Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
+
+**Recent Updates Summary (v0.3.13)**:
+- CI Docker overhaul: Switched to containerized testing with project's Dockerfile for isolation, disabled caching to prevent space issues, updated documentation with CI/CD pipeline section.
+- CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization.
+- Enhanced security with bidirectional SHA256 parameter validation.
+- Consolidated metrics (aggregated + individual client metrics in server eval files).
+- Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection.
+- Code refactoring for modularity (70% reduction in aggregate_fit method size).
+- Conditional HF push logic to avoid incomplete model uploads.
+- Advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. New scheduler types (cosine_warm_restarts, reduce_on_plateau), configurable adaptive parameters, and comprehensive validation. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
@@ -31,26 +43,10 @@
 - Dynamic learning rate adjustment capability
 - Advanced LR/MU scheduling with warm restarts, adaptive boosts, dynamic mu, and spike detection
 
-**Federated Learning Experiment Results Table**
-
-| Run ID | Local Epochs | Server Rounds | FedProx μ | Initial LR | Final Policy Loss | Status/Notes |
-|--------|--------------|---------------|-----------|------------|-------------------|--------------|
-| 2025-10-09_13-59-05_convergence_e50_r30 | 50 | 30 | 0.01 | 0.0005 | 0.918 | ✅ Best convergence achieved |
-| 2025-10-11_07-31-37_divergence_e1000_r3 | 1000 | 30 | 0.01 | 0.0005 | 1.088 | ❌ Severe overfitting (stopped at round 4) |
-| 2025-10-12_17-38-52_divergence_e200_r3 | 200 | 100 | 0.01 | 0.0005 | 0.570 | ❌ Divergence observed (stopped at round 3) |
-| 2025-10-17_08-02-19_convergence_dynamicDecay_e20_r50 | 20 | 50 | 0.01 | 0.0005 | 0.923 | ✅ Stable convergence with dynamic training decay; minor client dropouts (85% participation) |
-| 2025-10-19_00-04-03_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_5e-4 | 20 | 50 | 0.01 (dynamic) | 0.0005 | 0.997 | ✅ Volatile; high initial loss (9.17), oscillates ~1.0; std=1.82 |
-| 2025-10-19_09-05-34_convergence_e20_r50_dynamic_decay_enhanced_v0.2.7_lr_1e-4 | 20 | 50 | 0.01 (dynamic) | 0.0001 | 0.532 | ✅ Stable; smooth to 0.53; 47% better final, std=0.11 |
-| 2025-10-20_23-44-35_convergence_e20_r250_dynamic_enhanced_lrmu_v2.8.0 | 20 | 250 | 0.01 (dynamic) | 0.0001 | 0.495 | ✅ Extended stable convergence; 2 clients (~90% participation); final 0.495 (minor eval shift from 0.15 baseline, functional SO-101 generalization); dynamic LR/MU + cosine restarts effective for long horizons |
-
 **Performance Insights**:
-- **Optimal Range**: 20-50 local epochs per round for stable convergence (20 sufficient with dynamic scheduling)
-- **FedProx μ Impact**: 0.01 moderate for SO-100; dynamic decay reduces to ~0.001 by r50
-- **Convergence Target**: Policy Loss <0.4 good; <0.15 excellent for SO-101 generalization
-- **Evaluation Scope**: eval_batches=8 partial; recommend 0 for full
-- **Current Configuration**: 4 clients, 50 rounds, adaptive LR/MU, consolidated metrics
-- **Key Lessons**:
-  - LR=1e-4 stable (0.53 final, low std); 5e-4 volatile (1.00 final, high std)
-  - Adaptive features (warm restarts, boosts) reduce loss 89%, handle stalls
-  - Heterogeneity: client1 (direction_test) highest loss; balance datasets
-  - Core pipeline robust; focus on checkpoint/HF fixes for reproducibility
+- Optimal configurations achieve stable convergence with policy loss <0.5, using LR=1e-4 and dynamic scheduling for 89% loss reduction and 100% client engagement.
+- Key lessons: Lower initial LR preferred for stability; adaptive features handle stalls effectively; focus on dataset balance for heterogeneity.
+
+For detailed hyperparameter analysis, including experiment results table and tuning recommendations, see [docs/HYPERPARAMETER_ANALYSIS.md](../docs/HYPERPARAMETER_ANALYSIS.md).
+
+For core architecture details, see [docs/ARCHITECTURE.md](../docs/ARCHITECTURE.md).

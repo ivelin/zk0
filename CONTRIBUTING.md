@@ -25,45 +25,6 @@ There are several ways you can contribute to this project:
 4. **Testing**: Report bugs, test new features, improve test coverage
 5. **Feedback**: Share your experience and suggestions
 
-## Node Operators
-
-At this Beta stage, we're particularly interested in node operators who can contribute to the federated learning network.
-
-### Requirements
-
-- **Hardware**: LeRobot SO100 arm (or newer SO101 version)
-- **Compute**: Local machine with RTX 3090 GPU or better, compatible with LeRobot library
-- **Network**: Stable internet connection for federated communication
-- **Data**: Unique training data from your robotics setup
-
-### Getting Started as a Node Operator
-
-1. **Hardware Setup**:
-   - Assemble and calibrate your LeRobot arm according to the official documentation
-   - Ensure your GPU drivers are up to date
-   - Verify LeRobot library compatibility
-
-2. **Software Setup**:
-   - Follow the installation instructions in the main README.md
-   - Configure your environment variables
-   - Test the basic functionality with simulation mode
-
-3. **Join the Network**:
-   - Contact the project maintainers to get setup instructions
-   - Provide details about your hardware configuration
-   - Receive authentication credentials for the federated network
-
-4. **Contribute Data**:
-   - Collect unique robotics manipulation data
-   - Ensure data quality and annotation accuracy
-   - Participate in federated training rounds
-
-### Node Operator Responsibilities
-
-- Maintain hardware availability during agreed training windows
-- Ensure data privacy and security compliance
-- Monitor training performance and report issues
-- Participate in regular network health checks
 
 ## Code Contributors
 
@@ -82,7 +43,6 @@ We welcome code contributions to improve the project. Here's how to get started:
    cd <project-directory>
    conda create -n zk0 python=3.10 -y
    conda activate zk0
-   pip install -r requirements.txt
    pip install -e .
    ```
 
