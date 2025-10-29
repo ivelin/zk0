@@ -14,6 +14,7 @@ else:
 @dataclass
 class ClientConfig:
     """Configuration for a single FL client."""
+
     name: str
     description: str
     client_id: int
@@ -22,14 +23,16 @@ class ClientConfig:
 @dataclass
 class ServerConfig:
     """Configuration for server evaluation dataset."""
+
     name: str
     description: str
-    first_n_episodes_for_eval: int
+    evaldata_id: int
 
 
 @dataclass
 class DatasetConfig:
     """Configuration for all FL datasets."""
+
     clients: List[ClientConfig]
     server: List[ServerConfig]
 
@@ -43,7 +46,9 @@ class DatasetConfig:
             pyproject_data = tomllib.load(f)
 
         # Extract datasets configuration
-        datasets_config = pyproject_data.get("tool", {}).get("zk0", {}).get("datasets", {})
+        datasets_config = (
+            pyproject_data.get("tool", {}).get("zk0", {}).get("datasets", {})
+        )
         clients_data = datasets_config.get("clients", [])
         server_data = datasets_config.get("server", [])
 

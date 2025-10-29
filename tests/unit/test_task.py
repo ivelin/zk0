@@ -1,8 +1,11 @@
 """Unit tests for src/task.py functions."""
 
+import numpy as np
+
 import pytest
 import torch
 from unittest.mock import Mock, patch, MagicMock
+import numpy as np
 
 
 class TestResetLearningRateScheduler:
@@ -75,66 +78,51 @@ class TestResetLearningRateScheduler:
         assert optimizer.param_groups[0]["lr"] == 0.0005
 
 
-class TestComputeDynamicLrAdjustment:
-    """Test the compute_dynamic_lr_adjustment function."""
 
-    def test_insufficient_data(self):
-        """Test with insufficient data (less than 3 losses)."""
-        from src.task import compute_dynamic_lr_adjustment
 
-        result_lr, reason = compute_dynamic_lr_adjustment([1.0, 2.0], 0.0005)
-        assert result_lr == 0.0005
-        assert reason == "insufficient_data"
-
-    def test_stall_detection(self):
-        """Test detection of stalling (less than 1% improvement)."""
-        from src.task import compute_dynamic_lr_adjustment
-
-        # Losses: 1.0 → 0.995 → 0.994 (0.5% improvement over 3 rounds)
-        losses = [1.0, 0.995, 0.994]
-        result_lr, reason = compute_dynamic_lr_adjustment(losses, 0.0005)
-        assert result_lr == 0.0004  # 0.0005 * 0.8
-        assert "stall_detected" in reason
-
-    def test_divergence_detection(self):
-        """Test detection of divergence (loss increase >5%)."""
-        from src.task import compute_dynamic_lr_adjustment
-
-        # Losses: 1.0 → 1.02 → 1.08 (8% increase over 3 rounds)
-        losses = [1.0, 1.02, 1.08]
-        result_lr, reason = compute_dynamic_lr_adjustment(losses, 0.0005)
-        assert (
-            result_lr == 0.0004
-        )  # 0.0005 * 0.8 (stall detection due to negative improvement)
-        assert "stall_detected" in reason
-
-    def test_stable_progress(self):
-        """Test stable progress (no adjustment needed)."""
-        from src.task import compute_dynamic_lr_adjustment
-
-        # Losses: 1.0 → 0.95 → 0.91 (9% improvement over 3 rounds)
-        losses = [1.0, 0.95, 0.91]
-        result_lr, reason = compute_dynamic_lr_adjustment(losses, 0.0005)
-        assert result_lr == 0.0005
-        assert reason == "stable_progress"
-
-    def test_lr_clamping(self):
-        """Test LR clamping to min/max bounds."""
-        from src.task import compute_dynamic_lr_adjustment
-
-        # Test min clamping
-        losses = [1.0, 0.995, 0.994]  # Stall
-        result_lr, _ = compute_dynamic_lr_adjustment(losses, 1e-6)  # Very low LR
-        assert result_lr == 1e-5  # Min LR
-
-        # Test max clamping
-        losses = [
-            1.0,
-            1.02,
-            1.08,
-        ]  # Divergence (but detected as stall due to negative improvement)
-        result_lr, _ = compute_dynamic_lr_adjustment(losses, 1e-2)  # High LR
-        assert result_lr == 8e-3  # 1e-2 * 0.8 = 8e-3 (stall detection)
+def test_compute_fedprox_proximal_loss():
+    """Test FedProx proximal loss computation."""
+    # Create dummy trainable params (torch tensors)
+    trainable_params = [
+        torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True),
+        torch.tensor([[5.0]], requires_grad=True)
+    ]
+    
+    # Create corresponding global params (numpy arrays)
+    global_params = [
+        np.array([[1.0, 2.0], [3.0, 4.0]]),
+        np.array([[5.0]])
+    ]
+    
+    fedprox_mu = 0.01
+    
+    # Compute proximal loss
+    proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+    
+    # Expected: sum of squared differences * (mu / 2)
+    # Diff for first param: all zeros, sum_sq=0
+    # Diff for second param: all zeros, sum_sq=0
+    # But to test non-zero, adjust global_params
+    global_params[0] = np.array([[0.5, 1.5], [2.5, 3.5]])  # diff = 0.5 each element, 4 elements * 0.25 = 1.0 sum_sq
+    global_params[1] = np.array([[4.5]])  # diff=0.5, sum_sq=0.25
+    
+    proximal_loss_nonzero = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+    
+    # Assertions
+    assert isinstance(proximal_loss, torch.Tensor), "Should return torch.Tensor"
+    assert proximal_loss.dtype == torch.float32, "Should be float32"
+    assert proximal_loss.device.type == 'cpu', "Should be on CPU by default"
+    assert torch.allclose(proximal_loss, torch.tensor(0.0)), "Zero diff should give zero loss"
+    
+    expected_nonzero = (fedprox_mu / 2.0) * (1.0 + 0.25)  # sum_sq total 1.25
+    assert torch.isclose(proximal_loss_nonzero, torch.tensor(expected_nonzero), atol=1e-6), f"Expected {expected_nonzero}, got {proximal_loss_nonzero.item()}"
+    
+    # Edge cases
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, None, fedprox_mu), torch.tensor(0.0)), "None global_params should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
+    
+    print("All tests passed for compute_fedprox_proximal_loss")
 
 
 def test_setup_training_components_metrics_initialization():
@@ -193,3 +181,419 @@ def test_setup_training_components_metrics_initialization():
         assert "loss_avg=0.0000" in log_msg  # No KeyError
     except KeyError:
         pytest.fail("KeyError on 'loss' access - regression!")
+
+
+def test_compute_fedprox_proximal_loss():
+    """Test FedProx proximal loss computation."""
+    import numpy as np
+    from src.task import compute_fedprox_proximal_loss
+    
+    # Create dummy trainable params (torch tensors)
+    trainable_params = [
+        torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True),
+        torch.tensor([[5.0]], requires_grad=True)
+    ]
+    
+    # Create corresponding global params (numpy arrays)
+    global_params = [
+        np.array([[1.0, 2.0], [3.0, 4.0]]),
+        np.array([[5.0]])
+    ]
+    
+    fedprox_mu = 0.01
+    
+    # Compute proximal loss (zero diff)
+    proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+    
+    # Adjust for non-zero test
+    global_params[0] = np.array([[0.5, 1.5], [2.5, 3.5]])  # diffs: 0.5^2 * 4 = 1.0
+    global_params[1] = np.array([[4.5]])  # diff: 0.5^2 = 0.25
+    
+    proximal_loss_nonzero = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+    
+    # Assertions
+    assert isinstance(proximal_loss, torch.Tensor), "Should return torch.Tensor"
+    assert proximal_loss.dtype == torch.float32, "Should be float32"
+    assert proximal_loss.device.type == 'cpu', "Should be on CPU by default"
+    assert torch.allclose(proximal_loss, torch.tensor(0.0)), "Zero diff should give zero loss"
+    
+    expected_nonzero = (fedprox_mu / 2.0) * (1.0 + 0.25)  # 1.25 * 0.005 = 0.00625
+    assert torch.isclose(proximal_loss_nonzero, torch.tensor(expected_nonzero), atol=1e-6), f"Expected {expected_nonzero}, got {proximal_loss_nonzero.item()}"
+    
+    # Edge cases
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, None, fedprox_mu), torch.tensor(0.0)), "None global_params should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
+    
+    print("All tests passed for compute_fedprox_proximal_loss")
+
+
+def test_compute_fedprox_proximal_loss():
+    """Test FedProx proximal loss computation."""
+    from src.task import compute_fedprox_proximal_loss
+
+    # Create dummy trainable params (torch tensors)
+    trainable_params = [
+        torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True),
+        torch.tensor([[5.0]], requires_grad=True)
+    ]
+
+    # Create corresponding global params (numpy arrays)
+    global_params = [
+        np.array([[1.0, 2.0], [3.0, 4.0]]),
+        np.array([[5.0]])
+    ]
+
+    fedprox_mu = 0.01
+
+    # Compute proximal loss (zero diff)
+    proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+
+    # Adjust for non-zero test
+    global_params[0] = np.array([[0.5, 1.5], [2.5, 3.5]])  # diffs: 0.5^2 * 4 = 1.0
+    global_params[1] = np.array([[4.5]])  # diff: 0.5^2 = 0.25
+
+    proximal_loss_nonzero = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
+
+    # Assertions
+    assert isinstance(proximal_loss, torch.Tensor), "Should return torch.Tensor"
+    assert proximal_loss.dtype == torch.float32, "Should be float32"
+    assert proximal_loss.device.type == 'cpu', "Should be on CPU by default"
+    assert torch.allclose(proximal_loss, torch.tensor(0.0)), "Zero diff should give zero loss"
+
+    expected_nonzero = (fedprox_mu / 2.0) * (1.0 + 0.25)  # 1.25 * 0.005 = 0.00625
+    assert torch.isclose(proximal_loss_nonzero, torch.tensor(expected_nonzero), atol=1e-6), f"Expected {expected_nonzero}, got {proximal_loss_nonzero.item()}"
+
+    # Edge cases
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, None, fedprox_mu), torch.tensor(0.0)), "None global_params should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
+    assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
+
+    print("All tests passed for compute_fedprox_proximal_loss")
+
+
+class TestComputeAdjustmentFactor:
+    """Test the compute_adjustment_factor function for joint mu/LR adjustment."""
+
+    def test_stall_detection(self):
+        """Test detection of stalling (less than 1% improvement over 3 rounds)."""
+        from src.task import compute_adjustment_factor
+
+        # Losses: 1.0 → 0.995 → 0.994 (0.5% improvement over 3 rounds)
+        eval_losses = [1.0, 0.995, 0.994]
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 0.8, f"Expected 0.8 for stall, got {factor}"
+
+    def test_divergence_detection(self):
+        """Test detection of divergence (loss increase >5%)."""
+        from src.task import compute_adjustment_factor
+
+        # Losses: 1.0 → 1.06 → 1.12 (12% increase over 3 rounds - exceeds 5% threshold)
+        eval_losses = [1.0, 1.06, 1.12]
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 1.1, f"Expected 1.1 for divergence, got {factor}"
+
+    def test_stable_progress(self):
+        """Test stable progress (no adjustment needed)."""
+        from src.task import compute_adjustment_factor
+
+        # Losses: 1.0 → 0.95 → 0.91 (9% improvement over 3 rounds)
+        eval_losses = [1.0, 0.95, 0.91]
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 1.0, f"Expected 1.0 for stable, got {factor}"
+
+    def test_insufficient_data(self):
+        """Test with insufficient data (less than 3 losses)."""
+        from src.task import compute_adjustment_factor
+
+        eval_losses = [1.0, 2.0]
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 1.0, f"Expected 1.0 for insufficient data, got {factor}"
+
+    def test_edge_cases(self):
+        """Test edge cases."""
+        from src.task import compute_adjustment_factor
+
+        # Empty list
+        factor = compute_adjustment_factor([])
+        assert factor == 1.0
+
+        # Single loss
+        factor = compute_adjustment_factor([1.0])
+        assert factor == 1.0
+
+        # Two losses
+        factor = compute_adjustment_factor([1.0, 0.9])
+        assert factor == 1.0
+
+        # Zero improvement (exactly 1%)
+        eval_losses = [1.0, 0.99, 0.98]  # 2% improvement
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 1.0
+
+        # Exactly 1% improvement (boundary)
+        eval_losses = [1.0, 0.995, 0.99]  # 1% improvement
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 1.0
+
+        # Just below 1% improvement (should stall)
+        eval_losses = [1.0, 0.995, 0.9901]  # 0.99% improvement
+        factor = compute_adjustment_factor(eval_losses)
+        assert factor == 0.8
+
+
+class TestJointAdjustment:
+    """Test joint mu/LR adjustment functionality."""
+
+    def test_joint_adjustment_stall(self):
+        """Test joint adjustment for stall scenario."""
+        from src.task import compute_joint_adjustment
+
+        # Mock losses indicating stall
+        eval_losses = [1.0, 0.995, 0.994]
+        initial_mu = 0.01
+        initial_lr = 0.0005
+        adjusted_mu, adjusted_lr, reason = compute_joint_adjustment(
+            eval_losses, initial_mu, initial_lr
+        )
+        assert adjusted_mu == 0.008  # 0.01 * 0.8
+        assert adjusted_lr == 0.0004  # 0.0005 * 0.8
+        assert reason == "stall_detected"
+
+    def test_joint_adjustment_divergence(self):
+        """Test joint adjustment for divergence scenario."""
+        from src.task import compute_joint_adjustment
+
+        # Mock losses indicating divergence
+        eval_losses = [1.0, 1.02, 1.08]
+        initial_mu = 0.01
+        initial_lr = 0.0005
+        adjusted_mu, adjusted_lr, reason = compute_joint_adjustment(
+            eval_losses, initial_mu, initial_lr
+        )
+        assert abs(adjusted_mu - 0.011) < 1e-6  # 0.01 * 1.1
+        assert adjusted_lr == 0.00055  # 0.0005 * 1.1
+        assert reason == "divergence_detected"
+
+    def test_joint_adjustment_stable(self):
+        """Test joint adjustment for stable scenario."""
+        from src.task import compute_joint_adjustment
+
+        # Mock losses indicating stable progress
+        eval_losses = [1.0, 0.95, 0.91]
+        initial_mu = 0.01
+        initial_lr = 0.0005
+        adjusted_mu, adjusted_lr, reason = compute_joint_adjustment(
+            eval_losses, initial_mu, initial_lr
+        )
+        assert adjusted_mu == 0.01  # No change
+        assert adjusted_lr == 0.0005  # No change
+        assert reason == "convergence_progress"
+
+    def test_joint_adjustment_insufficient_data(self):
+        """Test joint adjustment with insufficient data."""
+        from src.task import compute_joint_adjustment
+
+        eval_losses = [1.0, 0.95]  # Only 2 losses
+        initial_mu = 0.01
+        initial_lr = 0.0005
+        adjusted_mu, adjusted_lr, reason = compute_joint_adjustment(
+            eval_losses, initial_mu, initial_lr
+        )
+        assert adjusted_mu == 0.01  # No change
+        assert adjusted_lr == 0.0005  # No change
+        assert reason == "convergence_progress"
+
+    def test_joint_adjustment_lr_clamping(self):
+        """Test LR clamping in joint adjustment."""
+        from src.task import compute_joint_adjustment
+
+        # Stall scenario with very low LR that would go below min
+        eval_losses = [1.0, 0.995, 0.994]
+        initial_mu = 0.01
+        initial_lr = 1e-6  # Very low LR
+        adjusted_mu, adjusted_lr, reason = compute_joint_adjustment(
+            eval_losses, initial_mu, initial_lr, min_lr=1e-5
+        )
+        assert adjusted_mu == 0.008  # 0.01 * 0.8
+        assert adjusted_lr == 1e-5  # Clamped to min_lr
+        assert reason == "stall_detected"
+
+
+class TestCreateScheduler:
+    """Test the create_scheduler function."""
+
+    def test_create_cosine_scheduler(self):
+        """Test creating CosineAnnealingLR scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {"scheduler_type": "cosine", "eta_min": 1e-6}
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        assert scheduler.T_max == 50
+        assert scheduler.eta_min == 1e-6
+
+    def test_create_cosine_warm_restarts_scheduler(self):
+        """Test creating CosineAnnealingWarmRestarts scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine_warm_restarts",
+            "cosine_warm_restarts_T_0": 15,
+            "cosine_warm_restarts_T_mult": 2,  # Must be integer >= 1
+            "eta_min": 5e-7
+        }
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+        assert isinstance(scheduler, CosineAnnealingWarmRestarts)
+        assert scheduler.T_0 == 15
+        assert scheduler.T_mult == 2
+        assert scheduler.eta_min == 5e-7
+
+    def test_create_reduce_on_plateau_scheduler(self):
+        """Test creating ReduceLROnPlateau scheduler."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "reduce_on_plateau",
+            "stall_patience": 5,
+            "eta_min": 1e-6
+        }
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import ReduceLROnPlateau
+        assert isinstance(scheduler, ReduceLROnPlateau)
+        assert scheduler.patience == 5
+        assert scheduler.min_lrs[0] == 1e-6  # min_lrs is a list
+
+    def test_create_scheduler_defaults(self):
+        """Test scheduler creation with default values."""
+        from src.task import create_scheduler
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {}  # Empty config
+
+        scheduler = create_scheduler(optimizer, cfg, epochs=50)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        assert scheduler.T_max == 50
+        # eta_min should default to optimizer lr * 0.1
+        assert scheduler.eta_min == 0.001 * 0.1
+
+
+class TestComputeAdaptiveLrFactor:
+    """Test the compute_adaptive_lr_factor function."""
+
+    def test_no_adaptive_lr(self):
+        """Test when adaptive LR is disabled."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {"adaptive_lr_enabled": False}
+        client_history = {"avg_loss": 1.0, "current_loss": 2.0}
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+    def test_no_client_history(self):
+        """Test with no client history."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {"adaptive_lr_enabled": True}
+        client_history = None
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+    def test_adaptive_lr_boost(self):
+        """Test LR boost for hard clients."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 2.5}  # 2.5 > 1.0 * 2.0
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.15
+
+    def test_no_boost_needed(self):
+        """Test no boost when loss is not high enough."""
+        from src.task import compute_adaptive_lr_factor
+
+        cfg = {
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 1.5}  # 1.5 < 1.0 * 2.0
+
+        factor = compute_adaptive_lr_factor(client_history, cfg)
+        assert factor == 1.0
+
+
+class TestResetSchedulerAdaptive:
+    """Test the reset_scheduler_adaptive function."""
+
+    def test_reset_with_adaptive_boost(self):
+        """Test scheduler reset with adaptive LR boost."""
+        from src.task import reset_scheduler_adaptive
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine",
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0,
+            "lr_boost_factor": 1.15
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 2.5}
+
+        scheduler = reset_scheduler_adaptive(optimizer, None, 0.001, 50, client_history, cfg)
+
+        from torch.optim.lr_scheduler import CosineAnnealingLR
+        assert isinstance(scheduler, CosineAnnealingLR)
+        # Check that LR was boosted: 0.001 * 1.15 = 0.00115
+        assert abs(optimizer.param_groups[0]["lr"] - 0.00115) < 1e-6
+
+    def test_reset_without_boost(self):
+        """Test scheduler reset without adaptive boost."""
+        from src.task import reset_scheduler_adaptive
+        import torch
+
+        model = torch.nn.Linear(10, 1)
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        cfg = {
+            "scheduler_type": "cosine_warm_restarts",
+            "cosine_warm_restarts_T_0": 15,
+            "cosine_warm_restarts_T_mult": 2,
+            "adaptive_lr_enabled": True,
+            "high_loss_multiplier": 2.0
+        }
+        client_history = {"avg_loss": 1.0, "current_loss": 1.5}  # No boost
+
+        scheduler = reset_scheduler_adaptive(optimizer, None, 0.001, 50, client_history, cfg)
+
+        from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
+        assert isinstance(scheduler, CosineAnnealingWarmRestarts)
+        assert optimizer.param_groups[0]["lr"] == 0.001  # No boost

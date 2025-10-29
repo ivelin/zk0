@@ -2,9 +2,9 @@
 
 This guide covers executing the zk0 federated learning simulation, including default and alternative methods, output details, and troubleshooting.
 
-## Default: Conda Environment Execution
+## Default: Conda Environment Execution (Primary - Fast/Flexible)
 
-By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility.
+By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility, making it ideal for development and local testing.
 
 ### Quick Start with Conda
 

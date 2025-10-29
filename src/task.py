@@ -6,7 +6,12 @@ from typing import Any
 
 import torch
 from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import LinearLR
+from torch.optim.lr_scheduler import (
+    LinearLR,
+    CosineAnnealingLR,
+    CosineAnnealingWarmRestarts,
+    ReduceLROnPlateau,
+)
 
 from datasets.utils.logging import disable_progress_bar
 from loguru import logger
@@ -155,19 +160,25 @@ def compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu):
         fedprox_mu: FedProx regularization coefficient
 
     Returns:
-        float: Proximal loss value
+        torch.Tensor: Proximal loss tensor (for consistent backprop with main_loss)
     """
-    if global_params is None or fedprox_mu <= 0:
-        return 0.0
+    if global_params is None or fedprox_mu <= 0 or not trainable_params:
+        return torch.tensor(
+            0.0,
+            device=trainable_params[0].device if trainable_params else "cpu",
+            dtype=torch.float32,
+        )
 
-    proximal_loss = 0.0
+    proximal_loss = torch.tensor(
+        0.0, device=trainable_params[0].device, dtype=trainable_params[0].dtype
+    )
     for param, global_param in zip(trainable_params, global_params):
         # Convert global param to same device/dtype as current param
         global_param_tensor = torch.from_numpy(global_param).to(
             param.device, dtype=param.dtype
         )
         param_diff = torch.sum((param - global_param_tensor) ** 2)
-        proximal_loss += param_diff.item()
+        proximal_loss += param_diff
 
     return (fedprox_mu / 2.0) * proximal_loss
 
@@ -202,7 +213,10 @@ def setup_training_components(
     initial_lr,
     partition_id=None,
 ):
-    """Setup training components: optimizer, scheduler, metrics, and configuration."""
+    """Setup training components: optimizer, scheduler, metrics, and configuration.
+
+    Used by client-side training to initialize components.
+    """
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
     from lerobot.configs.default import (
@@ -250,13 +264,14 @@ def setup_training_components(
     for group in optimizer.param_groups:
         group["lr"] = initial_lr
 
-    # Replace cosine with linear scheduler
+    # Replace cosine with CosineAnnealingLR for smoother decay
+    from torch.optim.lr_scheduler import CosineAnnealingLR
+
     if lr_scheduler is not None:
-        lr_scheduler = LinearLR(
-            optimizer, start_factor=1.0, end_factor=0.5, total_iters=epochs
-        )
+        eta_min = initial_lr * 0.1  # Decay to 10% of initial LR
+        lr_scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
         logger.info(
-            f"FL scheduler: LinearLR with initial_lr={initial_lr}, decay to 0.5 over {epochs} steps"
+            f"FL scheduler: CosineAnnealingLR with initial_lr={initial_lr}, eta_min={eta_min} over {epochs} steps"
         )
     else:
         logger.warning(f"No scheduler found; using constant LR={initial_lr}")
@@ -374,25 +389,27 @@ def run_training_step(
         main_loss, output_dict = policy.forward(batch)  # Main loss from LeRobot forward
 
     # Compute proximal loss BEFORE backprop (FedProx core)
-    proximal_loss = 0.0
+    proximal_loss = torch.tensor(
+        0.0, device=policy.parameters().__next__().device, dtype=torch.float32
+    )
     if global_params is not None:
         trainable_params = [p for p in policy.parameters() if p.requires_grad]
         proximal_loss = compute_fedprox_proximal_loss(
             trainable_params, global_params, fedprox_mu
         )
         logger.debug(
-            f"Step {step}: FedProx proximal_loss={proximal_loss:.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})"
+            f"Step {step}: FedProx proximal_loss={proximal_loss.item():.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})"
         )
 
-    # Total loss for backprop: main_loss + proximal_loss
+    # Total loss for backprop: main_loss + proximal_loss (both tensors for consistent dtype)
     total_loss = main_loss + proximal_loss
     logger.debug(
-        f"Step {step}: FedProx total_loss={total_loss:.6f} (main={main_loss.item():.6f} + proximal={proximal_loss:.6f})"
+        f"Step {step}: FedProx total_loss={total_loss.item():.6f} (main={main_loss.item():.6f} + proximal={proximal_loss.item():.6f})"
     )
 
     # Update separate metrics for policy and fedprox losses
     train_metrics["policy_loss"].update(main_loss.item())
-    train_metrics["fedprox_loss"].update(proximal_loss)
+    train_metrics["fedprox_loss"].update(proximal_loss.item())
     # Update 'loss' as total for compatibility (no separate total_loss meter)
     train_metrics["loss"].update(total_loss.item())
 
@@ -559,9 +576,15 @@ def run_training_loop(
         train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
         # Safe logging that handles None batch
         if batch is not None:
-            episode_info = int(batch['episode_index'][0].item()) if 'episode_index' in batch else 'unknown'
+            episode_info = (
+                int(batch["episode_index"][0].item())
+                if "episode_index" in batch
+                else "unknown"
+            )
             keys_info = list(batch.keys())
-            shapes_info = {k: v.shape if hasattr(v, 'shape') else type(v) for k, v in batch.items()}
+            shapes_info = {
+                k: v.shape if hasattr(v, "shape") else type(v) for k, v in batch.items()
+            }
             logger.debug(
                 f"Step {step}: Batch fetched successfully from episode {episode_info}. Keys: {keys_info}, Sample shapes: {shapes_info}"
             )
@@ -699,7 +722,9 @@ def train(
     # Collect final metrics for return
     # 'loss' is total (policy + fedprox) for Flower compatibility
     final_metrics = {
-        "loss": train_metrics["loss"].avg,  # Total loss (policy + fedprox) for compatibility
+        "loss": train_metrics[
+            "loss"
+        ].avg,  # Total loss (policy + fedprox) for compatibility
         "policy_loss": train_metrics["policy_loss"].avg,
         "fedprox_loss": train_metrics["fedprox_loss"].avg,
         "grad_norm": train_metrics["grad_norm"].avg,
@@ -716,11 +741,13 @@ def train(
 
 
 def test(
-    net, device, batch_size=64, eval_batches: int = 0
+    net, device, batch_size=64, eval_batches: int = 0, dataset=None
 ) -> tuple[float, int, dict[str, float]]:
     """Evaluate SmolVLA model using server evaluation dataset."""
     import logging
-    from .utils import load_lerobot_dataset
+
+    # Assert dataset is provided (required for server evaluation)
+    assert dataset is not None, "dataset parameter is required for test() function"
 
     # Convert device string to torch.device object if needed
     if isinstance(device, str):
@@ -728,22 +755,18 @@ def test(
 
     # In SmolVLA terminology policy is the neural network
     policy = net
+    policy = policy.to(device)
     policy.eval()
 
     logging.info("Evaluating on server dataset")
 
-    # Load server evaluation dataset
-    from .configs import DatasetConfig
-
-    config = DatasetConfig.load()
-
-    if not config.server:
-        raise ValueError("No server evaluation dataset configured")
-
-    server_config = config.server[0]  # Use first server dataset
-    dataset_name = server_config.name
-
-    dataset = load_lerobot_dataset(dataset_name)
+    # Use the provided dataset
+    dataset_name = (
+        getattr(dataset, "meta", {}).get("repo_id", "provided_dataset")
+        if hasattr(dataset, "meta") and hasattr(dataset.meta, "get")
+        else "provided_dataset"
+    )
+    logging.info(f"Using provided dataset: {dataset_name}")
 
     # Create evaluation dataloader (will limit to first N episodes in the loop)
     eval_loader = torch.utils.data.DataLoader(
@@ -757,9 +780,10 @@ def test(
 
     # Track episodes processed
     episodes_processed = 0
-    max_episodes = server_config.first_n_episodes_for_eval
+    # Use eval_batches to control evaluation scope instead of episodes
+    max_episodes = float("inf")  # No episode limit when using eval_batches
     logger.info(
-        f"Server evaluation using first {max_episodes} episodes from {dataset_name} (eval_batches: {eval_batches})"
+        f"Server evaluation using {dataset_name} (eval_batches: {eval_batches})"
     )
 
     total_loss = 0.0
@@ -772,7 +796,9 @@ def test(
     if eval_batches == 0:
         logger.info(f"Full evaluation: processing all {max_episodes} episodes")
     else:
-        logger.info(f"Limited evaluation: processing up to {max_batches_for_eval} batches")
+        logger.info(
+            f"Limited evaluation: processing up to {max_batches_for_eval} batches"
+        )
 
     # Evaluate batches, limiting to first N episodes
     current_episode = None
@@ -815,7 +841,7 @@ def test(
                     len(target_actions) if target_actions is not None else batch_size
                 )
                 successful_batches += 1
-    
+
                 action_dim = (
                     target_actions.shape[-1]
                     if target_actions is not None and len(target_actions.shape) > 1
@@ -879,13 +905,17 @@ def test(
 def create_train_metrics():
     """Create the train_metrics dictionary with all required AverageMeter instances."""
     from lerobot.utils.logging_utils import AverageMeter
-    
+
     # 'loss' is total_loss (policy_loss + fedprox_loss) for Flower compatibility
     # 'policy_loss' is pure model forward loss
     # 'fedprox_loss' is FedProx regularization (separate for analysis)
     return {
-        "loss": AverageMeter("loss", ":.3f"),  # Total loss (policy + fedprox) for compatibility
-        "policy_loss": AverageMeter("policy_loss", ":.3f"),  # Pure SmolVLA flow-matching loss
+        "loss": AverageMeter(
+            "loss", ":.3f"
+        ),  # Total loss (policy + fedprox) for compatibility
+        "policy_loss": AverageMeter(
+            "policy_loss", ":.3f"
+        ),  # Pure SmolVLA flow-matching loss
         "fedprox_loss": AverageMeter("fedprox_loss", ":.3f"),  # FedProx proximal term
         "grad_norm": AverageMeter("grdn", ":.3f"),
         "lr": AverageMeter("lr", ":0.1e"),
@@ -894,38 +924,154 @@ def create_train_metrics():
     }
 
 
-def compute_dynamic_lr_adjustment(recent_losses, current_lr, min_lr=1e-5, max_lr=1e-3):
-    """Compute dynamic learning rate adjustment based on recent loss trends.
+def compute_adjustment_factor(eval_losses):
+    """Compute adjustment factor for joint mu/LR tuning based on evaluation loss trends.
+
+    Used by server-side strategy to determine if mu and LR should be adjusted together.
 
     Args:
-        recent_losses: List of recent policy loss values (last N rounds)
+        eval_losses: List of recent server evaluation loss values
+
+    Returns:
+        float: Adjustment factor (0.8 for stall, 1.1 for divergence, 1.0 for stable)
+    """
+    if len(eval_losses) < 3:
+        return 1.0  # No adjustment with insufficient data
+
+    # Calculate improvement over the last 3 rounds
+    recent_3 = eval_losses[-3:]
+    improvement = (recent_3[0] - recent_3[-1]) / max(
+        recent_3[0], 1e-8
+    )  # Avoid division by zero
+
+    # Check for divergence first (most severe condition)
+    if improvement < -0.05:
+        return 1.1  # Increase both mu and LR by 10%
+
+    # Check for stalling (less than 1% improvement over 3 rounds)
+    elif improvement < 0.01:
+        return 0.8  # Reduce both mu and LR by 20%
+
+    # Stable progress
+    return 1.0  # No adjustment needed
+
+
+def create_scheduler(optimizer, cfg, epochs):
+    """Factory function for creating different types of learning rate schedulers.
+
+    Args:
+        optimizer: PyTorch optimizer with param_groups
+        cfg: Configuration object with scheduler parameters
+        epochs: Number of epochs for this round
+
+    Returns:
+        PyTorch learning rate scheduler or None
+    """
+    scheduler_type = cfg.get("scheduler_type", "cosine")
+    eta_min = cfg.get("eta_min", optimizer.param_groups[0]["lr"] * 0.1)
+
+    if scheduler_type == "cosine_warm_restarts":
+        T_0 = cfg.get("cosine_warm_restarts_T_0", 15)
+        T_mult = int(cfg.get("cosine_warm_restarts_T_mult", 2))  # Must be integer >= 1
+        return CosineAnnealingWarmRestarts(
+            optimizer, T_0=T_0, T_mult=T_mult, eta_min=eta_min
+        )
+    elif scheduler_type == "reduce_on_plateau":
+        patience = cfg.get("stall_patience", 5)
+        return ReduceLROnPlateau(
+            optimizer, mode="min", factor=0.5, patience=patience, min_lr=eta_min
+        )
+    else:  # "cosine" default
+        return CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
+
+
+def compute_adaptive_lr_factor(client_history, cfg):
+    """Compute adaptive learning rate boost factor for hard clients.
+
+    Args:
+        client_history: Dict with client training history (avg_loss, current_loss)
+        cfg: Configuration object with adaptive LR parameters
+
+    Returns:
+        float: LR boost factor (1.0 for no boost, >1.0 for boost)
+    """
+    if not cfg.get("adaptive_lr_enabled", False) or not client_history:
+        return 1.0
+
+    avg_prior_loss = client_history.get("avg_loss", 1.0)
+    current_loss = client_history.get("current_loss", avg_prior_loss)
+    threshold = cfg.get("high_loss_multiplier", 2.0)
+
+    if current_loss > avg_prior_loss * threshold:
+        return cfg.get("lr_boost_factor", 1.15)
+    return 1.0
+
+
+def reset_scheduler_adaptive(
+    optimizer, lr_scheduler, initial_lr, epochs, client_history, cfg
+):
+    """Reset learning rate scheduler with adaptive LR boosts for federated learning rounds.
+
+    This function ensures each FL round starts with correct initial LR, with adaptive boosts
+    for hard clients based on training history.
+
+    Args:
+        optimizer: PyTorch optimizer with param_groups
+        lr_scheduler: PyTorch learning rate scheduler (or None)
+        initial_lr: Base initial learning rate to reset to
+        epochs: Number of epochs for this round
+        client_history: Dict with client training history for adaptive boosts
+        cfg: Configuration object with scheduler and adaptive LR parameters
+
+    Returns:
+        Updated lr_scheduler (may be recreated if needed)
+    """
+    adaptive_factor = compute_adaptive_lr_factor(client_history, cfg)
+    adjusted_lr = initial_lr * adaptive_factor
+
+    for group in optimizer.param_groups:
+        group["lr"] = adjusted_lr
+
+    if lr_scheduler is None:
+        lr_scheduler = create_scheduler(optimizer, cfg, epochs)
+    else:
+        lr_scheduler = create_scheduler(
+            optimizer, cfg, epochs
+        )  # Recreate for type safety
+
+    logger.info(
+        f"Adaptive reset: LR={adjusted_lr:.6f} (factor={adaptive_factor}), scheduler={type(lr_scheduler).__name__}"
+    )
+    return lr_scheduler
+
+
+def compute_joint_adjustment(
+    eval_losses, current_mu, current_lr, min_lr=1e-5, max_lr=1e-3
+):
+    """Compute joint adjustment for both mu and LR based on evaluation loss trends.
+
+    Used by server-side strategy to compute synchronized mu/LR adjustments.
+
+    Args:
+        eval_losses: List of recent server evaluation loss values
+        current_mu: Current FedProx mu value
         current_lr: Current learning rate
         min_lr: Minimum allowed learning rate (default: 1e-5)
         max_lr: Maximum allowed learning rate (default: 1e-3)
 
     Returns:
-        tuple: (new_lr, adjustment_reason) where adjustment_reason is a string explaining the change
+        tuple: (new_mu, new_lr, adjustment_reason) where adjustment_reason explains the change
     """
-    if len(recent_losses) < 3:
-        return current_lr, "insufficient_data"
-
-    # Calculate improvement over the last 3 rounds
-    recent_3 = recent_losses[-3:]
-    improvement = (recent_3[0] - recent_3[-1]) / max(
-        recent_3[0], 1e-8
-    )  # Avoid division by zero
-
-    # Check for stalling (less than 1% improvement over 3 rounds)
-    if improvement < 0.01:
-        new_lr = current_lr * 0.8  # Reduce LR by 20%
-        new_lr = max(new_lr, min_lr)  # Clamp to min
-        return new_lr, f"stall_detected_{improvement:.4f}"
-
-    # Check for divergence (loss increased by more than 5%)
-    elif improvement < -0.05:
-        new_lr = current_lr * 1.1  # Increase LR by 10%
-        new_lr = min(new_lr, max_lr)  # Clamp to max
-        return new_lr, f"divergence_detected_{improvement:.4f}"
-
-    # No adjustment needed
-    return current_lr, "stable_progress"
+    factor = compute_adjustment_factor(eval_losses)
+    if factor == 1.0:
+        return current_mu, current_lr, "convergence_progress"
+    elif factor < 1.0:
+        new_mu = current_mu * factor
+        new_lr = max(current_lr * factor, min_lr)
+        return new_mu, new_lr, "stall_detected"
+    elif factor > 1.0:
+        new_mu = current_mu * factor
+        new_lr = min(current_lr * factor, max_lr)
+        return new_mu, new_lr, "divergence_detected"
+    else:
+        return current_mu, current_lr, "unknown_factor"

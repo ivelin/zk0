@@ -186,7 +186,8 @@ Full list: [memory-bank/architecture.md](.kilocode/rules/memory-bank/architectur
 - **New Task**: Read memory bank; use [Memory Bank Instructions](.kilocode/rules/memory-bank/memory-bank-instructions.md).
 - **Edits**: Use apply_diff for targeted changes; full content for new files.
 - **Testing**: Run after changes: `pytest -n auto --cov=src`.
-- **CI**: GitHub Actions for auto-testing on push/PR.
+- **Prepare for Commit**: Standardized workflow for version management, full test suite with coverage, memory bank updates, documentation consistency, and git operations to ensure quality.
+- **CI**: GitHub Actions with consolidated single matrix job for unit and integration tests, Python 3.10 standardization, lerobot CI fixes, no standalone test files, for auto-testing on push/PR.
 
 For repetitive tasks (e.g., FedProx tuning), see [memory-bank/tasks.md](.kilocode/rules/memory-bank/tasks.md).
 

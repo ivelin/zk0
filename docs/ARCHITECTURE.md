@@ -1,6 +1,8 @@
 # Architecture Overview
 
-This document provides a detailed overview of the zk0 project's architecture, focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
+This document provides a detailed overview of the zk0 project's architecture (v0.3.11), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
+
+**Recent Updates (v0.3.11)**: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization. Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Code refactoring for modularity (70% reduction in aggregate_fit method size), conditional HF push logic to avoid incomplete model uploads.
 
 For the full system architecture, including directory structure and configuration, see [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md).
 
@@ -45,7 +47,7 @@ See [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md) for SmolVLA detai
 ## Training Strategy
 
 ### Federated Learning Setup
-- **Primary Strategy**: FedProx for handling non-IID SO-100 data (proximal term: μ/2 * ||w - w_global||²).
+- **Primary Strategy**: FedProx for handling non-IID SO-100 data (proximal term: μ/2 * ||w - w_global||²). Rationale: Addresses data heterogeneity in SO-100 tasks, stabilizing convergence on diverse robotics manipulation tasks with proximal regularization to anchor local updates to global model.
 - **Client Assignments**: 4 clients with unique tasks (e.g., pickplace, stacking) to promote diverse skills.
   - Config: See `[tool.zk0.datasets]` in `pyproject.toml`.
   - Example: Client 0: `lerobot/svla_so100_pickplace` (50 episodes).
@@ -56,7 +58,7 @@ See [memory-bank/tech.md](.kilocode/rules/memory-bank/tech.md) for SmolVLA detai
 - **Evaluation**:
   - Server-side on unseen tasks (e.g., SO-101 cross-platform).
   - Metrics: Policy loss (sole metric, ~0.3-1.5 scale) for flow-matching objective.
-  - Recent Update: Standardized to policy_loss; MSE removed for simplicity.
+  - v0.2.3: Consolidated metrics in `round_N_server_eval.json` include both aggregated (avg_client_loss, std_client_loss, etc.) and individual client metrics (per-client policy_loss, fedprox_loss, dataset_name) for unified analysis.
 
 ### Data Flow
 
@@ -101,6 +103,8 @@ This diagram captures the iterative cycle: model distribution, local training, a
 
 ### Key Patterns
 - **Modular Design**: Separate client/server apps, utils for shared logic.
+- **Code Refactoring**: Modularized aggregate_fit() in server_app.py for better maintainability (v0.3.6).
+- **HF Push Logic**: Conditional push to Hugging Face Hub for full runs (≥20 rounds) to avoid incomplete checkpoints.
 - **Config System**: `pyproject.toml` for FL params, `.env` for secrets, YAML for datasets.
 - **Error Handling**: Fail-fast with clear messages; no mocks in production.
 - **Logging**: Unified via Loguru (`simulation.log`); client-prefixed metrics.

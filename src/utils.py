@@ -14,6 +14,7 @@ try:
     from lerobot.datasets.lerobot_dataset import LeRobotDataset, FilteredLeRobotDataset
 except ImportError:
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
     FilteredLeRobotDataset = None
 from lerobot.datasets.factory import make_dataset
 
@@ -21,7 +22,10 @@ from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
 # Import torchvision for image transforms
 
-def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "auto") -> SmolVLAPolicy:
+
+def load_smolvla_model(
+    model_name: str = "lerobot/smolvla_base", device: str = "auto"
+) -> SmolVLAPolicy:
     """Load SmolVLA model with environment-based distributed control.
 
     SmolVLA handles tensor parallelism internally. This function sets environment
@@ -45,6 +49,7 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
     # Load environment variables from .env file
     try:
         from dotenv import load_dotenv
+
         load_dotenv()
     except ImportError:
         pass  # dotenv not available, continue
@@ -53,35 +58,40 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Set environment variables based on TP plan preference
-    tp_plan_str = os.environ.get('SMOLVLA_TP_PLAN', 'none')
+    tp_plan_str = os.environ.get("SMOLVLA_TP_PLAN", "none")
     num_gpus = torch.cuda.device_count()
     logger.info(f"SMOLVLA_TP_PLAN={tp_plan_str}, num_gpus={num_gpus}")
 
-    if tp_plan_str == 'none':
+    if tp_plan_str == "none":
         # Force single-device mode
-        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
-        os.environ['TP_PLAN'] = 'disabled'
+        os.environ["USE_TORCH_DISTRIBUTED"] = "0"
+        os.environ["TP_PLAN"] = "disabled"
         logger.info("Configured for single-device mode (distributed disabled)")
-    elif tp_plan_str == 'auto':
+    elif tp_plan_str == "auto":
         # Allow auto-detection
         if num_gpus > 1:
             logger.info("Multi-GPU detected, allowing distributed auto-detection")
         else:
             logger.info("Single GPU, distributed will be disabled automatically")
     else:
-        logger.warning(f"Unknown SMOLVLA_TP_PLAN value '{tp_plan_str}', defaulting to single-device mode")
-        os.environ['USE_TORCH_DISTRIBUTED'] = '0'
-        os.environ['TP_PLAN'] = 'disabled'
+        logger.warning(
+            f"Unknown SMOLVLA_TP_PLAN value '{tp_plan_str}', defaulting to single-device mode"
+        )
+        os.environ["USE_TORCH_DISTRIBUTED"] = "0"
+        os.environ["TP_PLAN"] = "disabled"
 
     # Import SmolVLA after setting environment variables to ensure they take effect
     from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
     # Log versions for debugging
     import lerobot
+
     logger.info(f"LeRobot version: {lerobot.__version__}")
     import safetensors
+
     logger.info(f"SafeTensors version: {safetensors.__version__}")
     import ray
+
     logger.info(f"Ray version: {ray.__version__}")
 
     logger.info(f"Loading SmolVLA model: {model_name} on device {device}")
@@ -89,8 +99,14 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
     # Try alternative loading strategies to avoid SafeTensors issues
     strategies = [
         ("Standard loading", lambda: SmolVLAPolicy.from_pretrained(model_name)),
-        ("Force CPU loading", lambda: SmolVLAPolicy.from_pretrained(model_name, device_map="cpu")),
-        ("Disable device mapping", lambda: SmolVLAPolicy.from_pretrained(model_name, device_map=None)),
+        (
+            "Force CPU loading",
+            lambda: SmolVLAPolicy.from_pretrained(model_name, device_map="cpu"),
+        ),
+        (
+            "Disable device mapping",
+            lambda: SmolVLAPolicy.from_pretrained(model_name, device_map=None),
+        ),
     ]
 
     for strategy_name, load_func in strategies:
@@ -133,7 +149,9 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
                 model.eval()
                 return model
             else:
-                logger.warning("pytorch_model.bin not found, trying safetensors files...")
+                logger.warning(
+                    "pytorch_model.bin not found, trying safetensors files..."
+                )
                 # Fall back to safetensors but with different approach
                 model = SmolVLAPolicy.from_pretrained(model_name, local_files_only=True)
                 logger.info("Successfully loaded model with local safetensors")
@@ -145,9 +163,11 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
         logger.error(f"Final loading attempt also failed: {e}")
 
     # Final error if all strategies fail
-    error_msg = ("SmolVLA model loading failed after all attempts. "
-                "This may be due to SafeTensors compatibility issues with PyTorch/Ray. "
-                "Consider updating PyTorch or SafeTensors versions, or using CPU-only mode.")
+    error_msg = (
+        "SmolVLA model loading failed after all attempts. "
+        "This may be due to SafeTensors compatibility issues with PyTorch/Ray. "
+        "Consider updating PyTorch or SafeTensors versions, or using CPU-only mode."
+    )
     logger.error(error_msg)
     raise RuntimeError(error_msg)
 
@@ -155,7 +175,7 @@ def load_smolvla_model(model_name: str = "lerobot/smolvla_base", device: str = "
 def has_image_keys(sample):
     if isinstance(sample, dict):
         for k, v in sample.items():
-            if 'image' in k.lower():
+            if "image" in k.lower():
                 return True
             if isinstance(v, dict):
                 if has_image_keys(v):
@@ -168,7 +188,7 @@ def load_lerobot_dataset(
     tolerance_s: float = 0.0001,
     delta_timestamps: Optional[Dict[str, List[float]]] = None,
     episode_filter: Optional[Dict[str, int]] = None,
-    split: Optional[str] = None
+    split: Optional[str] = None,
 ) -> LeRobotDataset:
     """Load LeRobot dataset using the same approach as lerobot train.py.
 
@@ -195,49 +215,66 @@ def load_lerobot_dataset(
         try:
             cfg = TrainPipelineConfig.from_pretrained("lerobot/smolvla_base")
         except Exception as e:
-            logger.warning(f"Failed to load config from hub: {e}, using default config with explicit image transforms")
+            logger.warning(
+                f"Failed to load config from hub: {e}, using default config with explicit image transforms"
+            )
             # Create minimal config if hub loading fails
             from lerobot.configs.default import DatasetConfig
             from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
 
             policy_config = SmolVLAConfig()
             policy_config.pretrained_path = "lerobot/smolvla_base"
-            policy_config.push_to_hub = False  # Disable hub pushing for federated learning
-            policy_config.resize_imgs_with_padding = (224, 224)  # SmolVLA ViT expects 224x224 images
+            policy_config.push_to_hub = (
+                False  # Disable hub pushing for federated learning
+            )
+            policy_config.resize_imgs_with_padding = (
+                224,
+                224,
+            )  # SmolVLA ViT expects 224x224 images
 
             cfg = TrainPipelineConfig(
-                dataset=DatasetConfig(repo_id=repo_id),
-                policy=policy_config
+                dataset=DatasetConfig(repo_id=repo_id), policy=policy_config
             )
 
             # Add explicit image transforms only when using fallback config
             # Create proper ImageTransformsConfig object (disable random transforms)
             from lerobot.datasets.transforms import ImageTransformsConfig
+
             cfg.dataset.image_transforms = ImageTransformsConfig(
                 enable=False,  # Disable random transforms for deterministic behavior
-                tfs={}  # Empty dict to avoid random color jitter
+                tfs={},  # Empty dict to avoid random color jitter
             )
 
         # Override dataset configuration with our specific dataset
         cfg.dataset.repo_id = repo_id
-        cfg.dataset.decode_videos = False  # Lazy decode for memory efficiency (match standalone train script)
+        cfg.dataset.decode_videos = (
+            False  # Lazy decode for memory efficiency (match standalone train script)
+        )
 
         # Try loading with default config, fallback to OpenCV if it fails
         try:
             dataset = make_dataset(cfg)
-            logger.info(f"Successfully loaded dataset {repo_id} with default video backend")
+            logger.info(
+                f"Successfully loaded dataset {repo_id} with default video backend"
+            )
         except Exception as e:
             logger.warning(f"Dataset loading failed with default config: {e}")
             logger.info(f"Retrying with OpenCV video backend for dataset {repo_id}")
             try:
                 cfg.dataset.video_backend = "opencv"
                 dataset = make_dataset(cfg)
-                logger.info(f"Successfully loaded dataset {repo_id} with OpenCV backend")
+                logger.info(
+                    f"Successfully loaded dataset {repo_id} with OpenCV backend"
+                )
             except Exception as opencv_e:
-                logger.error(f"Dataset {repo_id} failed to load with both default and OpenCV backends")
+                logger.error(
+                    f"Dataset {repo_id} failed to load with both default and OpenCV backends"
+                )
                 logger.error(f"Default backend error: {e}")
                 logger.error(f"OpenCV backend error: {opencv_e}")
-                raise RuntimeError(f"Dataset {repo_id} is corrupted and unusable with available video backends")
+                raise RuntimeError(
+                    f"Dataset {repo_id} is corrupted and unusable with available video backends"
+                )
         logger.info(f"Dataset contains {dataset.num_episodes} total episodes")
 
         # Log basic dataset info for debugging using decoded sample
@@ -248,39 +285,53 @@ def load_lerobot_dataset(
             logger.info(f"Full decoded sample structure: {repr(sample)}")
 
             # Check for image keys in decoded sample
-            image_keys = [k for k in sample.keys() if 'image' in k.lower()]
+            image_keys = [k for k in sample.keys() if "image" in k.lower()]
             if image_keys:
                 logger.info(f"Keys containing 'image': {image_keys}")
                 for key in image_keys:
                     value = sample[key]
-                    logger.info(f"  - {key}: type={type(value)}, shape={value.shape if hasattr(value, 'shape') else 'N/A'}")
+                    logger.info(
+                        f"  - {key}: type={type(value)}, shape={value.shape if hasattr(value, 'shape') else 'N/A'}"
+                    )
             else:
                 # Check nested observation.images
-                obs = sample.get('observation', {})
-                images = obs.get('images', {}) if isinstance(obs, dict) else {}
+                obs = sample.get("observation", {})
+                images = obs.get("images", {}) if isinstance(obs, dict) else {}
                 if images:
                     logger.info("Image data found in observation.images structure")
                     for img_key in images:
                         img_data = images[img_key]
-                        logger.info(f"  - observation.images.{img_key}: type={type(img_data)}, shape={img_data.shape if hasattr(img_data, 'shape') else 'N/A'}")
+                        logger.info(
+                            f"  - observation.images.{img_key}: type={type(img_data)}, shape={img_data.shape if hasattr(img_data, 'shape') else 'N/A'}"
+                        )
                 else:
-                    logger.warning("No image data found in decoded sample - check codec/FFmpeg setup")
+                    logger.warning(
+                        "No image data found in decoded sample - check codec/FFmpeg setup"
+                    )
 
             # Log metadata availability
-            if hasattr(dataset, 'meta'):
+            if hasattr(dataset, "meta"):
                 meta = dataset.meta
-                logger.info(f"Metadata available: episodes={getattr(meta, 'episodes', None) is not None}, camera_keys={getattr(meta, 'camera_keys', None)}")
-                if hasattr(meta, 'camera_keys') and meta.camera_keys:
+                logger.info(
+                    f"Metadata available: episodes={getattr(meta, 'episodes', None) is not None}, camera_keys={getattr(meta, 'camera_keys', None)}"
+                )
+                if hasattr(meta, "camera_keys") and meta.camera_keys:
                     logger.info(f"Camera keys: {meta.camera_keys}")
-                if hasattr(meta, 'episodes') and meta.episodes:
+                if hasattr(meta, "episodes") and meta.episodes:
                     logger.info(f"Number of episodes in metadata: {len(meta.episodes)}")
                 else:
-                    logger.warning("Episodes metadata is None - likely codec/FFmpeg issue preventing full metadata load")
+                    logger.warning(
+                        "Episodes metadata is None - likely codec/FFmpeg issue preventing full metadata load"
+                    )
             else:
-                logger.warning("Dataset has no 'meta' attribute - ensure LeRobotDataset is used")
+                logger.warning(
+                    "Dataset has no 'meta' attribute - ensure LeRobotDataset is used"
+                )
 
         except Exception as e:
-            logger.warning(f"Could not decode/get dataset sample: {e} - possible codec issue")
+            logger.warning(
+                f"Could not decode/get dataset sample: {e} - possible codec issue"
+            )
 
         return dataset
 
@@ -310,10 +361,32 @@ def compute_parameter_hash(parameters: List[np.ndarray]) -> str:
     return hashlib.sha256(param_bytes).hexdigest()
 
 
+def compute_rounded_hash(ndarrays, precision="float32"):
+    """Compute SHA256 hash of NDArrays after rounding to fixed precision.
+
+    This mitigates float drift from Flower's serialization/deserialization
+    by rounding to a consistent dtype before hashing.
+
+    Args:
+        ndarrays: List of numpy arrays (model parameters)
+        precision: Target dtype for rounding ('float32' or 'float16')
+
+    Returns:
+        str: SHA256 hex hash of the rounded, flattened arrays
+    """
+    import numpy as np
+    import hashlib
+
+    # Round to fixed dtype for tolerance
+    rounded = [arr.astype(getattr(np, precision)) for arr in ndarrays]
+    # Flatten and concatenate
+    flat = np.concatenate([r.flatten() for r in rounded])
+    # Hash the bytes
+    return hashlib.sha256(flat.tobytes()).hexdigest()
+
+
 def validate_and_log_parameters(
-    parameters: List[np.ndarray],
-    gate_name: str,
-    expected_count: int = 506
+    parameters: List[np.ndarray], gate_name: str, expected_count: int = 506
 ) -> str:
     """
     Validate parameters and log basic information about them.
@@ -355,6 +428,97 @@ def get_tool_config(tool_name: str, file_path: str = "pyproject.toml") -> dict:
     with open(file_path, "rb") as f:
         config = tomllib.load(f)
     return config.get("tool", {}).get(tool_name, {})
+
+
+def validate_scheduler_config(cfg: dict) -> None:
+    """Validate scheduler configuration parameters.
+
+    Args:
+        cfg: Configuration dictionary with scheduler parameters
+
+    Raises:
+        ValueError: If configuration is invalid
+    """
+    # Validate scheduler type
+    valid_types = ["cosine", "cosine_warm_restarts", "reduce_on_plateau"]
+    scheduler_type = cfg.get("scheduler_type", "cosine")
+    if scheduler_type not in valid_types:
+        raise ValueError(
+            f"Invalid scheduler_type '{scheduler_type}'. Must be one of {valid_types}"
+        )
+
+    # Validate cosine_warm_restarts specific parameters
+    if scheduler_type == "cosine_warm_restarts":
+        T_0 = cfg.get("cosine_warm_restarts_T_0", 15)
+        T_mult = cfg.get("cosine_warm_restarts_T_mult", 1.2)
+        if not isinstance(T_0, (int, float)) or T_0 <= 0:
+            raise ValueError(
+                f"cosine_warm_restarts_T_0 must be positive number, got {T_0}"
+            )
+        if not isinstance(T_mult, (int, float)) or T_mult < 1.0:
+            raise ValueError(
+                f"cosine_warm_restarts_T_mult must be >= 1.0, got {T_mult}"
+            )
+
+    # Validate common parameters
+    eta_min = cfg.get("eta_min", 5e-7)
+    if not isinstance(eta_min, (int, float)) or eta_min <= 0:
+        raise ValueError(f"eta_min must be positive number, got {eta_min}")
+
+    # Validate adaptive parameters
+    if cfg.get("adaptive_lr_enabled", False):
+        lr_boost_factor = cfg.get("lr_boost_factor", 1.15)
+        high_loss_multiplier = cfg.get("high_loss_multiplier", 2.0)
+        if not isinstance(lr_boost_factor, (int, float)) or lr_boost_factor < 1.0:
+            raise ValueError(f"lr_boost_factor must be >= 1.0, got {lr_boost_factor}")
+        if (
+            not isinstance(high_loss_multiplier, (int, float))
+            or high_loss_multiplier <= 1.0
+        ):
+            raise ValueError(
+                f"high_loss_multiplier must be > 1.0, got {high_loss_multiplier}"
+            )
+
+    # Validate mu parameters
+    if cfg.get("adaptive_mu_enabled", False):
+        mu_adjust_factor = cfg.get("mu_adjust_factor", 1.05)
+        loss_std_threshold = cfg.get("loss_std_threshold", 1.2)
+        mu_min = cfg.get("mu_min", 0.001)
+        if not isinstance(mu_adjust_factor, (int, float)) or mu_adjust_factor <= 1.0:
+            raise ValueError(f"mu_adjust_factor must be > 1.0, got {mu_adjust_factor}")
+        if not isinstance(loss_std_threshold, (int, float)) or loss_std_threshold <= 0:
+            raise ValueError(
+                f"loss_std_threshold must be positive, got {loss_std_threshold}"
+            )
+        if not isinstance(mu_min, (int, float)) or mu_min < 0:
+            raise ValueError(f"mu_min must be non-negative, got {mu_min}")
+
+    # Validate spike detection parameters
+    spike_threshold = cfg.get("spike_threshold", 0.5)
+    adjustment_window = cfg.get("adjustment_window", 5)
+    max_adjust_factor = cfg.get("max_adjust_factor", 1.05)
+    if not isinstance(spike_threshold, (int, float)) or spike_threshold <= 0:
+        raise ValueError(f"spike_threshold must be positive, got {spike_threshold}")
+    if not isinstance(adjustment_window, int) or adjustment_window < 1:
+        raise ValueError(
+            f"adjustment_window must be positive integer, got {adjustment_window}"
+        )
+    if not isinstance(max_adjust_factor, (int, float)) or max_adjust_factor < 1.0:
+        raise ValueError(f"max_adjust_factor must be >= 1.0, got {max_adjust_factor}")
+
+    # Validate outlier client IDs
+    outlier_client_ids = cfg.get("outlier_client_ids", [])
+    if not isinstance(outlier_client_ids, list):
+        raise ValueError(
+            f"outlier_client_ids must be a list, got {type(outlier_client_ids)}"
+        )
+    for client_id in outlier_client_ids:
+        if not isinstance(client_id, int) or client_id < 0:
+            raise ValueError(
+                f"outlier_client_ids must contain non-negative integers, got {client_id}"
+            )
+
+
 def create_client_metrics_dict(
     round_num: int,
     client_id: str,
@@ -407,12 +571,14 @@ def prepare_server_wandb_metrics(
     server_metrics: dict,
     aggregated_client_metrics: dict,
     individual_client_metrics: list,
+    per_dataset_results: Optional[List[Dict]] = None,
 ) -> dict:
     """
     Prepare server metrics for WandB logging using the same structure as JSON files.
 
     This function creates a flattened metrics dictionary suitable for WandB logging
-    that mirrors the structure used in server JSON evaluation files.
+    that mirrors the structure used in server JSON evaluation files, including
+    per-dataset metrics when available.
 
     Args:
         server_round: Current server round number
@@ -420,6 +586,7 @@ def prepare_server_wandb_metrics(
         server_metrics: Server evaluation metrics dictionary
         aggregated_client_metrics: Aggregated client metrics from last round
         individual_client_metrics: List of individual client metrics from last round
+        server_eval_dataset_results: Optional list of per-dataset evaluation results from server eval
 
     Returns:
         Dictionary of metrics formatted for WandB logging with appropriate prefixes
@@ -430,11 +597,21 @@ def prepare_server_wandb_metrics(
     server_prefix = "server_"
     wandb_metrics[f"{server_prefix}round"] = server_round
     wandb_metrics[f"{server_prefix}eval_loss"] = server_loss
-    wandb_metrics[f"{server_prefix}eval_policy_loss"] = server_metrics.get("policy_loss", 0.0)
-    wandb_metrics[f"{server_prefix}eval_successful_batches"] = server_metrics.get("successful_batches", 0)
-    wandb_metrics[f"{server_prefix}eval_total_batches"] = server_metrics.get("total_batches_processed", 0)
-    wandb_metrics[f"{server_prefix}eval_total_samples"] = server_metrics.get("total_samples", 0)
-    wandb_metrics[f"{server_prefix}eval_action_dim"] = server_metrics.get("action_dim", 7)
+    wandb_metrics[f"{server_prefix}eval_policy_loss"] = server_metrics.get(
+        "policy_loss", 0.0
+    )
+    wandb_metrics[f"{server_prefix}eval_successful_batches"] = server_metrics.get(
+        "successful_batches", 0
+    )
+    wandb_metrics[f"{server_prefix}eval_total_batches"] = server_metrics.get(
+        "total_batches_processed", 0
+    )
+    wandb_metrics[f"{server_prefix}eval_total_samples"] = server_metrics.get(
+        "total_samples", 0
+    )
+    wandb_metrics[f"{server_prefix}eval_action_dim"] = server_metrics.get(
+        "action_dim", 7
+    )
 
     # Add aggregated client metrics with server_ prefix
     if aggregated_client_metrics:
@@ -450,5 +627,29 @@ def prepare_server_wandb_metrics(
         for key, value in client_metric.items():
             if key not in ["flower_proxy_cid"]:  # Exclude internal fields
                 wandb_metrics[f"{prefix}{key}"] = value
+
+    # Add per-dataset metrics mirroring JSON structure (e.g., loss_evaldata_id_0)
+    if per_dataset_results:
+        for result in per_dataset_results:
+            evaldata_id = result.get(
+                "evaldata_id", result.get("dataset_name", "unknown").replace("/", "_")
+            )
+            # Add top-level prefixed metrics matching JSON
+            wandb_metrics[f"evaldata_id_{evaldata_id}_loss"] = result["loss"]
+            wandb_metrics[f"evaldata_id_{evaldata_id}_num_examples"] = result[
+                "num_examples"
+            ]
+            wandb_metrics[f"evaldata_id_{evaldata_id}_successful_batches"] = result[
+                "metrics"
+            ].get("successful_batches", 0)
+            wandb_metrics[f"evaldata_id_{evaldata_id}_total_samples"] = result[
+                "metrics"
+            ].get("total_samples", 0)
+            wandb_metrics[f"evaldata_id_{evaldata_id}_dataset_name"] = result[
+                "dataset_name"
+            ]
+        logger.debug(
+            f"Added JSON-mirrored per-dataset WandB metrics for evaldata_ids: {[r.get('evaldata_id', r.get('dataset_name', 'unknown').replace('/', '_')) for r in per_dataset_results]}"
+        )
 
     return wandb_metrics

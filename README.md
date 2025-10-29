@@ -12,15 +12,18 @@ Ultimate Goal and Massive Transformative Purpose:
 
 ## 🚀 **Latest Model Release**
 
-The zk0.bot SmolVLA Federated Learning model is now available on Hugging Face Hub!
+The zk0 v0.3.11 SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
 You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
 
-- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
-- **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
-- **Final Policy Loss**: 0.544
+For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Update: SmolVLA Federated Learning Progress](https://open.substack.com/pub/ivelin117/p/update-smolvla-federated-learning?r=42d25&utm_campaign=post&utm_medium=web), which includes WandB visualizations.
+
+- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.3.11)
+- **Training**: 250 rounds of federated learning with FedProx (μ=0.01, dynamic LR/MU scheduling)
+- **Final Policy Loss**: 0.495
 - **Clients**: 4 clients on diverse SO-100 robotics tasks
 - **Framework**: Flower + SmolVLA + SO-100 datasets
+- **WandB Run**: [zk0-sim-fl-run-2025-10-20_23-44-35](https://wandb.ai/ivelin-eth/zk0/runs/zk0-sim-fl-run-2025-10-20_23-44-35)
 
 ```python
 from transformers import AutoModel, AutoConfig
@@ -130,8 +133,43 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 ./train.sh --docker
 ```
 
+### Push Model to Hugging Face Hub
+
+After training, your model checkpoint will be automatically pushed to Hugging Face Hub as a complete checkpoint directory.
+However if the training stops early for any reason, you can still push a saved intermediate checkpoint directory to HF Hub:
+
+```bash
+# Push model checkpoint directory to HF Hub
+conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30
+
+# Push to custom repository
+conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30 --repo-id your-username/your-model
+```
+
+#### Checkpoint Directory Structure
+
+Each checkpoint is saved as a complete directory containing all Hugging Face Hub-compatible files:
+
+```
+checkpoint_round_N/
+├── model.safetensors          # Model weights in safetensors format
+├── config.json               # Model configuration
+├── README.md                 # Auto-generated model card with training details
+├── metrics.json              # Training metrics and insights
+├── tokenizer.json            # Tokenizer configuration
+├── tokenizer_config.json     # Tokenizer settings
+├── special_tokens_map.json   # Special token mappings
+├── vocab.json                # Vocabulary
+├── merges.txt                # BPE merges (if applicable)
+├── generation_config.json    # Text generation settings
+├── preprocessor_config.json  # Input preprocessing config
+├── policy_preprocessor.json  # SmolVLA policy preprocessor
+└── policy_postprocessor.json # SmolVLA policy postprocessor
+```
+
 - **Defaults**: 500 rounds, 4 clients, SO-100/SO-101 datasets.
-- **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoints (`.safetensors`), videos.
+- **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoint directories, videos.
+- **HF Hub Push**: For tiny/debug runs (e.g., `num-server-rounds < checkpoint_interval=20`), the final model push to Hugging Face Hub is skipped to avoid repository clutter with incomplete checkpoints. Local checkpoints are always saved. Full runs (≥20 rounds) will push to the configured `hf_repo_id`.
 
 **Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
 
@@ -143,9 +181,9 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ## Project Status
 
-### 🚀 Current Stage: Beta
+### 🚀 Current Stage: Beta (v0.3.11)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. Recent updates: Enhanced security, consolidated metrics, early stopping, dynamic learning rate.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization, and removed redundant artifacts. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
 
 #### Completed Milestones
 
@@ -156,16 +194,15 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. Recent updates: 
 - ✅ Config/Tooling: YAML datasets, env management.
 - ✅ Enhanced Security: Bidirectional SHA256 parameter validation.
 - ✅ Consolidated Metrics: Server-side evaluation files now include both aggregated and individual client metrics with dataset identification (v0.1.19).
-- ✅ Early Stopping: Configurable server-side early stopping with patience-based termination.
 
 #### In Progress
 
-- Multi-task learning, advanced strategies (FedProx+), hyperparam tuning.
+- Preparing client and server modules for production deployment
 - ZK proofs, onchain coordination.
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
-**Config**: 4 clients (LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; early stopping (patience=10); FedProx (μ=0.01).
+**Config**: 12 clients available (4 active: LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation with 3 diverse evaluation datasets.
 
 ## Documentation
 

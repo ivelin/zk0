@@ -11,6 +11,7 @@ def get_config():
         # Try to load from pyproject.toml
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
         from src.utils import get_tool_config
+
         config = get_tool_config("zk0.logging")
         return config
     except Exception:
@@ -25,7 +26,7 @@ def get_config():
             "file_retention": "10 days",
             "ray_log_to_driver": True,
             "ray_dedup_logs": True,
-            "ray_color_prefix": True
+            "ray_color_prefix": True,
         }
 
 
@@ -51,7 +52,9 @@ def get_rotation_mb(config):
         return 500  # Default 500MB
 
 
-def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = None, process_id: int = None):
+def setup_common_logging(
+    log_file: Path, level: str = "DEBUG", client_id: str = None, process_id: int = None
+):
     """Setup common Loguru configuration for console sinks and framework bridges.
 
     Handles console output and Flower/Ray logging propagation. Conditional server file sink.
@@ -62,30 +65,36 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
         client_id: Optional client identifier for federated learning
         process_id: Optional process ID for multi-process identification
     """
+
+    # clean loguru from any previous context polution
+    # required due to the way loguru handles global state while flower / ray recycle client instances withing the same python process
+    logger.remove()
+    logger.configure(extra={})  # Reset extra contextual data
+
     # Load configuration from pyproject.toml
     config = get_config()
 
     # Override level from config if available
-    if "level" in config:
+    if level is None and "level" in config:
         level = config["level"]
 
     # Set framework environment variables for logging integration
-    os.environ['FLWR_LOG_LEVEL'] = level.upper()
+    os.environ["FLWR_LOG_LEVEL"] = level.upper()
 
     # LeRobot logging (if supported)
-    if 'LEROBOT_LOG_LEVEL' in os.environ:
+    if "LEROBOT_LOG_LEVEL" in os.environ:
         pass  # Keep existing setting
     else:
-        os.environ['LEROBOT_LOG_LEVEL'] = level.upper()
+        os.environ["LEROBOT_LOG_LEVEL"] = level.upper()
 
     # Configure gRPC logging if enabled
     if config.get("enable_grpc_logging", False):  # Disabled by default to reduce noise
-        os.environ['GRPC_VERBOSITY'] = 'INFO'
-        os.environ['GRPC_TRACE'] = 'all'
+        os.environ["GRPC_VERBOSITY"] = "INFO"
+        os.environ["GRPC_TRACE"] = "all"
     else:
         # Disable gRPC verbose logging
-        os.environ['GRPC_VERBOSITY'] = 'ERROR'
-        os.environ['GRPC_TRACE'] = ''
+        os.environ["GRPC_VERBOSITY"] = "ERROR"
+        os.environ["GRPC_TRACE"] = ""
 
     # Note: Ray logging configuration is handled via environment variables in train.sh
     # for simulation mode, as Ray must be configured before ray.init() is called by Flower
@@ -96,8 +105,8 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
 
     # Set default extras
     extras = {}
-    extras['client_id'] = client_id if client_id is not None else "server"
-    extras['process_id'] = process_id if process_id is not None else os.getpid()
+    extras["client_id"] = client_id if client_id is not None else "server"
+    extras["process_id"] = process_id if process_id is not None else os.getpid()
 
     # Choose format based on config
     if config.get("log_format") == "json":
@@ -119,7 +128,7 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
         format=console_format,
         colorize=True,
         backtrace=True,
-        diagnose=True
+        diagnose=True,
     )
 
     # Stderr sink to capture Ray worker output and other stderr
@@ -130,19 +139,21 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
         colorize=False,
         enqueue=True,
         backtrace=True,
-        diagnose=True
+        diagnose=True,
     )
+
+    retention = config.get("file_retention", "10 days")
 
     # Add direct file sink for simulation.log (for all processes including server)
     logger.add(
         str(log_file),
         level=level,
         rotation=f"{rotation_mb} MB",
-        retention=config.get("file_retention", "10 days"),
+        retention=retention,
         compression="zip",
         format=file_format,
         enqueue=True,
-        catch=True
+        catch=True,
     )
 
     # Bind default extras to logger
@@ -151,56 +162,58 @@ def setup_common_logging(log_file: Path, level: str = "DEBUG", client_id: str = 
 
     logger.info(f"Unified logging setup complete for {log_file} at level {level}")
 
-    # Create server-specific log if this is the server process
-    if extras.get('client_id') == "server":
-        server_dir = log_file.parent / "server"
-        server_dir.mkdir(parents=True, exist_ok=True)
-        server_log_file = server_dir / "server.log"
-        logger.add(
-            str(server_log_file),
-            level=level,
-            rotation=f"{rotation_mb} MB",
-            retention=config.get("file_retention", "10 days"),
-            compression="zip",
-            format=file_format,
-            enqueue=True,
-            catch=True
-        )
-        logger.info(f"Server-specific logging to {server_log_file}")
-
     # Configure Flower logger to prevent duplicates
-    flwr_logger = logging.getLogger('flwr')
+    flwr_logger = logging.getLogger("flwr")
     flwr_logger.propagate = False  # Prevent propagation to root logger
     flwr_logger.setLevel(level)
 
     # Suppress noisy logging from standard library
-    logging.getLogger('logging').setLevel(logging.WARNING)
-    logging.getLogger('urllib3').setLevel(logging.WARNING)
+    logging.getLogger("logging").setLevel(logging.WARNING)
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+
+    return (
+        level,
+        file_format,
+        retention,
+        rotation_mb,
+    )
 
 
-def setup_base_logging(log_file: Path, client_id: str = None, process_id: int = None):
-    """Setup base logging configuration."""
-    return setup_common_logging(log_file, client_id=client_id, process_id=process_id)
+def setup_server_logging(log_file: Path):
+    level, file_format, retention, rotation_mb = setup_common_logging(
+        log_file=log_file, client_id="server"
+    )
+    # Create server-specific log if this is the server process
+    server_dir = log_file.parent / "server"
+    server_dir.mkdir(parents=True, exist_ok=True)
+    server_log_file = server_dir / "server.log"
+    logger.add(
+        str(server_log_file),
+        level=level,
+        rotation=f"{rotation_mb} MB",
+        retention=retention,
+        compression="zip",
+        format=file_format,
+        enqueue=True,
+        catch=True,
+    )
+    logger.info(f"Server-specific logging to {server_log_file}")
 
 
-def setup_logging(log_file: Path, client_id: str = None, process_id: int = None):
-    """Setup logging configuration."""
-    return setup_common_logging(log_file, client_id=client_id, process_id=process_id)
-
-
-def setup_client_logging(log_file_path: Path, partition_id: int):
+def setup_client_logging(log_file: Path, partition_id: int):
     """Setup client-specific logging for individual client processes.
 
     Args:
         log_file_path: Path to the main simulation log file
         partition_id: Client partition ID for logging
     """
-    # Load configuration
-    config = get_config()
-    rotation_mb = get_rotation_mb(config)
 
-    # Create client-specific log file
-    timestamp_dir = log_file_path.parent
+    level, file_format, retention, rotation_mb = setup_common_logging(
+        log_file, client_id=f"client_{partition_id}"
+    )
+
+    # Create client-specific log file using the provided partition_id (always fresh)
+    timestamp_dir = log_file.parent
     client_dir = timestamp_dir / "clients" / f"client_{partition_id}"
     client_dir.mkdir(parents=True, exist_ok=True)
     client_log_file = client_dir / "client.log"
@@ -208,13 +221,13 @@ def setup_client_logging(log_file_path: Path, partition_id: int):
     # Add client-specific sink with enqueue=True for multiprocess safety
     logger.add(
         str(client_log_file),
-        level="DEBUG",
+        level=level,
         rotation=f"{rotation_mb} MB",
-        retention=config.get("file_retention", "10 days"),
+        retention=retention,
         compression="zip",
-        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | Client {extra[client_id]} | PID:{extra[process_id]} | {name}:{function}:{line} - {message}",
+        format=file_format,
         enqueue=True,
-        catch=True
+        catch=True,
     )
     logger.info(f"Client {partition_id}: Client-specific logging to {client_log_file}")
 
