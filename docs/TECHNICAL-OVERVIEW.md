@@ -1,8 +1,8 @@
 # Technical Overview
 
-This document provides advanced technical details on zk0's federated learning implementation (v0.2.6), focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
+This document provides advanced technical details on zk0's federated learning implementation (v0.3.11), focusing on comparisons, reproducibility, and evaluation mechanisms. It extracts deep-dive sections from the project documentation, complementing [ARCHITECTURE.md](ARCHITECTURE.md). For core architecture, see [ARCHITECTURE.md](ARCHITECTURE.md); for development practices, see [DEVELOPMENT.md](DEVELOPMENT.md).
 
-**Recent Updates (v0.2.6)**: Advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. New scheduler types (cosine_warm_restarts, reduce_on_plateau), configurable adaptive parameters, and comprehensive validation. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling.
+**Recent Updates (v0.3.11)**: Advanced LR/MU scheduling enhancements with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. New scheduler types (cosine_warm_restarts, reduce_on_plateau), configurable adaptive parameters, and comprehensive validation. Targets <0.15 server policy loss with 100% client engagement through heterogeneity-aware scheduling. CI workflow consolidation and code refactoring for modularity.
 
 ## Federated vs. Centralized Training Comparison
 

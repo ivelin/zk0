@@ -12,17 +12,18 @@ Ultimate Goal and Massive Transformative Purpose:
 
 ## 🚀 **Latest Model Release**
 
-The zk0 v0.2.3 SmolVLA Federated Learning model is now available on Hugging Face Hub!
+The zk0 v0.3.11 SmolVLA Federated Learning model is now available on Hugging Face Hub!
 
 You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
 
-For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Blog Update: SmolVLA FL Progress](docs/blog-update-smolvla-fl-progress.md), which includes WandB visualizations.
+For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Update: SmolVLA Federated Learning Progress](https://open.substack.com/pub/ivelin117/p/update-smolvla-federated-learning?r=42d25&utm_campaign=post&utm_medium=web), which includes WandB visualizations.
 
-- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.2.3)
-- **Training**: 30 rounds of federated learning with FedProx (μ=0.01)
-- **Final Policy Loss**: 0.544
+- **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) (v0.3.11)
+- **Training**: 250 rounds of federated learning with FedProx (μ=0.01, dynamic LR/MU scheduling)
+- **Final Policy Loss**: 0.495
 - **Clients**: 4 clients on diverse SO-100 robotics tasks
 - **Framework**: Flower + SmolVLA + SO-100 datasets
+- **WandB Run**: [zk0-sim-fl-run-2025-10-20_23-44-35](https://wandb.ai/ivelin-eth/zk0/runs/zk0-sim-fl-run-2025-10-20_23-44-35)
 
 ```python
 from transformers import AutoModel, AutoConfig
@@ -180,9 +181,9 @@ checkpoint_round_N/
 
 ## Project Status
 
-### 🚀 Current Stage: Beta (v0.3.8)
+### 🚀 Current Stage: Beta (v0.3.11)
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.1 updates: Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization, and removed redundant artifacts. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
 
 #### Completed Milestones
 
@@ -196,7 +197,7 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.1 updates: 
 
 #### In Progress
 
-- Multi-task learning, advanced strategies (FedProx+), hyperparam tuning.
+- Preparing client and server modules for production deployment
 - ZK proofs, onchain coordination.
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).

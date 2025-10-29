@@ -1,5 +1,13 @@
 # Installation
 
+## Environment Preferences
+- **Conda (Recommended for Development)**: Preferred for fast iteration and direct host GPU access. Use for local development and testing.
+- **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train.sh or direct Docker commands for consistent environments across machines.
+
+## Environment Preferences
+- **Conda (Recommended for Development)**: Preferred for fast iteration and direct host GPU access. Use for local development and testing.
+- **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train.sh or direct Docker commands for consistent environments across machines.
+
 ## Standard Installation
 
 1. Create the zk0 environment:
