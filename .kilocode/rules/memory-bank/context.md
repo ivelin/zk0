@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **CI Fix for Dependency Installation** Updated GitHub Actions CI workflow to use pyproject.toml instead of missing requirements.txt file. Changed dependency installation from `pip install -r requirements.txt` to `pip install -e .` and updated cache keys accordingly. Version bumped to 0.3.9.
+**Latest Update (2025-10-29)**: ✅ **CI Test Dependencies Fix** Fixed GitHub Actions CI failure by installing test optional dependencies. Updated CI workflow to use `pip install -e ".[test]"` instead of `pip install -e .` to include pytest and related testing tools. Version bumped to 0.3.10.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
