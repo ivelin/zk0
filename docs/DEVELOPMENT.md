@@ -176,7 +176,7 @@ Full list: [memory-bank/architecture.md](.kilocode/rules/memory-bank/architectur
 - **Code Style**: PEP 8, type hints, docstrings.
 - **Modularity**: Separate concerns (e.g., task.py for training).
 - **Error Handling**: Raise RuntimeError for missing deps.
-- **Reproducibility**: Pin deps in requirements.txt; use seeds (e.g., 42).
+- **Reproducibility**: Pin deps in pyproject.toml; use seeds (e.g., 42).
 - **Tool Usage**: Batch file reads; diff format for edits.
 - **Context**: Read memory bank at task start; update on changes.
 - **Performance**: GPU optimization, AMP; monitor VRAM.

@@ -315,7 +315,6 @@ conda install ffmpeg=7.1.1 -c conda-forge
 conda activate zk0
 
 # Install Python dependencies
-pip install -r requirements.txt
 pip install -e .
 ```
 
@@ -436,10 +435,10 @@ flwr run . local-simulation-gpu --run-config "num-server-rounds=5 fraction-fit=0
   - **Pusht Diffusion LeRobot Example**: Located at `$HOME/flower/examples/quickstart-lerobot`. Demonstrates federated learning with LeRobot's pusht dataset using diffusion policies.
 
 ### Repository Sync Instructions
-To avoid version mismatches between installed dependencies and local repo code, sync the repositories to match zk0's requirements.txt:
-- **Flower Sync**: Extract version from requirements.txt (e.g., `FLOWER_VERSION=$(grep '^flwr' requirements.txt | cut -d '~' -f 3 | cut -d '.' -f 1-2)`), then `cd $HOME/flower && git fetch --tags && git checkout tags/v${FLOWER_VERSION}.0` (adjust for exact tag format).
+To avoid version mismatches between installed dependencies and local repo code, sync the repositories to match zk0's pyproject.toml:
+- **Flower Sync**: Extract version from pyproject.toml (e.g., `FLOWER_VERSION=$(grep '^flwr' pyproject.toml | cut -d '~' -f 3 | cut -d '.' -f 1-2)`), then `cd $HOME/flower && git fetch --tags && git checkout tags/v${FLOWER_VERSION}.0` (adjust for exact tag format).
 - **LeRobot Sync**: Use `LEROBOT_VERSION=$(pip show lerobot | grep Version | cut -d ' ' -f 2)` then `cd $HOME/lerobot && git fetch --tags && git checkout tags/v${LEROBOT_VERSION}` (or nearest matching tag if exact not available).
-Run these commands after any requirements.txt updates or when switching branches to maintain consistency. Always verify the checked-out version matches the installed dependency.
+Run these commands after any pyproject.toml updates or when switching branches to maintain consistency. Always verify the checked-out version matches the installed dependency.
 
 ## Known Fixes and Configurations
 

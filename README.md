@@ -56,7 +56,7 @@ AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1
 
 Join our Discord server to connect with other contributors, ask questions, and stay updated on the latest developments:
 
-[Join zk0 Discord](https://discord.gg/uue3uKSA)
+[Join zk0 Discord](https://discord.gg/dhMnEne7RP)
 
 For more detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
@@ -111,7 +111,6 @@ conda activate zk0
 conda install ffmpeg=7.1.1 -c conda-forge
 
 # Install deps
-pip install -r requirements.txt
 pip install -e .
 
 # Env vars

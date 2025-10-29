@@ -60,7 +60,6 @@ zk0/
 │   └── rules/
 │       └── memory-bank/         # Memory bank documentation
 ├── pyproject.toml               # Project configuration
-├── requirements.txt             # Python dependencies
 ├── train.sh                     # Docker training script
 ├── train-lerobot-standalone.sh  # Standalone training script
 ├── Dockerfile                   # Docker container definition
@@ -267,7 +266,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Alternative Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
 - **VSCode Integration**: VSCode with Docker integration and automatic environment detection
 - **Training Script**: Use `./train.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
-- **Dependencies**: Use pinned versions from `requirements.txt`
+- **Dependencies**: Use pinned versions from `pyproject.toml`
 
 ### 3. Technical Focus
 - **Primary Model**: Focus on SmolVLA model integration

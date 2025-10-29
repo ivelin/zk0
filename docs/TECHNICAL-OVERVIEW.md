@@ -43,8 +43,7 @@ zk0 emphasizes reproducibility with seeds, pinned dependencies, and scripted wor
 
 ```bash
 # Pinned deps ensure consistency
-pip install -r requirements.txt  # Flower 1.21.0, LeRobot 0.3.3, etc.
-pip install -e .
+pip install -e .  # Installs from pyproject.toml (Flower 1.22.0, LeRobot 0.3.3, etc.)
 
 # Set reproducible seed
 export PYTHONHASHSEED=42

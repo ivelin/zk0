@@ -82,7 +82,6 @@ We welcome code contributions to improve the project. Here's how to get started:
    cd <project-directory>
    conda create -n zk0 python=3.10 -y
    conda activate zk0
-   pip install -r requirements.txt
    pip install -e .
    ```
 
