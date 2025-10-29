@@ -5,8 +5,8 @@
 **Version**: 1.0.2
 **Author**: Kilo Code
 
-## Latest Update (2025-10-28)
-**✅ Complete Checkpoint Directory HF Push Workflow**: Implemented comprehensive checkpoint directory-based HF Hub push system. Server now creates full HF-ready checkpoint directories with model.safetensors, config.json, tokenizer files, README.md, and metrics.json. Push function uploads entire directories using api.upload_folder(). Standalone script validates and pushes checkpoint directories. Eliminates shape mismatches and reconstruction complexity. Updated documentation and added comprehensive unit tests. Version bumped to 0.3.8.
+## Latest Update (2025-10-29)
+**✅ CI Workflow Consolidation**: Consolidated separate unit and integration test jobs into a single matrix job for cleaner GitHub Actions workflow. Removed redundant tee piping, test-output.log artifacts, and standardized on Python 3.10. Fixed lerobot installation for CI compatibility. Version bumped to 0.3.11.
 
 **✅ Enhanced HF Model Push Workflow**: Implemented comprehensive HF Hub push enhancements including rich model cards, git tagging, dynamic README generation, and simulation mode detection. New `push_model_to_hub_enhanced()` function extracts data from configs/JSON outputs, generates detailed model cards with hyperparameters/datasets/metrics/insights, creates local/HF git tags, and handles edge cases. Updated memory bank and added comprehensive unit tests. Version bumped to 0.3.7.
 

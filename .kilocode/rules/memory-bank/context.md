@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **CI Test Dependencies Fix** Fixed GitHub Actions CI failure by installing test optional dependencies. Updated CI workflow to use `pip install -e ".[test]"` instead of `pip install -e .` to include pytest and related testing tools. Version bumped to 0.3.10.
+**Latest Update (2025-10-29)**: ✅ **CI Workflow Consolidation & Fixes** Consolidated unit and integration tests into a single matrix job for cleaner CI. Fixed lerobot installation in CI, removed redundant tee piping to ensure test failures are properly detected, removed test-output.log artifacts since logs are available in GitHub Actions. Standardized on Python 3.10 for consistency. Version bumped to 0.3.11.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics

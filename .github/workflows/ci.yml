@@ -5,9 +5,24 @@ on:
   pull_request:
 
 jobs:
-  unit-tests:
-    name: Unit Tests
+  test:
+    name: ${{ matrix.test-type }} Tests
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - test-type: Unit
+            python-version: '3.10'
+            test-path: tests/unit/
+            cov-fail-under: 80
+            parallel: 4
+            flags: unit
+          - test-type: Integration
+            python-version: '3.10'
+            test-path: tests/integration/
+            cov-fail-under: 75
+            parallel: 2
+            flags: integration
 
     steps:
     - uses: actions/checkout@v4
@@ -15,7 +30,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: ${{ matrix.python-version }}
 
     - name: Cache pip dependencies
       uses: actions/cache@v4
@@ -29,18 +44,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -e ".[test]"
+        pip install 'lerobot[smolvla]>=0.3.3'
 
-    - name: Run unit tests with early failure
+    - name: Run ${{ matrix.test-type }} tests
       run: |
-        pytest tests/unit/ -x --tb=short --durations=10 --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=80 -n 4 | tee test-output.log
+        pytest ${{ matrix.test-path }} -x --tb=short --durations=10 --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=${{ matrix.cov-fail-under }} -n ${{ matrix.parallel }}
 
-    - name: Upload test artifacts
+    - name: Upload coverage artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: unit-test-artifacts
+        name: ${{ matrix.test-type }}-test-coverage
         path: |
-          test-output.log
           coverage.xml
           htmlcov/
 
@@ -48,51 +63,5 @@ jobs:
       uses: codecov/codecov-action@v3
       with:
         file: ./coverage.xml
-        flags: unit
-        fail_ci_if_error: false
-
-  integration-tests:
-    name: Integration Tests
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-
-    - name: Cache pip dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -e ".[test]"
-
-    - name: Run integration tests with early failure
-      run: |
-        pytest tests/integration/ -x --tb=short --durations=10 --cov=src --cov-report=term-missing --cov-report=xml --cov-fail-under=75 -n 2 | tee test-output.log
-
-    - name: Upload test artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: integration-test-artifacts
-        path: |
-          test-output.log
-          coverage.xml
-          htmlcov/
-
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./coverage.xml
-        flags: integration
+        flags: ${{ matrix.flags }}
         fail_ci_if_error: false
