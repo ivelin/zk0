@@ -2,7 +2,7 @@
 
 This document provides a detailed overview of the zk0 project's architecture (v0.2.3), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation, with references to the memory bank for deeper internal details (located in `.kilocode/rules/memory-bank/`).
 
-**Recent Updates (v0.2.3)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), configurable early stopping (patience-based termination), and optional dynamic learning rate adjustment based on evaluation trends.
+**Recent Updates (v0.2.3)**: Enhanced security with bidirectional SHA256 parameter validation, consolidated metrics (aggregated + individual client metrics in server eval files), and optional dynamic learning rate adjustment based on evaluation trends.
 
 For the full system architecture, including directory structure and configuration, see [memory-bank/architecture.md](.kilocode/rules/memory-bank/architecture.md).
 

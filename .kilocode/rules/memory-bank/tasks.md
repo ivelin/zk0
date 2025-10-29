@@ -5,8 +5,12 @@
 **Version**: 1.0.2
 **Author**: Kilo Code
 
-## Latest Update (2025-10-22)
-**✅ Prepare for Commit Workflow**: Added standardized workflow for preparing code changes for commit, ensuring quality, version management, and documentation consistency. Use this workflow for "prepare for commit", "wrap it up", or similar requests. Includes version bump, testing, memory bank updates, documentation, and git operations.
+## Latest Update (2025-10-28)
+**✅ Complete Checkpoint Directory HF Push Workflow**: Implemented comprehensive checkpoint directory-based HF Hub push system. Server now creates full HF-ready checkpoint directories with model.safetensors, config.json, tokenizer files, README.md, and metrics.json. Push function uploads entire directories using api.upload_folder(). Standalone script validates and pushes checkpoint directories. Eliminates shape mismatches and reconstruction complexity. Updated documentation and added comprehensive unit tests. Version bumped to 0.3.8.
+
+**✅ Enhanced HF Model Push Workflow**: Implemented comprehensive HF Hub push enhancements including rich model cards, git tagging, dynamic README generation, and simulation mode detection. New `push_model_to_hub_enhanced()` function extracts data from configs/JSON outputs, generates detailed model cards with hyperparameters/datasets/metrics/insights, creates local/HF git tags, and handles edge cases. Updated memory bank and added comprehensive unit tests. Version bumped to 0.3.7.
+
+**✅ Standalone Model Push Module Migration**: Migrated standalone push_to_hf.py to src/zk0/push_to_hf.py module for proper package integration. Updated imports to use absolute package paths (zk0.server.server_utils, zk0.utils), removed shebang for module execution, added console_scripts entry point in pyproject.toml, updated README.md documentation, and removed standalone file. Module can now be executed via `python -m zk0.push_to_hf` with full functionality preserved.
 
 ## Critical Bug Fixes
 
@@ -41,29 +45,6 @@
 - Maintains model quality by returning best available parameters
 - Prevents data loss from unexpected crashes during training
 
-### Early Stopping Implementation
-**Last performed:** 2025-10-13
-**Context:** Added configurable server-side early stopping to prevent wasted computation when evaluation loss plateaus.
-
-**Files modified:** `pyproject.toml`, `src/server_app.py`, `tests/unit/test_server_app.py`
-
-**Steps:**
-1. **Configuration Addition**: Added `early_stopping_patience = 10` parameter to `pyproject.toml` [tool.flwr.app.config] section
-2. **Strategy State Initialization**: Added early stopping tracking attributes (best_eval_loss, rounds_without_improvement, early_stopping_triggered) in AggregateEvaluationStrategy.__init__()
-3. **Pure Function Creation**: Implemented `check_early_stopping()` standalone function for determining if stopping criteria met
-4. **Tracking Function**: Created `update_early_stopping_tracking()` function to update strategy state and log early stopping status
-5. **Integration in _server_evaluate**: Added call to `update_early_stopping_tracking()` after each evaluation to monitor loss improvements
-6. **Termination Logic**: Added early stopping check in `aggregate_fit()` to return None and terminate training when triggered
-7. **Comprehensive Unit Tests**: Added 8 test cases covering all early stopping scenarios (disabled, improvement, no improvement, trigger, already triggered)
-8. **Validation**: All tests pass; syntax check successful; imports work correctly
-
-**Benefits:**
-- Automatic termination prevents wasted GPU/compute resources
-- Configurable patience allows tuning for different convergence patterns
-- Clear logging enables understanding of stopping decisions
-- Preserves best model state when terminating
-- Easy to disable for experiments requiring fixed round counts
-
 ## Consolidated Metrics Implementation
 **Last performed:** 2025-10-13
 **Context:** Consolidated client metrics into server evaluation files for unified reporting and analysis.
@@ -84,38 +65,6 @@
 - Enhanced debugging and performance monitoring
 - Simplified post-run analysis and reporting
 
-## Early Stopping None Parameter Fix Workflow
-**Last performed:** 2025-10-14
-**Context:** Fixed critical bug where early stopping could return None parameters, causing `TypeError: cannot unpack non-iterable NoneType object` in Flower's server unpacking
-**Files modified:** `src/server_app.py`
-
-**Steps:**
-1. **Issue Detection**: Tiny training runs crashed with `TypeError: cannot unpack non-iterable NoneType object` in Flower server unpacking
-2. **Root Cause Analysis**: Early stopping logic returned `self.current_parameters` which could be `None` if no parameters aggregated yet
-3. **Fix Implementation**: Modified early stopping to return valid parameters:
-   - Use `aggregated_parameters` if available (from current round)
-   - Fall back to `self.initial_parameters` if no aggregated parameters exist
-4. **Parameter Storage**: Added `self.initial_parameters` to store initial model parameters for fallback
-5. **Validation**: Fixed code ensures Flower always receives valid `(parameters, metrics)` tuple
-6. **Testing**: Next tiny training run should complete without unpacking errors
-
-**Important notes:**
-- Early stopping now safely handles cases where no parameters have been aggregated
-- Always returns valid Flower Parameters object to prevent server crashes
-- Maintains early stopping functionality while ensuring system stability
-- Critical fix for short training runs (1 round) where early stopping might trigger
-
-**Common Issues Addressed:**
-- `TypeError: cannot unpack non-iterable NoneType object` in Flower server
-- Training crashes during early stopping in short runs
-- Unstable early stopping behavior with None parameter returns
-
-**Benefits:**
-- Stable early stopping that doesn't crash Flower server
-- Reliable training termination for all run lengths
-- Maintains model quality by returning best available parameters
-- Prevents data loss from unexpected crashes during early stopping
-
 **✅ Added Parameter Type Handling and Eval Mode Fixes Workflow**: Documented fixes for client parameter type compatibility, server eval_mode passing, and full evaluation episode limits to resolve federated learning crashes and limited evaluation scope.
 
 **✅ Added Server-Side Loss Calculation Fix Workflow**: Fixed server evaluation to use policy loss as primary loss (SmolVLA flow-matching model), ensuring appropriate evaluation metrics
@@ -125,6 +74,43 @@
 **✅ Added Documentation Update Workflow**: Updated README.md, visualization.py, server_app.py, and tests to reflect policy loss metrics, including chart generation, file names, and metric descriptions
 
 **✅ Added LR/MU Scheduling Enhancement Workflow**: Implemented advanced LR/MU scheduling with warm restarts, per-client adaptive LR boosts, dynamic mu adjustment, and spike detection. Added comprehensive unit tests, documentation updates, and memory bank entries. Targets <0.15 server policy loss with 100% client engagement.
+
+## HF Push Workflow
+**Last performed:** 2025-10-28
+**Context:** Complete checkpoint directory-based HF Hub push system for SmolVLA federated learning models. Server creates full HF-ready directories, standalone script validates and uploads them.
+
+**Files modified:**
+- `src/server/server_utils.py` - `save_model_checkpoint()`, `push_model_to_hub_enhanced()`, `save_and_push_model()`
+- `src/push_to_hf.py` - Updated to accept checkpoint directories
+- `tests/unit/test_server_utils.py` - Added tests for directory creation and push logic
+- `README.md` - Updated with checkpoint directory structure
+- `.kilocode/rules/memory-bank/tasks.md` - Documented workflow
+
+**Steps:**
+1. **Server Checkpoint Creation**: `save_model_checkpoint()` creates `checkpoint_round_N/` directory with:
+   - `model.safetensors` - Model weights in safetensors format
+   - `config.json` - Model configuration from template
+   - `README.md` - Auto-generated model card with hyperparameters, datasets, metrics, insights
+   - `metrics.json` - Aggregated and individual client metrics
+   - Base model files (tokenizer.json, preprocessor.json, etc.) copied from HF cache
+
+2. **Server Push Logic**: `save_and_push_model()` calls `save_model_checkpoint()` (returning directory path), then `push_model_to_hub_enhanced(checkpoint_dir, repo_id)` for final round
+
+3. **Standalone Push**: `python -m zk0.push_to_hf /path/to/checkpoint_dir --repo-id user/model` validates required files and uploads entire directory
+
+4. **HF Hub Upload**: `push_model_to_hub_enhanced()` uses `api.upload_folder()` to upload complete directory, creates git tags, handles cleanup
+
+**Benefits:**
+- **No Shape Mismatches**: Server creates directories with correct template/conversion logic
+- **Complete Metadata**: Every checkpoint has full README, metrics, and all required HF files
+- **Session Caching**: Base model files cached per server session using HF Hub cache
+- **Standalone Simplicity**: Script just validates and uploads pre-built directories
+- **Backward Compatibility**: Existing safetensors saves preserved; new directories for HF-ready checkpoints
+
+**Testing:**
+- Unit tests for `save_model_checkpoint()` and `push_model_to_hub_enhanced()`
+- Integration test: Run tiny FL training, verify checkpoint directory creation and HF push
+- Standalone test: Push saved directory manually, verify HF repo contents
 
 ## Prepare for Commit Workflow
 **Last performed:** 2025-10-22

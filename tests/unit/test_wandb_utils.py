@@ -248,26 +248,23 @@ class TestWandbUtils:
         assert result["server_eval_policy_loss"] == 0.20069279242306948
 
         # Verify per-dataset metrics match JSON structure
-        assert result["loss_evaldata_id_0"] == 0.20069279242306948
-        assert result["policy_loss_evaldata_id_0"] == 0.20069279242306948
-        assert result["num_examples_evaldata_id_0"] == 1024
-        assert result["successful_batches_evaldata_id_0"] == 16
-        assert result["total_samples_evaldata_id_0"] == 1024
-        assert result["dataset_name_evaldata_id_0"] == "Hupy440/Two_Cubes_and_Two_Buckets_v2"
+        assert result["evaldata_id_0_loss"] == 0.20069279242306948
+        assert result["evaldata_id_0_num_examples"] == 1024
+        assert result["evaldata_id_0_successful_batches"] == 16
+        assert result["evaldata_id_0_total_samples"] == 1024
+        assert result["evaldata_id_0_dataset_name"] == "Hupy440/Two_Cubes_and_Two_Buckets_v2"
 
-        assert result["loss_evaldata_id_1"] == 0.2598760323598981
-        assert result["policy_loss_evaldata_id_1"] == 0.2598760323598981
-        assert result["num_examples_evaldata_id_1"] == 1024
-        assert result["successful_batches_evaldata_id_1"] == 16
-        assert result["total_samples_evaldata_id_1"] == 1024
-        assert result["dataset_name_evaldata_id_1"] == "dll-hackathon-102025/oct_19_440pm"
+        assert result["evaldata_id_1_loss"] == 0.2598760323598981
+        assert result["evaldata_id_1_num_examples"] == 1024
+        assert result["evaldata_id_1_successful_batches"] == 16
+        assert result["evaldata_id_1_total_samples"] == 1024
+        assert result["evaldata_id_1_dataset_name"] == "dll-hackathon-102025/oct_19_440pm"
 
-        assert result["loss_evaldata_id_3"] == 0.209683109074831
-        assert result["policy_loss_evaldata_id_3"] == 0.209683109074831
-        assert result["num_examples_evaldata_id_3"] == 1024
-        assert result["successful_batches_evaldata_id_3"] == 16
-        assert result["total_samples_evaldata_id_3"] == 1024
-        assert result["dataset_name_evaldata_id_3"] == "shuohsuan/grasp1"
+        assert result["evaldata_id_3_loss"] == 0.209683109074831
+        assert result["evaldata_id_3_num_examples"] == 1024
+        assert result["evaldata_id_3_successful_batches"] == 16
+        assert result["evaldata_id_3_total_samples"] == 1024
+        assert result["evaldata_id_3_dataset_name"] == "shuohsuan/grasp1"
 
         # Verify client metrics are still present
         assert result["client_3_loss"] == 0.43921390622854234
@@ -318,5 +315,5 @@ class TestWandbUtils:
         )
 
         # Should use sanitized dataset_name as fallback
-        assert result["loss_evaldata_id_test_dataset"] == 0.5
-        assert result["dataset_name_evaldata_id_test_dataset"] == "test_dataset"
+        assert result["evaldata_id_test_dataset_loss"] == 0.5
+        assert result["evaldata_id_test_dataset_dataset_name"] == "test_dataset"

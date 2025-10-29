@@ -5,84 +5,7 @@ from pathlib import Path
 
 from src.task import get_model, get_params, compute_param_norms, set_params
 
-
-
-
-def check_early_stopping(
-    eval_loss: float, best_loss: float, rounds_without_improvement: int, patience: int
-) -> tuple[bool, int]:
-    """Check if early stopping should be triggered based on evaluation loss.
-
-    Args:
-        eval_loss: Current evaluation loss
-        best_loss: Best evaluation loss seen so far
-        rounds_without_improvement: Current count of rounds without improvement
-        patience: Number of rounds to wait before stopping
-
-    Returns:
-        tuple: (should_stop, updated_rounds_without_improvement)
-    """
-    if patience <= 0:
-        return False, 0
-
-    if eval_loss < best_loss:
-        # Improvement detected
-        return False, 0
-    else:
-        # No improvement
-        new_rounds_without_improvement = rounds_without_improvement + 1
-        should_stop = new_rounds_without_improvement >= patience
-        return should_stop, new_rounds_without_improvement
-
-
-def update_early_stopping_tracking(
-    strategy, server_round: int, eval_loss: float
-) -> None:
-    """Update early stopping tracking and log status.
-
-    Args:
-        strategy: The AggregateEvaluationStrategy instance
-        server_round: Current server round number
-        eval_loss: Current evaluation loss
-    """
-    if strategy.early_stopping_triggered:
-        return
-
-    should_stop, strategy.rounds_without_improvement = check_early_stopping(
-        eval_loss=eval_loss,
-        best_loss=strategy.best_eval_loss,
-        rounds_without_improvement=strategy.rounds_without_improvement,
-        patience=strategy.early_stopping_patience,
-    )
-
-    if eval_loss < strategy.best_eval_loss:
-        strategy.best_eval_loss = eval_loss
-        logger.info(f"🆕 New best eval loss: {eval_loss:.4f} (round {server_round})")
-    else:
-        logger.info(
-            f"📈 No improvement in eval loss for {strategy.rounds_without_improvement}/{strategy.early_stopping_patience} rounds"
-        )
-
-    if should_stop:
-        strategy.early_stopping_triggered = True
-        logger.warning(
-            f"🛑 Early stopping triggered after {server_round} rounds (no eval loss improvement for {strategy.early_stopping_patience} rounds)"
-        )
-        logger.warning(
-            f"   Best eval loss: {strategy.best_eval_loss:.4f}, Current: {eval_loss:.4f}"
-        )
-
-
-
-
-
-
-
-
-
-
 from src.logger import setup_server_logging
-from src.visualization import SmolVLAVisualizer
 from src.utils import compute_parameter_hash
 from loguru import logger
 
@@ -91,7 +14,6 @@ from flwr.common import (
     EvaluateRes,
     FitIns,
     FitRes,
-    Metrics,
     MetricsAggregationFn,
     NDArrays,
     Parameters,
@@ -103,7 +25,6 @@ from flwr.server import ServerApp, ServerAppComponents, ServerConfig
 from flwr.server.strategy import FedProx
 from typing import Callable, Dict, List, Optional, Tuple, Union
 from flwr.server.client_proxy import ClientProxy
-from flwr.common import EvaluateRes, Scalar
 
 import torch
 from safetensors.torch import save_file
@@ -194,16 +115,8 @@ class AggregateEvaluationStrategy(FedProx):
             context.run_config.get("eval-frequency", 1) if context else 1
         )
 
-        # Early stopping configuration
-        self.early_stopping_patience = (
-            context.run_config.get("early_stopping_patience", 10) if context else 10
-        )
-        self.best_eval_loss = float("inf")
-        self.rounds_without_improvement = 0
-        self.early_stopping_triggered = False
-
         logger.info(
-            f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}, early_stopping_patience={self.early_stopping_patience}"
+            f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}"
         )
 
         # Override evaluate_fn for server-side evaluation (called by strategy.evaluate every round, gated by frequency)
@@ -227,8 +140,14 @@ class AggregateEvaluationStrategy(FedProx):
         except Exception as e:
             import sys
             import traceback
-            print(f"[DEBUG __init__] Model template creation failed: {e}", file=sys.stderr)
-            print(f"[DEBUG __init__] Full traceback: {traceback.format_exc()}", file=sys.stderr)
+
+            print(
+                f"[DEBUG __init__] Model template creation failed: {e}", file=sys.stderr
+            )
+            print(
+                f"[DEBUG __init__] Full traceback: {traceback.format_exc()}",
+                file=sys.stderr,
+            )
             sys.stderr.flush()
             logger.error(f"❌ Server: Failed to create model template: {e}")
             raise RuntimeError(
@@ -264,7 +183,7 @@ class AggregateEvaluationStrategy(FedProx):
             self.current_parameters = ndarrays_to_parameters(parameters)
 
             # Prepare model for evaluation
-            model = prepare_evaluation_model(
+            prepare_evaluation_model(
                 parameters, self.device, self.template_model
             )
 
@@ -301,6 +220,9 @@ class AggregateEvaluationStrategy(FedProx):
                 self.last_aggregated_metrics,
                 self.last_client_metrics,
             )
+
+            # Store per-dataset results for checkpoint metadata
+            self.last_per_dataset_results = per_dataset_results
 
             # Log to WandB
             log_evaluation_to_wandb(
@@ -347,7 +269,9 @@ class AggregateEvaluationStrategy(FedProx):
             logger.exception("Full traceback in _server_evaluate")
             # Additional diagnostics: Check CUDA state post-failure
             if torch.cuda.is_available():
-                logger.error(f"CUDA memory after eval failure: {torch.cuda.memory_summary()}")
+                logger.error(
+                    f"CUDA memory after eval failure: {torch.cuda.memory_summary()}"
+                )
             return None, {}
 
     def compute_fedprox_parameters(
@@ -529,7 +453,6 @@ class AggregateEvaluationStrategy(FedProx):
 
             # 🛡️ VALIDATE: Server outgoing parameters (for training) - with detailed logging
             from src.utils import validate_and_log_parameters
-            from flwr.common import parameters_to_ndarrays
 
             fit_ndarrays = parameters_to_ndarrays(fit_ins.parameters)
             logger.debug(
@@ -560,12 +483,7 @@ class AggregateEvaluationStrategy(FedProx):
         logger.info(f"✅ Server: Fit configuration complete for round {server_round}")
         return updated_config
 
-    def configure_evaluate(self, server_round: int, parameters, client_manager):
-        """Configure the evaluation round - skip client evaluation (server-side only via evaluate_fn)."""
-        logger.info(
-            f"ℹ️ Server: configure_evaluate for round {server_round} - skipping client eval (server-side via evaluate_fn)"
-        )
-        return []  # No client evaluation
+    # Removed configure_evaluate method - server-side evaluation only, no client evaluation needed
 
     def aggregate_evaluate(
         self,
@@ -595,6 +513,29 @@ class AggregateEvaluationStrategy(FedProx):
             )
             return None, {}
 
+    def aggregate_parameters(self, server_round: int, validated_results):
+        """Aggregate parameters from validated client results using FedProx strategy.
+
+        Args:
+            server_round: Current server round number
+            validated_results: List of validated (client_proxy, fit_result) tuples
+
+        Returns:
+            tuple: (aggregated_parameters, parent_metrics) from FedProx aggregation
+        """
+        logger.info(f"DEBUG AGG: Entering aggregate_parameters for round {server_round}, {len(validated_results)} validated clients")
+        try:
+            # Call parent aggregate_fit (FedProx) with validated results only
+            logger.info(f"DEBUG AGG: Calling super().aggregate_fit for round {server_round}")
+            aggregated_parameters, parent_metrics = super().aggregate_fit(
+                server_round, validated_results, []  # No failures since we validated
+            )
+            logger.info(f"DEBUG AGG: super().aggregate_fit succeeded for round {server_round}, params non-None: {aggregated_parameters is not None}, len NDArrays: {len(parameters_to_ndarrays(aggregated_parameters)) if aggregated_parameters else 0}")
+            return aggregated_parameters, parent_metrics
+        except Exception as agg_e:
+            logger.error(f"DEBUG AGG: super().aggregate_fit failed for round {server_round}: {agg_e}, type: {type(agg_e).__name__}")
+            raise
+
     def aggregate_fit(
         self,
         server_round: int,
@@ -623,57 +564,23 @@ class AggregateEvaluationStrategy(FedProx):
         # 🔐 VALIDATE: Individual client parameter hashes BEFORE aggregation
         validated_results = self.validate_client_parameters(results)
 
-        # Aggregate client metrics before calling parent
-        from .server.server_utils import aggregate_client_metrics
-        aggregated_client_metrics = aggregate_client_metrics(validated_results)
-        logger.info(
-            f"DEBUG SERVER AGGREGATE: Aggregated metrics: {aggregated_client_metrics}"
+        # Aggregate parameters using FedProx strategy
+        aggregated_parameters, parent_metrics = self.aggregate_parameters(
+            server_round, validated_results
         )
 
-        # Call parent aggregate_fit (FedProx) with validated results only
-        aggregated_parameters, parent_metrics = super().aggregate_fit(
-            server_round, validated_results, failures
+        # Aggregate client metrics and compute norms
+        from .server.server_utils import aggregate_and_log_metrics
+
+        aggregated_client_metrics = aggregate_and_log_metrics(
+            self, server_round, validated_results, aggregated_parameters
         )
 
-        # Compute parameter update norm if we have previous parameters
-        if self.previous_parameters is not None and aggregated_parameters is not None:
-            from .server.server_utils import compute_server_param_update_norm
-            param_update_norm = compute_server_param_update_norm(
-                self.previous_parameters, aggregated_parameters
-            )
-            aggregated_client_metrics["param_update_norm"] = param_update_norm
+        # Finalize round metrics
+        from .server.server_utils import finalize_round_metrics
 
-        # Store for use in _server_evaluate
-        self.last_aggregated_metrics = aggregated_client_metrics
-
-        # Store individual client metrics for detailed reporting
-        from .server.server_utils import collect_individual_client_metrics
-        self.last_client_metrics = collect_individual_client_metrics(validated_results)
-
-        # Initialize last_client_metrics if not set (for round 0 evaluation)
-        if not hasattr(self, "last_client_metrics") or self.last_client_metrics is None:
-            self.last_client_metrics = []
-
-        # Merge client metrics with parent metrics
-        metrics = {**parent_metrics, **aggregated_client_metrics}
-
-        # DIAGNOSIS METRICS: Add current mu, LR, and eval trend to metrics for JSON/WandB logging
-        current_mu = (
-            self.proximal_mu
-        )  # Initial mu; actual per-round mu adjusted in configure_fit
-        current_lr = self.context.run_config.get("initial_lr", "N/A")
-        eval_trend = (
-            self.server_eval_losses[-3:]
-            if hasattr(self, "server_eval_losses") and self.server_eval_losses
-            else "N/A (no eval history)"
-        )
-        metrics["diagnosis_mu"] = current_mu
-        metrics["diagnosis_lr"] = current_lr
-        metrics["diagnosis_eval_trend"] = str(
-            eval_trend
-        )  # Convert to string for JSON serialization
-        logger.info(
-            f"DIAG R{server_round}: Added to metrics - mu={current_mu}, lr={current_lr}, eval_trend={eval_trend}"
+        metrics = finalize_round_metrics(
+            self, server_round, aggregated_client_metrics, parent_metrics
         )
 
         # Store the aggregated parameters for server-side evaluation
@@ -681,176 +588,6 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Store previous parameters for next round's update norm calculation
         self.previous_parameters = aggregated_parameters
-
-        # Check if early stopping should terminate training
-        if self.early_stopping_triggered:
-            logger.warning(
-                f"🛑 Early stopping: Terminating training after round {server_round}"
-            )
-            logger.warning(f"   Best eval loss achieved: {self.best_eval_loss:.4f}")
-            logger.warning(
-                f"   Rounds without improvement: {self.rounds_without_improvement}"
-            )
-            # Return the aggregated parameters from this round (or initial if none aggregated)
-            # This ensures we always return valid parameters to avoid Flower unpacking errors
-            final_parameters = (
-                aggregated_parameters
-                if aggregated_parameters is not None
-                else self.initial_parameters
-            )
-            logger.info(
-                f"✅ Server: Early stopping - returning parameters from round {server_round}"
-            )
-            return final_parameters, metrics
-
-        # Log post-aggregation global norms (now aggregated_parameters is defined)
-        if aggregated_parameters is not None:
-            # Import here to avoid scope/shadowing issues
-            from flwr.common import parameters_to_ndarrays
-            from src.task import set_params
-
-            # Convert Flower Parameters to numpy arrays for set_params
-            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            # Use cached template model for norm computation (no redundant creation)
-            set_params(self.template_model, aggregated_ndarrays)
-            post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(
-                self.template_model, trainable_only=False
-            )
-            post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(
-                self.template_model, trainable_only=True
-            )
-            total_params = sum(p.numel() for p in self.template_model.parameters())
-            trainable_params = sum(
-                p.numel() for p in self.template_model.parameters() if p.requires_grad
-            )
-            logger.info(
-                f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)"
-            )
-
-        # Log parameter update information
-        if aggregated_parameters is not None:
-            logger.info(
-                f"✅ Server: Successfully aggregated parameters from {len(results)} clients for round {server_round}"
-            )
-
-            # 🛡️ VALIDATE: Server aggregated parameters (import inside to avoid shadowing)
-            from flwr.common import parameters_to_ndarrays
-
-            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            from src.utils import validate_and_log_parameters
-
-            aggregated_hash = validate_and_log_parameters(
-                aggregated_ndarrays, f"server_aggregated_r{server_round}"
-            )
-
-            # 🛡️ VALIDATE: Server incoming parameters (aggregated from validated clients)
-            from src.utils import validate_and_log_parameters
-            from flwr.common import parameters_to_ndarrays
-
-            aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
-            aggregated_hash = validate_and_log_parameters(
-                aggregated_ndarrays, f"server_aggregated_r{server_round}"
-            )
-
-            # Save model checkpoint based on checkpoint_interval configuration
-            checkpoint_interval = self.context.run_config.get("checkpoint_interval", 5)
-            if checkpoint_interval > 0 and server_round % checkpoint_interval == 0:
-                try:
-                    logger.info(
-                        f"💾 Server: Saving model checkpoint for round {server_round} (interval: {checkpoint_interval})"
-                    )
-                    self.save_model_checkpoint(
-                        aggregated_parameters, server_round, self.models_dir
-                    )
-                    logger.info(
-                        f"✅ Server: Model checkpoint saved successfully for round {server_round}"
-                    )
-                except Exception as e:
-                    logger.error(
-                        f"❌ Server: Failed to save model checkpoint for round {server_round}: {e}"
-                    )
-                    logger.exception("Traceback in save_model_checkpoint")
-
-            # Save final model checkpoint at the end of training (regardless of checkpoint_interval)
-            if self.num_rounds and server_round == self.num_rounds:
-                try:
-                    logger.info(
-                        f"💾 Server: Saving final model checkpoint for round {server_round} (end of training)"
-                    )
-                    self.save_model_checkpoint(
-                        aggregated_parameters, server_round, self.models_dir
-                    )
-                    logger.info(
-                        f"✅ Server: Final model checkpoint saved successfully for round {server_round}"
-                    )
-
-                    # Perform final evaluation for the last round
-                    try:
-                        logger.info(
-                            f"🔍 Server: Performing final evaluation for round {server_round}"
-                        )
-                        # Convert Parameters to NDArrays for _server_evaluate
-                        from flwr.common import parameters_to_ndarrays
-
-                        aggregated_ndarrays = parameters_to_ndarrays(
-                            aggregated_parameters
-                        )
-                        self._server_evaluate(server_round, aggregated_ndarrays, {})
-                    except Exception as e:
-                        logger.error(
-                            f"❌ Server: Failed final evaluation for round {server_round}: {e}"
-                        )
-                        logger.exception("Traceback in final _server_evaluate")
-
-                    # Push to Hugging Face Hub if configured (always attempt, even if save failed)
-                    hf_repo_id = self.context.run_config.get("hf_repo_id")
-                    if hf_repo_id:
-                        try:
-                            logger.info(
-                                f"🚀 Server: Pushing final model to Hugging Face Hub: {hf_repo_id}"
-                            )
-                            self.push_model_to_hub(
-                                aggregated_parameters, server_round, hf_repo_id
-                            )
-                            logger.info(
-                                "✅ Server: Model pushed to Hugging Face Hub successfully"
-                            )
-                        except Exception as push_e:
-                            logger.error(
-                                f"❌ Server: Failed to push final model to Hub: {push_e}"
-                            )
-                            logger.exception("Traceback in push_model_to_hub")
-                            logger.warning(
-                                "⚠️ Server: Continuing training despite Hub push failure"
-                            )
-                    else:
-                        logger.info(
-                            "ℹ️ Server: No hf_repo_id configured, skipping Hub push"
-                        )
-
-                except Exception as e:
-                    logger.error(f"❌ Server: Failed to save final model: {e}")
-                    # Still attempt Hub push even if checkpoint save failed
-                    hf_repo_id = self.context.run_config.get("hf_repo_id")
-                    if hf_repo_id:
-                        try:
-                            logger.info(
-                                f"🚀 Server: Attempting Hub push despite checkpoint save failure: {hf_repo_id}"
-                            )
-                            self.push_model_to_hub(
-                                aggregated_parameters, server_round, hf_repo_id
-                            )
-                            logger.info(
-                                "✅ Server: Model pushed to Hub successfully despite checkpoint failure"
-                            )
-                        except Exception as push_e:
-                            logger.error(
-                                f"❌ Server: Both checkpoint save and Hub push failed: {push_e}"
-                            )
-        else:
-            logger.warning(
-                f"⚠️ Server: No parameters aggregated for round {server_round}"
-            )
 
         # CRITICAL: Always return valid parameters tuple to prevent Flower unpacking errors
         # This fixes the "cannot unpack non-iterable NoneType object" error
@@ -860,10 +597,49 @@ class AggregateEvaluationStrategy(FedProx):
             )
             aggregated_parameters = self.initial_parameters
 
+        # Log post-aggregation global norms (aggregated_parameters is guaranteed non-None after fallback)
+        # Import here to avoid scope/shadowing issues
+        from src.task import set_params
+
+        # Convert Flower Parameters to numpy arrays for set_params
+        aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
+        # Use cached template model for norm computation (no redundant creation)
+        set_params(self.template_model, aggregated_ndarrays)
+        post_agg_full_norm, post_agg_full_num, _ = compute_param_norms(
+            self.template_model, trainable_only=False
+        )
+        post_agg_train_norm, post_agg_train_num, _ = compute_param_norms(
+            self.template_model, trainable_only=True
+        )
+        total_params = sum(p.numel() for p in self.template_model.parameters())
+        trainable_params = sum(
+            p.numel() for p in self.template_model.parameters() if p.requires_grad
+        )
+        logger.info(
+            f"Server R{server_round} POST-AGG: Full norm={post_agg_full_norm:.4f} ({post_agg_full_num} tensors, {total_params} elems), Trainable norm={post_agg_train_norm:.4f} ({post_agg_train_num} tensors, {trainable_params} elems)"
+        )
+
+        # Log parameter update information (aggregated_parameters is guaranteed non-None)
+        logger.info(
+            f"✅ Server: Successfully aggregated parameters from {len(results)} clients for round {server_round}"
+        )
+
+        # 🛡️ VALIDATE: Server aggregated parameters
+        from src.utils import validate_and_log_parameters
+
+        validate_and_log_parameters(
+            aggregated_ndarrays, f"server_aggregated_r{server_round}"
+        )
+
+        # Save model checkpoint and push to Hub if applicable
+        from .server.server_utils import save_and_push_model
+
+        save_and_push_model(self, server_round, aggregated_parameters)
+
         # Final logging before return to catch any late exceptions
-        logger.info(f"✅ Server: aggregate_fit completing for round {server_round} - returning {aggregated_parameters is not None}")
-        if self.early_stopping_triggered:
-            logger.info(f"Early stopping active - final params from round {server_round}")
+        logger.info(
+            f"✅ Server: aggregate_fit completing for round {server_round} - returning {aggregated_parameters is not None}"
+        )
         return aggregated_parameters, metrics
 
     def save_model_checkpoint(
@@ -1105,14 +881,6 @@ class AggregateEvaluationStrategy(FedProx):
             raise
 
 
-
-
-
-
-
-
-
-
 def evaluate_single_dataset(
     global_parameters: List[np.ndarray],
     dataset_name: str,
@@ -1162,7 +930,7 @@ def evaluate_single_dataset(
 
     # Set shared FL parameters to this policy instance
     set_params_fn(policy, global_parameters)
-    logger.info(f"✅ Server: Set shared FL parameters to policy instance")
+    logger.info("✅ Server: Set shared FL parameters to policy instance")
 
     # Perform evaluation on this dataset-specific policy
     dataset_loss, dataset_num_examples, dataset_metric = test_fn(
@@ -1205,7 +973,7 @@ def evaluate_model_on_datasets(
     Returns:
         tuple: (composite_loss, total_examples, composite_metrics, per_dataset_results)
     """
-    from src.task import test, set_params
+    from src.task import test
     from src.utils import load_lerobot_dataset
     from lerobot.policies.factory import make_policy
     import numpy as np
@@ -1261,7 +1029,7 @@ def evaluate_model_on_datasets(
 
     composite_metrics["composite_eval_loss"] = composite_eval_loss
     composite_metrics["num_datasets_evaluated"] = len(dataset_losses)
-    composite_metrics["per_dataset_results"] = per_dataset_results
+    composite_metrics["server_eval_dataset_results"] = per_dataset_results
 
     return composite_eval_loss, total_examples, composite_metrics, per_dataset_results
 
@@ -1297,18 +1065,17 @@ def prepare_evaluation_model(
     Returns:
         torch.nn.Module: Prepared model ready for evaluation
     """
-    logger.info(f"🔍 Server: Using cached template model for evaluation...")
+    logger.info("🔍 Server: Using cached template model for evaluation...")
     model = template_model
     logger.info(
         f"✅ Server: Template model ready (total params: {sum(p.numel() for p in model.parameters())}"
     )
 
     # Set parameters
-    logger.info(f"🔍 Server: Setting parameters...")
-    from src.task import set_params
+    logger.info("🔍 Server: Setting parameters...")
 
     set_params(model, parameters)
-    logger.info(f"✅ Server: Parameters set successfully")
+    logger.info("✅ Server: Parameters set successfully")
 
     # Move model to device
     model = model.to(device)
@@ -1344,9 +1111,6 @@ def process_evaluation_metrics(
         "param_update_norm": aggregated_client_metrics.get("param_update_norm", 0.0),
     }
     strategy.federated_metrics_history.append(round_metrics)
-
-    # Update early stopping tracking
-    update_early_stopping_tracking(strategy, server_round, loss)
 
     # Track server eval losses for dynamic adjustment
     if not hasattr(strategy, "server_eval_losses"):
@@ -1420,52 +1184,12 @@ def save_evaluation_results(
     """
     if strategy.server_dir:
         import json
-        from datetime import datetime
 
-        # Fix metrics bug: Update round number in individual_client_metrics before saving
-        for metric in individual_client_metrics:
-            metric["round"] = server_round
+        # Use the shared metrics preparation function for consistency
+        from .server.server_utils import prepare_server_eval_metrics
+        data = prepare_server_eval_metrics(strategy, server_round)
 
         server_file = strategy.server_dir / f"round_{server_round}_server_eval.json"
-        data = {
-            "round": server_round,
-            "timestamp": datetime.now().isoformat(),
-            "evaluation_type": "server_side",
-            "loss": loss,
-            "num_examples": num_examples,
-            "metrics": metrics,
-            "aggregated_client_metrics": aggregated_client_metrics,  # Consolidated aggregated metrics
-            "individual_client_metrics": individual_client_metrics,  # Individual client metrics with IDs
-            "metrics_descriptions": {
-                "policy_loss": "Average policy forward loss per batch (primary evaluation metric for SmolVLA flow-matching model)",
-                "action_dim": "Number of action dimensions detected from batch (default 7 for SO-100 joints + gripper)",
-                "successful_batches": "Number of batches successfully processed during evaluation",
-                "total_batches_processed": "Total batches attempted (including failed)",
-                "total_samples": "Total number of action samples evaluated",
-                "aggregated_client_metrics": {
-                    "avg_client_loss": "Average total training loss (policy + fedprox) across all clients in this round",
-                    "std_client_loss": "Standard deviation of client total training losses",
-                    "avg_client_proximal_loss": "Average FedProx proximal regularization loss across clients",
-                    "avg_client_grad_norm": "Average gradient norm across clients",
-                    "num_clients": "Number of clients that participated in this round",
-                    "param_update_norm": "L2 norm of parameter changes from previous round",
-                },
-                "individual_client_metrics": {
-                    "client_id": "Unique client identifier (corresponds to dataset partition)",
-                    "loss": "Total training loss for this client (policy_loss + fedprox_loss)",
-                    "policy_loss": "Pure SmolVLA flow-matching training loss for this client",
-                    "fedprox_loss": "FedProx proximal regularization loss for this client (added to policy_loss during training: total_loss = policy_loss + fedprox_loss)",
-                    "grad_norm": "Gradient norm for this client",
-                    "param_hash": "SHA256 hash of client's parameter update",
-                    "dataset_name": "Name of the dataset this client is training on",
-                    "num_steps": "Number of training steps completed by this client",
-                    "param_update_norm": "L2 norm of parameter changes from global model",
-                    "flower_proxy_cid": "Flower internal client proxy identifier (for debugging)",
-                    "round": "The server round this metric was collected in",
-                },
-            },
-        }
-
         with open(server_file, "w") as f:
             json.dump(data, f, indent=2, default=str)
         logger.info(f"✅ Server: Eval results saved to {server_file}")
@@ -1567,6 +1291,7 @@ def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, 
 def server_fn(context: Context) -> ServerAppComponents:
     """Construct components for ServerApp."""
     import sys
+
     print("[DEBUG server_fn] Starting server_fn execution", file=sys.stderr)
     sys.stderr.flush()
 
@@ -1574,7 +1299,10 @@ def server_fn(context: Context) -> ServerAppComponents:
     num_rounds = context.run_config["num-server-rounds"]
     config = ServerConfig(num_rounds=num_rounds)
 
-    print(f"[DEBUG server_fn] Initialized ServerConfig with {num_rounds} rounds", file=sys.stderr)
+    print(
+        f"[DEBUG server_fn] Initialized ServerConfig with {num_rounds} rounds",
+        file=sys.stderr,
+    )
     sys.stderr.flush()
 
     logger.info(f"🔧 Server: Initializing with {num_rounds} rounds")
@@ -1603,7 +1331,10 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Setup unified logging with loguru
     simulation_log_path = save_path / "simulation.log"
-    print(f"[DEBUG server_fn] Setting up logging at {simulation_log_path}", file=sys.stderr)
+    print(
+        f"[DEBUG server_fn] Setting up logging at {simulation_log_path}",
+        file=sys.stderr,
+    )
     sys.stderr.flush()
     setup_server_logging(simulation_log_path)
     logger.info("Server logging initialized")
@@ -1737,12 +1468,20 @@ def server_fn(context: Context) -> ServerAppComponents:
         raise
 
     if not dataset_config.server:
-        print("[DEBUG server_fn] No server datasets configured - aborting", file=sys.stderr)
+        print(
+            "[DEBUG server_fn] No server datasets configured - aborting",
+            file=sys.stderr,
+        )
         sys.stderr.flush()
         raise ValueError("No server evaluation dataset configured")
 
-    server_config = dataset_config.server[0]  # Use server dataset for consistent initialization
-    print(f"[DEBUG server_fn] Loading server dataset: {server_config.name}", file=sys.stderr)
+    server_config = dataset_config.server[
+        0
+    ]  # Use server dataset for consistent initialization
+    print(
+        f"[DEBUG server_fn] Loading server dataset: {server_config.name}",
+        file=sys.stderr,
+    )
     sys.stderr.flush()
 
     try:
@@ -1750,7 +1489,10 @@ def server_fn(context: Context) -> ServerAppComponents:
         print("[DEBUG server_fn] Dataset loaded successfully", file=sys.stderr)
         sys.stderr.flush()
     except Exception as e:
-        print(f"[DEBUG server_fn] load_lerobot_dataset failed for {server_config.name}: {e}", file=sys.stderr)
+        print(
+            f"[DEBUG server_fn] load_lerobot_dataset failed for {server_config.name}: {e}",
+            file=sys.stderr,
+        )
         sys.stderr.flush()
         raise
 
@@ -1760,7 +1502,10 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     try:
         ndarrays = get_params(get_model(dataset_meta=dataset_meta))
-        print(f"[DEBUG server_fn] Initial params obtained: {len(ndarrays)} arrays", file=sys.stderr)
+        print(
+            f"[DEBUG server_fn] Initial params obtained: {len(ndarrays)} arrays",
+            file=sys.stderr,
+        )
         sys.stderr.flush()
     except Exception as e:
         print(f"[DEBUG server_fn] get_params/get_model failed: {e}", file=sys.stderr)
@@ -1770,7 +1515,7 @@ def server_fn(context: Context) -> ServerAppComponents:
     # 🛡️ VALIDATE: Server outgoing parameters (initial model)
     from src.utils import validate_and_log_parameters
 
-    initial_param_hash = validate_and_log_parameters(ndarrays, "server_initial_model")
+    validate_and_log_parameters(ndarrays, "server_initial_model")
 
     global_model_init = ndarrays_to_parameters(ndarrays)
 
@@ -1813,10 +1558,17 @@ def server_fn(context: Context) -> ServerAppComponents:
         print("[DEBUG server_fn] Strategy created successfully", file=sys.stderr)
         sys.stderr.flush()
     except Exception as e:
-        print(f"[DEBUG server_fn] AggregateEvaluationStrategy creation failed: {e}", file=sys.stderr)
+        print(
+            f"[DEBUG server_fn] AggregateEvaluationStrategy creation failed: {e}",
+            file=sys.stderr,
+        )
         sys.stderr.flush()
         import traceback
-        print(f"[DEBUG server_fn] Full traceback: {traceback.format_exc()}", file=sys.stderr)
+
+        print(
+            f"[DEBUG server_fn] Full traceback: {traceback.format_exc()}",
+            file=sys.stderr,
+        )
         sys.stderr.flush()
         raise
 
