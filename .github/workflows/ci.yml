@@ -6,17 +6,17 @@ on:
 
 jobs:
   test:
-    name: ${{ matrix.test-type }} Tests
+    name: ${{ matrix.test-type }} UnitTests
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
           - test-type: all
             python-version: '3.10'
-            test-path: tests/
+            test-path: tests/unit
             cov-fail-under: 30
             parallel: auto
-            flags: all-tests
+            flags: unit-tests
 
     steps:
     - uses: actions/checkout@v4
