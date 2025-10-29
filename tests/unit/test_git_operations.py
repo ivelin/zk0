@@ -1,6 +1,5 @@
 """Unit tests for git operations functions."""
 
-import pytest
 from unittest.mock import patch, MagicMock
 import subprocess
 

@@ -25,7 +25,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        file: Dockerfile
+        file: Dockerfile.ci
         load: true
         tags: zk0-ci:latest
 
@@ -34,7 +34,7 @@ jobs:
         docker run --rm \
           -v ${{ github.workspace }}:/workspace \
           -v /tmp/coverage:/coverage \
-          --gpus all \
+          -e CUDA_VISIBLE_DEVICES="" \
           zk0-ci:latest \
           bash -c "
             cd /workspace &&

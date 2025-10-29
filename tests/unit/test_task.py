@@ -4,8 +4,7 @@ import numpy as np
 
 import pytest
 import torch
-from unittest.mock import Mock, patch, MagicMock
-import numpy as np
+from unittest.mock import Mock
 
 
 class TestResetLearningRateScheduler:
@@ -80,57 +79,12 @@ class TestResetLearningRateScheduler:
 
 
 
-def test_compute_fedprox_proximal_loss():
-    """Test FedProx proximal loss computation."""
-    # Create dummy trainable params (torch tensors)
-    trainable_params = [
-        torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True),
-        torch.tensor([[5.0]], requires_grad=True)
-    ]
-    
-    # Create corresponding global params (numpy arrays)
-    global_params = [
-        np.array([[1.0, 2.0], [3.0, 4.0]]),
-        np.array([[5.0]])
-    ]
-    
-    fedprox_mu = 0.01
-    
-    # Compute proximal loss
-    proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
-    
-    # Expected: sum of squared differences * (mu / 2)
-    # Diff for first param: all zeros, sum_sq=0
-    # Diff for second param: all zeros, sum_sq=0
-    # But to test non-zero, adjust global_params
-    global_params[0] = np.array([[0.5, 1.5], [2.5, 3.5]])  # diff = 0.5 each element, 4 elements * 0.25 = 1.0 sum_sq
-    global_params[1] = np.array([[4.5]])  # diff=0.5, sum_sq=0.25
-    
-    proximal_loss_nonzero = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
-    
-    # Assertions
-    assert isinstance(proximal_loss, torch.Tensor), "Should return torch.Tensor"
-    assert proximal_loss.dtype == torch.float32, "Should be float32"
-    assert proximal_loss.device.type == 'cpu', "Should be on CPU by default"
-    assert torch.allclose(proximal_loss, torch.tensor(0.0)), "Zero diff should give zero loss"
-    
-    expected_nonzero = (fedprox_mu / 2.0) * (1.0 + 0.25)  # sum_sq total 1.25
-    assert torch.isclose(proximal_loss_nonzero, torch.tensor(expected_nonzero), atol=1e-6), f"Expected {expected_nonzero}, got {proximal_loss_nonzero.item()}"
-    
-    # Edge cases
-    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, None, fedprox_mu), torch.tensor(0.0)), "None global_params should return 0"
-    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
-    assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
-    
-    print("All tests passed for compute_fedprox_proximal_loss")
-
-
 def test_setup_training_components_metrics_initialization():
     """Test that setup_training_components initializes all required metrics without KeyError."""
     from src.task import setup_training_components
     from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
     from lerobot.policies.factory import make_policy
-    from torch.utils.data import DataLoader, TensorDataset
+    from torch.utils.data import DataLoader
     import torch
 
     # Mock minimal components
@@ -185,7 +139,6 @@ def test_setup_training_components_metrics_initialization():
 
 def test_compute_fedprox_proximal_loss():
     """Test FedProx proximal loss computation."""
-    import numpy as np
     from src.task import compute_fedprox_proximal_loss
     
     # Create dummy trainable params (torch tensors)
@@ -225,50 +178,6 @@ def test_compute_fedprox_proximal_loss():
     assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
     assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
     
-    print("All tests passed for compute_fedprox_proximal_loss")
-
-
-def test_compute_fedprox_proximal_loss():
-    """Test FedProx proximal loss computation."""
-    from src.task import compute_fedprox_proximal_loss
-
-    # Create dummy trainable params (torch tensors)
-    trainable_params = [
-        torch.tensor([[1.0, 2.0], [3.0, 4.0]], requires_grad=True),
-        torch.tensor([[5.0]], requires_grad=True)
-    ]
-
-    # Create corresponding global params (numpy arrays)
-    global_params = [
-        np.array([[1.0, 2.0], [3.0, 4.0]]),
-        np.array([[5.0]])
-    ]
-
-    fedprox_mu = 0.01
-
-    # Compute proximal loss (zero diff)
-    proximal_loss = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
-
-    # Adjust for non-zero test
-    global_params[0] = np.array([[0.5, 1.5], [2.5, 3.5]])  # diffs: 0.5^2 * 4 = 1.0
-    global_params[1] = np.array([[4.5]])  # diff: 0.5^2 = 0.25
-
-    proximal_loss_nonzero = compute_fedprox_proximal_loss(trainable_params, global_params, fedprox_mu)
-
-    # Assertions
-    assert isinstance(proximal_loss, torch.Tensor), "Should return torch.Tensor"
-    assert proximal_loss.dtype == torch.float32, "Should be float32"
-    assert proximal_loss.device.type == 'cpu', "Should be on CPU by default"
-    assert torch.allclose(proximal_loss, torch.tensor(0.0)), "Zero diff should give zero loss"
-
-    expected_nonzero = (fedprox_mu / 2.0) * (1.0 + 0.25)  # 1.25 * 0.005 = 0.00625
-    assert torch.isclose(proximal_loss_nonzero, torch.tensor(expected_nonzero), atol=1e-6), f"Expected {expected_nonzero}, got {proximal_loss_nonzero.item()}"
-
-    # Edge cases
-    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, None, fedprox_mu), torch.tensor(0.0)), "None global_params should return 0"
-    assert torch.isclose(compute_fedprox_proximal_loss(trainable_params, global_params, 0.0), torch.tensor(0.0)), "mu=0 should return 0"
-    assert torch.isclose(compute_fedprox_proximal_loss([], global_params, fedprox_mu), torch.tensor(0.0)), "Empty trainable_params should return 0"
-
     print("All tests passed for compute_fedprox_proximal_loss")
 
 

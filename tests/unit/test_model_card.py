@@ -1,8 +1,5 @@
 """Tests for model card generation."""
 
-import pytest
-from unittest.mock import Mock, patch
-from datetime import datetime
 
 from src.server.server_utils import generate_model_card
 

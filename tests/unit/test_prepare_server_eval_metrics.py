@@ -1,8 +1,6 @@
 """Unit tests for prepare_server_eval_metrics function."""
 
-import pytest
 from unittest.mock import Mock
-import re
 from src.server.server_utils import prepare_server_eval_metrics
 
 

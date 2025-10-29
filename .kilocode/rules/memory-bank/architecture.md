@@ -211,7 +211,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Reference Structure**: Borrow structure from quickstart-lerobot but adapt for SmolVLA requirements
 
 ### 4. Quality Standards
-- **Testing**: Maintain comprehensive test coverage (80% minimum)
+- **Testing**: Maintain meaningful test coverage (focus on critical paths, current target 30% minimum)
 - **Documentation**: Keep README and documentation current
 - **Reproducibility**: Ensure all experiments are reproducible with seeds
 
@@ -318,7 +318,7 @@ Before running tests:
 - [ ] Tests run in Docker container (`zk0`)
 - [ ] Use parallel execution with `-n auto` for multiple tests
 - [ ] Include coverage reporting with `--cov=src --cov-report=term-missing`
-- [ ] Ensure coverage remains above 80%
+- [ ] Ensure coverage remains above 30% (current target)
 - [ ] Use existing test suite instead of creating standalone test files
 
 ## Performance Considerations

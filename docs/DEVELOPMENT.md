@@ -176,31 +176,42 @@ The following constraints are mandatory for all work:
 
 ### Docker-Based Testing
 
-The CI pipeline uses the project's Dockerfile to build a containerized environment for testing, ensuring isolation and reproducibility. This avoids dependency conflicts and space issues from direct pip installs.
+The CI pipeline uses the project's `Dockerfile.ci` (CPU-only base image) to build a containerized environment for testing, ensuring isolation and reproducibility. This avoids dependency conflicts and space issues from direct pip installs. CI runs on CPU-only due to GitHub-hosted runner limitations (no GPU hardware).
+
+#### CI CPU-Only Mode
+
+GitHub Actions runners (ubuntu-latest) lack NVIDIA GPU drivers, causing Docker `--gpus all` to fail with "could not select device driver". CI uses:
+- **Base Image**: `huggingface/lerobot-cpu:latest` (CPU-only)
+- **Environment**: `CUDA_VISIBLE_DEVICES=""` to force CPU in PyTorch/Lerobot
+- **Tests**: All pass on CPU; mocks handle GPU-dependent code
+
+Local GPU runs remain unaffected via `train.sh --docker` (uses main Dockerfile with GPU base).
 
 #### Local Simulation
 
 To test CI locally:
 
 ```bash
-# Build the CI image
-docker build -t zk0-ci .
+# Build the CI image (CPU-only)
+docker build -f Dockerfile.ci -t zk0-ci .
 
-# Run tests in container (with GPU if available)
-docker run --rm -v $(pwd):/workspace --gpus all zk0-ci \
+# Run tests in container (CPU-only, as in CI)
+docker run --rm -v $(pwd):/workspace -e CUDA_VISIBLE_DEVICES="" zk0-ci \
   bash -c "cd /workspace && uv pip install -e '.[test]' && pytest tests/ --cov=src --cov-report=xml -n auto"
 
-# Or without GPU
-docker run --rm -v $(pwd):/workspace zk0-ci \
+# For local GPU testing (uses main Dockerfile)
+docker build -t zk0-gpu .
+docker run --rm -v $(pwd):/workspace --gpus all zk0-gpu \
   bash -c "cd /workspace && uv pip install -e '.[test]' && pytest tests/ --cov=src --cov-report=xml -n auto"
 ```
 
 #### Troubleshooting
 
 - **Space Issues**: If Docker runs out of space, prune: `docker system prune -f`
-- **GPU Not Available**: Remove `--gpus all` for CPU-only testing
-- **Build Failures**: Ensure Dockerfile and requirements.txt are up-to-date
+- **GPU Not Available**: Use CPU mode (remove `--gpus all`, set `CUDA_VISIBLE_DEVICES=""`)
+- **Build Failures**: Ensure Dockerfile.ci and requirements.txt are up-to-date
 - **Test Failures**: Check logs for missing dependencies or environment issues
+- **CI Failures**: Verify GitHub runners; no GPU passthrough available
 
 ## Contributing
 

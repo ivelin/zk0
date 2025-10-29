@@ -1,8 +1,6 @@
 """Unit tests for logger configuration functions in src/logger.py."""
 
-import pytest
 from unittest.mock import patch, mock_open
-from pathlib import Path
 
 
 class TestLoggerConfig:

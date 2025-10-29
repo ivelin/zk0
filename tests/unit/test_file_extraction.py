@@ -1,6 +1,5 @@
 """Unit tests for file-based metrics and insights extraction functions."""
 
-import pytest
 import json
 import tempfile
 from pathlib import Path

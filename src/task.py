@@ -2,10 +2,8 @@
 
 import time
 from collections import OrderedDict
-from typing import Any
 
 import torch
-from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import (
     LinearLR,
     CosineAnnealingLR,
@@ -13,10 +11,8 @@ from torch.optim.lr_scheduler import (
     ReduceLROnPlateau,
 )
 
-from datasets.utils.logging import disable_progress_bar
 from loguru import logger
 
-from .utils import load_lerobot_dataset
 
 
 def get_model(dataset_meta=None):
@@ -222,7 +218,7 @@ def setup_training_components(
     from lerobot.configs.default import (
         WandBConfig,
     )  # + Import WandBConfig for logging enablement
-    from lerobot.utils.logging_utils import AverageMeter, MetricsTracker
+    from lerobot.utils.logging_utils import MetricsTracker
     from torch.amp import GradScaler
 
     # Create client-specific WandB configuration to prevent metric overlap
@@ -492,7 +488,6 @@ def run_training_loop(
     from lerobot.datasets.utils import cycle
 
     step = 0
-    skipped_batches = 0
     logger.info(f"Entering training loop: target steps={epochs}, initial step={step}")
     loop_start_time = time.perf_counter()
 
@@ -553,8 +548,8 @@ def run_training_loop(
                         for _ in range(10):  # Arbitrary skip to next episode
                             try:
                                 next(dl_iter)
-                            except:
-                                pass
+                            except Exception as e:
+                                logger.warning(f"Failed to skip to next episode: {e}")
                         current_episode = None
                         skipped_episodes = 0
                     continue
