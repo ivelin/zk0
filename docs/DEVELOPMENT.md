@@ -197,6 +197,10 @@ flowchart TD
 
 This renders as an interactive SVG diagram on the site.
 
+#### Integration Notes
+- Custom `_includes/head.html` overrides Minima's default with full structure + Mermaid.
+- Pitfalls: Partial overrides break layout; ensure full head structure; check JS load order.
+
 #### Maintenance
 - **Version Updates**: Check [Mermaid releases](https://github.com/mermaid-js/mermaid/releases) for updates; update CDN URL in `_includes/head.html`.
 - **Troubleshooting**: If diagrams don't render, check browser console for JS errors; ensure CDN is accessible.
