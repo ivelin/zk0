@@ -232,6 +232,45 @@ For more details on each, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "zk0",
+  "description": "Open source federated learning platform for decentralized robotics AI with SmolVLA, ZK proofs, and blockchain incentives",
+  "applicationCategory": "DeveloperApplication",
+  "offers": {"@type": "Offer", "price": "0"},
+  "author": {"@type": "Person", "name": "ivelin.eth"},
+  "url": "https://zk0.bot",
+  "sameAs": ["https://github.com/ivelin/zk0", "https://huggingface.co/ivelin/zk0-smolvla-fl"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is zk0?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "zk0 is an open source federated learning platform for decentralized robotics AI, enabling collaborative training of SmolVLA models on heterogeneous SO-100 datasets using Flower framework, ZK proofs for verifiable contributions, and blockchain incentives for fair participation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does federated learning work in robotics?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Federated learning allows robots to train AI models locally on their private data, sending only model updates to a central server for aggregation. This preserves privacy while building shared knowledge across diverse robotics setups."
+      }
+    }
+  ]
+}
+</script>
+
 ## Share
 
 ![image](https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f)
