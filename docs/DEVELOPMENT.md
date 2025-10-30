@@ -1,4 +1,4 @@
-# Development Guide
+# Development
 
 This guide covers development workflows for the zk0 project, including testing, logging, guidelines, and contributing. It extracts key practices from the project setup.
 

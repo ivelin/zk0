@@ -1,4 +1,4 @@
-# Hyperparameter Analysis: Dynamic LR and MU Decay in v0.3.11
+# Hyperparameter Analysis
 
 ## Overview
 This document analyzes the dynamic learning rate (LR) and MU (FedProx proximal term) decay mechanisms implemented in v0.3.11, based on the 2025-10-19 runs and later enhancements. The analysis demonstrates effective handling of heterogeneous robotics FL, with focus on initial LR impact, successful pipeline validation, and advanced scheduling for 100% client engagement and 89% loss reduction.

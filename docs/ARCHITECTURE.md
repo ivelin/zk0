@@ -1,4 +1,4 @@
-# Architecture Overview
+# Architecture
 
 This document provides a detailed overview of the zk0 project's architecture (v0.3.11), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation.
 

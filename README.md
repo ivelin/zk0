@@ -1,3 +1,8 @@
+---
+layout: default
+title: zk0 [zee-ˈkō]
+---
+
 # zk0 [zee-ˈkō]
 
 Open Source Humanoid AI trained collaboratively by a community of builders.
