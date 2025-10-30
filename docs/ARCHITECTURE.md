@@ -192,5 +192,4 @@ For implementation details, see source files like [`src/task.py`](src/task.py) f
 - [TECHNICAL-OVERVIEW.md](TECHNICAL-OVERVIEW.md) for advanced technical details and evaluation mechanisms.
 - [DEVELOPMENT.md](DEVELOPMENT.md) for development guidelines and testing.
 - [HYPERPARAMETER_ANALYSIS.md](HYPERPARAMETER_ANALYSIS.md) for hyperparameter tuning and analysis.
-- [INSTALLATION.md](INSTALLATION.md) for environment setup.
-- [RUNNING.md](RUNNING.md) for execution instructions.
+- [INSTALLATION.md](INSTALLATION.md) for environment setup and execution instructions.

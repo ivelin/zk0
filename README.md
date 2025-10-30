@@ -116,7 +116,7 @@ cp .env.example .env  # Edit as needed (e.g., HF_TOKEN)
 
 ### Run the Simulation
 
-See [docs/RUNNING.md](docs/RUNNING.md) for full instructions.
+See [docs/INSTALLATION.md](docs/INSTALLATION.md) for full instructions.
 
 ```bash
 # Quick test (1 round, serialized GPU)
@@ -182,8 +182,7 @@ Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baseli
 
 ## Documentation
 
-- [Installation](docs/INSTALLATION.md): Full setup.
-- [Running](docs/RUNNING.md): Execution, outputs, troubleshooting.
+- [Installation](docs/INSTALLATION.md): Setup, execution, outputs, troubleshooting.
 - [Architecture](docs/ARCHITECTURE.md): FL design, components.
 - [Development](docs/DEVELOPMENT.md): Testing, logging, guidelines.
 - [Technical Overview](docs/TECHNICAL-OVERVIEW.md): Comparisons, reproducibility, videos.
