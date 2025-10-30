@@ -172,40 +172,6 @@ The following constraints are mandatory for all work:
 - **Prepare for Commit**: Standardized workflow for version management, full test suite with coverage, documentation consistency, and git operations to ensure quality.
 - **CI**: GitHub Actions using Docker-based testing with the project's Dockerfile for isolated, reproducible runs; no caching to prevent space issues; auto-testing on push/PR.
 
-## Documentation and Diagrams
-
-### Mermaid Diagram Rendering
-
-The Jekyll site supports Mermaid diagrams for visualizing workflows, architectures, and processes. Diagrams are rendered client-side using Mermaid.js loaded via CDN.
-
-#### Setup
-- **Integration**: Mermaid.js v10.9.1 is loaded from CDN in [`_includes/head.html`](_includes/head.html) with auto-initialization on page load.
-- **Theme**: Default theme; configurable for future dark mode support.
-- **Security**: 'loose' security level allows inline diagrams.
-- **Fallback**: CSS styling for raw code blocks if JavaScript fails.
-
-#### Usage in Markdown
-Wrap diagram code in fenced code blocks:
-
-```markdown
-```mermaid
-flowchart TD
-    A[Start] --> B[Process]
-    B --> C[End]
-```
-```
-
-This renders as an interactive SVG diagram on the site.
-
-#### Integration Notes
-- Custom `_includes/head.html` overrides Minima's default with full structure + Mermaid.
-- Pitfalls: Partial overrides break layout; ensure full head structure; check JS load order.
-
-#### Maintenance
-- **Version Updates**: Check [Mermaid releases](https://github.com/mermaid-js/mermaid/releases) for updates; update CDN URL in `_includes/head.html`.
-- **Troubleshooting**: If diagrams don't render, check browser console for JS errors; ensure CDN is accessible.
-- **Performance**: ~200KB load; cached after first visit.
-- **Limitations**: No server-side rendering; requires JavaScript enabled.
 
 ## CI/CD Pipeline
 
