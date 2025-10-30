@@ -87,7 +87,7 @@ zk0/
 
 The following Mermaid diagram illustrates the high-level data flow in the federated learning process:
 
-```mermaid
+<div class="mermaid">
 flowchart TD
     A[Server Initialization<br/>Load Initial SmolVLA Model] --> B[Distribute Global Model<br/>to Clients]
     B --> C[Client Local Training<br/>SO-100 Datasets + FedProx]
@@ -97,12 +97,12 @@ flowchart TD
     F --> G{Continue Rounds?}
     G -->|Yes| B
     G -->|No| H[End<br/>Save Final Model]
-    
+
     style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     style E fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     style F fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
     style H fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
-```
+</div>
 
 This diagram captures the iterative cycle: model distribution, local training, aggregation, evaluation, and repetition across configured rounds (e.g., 30 rounds).
 
