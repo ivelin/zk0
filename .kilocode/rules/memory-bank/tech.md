@@ -221,6 +221,11 @@ To avoid version mismatches between installed dependencies and local repo code, 
 - **LeRobot Sync**: Use `LEROBOT_VERSION=$(pip show lerobot | grep Version | cut -d ' ' -f 2)` then `cd $HOME/lerobot && git fetch --tags && git checkout tags/v${LEROBOT_VERSION}` (or nearest matching tag if exact not available).
 Run these commands after any pyproject.toml updates or when switching branches to maintain consistency. Always verify the checked-out version matches the installed dependency.
 
+## Code Organization and Refactoring
+
+### File Size Limits
+- **New Source Files**: All new source files should be under 500 lines of code (LOC) when possible for maintainability and readability. This ensures modular design and prevents bloated files. Exceptions require explicit approval in code reviews.
+
 ## Known Fixes and Configurations
 
 ### FL Scheduler Reset for Partial Rounds
