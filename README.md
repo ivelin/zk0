@@ -48,6 +48,9 @@ AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1
 
 - [Register now](https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple) for the zk0 event at the upcoming DevConnect conference in Buenos Aires, Argentina on November 18, 2025.
 
+<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">Attending <a href="https://twitter.com/EFDevcon?ref_src=twsrc%5Etfw">@EFDevcon</a>? Diving deep into Robotics AI? <br>Join us for the <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> meetup: Federated Learning for Robotics AI with ZK Proofs.<br><br>The only way to collect a cool <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> POAP is to be there in person.<a href="https://t.co/UXE5KInLSn">https://t.co/UXE5KInLSn</a> <a href="https://t.co/jx3Mdl5sXm">pic.twitter.com/jx3Mdl5sXm</a></p>&mdash; ivelin.eth 🛡️🤖 (@ivelini) <a href="https://twitter.com/ivelini/status/1983704796948468202?ref_src=twsrc%5Etfw">October 30, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
 ### Past Events
 
 - [Watch a recorded presentation](https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6) of the project at the Flower Monthly Webcast.
@@ -225,8 +228,6 @@ For more details on each, see [CONTRIBUTING.md](CONTRIBUTING.md).
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are not so far from a future where robots will be constantly learning by interacting with humans and their environments.<br><br>Frameworks like <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> will enable these robots to learn much faster by continuously sharing their learnings.<br><br>We really live in a sci-fi movie 😅 <a href="https://t.co/kAz3xZ2qvB">https://t.co/kAz3xZ2qvB</a></p>&mdash; Remi Cadene (@RemiCadene) <a href="https://twitter.com/RemiCadene/status/1879592068865282227?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br><br>This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br><br>In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
 
 
 ---
