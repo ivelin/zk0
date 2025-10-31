@@ -1,7 +1,7 @@
 [run]
 parallel = false
 branch = false
-data_file = /coverage/.coverage
+data_file = .coverage
 
 [report]
 fail_under = 30

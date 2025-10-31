@@ -1211,6 +1211,11 @@ def save_model_checkpoint(strategy, parameters, server_round: int) -> Path:
         }
 
         hf_repo_id = strategy.context.run_config.get("hf_repo_id")
+
+        # Get WandB public URL if WandB is enabled
+        from src.wandb_utils import get_wandb_public_url
+        wandb_url = get_wandb_public_url()
+
         model_card_content = generate_model_card(
             hyperparams,
             train_datasets,
@@ -1219,6 +1224,7 @@ def save_model_checkpoint(strategy, parameters, server_round: int) -> Path:
             insights,
             other_info,
             hf_repo_id,
+            wandb_url,
         )
 
         readme_path = checkpoint_dir / "README.md"
@@ -1254,6 +1260,7 @@ def generate_model_card(
     insights,
     other_info,
     hf_repo_id=None,
+    wandb_url=None,
 ):
     """Generate model card README.md content.
 
@@ -1296,6 +1303,17 @@ def generate_model_card(
         "**Timestamp**: {}".format(timestamp),
         "**Version**: {}".format(version),
     ]
+
+    # Add WandB tracking section if URL is available
+    if wandb_url:
+        content_lines.extend([
+            "",
+            "## Training Experiment Tracking",
+            "",
+            "This model was trained using [Weights & Biases](https://wandb.ai). View the full experiment at:",
+            f"{wandb_url}",
+            "",
+        ])
 
     content_lines.extend([
         "",

@@ -79,6 +79,11 @@
 **Last performed:** 2025-10-28
 **Context:** Complete checkpoint directory-based HF Hub push system for SmolVLA federated learning models. Server creates full HF-ready directories, standalone script validates and uploads them.
 
+**Prerequisites:**
+- Conda environment "zk0" activated: `conda run -n zk0`
+- HF token set in `.env`: `HF_TOKEN=your_token_here`
+- Checkpoint directory with required files (model.safetensors, config.json, etc.)
+
 **Files modified:**
 - `src/server/server_utils.py` - `save_model_checkpoint()`, `push_model_to_hub_enhanced()`, `save_and_push_model()`
 - `src/push_to_hf.py` - Updated to accept checkpoint directories
@@ -96,7 +101,7 @@
 
 2. **Server Push Logic**: `save_and_push_model()` calls `save_model_checkpoint()` (returning directory path), then `push_model_to_hub_enhanced(checkpoint_dir, repo_id)` for final round
 
-3. **Standalone Push**: `python -m zk0.push_to_hf /path/to/checkpoint_dir --repo-id user/model` validates required files and uploads entire directory
+3. **Standalone Push**: `conda run -n zk0 python -m zk0.push_to_hf /path/to/checkpoint_dir --repo-id user/model` validates required files and uploads entire directory
 
 4. **HF Hub Upload**: `push_model_to_hub_enhanced()` uses `api.upload_folder()` to upload complete directory, creates git tags, handles cleanup
 

@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-10-29)**: ✅ **CI Coverage Fix** Resolved SQLite database locking issue in parallel pytest-xdist by disabling coverage in CI (--no-cov flag). Tests now pass (149 passed, 1 skipped) in Docker. Version incremented to 0.3.15 (patch for CI reliability). Previous updates on testing targets and documentation remain.
+**Latest Update (2025-10-31)**: ✅ **Dev Branch Sync & Coverage Fix** Synced local dev with remote origin/dev (30 commits pulled, fast-forward). Fixed coverage config data_file path from absolute /coverage to relative .coverage. All tests pass (152 passed, 1 skipped, 37.86% coverage). Version incremented to 0.3.17 (patch for sync and fixes). Previous updates on CI, security, metrics, and scheduling remain.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 
@@ -31,6 +31,7 @@
 - **Enhanced Security**: Bidirectional SHA256 parameter validation between client and server
 - **Consolidated Metrics**: Unified server evaluation files with aggregated and individual client metrics
 - **Dynamic Learning Rate**: Advanced LR/MU scheduling with warm restarts, adaptive boosts, dynamic mu, and spike detection
+- **WandB Integration**: Model cards now include direct links to WandB experiment runs when WandB is enabled
 
 **Key Recent Fixes**:
 - Client parameter type handling for Flower compatibility

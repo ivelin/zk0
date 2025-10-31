@@ -143,6 +143,27 @@ def log_scheduler_metrics(client_id, scheduler, mu, adaptive_factor, loss_std):
         logger.warning(f"Failed to log scheduler metrics to WandB: {e}")
 
 
+def get_wandb_public_url() -> Optional[str]:
+    """Get the public WandB run URL if WandB is active.
+
+    Returns:
+        Public WandB run URL string if WandB run is active, None otherwise
+    """
+    try:
+        import wandb
+        if wandb.run is not None:
+            return wandb.run.url
+        else:
+            logger.debug("No active WandB run, cannot generate public URL")
+            return None
+    except ImportError:
+        logger.debug("wandb not available, cannot generate public URL")
+        return None
+    except Exception as e:
+        logger.warning(f"Failed to generate WandB public URL: {e}")
+        return None
+
+
 def finish_wandb() -> None:
     """Finish WandB run if active."""
     try:

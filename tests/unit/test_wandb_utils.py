@@ -110,6 +110,40 @@ class TestWandbUtils:
         # Should not raise exception
         finish_wandb()
 
+    def test_get_wandb_public_url_with_active_run(self, mock_wandb_module):
+        """Test getting WandB public URL when run is active."""
+        from src.wandb_utils import get_wandb_public_url
+
+        mock_run = MagicMock()
+        mock_run.url = "https://wandb.ai/test_entity/test_project/runs/test_run_id"
+        mock_wandb_module.run = mock_run
+
+        result = get_wandb_public_url()
+
+        expected_url = "https://wandb.ai/test_entity/test_project/runs/test_run_id"
+        assert result == expected_url
+
+    def test_get_wandb_public_url_without_active_run(self, mock_wandb_module):
+        """Test getting WandB public URL when no run is active."""
+        from src.wandb_utils import get_wandb_public_url
+
+        mock_wandb_module.run = None
+
+        result = get_wandb_public_url()
+
+        assert result is None
+
+    def test_get_wandb_public_url_import_error(self, mock_wandb_module):
+        """Test getting WandB public URL when wandb is not installed."""
+        from src.wandb_utils import get_wandb_public_url
+
+        # Simulate import error by removing the module
+        del sys.modules["wandb"]
+
+        result = get_wandb_public_url()
+
+        assert result is None
+
     def test_log_wandb_metrics_with_prefixed_client_metrics(self, mock_wandb_module):
         """Test logging prefixed client metrics to WandB (new pattern for server-side per-client logging)."""
         from src.wandb_utils import log_wandb_metrics
