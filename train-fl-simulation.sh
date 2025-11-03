@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# SmolVLA Federated Learning Training Script
+# SmolVLA Federated Learning Training Script - SIMULATION MODE ONLY
 # This script runs federated learning simulations using conda by default, with Docker as an option
+# WARNING: This script is for LOCAL SIMULATION ONLY. For production deployments, use zk0bot CLI or Docker Compose directly.
 
 set -e  # Exit on any error
 

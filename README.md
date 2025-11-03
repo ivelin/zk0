@@ -120,13 +120,13 @@ See [docs/INSTALLATION.md](docs/INSTALLATION.md) for full instructions.
 
 ```bash
 # Quick test (1 round, serialized GPU)
-./train.sh
+./train-fl-simulation.sh
 
 # Full run (5 rounds)
 conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
 
 # Docker alternative
-./train.sh --docker
+./train-fl-simulation.sh --docker
 ```
 
 ### Push Model to Hugging Face Hub
@@ -148,6 +148,86 @@ conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/che
 - **HF Hub Push**: For tiny/debug runs (e.g., `num-server-rounds < checkpoint_interval=20`), the final model push to Hugging Face Hub is skipped to avoid repository clutter with incomplete checkpoints. Local checkpoints are always saved. Full runs (≥20 rounds) will push to the configured `hf_repo_id`.
 
 **Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
+
+## Production Deployment
+
+zk0 v0.4.0 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
+
+### Install zk0bot CLI
+
+```bash
+# One-line installer
+curl -fsSL https://get.zk0.bot | bash
+```
+
+### Start Server (Admin Only)
+
+```bash
+# Start production server
+zk0bot server start
+
+# Check status
+zk0bot server status
+
+# View logs
+zk0bot server log
+
+# Stop server
+zk0bot server stop
+```
+
+Server APIs:
+- Fleet API: http://localhost:9092
+- ServerApp API: http://localhost:9091
+- Control API: http://localhost:9093
+
+### Start Client (Node Operators)
+
+```bash
+# For Hugging Face datasets
+zk0bot client start hf:yourusername/your-private-dataset
+
+# For local datasets
+zk0bot client start local:/path/to/your/dataset
+
+# Check status
+zk0bot client status
+
+# View logs
+zk0bot client log
+
+# Stop client
+zk0bot client stop
+```
+
+### Configuration
+
+```bash
+# View configuration
+zk0bot config
+
+# Overall status
+zk0bot status
+```
+
+### Environment Variables
+
+- `HF_TOKEN`: For private Hugging Face datasets (optional)
+- `ZK0_SERVER_URL`: Custom server URL (default: auto-discovery)
+
+For detailed node operator instructions, see [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md).
+
+### Docker Images
+
+Production uses the official zk0 Docker image:
+- Image: `ghcr.io/ivelin/zk0:v0.4.0`
+- Compose files: `docker-compose.server.yml`, `docker-compose.client.yml`
+
+Build locally:
+```bash
+docker build -t zk0:dev -f Dockerfile.zk0 .
+```
+
 
 ## Repository Branches
 

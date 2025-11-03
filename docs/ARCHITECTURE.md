@@ -106,6 +106,184 @@ flowchart TD
 
 This diagram captures the iterative cycle: model distribution, local training, aggregation, evaluation, and repetition across configured rounds (e.g., 30 rounds).
 
+## Production Mode Architecture (v0.4.0)
+
+zk0 v0.4.0 introduces production-ready deployment capabilities, enabling secure, multi-node federated learning with privacy-preserving client training. This extends the simulation architecture with Docker-based orchestration and the zk0bot CLI for node operators.
+
+### Production Mode Data Flow Diagram
+
+The following Mermaid diagram illustrates the production mode data flow, highlighting Docker Compose orchestration and zk0bot CLI integration:
+
+```mermaid
+graph TD
+    A["zk0bot CLI Installation<br/>curl -fsSL https://get.zk0.bot | bash"] --> B{"Mode Selection"}
+    B -->|Server Admin| C["zk0bot server start<br/>Docker Compose: SuperLink + ServerApp"]
+    B -->|Node Operator| D["zk0bot client start --dataset URI<br/>Docker Compose: SuperNode + ClientApp"]
+    C --> E["Server APIs Exposed<br/>Ports 9091-9093<br/>Fleet Management"]
+    D --> F["Private Dataset Mount<br/>HF or Local via URI<br/>UUID Anonymization"]
+    E --> G["Accept Client Connections<br/>Dynamic node_id Assignment<br/>Secure Parameter Exchange"]
+    F --> H["Connect to Server<br/>Load Dataset from URI<br/>Local Training with FedProx"]
+    H --> I["Report Anonymized Metrics<br/>node_id + dataset_uuid<br/>Model Updates Only"]
+    G --> J["Aggregate Updates<br/>Server-Side Evaluation<br/>WandB Public Aggregates"]
+    I --> J
+    J --> K["End Round<br/>Restart for New Dataset<br/>No Raw Data Shared"]
+    style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
+    style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    style J fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
+    style K fill:#FFECB3,stroke:#F57F17,stroke-width:2px,color:#000
+```
+
+This diagram shows the production workflow: CLI installation, mode-specific startup via Docker Compose, secure client-server communication, and privacy-focused metrics reporting.
+
+### Simulation vs. Production Mode Differences
+
+| Aspect              | Simulation Mode                          | Production Mode                              |
+|---------------------|------------------------------------------|---------------------------------------------|
+| **Execution**       | Local Ray clients (fixed 4)              | Docker Compose (SuperLink + SuperNodes)     |
+| **Networking**      | Localhost/loopback                       | External IPs, ports 9091-9093, insecure mode with external VPN (Tailscale/WebRTC) |
+| **Dataset Loading** | Partitioned from pyproject.toml          | From run_config URI (HF repo_id or local root) |
+| **Client ID**       | Fixed partition_id (0-3)                 | Persistent context.cid (SuperNode lifetime) |
+| **Metrics**         | Direct dataset names                     | Anonymized: dataset_name + uuid or cid      |
+| **Persistence**     | Ephemeral (in-memory)                    | Volumes for models/checkpoints/datasets    |
+| **Scaling**         | Fixed clients                            | Dynamic SuperNodes, Kubernetes-ready        |
+| **Monitoring**      | Local logs/WandB                         | Prometheus/Grafana + WandB aggregates       |
+| **Auth/Security**   | None (local)                             | Network-level (VPN); app-level insecure     |
+| **CLI Integration** | train-fl-simulation.sh                   | zk0bot server/client start/stop/log/status  |
+| **Onboarding**      | Manual config                            | GitHub issue template + Discord approval    |
+
+### zk0bot CLI Integration
+
+The zk0bot CLI provides a user-friendly interface for production operations, wrapping Docker Compose for server and client management.
+
+#### Key Features
+- **One-Step Install**: `curl -fsSL https://get.zk0.bot | bash` downloads and sets up zk0bot.
+- **Server Commands**:
+  - `zk0bot server start`: Launches SuperLink + ServerApp.
+  - `zk0bot server status`: Checks running services.
+  - `zk0bot server log`: Streams logs.
+  - `zk0bot server stop`: Shuts down gracefully.
+- **Client Commands**:
+  - `zk0bot client start hf:user/dataset`: Starts SuperNode with HF dataset.
+  - `zk0bot client start local:/path`: Uses local dataset.
+  - `zk0bot client status/log/stop`: Management utilities.
+- **Utilities**:
+  - `zk0bot config`: Shows environment and setup.
+  - `zk0bot status`: Overall network status.
+
+#### Integration with Architecture
+- **Docker Images**: Uses `ghcr.io/ivelin/zk0:v0.4.0` (built from Dockerfile.zk0).
+- **Compose Files**:
+  - `docker-compose.server.yml`: SuperLink (fleet) + ServerApp (FL coordination).
+  - `docker-compose.client.yml`: SuperNode (client runtime) + ClientApp (training).
+- **Environment**: Passes `DATASET_URI`, `HF_TOKEN` via env vars.
+- **Security**: Runs in insecure mode; external VPN (Tailscale/WebRTC) handles networking.
+- **Persistence**: Volumes for datasets (`/app/datasets`), outputs (`/app/outputs`).
+
+#### Example Workflow
+1. **Server Admin**:
+   ```bash
+   zk0bot server start  # Exposes APIs on localhost:9091-9093
+   zk0bot server status  # Verify running
+   ```
+2. **Node Operator**:
+   ```bash
+   zk0bot client start hf:myuser/private-so100  # Connects to server, trains locally
+   zk0bot client log  # Monitor training
+   ```
+3. **Onboarding**: Apply via GitHub issue; approved operators get Discord access.
+
+This CLI abstraction simplifies deployment while maintaining the core FL architecture. For full details, see [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md).
+
+## Production Mode Architecture (v0.4.0)
+
+zk0 v0.4.0 introduces production-ready deployment capabilities, enabling secure, multi-node federated learning with privacy-preserving client training. This extends the simulation architecture with Docker-based orchestration and the zk0bot CLI for node operators.
+
+### Production Mode Data Flow Diagram
+
+The following Mermaid diagram illustrates the production mode data flow, highlighting Docker Compose orchestration and zk0bot CLI integration:
+
+```mermaid
+graph TD
+    A[zk0bot CLI Installation<br/>curl -fsSL https://get.zk0.bot | bash] --> B{Mode Selection}
+    B -->|Server Admin| C[zk0bot server start<br/>Docker Compose: SuperLink + ServerApp]
+    B -->|Node Operator| D[zk0bot client start --dataset URI<br/>Docker Compose: SuperNode + ClientApp]
+    C --> E[Server APIs Exposed<br/>Ports 9091-9093<br/>Fleet Management]
+    D --> F[Private Dataset Mount<br/>HF or Local via URI<br/>UUID Anonymization]
+    E --> G[Accept Client Connections<br/>Dynamic node_id Assignment<br/>Secure Parameter Exchange]
+    F --> H[Connect to Server<br/>Load Dataset from URI<br/>Local Training with FedProx]
+    H --> I[Report Anonymized Metrics<br/>node_id + dataset_uuid<br/>Model Updates Only]
+    G --> J[Aggregate Updates<br/>Server-Side Evaluation<br/>WandB Public Aggregates]
+    I --> J
+    J --> K[End Round<br/>Restart for New Dataset<br/>No Raw Data Shared]
+    style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
+    style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
+    style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
+    style J fill:#FFCDD2,stroke:#D32F2F,stroke-width:2px,color:#000
+    style K fill:#FFECB3,stroke:#F57F17,stroke-width:2px,color:#000
+```
+
+This diagram shows the production workflow: CLI installation, mode-specific startup via Docker Compose, secure client-server communication, and privacy-focused metrics reporting.
+
+### Simulation vs. Production Mode Differences
+
+| Aspect              | Simulation Mode                          | Production Mode                              |
+|---------------------|------------------------------------------|---------------------------------------------|
+| **Execution**       | Local Ray clients (fixed 4)              | Docker Compose (SuperLink + SuperNodes)     |
+| **Networking**      | Localhost/loopback                       | External IPs, ports 9091-9093, insecure mode with external VPN (Tailscale/WebRTC) |
+| **Dataset Loading** | Partitioned from pyproject.toml          | From run_config URI (HF repo_id or local root) |
+| **Client ID**       | Fixed partition_id (0-3)                 | Persistent context.cid (SuperNode lifetime) |
+| **Metrics**         | Direct dataset names                     | Anonymized: dataset_name + uuid or cid      |
+| **Persistence**     | Ephemeral (in-memory)                    | Volumes for models/checkpoints/datasets    |
+| **Scaling**         | Fixed clients                            | Dynamic SuperNodes, Kubernetes-ready        |
+| **Monitoring**      | Local logs/WandB                         | Prometheus/Grafana + WandB aggregates       |
+| **Auth/Security**   | None (local)                             | Network-level (VPN); app-level insecure     |
+| **CLI Integration** | train-fl-simulation.sh                   | zk0bot server/client start/stop/log/status  |
+| **Onboarding**      | Manual config                            | GitHub issue template + Discord approval    |
+
+### zk0bot CLI Integration
+
+The zk0bot CLI provides a user-friendly interface for production operations, wrapping Docker Compose for server and client management.
+
+#### Key Features
+- **One-Step Install**: `curl -fsSL https://get.zk0.bot | bash` downloads and sets up zk0bot.
+- **Server Commands**:
+  - `zk0bot server start`: Launches SuperLink + ServerApp.
+  - `zk0bot server status`: Checks running services.
+  - `zk0bot server log`: Streams logs.
+  - `zk0bot server stop`: Shuts down gracefully.
+- **Client Commands**:
+  - `zk0bot client start hf:user/dataset`: Starts SuperNode with HF dataset.
+  - `zk0bot client start local:/path`: Uses local dataset.
+  - `zk0bot client status/log/stop`: Management utilities.
+- **Utilities**:
+  - `zk0bot config`: Shows environment and setup.
+  - `zk0bot status`: Overall network status.
+
+#### Integration with Architecture
+- **Docker Images**: Uses `ghcr.io/ivelin/zk0:v0.4.0` (built from Dockerfile.zk0).
+- **Compose Files**:
+  - `docker-compose.server.yml`: SuperLink (fleet) + ServerApp (FL coordination).
+  - `docker-compose.client.yml`: SuperNode (client runtime) + ClientApp (training).
+- **Environment**: Passes `DATASET_URI`, `HF_TOKEN` via env vars.
+- **Security**: Runs in insecure mode; external VPN (Tailscale/WebRTC) handles networking.
+- **Persistence**: Volumes for datasets (`/app/datasets`), outputs (`/app/outputs`).
+
+#### Example Workflow
+1. **Server Admin**:
+   ```bash
+   zk0bot server start  # Exposes APIs on localhost:9091-9093
+   zk0bot server status  # Verify running
+   ```
+2. **Node Operator**:
+   ```bash
+   zk0bot client start hf:myuser/private-so100  # Connects to server, trains locally
+   zk0bot client log  # Monitor training
+   ```
+3. **Onboarding**: Apply via GitHub issue; approved operators get Discord access.
+
+This CLI abstraction simplifies deployment while maintaining the core FL architecture. For full details, see [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md).
+
 ### Federated vs. Centralized Training Comparison
 
 The zk0 system enables rigorous benchmarking between federated and centralized training to evaluate privacy-efficiency trade-offs.

@@ -38,7 +38,13 @@ class DatasetConfig:
 
     @classmethod
     def load(cls) -> "DatasetConfig":
-        """Load dataset configuration from pyproject.toml."""
+        """Load dataset configuration from pyproject.toml.
+
+        Note: In production mode, clients ignore partitions and load datasets
+        directly from run_config (dataset.repo_id or dataset.root) instead of
+        using the clients list here. This method is used for simulation mode
+        clients and server evaluation datasets in both modes.
+        """
         # pyproject.toml is in the current working directory
         pyproject_path = Path("pyproject.toml")
 

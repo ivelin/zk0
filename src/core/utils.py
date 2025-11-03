@@ -20,6 +20,10 @@ from lerobot.datasets.factory import make_dataset
 
 from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
+# Import additional utilities
+from src.common.parameter_utils import compute_parameter_hash
+from src.server.metrics_utils import prepare_server_wandb_metrics
+
 # Import torchvision for image transforms
 
 
@@ -340,80 +344,6 @@ def load_lerobot_dataset(
         raise RuntimeError(f"Dataset loading failed: {e}")
 
 
-# Parameter validation utilities for federated learning
-def compute_parameter_hash(parameters: List[np.ndarray]) -> str:
-    """
-    Compute SHA256 hash of model parameters for integrity checking.
-
-    Args:
-        parameters: List of parameter arrays
-
-    Returns:
-        SHA256 hash string of parameter data
-    """
-    import hashlib
-
-    # Convert parameters to tensors and concatenate (deterministic ordering)
-    tensors = [torch.from_numpy(p).flatten() for p in parameters]
-    all_params = torch.cat([t for t in sorted(tensors, key=lambda x: x.numel())])
-    param_bytes = all_params.numpy().tobytes()
-
-    return hashlib.sha256(param_bytes).hexdigest()
-
-
-def compute_rounded_hash(ndarrays, precision="float32"):
-    """Compute SHA256 hash of NDArrays after rounding to fixed precision.
-
-    This mitigates float drift from Flower's serialization/deserialization
-    by rounding to a consistent dtype before hashing.
-
-    Args:
-        ndarrays: List of numpy arrays (model parameters)
-        precision: Target dtype for rounding ('float32' or 'float16')
-
-    Returns:
-        str: SHA256 hex hash of the rounded, flattened arrays
-    """
-    import numpy as np
-    import hashlib
-
-    # Round to fixed dtype for tolerance
-    rounded = [arr.astype(getattr(np, precision)) for arr in ndarrays]
-    # Flatten and concatenate
-    flat = np.concatenate([r.flatten() for r in rounded])
-    # Hash the bytes
-    return hashlib.sha256(flat.tobytes()).hexdigest()
-
-
-def validate_and_log_parameters(
-    parameters: List[np.ndarray], gate_name: str, expected_count: int = 506
-) -> str:
-    """
-    Validate parameters and log basic information about them.
-
-    Args:
-        parameters: Parameter arrays to validate and log
-        gate_name: Name of the gate (e.g., "server_initial_model", "client_update")
-        expected_count: Expected number of parameters
-
-    Returns:
-        Parameter hash for downstream validation
-
-    Raises:
-        AssertionError: If validation fails
-    """
-    # Basic validation
-    assert len(parameters) == expected_count, (
-        f"Parameter count mismatch at {gate_name}: expected {expected_count}, got {len(parameters)}"
-    )
-
-    # Compute hash
-    current_hash = compute_parameter_hash(parameters)
-
-    # Log basic information
-    logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:8]}...")
-
-    return current_hash
 
 
 # TOML parsing utility
@@ -519,137 +449,91 @@ def validate_scheduler_config(cfg: dict) -> None:
             )
 
 
-def create_client_metrics_dict(
-    round_num: int,
-    client_id: str,
-    dataset_name: str,
-    policy_loss: float,
-    fedprox_loss: float,
-    grad_norm: float,
-    param_hash: str,
-    num_steps: int,
-    param_update_norm: float,
-) -> dict:
-    """
-    Create standardized client metrics dictionary for JSON logging and server aggregation.
+
+
+def compute_param_update_norm(pre_params, post_params):
+    """Compute L2 norm of parameter differences between pre and post training.
 
     Args:
-        round_num: Current federated learning round
-        client_id: Client identifier
-        dataset_name: Dataset repository ID
-        policy_loss: Pure SmolVLA policy loss
-        fedprox_loss: FedProx regularization loss
-        grad_norm: Gradient norm
-        param_hash: SHA256 hash of parameters
-        num_steps: Number of training steps completed
-        param_update_norm: L2 norm of parameter updates
-        latest_local_epochs: Number of local epochs run by this client in the most recent round
-        cumulative_rounds_for_dataset: Total federated rounds this client has participated in for its dataset
-        cumulative_epochs_for_dataset: Total local epochs accumulated by this client for its dataset across all rounds
+        pre_params: List of numpy arrays (pre-training parameters)
+        post_params: List of numpy arrays (post-training parameters)
 
     Returns:
-        Standardized metrics dict for consistent client/server use
+        float: L2 norm of parameter differences
     """
-    total_loss = policy_loss + fedprox_loss
-    return {
-        "round": round_num,
-        "client_id": client_id,
-        "dataset_name": dataset_name,
-        "loss": total_loss,  # Total loss for compatibility
-        "policy_loss": policy_loss,  # Pure SmolVLA flow-matching loss
-        "fedprox_loss": fedprox_loss,  # FedProx term
-        "grad_norm": grad_norm,
-        "param_hash": param_hash,
-        "num_steps": num_steps,
-        "param_update_norm": param_update_norm,
-    }
+    if pre_params is None or post_params is None:
+        return 0.0
+
+    if len(pre_params) != len(post_params):
+        return 0.0
+
+    import numpy as np
+
+    param_diff_norm = np.sqrt(
+        sum(np.sum((post - pre) ** 2) for post, pre in zip(post_params, pre_params))
+    )
+    return float(param_diff_norm)
 
 
-def prepare_server_wandb_metrics(
-    server_round: int,
-    server_loss: float,
-    server_metrics: dict,
-    aggregated_client_metrics: dict,
-    individual_client_metrics: list,
-    per_dataset_results: Optional[List[Dict]] = None,
-) -> dict:
-    """
-    Prepare server metrics for WandB logging using the same structure as JSON files.
-
-    This function creates a flattened metrics dictionary suitable for WandB logging
-    that mirrors the structure used in server JSON evaluation files, including
-    per-dataset metrics when available.
+def save_client_round_metrics(
+    config, training_metrics, round_num, client_id, logger
+):
+    """Save per-round client metrics to JSON file.
 
     Args:
-        server_round: Current server round number
-        server_loss: Server evaluation loss
-        server_metrics: Server evaluation metrics dictionary
-        aggregated_client_metrics: Aggregated client metrics from last round
-        individual_client_metrics: List of individual client metrics from last round
-        server_eval_dataset_results: Optional list of per-dataset evaluation results from server eval
+        config: Flower config dict containing timestamp
+        training_metrics: Dict of training metrics
+        round_num: Current round number
+        client_id: Client identifier (partition_id in sim, UUID in prod)
+        logger: Logger instance for logging
 
     Returns:
-        Dictionary of metrics formatted for WandB logging with appropriate prefixes
+        None
     """
-    wandb_metrics = {}
+    try:
+        timestamp = config.get("timestamp", "unknown")
+        output_dir = f"outputs/{timestamp}/clients/client_{client_id}"
+        os.makedirs(output_dir, exist_ok=True)
 
-    # Add server metrics with server_ prefix
-    server_prefix = "server_"
-    wandb_metrics[f"{server_prefix}round"] = server_round
-    wandb_metrics[f"{server_prefix}eval_loss"] = server_loss
-    wandb_metrics[f"{server_prefix}eval_policy_loss"] = server_metrics.get(
-        "policy_loss", 0.0
-    )
-    wandb_metrics[f"{server_prefix}eval_successful_batches"] = server_metrics.get(
-        "successful_batches", 0
-    )
-    wandb_metrics[f"{server_prefix}eval_total_batches"] = server_metrics.get(
-        "total_batches_processed", 0
-    )
-    wandb_metrics[f"{server_prefix}eval_total_samples"] = server_metrics.get(
-        "total_samples", 0
-    )
-    wandb_metrics[f"{server_prefix}eval_action_dim"] = server_metrics.get(
-        "action_dim", 7
-    )
-
-    # Add aggregated client metrics with server_ prefix
-    if aggregated_client_metrics:
-        for key, value in aggregated_client_metrics.items():
-            wandb_metrics[f"{server_prefix}{key}"] = value
-
-    # Add individual client metrics with client_{id}_ prefix
-    for client_metric in individual_client_metrics:
-        client_id = client_metric.get("client_id", "unknown")
-        prefix = f"client_{client_id}_"
-
-        # Add all client metrics except internal Flower fields
-        for key, value in client_metric.items():
-            if key not in ["flower_proxy_cid"]:  # Exclude internal fields
-                wandb_metrics[f"{prefix}{key}"] = value
-
-    # Add per-dataset metrics mirroring JSON structure (e.g., loss_evaldata_id_0)
-    if per_dataset_results:
-        for result in per_dataset_results:
-            evaldata_id = result.get(
-                "evaldata_id", result.get("dataset_name", "unknown").replace("/", "_")
-            )
-            # Add top-level prefixed metrics matching JSON
-            wandb_metrics[f"evaldata_id_{evaldata_id}_loss"] = result["loss"]
-            wandb_metrics[f"evaldata_id_{evaldata_id}_num_examples"] = result[
-                "num_examples"
-            ]
-            wandb_metrics[f"evaldata_id_{evaldata_id}_successful_batches"] = result[
-                "metrics"
-            ].get("successful_batches", 0)
-            wandb_metrics[f"evaldata_id_{evaldata_id}_total_samples"] = result[
-                "metrics"
-            ].get("total_samples", 0)
-            wandb_metrics[f"evaldata_id_{evaldata_id}_dataset_name"] = result[
-                "dataset_name"
-            ]
-        logger.debug(
-            f"Added JSON-mirrored per-dataset WandB metrics for evaldata_ids: {[r.get('evaldata_id', r.get('dataset_name', 'unknown').replace('/', '_')) for r in per_dataset_results]}"
+        json_data = create_client_metrics_dict(
+            round_num=round_num,
+            client_id=client_id,
+            dataset_name=training_metrics.get("dataset_name", ""),
+            policy_loss=training_metrics.get("policy_loss", 0.0),
+            fedprox_loss=training_metrics.get("fedprox_loss", 0.0),
+            grad_norm=training_metrics.get("grad_norm", 0.0),
+            param_hash=training_metrics.get("param_hash", ""),
+            num_steps=training_metrics.get("steps_completed", 0),
+            param_update_norm=training_metrics.get("param_update_norm", 0.0),
         )
+        with open(f"{output_dir}/round_{round_num}.json", "w") as f:
+            json.dump(json_data, f, indent=2)
+        logger.info(
+            f"Client {client_id}: Saved per-round metrics to {output_dir}/round_{round_num}.json"
+        )
+    except Exception as e:
+        logger.warning(f"Client {client_id}: Failed to save per-round metrics: {e}")
 
-    return wandb_metrics
+
+def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, expected_count: int) -> str:
+    """Validate parameter count and compute hash for logging.
+
+    Args:
+        parameters: List of numpy arrays containing model parameters
+        gate_name: Name of the validation gate (for logging)
+        expected_count: Expected number of parameter arrays
+
+    Returns:
+        SHA256 hash string of the parameters
+
+    Raises:
+        AssertionError: If parameter count doesn't match expected count
+    """
+    assert len(parameters) == expected_count, f"Parameter count mismatch: got {len(parameters)}, expected {expected_count}"
+
+    # Compute hash
+    current_hash = compute_parameter_hash(parameters)
+
+    logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:16]}...")
+
+    return current_hash

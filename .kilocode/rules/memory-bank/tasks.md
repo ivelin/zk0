@@ -1,8 +1,8 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-14
-**Version**: 1.0.2
+**Last Updated**: 2025-11-01
+**Version**: 1.0.3
 **Author**: Kilo Code
 
 ## Latest Update (2025-10-29)
@@ -44,6 +44,55 @@
 - Reliable parameter handling for all run lengths
 - Maintains model quality by returning best available parameters
 - Prevents data loss from unexpected crashes during training
+
+## Additional Critical Fixes
+
+### Client Parameter Type Handling Fix
+**Last performed:** 2025-10-10
+**Context:** Fixed client parameter compatibility issues with Flower framework by ensuring proper NumPy array handling.
+
+**Files modified:** `src/client_app.py`
+
+**Steps:**
+1. **Issue Detection**: Flower client failing with parameter type errors during federated rounds
+2. **Root Cause Analysis**: SmolVLA parameters not properly converted to Flower-compatible NumPy arrays
+3. **Fix Implementation**: Added parameter type conversion in client fit() method
+4. **Validation**: Client successfully participates in FL rounds without type errors
+
+### Server Eval Mode Passing Fix
+**Last performed:** 2025-10-12
+**Context:** Fixed server evaluation to properly pass eval_mode for full/quick evaluation modes.
+
+**Files modified:** `src/server_app.py`
+
+**Steps:**
+1. **Issue Detection**: Server evaluation not using correct evaluation mode
+2. **Fix Implementation**: Updated _server_evaluate() to pass eval_mode parameter
+3. **Benefits**: Proper evaluation mode selection for different FL phases
+
+### Full Evaluation Episode Limits Fix
+**Last performed:** 2025-10-13
+**Context:** Fixed evaluation to use dataset.episodes count for proper episode limiting.
+
+**Files modified:** `src/evaluation.py`
+
+**Steps:**
+1. **Issue Detection**: Evaluation not respecting dataset episode limits
+2. **Fix Implementation**: Updated episode limiting logic to use dataset.episodes
+3. **Benefits**: Accurate evaluation on correct number of episodes
+
+### Enhanced Security with Bidirectional SHA256 Validation
+**Last performed:** 2025-10-14
+**Context:** Implemented bidirectional SHA256 parameter validation for enhanced security.
+
+**Files modified:** `src/server_app.py`, `src/client_app.py`
+
+**Steps:**
+1. **Implementation**: Added SHA256 hash validation in both directions
+2. **Server Validation**: Computes and validates client parameter hashes
+3. **Client Validation**: Validates received server parameters
+4. **Error Handling**: Raises RuntimeError on hash mismatches
+5. **Benefits**: Prevents corrupted parameter transmission, ensures data integrity
 
 ## Consolidated Metrics Implementation
 **Last performed:** 2025-10-13
@@ -241,99 +290,3 @@
 - Informed hyperparam tuning based on actual run data
 - Preserved institutional knowledge via memory bank updates
 - Clear handoff to code mode with prioritized fixes
-
-### Comprehensive Implementation Checklist
-This consolidated checklist combines the pre-implementation, implementation, and post-implementation phases into a single document, eliminating redundancies while preserving all unique items.
-
-#### Pre-Implementation
-- [ ] Working directory is `.`
-- [ ] No changes planned for sibling or parent directories
-- [ ] Conda environment "zk0" is active and available
-- [ ] Focus maintained on SmolVLA model and SO-100 datasets
-- [ ] Reference to quickstart-lerobot structure is considered
-- [ ] Task context fully captured and documented
-- [ ] Success criteria clearly defined and measurable
-- [ ] Dependencies identified and accessible
-- [ ] Technical constraints understood and documented
-- [ ] Risk assessment completed
-- [ ] Required tools and libraries available
-- [ ] Development environment properly configured
-- [ ] Access to necessary datasets and models
-- [ ] Hardware requirements met (GPU, memory, etc.)
-- [ ] Network connectivity for federated learning
-- [ ] Coding standards reviewed and understood
-- [ ] Testing requirements identified
-- [ ] Documentation standards reviewed
-- [ ] Security considerations addressed
-- [ ] Implementation plan created
-- [ ] Timeline and milestones defined
-- [ ] Resource requirements identified
-- [ ] Backup and recovery plans in place
-- [ ] Communication plan established
-
-#### Implementation
-- [ ] Code follows established style guidelines (PEP 8)
-- [ ] Comprehensive docstrings provided for all functions/classes
-- [ ] Type hints included where appropriate
-- [ ] Code is modular and maintainable
-- [ ] Error handling implemented appropriately
-- [ ] Logging added for debugging and monitoring
-- [x] SmolVLA model properly loaded and configured
-- [x] SO-100 dataset integration working correctly
-- [x] Federated learning setup matches Flower requirements
-- [x] Model parameters handled according to SmolVLA specs
-- [x] Asynchronous inference implemented where beneficial
-- [x] Dataset synchronization issues resolved with high tolerance
-- [x] Model loading issues fixed with proper environment variables
-- [ ] Unit tests written and passing
-- [ ] Integration tests implemented
-- [ ] Test coverage maintained above 80%
-- [ ] Edge cases and error conditions tested
-- [ ] Performance benchmarks met
-- [ ] Code documentation complete and accurate
-- [ ] API documentation updated
-- [ ] Usage examples provided
-- [ ] Configuration instructions documented
-- [ ] Troubleshooting guide included
-- [ ] Memory usage optimized for available hardware
-- [ ] GPU utilization efficient
-- [ ] Training/inference times meet requirements
-- [ ] Scalability considerations addressed
-- [ ] Resource cleanup implemented
-- [ ] No sensitive data exposed in logs
-- [ ] Secure handling of model weights and data
-- [ ] Compliance with federated learning privacy requirements
-- [ ] Input validation implemented
-- [ ] Error messages don't leak sensitive information
-
-#### Post-Implementation
-- [ ] All success criteria from original task met
-- [ ] Performance requirements satisfied
-- [ ] Functional requirements verified
-- [ ] Non-functional requirements met
-- [ ] Stakeholder acceptance obtained
-- [ ] All tests passing (unit, integration, end-to-end)
-- [ ] Code review completed and approved
-- [ ] Security review passed
-- [ ] Performance benchmarks achieved
-- [ ] Documentation reviewed and approved
-- [ ] Integration with existing systems verified
-- [ ] Backward compatibility maintained
-- [ ] API contracts respected
-- [ ] Data format compatibility confirmed
-- [ ] Configuration compatibility verified
-- [ ] Production environment tested
-- [ ] Deployment scripts created/updated
-- [ ] Rollback procedures documented
-- [ ] Monitoring and alerting configured
-- [ ] Backup and recovery procedures tested
-- [ ] User documentation updated
-- [ ] API documentation published
-- [ ] Runbook and troubleshooting guides updated
-- [ ] Knowledge transfer to operations team completed
-- [ ] Training materials updated if needed
-- [ ] Lessons learned documented in memory bank
-- [ ] New patterns or best practices captured
-- [ ] Technical specifications updated
-- [ ] Workflow improvements identified and documented
-- [ ] Context for future tasks preserved

@@ -1,8 +1,8 @@
 # System Architecture
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-29
-**Version**: 1.0.6
+**Last Updated**: 2025-11-01
+**Version**: 1.0.7
 **Author**: Kilo Code
 
 ## Source Code Paths
@@ -172,19 +172,6 @@ The server evaluates the global model on all client tasks as well as additional 
 3. **Data Partitioning**: LeRobotDatasetPartitioner for episode-based splitting
 4. **Model Aggregation**: Flower's parameter aggregation mechanisms
 
-## Performance Benchmarks
-
-### SmolVLA Performance
-- **SO-100 Success Rate**: 78.3% (with community pretraining)
-- **SO-101 Generalization**: Strong transfer capabilities
-- **Simulation Benchmarks**: Matches/exceeds larger VLAs on LIBERO, Meta-World
-- **Real-world Tasks**: Pick-place, stacking, sorting, tool manipulation
-
-### Flower Performance
-- **Scalability**: Supports 10+ clients in simulation
-- **Communication Efficiency**: Optimized parameter transmission
-- **GPU Utilization**: Efficient resource allocation
-- **Memory Management**: Streaming and batch processing
 
 ## Project Constraints
 

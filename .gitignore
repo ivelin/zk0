@@ -19,6 +19,7 @@ prof/
 htmlcov/
 .tox/
 .nox/
+coverage/
 .coverage
 .coverage.*
 .cache

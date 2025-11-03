@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-10-29
-**Version**: 1.0.4
+**Last Updated**: 2025-11-01
+**Version**: 1.0.5
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -122,7 +122,30 @@ For detailed dataset information, including SO-100/SO-101 formats, client assign
 ## Development Environment
 For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](../docs/INSTALLATION.md).
 
-For development guidelines, testing standards, and quality assurance, see [docs/DEVELOPMENT.md](../docs/DEVELOPMENT.md).
+### Testing Standards
+- **Real Scenarios**: Prioritize actual FL workflows, SmolVLA interactions, SO-100 processing.
+- **No Mocks in Production**: Tests use real dependencies; fail-fast on missing env.
+- **Coverage**: 30% minimum; focus on integration points (Flower ↔ SmolVLA).
+- **Zk0-Specific**: Test parameter exchange, multi-repo partitioning, hash validation.
+- **Execution**: Always in Docker (`zk0`) or conda (`zk0`) for consistency.
+- **Parallel**: `pytest -n auto` with coverage reporting.
+
+### Code Quality Standards
+- **Code Style**: PEP 8, type hints, docstrings.
+- **Modularity**: Separate concerns (e.g., task.py for training).
+- **Error Handling**: Raise RuntimeError for missing deps.
+- **Reproducibility**: Pin deps in pyproject.toml; use seeds (e.g., 42).
+- **Tool Usage**: Batch file reads; diff format for edits.
+- **Context Management**: Maintain project context through documentation updates and reviews.
+- **Performance**: GPU optimization, AMP; monitor VRAM.
+- **File Size Limits**: New source files must be under 500 lines of code (LOC) when possible for maintainability and readability. This ensures modular design and prevents bloated files. Exceptions require explicit approval in code reviews. Existing large files (e.g., server_app.py) should be refactored into smaller modules during maintenance.
+
+### CI/CD and Deployment
+- **Docker-Based Testing**: CI uses `Dockerfile.ci` (CPU-only) for isolation; local uses `Dockerfile.zk0` (GPU).
+- **Parallel Coverage**: `.coveragerc` enables parallel mode; `coverage combine` merges files.
+- **GitHub Actions**: Auto-build/push on tag; GPU-only platforms.
+- **Local Simulation**: Test CI locally with `docker build -f Dockerfile.ci -t zk0-ci .` then run tests.
+- **Deployment**: Docker Compose for prod; GHCR for images.
 
 ## Logging and Monitoring
 - **Loguru Framework**: Structured logging with rotation, compression, and multi-process safety
@@ -136,6 +159,14 @@ For development guidelines, testing standards, and quality assurance, see [docs/
 - **Rotation Policy**: 500MB files with 10-day retention and zip compression
 - **Diagnostics**: VRAM/RAM monitoring, training metrics, error tracking, and resource usage
 - **Configuration**: Automatic setup via `src/logger.py` with client/server coordination; clean separation prevents log duplication
+
+### Unified Logging Architecture
+- **Coordination**: Server creates log file; passes path to clients via Flower config.
+- **Safety**: `enqueue=True` for multi-process (Ray) compatibility.
+- **Format**: Includes client_id, PID, round, VRAM/RAM diagnostics.
+- **Rotation**: 500MB files, 10-day retention, zip compression.
+- **Integration**: Bridges Flower/Ray logs to Loguru.
+- **Locations**: Unified `outputs/YYYY-MM-DD_HH-MM-SS/simulation.log`, server `server/server.log`, clients `clients/client_N/client.log`.
 
 ## Experiment Tracking and Monitoring
 
@@ -157,6 +188,12 @@ For development guidelines, testing standards, and quality assurance, see [docs/
 - **CI/CD**: Automated testing and deployment pipelines
 - **Network Configuration**: Proper TLS and authentication setup
 - **Scalability**: Plan for multiple clients and rounds
+
+## Contributing Guidelines
+- **Node Operators**: Join with SO-100 arm + RTX 3090+ GPU for data/compute.
+- **Code**: Bug fixes, features, docs, tests.
+- **Process**: Fork repository, create feature branch, commit changes (lint with Ruff), run tests (`pytest`), submit PR.
+- **Focus**: At Beta stage, focus on core FL functionality and community onboarding.
 
 
 ## Evaluation and Visualization

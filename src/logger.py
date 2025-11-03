@@ -10,7 +10,7 @@ def get_config():
     try:
         # Try to load from pyproject.toml
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-        from src.utils import get_tool_config
+        from src.core.utils import get_tool_config
 
         config = get_tool_config("zk0.logging")
         return config

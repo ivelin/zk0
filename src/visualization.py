@@ -17,7 +17,7 @@ except ImportError:
     print("Warning: LeRobot not available for visualization")
 
 # Import the new helper
-from src.utils import load_lerobot_dataset
+from src.core.utils import load_lerobot_dataset
 
 try:
     import matplotlib

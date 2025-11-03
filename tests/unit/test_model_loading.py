@@ -5,7 +5,7 @@ import pytest
 from unittest.mock import patch
 
 try:
-    from src.utils import load_smolvla_model
+    from src.core.utils import load_smolvla_model
     MODEL_LOADING_AVAILABLE = True
 except ImportError:
     MODEL_LOADING_AVAILABLE = False
