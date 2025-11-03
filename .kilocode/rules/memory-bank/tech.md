@@ -196,6 +196,17 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **Focus**: At Beta stage, focus on core FL functionality and community onboarding.
 
 
+#### Model Pushing to Hugging Face Hub
+```bash
+# Push checkpoint directory to HF Hub (requires conda zk0 environment)
+conda run -n zk0 python -m zk0.push_to_hf /path/to/checkpoint_dir --repo-id your-username/your-model
+
+# Prerequisites:
+# - HF token in .env: HF_TOKEN=your_token_here
+# - Checkpoint directory must contain: model.safetensors, config.json, README.md, metrics.json, etc.
+# - Uses api.upload_folder() for complete directory upload
+```
+
 ## Evaluation and Visualization
 
 ### Evaluation System

@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-03)**: ✅ **v0.4.3 Production Deployment Fixes** Fixed critical test failures including circular imports, missing functions, and assertion errors. Updated version to 0.4.3. Tests now passing with improved coverage. Ready for commit and production deployment.
+**Latest Update (2025-11-03)**: ✅ **v0.4.3 Production Deployment Fixes** Fixed critical test failures including circular imports, missing functions, and assertion errors. Updated version to 0.4.3. Tests now passing with improved coverage. Ready for commit and production deployment. Integrated remote dev branch simulation improvements (v0.3.17 sync, coverage fix).
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 
@@ -41,6 +41,7 @@
 - **Consolidated Metrics**: Unified server evaluation files with aggregated and individual client metrics
 - **Dynamic Learning Rate**: Advanced LR/MU scheduling with warm restarts, adaptive boosts, dynamic mu, and spike detection
 - **Production Readiness**: Docker Compose for multi-node FL, zk0bot for node operators, privacy via UUID-anonymized metrics.
+- **WandB Integration**: Model cards now include direct links to WandB experiment runs when WandB is enabled
 
 
 **Performance Insights**:

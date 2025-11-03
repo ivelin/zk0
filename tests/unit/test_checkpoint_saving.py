@@ -17,7 +17,8 @@ class TestSaveModelCheckpoint:
     @patch("src.server.server_utils.extract_training_hyperparameters")
     @patch("src.server.server_utils.extract_datasets")
     @patch("src.server.server_utils.compute_in_memory_insights")  # New in-memory helper
-    def test_save_model_checkpoint_in_memory_success(self, mock_compute_insights,
+    @patch("src.wandb_utils.get_wandb_public_url")
+    def test_save_model_checkpoint_in_memory_success(self, mock_get_wandb_url, mock_compute_insights,
                                                        mock_extract_datasets, mock_extract_hyperparams,
                                                        mock_generate_card, mock_save_file, mock_version, mock_get_config):
         """Test successful checkpoint with in-memory metrics."""
@@ -33,6 +34,7 @@ class TestSaveModelCheckpoint:
         mock_extract_datasets.return_value = ([{"name": "client1", "description": "Test client"}], [{"name": "eval1", "description": "Test eval"}])
         mock_compute_insights.return_value = {"convergence_trend": "0.723 → 0.655", "avg_client_loss_trend": "0.912 → 0.894", "client_participation_rate": "Average 2.0 clients per round", "anomalies": []}
         mock_generate_card.return_value = "# Model Card with repo_id"
+        mock_get_wandb_url.return_value = None  # No WandB URL for this test
 
         # Create mock strategy with in-memory data
         mock_strategy = MagicMock()
@@ -67,10 +69,11 @@ class TestSaveModelCheckpoint:
             # Verify in-memory usage
             # mock_compute_insights.assert_called_once_with(mock_strategy)
 
-            # Verify repo_id passed
+            # Verify repo_id and wandb_url passed
             mock_generate_card.assert_called_once()
             args = mock_generate_card.call_args[0]
-            assert args[-1] == "ivelin/zk0-smolvla-fl"  # hf_repo_id from config
+            assert args[-2] == "ivelin/zk0-smolvla-fl"  # hf_repo_id from config
+            assert args[-1] is None  # wandb_url (None in this test)
 
             # Verify datasets populated
             mock_extract_datasets.assert_called_once()

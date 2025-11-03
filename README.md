@@ -131,6 +131,10 @@ conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-se
 
 ### Push Model to Hugging Face Hub
 
+**Prerequisites:**
+- Ensure your Hugging Face token is set in `.env`: `HF_TOKEN=your_token_here`
+- The conda environment "zk0" must be active for script execution
+
 After training, your model checkpoint will be automatically pushed to Hugging Face Hub as a complete checkpoint directory.
 However if the training stops early for any reason, you can still push a saved intermediate checkpoint directory to HF Hub:
 
@@ -146,6 +150,15 @@ conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/che
 - **Defaults**: 500 rounds, 4 clients, SO-100/SO-101 datasets.
 - **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoint directories, videos.
 - **HF Hub Push**: For tiny/debug runs (e.g., `num-server-rounds < checkpoint_interval=20`), the final model push to Hugging Face Hub is skipped to avoid repository clutter with incomplete checkpoints. Local checkpoints are always saved. Full runs (≥20 rounds) will push to the configured `hf_repo_id`.
+
+### Experiment Tracking
+
+zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracking and visualization:
+
+- **Automatic Logging**: When `use-wandb=true` in `pyproject.toml`, training metrics, hyperparameters, and evaluation results are automatically logged to WandB.
+- **Model Cards**: Generated README.md files in checkpoint directories include direct links to WandB experiment runs when WandB is enabled.
+- **Visualization**: View detailed training curves, client performance, and federated learning metrics in real-time.
+- **Setup**: Set `WANDB_API_KEY` in your `.env` file to enable WandB logging.
 
 **Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
 
