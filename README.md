@@ -164,7 +164,7 @@ zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracki
 
 ## Production Deployment
 
-zk0 v0.4.0 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
+zk0 v0.4.5 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
 
 ### Install zk0bot CLI
 
@@ -233,7 +233,7 @@ For detailed node operator instructions, see [docs/NODE-OPERATORS.md](docs/NODE-
 ### Docker Images
 
 Production uses the official zk0 Docker image:
-- Image: `ghcr.io/ivelin/zk0:v0.4.0`
+- Image: `ghcr.io/ivelin/zk0:v0.4.5`
 - Compose files: `docker-compose.server.yml`, `docker-compose.client.yml`
 
 Build locally:

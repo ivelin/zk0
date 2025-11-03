@@ -72,8 +72,8 @@ class TestSaveModelCheckpoint:
             # Verify repo_id and wandb_url passed
             mock_generate_card.assert_called_once()
             args = mock_generate_card.call_args[0]
-            assert args[-2] == "ivelin/zk0-smolvla-fl"  # hf_repo_id from config
-            assert args[-1] is None  # wandb_url (None in this test)
+            assert args[-1] == "ivelin/zk0-smolvla-fl"  # hf_repo_id from config
+            assert args[-2]["federation"] == "local-simulation"  # other_info dict
 
             # Verify datasets populated
             mock_extract_datasets.assert_called_once()

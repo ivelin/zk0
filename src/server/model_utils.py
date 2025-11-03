@@ -193,7 +193,7 @@ def extract_training_hyperparameters(context, pyproject_config):
     """
     hyperparams = {
         "num_server_rounds": context.run_config.get("num-server-rounds", "N/A"),
-        "local_epochs": pyproject_config.get("local_epochs", "N/A"),
+        "local_epochs": pyproject_config.get("local-epochs", "N/A"),
         "proximal_mu": pyproject_config.get("proximal_mu", "N/A"),
         "initial_lr": pyproject_config.get("initial_lr", "N/A"),
         "batch_size": pyproject_config.get("batch_size", "N/A"),

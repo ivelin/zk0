@@ -24,7 +24,7 @@ class TestSaveAndPushModel:
 
         with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
               patch("src.server.server_utils.logger") as mock_logger:
-            save_and_push_model(strategy, server_round, aggregated_parameters)
+            save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved once (final round)
             mock_save.assert_called_once_with(strategy, aggregated_parameters, server_round)
@@ -52,9 +52,9 @@ class TestSaveAndPushModel:
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
         with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-               patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
+                patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
             mock_save.return_value = "/path/to/checkpoint"  # Mock return value
-            save_and_push_model(strategy, server_round, aggregated_parameters)
+            save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved once (final round, deduplicated)
             mock_save.assert_called_once_with(strategy, aggregated_parameters, server_round)
@@ -80,8 +80,8 @@ class TestSaveAndPushModel:
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
         with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-               patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
-            save_and_push_model(strategy, server_round, aggregated_parameters)
+                patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
+            save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved (always saved on final round)
             mock_save.assert_called_once_with(strategy, aggregated_parameters, server_round)

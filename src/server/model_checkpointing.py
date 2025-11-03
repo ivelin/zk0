@@ -29,7 +29,7 @@ def save_and_push_model(strategy, server_round: int, aggregated_parameters, metr
     from .model_utils import save_model_checkpoint
 
     checkpoint_dir = save_model_checkpoint(
-        aggregated_parameters, server_round, strategy.save_path, app_config
+        strategy, aggregated_parameters, server_round
     )
 
     # Conditionally push to HF Hub

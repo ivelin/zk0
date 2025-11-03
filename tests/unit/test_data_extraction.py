@@ -8,7 +8,7 @@ class TestExtractTrainingHyperparameters:
 
     def test_extract_training_hyperparameters(self):
         """Test hyperparameter extraction."""
-        from src.server.server_utils import extract_training_hyperparameters
+        from src.server.model_utils import extract_training_hyperparameters
 
         mock_context = MagicMock()
         mock_context.run_config = {
@@ -48,7 +48,7 @@ class TestExtractDatasets:
 
     def test_extract_datasets_basic(self):
         """Test basic dataset extraction."""
-        from src.server.server_utils import extract_datasets
+        from src.server.model_utils import extract_datasets
 
         pyproject_config = {
             "clients": [
@@ -69,7 +69,7 @@ class TestExtractDatasets:
 
     def test_extract_datasets_simulation_mode(self):
         """Test dataset extraction in simulation mode."""
-        from src.server.server_utils import extract_datasets
+        from src.server.model_utils import extract_datasets
 
         pyproject_config = {
             "clients": [
