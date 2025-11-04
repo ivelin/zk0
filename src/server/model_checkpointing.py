@@ -33,11 +33,13 @@ def save_and_push_model(strategy, server_round: int, aggregated_parameters, metr
     )
 
     # Conditionally push to HF Hub
-    if should_push:
+    if should_push and "hf_repo_id" in app_config:
         from .model_utils import push_model_to_hub_enhanced
 
-        repo_id = app_config.get("hf_repo_id", "ivelin/zk0-smolvla-fl")
-        push_model_to_hub_enhanced(checkpoint_dir, repo_id, server_round, metrics)
+        repo_id = app_config["hf_repo_id"]
+        push_model_to_hub_enhanced(checkpoint_dir, repo_id)
+    elif should_push:
+        logger.info("ℹ️ Server: No hf_repo_id configured, skipping Hub push")
     else:
         logger.info(
             f"Server: Skipping HF Hub push for round {server_round} (checkpoint_interval={checkpoint_interval})"

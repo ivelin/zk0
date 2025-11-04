@@ -14,16 +14,22 @@ class TestSaveAndPushModel:
         import numpy as np
 
         # Create mock strategy
+        from pathlib import Path
         strategy = Mock()
         strategy.context.run_config = {"checkpoint_interval": 5}
-        strategy.models_dir = Mock()
+        strategy.models_dir = Path("/tmp/mock")
         strategy.num_rounds = 5  # Make it final round to trigger hub logic
+        strategy.template_model = Mock()
+        strategy.template_model.state_dict.return_value = {"param1": Mock(), "param2": Mock()}
+        strategy.template_model.config.save_pretrained = Mock()
 
         server_round = 5  # Final round
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
-        with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-              patch("src.server.server_utils.logger") as mock_logger:
+        with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
+              patch("src.server.model_checkpointing.logger") as mock_logger, \
+              patch("src.core.utils.get_tool_config") as mock_get_config:
+            mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 5}}}
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved once (final round)
@@ -40,27 +46,32 @@ class TestSaveAndPushModel:
         import numpy as np
 
         # Create mock strategy
+        from pathlib import Path
         strategy = Mock()
         strategy.context.run_config = {
             "checkpoint_interval": 5,
             "hf_repo_id": "test/repo"
         }
-        strategy.models_dir = Mock()
+        strategy.models_dir = Path("/tmp/mock")
         strategy.num_rounds = 10
 
         server_round = 10  # Final round
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
-        with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-                patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
-            mock_save.return_value = "/path/to/checkpoint"  # Mock return value
+        with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
+                  patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push, \
+                  patch("src.core.utils.get_tool_config") as mock_get_config:
+            from pathlib import Path
+            mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 5, "hf_repo_id": "test/repo"}}}
+            mock_save.return_value = Path("/path/to/checkpoint")  # Mock return value
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved once (final round, deduplicated)
             mock_save.assert_called_once_with(strategy, aggregated_parameters, server_round)
 
             # Verify hub push was attempted
-            mock_push.assert_called_once_with("/path/to/checkpoint", "test/repo")
+            from pathlib import Path
+            mock_push.assert_called_once_with(Path("/path/to/checkpoint"), "test/repo")
 
     def test_save_and_push_model_skip_hub_push_when_rounds_less_than_interval(self):
         """Test skipping hub push when num_rounds < checkpoint_interval."""
@@ -68,19 +79,20 @@ class TestSaveAndPushModel:
         import numpy as np
 
         # Create mock strategy
+        from pathlib import Path
         strategy = Mock()
         strategy.context.run_config = {
             "checkpoint_interval": 20,
             "hf_repo_id": "test/repo"
         }
-        strategy.models_dir = Mock()
+        strategy.models_dir = Path("/tmp/mock")
         strategy.num_rounds = 5  # Less than checkpoint_interval
 
         server_round = 5  # Final round
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
-        with patch("src.server.server_utils.save_model_checkpoint") as mock_save, \
-                patch("src.server.server_utils.push_model_to_hub_enhanced") as mock_push:
+        with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
+                  patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push:
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved (always saved on final round)

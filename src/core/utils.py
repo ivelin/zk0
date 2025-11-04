@@ -22,7 +22,7 @@ from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
 # Import additional utilities
 from src.common.parameter_utils import compute_parameter_hash
-from src.server.metrics_utils import prepare_server_wandb_metrics
+from src.server.metrics_utils import prepare_server_wandb_metrics, create_client_metrics_dict
 
 # Import torchvision for image transforms
 
@@ -497,7 +497,7 @@ def save_client_round_metrics(
 
         json_data = create_client_metrics_dict(
             round_num=round_num,
-            client_id=client_id,
+            client_id=str(client_id),
             dataset_name=training_metrics.get("dataset_name", ""),
             policy_loss=training_metrics.get("policy_loss", 0.0),
             fedprox_loss=training_metrics.get("fedprox_loss", 0.0),
