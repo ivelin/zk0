@@ -10,7 +10,7 @@ class TestExtractFinalMetrics:
 
     def test_extract_final_metrics_success(self):
         """Test successful metrics extraction."""
-        from src.server.server_utils import extract_final_metrics
+        from src.server.model_utils import extract_final_metrics
 
         with tempfile.TemporaryDirectory() as temp_dir:
             server_dir = Path(temp_dir)
@@ -34,7 +34,7 @@ class TestExtractFinalMetrics:
 
     def test_extract_final_metrics_missing_file(self):
         """Test metrics extraction when file doesn't exist."""
-        from src.server.server_utils import extract_final_metrics
+        from src.server.model_utils import extract_final_metrics
 
         with tempfile.TemporaryDirectory() as temp_dir:
             server_dir = Path(temp_dir)
@@ -51,7 +51,7 @@ class TestExtractTrainingInsights:
 
     def test_extract_training_insights_success(self):
         """Test successful insights extraction."""
-        from src.server.server_utils import extract_training_insights
+        from src.server.model_utils import extract_training_insights
 
         with tempfile.TemporaryDirectory() as temp_dir:
             server_dir = Path(temp_dir)
@@ -80,7 +80,7 @@ class TestExtractTrainingInsights:
 
     def test_extract_training_insights_missing_files(self):
         """Test insights extraction when files don't exist."""
-        from src.server.server_utils import extract_training_insights
+        from src.server.model_utils import extract_training_insights
 
         with tempfile.TemporaryDirectory() as temp_dir:
             server_dir = Path(temp_dir)

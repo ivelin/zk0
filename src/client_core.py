@@ -15,7 +15,6 @@ from src.training.model_utils import (
 from src.training.train import train
 
 from src.core.utils import (
-    load_lerobot_dataset,
     compute_param_update_norm,
     save_client_round_metrics,
 )
@@ -23,29 +22,27 @@ from src.core.utils import (
 from loguru import logger
 
 from flwr.client import NumPyClient
-from flwr.common import Context
 
-from src.server_app import get_runtime_mode
 
 
 # Flower client
 class SmolVLAClient(NumPyClient):
     def __init__(
         self,
-        client_identifier,
+        client_id,
         local_epochs,
         trainloader,
         nn_device=None,
         batch_size=64,
         dataset_repo_id=None,
-        mode="simulation",
+        is_simulation=True,
     ) -> None:
-        self.client_id = client_identifier
+        self.client_id = client_id
         self.trainloader = trainloader
         self.local_epochs = local_epochs
         self.device = nn_device
         self.dataset_name = dataset_repo_id  # Cache dataset name to avoid repeated loading
-        self.mode = mode
+        self.is_simulation = is_simulation
 
         # Log CUDA availability on instantiation
         logger.info(
@@ -95,25 +92,13 @@ class SmolVLAClient(NumPyClient):
         if expected_hash:
             from src.common.parameter_utils import compute_parameter_hash
 
-            # Log received parameters details before hashing
-            from flwr.common import parameters_to_ndarrays
-
             # Handle both Parameters object and list of ndarrays
             if isinstance(parameters, list):
                 received_ndarrays = parameters
             else:
+                from flwr.common import parameters_to_ndarrays
                 received_ndarrays = parameters_to_ndarrays(parameters)
-            logger.debug(
-                f"Client {self.client_id}: Received {len(received_ndarrays)} parameter arrays"
-            )
-            for i, ndarray in enumerate(
-                received_ndarrays[:5]
-            ):  # Log first 5 for brevity
-                logger.debug(
-                    f"  Received param {i}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}"
-                )
-            if len(received_ndarrays) > 5:
-                logger.debug(f"  ... and {len(received_ndarrays) - 5} more parameters")
+            logger.debug(f"Client {self.client_id}: Received {len(received_ndarrays)} parameter arrays")
 
             # Compute hash on received ndarrays directly (before any model modification)
             received_hash = compute_parameter_hash(received_ndarrays)
@@ -181,15 +166,11 @@ class SmolVLAClient(NumPyClient):
         logger.info(
             f"Client {self.client_id}: Loading dataset '{self.dataset_name}' for training"
         )
-        logger.debug(f"Client {self.partition_id}: Received config: {config}")
+        logger.debug(f"Client {self.client_id}: Received config: {config}")
 
-        if torch.cuda.is_available():
-            vram_gb = torch.cuda.max_memory_allocated() / 1e9
-            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Fit start - VRAM allocated")
-        ram_percent = psutil.virtual_memory().percent
-        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit start - Host RAM used")
+        logger.debug(f"Client {self.client_id}: Starting fit operation")
 
-        logger.debug(f"Client {self.partition_id}: Setting model parameters")
+        logger.debug(f"Client {self.client_id}: Setting model parameters")
 
         # Validate and set parameters
         self._validate_and_set_parameters(parameters, config, logger)
@@ -264,7 +245,7 @@ class SmolVLAClient(NumPyClient):
         training_metrics["client_id"] = self.client_id
 
         # Anonymize dataset name in production mode for privacy
-        training_metrics["dataset_name"] = self.dataset_name if self.mode == "simulation" else f"{self.dataset_name}-{self.client_id}"
+        training_metrics["dataset_name"] = self.dataset_name if self.is_simulation else f"{self.dataset_name}-{self.client_id}"
 
         logger.info(
             f"Client {self.client_id}: Training completed ({self.local_epochs} epochs, batch_size={batch_size})"
@@ -286,16 +267,7 @@ class SmolVLAClient(NumPyClient):
 
         # 🔐 VALIDATE: Client outgoing parameters (compute hash for server validation) - with detailed logging
 
-        # Log extracted params details before hashing
-        logger.debug(
-            f"Client {self.client_id}: Extracted {len(updated_params)} parameter arrays for upload"
-        )
-        for i, ndarray in enumerate(updated_params[:5]):  # Log first 5
-            logger.debug(
-                f"  Upload param {i}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}"
-            )
-        if len(updated_params) > 5:
-            logger.debug(f"  ... and {len(updated_params) - 5} more parameters")
+        logger.debug(f"Client {self.client_id}: Extracted {len(updated_params)} parameter arrays for upload")
 
         # 🔐 ADD: Include rounded parameter hash for drift-resistant validation
         # Use float32 precision for hash (matches transmission dtype, minimal overhead)
@@ -319,30 +291,29 @@ class SmolVLAClient(NumPyClient):
                 f"Client {self.client_id}: Computed param_update_norm={param_update_norm:.6f}"
             )
 
-        # Add param_update_norm to training_metrics for server aggregation
-        training_metrics["param_update_norm"] = param_update_norm
-
-        # Add param_hash to training_metrics for server aggregation
-        training_metrics["param_hash"] = (
-            rounded_hash  # Use rounded hash for drift resistance
-        )
+        # Build full metrics for local logging (includes strings like param_hash)
+        full_metrics = training_metrics.copy()
+        full_metrics["param_update_norm"] = param_update_norm
+        full_metrics["param_hash"] = rounded_hash  # String for validation
         # dataset_name already added above with anonymization
 
-        # Save per-round client metrics to JSON
+        # Strip to numerics only for Flower (avoids aggregation issues with strings)
+        import numbers
+        flower_metrics = {
+            k: v for k, v in full_metrics.items()
+            if isinstance(v, numbers.Number)
+        }
+
+        logger.info(f"Client {self.client_id}: Returning {len(flower_metrics)} numeric metrics to Flower, full {len(full_metrics)} for local")
+
+        # Save full metrics locally
         save_client_round_metrics(
-            config, training_metrics, self.round_num, self.client_id, logger
+            config, full_metrics, self.round_num, self.client_id, logger
         )
 
-        # Add hash to metrics for server validation (already added above for JSON)
-        # Add dataset name to metrics for server aggregation (already added above for JSON)
-
-        if torch.cuda.is_available():
-            vram_gb = torch.cuda.max_memory_allocated() / 1e9
-            logger.bind(vram_gb=f"{vram_gb:.2f}").info("Fit end - VRAM allocated")
-        ram_percent = psutil.virtual_memory().percent
-        logger.bind(ram_percent=f"{ram_percent:.1f}").info("Fit end - Host RAM used")
+        logger.debug(f"Client {self.client_id}: Fit operation completed")
 
         logger.info(
             f"Client {self.client_id}: Fit operation completed, returning {len(updated_params)} parameter arrays"
         )
-        return updated_params, len(self.trainloader), training_metrics
+        return updated_params, len(self.trainloader), flower_metrics

@@ -150,8 +150,15 @@ else
 
     # Build the conda command with explicit channel configuration
     if [ "$TINY_TRAIN" = true ]; then
+        # Configure Ray for stable tiny runs
         export RAY_LOG_TO_STDERR=1
         export RAY_LOG_LEVEL=DEBUG
+        export RAY_DEDUP_LOGS=0
+        export RAY_COLOR_PREFIX=1
+        export RAY_LOGGING_CONFIG_LOG_LEVEL=INFO
+        export RAY_LOGGING_CONFIG_LOGGER_NAMES=ray,ray.worker,ray.actor
+        # Force local execution to avoid network issues
+        export RAY_ADDRESS=local
         CONDA_CMD="conda run --live-stream -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION --run-config \"num-server-rounds=2 local-epochs=2 batch_size=2 eval_batches=2 fraction-fit=0.2 fraction-evaluate=0.2\"'"
     else
         CONDA_CMD="conda run --live-stream -n zk0 sh -c 'pip install -e . && flwr run . $FEDERATION'"

@@ -69,7 +69,6 @@ def setup_training_components(
         group["lr"] = initial_lr
 
     # Replace cosine with CosineAnnealingLR for smoother decay
-    from torch.optim.lr_scheduler import CosineAnnealingLR
 
     if lr_scheduler is not None:
         eta_min = initial_lr * 0.1  # Decay to 10% of initial LR

@@ -206,7 +206,7 @@ class TestWandbUtils:
 
     def test_prepare_server_wandb_metrics_with_per_dataset_results(self, mock_wandb_module):
         """Test prepare_server_wandb_metrics with per-dataset results (mirroring JSON structure)."""
-        from src.core.utils import prepare_server_wandb_metrics
+        from src.server.metrics_utils import prepare_server_wandb_metrics
 
         # Mock per_dataset_results matching JSON structure from round_49_server_eval.json
         per_dataset_results = [
@@ -289,7 +289,7 @@ class TestWandbUtils:
 
     def test_prepare_server_wandb_metrics_without_per_dataset_results(self, mock_wandb_module):
         """Test prepare_server_wandb_metrics without per-dataset results (backward compatibility)."""
-        from src.core.utils import prepare_server_wandb_metrics
+        from src.server.metrics_utils import prepare_server_wandb_metrics
 
         result = prepare_server_wandb_metrics(
             server_round=1,
@@ -309,7 +309,7 @@ class TestWandbUtils:
 
     def test_prepare_server_wandb_metrics_with_missing_evaldata_id(self, mock_wandb_module):
         """Test prepare_server_wandb_metrics with missing evaldata_id (fallback to dataset_name)."""
-        from src.core.utils import prepare_server_wandb_metrics
+        from src.server.metrics_utils import prepare_server_wandb_metrics
 
         per_dataset_results = [
             {

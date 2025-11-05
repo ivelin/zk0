@@ -3,34 +3,18 @@
 from datetime import datetime
 from pathlib import Path
 
-from src.training.model_utils import get_model, get_params, compute_param_norms, set_params
+from src.training.model_utils import get_model, get_params
 
 from src.logger import setup_server_logging
-from src.common.parameter_utils import compute_parameter_hash
 from loguru import logger
 from .server.strategy import AggregateEvaluationStrategy
-from .server.server_utils import get_runtime_mode
 
 from flwr.common import (
     Context,
-    EvaluateRes,
-    FitIns,
-    FitRes,
-    MetricsAggregationFn,
-    NDArrays,
-    Parameters,
-    Scalar,
     ndarrays_to_parameters,
-    parameters_to_ndarrays,
 )
 from flwr.server import ServerApp, ServerAppComponents, ServerConfig
-from flwr.server.strategy import FedProx
-from typing import Callable, Dict, List, Optional, Tuple, Union
-from flwr.server.client_proxy import ClientProxy
 
-import torch
-from safetensors.torch import save_file
-import numpy as np
 
 
 def server_fn(context: Context) -> ServerAppComponents:
@@ -40,9 +24,31 @@ def server_fn(context: Context) -> ServerAppComponents:
     print("[DEBUG server_fn] Starting server_fn execution", file=sys.stderr)
     sys.stderr.flush()
 
-    # Determine runtime mode
-    mode = get_runtime_mode(context)
-    logger.info(f"🔧 Server: Running in {mode} mode")
+    # Create output directory given timestamp (use env var if available, else current time)
+    current_time = datetime.now()
+    folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
+    save_path = Path(f"outputs/{folder_name}")
+    save_path.mkdir(parents=True, exist_ok=True)
+
+    # Setup unified logging with loguru
+    simulation_log_path = save_path / "simulation.log"
+    print(
+        f"[DEBUG server_fn] Setting up logging at {simulation_log_path}",
+        file=sys.stderr,
+    )
+    sys.stderr.flush()
+    setup_server_logging(simulation_log_path)
+    logger.info("Server logging initialized")
+    print("[DEBUG server_fn] Logging setup complete", file=sys.stderr)
+    sys.stderr.flush()
+
+    # DEBUG: Log full context for federation detection
+    import pprint
+    logger.info(f"🔧 Server: Full context.run_config: {pprint.pformat(dict(context.run_config))}")
+    logger.info(f"🔧 Server: Full context.node_config: {pprint.pformat(dict(context.node_config))}")
+    logger.info(f"🔧 Server: Full context.state: {pprint.pformat(dict(context.state))}")
+    logger.info(f"🔧 Server: Context attributes: {dir(context)}")
+
 
     # Construct ServerConfig
     num_rounds = context.run_config["num-server-rounds"]
@@ -55,12 +61,6 @@ def server_fn(context: Context) -> ServerAppComponents:
     sys.stderr.flush()
 
     logger.info(f"🔧 Server: Initializing with {num_rounds} rounds")
-
-    # Create output directory given timestamp (use env var if available, else current time)
-    current_time = datetime.now()
-    folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = Path(f"outputs/{folder_name}")
-    save_path.mkdir(parents=True, exist_ok=True)
 
     print(f"[DEBUG server_fn] Created output dir: {save_path}", file=sys.stderr)
     sys.stderr.flush()
@@ -77,18 +77,6 @@ def server_fn(context: Context) -> ServerAppComponents:
     import sys
 
     print(f"[INFO] Output directory created: {save_path}", file=sys.stderr, flush=True)
-
-    # Setup unified logging with loguru
-    simulation_log_path = save_path / "simulation.log"
-    print(
-        f"[DEBUG server_fn] Setting up logging at {simulation_log_path}",
-        file=sys.stderr,
-    )
-    sys.stderr.flush()
-    setup_server_logging(simulation_log_path)
-    logger.info("Server logging initialized")
-    print("[DEBUG server_fn] Logging setup complete", file=sys.stderr)
-    sys.stderr.flush()
 
     # Load environment variables from .env file
     print("[DEBUG server_fn] Loading .env", file=sys.stderr)
@@ -116,6 +104,7 @@ def server_fn(context: Context) -> ServerAppComponents:
 
     # Add app-specific configs to context.run_config for strategy access
     context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
+
 
     # Initialize WandB if enabled
     print("[DEBUG server_fn] Checking WandB config", file=sys.stderr)

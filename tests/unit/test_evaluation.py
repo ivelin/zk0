@@ -1,6 +1,5 @@
 """Unit tests for evaluation functions."""
 
-import pytest
 from unittest.mock import Mock, patch
 from src.server.evaluation import (
     evaluate_model_on_datasets,
@@ -440,14 +439,14 @@ class TestLogEvaluationToWandb:
                     per_dataset_results,
                 )
 
-                # Verify prepare was called with per_dataset_results
+                # Verify prepare was called with per_eval_dataset_results
                 mock_prepare.assert_called_once_with(
                     server_round=server_round,
                     server_loss=loss,
                     server_metrics=metrics,
                     aggregated_client_metrics=aggregated_client_metrics,
                     individual_client_metrics=individual_client_metrics,
-                    per_dataset_results=per_dataset_results,
+                    per_eval_dataset_results=per_dataset_results,
                 )
                 mock_log.assert_called_once_with(
                     {"loss_evaldata_id_0": 0.20069279242306948}, step=server_round

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 import sys
 import torch
@@ -22,7 +23,7 @@ from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
 
 # Import additional utilities
 from src.common.parameter_utils import compute_parameter_hash
-from src.server.metrics_utils import prepare_server_wandb_metrics, create_client_metrics_dict
+from src.server.metrics_utils import create_client_metrics_dict
 
 # Import torchvision for image transforms
 
@@ -285,57 +286,25 @@ def load_lerobot_dataset(
         try:
             # Use dataset[0] to get a decoded sample (forces image/video decoding if codec available)
             sample = dataset[0]
-            logger.info(f"Decoded dataset sample keys: {list(sample.keys())}")
-            logger.info(f"Full decoded sample structure: {repr(sample)}")
+            logger.info(f"Dataset sample keys: {list(sample.keys())}")
 
-            # Check for image keys in decoded sample
+            # Check for image keys in decoded sample (brief check only)
             image_keys = [k for k in sample.keys() if "image" in k.lower()]
             if image_keys:
-                logger.info(f"Keys containing 'image': {image_keys}")
-                for key in image_keys:
-                    value = sample[key]
-                    logger.info(
-                        f"  - {key}: type={type(value)}, shape={value.shape if hasattr(value, 'shape') else 'N/A'}"
-                    )
+                logger.info(f"Image keys found: {len(image_keys)} ({image_keys[0]}...)")
             else:
-                # Check nested observation.images
-                obs = sample.get("observation", {})
-                images = obs.get("images", {}) if isinstance(obs, dict) else {}
-                if images:
-                    logger.info("Image data found in observation.images structure")
-                    for img_key in images:
-                        img_data = images[img_key]
-                        logger.info(
-                            f"  - observation.images.{img_key}: type={type(img_data)}, shape={img_data.shape if hasattr(img_data, 'shape') else 'N/A'}"
-                        )
-                else:
-                    logger.warning(
-                        "No image data found in decoded sample - check codec/FFmpeg setup"
-                    )
+                logger.warning("No image data found in decoded sample - check codec/FFmpeg setup")
 
-            # Log metadata availability
+            # Log essential metadata only
             if hasattr(dataset, "meta"):
                 meta = dataset.meta
-                logger.info(
-                    f"Metadata available: episodes={getattr(meta, 'episodes', None) is not None}, camera_keys={getattr(meta, 'camera_keys', None)}"
-                )
-                if hasattr(meta, "camera_keys") and meta.camera_keys:
-                    logger.info(f"Camera keys: {meta.camera_keys}")
-                if hasattr(meta, "episodes") and meta.episodes:
-                    logger.info(f"Number of episodes in metadata: {len(meta.episodes)}")
-                else:
-                    logger.warning(
-                        "Episodes metadata is None - likely codec/FFmpeg issue preventing full metadata load"
-                    )
+                episode_count = len(meta.episodes) if hasattr(meta, "episodes") and meta.episodes else 0
+                logger.info(f"Dataset metadata: {episode_count} episodes")
             else:
-                logger.warning(
-                    "Dataset has no 'meta' attribute - ensure LeRobotDataset is used"
-                )
+                logger.warning("Dataset has no 'meta' attribute - ensure LeRobotDataset is used")
 
         except Exception as e:
-            logger.warning(
-                f"Could not decode/get dataset sample: {e} - possible codec issue"
-            )
+            logger.warning(f"Could not decode dataset sample: {e} - possible codec issue")
 
         return dataset
 
@@ -515,21 +484,22 @@ def save_client_round_metrics(
         logger.warning(f"Client {client_id}: Failed to save per-round metrics: {e}")
 
 
-def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, expected_count: int) -> str:
-    """Validate parameter count and compute hash for logging.
+def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, expected_count: Optional[int] = None) -> str:
+    """Validate parameter count (if expected_count provided) and compute hash for logging.
 
     Args:
         parameters: List of numpy arrays containing model parameters
         gate_name: Name of the validation gate (for logging)
-        expected_count: Expected number of parameter arrays
+        expected_count: Optional expected number of parameter arrays
 
     Returns:
         SHA256 hash string of the parameters
 
     Raises:
-        AssertionError: If parameter count doesn't match expected count
+        AssertionError: If parameter count doesn't match expected count (when provided)
     """
-    assert len(parameters) == expected_count, f"Parameter count mismatch: got {len(parameters)}, expected {expected_count}"
+    if expected_count is not None:
+        assert len(parameters) == expected_count, f"Parameter count mismatch: got {len(parameters)}, expected {expected_count}"
 
     # Compute hash
     current_hash = compute_parameter_hash(parameters)

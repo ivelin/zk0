@@ -256,7 +256,7 @@
 ## Tiny Training Run Workflow
 **Last performed:** 2025-10-13
 **Context:** Quick validation runs with minimal parameters to test critical functionality without long execution times
-**Command:** `conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=1 local-epochs=1 batch_size=1 eval_batches=8"`
+**Command:** `./train-fl-simulation.sh --tiny` (recommended for consistency) or `conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=1 local-epochs=1 batch_size=1 eval_batches=1"`
 
 **Steps:**
 1. **Minimal Configuration**: Set num-server-rounds=1, local-epochs=1, batch_size=1 for fastest possible execution

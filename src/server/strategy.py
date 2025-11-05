@@ -1,6 +1,5 @@
 """AggregateEvaluationStrategy for zk0 federated learning."""
 
-from datetime import datetime
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
@@ -18,20 +17,17 @@ from flwr.common import (
     ndarrays_to_parameters,
     parameters_to_ndarrays,
 )
-from flwr.server import ServerAppComponents, ServerApp, ServerConfig
 from flwr.server.client_proxy import ClientProxy
 from flwr.server.strategy import FedProx
 from loguru import logger
 from safetensors.torch import save_file
 
-from src.logger import setup_server_logging
-from src.training.model_utils import compute_param_norms, get_model, get_params, set_params
+from src.training.model_utils import compute_param_norms, get_model, set_params
 from src.common.parameter_utils import compute_parameter_hash
 from src.core.utils import get_tool_config, load_lerobot_dataset
-from src.visualization import SmolVLAVisualizer
-from src.wandb_utils import finish_wandb, init_server_wandb, log_wandb_metrics
-from .metrics_utils import prepare_server_wandb_metrics
-from .server_utils import aggregate_and_log_metrics, finalize_round_metrics, prepare_server_eval_metrics, get_runtime_mode
+from src.wandb_utils import finish_wandb
+from .metrics_utils import aggregate_and_log_metrics
+from .metrics_utils import finalize_round_metrics
 from .model_checkpointing import save_and_push_model
 from .evaluation import (
     evaluate_model_on_datasets,
@@ -128,11 +124,8 @@ class AggregateEvaluationStrategy(FedProx):
             context.run_config.get("eval-frequency", 1) if context else 1
         )
 
-        # Determine runtime mode
-        self.mode = get_runtime_mode(context) if context else "unknown"
-
         logger.info(
-            f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}, mode={self.mode}"
+            f"AggregateEvaluationStrategy: Initialized with proximal_mu={proximal_mu}, eval_frequency={self.eval_frequency}"
         )
 
         # Override evaluate_fn for server-side evaluation (called by strategy.evaluate every round, gated by frequency)
@@ -356,7 +349,7 @@ class AggregateEvaluationStrategy(FedProx):
 
                 # 🔐 ADD: Use rounded hash for drift-resistant validation
                 # Use float32 precision for hash (matches transmission dtype, minimal overhead)
-                from src.core.utils import compute_rounded_hash
+                from src.common.parameter_utils import compute_rounded_hash
 
                 server_computed_hash = compute_rounded_hash(
                     client_params, precision="float32"
@@ -392,15 +385,7 @@ class AggregateEvaluationStrategy(FedProx):
             f"Server: Starting training round {server_round} - CUDA available: {torch.cuda.is_available()}"
         )
 
-        logger.info(f"Server: Configuring fit for round {server_round} (mode: {self.mode})")
-
-        # Mode-specific configuration
-        if self.mode == "production":
-            # Production mode: External clients, enhanced security
-            logger.info("🔒 Production mode: Configuring for external client connections")
-        elif self.mode == "simulation":
-            # Simulation mode: Local Ray clients
-            logger.info("🧪 Simulation mode: Configuring for local Ray clients")
+        logger.info(f"Server: Configuring fit for round {server_round}")
 
         # Get configuration from pyproject.toml
         flwr_config = get_tool_config("flwr", "pyproject.toml")
@@ -456,8 +441,8 @@ class AggregateEvaluationStrategy(FedProx):
                 f"Server: Added use_wandb={use_wandb} to client {client_proxy.cid} config"
             )
 
-            # Add batch_size from pyproject.toml to override client defaults
-            batch_size = app_config.get("batch_size", 64)
+            # Add batch_size from run_config (command line) as primary, no fallback to app_config
+            batch_size = self.context.run_config.get("batch_size", 64)
             updated_fit_config["batch_size"] = batch_size
             logger.debug(
                 f"Server: Added batch_size={batch_size} to client {client_proxy.cid} config"
@@ -472,12 +457,6 @@ class AggregateEvaluationStrategy(FedProx):
             logger.debug(
                 f"Server: Pre-serialization params for client {client_proxy.cid}: {len(fit_ndarrays)} arrays"
             )
-            for j, ndarray in enumerate(fit_ndarrays[:3]):  # Log first 3
-                logger.debug(
-                    f"  Pre-serial param {j}: shape={ndarray.shape}, dtype={ndarray.dtype}, min={ndarray.min():.4f}, max={ndarray.max():.4f}"
-                )
-            if len(fit_ndarrays) > 3:
-                logger.debug(f"  ... and {len(fit_ndarrays) - 3} more")
 
             fit_param_hash = validate_and_log_parameters(
                 fit_ndarrays, f"server_fit_r{server_round}_client{i}"
@@ -504,7 +483,6 @@ class AggregateEvaluationStrategy(FedProx):
         failures: List[Union[Tuple[ClientProxy, EvaluateRes], BaseException]],
     ) -> Tuple[Optional[float], Dict[str, Scalar]]:
         """Aggregate client evaluation results (policy_loss only)."""
-        import numpy as np
 
         logger.info(f"Server: Aggregating evaluate results for round {server_round}")
         if results:
@@ -555,20 +533,10 @@ class AggregateEvaluationStrategy(FedProx):
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results from clients."""
-        logger.info(f"Server: Aggregating fit results for round {server_round} (mode: {self.mode})")
+        logger.info(f"Server: Aggregating fit results for round {server_round}")
         logger.info(
             f"📊 Server: Received {len(results)} successful results, {len(failures)} failures"
         )
-
-        # Mode-specific handling
-        if self.mode == "production":
-            # Production mode: External client connections, stricter validation
-            logger.info("🔒 Production mode: Applying enhanced security validation")
-            # Additional production-specific logic can be added here
-        elif self.mode == "simulation":
-            # Simulation mode: Local Ray clients, relaxed validation for development
-            logger.info("🧪 Simulation mode: Using relaxed validation for development")
-            # Additional simulation-specific logic can be added here
 
         # Monitor for excessive failures
         if len(failures) > 0:
@@ -592,14 +560,12 @@ class AggregateEvaluationStrategy(FedProx):
         )
 
         # Aggregate client metrics and compute norms
-        from .server_utils import aggregate_and_log_metrics
 
         aggregated_client_metrics = aggregate_and_log_metrics(
             self, server_round, validated_results, aggregated_parameters
         )
 
         # Finalize round metrics
-        from .server_utils import finalize_round_metrics
 
         metrics = finalize_round_metrics(
             self, server_round, aggregated_client_metrics, parent_metrics
@@ -621,7 +587,6 @@ class AggregateEvaluationStrategy(FedProx):
 
         # Log post-aggregation global norms (aggregated_parameters is guaranteed non-None after fallback)
         # Import here to avoid scope/shadowing issues
-        from src.training.model_utils import set_params
 
         # Convert Flower Parameters to numpy arrays for set_params
         aggregated_ndarrays = parameters_to_ndarrays(aggregated_parameters)
@@ -654,14 +619,15 @@ class AggregateEvaluationStrategy(FedProx):
         )
 
         # Save model checkpoint and push to Hub if applicable
-        from .server_utils import save_and_push_model
+        # save_and_push_model already imported from .model_checkpointing
 
-        save_and_push_model(self, server_round, aggregated_parameters)
+        save_and_push_model(self, server_round, aggregated_parameters, metrics)
 
         # Final logging before return to catch any late exceptions
         logger.info(
-            f"✅ Server: aggregate_fit completing for round {server_round} - returning {aggregated_parameters is not None}"
+            f"✅ Server: aggregate_fit completing for round {server_round}/{self.num_rounds if self.num_rounds else 'unknown'} - returning {aggregated_parameters is not None}"
         )
+        logger.info(f"🔄 Server: Round {server_round} complete. Total configured rounds: {self.num_rounds}. Proceeding to next if any.")
         return aggregated_parameters, metrics
 
     def save_model_checkpoint(
@@ -901,3 +867,42 @@ class AggregateEvaluationStrategy(FedProx):
             logger.error(f"🔍 Detailed error type: {type(e).__name__}, args: {e.args}")
             logger.exception("Full traceback in push_model_to_hub")
             raise
+
+    def save_flower_history(self, history, output_dir):
+        """Save Flower metrics history to JSON and generate plot.
+
+        This method should be called after server.fit() completes, typically from
+        the training script (e.g., train-fl-simulation.sh) with the returned history.
+
+        Args:
+            history: Flower History object from server.fit()
+            output_dir: Directory to save files (e.g., outputs/YYYY-MM-DD_HH-MM-SS)
+        """
+        import json
+        from pathlib import Path
+
+        output_dir = Path(output_dir)
+        flower_metrics = {
+            "metrics_distributed_fit": history.metrics_distributed_fit,
+            "metrics_centralized": history.metrics_centralized,
+            "losses_distributed": history.losses_distributed,
+            "losses_centralized": history.losses_centralized,
+        }
+
+        # Save to JSON
+        with open(output_dir / "flower_history.json", "w") as f:
+            json.dump(flower_metrics, f, indent=2)
+        logger.info(f"✅ Saved Flower history to {output_dir / 'flower_history.json'}")
+
+        # Generate plot
+        try:
+            import matplotlib.pyplot as plt
+            fig, ax = plt.subplots(figsize=(10, 6))
+            history.plot(ax=ax)
+            ax.set_title("Federated Learning Convergence")
+            ax.set_xlabel("Round")
+            ax.set_ylabel("Loss")
+            fig.savefig(output_dir / "flower_history_plot.png", dpi=150, bbox_inches='tight')
+            logger.info(f"✅ Saved Flower history plot to {output_dir / 'flower_history_plot.png'}")
+        except ImportError:
+            logger.warning("Matplotlib not available, skipping plot generation")

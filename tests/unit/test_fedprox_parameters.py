@@ -1,6 +1,5 @@
 """Unit tests for FedProx parameter computation."""
 
-import pytest
 from src.server.strategy import AggregateEvaluationStrategy
 
 

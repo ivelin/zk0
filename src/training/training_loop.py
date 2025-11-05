@@ -29,16 +29,7 @@ def run_training_step(
         if isinstance(batch[key], torch.Tensor):
             batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
 
-    # Log VRAM before forward (matching LeRobot)
-    if torch.cuda.is_available():
-        pre_update_allocated = torch.cuda.memory_allocated(device) / 1e9
-        pre_update_reserved = torch.cuda.memory_reserved(device) / 1e9
-        free_memory, total_memory = torch.cuda.mem_get_info(device)
-        free_memory_gb = free_memory / 1e9
-        total_memory_gb = total_memory / 1e9
-        logger.info(
-            f"Step {step}: VRAM before update_policy - Allocated: {pre_update_allocated:.2f} GB, Reserved: {pre_update_reserved:.2f} GB, Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB"
-        )
+    # Skip per-step VRAM logging for cleaner output
 
     # Manual replication of LeRobot's update_policy for FedProx integration
     start_time = time.perf_counter()  # For update_s metric
@@ -57,9 +48,6 @@ def run_training_step(
         trainable_params = [p for p in policy.parameters() if p.requires_grad]
         proximal_loss = compute_fedprox_proximal_loss(
             trainable_params, global_params, fedprox_mu
-        )
-        logger.debug(
-            f"Step {step}: FedProx proximal_loss={proximal_loss.item():.6f} (mu={fedprox_mu}, trainable_params={len(trainable_params)})"
         )
 
     # Total loss for backprop: main_loss + proximal_loss (both tensors for consistent dtype)
@@ -105,27 +93,9 @@ def run_training_step(
     )
     train_metrics["update_s"].update(time.perf_counter() - start_time)
 
-    # Log VRAM after update
+    # Clear cache after each step (keep for memory management)
     if torch.cuda.is_available():
-        post_update_allocated = torch.cuda.memory_allocated(device) / 1e9
-        post_update_reserved = torch.cuda.memory_reserved(device) / 1e9
-        delta_allocated = post_update_allocated - pre_update_allocated
-        delta_reserved = post_update_reserved - pre_update_reserved
-        free_memory, total_memory = torch.cuda.mem_get_info(device)
-        free_memory_gb = free_memory / 1e9
-        total_memory_gb = total_memory / 1e9
-        logger.info(
-            f"Step {step}: VRAM after update_policy - Allocated: {post_update_allocated:.2f} GB (delta: {delta_allocated:+.2f} GB), Reserved: {post_update_reserved:.2f} GB (delta: {delta_reserved:+.2f} GB), Free: {free_memory_gb:.2f} GB / {total_memory_gb:.2f} GB"
-        )
-
-        # Clear cache after each step
         torch.cuda.empty_cache()
-        cleared_allocated = torch.cuda.memory_allocated(device) / 1e9
-        cleared_reserved = torch.cuda.memory_reserved(device) / 1e9
-        cleared_free_gb = free_memory / 1e9
-        logger.debug(
-            f"Step {step}: VRAM after empty_cache - Allocated: {cleared_allocated:.2f} GB, Reserved: {cleared_reserved:.2f} GB, Free: {cleared_free_gb:.2f} GB / {total_memory_gb:.2f} GB"
-        )
 
     logger.debug(
         f"Step {step}: Training step completed successfully. Total loss: {total_loss.item():.6f}"
@@ -234,22 +204,6 @@ def run_training_loop(
             continue  # Skip this step gracefully
 
         train_metrics["dataloading_s"].update(time.perf_counter() - start_time)
-        # Safe logging that handles None batch
-        if batch is not None:
-            episode_info = (
-                int(batch["episode_index"][0].item())
-                if "episode_index" in batch
-                else "unknown"
-            )
-            keys_info = list(batch.keys())
-            shapes_info = {
-                k: v.shape if hasattr(v, "shape") else type(v) for k, v in batch.items()
-            }
-            logger.debug(
-                f"Step {step}: Batch fetched successfully from episode {episode_info}. Keys: {keys_info}, Sample shapes: {shapes_info}"
-            )
-        else:
-            logger.debug(f"Step {step}: Batch is None - skipping detailed logging")
 
         # Run training step
         try:

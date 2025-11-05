@@ -1,10 +1,8 @@
 """Fit configuration utilities for zk0 server strategy."""
 
 import torch
-from typing import Dict, List, Tuple
 
 from flwr.common import FitIns, parameters_to_ndarrays
-from flwr.server.client_proxy import ClientProxy
 from loguru import logger
 
 

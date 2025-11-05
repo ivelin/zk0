@@ -1,8 +1,6 @@
 """Unit tests for client metrics aggregation functions."""
 
-import pytest
-from unittest.mock import Mock
-from src.server.server_utils import (
+from src.server.metrics_utils import (
     aggregate_client_metrics,
     collect_individual_client_metrics,
 )

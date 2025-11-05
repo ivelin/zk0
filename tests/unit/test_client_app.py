@@ -1,8 +1,6 @@
 """Unit tests for client_app.py."""
 
 from unittest.mock import MagicMock, patch
-import json
-import os
 
 import numpy as np
 import pytest
@@ -10,7 +8,7 @@ import torch
 
 from src.client_app import SmolVLAClient
 from src.training.fedprox_utils import compute_fedprox_proximal_loss
-from src.core.utils import save_client_round_metrics, compute_param_update_norm
+from src.core.utils import compute_param_update_norm
 
 
 class TestComputeParamUpdateNorm:

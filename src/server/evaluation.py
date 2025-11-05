@@ -1,23 +1,16 @@
 """Evaluation utilities for zk0 federated learning server."""
 
-from datetime import datetime
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional
 
 import numpy as np
 import torch
 from flwr.common import (
-    EvaluateRes,
-    FitRes,
-    MetricsAggregationFn,
     NDArrays,
-    Scalar,
-    ndarrays_to_parameters,
-    parameters_to_ndarrays,
 )
 from loguru import logger
 
-from src.training.model_utils import get_model, get_params, set_params
+from src.training.model_utils import set_params
 from src.training.evaluation import test
 from src.core.utils import load_lerobot_dataset
 from src.visualization import SmolVLAVisualizer
@@ -60,7 +53,7 @@ def evaluate_single_dataset(
     # Load dataset
     dataset = load_lerobot_dataset_fn(dataset_name)
     logger.info(
-        f"✅ Server: Dataset '{dataset_name}' loaded successfully (episodes: {len(dataset) if hasattr(dataset, '__len__') else 'unknown'})"
+        f"✅ Server: Dataset '{dataset_name}' loaded successfully (samples: {len(dataset) if hasattr(dataset, '__len__') else 'unknown'})"
     )
 
     # Create per-dataset policy instance using dataset metadata
@@ -292,7 +285,7 @@ def log_evaluation_to_wandb(
             server_metrics=metrics,
             aggregated_client_metrics=aggregated_client_metrics,
             individual_client_metrics=individual_client_metrics,
-            per_dataset_results=per_dataset_results,
+            per_eval_dataset_results=per_dataset_results,
         )
 
         log_wandb_metrics(wandb_metrics, step=server_round)

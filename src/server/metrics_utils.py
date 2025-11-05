@@ -1,6 +1,6 @@
 """Metrics aggregation and processing utilities for federated learning."""
 
-from typing import List, Dict
+from typing import List, Dict, Optional
 import numpy as np
 from loguru import logger
 
@@ -57,6 +57,7 @@ def prepare_server_wandb_metrics(
     server_metrics: dict,
     aggregated_client_metrics: dict,
     individual_client_metrics: list,
+    per_eval_dataset_results: Optional[List[Dict]] = None,
 ) -> dict:
     """
     Prepare server metrics for WandB logging using the same structure as JSON files.
@@ -123,7 +124,6 @@ def aggregate_client_metrics(validated_results):
     Returns:
         dict: Aggregated client metrics
     """
-    import numpy as np
 
     if not validated_results:
         return {
@@ -272,5 +272,27 @@ def finalize_round_metrics(
     logger.info(
         f"DIAG R{server_round}: Added to metrics - mu={current_mu}, lr={current_lr}, eval_trend={eval_trend}"
     )
+
+    # 🔍 DEBUG: Comprehensive logging of final metrics structure to diagnose Flower history error
+    logger.info(f"🔍 FINALIZE METRICS DEBUG - Round {server_round}:")
+    logger.info(f"  Type: {type(metrics)}")
+    logger.info(f"  Keys: {list(metrics.keys())}")
+    for k, v in metrics.items():
+        logger.info(f"  Key '{k}': type={type(v)}")
+        if isinstance(v, dict):
+            logger.info(f"    Dict keys: {list(v.keys())}")
+            for sub_k, sub_v in list(v.items())[:3]:  # Log first 3 sub-items
+                logger.info(f"      Sub '{sub_k}': type={type(sub_v)}")
+            if len(v) > 3:
+                logger.info(f"      ... and {len(v)-3} more sub-items")
+        elif isinstance(v, list):
+            logger.info(f"    List len: {len(v)}, first type: {type(v[0]) if v else 'empty'}")
+            if v and isinstance(v[0], dict):
+                logger.info(f"      Sample dict keys: {list(v[0].keys())}")
+        else:
+            logger.info(f"    Value: {v}")
+
+    # Flatten metrics to ensure only serializable scalar values for Flower compatibility
+    metrics = {k: v for k, v in metrics.items() if isinstance(v, (int, float, str, bool, type(None)))}
 
     return metrics

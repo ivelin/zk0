@@ -1,8 +1,7 @@
 """Unit tests for parameter aggregation functions."""
 
-import pytest
 from unittest.mock import Mock, patch
-from src.server.server_utils import (
+from src.server.metrics_utils import (
     aggregate_and_log_metrics,
     finalize_round_metrics,
 )

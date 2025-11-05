@@ -63,7 +63,7 @@ class TestInMemoryExtractFinalMetrics:
         mock_parameters = MagicMock()
         with patch("flwr.common.parameters_to_ndarrays") as mock_ndarrays, \
               patch("src.server.server_utils.generate_model_card") as mock_generate, \
-              patch("src.server.server_utils.extract_final_metrics") as mock_extract_metrics:
+              patch("src.server.model_utils.extract_final_metrics") as mock_extract_metrics:
             mock_ndarrays.return_value = [np.array([1.0])]
             mock_generate.return_value = "# Model Card"
             mock_extract_metrics.return_value = {

@@ -1,6 +1,6 @@
 """Aggregation utilities for zk0 server strategy."""
 
-from typing import Dict, List, Optional, Tuple
+from typing import List, Tuple
 
 from flwr.common import parameters_to_ndarrays
 from loguru import logger
