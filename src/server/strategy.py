@@ -25,7 +25,7 @@ from safetensors.torch import save_file
 from src.training.model_utils import compute_param_norms, get_model, set_params
 from src.common.parameter_utils import compute_parameter_hash
 from src.core.utils import get_tool_config, load_lerobot_dataset
-from src.wandb_utils import finish_wandb
+from .wandb_utils import finish_wandb
 from .metrics_utils import aggregate_and_log_metrics
 from .metrics_utils import finalize_round_metrics
 from .model_checkpointing import save_and_push_model
@@ -36,7 +36,6 @@ from .evaluation import (
     process_evaluation_metrics,
     log_evaluation_to_wandb,
     save_evaluation_results,
-    generate_evaluation_charts,
 )
 
 
@@ -252,8 +251,34 @@ class AggregateEvaluationStrategy(FedProx):
                 self.last_client_metrics,
             )
 
-            # Generate chart on last round
-            generate_evaluation_charts(self, server_round)
+            # Generate chart on last round using in-memory data
+            if self.num_rounds and server_round == self.num_rounds:
+                try:
+                    # Use in-memory data instead of reading JSON files
+                    policy_loss_history = {}
+                    if hasattr(self, "server_eval_losses") and self.server_eval_losses:
+                        for round_idx, loss in enumerate(self.server_eval_losses):
+                            policy_loss_history[round_idx] = {
+                                "server_policy_loss": float(loss),
+                                "action_dim": 7,  # Default
+                            }
+
+                    from .visualization import SmolVLAVisualizer
+                    visualizer = SmolVLAVisualizer()
+                    visualizer.plot_eval_policy_loss_chart(
+                        policy_loss_history, self.server_dir, wandb_run=self.wandb_run
+                    )
+                    if self.federated_metrics_history:
+                        visualizer.plot_federated_metrics(
+                            self.federated_metrics_history,
+                            self.server_dir,
+                            wandb_run=self.wandb_run,
+                        )
+
+                    logger.info("Eval charts generated for final round")
+
+                except Exception as e:
+                    logger.error(f"Failed to generate eval charts: {e}")
 
             # Finish WandB run after all logging is complete (always called on final round)
             if self.num_rounds and server_round == self.num_rounds:

@@ -9,7 +9,6 @@ from src.server.evaluation import (
     process_evaluation_metrics,
     log_evaluation_to_wandb,
     save_evaluation_results,
-    generate_evaluation_charts,
 )
 
 
@@ -27,7 +26,7 @@ class TestEvaluateModelOnDatasets:
         datasets_config = []
 
         # Mock test function to return fixed values
-        with patch("src.task.test") as mock_test:
+        with patch("src.training.evaluation.test") as mock_test:
             mock_test.return_value = (1.0, 100, {"policy_loss": 1.0})
 
             composite_loss, total_examples, composite_metrics, per_dataset_results = (
@@ -373,7 +372,7 @@ class TestLogEvaluationToWandb:
         aggregated_client_metrics = {"num_clients": 3}
         individual_client_metrics = [{"client_id": "client_0"}]
 
-        with patch("src.wandb_utils.log_wandb_metrics") as mock_log:
+        with patch("src.server.wandb_utils.log_wandb_metrics") as mock_log:
             log_evaluation_to_wandb(
                 strategy,
                 server_round,
@@ -499,55 +498,9 @@ class TestSaveEvaluationResults:
                 written_data = json.load(f)
 
             # Verify structure matches current prepare_server_eval_metrics implementation
-            assert written_data["composite_eval_loss"] == loss
-            assert written_data["num_datasets_evaluated"] == 0  # No per_dataset_results
-            assert written_data["aggregated_client_metrics"] == aggregated_client_metrics
-            assert written_data["individual_client_metrics"] == individual_client_metrics
-            assert written_data["server_eval_dataset_results"] == []
+            assert written_data["server_composite_eval_loss"] == loss
+            assert written_data["num_server_eval_datasets"] == 0  # No per_dataset_results
+            assert written_data["client_aggregated_training_metrics"] == aggregated_client_metrics
+            assert written_data["individual_client_training_metrics"] == individual_client_metrics
+            assert written_data["server_per_dataset_eval_results"] == []
 
-
-class TestGenerateEvaluationCharts:
-    """Test the generate_evaluation_charts function."""
-
-    def test_generate_evaluation_charts_final_round(self):
-        """Test chart generation on final round."""
-        from pathlib import Path
-
-        # Mock strategy
-        strategy = Mock()
-        strategy.num_rounds = 10
-        strategy.server_dir = Path("/tmp")  # Use real Path object
-        strategy.wandb_run = Mock()
-
-        server_round = 10
-
-        with patch("src.server.evaluation.SmolVLAVisualizer") as mock_visualizer_class:
-            with patch(
-                "src.server.evaluation.aggregate_eval_policy_loss_history"
-            ) as mock_aggregate:
-                mock_aggregate.return_value = {"0": {"server_policy_loss": 1.0}}
-                mock_visualizer = Mock()
-                mock_visualizer_class.return_value = mock_visualizer
-
-                generate_evaluation_charts(strategy, server_round)
-
-                # Verify visualizer was created and methods called
-                mock_visualizer_class.assert_called_once()
-                mock_visualizer.plot_eval_policy_loss_chart.assert_called_once()
-                mock_visualizer.plot_federated_metrics.assert_called_once()
-
-    def test_generate_evaluation_charts_not_final_round(self):
-        """Test no chart generation when not final round."""
-
-        # Mock strategy
-        strategy = Mock()
-        strategy.num_rounds = 10
-        strategy.server_dir = Mock()
-
-        server_round = 5
-
-        with patch("src.visualization.SmolVLAVisualizer") as mock_visualizer_class:
-            generate_evaluation_charts(strategy, server_round)
-
-            # Verify visualizer was not created
-            mock_visualizer_class.assert_not_called()

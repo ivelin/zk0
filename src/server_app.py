@@ -27,20 +27,22 @@ def server_fn(context: Context) -> ServerAppComponents:
     # Create output directory given timestamp (use env var if available, else current time)
     current_time = datetime.now()
     folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
-    save_path = Path(f"outputs/{folder_name}")
-    save_path.mkdir(parents=True, exist_ok=True)
+
+    # Propagate timestamp to clients for consistent output paths
+    context.run_config["timestamp"] = folder_name
+
+    # Set up output directories
+    from src.server.server_utils import setup_output_directories
+    save_path, clients_dir, server_dir, models_dir, simulation_log_path = setup_output_directories(current_time)
 
     # Setup unified logging with loguru
-    simulation_log_path = save_path / "simulation.log"
     print(
         f"[DEBUG server_fn] Setting up logging at {simulation_log_path}",
         file=sys.stderr,
     )
     sys.stderr.flush()
-    setup_server_logging(simulation_log_path)
-    logger.info("Server logging initialized")
-    print("[DEBUG server_fn] Logging setup complete", file=sys.stderr)
-    sys.stderr.flush()
+    from src.server.server_utils import setup_logging
+    setup_logging(simulation_log_path)
 
     # DEBUG: Log full context for federation detection
     import pprint
@@ -49,93 +51,27 @@ def server_fn(context: Context) -> ServerAppComponents:
     logger.info(f"🔧 Server: Full context.state: {pprint.pformat(dict(context.state))}")
     logger.info(f"🔧 Server: Context attributes: {dir(context)}")
 
-
     # Construct ServerConfig
     num_rounds = context.run_config["num-server-rounds"]
     config = ServerConfig(num_rounds=num_rounds)
 
-    print(
-        f"[DEBUG server_fn] Initialized ServerConfig with {num_rounds} rounds",
-        file=sys.stderr,
-    )
-    sys.stderr.flush()
-
+    logger.debug(f"Initialized ServerConfig with {num_rounds} rounds")
     logger.info(f"🔧 Server: Initializing with {num_rounds} rounds")
-
-    print(f"[DEBUG server_fn] Created output dir: {save_path}", file=sys.stderr)
-    sys.stderr.flush()
-
-    # Create structured output directories
-    clients_dir = save_path / "clients"
-    server_dir = save_path / "server"
-    models_dir = save_path / "models"
-    clients_dir.mkdir(exist_ok=True)
-    server_dir.mkdir(exist_ok=True)
-    models_dir.mkdir(exist_ok=True)
+    logger.debug(f"Created output dir: {save_path}")
 
     # Log the output directory path when training starts (to console for early visibility)
-    import sys
+    logger.info(f"Output directory created: {save_path}")
 
-    print(f"[INFO] Output directory created: {save_path}", file=sys.stderr, flush=True)
-
-    # Load environment variables from .env file
-    print("[DEBUG server_fn] Loading .env", file=sys.stderr)
-    sys.stderr.flush()
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        print("[DEBUG server_fn] .env loaded successfully", file=sys.stderr)
-        sys.stderr.flush()
-        logger.debug("Environment variables loaded from .env file")
-    except ImportError as e:
-        print(f"[DEBUG server_fn] .env load failed (ImportError): {e}", file=sys.stderr)
-        sys.stderr.flush()
-        logger.debug("python-dotenv not available, skipping .env loading")
-    except Exception as e:
-        print(f"[DEBUG server_fn] .env load failed: {e}", file=sys.stderr)
-        sys.stderr.flush()
-
-    # Get wandb configuration from pyproject.toml
-    from src.core.utils import get_tool_config
-
-    flwr_config = get_tool_config("flwr", "pyproject.toml")
-    app_config = flwr_config.get("app", {}).get("config", {})
+    # Load environment variables and configuration
+    from src.server.server_utils import load_config_and_env
+    flwr_config, app_config = load_config_and_env()
 
     # Add app-specific configs to context.run_config for strategy access
     context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
 
-
     # Initialize WandB if enabled
-    print("[DEBUG server_fn] Checking WandB config", file=sys.stderr)
-    sys.stderr.flush()
-    from src.wandb_utils import init_server_wandb
-
-    wandb_run = None
-    run_id = f"zk0-sim-fl-run-{folder_name}"
-    use_wandb = app_config.get("use-wandb", False)
-    print(f"[DEBUG server_fn] use-wandb={use_wandb}", file=sys.stderr)
-    sys.stderr.flush()
-    if use_wandb:
-        try:
-            print("[DEBUG server_fn] Initializing WandB", file=sys.stderr)
-            sys.stderr.flush()
-            wandb_run = init_server_wandb(
-                project="zk0",
-                run_id=run_id,
-                config=dict(app_config),
-                dir=str(save_path),
-                notes=f"Federated Learning Server - {num_rounds} rounds",
-            )
-            print("[DEBUG server_fn] WandB initialized successfully", file=sys.stderr)
-            sys.stderr.flush()
-        except Exception as e:
-            print(f"[DEBUG server_fn] WandB init failed: {e}", file=sys.stderr)
-            sys.stderr.flush()
-            wandb_run = None
-    else:
-        print("[DEBUG server_fn] Skipping WandB (disabled)", file=sys.stderr)
-        sys.stderr.flush()
+    from src.server.server_utils import initialize_wandb
+    wandb_run, run_id = initialize_wandb(app_config, folder_name, save_path)
 
     # Store wandb run in context for access by visualization functions
     context.run_config["wandb_run"] = wandb_run
@@ -146,9 +82,6 @@ def server_fn(context: Context) -> ServerAppComponents:
     context.run_config["wandb_run_id"] = (
         run_id  # Pass shared run_id to clients for unified logging
     )
-
-    # Save configuration snapshot
-    import json
 
     # Get project version using standard importlib.metadata approach
     try:
@@ -172,146 +105,19 @@ def server_fn(context: Context) -> ServerAppComponents:
             logger.warning(f"tomli version reading also failed: {fallback_e}")
             project_version = "unknown"
 
-    config_snapshot = {
-        "timestamp": current_time.isoformat(),
-        "run_config": dict(context.run_config),
-        "federation": context.run_config.get("federation", "default"),
-        "project_version": project_version,
-        "output_structure": {
-            "base_dir": str(save_path),
-            "simulation_log": str(simulation_log_path),
-            "config_file": str(save_path / "config.json"),
-            "clients_dir": str(clients_dir),
-            "server_dir": str(server_dir),
-            "models_dir": str(models_dir),
-        },
-    }
-    with open(save_path / "config.json", "w") as f:
-        json.dump(config_snapshot, f, indent=2, default=str)
+    # Save configuration snapshot
+    from src.server.server_utils import save_config_snapshot
+    save_config_snapshot(context, save_path, current_time, project_version)
 
-    # Set global model initialization
-    print("[DEBUG server_fn] Loading DatasetConfig", file=sys.stderr)
-    sys.stderr.flush()
-    # Load a minimal dataset to get metadata for SmolVLA initialization
-    from src.core.utils import load_lerobot_dataset
-    from src.configs import DatasetConfig
+    # Initialize global model
+    from src.server.server_utils import initialize_global_model
+    global_model_init, dataset_meta = initialize_global_model()
 
-    try:
-        dataset_config = DatasetConfig.load()
-        print("[DEBUG server_fn] DatasetConfig loaded", file=sys.stderr)
-        sys.stderr.flush()
-    except Exception as e:
-        print(f"[DEBUG server_fn] DatasetConfig.load failed: {e}", file=sys.stderr)
-        sys.stderr.flush()
-        raise
+    # Create strategy
+    from src.server.server_utils import create_strategy
+    strategy = create_strategy(context, global_model_init, server_dir, models_dir, simulation_log_path, save_path, wandb_run)
 
-    if not dataset_config.server:
-        print(
-            "[DEBUG server_fn] No server datasets configured - aborting",
-            file=sys.stderr,
-        )
-        sys.stderr.flush()
-        raise ValueError("No server evaluation dataset configured")
-
-    server_config = dataset_config.server[
-        0
-    ]  # Use server dataset for consistent initialization
-    print(
-        f"[DEBUG server_fn] Loading server dataset: {server_config.name}",
-        file=sys.stderr,
-    )
-    sys.stderr.flush()
-
-    try:
-        dataset = load_lerobot_dataset(server_config.name)
-        print("[DEBUG server_fn] Dataset loaded successfully", file=sys.stderr)
-        sys.stderr.flush()
-    except Exception as e:
-        print(
-            f"[DEBUG server_fn] load_lerobot_dataset failed for {server_config.name}: {e}",
-            file=sys.stderr,
-        )
-        sys.stderr.flush()
-        raise
-
-    dataset_meta = dataset.meta
-    print("[DEBUG server_fn] Getting initial model params", file=sys.stderr)
-    sys.stderr.flush()
-
-    try:
-        ndarrays = get_params(get_model(dataset_meta=dataset_meta))
-        print(
-            f"[DEBUG server_fn] Initial params obtained: {len(ndarrays)} arrays",
-            file=sys.stderr,
-        )
-        sys.stderr.flush()
-    except Exception as e:
-        print(f"[DEBUG server_fn] get_params/get_model failed: {e}", file=sys.stderr)
-        sys.stderr.flush()
-        raise
-
-    # 🛡️ VALIDATE: Server outgoing parameters (initial model)
-    from src.common.parameter_utils import validate_and_log_parameters
-
-    validate_and_log_parameters(ndarrays, "server_initial_model")
-
-    global_model_init = ndarrays_to_parameters(ndarrays)
-
-    # Define strategy with evaluation aggregation
-    fraction_fit = context.run_config["fraction-fit"]
-    fraction_evaluate = context.run_config["fraction-evaluate"]
-
-    # Add evaluation configuration callback to provide save_path to clients
-    eval_frequency = context.run_config.get("eval-frequency", 1)
-    eval_batches = context.run_config.get("eval_batches", 0)
-    logger.info(
-        f"Server: Using eval_frequency={eval_frequency}, eval_batches={eval_batches}"
-    )
-
-    # FedProx requires proximal_mu parameter - get from config or use default
-    from src.core.utils import get_tool_config
-
-    flwr_config = get_tool_config("flwr", "pyproject.toml")
-    app_config = flwr_config.get("app", {}).get("config", {})
-    proximal_mu = app_config.get("proximal_mu", 0.01)
-    logger.info(f"Server: Using proximal_mu={proximal_mu} for FedProx strategy")
-
-    print("[DEBUG server_fn] Creating AggregateEvaluationStrategy", file=sys.stderr)
-    sys.stderr.flush()
-
-    try:
-        strategy = AggregateEvaluationStrategy(
-            fraction_fit=fraction_fit,
-            fraction_evaluate=fraction_evaluate,
-            initial_parameters=global_model_init,
-            proximal_mu=proximal_mu,  # Required parameter for FedProx
-            server_dir=server_dir,
-            models_dir=models_dir,
-            log_file=simulation_log_path,
-            save_path=save_path,
-            num_rounds=num_rounds,  # Pass total rounds for chart generation
-            wandb_run=wandb_run,  # Pass wandb run for logging
-            context=context,  # Pass context for checkpoint configuration
-        )
-        print("[DEBUG server_fn] Strategy created successfully", file=sys.stderr)
-        sys.stderr.flush()
-    except Exception as e:
-        print(
-            f"[DEBUG server_fn] AggregateEvaluationStrategy creation failed: {e}",
-            file=sys.stderr,
-        )
-        sys.stderr.flush()
-        import traceback
-
-        print(
-            f"[DEBUG server_fn] Full traceback: {traceback.format_exc()}",
-            file=sys.stderr,
-        )
-        sys.stderr.flush()
-        raise
-
-    print("[DEBUG server_fn] Returning ServerAppComponents", file=sys.stderr)
-    sys.stderr.flush()
+    logger.debug("Returning ServerAppComponents")
 
     return ServerAppComponents(config=config, strategy=strategy)
 

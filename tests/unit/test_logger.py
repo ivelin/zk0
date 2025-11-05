@@ -32,6 +32,8 @@ class TestLoggerConfig:
         config = get_config()
 
         assert config["level"] == "DEBUG"
+        assert config["flwr_log_level"] == "INFO"
+        assert config["lerobot_log_level"] == "INFO"
         assert config["enable_grpc_logging"] is False
         assert config["log_format"] == "detailed"
 

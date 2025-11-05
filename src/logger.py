@@ -18,6 +18,8 @@ def get_config():
         # Fallback to defaults if config loading fails
         return {
             "level": "DEBUG",  # Changed to DEBUG for FL diagnostics
+            "flwr_log_level": "INFO",  # Flower framework logging level
+            "lerobot_log_level": "INFO",  # LeRobot framework logging level
             "enable_grpc_logging": False,  # Disabled to reduce low-level noise
             "enable_ray_logging": True,
             "enable_audit_logging": False,
@@ -78,14 +80,18 @@ def setup_common_logging(
     if level is None and "level" in config:
         level = config["level"]
 
+    # Get specific framework log levels, fallback to general level
+    flwr_level = config.get("flwr_log_level", level).upper()
+    lerobot_level = config.get("lerobot_log_level", level).upper()
+
     # Set framework environment variables for logging integration
-    os.environ["FLWR_LOG_LEVEL"] = level.upper()
+    os.environ["FLWR_LOG_LEVEL"] = flwr_level
 
     # LeRobot logging (if supported)
     if "LEROBOT_LOG_LEVEL" in os.environ:
         pass  # Keep existing setting
     else:
-        os.environ["LEROBOT_LOG_LEVEL"] = level.upper()
+        os.environ["LEROBOT_LOG_LEVEL"] = lerobot_level
 
     # Configure gRPC logging if enabled
     if config.get("enable_grpc_logging", False):  # Disabled by default to reduce noise
@@ -165,11 +171,15 @@ def setup_common_logging(
     # Configure Flower logger to prevent duplicates
     flwr_logger = logging.getLogger("flwr")
     flwr_logger.propagate = False  # Prevent propagation to root logger
-    flwr_logger.setLevel(level)
+    flwr_logger.setLevel(getattr(logging, flwr_level))
 
-    # Suppress noisy logging from standard library
+    # Suppress noisy logging from standard library and third-party libraries
     logging.getLogger("logging").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("transformers").setLevel(logging.WARNING)
+    logging.getLogger("lerobot").setLevel(getattr(logging, lerobot_level))
+    logging.getLogger("datasets").setLevel(logging.WARNING)
+    logging.getLogger("huggingface_hub").setLevel(logging.WARNING)
 
     return (
         level,

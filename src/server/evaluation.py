@@ -13,8 +13,8 @@ from loguru import logger
 from src.training.model_utils import set_params
 from src.training.evaluation import test
 from src.core.utils import load_lerobot_dataset
-from src.visualization import SmolVLAVisualizer
-from src.wandb_utils import log_wandb_metrics
+from .visualization import SmolVLAVisualizer
+from .wandb_utils import log_wandb_metrics
 from .metrics_utils import prepare_server_wandb_metrics
 from .server_utils import prepare_server_eval_metrics
 
@@ -238,12 +238,22 @@ def process_evaluation_metrics(
         individual_client_metrics: Individual client metrics
     """
     # Track metrics for plotting
+    # DEBUG: Log the discrepancy between metrics["policy_loss"] and actual composite loss
+    policy_loss_from_metrics = metrics.get("policy_loss", 0.0)
+    logger.info(
+        f"DEBUG EVAL: Round {server_round} - metrics['policy_loss']={policy_loss_from_metrics:.4f} (from first dataset), but composite_eval_loss (avg across datasets)={loss:.4f}"
+    )
+    logger.info(
+        f"DEBUG EVAL: Full metrics keys: {list(metrics.keys())}, aggregated_client_metrics keys: {list(aggregated_client_metrics.keys())}"
+    )
+
     round_metrics = {
         "round": server_round,
         "num_clients": aggregated_client_metrics.get("num_clients", 0),
-        "avg_policy_loss": metrics.get("policy_loss", 0.0),
+        "avg_policy_loss": loss,  # TEMP: Use composite for now, but log the original
         "avg_client_loss": aggregated_client_metrics.get("avg_client_loss", 0.0),
         "param_update_norm": aggregated_client_metrics.get("param_update_norm", 0.0),
+        "debug_original_policy_loss": policy_loss_from_metrics,  # Track the original value
     }
     strategy.federated_metrics_history.append(round_metrics)
 
@@ -326,92 +336,4 @@ def save_evaluation_results(
         logger.info(f"✅ Server: Eval results saved to {server_file}")
 
 
-def generate_evaluation_charts(strategy, server_round: int) -> None:
-    """Generate evaluation charts on final round.
 
-    Args:
-        strategy: The AggregateEvaluationStrategy instance
-        server_round: Current server round number
-    """
-    if strategy.num_rounds and server_round == strategy.num_rounds:
-        try:
-            policy_loss_history = aggregate_eval_policy_loss_history(
-                strategy.server_dir
-            )
-            visualizer = SmolVLAVisualizer()
-            visualizer.plot_eval_policy_loss_chart(
-                policy_loss_history, strategy.server_dir, wandb_run=strategy.wandb_run
-            )
-            if strategy.federated_metrics_history:
-                visualizer.plot_federated_metrics(
-                    strategy.federated_metrics_history,
-                    strategy.server_dir,
-                    wandb_run=strategy.wandb_run,
-                )
-
-            logger.info("Eval charts generated for final round")
-
-        except Exception as e:
-            logger.error(f"Failed to generate eval charts: {e}")
-
-
-def aggregate_eval_policy_loss_history(server_dir: Path) -> Dict[int, Dict[str, float]]:
-    """Aggregate evaluation policy loss history from server eval JSON files.
-
-    Args:
-        server_dir: Directory containing round_X_server_eval.json files.
-
-    Returns:
-        Dict where keys are round numbers, values are dicts with server policy loss values.
-
-    Raises:
-        ValueError: If no evaluation data is found.
-    """
-    import json
-
-    policy_loss_history = {}
-
-    # Find all server eval files (server-side evaluation)
-    server_files = list(server_dir.glob("round_*_server_eval.json"))
-    if not server_files:
-        raise ValueError(
-            "No server evaluation data found. Ensure server-side evaluation occurred."
-        )
-
-    for server_file in server_files:
-        # Extract round number from filename (round_X_server_eval.json)
-        parts = server_file.stem.split("_")
-        if len(parts) >= 3 and parts[0] == "round" and parts[2] == "server":
-            try:
-                round_num = int(parts[1])
-            except ValueError:
-                continue
-
-            try:
-                with open(server_file, "r") as f:
-                    server_data = json.load(f)
-
-                round_data = {}
-
-                # Extract server policy loss from metrics (prefer composite_eval_loss if available)
-                metrics = server_data.get("metrics", {})
-                policy_loss = metrics.get("composite_eval_loss") or metrics.get(
-                    "policy_loss"
-                )
-                if policy_loss is not None:
-                    round_data["server_policy_loss"] = float(policy_loss)
-                round_data["action_dim"] = metrics.get("action_dim", 7)
-
-                if round_data:
-                    policy_loss_history[round_num] = round_data
-
-            except (json.JSONDecodeError, KeyError) as e:
-                logger.warning(f"Failed to parse server eval file {server_file}: {e}")
-                continue
-
-    if not policy_loss_history:
-        raise ValueError(
-            "No valid server evaluation policy loss data found in server files."
-        )
-
-    return policy_loss_history

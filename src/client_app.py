@@ -10,7 +10,7 @@ from loguru import logger
 from flwr.client import Client, ClientApp
 from flwr.common import Context
 
-from src.client_core import SmolVLAClient
+from src.client.client_core import SmolVLAClient
 
 
 def client_fn(context: Context) -> Client:

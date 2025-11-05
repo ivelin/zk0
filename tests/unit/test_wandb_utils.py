@@ -22,7 +22,7 @@ class TestWandbUtils:
     @patch.dict(os.environ, {"WANDB_API_KEY": "test_key"})
     def test_init_server_wandb_with_api_key(self, mock_wandb_module):
         """Test WandB initialization when API key is available."""
-        from src.wandb_utils import init_server_wandb
+        from src.server.wandb_utils import init_server_wandb
 
         mock_run = MagicMock()
         mock_run.name = "test_run"
@@ -41,7 +41,7 @@ class TestWandbUtils:
         self, mock_load_dotenv, mock_wandb_module
     ):
         """Test WandB initialization when API key is missing."""
-        from src.wandb_utils import init_server_wandb
+        from src.server.wandb_utils import init_server_wandb
 
         # Mock load_dotenv to do nothing (prevent .env file loading)
         mock_load_dotenv.return_value = None
@@ -55,7 +55,7 @@ class TestWandbUtils:
     @patch.dict(os.environ, {"WANDB_API_KEY": "test_key"})
     def test_log_wandb_metrics_with_active_run(self, mock_wandb_module):
         """Test logging metrics when WandB run is active."""
-        from src.wandb_utils import log_wandb_metrics
+        from src.server.wandb_utils import log_wandb_metrics
 
         mock_wandb_module.run = MagicMock()
         mock_wandb_module.log = MagicMock()
@@ -67,7 +67,7 @@ class TestWandbUtils:
 
     def test_log_wandb_metrics_without_active_run(self, mock_wandb_module):
         """Test logging metrics when no WandB run is active."""
-        from src.wandb_utils import log_wandb_metrics
+        from src.server.wandb_utils import log_wandb_metrics
 
         mock_wandb_module.run = None
         mock_wandb_module.log = MagicMock()
@@ -80,7 +80,7 @@ class TestWandbUtils:
 
     def test_finish_wandb_with_active_run(self, mock_wandb_module):
         """Test finishing WandB run when active."""
-        from src.wandb_utils import finish_wandb
+        from src.server.wandb_utils import finish_wandb
 
         mock_wandb_module.run = MagicMock()
         mock_wandb_module.finish = MagicMock()
@@ -91,7 +91,7 @@ class TestWandbUtils:
 
     def test_finish_wandb_without_active_run(self, mock_wandb_module):
         """Test finishing WandB run when no active run."""
-        from src.wandb_utils import finish_wandb
+        from src.server.wandb_utils import finish_wandb
 
         mock_wandb_module.run = None
         mock_wandb_module.finish = MagicMock()
@@ -102,7 +102,7 @@ class TestWandbUtils:
 
     def test_finish_wandb_import_error(self, mock_wandb_module):
         """Test finishing WandB run when wandb is not installed."""
-        from src.wandb_utils import finish_wandb
+        from src.server.wandb_utils import finish_wandb
 
         # Simulate import error by removing the module
         del sys.modules["wandb"]
@@ -112,7 +112,7 @@ class TestWandbUtils:
 
     def test_get_wandb_public_url_with_active_run(self, mock_wandb_module):
         """Test getting WandB public URL when run is active."""
-        from src.wandb_utils import get_wandb_public_url
+        from src.server.wandb_utils import get_wandb_public_url
 
         mock_run = MagicMock()
         mock_run.url = "https://wandb.ai/test_entity/test_project/runs/test_run_id"
@@ -125,7 +125,7 @@ class TestWandbUtils:
 
     def test_get_wandb_public_url_without_active_run(self, mock_wandb_module):
         """Test getting WandB public URL when no run is active."""
-        from src.wandb_utils import get_wandb_public_url
+        from src.server.wandb_utils import get_wandb_public_url
 
         mock_wandb_module.run = None
 
@@ -135,7 +135,7 @@ class TestWandbUtils:
 
     def test_get_wandb_public_url_import_error(self, mock_wandb_module):
         """Test getting WandB public URL when wandb is not installed."""
-        from src.wandb_utils import get_wandb_public_url
+        from src.server.wandb_utils import get_wandb_public_url
 
         # Simulate import error by removing the module
         del sys.modules["wandb"]
@@ -146,7 +146,7 @@ class TestWandbUtils:
 
     def test_log_wandb_metrics_with_prefixed_client_metrics(self, mock_wandb_module):
         """Test logging prefixed client metrics to WandB (new pattern for server-side per-client logging)."""
-        from src.wandb_utils import log_wandb_metrics
+        from src.server.wandb_utils import log_wandb_metrics
 
         mock_wandb_module.run = MagicMock()
         mock_wandb_module.log = MagicMock()
@@ -165,7 +165,7 @@ class TestWandbUtils:
 
     def test_log_wandb_metrics_with_aggregated_server_metrics(self, mock_wandb_module):
         """Test logging aggregated server metrics to WandB (extended for all aggregated_client_metrics fields)."""
-        from src.wandb_utils import log_wandb_metrics
+        from src.server.wandb_utils import log_wandb_metrics
 
         mock_wandb_module.run = MagicMock()
         mock_wandb_module.log = MagicMock()
@@ -186,7 +186,7 @@ class TestWandbUtils:
 
     def test_log_wandb_metrics_with_final_summary_metrics(self, mock_wandb_module):
         """Test logging final summary metrics including new cumulative fields (e.g., max across clients)."""
-        from src.wandb_utils import log_wandb_metrics
+        from src.server.wandb_utils import log_wandb_metrics
 
         mock_wandb_module.run = MagicMock()
         mock_wandb_module.log = MagicMock()
