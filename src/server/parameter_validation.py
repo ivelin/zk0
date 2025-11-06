@@ -68,7 +68,7 @@ def validate_client_parameters(
     Returns:
         List of validated (client_proxy, fit_result) tuples, excluding corrupted clients
     """
-    from src.core.utils import compute_parameter_hash, compute_rounded_hash
+    from src.common.parameter_utils import compute_parameter_hash, compute_rounded_hash
 
     validated_results = []
     for client_proxy, fit_res in results:

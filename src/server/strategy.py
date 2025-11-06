@@ -24,7 +24,7 @@ from safetensors.torch import save_file
 
 from src.training.model_utils import compute_param_norms, get_model, set_params
 from src.common.parameter_utils import compute_parameter_hash
-from src.core.utils import get_tool_config, load_lerobot_dataset
+from src.common.utils import get_tool_config, load_lerobot_dataset
 from .wandb_utils import finish_wandb
 from .metrics_utils import aggregate_and_log_metrics
 from .metrics_utils import finalize_round_metrics
@@ -476,7 +476,7 @@ class AggregateEvaluationStrategy(FedProx):
             # WandB run_id not needed in fit config - client already initialized wandb in client_fn
 
             # 🛡️ VALIDATE: Server outgoing parameters (for training) - with detailed logging
-            from src.core.utils import validate_and_log_parameters
+            from src.common.utils import validate_and_log_parameters
 
             fit_ndarrays = parameters_to_ndarrays(fit_ins.parameters)
             logger.debug(
@@ -637,7 +637,7 @@ class AggregateEvaluationStrategy(FedProx):
         )
 
         # 🛡️ VALIDATE: Server aggregated parameters
-        from src.core.utils import validate_and_log_parameters
+        from src.common.utils import validate_and_log_parameters
 
         validate_and_log_parameters(
             aggregated_ndarrays, f"server_aggregated_r{server_round}"

@@ -6,7 +6,7 @@ from pathlib import Path
 from datetime import datetime
 from loguru import logger
 
-from src.core.utils import get_tool_config
+from src.common.utils import get_tool_config
 
 
 def push_model_to_hub_enhanced(checkpoint_dir: Path, hf_repo_id: str) -> None:

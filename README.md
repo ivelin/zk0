@@ -164,7 +164,7 @@ zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracki
 
 ## Production Deployment
 
-zk0 v0.4.12 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
+zk0 v0.4.15 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
 
 ### Install zk0bot CLI
 
@@ -252,7 +252,7 @@ docker build -t zk0:dev -f Dockerfile.zk0 .
 
 ### 🚀 Current Stage: Beta
 
-Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates: CI workflow consolidation with single matrix job for cleaner testing, lerobot CI fixes, Python 3.10 standardization, and removed redundant artifacts. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
+Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.4.15 updates: Modular architecture refinement with dedicated server utilities (parameter_validation.py, visualization.py, strategy.py, model_checkpointing.py, evaluation.py, server_utils.py, model_utils.py, fit_configuration.py). Added common utilities (parameter_utils.py, utils.py) and client core module. Fixed test inconsistencies and achieved 146 tests passing with 36.73% coverage. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.
 
 #### Completed Milestones
 
@@ -272,6 +272,14 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.3.11 updates:
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
 **Config**: 12 clients available (4 active: LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation with 3 diverse evaluation datasets.
+
+## Hardware Monitoring for Diagnostics
+
+To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
+
+- Run `./sys_monitor_logs.sh` before training.
+- Logs: gpu_monitor.log (nvidia-smi), system_temps.log (sensors/CPU).
+- Post-restart: tail -n 100 gpu_monitor.log | grep power to check spikes.
 
 ## Documentation
 

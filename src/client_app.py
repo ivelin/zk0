@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import torch
-from src.core.utils import load_lerobot_dataset
+from src.common.utils import load_lerobot_dataset
 
 from loguru import logger
 

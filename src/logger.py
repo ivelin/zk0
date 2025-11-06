@@ -11,7 +11,7 @@ def get_config():
     try:
         # Try to load from pyproject.toml
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-        from src.core.utils import get_tool_config
+        from src.common.utils import get_tool_config
 
         config = get_tool_config("zk0.logging")
         return config
@@ -225,7 +225,7 @@ def setup_client_logging(log_file: Path, client_id: str, save_path: Optional[str
     )
 
     # Create client-specific log file using unified directory logic
-    from src.core.utils import get_base_output_dir
+    from src.common.utils import get_base_output_dir
     base_dir = get_base_output_dir(save_path=save_path, log_file_path=str(log_file))
     client_dir = base_dir / "clients" / f"client_{client_id}"
     client_dir.mkdir(parents=True, exist_ok=True)

@@ -7,7 +7,7 @@ class TestLoggerConfig:
     """Test logger configuration functions."""
 
     @patch('builtins.open', new_callable=mock_open)
-    @patch('src.core.utils.get_tool_config')
+    @patch('src.common.utils.get_tool_config')
     def test_get_config_with_valid_config(self, mock_get_tool_config, mock_file):
         """Test get_config loads from pyproject.toml successfully."""
         from src.logger import get_config
@@ -24,7 +24,7 @@ class TestLoggerConfig:
         assert config["enable_grpc_logging"] is True
         assert config["log_format"] == "json"
 
-    @patch('src.core.utils.get_tool_config', side_effect=Exception("Config loading failed"))
+    @patch('src.common.utils.get_tool_config', side_effect=Exception("Config loading failed"))
     def test_get_config_fallback_on_error(self, mock_get_tool_config):
         """Test get_config returns defaults when config loading fails."""
         from src.logger import get_config

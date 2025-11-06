@@ -28,7 +28,7 @@ class TestSaveAndPushModel:
 
         with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
               patch("src.server.model_checkpointing.logger") as mock_logger, \
-              patch("src.core.utils.get_tool_config") as mock_get_config:
+              patch("src.common.utils.get_tool_config") as mock_get_config:
             mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 5}}}
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
@@ -60,7 +60,7 @@ class TestSaveAndPushModel:
 
         with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
                   patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push, \
-                  patch("src.core.utils.get_tool_config") as mock_get_config:
+                  patch("src.common.utils.get_tool_config") as mock_get_config:
             from pathlib import Path
             mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 5, "hf_repo_id": "test/repo"}}}
             mock_save.return_value = Path("/path/to/checkpoint")  # Mock return value
@@ -93,7 +93,7 @@ class TestSaveAndPushModel:
 
         with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
                   patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push, \
-                  patch("src.core.utils.get_tool_config") as mock_get_config:
+                  patch("src.common.utils.get_tool_config") as mock_get_config:
             mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 20, "num-server-rounds": 5}}}
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 

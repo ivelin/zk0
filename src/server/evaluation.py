@@ -12,7 +12,7 @@ from loguru import logger
 
 from src.training.model_utils import set_params
 from src.training.evaluation import test
-from src.core.utils import load_lerobot_dataset
+from src.common.utils import load_lerobot_dataset
 from .visualization import SmolVLAVisualizer
 from .wandb_utils import log_wandb_metrics
 from .metrics_utils import prepare_server_wandb_metrics

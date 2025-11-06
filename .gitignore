@@ -11,6 +11,8 @@ outputs/
 # Profiling data
 prof/
 
+# temp files
+tmp/
 
 # ruff cache
 .ruff_cache/

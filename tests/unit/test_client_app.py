@@ -8,7 +8,7 @@ import torch
 
 from src.client_app import SmolVLAClient
 from src.training.fedprox_utils import compute_fedprox_proximal_loss
-from src.core.utils import compute_param_update_norm
+from src.common.utils import compute_param_update_norm
 
 
 class TestComputeParamUpdateNorm:

@@ -14,7 +14,7 @@ from src.training.model_utils import (
 )
 from src.training.train import train
 
-from src.core.utils import (
+from src.common.utils import (
     compute_param_update_norm,
     save_client_round_metrics,
 )

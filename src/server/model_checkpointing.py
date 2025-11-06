@@ -8,7 +8,7 @@ from loguru import logger
 def save_and_push_model(strategy, server_round: int, aggregated_parameters, metrics: Dict):
     """Save model checkpoint and conditionally push to Hugging Face Hub."""
     # Get configuration
-    from src.core.utils import get_tool_config
+    from src.common.utils import get_tool_config
 
     flwr_config = get_tool_config("flwr", "pyproject.toml")
     app_config = flwr_config.get("app", {}).get("config", {})
@@ -68,7 +68,7 @@ def save_and_push_model(strategy, server_round: int, aggregated_parameters, metr
 def finalize_round_metrics(strategy, server_round: int, aggregated_parameters, metrics: Dict):
     """Finalize metrics for the round, adding diagnostics and returning final tuple."""
     # Add diagnostics to metrics
-    from src.core.utils import get_tool_config
+    from src.common.utils import get_tool_config
 
     flwr_config = get_tool_config("flwr", "pyproject.toml")
     app_config = flwr_config.get("app", {}).get("config", {})

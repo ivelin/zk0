@@ -7,7 +7,7 @@ from pathlib import Path
 from loguru import logger
 
 # Import utils functions at module level for easier testing
-from src.core.utils import get_tool_config
+from src.common.utils import get_tool_config
 from src.server.model_utils import (
     extract_training_hyperparameters,
     extract_datasets,
@@ -230,7 +230,7 @@ def initialize_global_model():
     """
     from flwr.common import ndarrays_to_parameters
     from src.training.model_utils import get_model, get_params
-    from src.core.utils import load_lerobot_dataset
+    from src.common.utils import load_lerobot_dataset
     from src.configs import DatasetConfig
 
     # Load a minimal dataset to get metadata for SmolVLA initialization
@@ -304,7 +304,7 @@ def create_strategy(context, global_model_init, server_dir, models_dir, simulati
     )
 
     # FedProx requires proximal_mu parameter - get from config or use default
-    from src.core.utils import get_tool_config
+    from src.common.utils import get_tool_config
 
     try:
         flwr_config = get_tool_config("flwr", "pyproject.toml")

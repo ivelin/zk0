@@ -185,6 +185,14 @@ with torch.no_grad():
 
 **No manual intervention required** - model checkpoints are saved automatically during training and can be used for deployment, analysis, or continued training.
 
+## Advanced: Monitoring Runs
+
+To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
+
+- Run `./sys_monitor_logs.sh` before training.
+- Logs: gpu_monitor.log (nvidia-smi), system_temps.log (sensors/CPU).
+- Post-restart: tail -n 100 gpu_monitor.log | grep power to check spikes.
+
 ## Troubleshooting
 
 - **Training Appears Hung/Stuck**: Use `./train.sh --detached` to isolate training in tmux sessions (anti-hang rule). VSCode client crashes won't stop training processes.

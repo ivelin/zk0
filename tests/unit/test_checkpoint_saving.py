@@ -78,7 +78,7 @@ class TestSaveModelCheckpoint:
             # Verify datasets populated
             mock_extract_datasets.assert_called_once()
 
-    @patch("src.core.utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     @patch("src.server.server_utils.compute_in_memory_insights")
     @patch("src.server.model_utils.generate_model_card")
     def test_save_model_checkpoint_in_memory_empty(self, mock_generate, mock_insights, mock_get_config):
@@ -150,7 +150,7 @@ class TestSaveAndPushModel:
 
     @patch("src.server.model_utils.save_model_checkpoint")
     @patch("src.server.model_utils.push_model_to_hub_enhanced")
-    @patch("src.core.utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     def test_save_and_push_model_save_local_at_interval(self, mock_get_config, mock_push, mock_save):
         """Test that local saves occur at checkpoint intervals."""
         from src.server.model_checkpointing import save_and_push_model
@@ -176,7 +176,7 @@ class TestSaveAndPushModel:
 
     @patch("src.server.model_utils.save_model_checkpoint")
     @patch("src.server.model_utils.push_model_to_hub_enhanced")
-    @patch("src.core.utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     def test_save_and_push_model_save_local_final_round(self, mock_get_config, mock_push, mock_save):
         """Test that local saves occur on final round regardless of interval."""
         from src.server.model_checkpointing import save_and_push_model
@@ -203,7 +203,7 @@ class TestSaveAndPushModel:
 
     @patch("src.server.model_utils.save_model_checkpoint")
     @patch("src.server.model_utils.push_model_to_hub_enhanced")
-    @patch("src.core.utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     def test_save_and_push_model_skip_hf_push_tiny_runs(self, mock_get_config, mock_push, mock_save):
         """Test that HF pushes are skipped for tiny runs (num_rounds < checkpoint_interval)."""
         from src.server.model_checkpointing import save_and_push_model

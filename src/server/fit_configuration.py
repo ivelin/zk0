@@ -24,7 +24,7 @@ def configure_fit(strategy, server_round: int, parameters, client_manager):
         logger.info("🧪 Simulation mode: Configuring for local Ray clients")
 
     # Get configuration from pyproject.toml
-    from src.core.utils import get_tool_config
+    from src.common.utils import get_tool_config
 
     flwr_config = get_tool_config("flwr", "pyproject.toml")
     app_config = flwr_config.get("app", {}).get("config", {})
@@ -91,7 +91,7 @@ def configure_fit(strategy, server_round: int, parameters, client_manager):
         # WandB run_id not needed in fit config - client already initialized wandb in client_fn
 
         # 🛡️ VALIDATE: Server outgoing parameters (for training) - with detailed logging
-        from src.core.utils import validate_and_log_parameters
+        from src.common.utils import validate_and_log_parameters
 
         fit_ndarrays = parameters_to_ndarrays(fit_ins.parameters)
         logger.debug(
