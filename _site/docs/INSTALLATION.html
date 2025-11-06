@@ -1,0 +1,269 @@
+<h1 id="installation">Installation</h1>
+
+<h2 id="environment-preferences">Environment Preferences</h2>
+
+<p><a href="ARCHITECTURE.md">Architecture Overview</a> | <a href="NODE-OPERATORS.md">Node Operators</a> | <a href="RUNNING.md">Running Simulations</a></p>
+<ul>
+  <li><strong>Conda (Recommended for Development)</strong>: Preferred for fast iteration and direct host GPU access. Use for local development and testing.</li>
+  <li><strong>Docker (Recommended for Production/Reproducibility)</strong>: Preferred for isolated, reproducible runs. Use <code class="language-plaintext highlighter-rouge">--docker</code> flag in train.sh or direct Docker commands for consistent environments across machines.</li>
+</ul>
+
+<h2 id="standard-installation">Standard Installation</h2>
+
+<ol>
+  <li>Create the zk0 environment:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create -n zk0 python=3.10 -y
+conda activate zk0
+</code></pre></div>    </div>
+  </li>
+  <li>Install CUDA-enabled PyTorch (for GPU support):
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130 --no-cache-dir
+</code></pre></div>    </div>
+  </li>
+  <li>Install LeRobot (latest version, manually before project install):
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install lerobot[smolvla]==0.3.3
+</code></pre></div>    </div>
+  </li>
+  <li>Install project dependencies from pyproject.toml:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install -e .
+</code></pre></div>    </div>
+  </li>
+  <li>Verify GPU:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python -c "import torch; print('CUDA available:', torch.cuda.is_available())"
+</code></pre></div>    </div>
+    <ul>
+      <li>Expected: <code class="language-plaintext highlighter-rouge">True</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="running">Running</h2>
+
+<h2 id="default-conda-environment-execution-primary---fastflexible">Default: Conda Environment Execution (Primary - Fast/Flexible)</h2>
+
+<p>By default, the training script uses the conda <code class="language-plaintext highlighter-rouge">zk0</code> environment for <strong>fast and flexible execution</strong>. This provides direct access to host resources while maintaining reproducibility, making it ideal for development and local testing.</p>
+
+<h3 id="quick-start-with-conda">Quick Start with Conda</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Activate environment (if not already)</span>
+conda activate zk0
+
+<span class="c"># Run federated learning (uses pyproject.toml defaults: 1 round, 2 steps/epochs, serialized GPU)</span>
+./train.sh
+
+<span class="c"># Or direct Flower run with overrides</span>
+conda run <span class="nt">-n</span> zk0 flwr run <span class="nb">.</span> local-simulation-serialized-gpu <span class="nt">--run-config</span> <span class="s2">"num-server-rounds=5 local-epochs=10"</span>
+
+<span class="c"># Activate first, then run</span>
+conda activate zk0
+flwr run <span class="nb">.</span> local-simulation-serialized-gpu <span class="nt">--run-config</span> <span class="s2">"num-server-rounds=5 local-epochs=10"</span>
+</code></pre></div></div>
+
+<p><strong>✅ Validated Alternative</strong>: Conda execution has been tested and works reliably for federated learning runs, providing a simpler setup for development environments compared to Docker.</p>
+
+<h2 id="alternative-docker-based-execution">Alternative: Docker-Based Execution</h2>
+
+<p>For <strong>reproducible and isolated execution</strong>, use the <code class="language-plaintext highlighter-rouge">--docker</code> flag or run directly with Docker. This ensures consistent environments and eliminates SafeTensors multiprocessing issues.</p>
+
+<h3 id="training-script-usage">Training Script Usage</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">train.sh</code> script runs with configuration from <code class="language-plaintext highlighter-rouge">pyproject.toml</code> (defaults: 1 round, 2 steps/epochs for quick tests). Uses conda by default, with <code class="language-plaintext highlighter-rouge">--docker</code> flag for Docker execution.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic usage with conda (default)</span>
+./train.sh
+
+<span class="c"># Use Docker instead of conda</span>
+./train.sh <span class="nt">--docker</span>
+
+<span class="c"># For custom config, use direct Flower run with overrides</span>
+flwr run <span class="nb">.</span> local-simulation-serialized-gpu <span class="nt">--run-config</span> <span class="s2">"num-server-rounds=5 local-epochs=10"</span>
+
+<span class="c"># Or with Docker directly (example with overrides)</span>
+docker run <span class="nt">--gpus</span> all <span class="nt">--shm-size</span><span class="o">=</span>10.24gb <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>:/workspace <span class="se">\</span>
+  <span class="nt">-v</span> <span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span>/outputs:/workspace/outputs <span class="se">\</span>
+  <span class="nt">-v</span> /tmp:/tmp <span class="se">\</span>
+  <span class="nt">-v</span> <span class="nv">$HOME</span>/.cache/huggingface:/home/user_lerobot/.cache/huggingface <span class="se">\</span>
+  <span class="nt">-w</span> /workspace <span class="se">\</span>
+  zk0 flwr run <span class="nb">.</span> local-simulation-serialized-gpu <span class="nt">--run-config</span> <span class="s2">"num-server-rounds=5"</span>
+</code></pre></div></div>
+
+<h3 id="configuration-notes">Configuration Notes</h3>
+
+<ul>
+  <li>Edit <code class="language-plaintext highlighter-rouge">[tool.flwr.app.config]</code> in <code class="language-plaintext highlighter-rouge">pyproject.toml</code> for defaults (e.g., num-server-rounds=1, local-epochs=2).</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">local-simulation-serialized-gpu</code> for reliable execution (prevents SafeTensors issues; max-parallelism=1).</li>
+  <li><code class="language-plaintext highlighter-rouge">local-simulation-gpu</code> for parallel execution (may encounter SafeTensors issues).</li>
+  <li>Evaluation frequency: Set via <code class="language-plaintext highlighter-rouge">eval-frequency</code> in pyproject.toml (0 = every round).</li>
+</ul>
+
+<h3 id="️-important-notes">⚠️ Important Notes</h3>
+
+<ul>
+  <li><strong>Default execution uses conda</strong> for fast development iteration.</li>
+  <li><strong>Use <code class="language-plaintext highlighter-rouge">--docker</code> flag</strong> for reproducible, isolated execution when needed.</li>
+  <li><strong>Use <code class="language-plaintext highlighter-rouge">local-simulation-serialized-gpu</code></strong> for reliable execution (prevents SafeTensors multiprocessing conflicts).</li>
+  <li><strong>GPU support</strong> requires NVIDIA drivers (conda) or <code class="language-plaintext highlighter-rouge">--gpus all</code> flag (Docker).</li>
+  <li><strong>Conda provides flexibility</strong> with direct host resource access.</li>
+  <li><strong>Docker provides isolation</strong> and eliminates environment-specific issues.</li>
+</ul>
+
+<h2 id="result-output">Result Output</h2>
+
+<p>Results of training steps for each client and server logs will be under the <code class="language-plaintext highlighter-rouge">outputs/</code> directory. For each run there will be a subdirectory corresponding to the date and time of the run. For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>outputs/date_time/
+├── simulation.log       # Unified logging output (all clients, server, Flower, Ray)
+├── server/              # Server-side outputs
+│   ├── server.log       # Server-specific logs
+│   ├── eval_policy_loss_chart.png      # 📊 AUTOMATIC: Line chart of per-client and server avg policy loss over rounds
+│   ├── eval_policy_loss_history.json   # 📊 AUTOMATIC: Historical policy loss data for reproducibility
+│   ├── round_N_server_eval.json        # Server evaluation results
+│   ├── federated_metrics.json          # Aggregated FL metrics
+│   └── federated_metrics.png           # Metrics visualization
+├── clients/             # Client-side outputs
+│   └── client_N/        # Per-client directories
+│       ├── client.log   # Client-specific logs
+│       └── round_N.json # Client evaluation metrics (policy_loss, etc.)
+└── models/              # Saved model checkpoints
+    └── checkpoint_round_N/  # Complete HF-compatible directory
+        ├── model.safetensors          # Model weights in safetensors format
+        ├── config.json               # Model configuration
+        ├── README.md                 # Auto-generated model card with training details
+        ├── metrics.json              # Training metrics and insights
+        ├── tokenizer.json            # Tokenizer configuration
+        ├── tokenizer_config.json     # Tokenizer settings
+        ├── special_tokens_map.json   # Special token mappings
+        ├── vocab.json                # Vocabulary
+        ├── merges.txt                # BPE merges (if applicable)
+        ├── generation_config.json    # Text generation settings
+        ├── preprocessor_config.json  # Input preprocessing config
+        ├── policy_preprocessor.json  # SmolVLA policy preprocessor
+        └── policy_postprocessor.json # SmolVLA policy postprocessor
+</code></pre></div></div>
+
+<h3 id="-automatic-evaluation-chart-generation">📊 Automatic Evaluation Chart Generation</h3>
+
+<p>The system automatically generates comprehensive evaluation charts at the end of each training session:</p>
+
+<ul>
+  <li><strong>📈 <code class="language-plaintext highlighter-rouge">eval_policy_loss_chart.png</code></strong>: Interactive line chart showing:
+    <ul>
+      <li>Individual client policy loss progression over rounds (Client 0, 1, 2, 3)</li>
+      <li>Server average policy loss across all clients</li>
+      <li>Clear visualization of federated learning convergence</li>
+    </ul>
+  </li>
+  <li><strong>📋 <code class="language-plaintext highlighter-rouge">eval_policy_loss_history.json</code></strong>: Raw data for reproducibility and analysis:
+    <ul>
+      <li>Per-round policy loss values for each client</li>
+      <li>Server aggregated metrics</li>
+      <li>Timestamp and metadata for each evaluation</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>No manual steps required</strong> - charts appear automatically after training completion. The charts use intuitive client IDs (0-3) instead of long Ray/Flower identifiers for better readability.</p>
+
+<h3 id="-automatic-model-checkpoint-saving">💾 Automatic Model Checkpoint Saving</h3>
+
+<p>The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis. Each checkpoint is a complete Hugging Face Hub-compatible directory.</p>
+
+<h4 id="checkpoint-saving-configuration">Checkpoint Saving Configuration</h4>
+
+<ul>
+  <li><strong>Interval-based saving</strong>: Checkpoints saved every N rounds based on <code class="language-plaintext highlighter-rouge">checkpoint_interval</code> in <code class="language-plaintext highlighter-rouge">pyproject.toml</code> (default: 5)</li>
+  <li><strong>Final model saving</strong>: Always saves the final model at the end of training regardless of interval</li>
+  <li><strong>Format</strong>: Complete directories with <code class="language-plaintext highlighter-rouge">.safetensors</code> weights and all supporting files</li>
+  <li><strong>Location</strong>: <code class="language-plaintext highlighter-rouge">outputs/YYYY-MM-DD_HH-MM-SS/models/</code> directory</li>
+</ul>
+
+<h4 id="example-checkpoint-files">Example Checkpoint Files</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>outputs/2025-01-01_12-00-00/models/
+├── checkpoint_round_5/     # After round 5
+├── checkpoint_round_10/    # After round 10
+└── checkpoint_round_20/    # Final model (end of training)
+</code></pre></div></div>
+
+<h4 id="checkpoint-directory-structure">Checkpoint Directory Structure</h4>
+
+<p>Each checkpoint is saved as a complete directory containing all Hugging Face Hub-compatible files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>checkpoint_round_N/
+├── model.safetensors          # Model weights in safetensors format
+├── config.json               # Model configuration
+├── README.md                 # Auto-generated model card with training details
+├── metrics.json              # Training metrics and insights
+├── tokenizer.json            # Tokenizer configuration
+├── tokenizer_config.json     # Tokenizer settings
+├── special_tokens_map.json   # Special token mappings
+├── vocab.json                # Vocabulary
+├── merges.txt                # BPE merges (if applicable)
+├── generation_config.json    # Text generation settings
+├── preprocessor_config.json  # Input preprocessing config
+├── policy_preprocessor.json  # SmolVLA policy preprocessor
+└── policy_postprocessor.json # SmolVLA policy postprocessor
+</code></pre></div></div>
+
+<h4 id="configuration-options">Configuration Options</h4>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tool</span><span class="k">.</span><span class="n">flwr</span><span class="k">.</span><span class="n">app</span><span class="k">.</span><span class="n">config</span><span class="k">]</span>
+<span class="n">checkpoint_interval</span> <span class="o">=</span><span class="w"> </span><span class="mi">5</span>  <span class="c"># Save checkpoint every 5 rounds (0 = disabled)</span>
+<span class="n">hf_repo_id</span> <span class="o">=</span><span class="w"> </span><span class="s">"username/zk0-smolvla-federated"</span>  <span class="c"># Optional: Push final model to Hugging Face Hub</span>
+</code></pre></div></div>
+
+<h4 id="hugging-face-hub-integration">Hugging Face Hub Integration</h4>
+
+<ul>
+  <li><strong>Automatic pushing</strong>: Final model automatically pushed to Hugging Face Hub if <code class="language-plaintext highlighter-rouge">hf_repo_id</code> is configured</li>
+  <li><strong>Authentication</strong>: Requires <code class="language-plaintext highlighter-rouge">HF_TOKEN</code> environment variable for Hub access</li>
+  <li><strong>Model format</strong>: Compatible with Hugging Face model repositories</li>
+  <li><strong>Sharing</strong>: Enables easy model sharing and deployment across different environments</li>
+</ul>
+
+<h4 id="using-saved-models">Using Saved Models</h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Load a saved checkpoint for inference
+</span><span class="kn">from</span> <span class="n">safetensors.torch</span> <span class="kn">import</span> <span class="n">load_file</span>
+<span class="kn">from</span> <span class="n">src.task</span> <span class="kn">import</span> <span class="n">get_model</span>  <span class="c1"># Assuming get_model is available
+</span>
+<span class="c1"># Load model architecture
+</span><span class="n">checkpoint_path</span> <span class="o">=</span> <span class="sh">"</span><span class="s">outputs/2025-01-01_12-00-00/models/checkpoint_round_20/model.safetensors</span><span class="sh">"</span>
+<span class="n">state_dict</span> <span class="o">=</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">)</span>
+
+<span class="c1"># Create model and load weights
+</span><span class="n">model</span> <span class="o">=</span> <span class="nf">get_model</span><span class="p">(</span><span class="n">dataset_meta</span><span class="p">)</span>  <span class="c1"># dataset_meta from your config
+</span><span class="n">model</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+
+<span class="c1"># Use for inference
+</span><span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>No manual intervention required</strong> - model checkpoints are saved automatically during training and can be used for deployment, analysis, or continued training.</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<ul>
+  <li><strong>Missing Logs</strong>: Ensure output directory permissions (conda) or Docker volume mounting (<code class="language-plaintext highlighter-rouge">-v $(pwd)/outputs:/workspace/outputs</code>).</li>
+  <li><strong>Permission Issues</strong>: Check user permissions for log file creation in both conda and Docker environments.</li>
+  <li><strong>Multi-Process Conflicts</strong>: Use <code class="language-plaintext highlighter-rouge">local-simulation-serialized-gpu</code> for reliable execution.</li>
+  <li><strong>Log Rotation</strong>: Large simulations automatically rotate logs to prevent disk space issues.</li>
+  <li><strong>Dataset Issues</strong>: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync. See <a href="ARCHITECTURE.md">ARCHITECTURE.md</a> for details.</li>
+  <li><strong>Doubled Datasets</strong>: Automatic hotfix for GitHub issue #1875 applied during loading.</li>
+  <li><strong>Model Loading</strong>: Automatic fallback to simulated training if issues arise.</li>
+  <li><strong>Performance</strong>: Use <code class="language-plaintext highlighter-rouge">pytest -n auto</code> for parallel testing (see <a href="DEVELOPMENT.md">DEVELOPMENT.md</a>).</li>
+  <li><strong>SafeTensors Errors</strong>: Switch to <code class="language-plaintext highlighter-rouge">local-simulation-serialized-gpu</code> or Docker for isolation.</li>
+  <li><strong>Slow Execution</strong>: Check logs for “Running test() on device ‘cpu’”. Ensure <code class="language-plaintext highlighter-rouge">model.to(device)</code> is called in code (added in src/server_app.py and src/task.py).</li>
+  <li><strong>Dependency Conflicts</strong>: Comment out “torch&gt;=2.5.0” in pyproject.toml to avoid reinstalls; install manually with CUDA index.</li>
+  <li><strong>Video Decoding</strong>: If “No accelerated backend detected”, install CUDA toolkit: <code class="language-plaintext highlighter-rouge">conda install cudatoolkit=13.0 -c nvidia</code> and set <code class="language-plaintext highlighter-rouge">export VIDEO_BACKEND=torchcodec</code>.</li>
+  <li><strong>GPU Not Detected</strong>: Verify CUDA installation and <code class="language-plaintext highlighter-rouge">nvidia-smi</code> output.</li>
+</ul>
+
+<p>For advanced troubleshooting, check <code class="language-plaintext highlighter-rouge">simulation.log</code> in outputs or consult <a href="TECHNICAL-OVERVIEW.md">TECHNICAL-OVERVIEW.md</a>.</p>
+
+<p>If issues persist, ensure you’re following the constraints in <a href="INSTALLATION.md">INSTALLATION.md</a> and the development guidelines in <a href="DEVELOPMENT.md">DEVELOPMENT.md</a>.</p>
+
+<p>For other environments with torch CUDA issues, use the same pip install command with the appropriate CUDA version (e.g., cu121 for CUDA 12.1).</p>

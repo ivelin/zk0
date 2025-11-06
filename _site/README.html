@@ -1,0 +1,439 @@
+<p>zk0 [zee-ˈkō] is an Open Source Humanoid AI trained collaboratively by a community of builders.</p>
+
+<p>Imagine a world where your home robot learns new tricks—like folding laundry or sorting toys—not from a secretive corporate lab, but from a global community of everyday builders sharing tips safely and privately. That’s zk0.bot: an open-source project democratizing AI for humanoid robots. We use collaborative training (think group study sessions for robot brains) on real-world tasks, with privacy tech ensuring no one peeks at your data.</p>
+
+<p>First Milestone:</p>
+
+<p><a href="https://x.com/flwrlabs/status/1879571258532036739"><img src="docs/images/lerobot_flower_splash.png" alt="Lerobot + Flower Quickstart Tutorial" /></a></p>
+
+<p>Ultimate Goal and Massive Transformative Purpose:</p>
+
+<p><a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="zk0 humanoid robots vision" src="docs/images/robots.png" /></a></p>
+
+<h2 id="-latest-model-release">🚀 <strong>Latest Model Release</strong></h2>
+
+<p>The zk0 SmolVLA Federated Learning model is now available on Hugging Face Hub!</p>
+
+<p>You can also <a href="https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&amp;utm_campaign=post&amp;utm_medium=web&amp;showWelcomeOnShare=false">read this post</a> with more detailes about the SmolVLA FL milestone.</p>
+
+<p>For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the <a href="https://open.substack.com/pub/ivelin117/p/update-smolvla-federated-learning?r=42d25&amp;utm_campaign=post&amp;utm_medium=web">Update: SmolVLA Federated Learning Progress</a>, which includes WandB visualizations.</p>
+
+<ul>
+  <li><strong>Model</strong>: <a href="https://huggingface.co/ivelin/zk0-smolvla-fl">ivelin/zk0-smolvla-fl</a></li>
+  <li><strong>Training</strong>: 250 rounds of federated learning with FedProx (μ=0.01, dynamic LR/MU scheduling)</li>
+  <li><strong>Final Policy Loss</strong>: 0.495</li>
+  <li><strong>Clients</strong>: 4 clients on diverse SO-100 robotics tasks</li>
+  <li><strong>Framework</strong>: Flower + SmolVLA + SO-100 datasets</li>
+  <li><strong>WandB Run</strong>: <a href="https://wandb.ai/ivelin-eth/zk0/runs/zk0-sim-fl-run-2025-10-20_23-44-35">zk0-sim-fl-run-2025-10-20_23-44-35</a></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoConfig</span>
+<span class="kn">import</span> <span class="n">torch</span>
+
+<span class="c1"># Load the federated model
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">ivelin/zk0-smolvla-fl</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">ivelin/zk0-smolvla-fl</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Ready for robotics manipulation tasks!
+</span></code></pre></div></div>
+
+<h2 id="why">Why</h2>
+
+<p>AI technology has <a href="https://x.com/elonmusk/status/1786367513137233933">advanced enough to speculate</a> that within a decade most people will have their own humanoid buddy. By some estimates humanoids will become $100 Trillion market (5B humanoids * $20,000 per unit).</p>
+
+<p><a href="https://x.com/Tesla_Optimus/status/1846294753144361371">Today’s leading closed source humanoid</a> is trained on <a href="https://nvidianews.nvidia.com/news/spectrum-x-ethernet-networking-xai-colossus">100,000+ GPU farm</a> with real world data collected from millions of cars labeled by able human drivers and a growing number of humanoid robot prototypes used in real world manufacturing environment. This is an enormous scale of compute and data that is hard to compete with as a centralized entity. However it would be interesting to see if a decentralized approach might produce useful results over time. On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.</p>
+
+<h2 id="community-events">Community Events</h2>
+
+<h3 id="upcoming-events">Upcoming Events</h3>
+
+<ul>
+  <li><a href="https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple">Register now</a> for the zk0 event at the upcoming DevConnect conference in Buenos Aires, Argentina on November 18, 2025.</li>
+</ul>
+
+<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">Attending <a href="https://twitter.com/EFDevcon?ref_src=twsrc%5Etfw">@EFDevcon</a>? Diving deep into Robotics AI? <br />Join us for the <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> meetup: Federated Learning for Robotics AI with ZK Proofs.<br /><br />The only way to collect a cool <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> POAP is to be there in person.<a href="https://t.co/UXE5KInLSn">https://t.co/UXE5KInLSn</a> <a href="https://t.co/jx3Mdl5sXm">pic.twitter.com/jx3Mdl5sXm</a></p>&mdash; ivelin.eth 🛡️🤖 (@ivelini) <a href="https://twitter.com/ivelini/status/1983704796948468202?ref_src=twsrc%5Etfw">October 30, 2025</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<h3 id="past-events">Past Events</h3>
+
+<ul>
+  <li><a href="https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6">Watch a recorded presentation</a> of the project at the Flower Monthly Webcast.</li>
+</ul>
+
+<h3 id="join-the-community">Join the Community</h3>
+
+<p>Join our Discord server to connect with other contributors, ask questions, and stay updated on the latest developments:</p>
+
+<p><a href="https://discord.gg/dhMnEne7RP">Join zk0 Discord</a></p>
+
+<p>For more detailed contribution guidelines, see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a> and <a href="docs/DEVELOPMENT.md">docs/DEVELOPMENT.md</a>.</p>
+
+<h2 id="how">How</h2>
+
+<p>zk0 is composed of several major building blocks:</p>
+
+<ul>
+  <li>Physical Embodiment:
+    <ul>
+      <li>Open Source 3D printed robot parts</li>
+      <li>Base: 3D model so100 series from <a href="https://huggingface.co/lerobot">HuggingFace LeRobot</a></li>
+    </ul>
+  </li>
+  <li>Generative AI:
+    <ul>
+      <li>End-to-end Vision Language Action models.</li>
+      <li>Base: SmolVLA model from <a href="https://huggingface.co/lerobot">HuggingFace LeRobot</a></li>
+    </ul>
+  </li>
+  <li>Federated Learning:
+    <ul>
+      <li>Distributed network of nodes contributing local data and training compute to a shared model.</li>
+      <li>Base: <a href="https://flower.ai/">Flower FL framework</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="roadmap">Roadmap</h2>
+
+<ul>
+  <li>Zero Knowledge Proofs that allow quick verification and data privacy:
+    <ul>
+      <li>Quickly verifiable proofs that an FL node is making meaningful contributions.</li>
+      <li>Frameworks under consideration:
+        <ul>
+          <li><a href="https://github.com/succinctlabs/sp1">SP1</a></li>
+          <li><a href="https://github.com/zkonduit/ezkl">EZKL</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Onchain contributor coordination
+    <ul>
+      <li>Immutable contribution history</li>
+      <li>Programmable network participation rules, incentives and project governance</li>
+      <li>Hosting blockchain: TBD</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="quick-start">Quick Start</h2>
+
+<p>For detailed setup, see <a href="docs/INSTALLATION.md">docs/INSTALLATION.md</a>.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Python 3.10+, Conda, Git.</li>
+  <li>NVIDIA GPU recommended.</li>
+</ul>
+
+<h3 id="clone-and-setup">Clone and Setup</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone &lt;repository-url&gt; <span class="nb">.</span>
+<span class="nb">cd </span>zk0
+
+<span class="c"># Create conda env</span>
+conda create <span class="nt">-n</span> zk0 <span class="nv">python</span><span class="o">=</span>3.10 <span class="nt">-y</span>
+conda activate zk0
+conda <span class="nb">install </span><span class="nv">ffmpeg</span><span class="o">=</span>7.1.1 <span class="nt">-c</span> conda-forge
+
+<span class="c"># Install deps</span>
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+
+<span class="c"># Env vars</span>
+<span class="nb">cp</span> .env.example .env  <span class="c"># Edit as needed (e.g., HF_TOKEN)</span>
+</code></pre></div></div>
+
+<h3 id="run-the-simulation">Run the Simulation</h3>
+
+<p>See <a href="docs/INSTALLATION.md">docs/INSTALLATION.md</a> for full instructions.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Quick test (1 round, serialized GPU)</span>
+./train-fl-simulation.sh
+
+<span class="c"># Full run (5 rounds)</span>
+conda run <span class="nt">-n</span> zk0 flwr run <span class="nb">.</span> local-simulation-serialized-gpu <span class="nt">--run-config</span> <span class="s2">"num-server-rounds=5"</span>
+
+<span class="c"># Docker alternative</span>
+./train-fl-simulation.sh <span class="nt">--docker</span>
+</code></pre></div></div>
+
+<h3 id="push-model-to-hugging-face-hub">Push Model to Hugging Face Hub</h3>
+
+<p><strong>Prerequisites:</strong></p>
+<ul>
+  <li>Ensure your Hugging Face token is set in <code class="language-plaintext highlighter-rouge">.env</code>: <code class="language-plaintext highlighter-rouge">HF_TOKEN=your_token_here</code></li>
+  <li>The conda environment “zk0” must be active for script execution</li>
+</ul>
+
+<p>After training, your model checkpoint will be automatically pushed to Hugging Face Hub as a complete checkpoint directory.
+However if the training stops early for any reason, you can still push a saved intermediate checkpoint directory to HF Hub:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Push model checkpoint directory to HF Hub</span>
+conda run <span class="nt">-n</span> zk0 python <span class="nt">-m</span> zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30
+
+<span class="c"># Push to custom repository</span>
+conda run <span class="nt">-n</span> zk0 python <span class="nt">-m</span> zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30 <span class="nt">--repo-id</span> your-username/your-model
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Defaults</strong>: 500 rounds, 4 clients, SO-100/SO-101 datasets.</li>
+  <li><strong>Outputs</strong>: <code class="language-plaintext highlighter-rouge">outputs/&lt;timestamp&gt;/</code> with logs, metrics, charts (<code class="language-plaintext highlighter-rouge">eval_policy_loss_chart.png</code>), checkpoint directories, videos.</li>
+  <li><strong>HF Hub Push</strong>: For tiny/debug runs (e.g., <code class="language-plaintext highlighter-rouge">num-server-rounds &lt; checkpoint_interval=20</code>), the final model push to Hugging Face Hub is skipped to avoid repository clutter with incomplete checkpoints. Local checkpoints are always saved. Full runs (≥20 rounds) will push to the configured <code class="language-plaintext highlighter-rouge">hf_repo_id</code>.</li>
+</ul>
+
+<h3 id="experiment-tracking">Experiment Tracking</h3>
+
+<p>zk0 integrates with Weights &amp; Biases (WandB) for comprehensive experiment tracking and visualization:</p>
+
+<ul>
+  <li><strong>Automatic Logging</strong>: When <code class="language-plaintext highlighter-rouge">use-wandb=true</code> in <code class="language-plaintext highlighter-rouge">pyproject.toml</code>, training metrics, hyperparameters, and evaluation results are automatically logged to WandB.</li>
+  <li><strong>Model Cards</strong>: Generated README.md files in checkpoint directories include direct links to WandB experiment runs when WandB is enabled.</li>
+  <li><strong>Visualization</strong>: View detailed training curves, client performance, and federated learning metrics in real-time.</li>
+  <li><strong>Setup</strong>: Set <code class="language-plaintext highlighter-rouge">WANDB_API_KEY</code> in your <code class="language-plaintext highlighter-rouge">.env</code> file to enable WandB logging.</li>
+</ul>
+
+<p><strong>Tested</strong>: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.</p>
+
+<h2 id="production-deployment">Production Deployment</h2>
+
+<p>zk0 v0.4.15 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.</p>
+
+<h3 id="install-zk0bot-cli">Install zk0bot CLI</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># One-line installer</span>
+curl <span class="nt">-fsSL</span> https://get.zk0.bot | bash
+</code></pre></div></div>
+
+<h3 id="start-server-admin-only">Start Server (Admin Only)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Start production server</span>
+zk0bot server start
+
+<span class="c"># Check status</span>
+zk0bot server status
+
+<span class="c"># View logs</span>
+zk0bot server log
+
+<span class="c"># Stop server</span>
+zk0bot server stop
+</code></pre></div></div>
+
+<p>Server APIs:</p>
+<ul>
+  <li>Fleet API: http://localhost:9092</li>
+  <li>ServerApp API: http://localhost:9091</li>
+  <li>Control API: http://localhost:9093</li>
+</ul>
+
+<h3 id="start-client-node-operators">Start Client (Node Operators)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For Hugging Face datasets</span>
+zk0bot client start hf:yourusername/your-private-dataset
+
+<span class="c"># For local datasets</span>
+zk0bot client start <span class="nb">local</span>:/path/to/your/dataset
+
+<span class="c"># Check status</span>
+zk0bot client status
+
+<span class="c"># View logs</span>
+zk0bot client log
+
+<span class="c"># Stop client</span>
+zk0bot client stop
+</code></pre></div></div>
+
+<h3 id="configuration">Configuration</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># View configuration</span>
+zk0bot config
+
+<span class="c"># Overall status</span>
+zk0bot status
+</code></pre></div></div>
+
+<h3 id="environment-variables">Environment Variables</h3>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">HF_TOKEN</code>: For private Hugging Face datasets (optional)</li>
+  <li><code class="language-plaintext highlighter-rouge">ZK0_SERVER_URL</code>: Custom server URL (default: auto-discovery)</li>
+</ul>
+
+<p>For detailed node operator instructions, see <a href="docs/NODE-OPERATORS.md">docs/NODE-OPERATORS.md</a>.</p>
+
+<h3 id="docker-images">Docker Images</h3>
+
+<p>Production uses the official zk0 Docker image:</p>
+<ul>
+  <li>Image: <code class="language-plaintext highlighter-rouge">ghcr.io/ivelin/zk0:v0.4.5</code></li>
+  <li>Compose files: <code class="language-plaintext highlighter-rouge">docker-compose.server.yml</code>, <code class="language-plaintext highlighter-rouge">docker-compose.client.yml</code></li>
+</ul>
+
+<p>Build locally:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> zk0:dev <span class="nt">-f</span> Dockerfile.zk0 <span class="nb">.</span>
+</code></pre></div></div>
+
+<h2 id="repository-branches">Repository Branches</h2>
+
+<ul>
+  <li><strong>main</strong>: Stable releases. Use this for production setups and quick starts.</li>
+  <li><strong>staging</strong>: Final polish before merging with main. No new features. Only bug fixes and docs polish.</li>
+  <li><strong>dev</strong>: Active feature development. Pull requests should target dev. Clone or switch with <code class="language-plaintext highlighter-rouge">git checkout dev</code> for latest features (may be unstable).</li>
+</ul>
+
+<h2 id="project-status">Project Status</h2>
+
+<h3 id="-current-stage-beta">🚀 Current Stage: Beta</h3>
+
+<p>Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.4.15 updates: Modular architecture refinement with dedicated server utilities (parameter_validation.py, visualization.py, strategy.py, model_checkpointing.py, evaluation.py, server_utils.py, model_utils.py, fit_configuration.py). Added common utilities (parameter_utils.py, utils.py) and client core module. Fixed test inconsistencies and achieved 146 tests passing with 36.73% coverage. Enhanced security with bidirectional SHA256 parameter validation between client and server. Consolidated metrics implementation for unified reporting. Dynamic LR/MU scheduling with warm restarts, adaptive boosts, and spike detection. Prepare for commit workflow established for consistent code quality assurance.</p>
+
+<h4 id="completed-milestones">Completed Milestones</h4>
+
+<ul>
+  <li>✅ Core Infrastructure: Flower 1.20.0 + Ray 2.31.0 + LeRobot 0.3.0.</li>
+  <li>✅ Client Implementation: SmolVLA training, dataset partitioning.</li>
+  <li>✅ Testing: 30%+ coverage, unit/integration suites.</li>
+  <li>✅ CI/CD: GitHub Actions, auto-testing.</li>
+  <li>✅ Config/Tooling: YAML datasets, env management.</li>
+  <li>✅ Enhanced Security: Bidirectional SHA256 parameter validation.</li>
+  <li>✅ Consolidated Metrics: Server-side evaluation files now include both aggregated and individual client metrics with dataset identification (v0.1.19).</li>
+</ul>
+
+<h4 id="in-progress">In Progress</h4>
+
+<ul>
+  <li>Preparing client and server modules for production deployment</li>
+  <li>ZK proofs, onchain coordination.</li>
+</ul>
+
+<p>Full status: <a href="docs/ARCHITECTURE.md#project-status">docs/ARCHITECTURE.md</a>. Baselines: <a href="docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison">docs/TECHNICAL-OVERVIEW.md</a>.</p>
+
+<p><strong>Config</strong>: 12 clients available (4 active: LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation with 3 diverse evaluation datasets.</p>
+
+<h2 id="hardware-monitoring-for-diagnostics">Hardware Monitoring for Diagnostics</h2>
+
+<p>To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:</p>
+
+<ul>
+  <li>Run <code class="language-plaintext highlighter-rouge">./sys_monitor_logs.sh</code> before training.</li>
+  <li>Logs: gpu_monitor.log (nvidia-smi), system_temps.log (sensors/CPU).</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>Post-restart: tail -n 100 gpu_monitor.log</td>
+          <td>grep power to check spikes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+</ul>
+
+<h2 id="documentation">Documentation</h2>
+
+<ul>
+  <li><a href="docs/INSTALLATION.md">Installation</a>: Setup, execution, outputs, troubleshooting.</li>
+  <li><a href="docs/ARCHITECTURE.md">Architecture</a>: FL design, components.</li>
+  <li><a href="docs/DEVELOPMENT.md">Development</a>: Testing, logging, guidelines.</li>
+  <li><a href="docs/TECHNICAL-OVERVIEW.md">Technical Overview</a>: Comparisons, reproducibility, videos.</li>
+</ul>
+
+<h2 id="contributing">Contributing</h2>
+
+<p>We welcome contributions from the community! At this Beta stage, we’re particularly interested in:</p>
+
+<h3 id="node-operators">Node Operators</h3>
+
+<h4 id="requirements">Requirements</h4>
+
+<ul>
+  <li><strong>Hardware</strong>: LeRobot SO100 or SO101 robotic arm. Contributors can either:
+    <ul>
+      <li>Build a DIY arm using the official <a href="https://huggingface.co/docs/lerobot/so101">LeRobot SO101 repository</a></li>
+      <li>Or order a pre-built kit, for example <a href="https://www.ebay.com/str/ovobot">this one</a> from Florin who runs the <a href="https://austinrobotics.io/">Austin Robotics Meetup</a>.</li>
+    </ul>
+  </li>
+  <li><strong>Compute</strong>: Local machine with RTX 3090 GPU or better, compatible with LeRobot library</li>
+  <li><strong>Network</strong>: Stable internet connection for federated communication</li>
+  <li><strong>Data</strong>: Unique training data from your robotics setup</li>
+</ul>
+
+<p>If you meet these requirements, we’d love for you to join as a node operator. Your unique training data and compute resources will help improve the federated learning system. For detailed setup instructions, see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+
+<h3 id="other-ways-to-contribute">Other Ways to Contribute</h3>
+
+<p>There are several ways you can contribute to this project:</p>
+
+<ol>
+  <li><strong>Node Operators</strong>: Join the federated network with your hardware and data</li>
+  <li><strong>Code Contributors</strong>: Improve the codebase, add features, fix bugs</li>
+  <li><strong>Documentation</strong>: Help improve documentation and tutorials</li>
+  <li><strong>Testing</strong>: Report bugs, test new features, improve test coverage</li>
+  <li><strong>Feedback</strong>: Share your experience and suggestions</li>
+</ol>
+
+<p>For more details on each, see <a href="CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+
+<h2 id="social-media">Social Media</h2>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">It's time for a complete open-source stack for autonomy/robotics plus distributed learning. The first step is here: <a href="https://twitter.com/LeRobotHF?ref_src=twsrc%5Etfw">@LeRobotHF</a> + <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> LFG 🚀<a href="https://twitter.com/comma_ai?ref_src=twsrc%5Etfw">@comma_ai</a> <a href="https://twitter.com/wayve_ai?ref_src=twsrc%5Etfw">@wayve_ai</a> <a href="https://twitter.com/Figure_robot?ref_src=twsrc%5Etfw">@Figure_robot</a> <a href="https://twitter.com/Tesla?ref_src=twsrc%5Etfw">@Tesla</a> <a href="https://t.co/8O8cSD3SbO">https://t.co/8O8cSD3SbO</a> <a href="https://t.co/oVUOLTvwzm">https://t.co/oVUOLTvwzm</a></p>&mdash; nic lane (@niclane7) <a href="https://twitter.com/niclane7/status/1879597539676266726?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Open-source robots just got a boost. Frameworks like Flower FL enable faster learning, efficient scaling, and continuous knowledge sharing using real-world data. <a href="https://t.co/j8VSGiWF0W">https://t.co/j8VSGiWF0W</a></p>&mdash; 𝚐𝔪𝟾𝚡𝚡𝟾 (@gm8xx8) <a href="https://twitter.com/gm8xx8/status/1879633368427761785?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are not so far from a future where robots will be constantly learning by interacting with humans and their environments.<br /><br />Frameworks like <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> will enable these robots to learn much faster by continuously sharing their learnings.<br /><br />We really live in a sci-fi movie 😅 <a href="https://t.co/kAz3xZ2qvB">https://t.co/kAz3xZ2qvB</a></p>&mdash; Remi Cadene (@RemiCadene) <a href="https://twitter.com/RemiCadene/status/1879592068865282227?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br /><br />This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br /><br />In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<hr />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "zk0",
+  "description": "Open source federated learning platform for decentralized robotics AI with SmolVLA, ZK proofs, and blockchain incentives",
+  "applicationCategory": "DeveloperApplication",
+  "offers": {"@type": "Offer", "price": "0"},
+  "author": {"@type": "Person", "name": "ivelin.eth"},
+  "url": "https://zk0.bot",
+  "sameAs": ["https://github.com/ivelin/zk0", "https://huggingface.co/ivelin/zk0-smolvla-fl"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is zk0?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "zk0 is an open source federated learning platform for decentralized robotics AI, enabling collaborative training of SmolVLA models on heterogeneous SO-100 datasets using Flower framework, ZK proofs for verifiable contributions, and blockchain incentives for fair participation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does federated learning work in robotics?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Federated learning allows robots to train AI models locally on their private data, sending only model updates to a central server for aggregation. This preserves privacy while building shared knowledge across diverse robotics setups."
+      }
+    }
+  ]
+}
+</script>
+
+<h2 id="share">Share</h2>
+
+<p><img src="https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f" alt="image" /></p>
+
+<p><strong>License</strong>: <a href="LICENSE">LICENSE</a>
+<strong>Repository</strong>: <a href="https://github.com/ivelin/zk0">GitHub</a></p>

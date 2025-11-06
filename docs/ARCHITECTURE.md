@@ -1,6 +1,12 @@
+---
+title: "zk0 Architecture: Federated Learning for SmolVLA Robotics AI"
+description: "Detailed technical overview of zk0's federated learning system using Flower framework with SmolVLA models for privacy-preserving training on SO-100 robotics datasets."
+---
 # Architecture
 
 This document provides a detailed overview of the zk0 project's architecture (v0.3.11), focusing on the federated learning system for training SmolVLA models on SO-100 robotics datasets. It adapts key concepts from the project's implementation and incorporates advanced technical details, comparisons, reproducibility guidelines, evaluation mechanisms, and hyperparameter analysis.
+
+[Installation Guide](INSTALLATION.md) | [Node Operators](NODE-OPERATORS.md) | [Running Simulations](RUNNING.md)
 
 ## Overview
 

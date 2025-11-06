@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-06)**: ✅ **v0.4.15 Modular Architecture Refinement** Expanded server utilities with dedicated modules (parameter_validation.py, visualization.py, strategy.py, model_checkpointing.py, evaluation.py, server_utils.py, model_utils.py, fit_configuration.py). Added common utilities (parameter_utils.py, utils.py) and client core module. Fixed test inconsistencies and achieved 146 tests passing with 36.73% coverage. Ready for commit.
+**Latest Update (2025-11-06)**: ✅ **v0.5.0 SEO Quick Wins Implementation** Enhanced zk0.bot Jekyll site discoverability with auto-generated sitemaps, Open Graph/Twitter Cards, schema markup, front matter optimizations, and internal linking. Jekyll build verified with 36.73% test coverage maintained.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 

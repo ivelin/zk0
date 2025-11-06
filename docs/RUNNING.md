@@ -1,8 +1,14 @@
+---
+title: "Running zk0: Execute Federated Learning Simulations for SmolVLA"
+description: "Instructions to run zk0 federated learning simulations with conda or Docker, training SmolVLA models on SO-100 datasets for decentralized robotics AI development."
+---
 # Running the Project
 
 This guide covers executing the zk0 federated learning simulation, including default and alternative methods, output details, and troubleshooting.
 
 ## Default: Conda Environment Execution
+
+[Installation Guide](INSTALLATION.md) | [Architecture Overview](ARCHITECTURE.md) | [Node Operators](NODE-OPERATORS.md)
 
 By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility.
 

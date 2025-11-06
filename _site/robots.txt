@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://zk0.bot/sitemap.xml

@@ -1,4 +1,10 @@
+---
+title: "zk0: Open Source Federated Learning for Decentralized Humanoid Robotics AI"
+description: "zk0 is an open-source platform for collaborative training of SmolVLA models using Flower framework on SO-100 datasets, enabling privacy-preserving federated learning for humanoid AI with ZK proofs and blockchain incentives."
+---
 zk0 [zee-ˈkō] is an Open Source Humanoid AI trained collaboratively by a community of builders.
+
+Imagine a world where your home robot learns new tricks—like folding laundry or sorting toys—not from a secretive corporate lab, but from a global community of everyday builders sharing tips safely and privately. That's zk0.bot: an open-source project democratizing AI for humanoid robots. We use collaborative training (think group study sessions for robot brains) on real-world tasks, with privacy tech ensuring no one peeks at your data.
 
 First Milestone:
 
@@ -6,7 +12,7 @@ First Milestone:
 
 Ultimate Goal and Massive Transformative Purpose:
 
-<a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="image" src="docs/images/robots.png" /></a>
+<a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="zk0 humanoid robots vision" src="docs/images/robots.png" /></a>
 
 ## 🚀 **Latest Model Release**
 

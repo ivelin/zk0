@@ -1,6 +1,12 @@
+---
+title: "zk0 Installation: Set Up Federated Learning for SmolVLA Robotics"
+description: "Step-by-step installation guide for zk0, the open-source platform for decentralized federated learning with SmolVLA models on SO-100 datasets using Flower framework."
+---
 # Installation
 
 ## Environment Preferences
+
+[Architecture Overview](ARCHITECTURE.md) | [Node Operators](NODE-OPERATORS.md) | [Running Simulations](RUNNING.md)
 - **Conda (Recommended for Development)**: Preferred for fast iteration and direct host GPU access. Use for local development and testing.
 - **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train.sh or direct Docker commands for consistent environments across machines.
 

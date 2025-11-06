@@ -5,7 +5,9 @@
 **Version**: 1.0.3
 **Author**: Kilo Code
 
-## Latest Update (2025-10-29)
+## Latest Update (2025-11-06)
+**✅ SEO Quick Wins Implementation**: Enhanced zk0.bot Jekyll site discoverability with auto-generated sitemaps, Open Graph/Twitter Cards, schema markup, front matter optimizations, and internal linking. Jekyll build verified with 36.73% test coverage maintained. Version bumped to 0.5.0.
+
 **✅ CI Workflow Consolidation**: Consolidated separate unit and integration test jobs into a single matrix job for cleaner GitHub Actions workflow. Removed redundant tee piping, test-output.log artifacts, and standardized on Python 3.10. Fixed lerobot installation for CI compatibility. Version bumped to 0.3.11.
 
 **✅ Enhanced HF Model Push Workflow**: Implemented comprehensive HF Hub push enhancements including rich model cards, git tagging, dynamic README generation, and simulation mode detection. New `push_model_to_hub_enhanced()` function extracts data from configs/JSON outputs, generates detailed model cards with hyperparameters/datasets/metrics/insights, creates local/HF git tags, and handles edge cases. Updated memory bank and added comprehensive unit tests. Version bumped to 0.3.7.
