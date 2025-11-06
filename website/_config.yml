@@ -24,8 +24,6 @@ exclude:
   - ../train*
   - ../zk0bot.sh
   - ../.env*
-source: .
-destination: _site
 theme: minima
 plugins:
   - jekyll-seo-tag

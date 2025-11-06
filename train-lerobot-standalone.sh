@@ -9,6 +9,7 @@ set -e  # Exit on any error
 STEPS=${STEPS:-2}
 MODE=${MODE:-conda}  # Default to conda, can be set to 'docker'
 DOCKER_IMAGE=${DOCKER_IMAGE:-zk0}
+DATASET_REPO_ID=""  # Must be provided by user
 
 # Colors for output
 RED='\033[0;31m'
@@ -41,6 +42,7 @@ usage() {
     echo "Run SmolVLA standalone training using conda (default) or Docker"
     echo ""
     echo "Options:"
+    echo "  -d, --dataset REPO     Hugging Face dataset repo ID (required)"
     echo "  -s, --steps NUM        Number of training steps (default: 200)"
     echo "  -m, --mode MODE        Execution mode: 'conda' or 'docker' (default: conda)"
     echo "  -i, --image NAME       Docker image name (default: zk0, used only with --mode docker)"
@@ -60,6 +62,10 @@ usage() {
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
+        -d|--dataset)
+            DATASET_REPO_ID="$2"
+            shift 2
+            ;;
         -s|--steps)
             STEPS="$2"
             shift 2
@@ -85,6 +91,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Validate inputs
+if [[ -z "$DATASET_REPO_ID" ]]; then
+    print_error "Dataset repo ID is required. Use -d or --dataset"
+    usage
+    exit 1
+fi
+
 if ! [[ "$STEPS" =~ ^[0-9]+$ ]] || [ "$STEPS" -lt 1 ]; then
     print_error "Steps must be a positive integer"
     exit 1
@@ -97,6 +109,7 @@ fi
 
 print_info "Starting SmolVLA Standalone Training"
 print_info "===================================="
+print_info "Dataset: $DATASET_REPO_ID"
 print_info "Steps: $STEPS"
 print_info "Mode: $MODE"
 if [[ "$MODE" == "docker" ]]; then
@@ -132,13 +145,12 @@ execute_conda_training() {
     # Execute the training command
     conda run -n zk0 python -m lerobot.scripts.train \
       --policy.path=lerobot/smolvla_base \
-      --dataset.repo_id="hiroki825/record-test-00-v2.1" \
+      --dataset.repo_id="$DATASET_REPO_ID" \
       --batch_size=64 \
       --steps=$STEPS \
       --output_dir=outputs/train/my_smolvla \
       --job_name=my_smolvla_training \
-      --policy.device=cuda \
-      --policy.repo_id=ivelin/smolvla_test
+      --policy.device=cuda
 }
 
 # Function to execute docker training

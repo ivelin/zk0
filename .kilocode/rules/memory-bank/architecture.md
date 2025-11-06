@@ -1,8 +1,8 @@
 # System Architecture
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-01
-**Version**: 1.0.7
+**Last Updated**: 2025-11-06
+**Version**: 1.0.8
 **Author**: Kilo Code
 
 ## Source Code Paths
@@ -217,6 +217,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Progress Declaration Policy**: Do not declare progress without explicit user approval
 - **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (minor, major, breaking, etc.)
 - **Task Completion Assessment**: When a big task is completed that involves substantial code changes, assess and propose project progress update, but wait for approval before making any changes
+- **Version Synchronization**: Project version should always be in sync with release tags and git tags
 
 ### 7. Testing Execution Requirements
 - **Environment**: All tests must run in Docker container (`zk0`) for consistency

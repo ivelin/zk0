@@ -1,97 +1,19 @@
----
-title: "zk0: Open Source Federated Learning for Decentralized Humanoid Robotics AI"
-description: "zk0 is an open-source platform for collaborative training of SmolVLA models using Flower framework on SO-100 datasets, enabling privacy-preserving federated learning for humanoid AI with ZK proofs and blockchain incentives."
----
-zk0 [zee-ˈkō] is an Open Source Humanoid AI trained collaboratively by a community of builders.
+# zk0: Federated Learning for Robotics AI
 
-Imagine a world where your home robot learns new tricks—like folding laundry or sorting toys—not from a secretive corporate lab, but from a global community of everyday builders sharing tips safely and privately. That's zk0.bot: an open-source project democratizing AI for humanoid robots. We use collaborative training (think group study sessions for robot brains) on real-world tasks, with privacy tech ensuring no one peeks at your data.
+Open-source federated learning platform for SmolVLA models on SO-100 datasets using Flower framework.
 
-First Milestone:
-
-[![Lerobot + Flower Quickstart Tutorial](docs/images/lerobot_flower_splash.png)](https://x.com/flwrlabs/status/1879571258532036739)
-
-Ultimate Goal and Massive Transformative Purpose:
-
-<a href="https://imagine-public.x.ai/imagine-public/share-videos/3332fbd2-7b73-4986-9ce5-6f4029569d89.mp4?cache=1"><img width="464" height="688" alt="zk0 humanoid robots vision" src="docs/images/robots.png" /></a>
-
-## 🚀 **Latest Model Release**
-
-The zk0 SmolVLA Federated Learning model is now available on Hugging Face Hub!
-
-You can also [read this post](https://open.substack.com/pub/ivelin117/p/decentralizing-robot-brains-zk0bot?r=42d25&utm_campaign=post&utm_medium=web&showWelcomeOnShare=false) with more detailes about the SmolVLA FL milestone.
-
-For the latest extended run results (250 rounds, final loss 0.495) and analysis on skill retention, see the [Update: SmolVLA Federated Learning Progress](https://open.substack.com/pub/ivelin117/p/update-smolvla-federated-learning?r=42d25&utm_campaign=post&utm_medium=web), which includes WandB visualizations.
+## Latest Model Release
 
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
-- **Training**: 250 rounds of federated learning with FedProx (μ=0.01, dynamic LR/MU scheduling)
+- **Training**: 250 rounds FedProx (μ=0.01), dynamic LR/MU scheduling
 - **Final Policy Loss**: 0.495
-- **Clients**: 4 clients on diverse SO-100 robotics tasks
+- **Clients**: 4 clients on diverse SO-100 tasks
 - **Framework**: Flower + SmolVLA + SO-100 datasets
-- **WandB Run**: [zk0-sim-fl-run-2025-10-20_23-44-35](https://wandb.ai/ivelin-eth/zk0/runs/zk0-sim-fl-run-2025-10-20_23-44-35)
 
 ```python
-from transformers import AutoModel, AutoConfig
-import torch
-
-# Load the federated model
+from transformers import AutoModel
 model = AutoModel.from_pretrained("ivelin/zk0-smolvla-fl")
-config = AutoConfig.from_pretrained("ivelin/zk0-smolvla-fl")
-
-# Ready for robotics manipulation tasks!
 ```
-
-## Why
-
-AI technology has [advanced enough to speculate](https://x.com/elonmusk/status/1786367513137233933) that within a decade most people will have their own humanoid buddy. By some estimates humanoids will become $100 Trillion market (5B humanoids * $20,000 per unit).
-
-[Today's leading closed source humanoid](https://x.com/Tesla_Optimus/status/1846294753144361371) is trained on [100,000+ GPU farm](https://nvidianews.nvidia.com/news/spectrum-x-ethernet-networking-xai-colossus) with real world data collected from millions of cars labeled by able human drivers and a growing number of humanoid robot prototypes used in real world manufacturing environment. This is an enormous scale of compute and data that is hard to compete with as a centralized entity. However it would be interesting to see if a decentralized approach might produce useful results over time. On the chance that proprietary humanoids ever go rogue, it would be nice to have open source alternatives.
-
-## Community Events
-
-### Upcoming Events
-
-- [Register now](https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple) for the zk0 event at the upcoming DevConnect conference in Buenos Aires, Argentina on November 18, 2025.
-
-<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">Attending <a href="https://twitter.com/EFDevcon?ref_src=twsrc%5Etfw">@EFDevcon</a>? Diving deep into Robotics AI? <br>Join us for the <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> meetup: Federated Learning for Robotics AI with ZK Proofs.<br><br>The only way to collect a cool <a href="https://t.co/lkOfzCU5G1">https://t.co/lkOfzCU5G1</a> POAP is to be there in person.<a href="https://t.co/UXE5KInLSn">https://t.co/UXE5KInLSn</a> <a href="https://t.co/jx3Mdl5sXm">pic.twitter.com/jx3Mdl5sXm</a></p>&mdash; ivelin.eth 🛡️🤖 (@ivelini) <a href="https://twitter.com/ivelini/status/1983704796948468202?ref_src=twsrc%5Etfw">October 30, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
-
-
-### Past Events
-
-- [Watch a recorded presentation](https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6) of the project at the Flower Monthly Webcast.
-
-### Join the Community
-
-Join our Discord server to connect with other contributors, ask questions, and stay updated on the latest developments:
-
-[Join zk0 Discord](https://discord.gg/dhMnEne7RP)
-
-For more detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
-
-## How
-
-zk0 is composed of several major building blocks:
-
-- Physical Embodiment:
-  * Open Source 3D printed robot parts
-  * Base: 3D model so100 series from [HuggingFace LeRobot](https://huggingface.co/lerobot)
-- Generative AI:
-  * End-to-end Vision Language Action models.
-  * Base: SmolVLA model from [HuggingFace LeRobot](https://huggingface.co/lerobot)
-- Federated Learning:
-  * Distributed network of nodes contributing local data and training compute to a shared model.
-  * Base: [Flower FL framework](https://flower.ai/)
-
-## Roadmap
-
-- Zero Knowledge Proofs that allow quick verification and data privacy:
-  * Quickly verifiable proofs that an FL node is making meaningful contributions.
-  * Frameworks under consideration:
-    * [SP1](https://github.com/succinctlabs/sp1)
-    * [EZKL](https://github.com/zkonduit/ezkl)
-- Onchain contributor coordination
-  * Immutable contribution history
-  * Programmable network participation rules, incentives and project governance
-  * Hosting blockchain: TBD
 
 ## Quick Start
 
@@ -105,7 +27,7 @@ For detailed setup, see [docs/INSTALLATION.md](docs/INSTALLATION.md).
 ### Clone and Setup
 
 ```shell
-git clone <repository-url> .
+git clone https://github.com/ivelin/zk0.git
 cd zk0
 
 # Create conda env
@@ -168,86 +90,6 @@ zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracki
 
 **Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
 
-## Production Deployment
-
-zk0 v0.4.15 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
-
-### Install zk0bot CLI
-
-```bash
-# One-line installer
-curl -fsSL https://get.zk0.bot | bash
-```
-
-### Start Server (Admin Only)
-
-```bash
-# Start production server
-zk0bot server start
-
-# Check status
-zk0bot server status
-
-# View logs
-zk0bot server log
-
-# Stop server
-zk0bot server stop
-```
-
-Server APIs:
-- Fleet API: http://localhost:9092
-- ServerApp API: http://localhost:9091
-- Control API: http://localhost:9093
-
-### Start Client (Node Operators)
-
-```bash
-# For Hugging Face datasets
-zk0bot client start hf:yourusername/your-private-dataset
-
-# For local datasets
-zk0bot client start local:/path/to/your/dataset
-
-# Check status
-zk0bot client status
-
-# View logs
-zk0bot client log
-
-# Stop client
-zk0bot client stop
-```
-
-### Configuration
-
-```bash
-# View configuration
-zk0bot config
-
-# Overall status
-zk0bot status
-```
-
-### Environment Variables
-
-- `HF_TOKEN`: For private Hugging Face datasets (optional)
-- `ZK0_SERVER_URL`: Custom server URL (default: auto-discovery)
-
-For detailed node operator instructions, see [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md).
-
-### Docker Images
-
-Production uses the official zk0 Docker image:
-- Image: `ghcr.io/ivelin/zk0:v0.4.5`
-- Compose files: `docker-compose.server.yml`, `docker-compose.client.yml`
-
-Build locally:
-```bash
-docker build -t zk0:dev -f Dockerfile.zk0 .
-```
-
-
 ## Repository Branches
 
 - **main**: Stable releases. Use this for production setups and quick starts.
@@ -277,22 +119,7 @@ Advanced development with core FL for SmolVLA on SO-100/SO-101. v0.4.15 updates:
 
 Full status: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#project-status). Baselines: [docs/TECHNICAL-OVERVIEW.md](docs/TECHNICAL-OVERVIEW.md#federated-vs-centralized-training-comparison).
 
-**Config**: 12 clients available (4 active: LEGO bin, direction test, plush toy, stuffed animal); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation with 3 diverse evaluation datasets.
-
-## Hardware Monitoring for Diagnostics
-
-To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
-
-- Run `./sys_monitor_logs.sh` before training.
-- Logs: gpu_monitor.log (nvidia-smi), system_temps.log (sensors/CPU).
-- Post-restart: tail -n 100 gpu_monitor.log | grep power to check spikes.
-
-## Documentation
-
-- [Installation](docs/INSTALLATION.md): Setup, execution, outputs, troubleshooting.
-- [Architecture](docs/ARCHITECTURE.md): FL design, components.
-- [Development](docs/DEVELOPMENT.md): Testing, logging, guidelines.
-- [Technical Overview](docs/TECHNICAL-OVERVIEW.md): Comparisons, reproducibility, videos.
+**Config**: 12 clients available (4 active); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation.
 
 ## Contributing
 
@@ -323,61 +150,4 @@ There are several ways you can contribute to this project:
 
 For more details on each, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Social Media
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">It's time for a complete open-source stack for autonomy/robotics plus distributed learning. The first step is here: <a href="https://twitter.com/LeRobotHF?ref_src=twsrc%5Etfw">@LeRobotHF</a> + <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> LFG 🚀<a href="https://twitter.com/comma_ai?ref_src=twsrc%5Etfw">@comma_ai</a> <a href="https://twitter.com/wayve_ai?ref_src=twsrc%5Etfw">@wayve_ai</a> <a href="https://twitter.com/Figure_robot?ref_src=twsrc%5Etfw">@Figure_robot</a> <a href="https://twitter.com/Tesla?ref_src=twsrc%5Etfw">@Tesla</a> <a href="https://t.co/8O8cSD3SbO">https://t.co/8O8cSD3SbO</a> <a href="https://t.co/oVUOLTvwzm">https://t.co/oVUOLTvwzm</a></p>&mdash; nic lane (@niclane7) <a href="https://twitter.com/niclane7/status/1879597539676266726?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Open-source robots just got a boost. Frameworks like Flower FL enable faster learning, efficient scaling, and continuous knowledge sharing using real-world data. <a href="https://t.co/j8VSGiWF0W">https://t.co/j8VSGiWF0W</a></p>&mdash; 𝚐𝔪𝟾𝚡𝚡𝟾 (@gm8xx8) <a href="https://twitter.com/gm8xx8/status/1879633368427761785?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are not so far from a future where robots will be constantly learning by interacting with humans and their environments.<br><br>Frameworks like <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> will enable these robots to learn much faster by continuously sharing their learnings.<br><br>We really live in a sci-fi movie 😅 <a href="https://t.co/kAz3xZ2qvB">https://t.co/kAz3xZ2qvB</a></p>&mdash; Remi Cadene (@RemiCadene) <a href="https://twitter.com/RemiCadene/status/1879592068865282227?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br><br>This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br><br>In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
----
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "zk0",
-  "description": "Open source federated learning platform for decentralized robotics AI with SmolVLA, ZK proofs, and blockchain incentives",
-  "applicationCategory": "DeveloperApplication",
-  "offers": {"@type": "Offer", "price": "0"},
-  "author": {"@type": "Person", "name": "ivelin.eth"},
-  "url": "https://zk0.bot",
-  "sameAs": ["https://github.com/ivelin/zk0", "https://huggingface.co/ivelin/zk0-smolvla-fl"]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is zk0?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "zk0 is an open source federated learning platform for decentralized robotics AI, enabling collaborative training of SmolVLA models on heterogeneous SO-100 datasets using Flower framework, ZK proofs for verifiable contributions, and blockchain incentives for fair participation."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "How does federated learning work in robotics?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Federated learning allows robots to train AI models locally on their private data, sending only model updates to a central server for aggregation. This preserves privacy while building shared knowledge across diverse robotics setups."
-      }
-    }
-  ]
-}
-</script>
-
-## Share
-
-![image](https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f)
-
-**License**: [LICENSE](LICENSE)
-**Repository**: [GitHub](https://github.com/ivelin/zk0)

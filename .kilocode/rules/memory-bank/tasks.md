@@ -1,8 +1,8 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-01
-**Version**: 1.0.3
+**Last Updated**: 2025-11-06
+**Version**: 1.0.4
 **Author**: Kilo Code
 
 ## Latest Update (2025-11-06)
@@ -311,3 +311,53 @@
 **Steps:**
 1. Create website/ dir
 2. Move Jekyll artifacts (_config.yml, _includes/, index.md)
+
+## Standalone Training Script Enhancement
+**Last performed:** 2025-11-06
+**Context:** Enhanced train-lerobot-standalone.sh to require dataset parameter for flexible testing of different SO-100/SO-101 datasets, removed hardcoded repo_id to prevent accidental model pushes, added proper validation and usage documentation.
+
+**Files modified:**
+- `train-lerobot-standalone.sh` - Added -d/--dataset parameter, validation, updated usage, removed --policy.repo_id
+
+**Steps:**
+1. Add --dataset parameter parsing and validation
+2. Update usage documentation
+3. Remove --policy.repo_id to prevent model pushes
+4. Update conda and docker commands to use variable dataset
+5. Add dataset to logging output
+
+## Prepare for Release Workflow
+**Last performed:** 2025-11-06
+**Context:** Standardized workflow for preparing and pushing new releases, ensuring proper version management, testing, documentation, and GitHub release creation. Use this workflow when instructed to "prepare for release" or "push a new release" or similar prompts.
+
+**Trigger Phrases:**
+- "prepare for release"
+- "push a new release"
+- "create release"
+- "release preparation"
+
+**Steps:**
+1. **Prepare to Commit to Working Branch**: Follow the "Prepare for Commit Workflow" to ensure code is ready (version bump, testing, documentation updates, commit to current branch)
+2. **Ask for Permission to Merge with Main**: Request user approval to merge the working branch into main
+3. **If Permission Granted, Proceed with Merge and Pull Request**: Merge the working branch into main and submit a pull request for review
+4. **Ask User to Review and Approve Pull Request**: Wait for user review and approval of the pull request
+5. **Push New GitHub Release**: Create a GitHub release with proper tags (semantic versioning), description (changelog summary), and changelog (detailed changes)
+
+**Success Criteria:**
+- Working branch successfully merged into main via approved pull request
+- GitHub release created with correct version tag, description, and changelog
+- Release artifacts (if any) properly attached
+- Documentation updated with release notes
+
+**Benefits:**
+- Consistent release process with quality gates
+- Proper version management and tagging
+- Clear communication of changes via changelog
+- Maintains project stability through review process
+- Easy reference for future releases
+
+**Important Notes:**
+- Always follow semantic versioning for release tags
+- Include comprehensive changelog with breaking changes, new features, bug fixes
+- Ensure all tests pass before merging
+- Coordinate with user for release timing and approval
