@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-06)**: ✅ **v0.4.16 Jekyll Site Reorganization & Script Enhancements** Reorganized Jekyll site to website/ subdir for cleaner root directory, enhanced train-lerobot-standalone.sh with mandatory dataset parameter for flexible testing, updated website quick start instructions to reference project shell scripts. Version bumped to 0.4.16 with 36.73% test coverage maintained.
+**Latest Update (2025-11-06)**: ✅ **v0.4.17 Release Preparation** Version bumped to 0.4.17, full test suite passed with 36.73% coverage maintained. Preparing for release with Jekyll site reorganization and script enhancements.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 

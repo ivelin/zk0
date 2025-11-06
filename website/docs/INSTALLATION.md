@@ -1,5 +1,4 @@
 ---
-layout: default
 title: "zk0 Installation: Set Up Federated Learning for SmolVLA Robotics"
 description: "Step-by-step installation guide for zk0, the open-source platform for decentralized federated learning with SmolVLA models on SO-100 datasets using Flower framework."
 ---
