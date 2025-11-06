@@ -21,10 +21,10 @@ class TestPrepareCheckpointMetrics:
 
         metrics = prepare_server_eval_metrics(mock_strategy, server_round=0)
 
-        assert metrics["composite_eval_loss"] == 0.655
-        assert metrics["aggregated_client_metrics"]["avg_client_loss"] == 0.894
-        assert len(metrics["individual_client_metrics"]) == 2
-        assert len(metrics["server_eval_dataset_results"]) == 1
+        assert metrics["server_composite_eval_loss"] == 0.655
+        assert metrics["client_aggregated_training_metrics"]["avg_client_loss"] == 0.894
+        assert len(metrics["individual_client_training_metrics"]) == 2
+        assert len(metrics["server_per_dataset_eval_results"]) == 1
 
     def test_prepare_checkpoint_metrics_empty(self):
         """Test metrics preparation with empty strategy data."""
@@ -38,10 +38,10 @@ class TestPrepareCheckpointMetrics:
 
         metrics = prepare_server_eval_metrics(mock_strategy, server_round=0)
 
-        assert metrics["composite_eval_loss"] == "N/A"
-        assert metrics["aggregated_client_metrics"] == {}
-        assert len(metrics["individual_client_metrics"]) == 0
-        assert len(metrics["server_eval_dataset_results"]) == 0
+        assert metrics["server_composite_eval_loss"] == "N/A"
+        assert metrics["client_aggregated_training_metrics"] == {}
+        assert len(metrics["individual_client_training_metrics"]) == 0
+        assert len(metrics["server_per_dataset_eval_results"]) == 0
 
 
 class TestInMemoryExtractFinalMetrics:
@@ -49,7 +49,7 @@ class TestInMemoryExtractFinalMetrics:
 
     def test_in_memory_metrics_populated(self):
         """Test in-memory metrics extraction with populated strategy."""
-        from src.server.server_utils import save_model_checkpoint
+        from src.server.model_utils import save_model_checkpoint
 
         mock_strategy = MagicMock()
         mock_strategy.server_eval_losses = [0.655]
@@ -62,7 +62,7 @@ class TestInMemoryExtractFinalMetrics:
 
         mock_parameters = MagicMock()
         with patch("flwr.common.parameters_to_ndarrays") as mock_ndarrays, \
-              patch("src.server.server_utils.generate_model_card") as mock_generate, \
+              patch("src.server.model_utils.generate_model_card") as mock_generate, \
               patch("src.server.model_utils.extract_final_metrics") as mock_extract_metrics:
             mock_ndarrays.return_value = [np.array([1.0])]
             mock_generate.return_value = "# Model Card"
@@ -80,8 +80,8 @@ class TestInMemoryExtractFinalMetrics:
             mock_generate.assert_called_once()
             args = mock_generate.call_args[0]
             metrics_arg = args[3]  # 4th arg is metrics
-            assert metrics_arg["composite_eval_loss"] == 0.655
-            assert len(metrics_arg["server_eval_dataset_results"]) == 1
+            assert metrics_arg["server_composite_eval_loss"] == 0.655
+            assert len(metrics_arg["server_per_dataset_eval_results"]) == 1
 
 
 class TestInMemoryExtractTrainingInsights:

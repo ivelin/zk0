@@ -756,7 +756,7 @@ def generate_model_card(
         "",
         "### Final Evaluation Metrics",
         "",
-        f"- **Composite Eval Loss**: {metrics.get('composite_eval_loss', 'N/A')}",
+        f"- **Composite Eval Loss**: {metrics.get('server_composite_eval_loss', 'N/A')}",
         f"- **Aggregated Client Metrics**: {metrics.get('aggregated_client_metrics', {})}",
         f"- **Individual Client Metrics**: {len(metrics.get('individual_client_metrics', []))} clients",
         "### Per-Dataset Results",

@@ -92,7 +92,9 @@ class TestSaveAndPushModel:
         aggregated_parameters = ndarrays_to_parameters([np.array([1.0, 2.0])])
 
         with patch("src.server.model_utils.save_model_checkpoint") as mock_save, \
-                  patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push:
+                  patch("src.server.model_utils.push_model_to_hub_enhanced") as mock_push, \
+                  patch("src.core.utils.get_tool_config") as mock_get_config:
+            mock_get_config.return_value = {"app": {"config": {"checkpoint_interval": 20, "num-server-rounds": 5}}}
             save_and_push_model(strategy, server_round, aggregated_parameters, {})
 
             # Verify checkpoint was saved (always saved on final round)

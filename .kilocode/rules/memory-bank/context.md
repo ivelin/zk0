@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-05)**: ✅ **v0.4.8 Test Suite Validation and Commit Preparation** Updated version to 0.4.8. Test suite running with 34.13% coverage (138 passed, 7 failed, 6 skipped). Fixed import issues in test modules, updated metric naming for clarity (server_composite_eval_loss), ready for git operations.
+**Latest Update (2025-11-06)**: ✅ **v0.4.12 Core Utilities and Test Suite Expansion** Added src/core/utils.py with comprehensive SmolVLA federated learning utilities (model loading, dataset handling, config validation, parameter utilities). Implemented extensive test coverage for metrics preparation, checkpoint saving, model saving, and WandB integration. Fixed test mocking issues and metric key consistency. All 146 tests passing with 36.68% coverage. Ready for commit.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 

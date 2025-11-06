@@ -164,7 +164,7 @@ zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracki
 
 ## Production Deployment
 
-zk0 v0.4.5 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
+zk0 v0.4.12 introduces production-ready deployment capabilities using Docker and the zk0bot CLI tool. This enables secure, multi-node federated learning with privacy-preserving client training.
 
 ### Install zk0bot CLI
 

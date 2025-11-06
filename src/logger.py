@@ -1,5 +1,6 @@
 from loguru import logger
 from pathlib import Path
+from typing import Optional
 import sys
 import os
 import logging
@@ -210,21 +211,23 @@ def setup_server_logging(log_file: Path):
     logger.info(f"Server-specific logging to {server_log_file}")
 
 
-def setup_client_logging(log_file: Path, partition_id: int):
+def setup_client_logging(log_file: Path, client_id: str, save_path: Optional[str] = None):
     """Setup client-specific logging for individual client processes.
-
+    
     Args:
-        log_file_path: Path to the main simulation log file
-        partition_id: Client partition ID for logging
+        log_file: Path to the main simulation log file
+        client_id: Client identifier (partition_id (int) in simulation, UUID (str) in production)
+        save_path: Optional base save path for unified directory construction
     """
-
+    
     level, file_format, retention, rotation_mb = setup_common_logging(
-        log_file, client_id=f"client_{partition_id}"
+        log_file, client_id=f"client_{client_id}"
     )
 
-    # Create client-specific log file using the provided partition_id (always fresh)
-    timestamp_dir = log_file.parent
-    client_dir = timestamp_dir / "clients" / f"client_{partition_id}"
+    # Create client-specific log file using unified directory logic
+    from src.core.utils import get_base_output_dir
+    base_dir = get_base_output_dir(save_path=save_path, log_file_path=str(log_file))
+    client_dir = base_dir / "clients" / f"client_{client_id}"
     client_dir.mkdir(parents=True, exist_ok=True)
     client_log_file = client_dir / "client.log"
 
@@ -239,7 +242,7 @@ def setup_client_logging(log_file: Path, partition_id: int):
         enqueue=True,
         catch=True,
     )
-    logger.info(f"Client {partition_id}: Client-specific logging to {client_log_file}")
+    logger.info(f"Client {client_id}: Client-specific logging to {client_log_file}")
 
 
 # Global logger instance

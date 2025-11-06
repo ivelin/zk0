@@ -10,19 +10,19 @@ import numpy as np
 class TestSaveModelCheckpoint:
     """Test save_model_checkpoint function."""
 
-    @patch("src.server.server_utils.get_tool_config")
+    @patch("src.server.model_utils.get_tool_config")
     @patch("importlib.metadata.version")
     @patch("safetensors.torch.save_file")
-    @patch("src.server.server_utils.generate_model_card")
-    @patch("src.server.server_utils.extract_training_hyperparameters")
-    @patch("src.server.server_utils.extract_datasets")
-    @patch("src.server.server_utils.compute_in_memory_insights")  # New in-memory helper
-    @patch("src.wandb_utils.get_wandb_public_url")
+    @patch("src.server.model_utils.generate_model_card")
+    @patch("src.server.model_utils.extract_training_hyperparameters")
+    @patch("src.server.model_utils.extract_datasets")
+    @patch("src.server.model_utils.compute_in_memory_insights")  # New in-memory helper
+    @patch("src.server.wandb_utils.get_wandb_public_url")
     def test_save_model_checkpoint_in_memory_success(self, mock_get_wandb_url, mock_compute_insights,
-                                                       mock_extract_datasets, mock_extract_hyperparams,
-                                                       mock_generate_card, mock_save_file, mock_version, mock_get_config):
+                                                        mock_extract_datasets, mock_extract_hyperparams,
+                                                        mock_generate_card, mock_save_file, mock_version, mock_get_config):
         """Test successful checkpoint with in-memory metrics."""
-        from src.server.server_utils import save_model_checkpoint
+        from src.server.model_utils import save_model_checkpoint
 
         # Setup mocks for in-memory data
         mock_version.return_value = "0.3.8"
@@ -78,9 +78,9 @@ class TestSaveModelCheckpoint:
             # Verify datasets populated
             mock_extract_datasets.assert_called_once()
 
-    @patch("src.server.server_utils.get_tool_config")
+    @patch("src.core.utils.get_tool_config")
     @patch("src.server.server_utils.compute_in_memory_insights")
-    @patch("src.server.server_utils.generate_model_card")
+    @patch("src.server.model_utils.generate_model_card")
     def test_save_model_checkpoint_in_memory_empty(self, mock_generate, mock_insights, mock_get_config):
         """Test in-memory checkpoint with empty strategy data."""
         from src.server.server_utils import save_model_checkpoint
@@ -124,7 +124,7 @@ class TestSaveAndPushModel:
 
     @patch("src.server.model_utils.save_model_checkpoint")
     @patch("src.server.model_utils.push_model_to_hub_enhanced")
-    @patch("src.core.utils.get_tool_config")
+    @patch("src.server.model_utils.get_tool_config")
     def test_save_and_push_model_skip_local_save(self, mock_get_config, mock_push, mock_save):
         """Test that local saves are skipped when not at interval or final round."""
         from src.server.model_checkpointing import save_and_push_model

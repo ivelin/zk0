@@ -8,6 +8,7 @@ import sys
 import torch
 import numpy as np
 from typing import Dict, List, Optional
+from pathlib import Path
 from loguru import logger
 
 # Import LeRobot components
@@ -444,24 +445,50 @@ def compute_param_update_norm(pre_params, post_params):
     return float(param_diff_norm)
 
 
+def get_client_output_dir(config, client_id, logger):
+    """Get the client-specific output directory based on server-provided save_path.
+    
+    Args:
+        config: Flower config dict containing save_path
+        client_id: Client identifier
+        logger: Logger instance
+    
+    Returns:
+        Path: Client output directory
+    """
+    save_path = config.get("save_path")
+    if save_path:
+        try:
+            output_dir = Path(save_path) / "clients" / f"client_{client_id}"
+            os.makedirs(output_dir.parent, exist_ok=True)  # Ensure clients dir exists
+            logger.debug(f"Client {client_id}: Using save_path from config: {save_path}")
+            return output_dir
+        except Exception as e:
+            logger.warning(f"Client {client_id}: Invalid save_path '{save_path}': {e}")
+    else:
+        logger.error(f"Client {client_id}: No save_path in config, falling back to outputs/unknown")
+        output_dir = Path("outputs/unknown") / "clients" / f"client_{client_id}"
+        os.makedirs(output_dir.parent, exist_ok=True)
+        return output_dir
+
+
 def save_client_round_metrics(
     config, training_metrics, round_num, client_id, logger
 ):
     """Save per-round client metrics to JSON file.
-
+    
     Args:
-        config: Flower config dict containing timestamp
+        config: Flower config dict containing save_path
         training_metrics: Dict of training metrics
         round_num: Current round number
         client_id: Client identifier (partition_id in sim, UUID in prod)
         logger: Logger instance for logging
-
+    
     Returns:
         None
     """
     try:
-        timestamp = config.get("timestamp", "unknown")
-        output_dir = f"outputs/{timestamp}/clients/client_{client_id}"
+        output_dir = get_client_output_dir(config, client_id, logger)
         os.makedirs(output_dir, exist_ok=True)
 
         json_data = create_client_metrics_dict(
@@ -475,10 +502,11 @@ def save_client_round_metrics(
             num_steps=training_metrics.get("steps_completed", 0),
             param_update_norm=training_metrics.get("param_update_norm", 0.0),
         )
-        with open(f"{output_dir}/round_{round_num}.json", "w") as f:
+        metrics_file = output_dir / f"round_{round_num}.json"
+        with open(metrics_file, "w") as f:
             json.dump(json_data, f, indent=2)
         logger.info(
-            f"Client {client_id}: Saved per-round metrics to {output_dir}/round_{round_num}.json"
+            f"Client {client_id}: Saved per-round metrics to {metrics_file}"
         )
     except Exception as e:
         logger.warning(f"Client {client_id}: Failed to save per-round metrics: {e}")
@@ -507,3 +535,13 @@ def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, ex
     logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:16]}...")
 
     return current_hash
+
+
+def get_base_output_dir(save_path: Optional[str] = None, log_file_path: Optional[str] = None) -> Path:
+    """Get the base output directory from save_path or derive from log_file_path."""
+    if save_path:
+        return Path(save_path)
+    elif log_file_path:
+        return Path(log_file_path).parent
+    else:
+        return Path("outputs/unknown")

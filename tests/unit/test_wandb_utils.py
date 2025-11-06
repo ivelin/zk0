@@ -35,16 +35,11 @@ class TestWandbUtils:
         mock_wandb_module.init.assert_called_once()
         assert result == mock_run
 
-    @patch.dict(os.environ, {}, clear=True)
     @patch("dotenv.load_dotenv")
-    def test_init_server_wandb_without_api_key(
-        self, mock_load_dotenv, mock_wandb_module
-    ):
+    @patch.dict(os.environ, {}, clear=True)
+    def test_init_server_wandb_without_api_key(self, mock_load_dotenv, mock_wandb_module):
         """Test WandB initialization when API key is missing."""
         from src.server.wandb_utils import init_server_wandb
-
-        # Mock load_dotenv to do nothing (prevent .env file loading)
-        mock_load_dotenv.return_value = None
 
         result = init_server_wandb()
 
