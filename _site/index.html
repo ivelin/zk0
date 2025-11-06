@@ -1,0 +1,112 @@
+<h1 id="welcome-to-zk0-collaborative-ai-for-humanoid-robots">Welcome to zk0: Collaborative AI for Humanoid Robots</h1>
+
+<p>zk0 [zee-ˈkō] is like a big family where robot builders from around the world teach their robots new tricks together, without sharing private family photos or videos. Imagine your home robot learning to fold clothes or pick up toys by watching what other robots do in their homes—safely and privately!</p>
+
+<p><a href="https://flower.ai/docs/examples/quickstart-lerobot.html"><img src="docs/images/lerobot_flower_splash.png" alt="Discover zk0: LeRobot + Flower Integration" /></a></p>
+
+<h2 id="-latest-milestone-smolvla-federated-model-released">🚀 Latest Milestone: SmolVLA Federated Model Released</h2>
+
+<p>Train your robot with our community-trained model on Hugging Face:</p>
+
+<ul>
+  <li><strong>Model</strong>: <a href="https://huggingface.co/ivelin/zk0-smolvla-fl">ivelin/zk0-smolvla-fl</a> (250 rounds, final loss 0.495)</li>
+  <li><strong>Key Features</strong>: FedProx aggregation, dynamic scheduling, SO-100 tasks</li>
+  <li><strong>Load It</strong>:
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">transformers</span> <span class="kn">import</span> <span class="n">AutoModel</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="nf">from_pretrained</span><span class="p">(</span><span class="sh">"</span><span class="s">ivelin/zk0-smolvla-fl</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="README.html#latest-model-release">Explore the full release &amp; analysis</a></td>
+      <td><a href="https://wandb.ai/ivelin-eth/zk0/runs/zk0-sim-fl-run-2025-10-20_23-44-35">WandB Dashboard</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="join-the-movement">Join the Movement</h2>
+
+<h3 id="upcoming-devconnect-meetup">Upcoming: DevConnect Meetup</h3>
+<p>Register for our Robotics AI session in Buenos Aires, Nov 18, 2025: <a href="https://lu.ma/embed/event/evt-udINVLo325xhKsG/simple">Federated Learning with ZK Proofs</a>.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6">Watch Past Talks</a></td>
+      <td><a href="https://discord.gg/dhMnEne7RP">Join Discord</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="why-contribute">Why Contribute?</h3>
+<p>Decentralize humanoid AI: Train on your data, earn incentives via ZK proofs &amp; blockchain. From $100T market potential to open alternatives—be part of it.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="README.html#why">Read the Vision</a></td>
+      <td><a href="README.html#roadmap">Roadmap Teaser</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="get-started-in-minutes">Get Started in Minutes</h2>
+
+<ol>
+  <li>Clone: <code class="language-plaintext highlighter-rouge">git clone https://github.com/ivelin/zk0</code></li>
+  <li>Setup: <code class="language-plaintext highlighter-rouge">conda create -n zk0 python=3.10 &amp;&amp; pip install -e .</code></li>
+  <li>Run Simulation: <code class="language-plaintext highlighter-rouge">./train-fl-simulation.sh</code></li>
+</ol>
+
+<table>
+  <tbody>
+    <tr>
+      <td><a href="/docs/INSTALLATION.html">Full Installation Guide</a></td>
+      <td><a href="/docs/NODE-OPERATORS.html">Node Operator Setup</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="explore-zk0">Explore zk0</h2>
+
+<ul>
+  <li><a href="/README.html">Project Overview</a></li>
+  <li><a href="/docs/ARCHITECTURE.html">Architecture</a></li>
+  <li><a href="/CONTRIBUTING.html">Contribute</a></li>
+  <li><a href="/LICENSE">License</a></li>
+</ul>
+
+<p><strong>Repository</strong>: <a href="https://github.com/ivelin/zk0">GitHub/ivelin/zk0</a></p>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "zk0",
+  "description": "Open source federated learning for decentralized robotics AI",
+  "applicationCategory": "DeveloperApplication",
+  "offers": {"@type": "Offer", "price": "0"},
+  "author": {"@type": "Person", "name": "ivelin.eth"},
+  "url": "https://zk0.bot",
+  "sameAs": ["https://github.com/ivelin/zk0"]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "What is zk0?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "zk0 enables collaborative training of SmolVLA models via federated learning on SO-100 datasets, with ZK proofs for privacy and blockchain for incentives."
+    }
+  }]
+}
+</script>
+

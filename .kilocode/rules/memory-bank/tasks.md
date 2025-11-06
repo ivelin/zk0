@@ -184,7 +184,7 @@
 3. **Rules Compliance**: Review and update project rules as needed, document new workflows in memory bank
 4. **Memory Bank Updates**: Revise context.md with recent progress, add new repetitive tasks to tasks.md, preserve knowledge
 5. **Documentation Updates**: Update README.md with new features/changes, update technical docs for architecture changes
-6. **Git Operations**: Stage changes, commit with conventional format message, create annotated tag, push to origin main
+6. **Git Operations**: Stage changes, commit with conventional format message, create annotated tag, push to current branch (do not merge to main)
 
 **Success Criteria:**
 - All tests pass with >=80% coverage
@@ -297,3 +297,17 @@
 - Informed hyperparam tuning based on actual run data
 - Preserved institutional knowledge via memory bank updates
 - Clear handoff to code mode with prioritized fixes
+
+
+## Jekyll Site Reorganization
+**Last performed:** 2025-11-06
+**Context:** Reorganized Jekyll site to website/ subdir to declutter root, fixed homepage directory listing by creating unique index.md landing page (no duplication with README.md), updated _config.yml for isolated builds with include for root files (docs/, README.md, LICENSE, etc.), verified build/serve, tested SEO (sitemap, meta, schema).
+
+**Files modified:**
+- `website/_config.yml` - Added source: ., destination: _site, include: [../docs/, ../README.md, ../LICENSE, ../CNAME, ../robots.txt, ../.env.example], exclude: [../src/, ../tests/, etc.]
+- `website/index.md` - Unique landing page with user-friendly intro, teasers, CTAs linking to README.html/docs/
+- Moved: _config.yml, _includes/, index.md to website/
+
+**Steps:**
+1. Create website/ dir
+2. Move Jekyll artifacts (_config.yml, _includes/, index.md)

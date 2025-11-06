@@ -1,0 +1,32 @@
+title: zk0 - Decentralized Robotics AI
+description: Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.
+url: "https://zk0.bot"
+og_image: /docs/images/lerobot_flower_splash.png
+twitter:
+  username: ivelini
+include:
+  - ../docs/
+  - ../README.md
+  - ../LICENSE
+  - ../CNAME
+  - ../robots.txt
+  - ../.env.example
+exclude:
+  - ../src/
+  - ../tests/
+  - ../outputs/
+  - ../wandb/
+  - ../.git/
+  - ../.gitignore
+  - ../pyproject.toml
+  - ../Dockerfile*
+  - ../docker-compose*
+  - ../train*
+  - ../zk0bot.sh
+  - ../.env*
+source: .
+destination: _site
+theme: minima
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
