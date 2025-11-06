@@ -117,38 +117,50 @@ The system automatically generates comprehensive evaluation charts at the end of
 
 ### 💾 Automatic Model Checkpoint Saving
 
-The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis:
+The system automatically saves model checkpoints during federated learning to preserve trained models for deployment and analysis. To optimize disk usage, local checkpoints are gated by intervals, and HF Hub pushes are restricted to substantial runs.
 
 #### Checkpoint Saving Configuration
 
-- **Interval-based saving**: Checkpoints saved every N rounds based on `checkpoint_interval` in `pyproject.toml` (default: 5)
-- **Final model saving**: Always saves the final model at the end of training regardless of interval
-- **Format**: Models saved as `.safetensors` files for efficient storage and loading
+- **Local Interval-based saving**: Checkpoints saved every N rounds based on `checkpoint_interval` in `pyproject.toml` (default: 10), plus final round always saved
+- **HF Hub Push Gating**: Pushes to Hugging Face Hub only occur if `num_server_rounds >= checkpoint_interval` (avoids cluttering repos with tiny/debug runs)
+- **Final model saving**: Always saves the final model locally at the end of training regardless of interval
+- **Format**: Complete directories with `.safetensors` weights, config, README, and metrics for HF Hub compatibility
 - **Location**: `outputs/YYYY-MM-DD_HH-MM-SS/models/` directory
 
-#### Example Checkpoint Files
+#### Example Checkpoint Files (Full Run: 250 rounds, interval=10)
 
 ```
 outputs/2025-01-01_12-00-00/models/
-├── checkpoint_round_5.safetensors     # After round 5
-├── checkpoint_round_10.safetensors    # After round 10
-└── checkpoint_round_20.safetensors    # Final model (end of training)
+├── checkpoint_round_10/     # After round 10 (interval hit)
+├── checkpoint_round_20/     # After round 20 (interval hit)
+├── checkpoint_round_30/     # After round 30 (interval hit)
+...
+├── checkpoint_round_250/    # Final model (always saved)
+```
+
+#### Example: Tiny Run (2 rounds, interval=10)
+
+```
+outputs/2025-01-01_12-00-00/models/
+├── checkpoint_round_2/      # Final model only (always saved)
+# No intermediate checkpoints; no HF push (2 < 10)
 ```
 
 #### Configuration Options
 
 ```toml
 [tool.flwr.app.config]
-checkpoint_interval = 5  # Save checkpoint every 5 rounds (0 = disabled)
-hf_repo_id = "username/zk0-smolvla-federated"  # Optional: Push final model to Hugging Face Hub
+checkpoint_interval = 10  # Save local checkpoint every N rounds + final (default: 10)
+hf_repo_id = "username/zk0-smolvla-fl"  # Optional: Push final model to Hugging Face Hub (only if num_server_rounds >= checkpoint_interval)
 ```
 
 #### Hugging Face Hub Integration
 
-- **Automatic pushing**: Final model automatically pushed to Hugging Face Hub if `hf_repo_id` is configured
+- **Conditional pushing**: Final model pushed to Hugging Face Hub only if `hf_repo_id` configured AND `num_server_rounds >= checkpoint_interval`
 - **Authentication**: Requires `HF_TOKEN` environment variable for Hub access
-- **Model format**: Compatible with Hugging Face model repositories
-- **Sharing**: Enables easy model sharing and deployment across different environments
+- **Model format**: Complete directories with safetensors, config, README, and metrics
+- **Sharing**: Enables easy model sharing and deployment for meaningful training runs
+- **Tiny run protection**: Prevents repo clutter from short validation runs
 
 #### Using Saved Models
 
@@ -172,6 +184,14 @@ with torch.no_grad():
 ```
 
 **No manual intervention required** - model checkpoints are saved automatically during training and can be used for deployment, analysis, or continued training.
+
+## Advanced: Monitoring Runs
+
+To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
+
+- Run `./sys_monitor_logs.sh` before training.
+- Logs: gpu_monitor.log (nvidia-smi), system_temps.log (sensors/CPU).
+- Post-restart: tail -n 100 gpu_monitor.log | grep power to check spikes.
 
 ## Troubleshooting
 

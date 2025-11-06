@@ -31,7 +31,7 @@ class TestResetLearningRateScheduler:
         assert scheduler.get_last_lr()[0] != 0.0005  # Should be decayed
 
         # Reset scheduler
-        from src.task import reset_learning_rate_scheduler
+        from src.training.training_setup import reset_learning_rate_scheduler
 
         new_scheduler = reset_learning_rate_scheduler(optimizer, scheduler, 0.0005, 50)
 
@@ -47,7 +47,7 @@ class TestResetLearningRateScheduler:
         optimizer = Mock()
         optimizer.param_groups = [{"lr": 0.001}]
 
-        from src.task import reset_learning_rate_scheduler
+        from src.training.training_setup import reset_learning_rate_scheduler
 
         result = reset_learning_rate_scheduler(optimizer, None, 0.0005, 50)
 
@@ -68,7 +68,7 @@ class TestResetLearningRateScheduler:
         scheduler = CosineAnnealingLR(optimizer, T_max=50)
         scheduler.last_epoch = 10  # Simulate some progress
 
-        from src.task import reset_learning_rate_scheduler
+        from src.training.training_setup import reset_learning_rate_scheduler
 
         result = reset_learning_rate_scheduler(optimizer, scheduler, 0.0005, 50)
 
@@ -81,7 +81,7 @@ class TestResetLearningRateScheduler:
 
 def test_setup_training_components_metrics_initialization():
     """Test that setup_training_components initializes all required metrics without KeyError."""
-    from src.task import setup_training_components
+    from src.training.training_setup import setup_training_components
     from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
     from lerobot.policies.factory import make_policy
     from torch.utils.data import DataLoader
@@ -139,7 +139,7 @@ def test_setup_training_components_metrics_initialization():
 
 def test_compute_fedprox_proximal_loss():
     """Test FedProx proximal loss computation."""
-    from src.task import compute_fedprox_proximal_loss
+    from src.training.fedprox_utils import compute_fedprox_proximal_loss
     
     # Create dummy trainable params (torch tensors)
     trainable_params = [
@@ -186,7 +186,7 @@ class TestComputeAdjustmentFactor:
 
     def test_stall_detection(self):
         """Test detection of stalling (less than 1% improvement over 3 rounds)."""
-        from src.task import compute_adjustment_factor
+        from src.training.scheduler_utils import compute_adjustment_factor
 
         # Losses: 1.0 → 0.995 → 0.994 (0.5% improvement over 3 rounds)
         eval_losses = [1.0, 0.995, 0.994]
@@ -195,7 +195,7 @@ class TestComputeAdjustmentFactor:
 
     def test_divergence_detection(self):
         """Test detection of divergence (loss increase >5%)."""
-        from src.task import compute_adjustment_factor
+        from src.training.scheduler_utils import compute_adjustment_factor
 
         # Losses: 1.0 → 1.06 → 1.12 (12% increase over 3 rounds - exceeds 5% threshold)
         eval_losses = [1.0, 1.06, 1.12]
@@ -204,7 +204,7 @@ class TestComputeAdjustmentFactor:
 
     def test_stable_progress(self):
         """Test stable progress (no adjustment needed)."""
-        from src.task import compute_adjustment_factor
+        from src.training.scheduler_utils import compute_adjustment_factor
 
         # Losses: 1.0 → 0.95 → 0.91 (9% improvement over 3 rounds)
         eval_losses = [1.0, 0.95, 0.91]
@@ -213,7 +213,7 @@ class TestComputeAdjustmentFactor:
 
     def test_insufficient_data(self):
         """Test with insufficient data (less than 3 losses)."""
-        from src.task import compute_adjustment_factor
+        from src.training.scheduler_utils import compute_adjustment_factor
 
         eval_losses = [1.0, 2.0]
         factor = compute_adjustment_factor(eval_losses)
@@ -221,7 +221,7 @@ class TestComputeAdjustmentFactor:
 
     def test_edge_cases(self):
         """Test edge cases."""
-        from src.task import compute_adjustment_factor
+        from src.training.scheduler_utils import compute_adjustment_factor
 
         # Empty list
         factor = compute_adjustment_factor([])
@@ -256,7 +256,7 @@ class TestJointAdjustment:
 
     def test_joint_adjustment_stall(self):
         """Test joint adjustment for stall scenario."""
-        from src.task import compute_joint_adjustment
+        from src.training.scheduler_utils import compute_joint_adjustment
 
         # Mock losses indicating stall
         eval_losses = [1.0, 0.995, 0.994]
@@ -271,7 +271,7 @@ class TestJointAdjustment:
 
     def test_joint_adjustment_divergence(self):
         """Test joint adjustment for divergence scenario."""
-        from src.task import compute_joint_adjustment
+        from src.training.scheduler_utils import compute_joint_adjustment
 
         # Mock losses indicating divergence
         eval_losses = [1.0, 1.02, 1.08]
@@ -286,7 +286,7 @@ class TestJointAdjustment:
 
     def test_joint_adjustment_stable(self):
         """Test joint adjustment for stable scenario."""
-        from src.task import compute_joint_adjustment
+        from src.training.scheduler_utils import compute_joint_adjustment
 
         # Mock losses indicating stable progress
         eval_losses = [1.0, 0.95, 0.91]
@@ -301,7 +301,7 @@ class TestJointAdjustment:
 
     def test_joint_adjustment_insufficient_data(self):
         """Test joint adjustment with insufficient data."""
-        from src.task import compute_joint_adjustment
+        from src.training.scheduler_utils import compute_joint_adjustment
 
         eval_losses = [1.0, 0.95]  # Only 2 losses
         initial_mu = 0.01
@@ -315,7 +315,7 @@ class TestJointAdjustment:
 
     def test_joint_adjustment_lr_clamping(self):
         """Test LR clamping in joint adjustment."""
-        from src.task import compute_joint_adjustment
+        from src.training.scheduler_utils import compute_joint_adjustment
 
         # Stall scenario with very low LR that would go below min
         eval_losses = [1.0, 0.995, 0.994]
@@ -334,7 +334,7 @@ class TestCreateScheduler:
 
     def test_create_cosine_scheduler(self):
         """Test creating CosineAnnealingLR scheduler."""
-        from src.task import create_scheduler
+        from src.training.scheduler_utils import create_scheduler
         import torch
 
         model = torch.nn.Linear(10, 1)
@@ -350,7 +350,7 @@ class TestCreateScheduler:
 
     def test_create_cosine_warm_restarts_scheduler(self):
         """Test creating CosineAnnealingWarmRestarts scheduler."""
-        from src.task import create_scheduler
+        from src.training.scheduler_utils import create_scheduler
         import torch
 
         model = torch.nn.Linear(10, 1)
@@ -372,7 +372,7 @@ class TestCreateScheduler:
 
     def test_create_reduce_on_plateau_scheduler(self):
         """Test creating ReduceLROnPlateau scheduler."""
-        from src.task import create_scheduler
+        from src.training.scheduler_utils import create_scheduler
         import torch
 
         model = torch.nn.Linear(10, 1)
@@ -392,7 +392,7 @@ class TestCreateScheduler:
 
     def test_create_scheduler_defaults(self):
         """Test scheduler creation with default values."""
-        from src.task import create_scheduler
+        from src.training.scheduler_utils import create_scheduler
         import torch
 
         model = torch.nn.Linear(10, 1)
@@ -413,7 +413,7 @@ class TestComputeAdaptiveLrFactor:
 
     def test_no_adaptive_lr(self):
         """Test when adaptive LR is disabled."""
-        from src.task import compute_adaptive_lr_factor
+        from src.training.scheduler_utils import compute_adaptive_lr_factor
 
         cfg = {"adaptive_lr_enabled": False}
         client_history = {"avg_loss": 1.0, "current_loss": 2.0}
@@ -423,7 +423,7 @@ class TestComputeAdaptiveLrFactor:
 
     def test_no_client_history(self):
         """Test with no client history."""
-        from src.task import compute_adaptive_lr_factor
+        from src.training.scheduler_utils import compute_adaptive_lr_factor
 
         cfg = {"adaptive_lr_enabled": True}
         client_history = None
@@ -433,7 +433,7 @@ class TestComputeAdaptiveLrFactor:
 
     def test_adaptive_lr_boost(self):
         """Test LR boost for hard clients."""
-        from src.task import compute_adaptive_lr_factor
+        from src.training.scheduler_utils import compute_adaptive_lr_factor
 
         cfg = {
             "adaptive_lr_enabled": True,
@@ -447,7 +447,7 @@ class TestComputeAdaptiveLrFactor:
 
     def test_no_boost_needed(self):
         """Test no boost when loss is not high enough."""
-        from src.task import compute_adaptive_lr_factor
+        from src.training.scheduler_utils import compute_adaptive_lr_factor
 
         cfg = {
             "adaptive_lr_enabled": True,
@@ -465,7 +465,7 @@ class TestResetSchedulerAdaptive:
 
     def test_reset_with_adaptive_boost(self):
         """Test scheduler reset with adaptive LR boost."""
-        from src.task import reset_scheduler_adaptive
+        from src.training.scheduler_utils import reset_scheduler_adaptive
         import torch
 
         model = torch.nn.Linear(10, 1)
@@ -487,7 +487,7 @@ class TestResetSchedulerAdaptive:
 
     def test_reset_without_boost(self):
         """Test scheduler reset without adaptive boost."""
-        from src.task import reset_scheduler_adaptive
+        from src.training.scheduler_utils import reset_scheduler_adaptive
         import torch
 
         model = torch.nn.Linear(10, 1)

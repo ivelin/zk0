@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  superlink:
+    image: flwr/superlink:1.22.0
+    ports:
+      - "9091:9091"  # ServerAppIO API
+      - "9092:9092"  # Fleet API
+      - "9093:9093"  # Control API
+    command: ["--insecure"]  # Use --tls for production
+    networks:
+      - zk0-network
+
+  serverapp:
+    image: zk0:dev  # Use ghcr.io/ivelin/zk0:v0.4.0 for production
+    environment:
+      - PYTHONPATH=/workspace/src
+    volumes:
+      - ./pyproject.toml:/workspace/pyproject.toml:ro
+      - ./outputs:/workspace/outputs  # For logs and checkpoints
+    command: ["/lerobot/.venv/bin/python", "-m", "flwr.server.app", "src.server_app:app"]
+    depends_on:
+      - superlink
+    networks:
+      - zk0-network
+
+networks:
+  zk0-network:
+    driver: bridge

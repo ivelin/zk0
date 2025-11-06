@@ -64,23 +64,23 @@ class TestPrepareServerEvalMetrics:
         result = prepare_server_eval_metrics(strategy, server_round)
 
         # Verify structure matches current implementation
-        assert result["composite_eval_loss"] == 0.9  # Last eval loss
-        assert result["num_datasets_evaluated"] == 2
+        assert result["server_composite_eval_loss"] == 0.9  # Last eval loss
+        assert result["num_server_eval_datasets"] == 2
 
         # Verify aggregated client metrics
-        agg_metrics = result["aggregated_client_metrics"]
+        agg_metrics = result["client_aggregated_training_metrics"]
         assert agg_metrics["avg_client_loss"] == 1.2
         assert agg_metrics["std_client_loss"] == 0.3
         assert agg_metrics["num_clients"] == 3
         assert agg_metrics["param_update_norm"] == 0.5
 
         # Verify individual client metrics
-        ind_metrics = result["individual_client_metrics"]
+        ind_metrics = result["individual_client_training_metrics"]
         assert len(ind_metrics) == 1
         assert ind_metrics[0]["client_id"] == "client_0"
 
         # Verify per-dataset results
-        per_dataset = result["server_eval_dataset_results"]
+        per_dataset = result["server_per_dataset_eval_results"]
         assert len(per_dataset) == 2
         assert per_dataset[0]["dataset_name"] == "dataset1"
         assert per_dataset[1]["dataset_name"] == "dataset2"
@@ -100,13 +100,13 @@ class TestPrepareServerEvalMetrics:
         result = prepare_server_eval_metrics(strategy, server_round)
 
         # Verify structure matches current implementation
-        assert result["composite_eval_loss"] == 0.5
-        assert result["num_datasets_evaluated"] == 0
+        assert result["server_composite_eval_loss"] == 0.5
+        assert result["num_server_eval_datasets"] == 0
 
         # Verify empty collections
-        assert result["aggregated_client_metrics"] == {}
-        assert result["individual_client_metrics"] == []
-        assert result["server_eval_dataset_results"] == []
+        assert result["client_aggregated_training_metrics"] == {}
+        assert result["individual_client_training_metrics"] == []
+        assert result["server_per_dataset_eval_results"] == []
 
     def test_prepare_server_eval_metrics_no_eval_losses(self):
         """Test preparing server eval metrics when no eval losses exist."""
@@ -123,8 +123,8 @@ class TestPrepareServerEvalMetrics:
         result = prepare_server_eval_metrics(strategy, server_round)
 
         # Should use default loss of "N/A"
-        assert result["composite_eval_loss"] == "N/A"
-        assert result["aggregated_client_metrics"]["num_clients"] == 2
+        assert result["server_composite_eval_loss"] == "N/A"
+        assert result["client_aggregated_training_metrics"]["num_clients"] == 2
 
     def test_prepare_server_eval_metrics_single_dataset(self):
         """Test preparing server eval metrics with single dataset."""
@@ -148,10 +148,10 @@ class TestPrepareServerEvalMetrics:
 
         result = prepare_server_eval_metrics(strategy, server_round)
 
-        assert result["composite_eval_loss"] == 0.7
-        assert result["num_datasets_evaluated"] == 1
-        assert len(result["server_eval_dataset_results"]) == 1
-        assert result["server_eval_dataset_results"][0]["dataset_name"] == "single_dataset"
+        assert result["server_composite_eval_loss"] == 0.7
+        assert result["num_server_eval_datasets"] == 1
+        assert len(result["server_per_dataset_eval_results"]) == 1
+        assert result["server_per_dataset_eval_results"][0]["dataset_name"] == "single_dataset"
 
     def test_prepare_server_eval_metrics_client_round_update(self):
         """Test that individual client metrics are preserved."""
@@ -179,7 +179,7 @@ class TestPrepareServerEvalMetrics:
         result = prepare_server_eval_metrics(strategy, server_round)
 
         # Verify all client metrics are preserved
-        ind_metrics = result["individual_client_metrics"]
+        ind_metrics = result["individual_client_training_metrics"]
         assert len(ind_metrics) == 2
         assert ind_metrics[0]["client_id"] == "client_1"
         assert ind_metrics[1]["client_id"] == "client_2"
@@ -199,7 +199,7 @@ class TestPrepareServerEvalMetrics:
 
         # Current implementation doesn't include timestamp
         assert "timestamp" not in result
-        assert result["composite_eval_loss"] == 0.5
+        assert result["server_composite_eval_loss"] == 0.5
 
     def test_prepare_server_eval_metrics_metrics_descriptions_complete(self):
         """Test that current implementation works without metrics_descriptions."""
@@ -216,7 +216,7 @@ class TestPrepareServerEvalMetrics:
 
         # Current implementation doesn't include metrics_descriptions
         assert "metrics_descriptions" not in result
-        assert result["composite_eval_loss"] == 0.5
+        assert result["server_composite_eval_loss"] == 0.5
 
     def test_prepare_server_eval_metrics_per_dataset_results_preserved(self):
         """Test that per-dataset results are properly preserved."""
@@ -248,7 +248,7 @@ class TestPrepareServerEvalMetrics:
         result = prepare_server_eval_metrics(strategy, server_round)
 
         # Verify per_dataset_results are preserved
-        per_dataset = result["server_eval_dataset_results"]
+        per_dataset = result["server_per_dataset_eval_results"]
         assert len(per_dataset) == 1
         assert per_dataset[0]["dataset_name"] == "complex_dataset"
         assert per_dataset[0]["evaldata_id"] == 789

@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.3.17"
+version = "0.4.15"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -27,6 +27,7 @@ dependencies = [
     "accelerate>=1.7.0",
     "loguru>=0.7.3",
     "python-dotenv>=1.0.0,<2.0.0",
+    "tomli>=1.2.0,<3.0.0; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
@@ -89,6 +90,8 @@ max_adjust_factor = 1.05  # Cap adjustments early (<R20)
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)
 level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
+flwr_log_level = "INFO"  # Flower framework logging level
+lerobot_log_level = "INFO"  # LeRobot framework logging level
 enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
 enable_ray_logging = true   # Enable Ray distributed execution logs
 enable_audit_logging = false  # Disable JSON audit logging (requires Flower Enterprise)
@@ -161,7 +164,6 @@ addopts = [
     "--strict-markers",
     "--disable-warnings",
     "--durations=10",
-    "-n=auto",
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",

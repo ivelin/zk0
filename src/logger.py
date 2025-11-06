@@ -1,5 +1,6 @@
 from loguru import logger
 from pathlib import Path
+from typing import Optional
 import sys
 import os
 import logging
@@ -10,7 +11,7 @@ def get_config():
     try:
         # Try to load from pyproject.toml
         sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-        from src.utils import get_tool_config
+        from src.common.utils import get_tool_config
 
         config = get_tool_config("zk0.logging")
         return config
@@ -18,6 +19,8 @@ def get_config():
         # Fallback to defaults if config loading fails
         return {
             "level": "DEBUG",  # Changed to DEBUG for FL diagnostics
+            "flwr_log_level": "INFO",  # Flower framework logging level
+            "lerobot_log_level": "INFO",  # LeRobot framework logging level
             "enable_grpc_logging": False,  # Disabled to reduce low-level noise
             "enable_ray_logging": True,
             "enable_audit_logging": False,
@@ -78,14 +81,18 @@ def setup_common_logging(
     if level is None and "level" in config:
         level = config["level"]
 
+    # Get specific framework log levels, fallback to general level
+    flwr_level = config.get("flwr_log_level", level).upper()
+    lerobot_level = config.get("lerobot_log_level", level).upper()
+
     # Set framework environment variables for logging integration
-    os.environ["FLWR_LOG_LEVEL"] = level.upper()
+    os.environ["FLWR_LOG_LEVEL"] = flwr_level
 
     # LeRobot logging (if supported)
     if "LEROBOT_LOG_LEVEL" in os.environ:
         pass  # Keep existing setting
     else:
-        os.environ["LEROBOT_LOG_LEVEL"] = level.upper()
+        os.environ["LEROBOT_LOG_LEVEL"] = lerobot_level
 
     # Configure gRPC logging if enabled
     if config.get("enable_grpc_logging", False):  # Disabled by default to reduce noise
@@ -165,11 +172,15 @@ def setup_common_logging(
     # Configure Flower logger to prevent duplicates
     flwr_logger = logging.getLogger("flwr")
     flwr_logger.propagate = False  # Prevent propagation to root logger
-    flwr_logger.setLevel(level)
+    flwr_logger.setLevel(getattr(logging, flwr_level))
 
-    # Suppress noisy logging from standard library
+    # Suppress noisy logging from standard library and third-party libraries
     logging.getLogger("logging").setLevel(logging.WARNING)
     logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("transformers").setLevel(logging.WARNING)
+    logging.getLogger("lerobot").setLevel(getattr(logging, lerobot_level))
+    logging.getLogger("datasets").setLevel(logging.WARNING)
+    logging.getLogger("huggingface_hub").setLevel(logging.WARNING)
 
     return (
         level,
@@ -200,21 +211,23 @@ def setup_server_logging(log_file: Path):
     logger.info(f"Server-specific logging to {server_log_file}")
 
 
-def setup_client_logging(log_file: Path, partition_id: int):
+def setup_client_logging(log_file: Path, client_id: str, save_path: Optional[str] = None):
     """Setup client-specific logging for individual client processes.
-
+    
     Args:
-        log_file_path: Path to the main simulation log file
-        partition_id: Client partition ID for logging
+        log_file: Path to the main simulation log file
+        client_id: Client identifier (partition_id (int) in simulation, UUID (str) in production)
+        save_path: Optional base save path for unified directory construction
     """
-
+    
     level, file_format, retention, rotation_mb = setup_common_logging(
-        log_file, client_id=f"client_{partition_id}"
+        log_file, client_id=f"client_{client_id}"
     )
 
-    # Create client-specific log file using the provided partition_id (always fresh)
-    timestamp_dir = log_file.parent
-    client_dir = timestamp_dir / "clients" / f"client_{partition_id}"
+    # Create client-specific log file using unified directory logic
+    from src.common.utils import get_base_output_dir
+    base_dir = get_base_output_dir(save_path=save_path, log_file_path=str(log_file))
+    client_dir = base_dir / "clients" / f"client_{client_id}"
     client_dir.mkdir(parents=True, exist_ok=True)
     client_log_file = client_dir / "client.log"
 
@@ -229,7 +242,7 @@ def setup_client_logging(log_file: Path, partition_id: int):
         enqueue=True,
         catch=True,
     )
-    logger.info(f"Client {partition_id}: Client-specific logging to {client_log_file}")
+    logger.info(f"Client {client_id}: Client-specific logging to {client_log_file}")
 
 
 # Global logger instance

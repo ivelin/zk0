@@ -17,7 +17,7 @@ except ImportError:
     print("Warning: LeRobot not available for visualization")
 
 # Import the new helper
-from src.utils import load_lerobot_dataset
+from src.common.utils import load_lerobot_dataset
 
 try:
     import matplotlib
@@ -256,17 +256,16 @@ class SmolVLAVisualizer:
         self.logger.info(f"Federated metrics saved: {metrics_file}")
 
     def plot_eval_policy_loss_chart(self, policy_loss_history: Dict[int, Dict[str, float]], save_dir: Path, wandb_run=None):
-        """Plot evaluation policy loss lines for each client and server average over rounds.
+        """Plot evaluation policy loss lines for server over rounds.
 
         Args:
             policy_loss_history: Dict where keys are round numbers, values are dicts with
-                        'client_0', 'client_1', ..., 'server_policy_loss' policy loss values.
-                        Can also include aggregated metrics from consolidated server eval files.
+                        'server_policy_loss' and 'action_dim' values from in-memory data.
             save_dir: Directory to save the chart and history JSON.
             wandb_run: Optional wandb run object for logging metrics.
         """
         if not MATPLOTLIB_AVAILABLE:
-            self.logger.warning("Matplotlib not available for MSE chart generation")
+            self.logger.warning("Matplotlib not available for chart generation")
             return
 
         if not policy_loss_history:
@@ -281,42 +280,23 @@ class SmolVLAVisualizer:
             self.logger.warning("No rounds found in policy loss history")
             return
 
-        # Get all client keys (excluding server_policy_loss)
-        sample_round_data = policy_loss_history[rounds[0]]
-        client_keys = [k for k in sample_round_data.keys() if k.startswith('client_')]
-        client_ids = sorted([int(k.split('_')[1]) for k in client_keys])
-
-        # Prepare data for plotting
-        client_policy_losses = {cid: [] for cid in client_ids}
+        # Prepare data for plotting (only server data available from in-memory)
         server_policy_losses = []
-
         for round_num in rounds:
             round_data = policy_loss_history[round_num]
-            for cid in client_ids:
-                client_key = f'client_{cid}'
-                policy_loss_val = round_data.get(client_key, float('nan'))  # Use NaN if missing
-                client_policy_losses[cid].append(policy_loss_val)
             server_policy_loss = round_data.get('server_policy_loss', float('nan'))
             server_policy_losses.append(server_policy_loss)
 
         # Create plot
         plt.figure(figsize=(12, 8))
 
-        # Color cycle for clients
-        colors = plt.cm.tab10.colors  # Use matplotlib's default color cycle
-
-        # Plot each client line
-        for i, cid in enumerate(client_ids):
-            color = colors[i % len(colors)]
-            plt.plot(rounds, client_policy_losses[cid], label=f'Client {cid}', color=color, marker='o', linewidth=2)
-
         # Plot server average with bold line
-        plt.plot(rounds, server_policy_losses, label='Server Avg', color='black', linewidth=4, marker='s')
+        plt.plot(rounds, server_policy_losses, label='Server Policy Loss', color='black', linewidth=4, marker='s')
 
         # Add labels, title, legend
         plt.xlabel('Round Number')
         plt.ylabel('Policy Loss')
-        plt.title('Federated Learning Evaluation Policy Loss Over Rounds')
+        plt.title('Federated Learning Server Policy Loss Over Rounds')
         plt.legend(loc='upper right')
         plt.grid(True, alpha=0.3)
 
@@ -334,13 +314,13 @@ class SmolVLAVisualizer:
                 if hasattr(wandb_run, '_state') and wandb_run._state == 'finished':
                     self.logger.warning("WandB run is already finished, skipping final metrics logging")
                 else:
-                    # Log final policy loss values for each client and server average
+                    # Log final policy loss values
                     final_round = max(policy_loss_history.keys())
                     final_data = policy_loss_history[final_round]
 
                     wandb_metrics = {"final_round": final_round}
                     for key, value in final_data.items():
-                        wandb_metrics[f"final_{key}_policy_loss"] = value
+                        wandb_metrics[f"final_{key}"] = value
 
                     wandb_run.log(wandb_metrics)
                     self.logger.info(f"Final policy loss metrics logged to wandb for round {final_round}")
@@ -352,4 +332,3 @@ class SmolVLAVisualizer:
         with open(history_file, 'w') as f:
             json.dump(policy_loss_history, f, indent=2)
         self.logger.info(f"Policy loss history saved: {history_file}")
-
