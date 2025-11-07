@@ -179,7 +179,7 @@
 - "finalize changes"
 
 **Steps:**
-1. **Version Management**: Read pyproject.toml, increment version based on change scope (patch/minor/major), update version field
+1. **Version Management**: Read pyproject.toml, assume patch version increment unless explicitly instructed otherwise. If changes seem substantial, suggest a potentially minor release instead of patch, but wait for approval before applying. Update version field accordingly.
 2. **Testing & Quality**: Run full test suite with coverage (`conda run -n zk0 python -m pytest -n auto --cov=src --cov-report=term-missing`), verify all pass (>=80% coverage), fix any failures
 3. **Rules Compliance**: Review and update project rules as needed, document new workflows in memory bank
 4. **Memory Bank Updates**: Revise context.md with recent progress, add new repetitive tasks to tasks.md, preserve knowledge
