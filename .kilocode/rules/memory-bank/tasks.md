@@ -1,8 +1,8 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-06
-**Version**: 1.0.4
+**Last Updated**: 2025-11-07
+**Version**: 1.0.5
 **Author**: Kilo Code
 
 ## Latest Update (2025-11-06)
@@ -342,6 +342,7 @@
 3. **If Permission Granted, Proceed with Merge and Pull Request**: Merge the working branch into main and submit a pull request for review
 4. **Ask User to Review and Approve Pull Request**: Wait for user review and approval of the pull request
 5. **Push New GitHub Release**: Create a GitHub release with proper tags (semantic versioning), description (changelog summary), and changelog (detailed changes)
+6. **Switch Back to Working Branch**: Switch the local git branch back to the original working branch that was active before starting the release preparation workflow (usually dev branch, but not always)
 
 **Success Criteria:**
 - Working branch successfully merged into main via approved pull request

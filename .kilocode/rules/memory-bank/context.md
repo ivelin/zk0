@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-06)**: ✅ **v0.4.17 Release Preparation** Version bumped to 0.4.17, full test suite passed with 36.73% coverage maintained. Preparing for release with Jekyll site reorganization and script enhancements.
+**Latest Update (2025-11-07)**: ✅ **v0.5.0 Release Preparation Complete** Version bumped to 0.5.0 for Jekyll site reorganization and script enhancements. Full test suite passed with 36.73% coverage maintained. Ready for release workflow.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 

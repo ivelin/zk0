@@ -16,6 +16,10 @@ permalink: /
   <p>Imagine teaching robots to help around the house—like picking up toys or sorting laundry—but without sharing family videos from different homes. zk0 makes this possible by letting robots learn skills together safely and privately, just like neighbors sharing tips without showing their own photos. It's open-source technology that brings smarter, more helpful robots to everyone while keeping your data secure.</p>
 </div>
 
+<div class="concept-diagram" style="text-align: center;">
+  <img src="/assets/images/zk0-fl-concept.png" alt="zk0 Federated Learning Concept Diagram" style="max-width: 80%; height: auto;" />
+</div>
+
 <h1>Discover zk0</h1>
 
 <p>zk0 is an open-source federated learning platform for training advanced vision-language-action models on real-world robotics datasets. Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evolve with the latest open-source ML models and advanced humanoid embodiments as they become available, enabling broader decentralized robotics AI development.</p>
