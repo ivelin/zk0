@@ -8,7 +8,7 @@ This guide covers executing the zk0 federated learning simulation, including def
 
 ## Default: Conda Environment Execution
 
-[Installation Guide](INSTALLATION.md) | [Architecture Overview](ARCHITECTURE.md) | [Node Operators](NODE-OPERATORS.md)
+[Installation Guide](INSTALLATION) | [Architecture Overview](ARCHITECTURE) | [Node Operators](NODE-OPERATORS)
 
 By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility.
 
@@ -85,6 +85,10 @@ docker run --gpus all --shm-size=10.24gb \
 
 ## Result Output
 
+- **Defaults**: 500 rounds, 4 clients, SO-100/SO-101 datasets.
+- **Outputs**: `outputs/<timestamp>/` with logs, metrics, charts (`eval_policy_loss_chart.png`), checkpoint directories, videos.
+- **HF Hub Push**: For tiny/debug runs (e.g., `num-server-rounds < checkpoint_interval=10`), the final model push to Hugging Face Hub is skipped to avoid repository clutter with incomplete checkpoints. Local checkpoints are always saved. Full runs (≥10 rounds) will push to the configured `hf_repo_id`.
+
 Results of training steps for each client and server logs will be under the `outputs/` directory. For each run there will be a subdirectory corresponding to the date and time of the run. For example:
 
 ```
@@ -160,8 +164,24 @@ checkpoint_interval = 10  # Save local checkpoint every N rounds + final (defaul
 hf_repo_id = "username/zk0-smolvla-fl"  # Optional: Push final model to Hugging Face Hub (only if num_server_rounds >= checkpoint_interval)
 ```
 
-#### Hugging Face Hub Integration
+### Push Model to Hugging Face Hub
 
+**Prerequisites:**
+- Ensure your Hugging Face token is set in `.env`: `HF_TOKEN=your_token_here`
+- The conda environment "zk0" must be active for script execution
+
+After training, your model checkpoint will be automatically pushed to Hugging Face Hub as a complete checkpoint directory.
+However if the training stops early for any reason, you can still push a saved intermediate checkpoint directory to HF Hub:
+
+```bash
+# Push model checkpoint directory to HF Hub
+conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30
+
+# Push to custom repository
+conda run -n zk0 python -m zk0.push_to_hf outputs/2025-10-09_13-59-05/models/checkpoint_round_30 --repo-id your-username/your-model
+```
+
+#### Hugging Face Hub Integration
 - **Conditional pushing**: Final model pushed to Hugging Face Hub only if `hf_repo_id` configured AND `num_server_rounds >= checkpoint_interval`
 - **Authentication**: Requires `HF_TOKEN` environment variable for Hub access
 - **Model format**: Complete directories with safetensors, config, README, and metrics
@@ -191,6 +211,17 @@ with torch.no_grad():
 
 **No manual intervention required** - model checkpoints are saved automatically during training and can be used for deployment, analysis, or continued training.
 
+### Experiment Tracking
+
+zk0 integrates with Weights & Biases (WandB) for comprehensive experiment tracking and visualization:
+
+- **Automatic Logging**: When `use-wandb=true` in `pyproject.toml`, training metrics, hyperparameters, and evaluation results are automatically logged to WandB.
+- **Model Cards**: Generated README.md files in checkpoint directories include direct links to WandB experiment runs when WandB is enabled.
+- **Visualization**: View detailed training curves, client performance, and federated learning metrics in real-time.
+- **Setup**: Set `WANDB_API_KEY` in your `.env` file to enable WandB logging.
+
+**Tested**: Completes 500 rounds in ~10-15 minutes; policy loss tracks convergence with early stopping.
+
 ## Advanced: Monitoring Runs
 
 To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
@@ -207,13 +238,13 @@ To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
 - **Permission Issues**: Check user permissions for log file creation in both conda and Docker environments.
 - **Multi-Process Conflicts**: Use `local-simulation-serialized-gpu` for reliable execution.
 - **Log Rotation**: Large simulations automatically rotate logs to prevent disk space issues.
-- **Dataset Issues**: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync. See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
+- **Dataset Issues**: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync. See [ARCHITECTURE](ARCHITECTURE) for details.
 - **Doubled Datasets**: Automatic hotfix for GitHub issue #1875 applied during loading.
 - **Model Loading**: Automatic fallback to simulated training if issues arise.
-- **Performance**: Use `pytest -n auto` for parallel testing (see [DEVELOPMENT.md](DEVELOPMENT.md)).
+- **Performance**: Use `pytest -n auto` for parallel testing (see [DEVELOPMENT](DEVELOPMENT)).
 - **SafeTensors Errors**: Switch to `local-simulation-serialized-gpu` or Docker for isolation.
 - **GPU Not Detected**: Verify CUDA installation and `nvidia-smi` output.
 
-For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW.md](TECHNICAL-OVERVIEW.md).
+For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW](TECHNICAL-OVERVIEW).
 
-If issues persist, ensure you're following the constraints in [INSTALLATION.md](INSTALLATION.md) and the memory bank in `.kilocode/rules/memory-bank/`.
+If issues persist, ensure you're following the constraints in [INSTALLATION](INSTALLATION) and the memory bank in `.kilocode/rules/memory-bank/`.

@@ -2,17 +2,20 @@
 
 **Created**: 2025-09-06
 **Last Updated**: 2025-11-07
-**Version**: 1.0.5
+**Version**: 1.0.6
 **Author**: Kilo Code
 
-## Latest Update (2025-11-06)
-**✅ SEO Quick Wins Implementation**: Enhanced zk0.bot Jekyll site discoverability with auto-generated sitemaps, Open Graph/Twitter Cards, schema markup, front matter optimizations, and internal linking. Jekyll build verified with 36.73% test coverage maintained. Version bumped to 0.5.0.
+## Latest Update (2025-11-07)
+**✅ GitHub Pages Jekyll Deployment Fix**: Resolved live site (zk0.bot) mismatch with local serve by switching Pages source to "GitHub Actions" and leveraging existing .github/workflows/jekyll-build.yml (calls build-site.sh for website/ subdir build, copies root files like docs/README.md, deploys _site/). Confirmed success: Site now renders website/index.md content ("Decentralized AI for the next generation of helpful robots"), loads /assets/images/zk0-fl-concept.png, applies custom.css styling, and includes _includes/footer.html. No code changes; just settings update and workflow trigger. Updated memory bank.
 
-**✅ CI Workflow Consolidation**: Consolidated separate unit and integration test jobs into a single matrix job for cleaner GitHub Actions workflow. Removed redundant tee piping, test-output.log artifacts, and standardized on Python 3.10. Fixed lerobot installation for CI compatibility. Version bumped to 0.3.11.
+**Previous Updates**:
+**SEO Quick Wins Implementation (2025-11-06)**: Enhanced zk0.bot Jekyll site discoverability with auto-generated sitemaps, Open Graph/Twitter Cards, schema markup, front matter optimizations, and internal linking. Jekyll build verified with 36.73% test coverage maintained. Version bumped to 0.5.0.
 
-**✅ Enhanced HF Model Push Workflow**: Implemented comprehensive HF Hub push enhancements including rich model cards, git tagging, dynamic README generation, and simulation mode detection. New `push_model_to_hub_enhanced()` function extracts data from configs/JSON outputs, generates detailed model cards with hyperparameters/datasets/metrics/insights, creates local/HF git tags, and handles edge cases. Updated memory bank and added comprehensive unit tests. Version bumped to 0.3.7.
+**CI Workflow Consolidation (2025-11-06)**: Consolidated separate unit and integration test jobs into a single matrix job for cleaner GitHub Actions workflow. Removed redundant tee piping, test-output.log artifacts, and standardized on Python 3.10. Fixed lerobot installation for CI compatibility. Version bumped to 0.3.11.
 
-**✅ Standalone Model Push Module Migration**: Migrated standalone push_to_hf.py to src/zk0/push_to_hf.py module for proper package integration. Updated imports to use absolute package paths (zk0.server.server_utils, zk0.utils), removed shebang for module execution, added console_scripts entry point in pyproject.toml, updated README.md documentation, and removed standalone file. Module can now be executed via `python -m zk0.push_to_hf` with full functionality preserved.
+**Enhanced HF Model Push Workflow (2025-10-28)**: Implemented comprehensive HF Hub push enhancements including rich model cards, git tagging, dynamic README generation, and simulation mode detection. New `push_model_to_hub_enhanced()` function extracts data from configs/JSON outputs, generates detailed model cards with hyperparameters/datasets/metrics/insights, creates local/HF git tags, and handles edge cases. Updated memory bank and added comprehensive unit tests. Version bumped to 0.3.7.
+
+**Standalone Model Push Module Migration (2025-10-28)**: Migrated standalone push_to_hf.py to src/zk0/push_to_hf.py module for proper package integration. Updated imports to use absolute package paths (zk0.server.server_utils, zk0.utils), removed shebang for module execution, added console_scripts entry point in pyproject.toml, updated README.md documentation, and removed standalone file. Module can now be executed via `python -m zk0.push_to_hf` with full functionality preserved.
 
 ## Critical Bug Fixes
 
@@ -184,13 +187,20 @@
 3. **Rules Compliance**: Review and update project rules as needed, document new workflows in memory bank
 4. **Memory Bank Updates**: Revise context.md with recent progress, add new repetitive tasks to tasks.md, preserve knowledge
 5. **Documentation Updates**: Update README.md with new features/changes, update technical docs for architecture changes
-6. **Git Operations**: Stage changes, commit with conventional format message, create annotated tag, push to current branch (do not merge to main)
+6. **Asset Inspection**: Review all project assets including documentation (README.md, docs/), website content, memory bank files, and configuration files to ensure:
+   - **Freshness**: All content and version numbers are up-to-date with the current changes.
+   - **Correctness**: No outdated or conflicting information.
+   - **Integrity**: No contradicting statements across documents.
+   - **Dryness**: Eliminate duplicate content where possible.
+   - **Readability, Simplicity, and Clarity**: Use only major and minor release references (e.g., v0.5.0, not v0.5.0.1); avoid details about tiny patch releases; keep content concise and focused on high-value information.
+7. **Git Operations**: Stage changes, commit with conventional format message, create annotated tag, push to current branch (do not merge to main)
 
 **Success Criteria:**
 - All tests pass with >=80% coverage
 - Version incremented appropriately
 - Memory bank updated with progress
 - Documentation current
+- Assets inspected and validated for freshness, correctness, integrity, dryness, and clarity
 - Git commit created with descriptive message
 - Tag created and pushed
 
@@ -337,7 +347,7 @@
 - "release preparation"
 
 **Steps:**
-1. **Prepare to Commit to Working Branch**: Follow the "Prepare for Commit Workflow" to ensure code is ready (version bump, testing, documentation updates, commit to current branch)
+1. **Prepare to Commit to Working Branch**: Follow the "Prepare for Commit Workflow" to ensure code is ready (version bump, testing, documentation updates, asset inspection, commit to current branch)
 2. **Ask for Permission to Merge with Main**: Request user approval to merge the working branch into main
 3. **If Permission Granted, Proceed with Merge and Pull Request**: Merge the working branch into main and submit a pull request for review
 4. **Ask User to Review and Approve Pull Request**: Wait for user review and approval of the pull request
@@ -346,6 +356,7 @@
 
 **Success Criteria:**
 - Working branch successfully merged into main via approved pull request
+- Assets inspected and validated for freshness, correctness, integrity, dryness, and clarity
 - GitHub release created with correct version tag, description, and changelog
 - Release artifacts (if any) properly attached
 - Documentation updated with release notes

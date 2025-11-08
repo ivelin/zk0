@@ -6,7 +6,7 @@ description: "Step-by-step installation guide for zk0, the open-source platform 
 
 ## Environment Preferences
 
-[Architecture Overview](ARCHITECTURE.md) | [Node Operators](NODE-OPERATORS.md) | [Running Simulations](RUNNING.md)
+[Architecture Overview](ARCHITECTURE) | [Node Operators](NODE-OPERATORS) | [Running Simulations](RUNNING)
 - **Conda (Recommended for Development)**: Preferred for fast iteration and direct host GPU access. Use for local development and testing.
 - **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train.sh or direct Docker commands for consistent environments across machines.
 
@@ -39,74 +39,7 @@ description: "Step-by-step installation guide for zk0, the open-source platform 
    ```
    - Expected: `True`.
 
-## Running
-
-## Default: Conda Environment Execution (Primary - Fast/Flexible)
-
-By default, the training script uses the conda `zk0` environment for **fast and flexible execution**. This provides direct access to host resources while maintaining reproducibility, making it ideal for development and local testing.
-
-### Quick Start with Conda
-
-```bash
-# Activate environment (if not already)
-conda activate zk0
-
-# Run federated learning (uses pyproject.toml defaults: 1 round, 2 steps/epochs, serialized GPU)
-./train.sh
-
-# Or direct Flower run with overrides
-conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
-
-# Activate first, then run
-conda activate zk0
-flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
-```
-
-**✅ Validated Alternative**: Conda execution has been tested and works reliably for federated learning runs, providing a simpler setup for development environments compared to Docker.
-
-## Alternative: Docker-Based Execution
-
-For **reproducible and isolated execution**, use the `--docker` flag or run directly with Docker. This ensures consistent environments and eliminates SafeTensors multiprocessing issues.
-
-### Training Script Usage
-
-The `train.sh` script runs with configuration from `pyproject.toml` (defaults: 1 round, 2 steps/epochs for quick tests). Uses conda by default, with `--docker` flag for Docker execution.
-
-```bash
-# Basic usage with conda (default)
-./train.sh
-
-# Use Docker instead of conda
-./train.sh --docker
-
-# For custom config, use direct Flower run with overrides
-flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
-
-# Or with Docker directly (example with overrides)
-docker run --gpus all --shm-size=10.24gb \
-  -v $(pwd):/workspace \
-  -v $(pwd)/outputs:/workspace/outputs \
-  -v /tmp:/tmp \
-  -v $HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface \
-  -w /workspace \
-  zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5"
-```
-
-### Configuration Notes
-
-- Edit `[tool.flwr.app.config]` in `pyproject.toml` for defaults (e.g., num-server-rounds=1, local-epochs=2).
-- Use `local-simulation-serialized-gpu` for reliable execution (prevents SafeTensors issues; max-parallelism=1).
-- `local-simulation-gpu` for parallel execution (may encounter SafeTensors issues).
-- Evaluation frequency: Set via `eval-frequency` in pyproject.toml (0 = every round).
-
-### ⚠️ Important Notes
-
-- **Default execution uses conda** for fast development iteration.
-- **Use `--docker` flag** for reproducible, isolated execution when needed.
-- **Use `local-simulation-serialized-gpu`** for reliable execution (prevents SafeTensors multiprocessing conflicts).
-- **GPU support** requires NVIDIA drivers (conda) or `--gpus all` flag (Docker).
-- **Conda provides flexibility** with direct host resource access.
-- **Docker provides isolation** and eliminates environment-specific issues.
+For running instructions, see [docs/RUNNING](RUNNING).
 
 ## Result Output
 
@@ -254,8 +187,8 @@ with torch.no_grad():
 - **Video Decoding**: If "No accelerated backend detected", install CUDA toolkit: `conda install cudatoolkit=13.0 -c nvidia` and set `export VIDEO_BACKEND=torchcodec`.
 - **GPU Not Detected**: Verify CUDA installation and `nvidia-smi` output.
 
-For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW.md](TECHNICAL-OVERVIEW.md).
+For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW](TECHNICAL-OVERVIEW).
 
-If issues persist, ensure you're following the constraints in [INSTALLATION.md](INSTALLATION.md) and the development guidelines in [DEVELOPMENT.md](DEVELOPMENT.md).
+If issues persist, ensure you're following the constraints in [INSTALLATION](INSTALLATION) and the development guidelines in [DEVELOPMENT](DEVELOPMENT).
 
 For other environments with torch CUDA issues, use the same pip install command with the appropriate CUDA version (e.g., cu121 for CUDA 12.1).

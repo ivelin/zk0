@@ -1,4 +1,5 @@
 ---
+layout: custom
 title: "Contributing to zk0: Federated Learning for Robotics AI"
 description: "Guidelines for contributing to zk0, including code, documentation, testing, and becoming a node operator."
 ---
@@ -235,7 +236,7 @@ We are committed to providing a welcoming and inclusive environment for all cont
 
 If you need help getting started:
 
-1. Check the README.md for basic setup instructions
+1. Check the [README](README) for basic setup instructions
 2. Search existing issues for similar problems
 3. Ask questions in GitHub Discussions
 4. Contact maintainers directly for sensitive matters

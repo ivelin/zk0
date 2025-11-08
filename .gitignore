@@ -185,5 +185,13 @@ _site/
 .jekyll-cache/
 .bundle/
 
+# Website-specific artifacts (duplicates and build outputs)
+website/docs/
+website/_site/
+website/.jekyll-cache/
+website/.bundle/
+website/CONTRIBUTING.md
+website/LICENSE
+
 # VSCode preferences
 .vscode/

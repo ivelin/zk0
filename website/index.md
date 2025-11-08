@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: custom
 title: zk0 - Decentralized Robotics AI
 description: Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.
 permalink: /
@@ -100,5 +100,7 @@ pip install -e .
 
 <div class="share">
   <h2>Share</h2>
-  <img src="https://github.com/user-attachments/assets/e03913ec-62a0-4b05-a286-6fc18dfd433f" alt="zk0 QR Code" style="max-width: 200px; height: auto;" />
+  <p>Scan the QR code or share the link: <a href="https://zk0.bot">https://zk0.bot</a></p>
+  <!-- Placeholder for actual QR code; generate and replace src -->
+  <img src="/assets/images/zk0-qr-code.png" alt="zk0 QR Code" style="max-width: 200px; height: auto;" />
 </div>
