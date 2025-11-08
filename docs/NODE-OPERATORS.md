@@ -8,7 +8,7 @@ Welcome to the zk0 Node Operators Guide! This document provides everything you n
 
 ## What is zk0?
 
-[Installation Guide](INSTALLATION.md) | [Architecture Overview](ARCHITECTURE.md) | [Running Simulations](RUNNING.md)
+[Installation Guide](INSTALLATION) | [Architecture Overview](ARCHITECTURE) | [Running Simulations](RUNNING)
 
 zk0 is a federated learning platform for robotics AI, enabling privacy-preserving training of SmolVLA models across distributed clients using real-world SO-100/SO-101 datasets. Node operators contribute their private robotics datasets while maintaining full data privacy.
 
@@ -174,7 +174,7 @@ You can modify the Docker Compose files for advanced setups:
 version: '3.8'
 services:
   zk0-client:
-    image: ghcr.io/ivelin/zk0:v0.4.0
+    image: ghcr.io/ivelin/zk0:v0.5.0
     environment:
       - DATASET_URI=${DATASET_URI}
       - HF_TOKEN=${HF_TOKEN}

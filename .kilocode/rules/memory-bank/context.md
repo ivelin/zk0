@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-07)**: ✅ **v0.5.0 Release Preparation Complete** Version bumped to 0.5.0 for Jekyll site reorganization and script enhancements. Full test suite passed with 36.73% coverage maintained. Ready for release workflow.
+**Latest Update (2025-11-08)**: ✅ **v0.5.1 Release Preparation Complete** Patch release for minor fixes and documentation updates following Jekyll site reorganization. Full test suite passed with 36.73% coverage maintained. Ready for merge and GitHub release.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 
@@ -23,7 +23,8 @@
 - ✅ zk0bot CLI: Bash-based tool implemented with installer, commands for server/client management.
 - ✅ Documentation: NODE-OPERATORS.md created, GitHub issue template, README/ARCHITECTURE/DEVELOPMENT updated.
 - ✅ Testing: Full pytest in Docker passing at 36.67% coverage; prod mocks included.
-- ⏳ Pending: zk0bot cross-OS testing, E2E tests, security scan, performance benchmarks, GHCR push, PR merge/tag v0.4.1.
+- ✅ Completed: v0.5.1 preparation including version bump, test validation, documentation review, and asset inspection.
+- ⏳ Pending: Merge to main, GitHub release creation, and switch back to working branch.
 
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
