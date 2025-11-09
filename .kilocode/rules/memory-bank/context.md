@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-08)**: ✅ **v0.5.1 Release Preparation Complete** Patch release for minor fixes and documentation updates following Jekyll site reorganization. Full test suite passed with 36.73% coverage maintained. Ready for merge and GitHub release.
+**Latest Update (2025-11-09)**: ✅ **Sprint Plan Updated and Local Deployment Testing Attempted** Updated sprint plan to reflect Docker Compose integration and zk0bot.sh fixes. Local deployment testing attempted but blocked by network connectivity issue (IPv6 unreachable for Docker Hub). zk0bot.sh now detects Docker Compose command dynamically, Dockerfile optimized for faster builds using lerobot-gpu base image. Ready for network resolution and continued testing.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 

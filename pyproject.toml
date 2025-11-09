@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.5.1"
+version = "0.5.2"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -15,7 +15,7 @@ authors = [
 ]
 
 dependencies = [
-    "flwr[simulation]==1.22.0",
+    "flwr[simulation]==1.23.0",
     "transformers>=4.50.3,<4.52.0",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
@@ -126,6 +126,10 @@ options.num-supernodes = 4 # 4 clients for 4 SO-100 tasks
 options.backend.type = "multiprocess" # Use Python multiprocessing instead of Ray
 options.backend.client-resources.num-cpus = 4 # CPU resources per client
 options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
+
+[tool.flwr.federations.local-deployment]
+address = "127.0.0.1:9093"
+insecure = true
 
 [tool.zk0.datasets]
 clients = [
