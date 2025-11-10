@@ -52,6 +52,29 @@ See [docs/INSTALLATION](docs/INSTALLATION) for full instructions.
 
 ```
 
+## Production Deployment
+
+For production use with multiple distributed nodes, use the zk0bot CLI tool for orchestrated federated learning:
+
+```bash
+# Server operator: Start the central coordinator
+zk0bot server start
+
+# Client operators (each with their private dataset)
+zk0bot client start hf:yourusername/your-private-dataset
+# or
+zk0bot client start local:/path/to/your/dataset
+
+# Monitor status
+zk0bot status
+
+# Stop services
+zk0bot server stop
+zk0bot client stop
+```
+
+The CLI uses Flower's Deployment Engine (SuperLink, SuperNodes, SuperExec) for stateless, insecure-mode operation. Server runs continuously, automatically managing FL sessions based on connected clients. See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for detailed setup and security notes.
+
 For run details, outputs, experiment tracking, and model pushing, see [docs/RUNNING](docs/RUNNING). For repository branches and contributing guidelines, see [CONTRIBUTING](CONTRIBUTING).
 
 ## Project Status

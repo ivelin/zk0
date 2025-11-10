@@ -1,4 +1,4 @@
----
+do---
 title: "zk0 Node Operators Guide: Join Decentralized Robotics AI Training"
 description: "Complete guide for node operators to contribute to zk0 federated learning network with private SO-100 datasets, using zk0bot CLI for SmolVLA training in humanoid robotics."
 ---
@@ -131,6 +131,25 @@ zk0bot client log
 - Raw data never leaves your environment
 - Dataset metadata is anonymized
 
+## Dynamic Client Joining
+
+### Server Behavior
+- **Always-On Operation**: The zk0 server runs continuously via SuperExec-Server, waiting for client connections.
+- **Automatic Session Start**: Training sessions auto-start when the minimum number of clients (configured as min_fit_clients=2) connect.
+- **Idle State**: Server idles when no active clients are connected, conserving resources.
+- **Session Restart**: New sessions automatically begin as additional clients join.
+
+### Client Lifecycle
+- **Connection Management**: Clients can connect/disconnect dynamically without disrupting ongoing sessions.
+- **Round Completion**: Clients remain connected if training rounds are incomplete, or disconnect after configured rounds.
+- **Next Session Participation**: Connected clients can participate in subsequent training sessions automatically.
+- **Configuration**: Client behavior controlled via pyproject.toml settings (min_fit_clients, num-server-rounds).
+
+### Flower Deployment Engine
+- **No Manual Orchestration**: Unlike simulation mode, production uses Flower's Deployment Engine for automatic session management.
+- **Stateless Operation**: No persistent state between sessions; clean restarts supported.
+- **Insecure Mode**: Current implementation uses insecure mode for development; TLS can be added for production.
+
 ## Community and Support
 
 ### Discord
@@ -154,10 +173,11 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 - **Network**: Stable broadband connection
 
 ### Security
-- All communications use TLS encryption
+- Communications use insecure mode for development (no TLS encryption)
 - Data remains on your local machine
 - Secure parameter validation and hashing
 - No external access to your datasets
+- **Note**: TLS can be enabled for production deployments
 
 ### Performance
 - Training time: 10-30 minutes per round
@@ -167,20 +187,35 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 ## Advanced Configuration
 
 ### Custom Docker Compose
-You can modify the Docker Compose files for advanced setups:
+The zk0bot CLI uses Flower's Deployment Engine components. For advanced setups, you can modify the provided Docker Compose files:
+
+- `docker-compose.server.yml`: SuperLink + SuperExec-Server
+- `docker-compose.client.yml`: SuperNode + SuperExec-Client
+- `superexec.Dockerfile`: Custom image with zk0 dependencies
+
+Example custom client configuration:
 
 ```yaml
-# docker-compose.client.yml
+# docker-compose.client.yml (custom)
 version: '3.8'
 services:
-  zk0-client:
-    image: ghcr.io/ivelin/zk0:v0.5.0
+  supernode:
+    image: flwr/supernode:1.23.0
+    command: ["--insecure", "--isolation", "process", "--superlink", "superlink:9092", "--node-config", "partition-id=${PARTITION_ID} num-partitions=4", "--clientappio-api-address", "0.0.0.0:${NODE_PORT}"]
+    ports: ["${NODE_PORT}:${NODE_PORT}"]
+    networks: [flwr-network]
+  superexec-client:
+    build: {context: ., dockerfile: superexec.Dockerfile}
+    image: zk0-superexec:0.6.0
+    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:${NODE_PORT}"]
     environment:
       - DATASET_URI=${DATASET_URI}
       - HF_TOKEN=${HF_TOKEN}
-    volumes:
-      - ./datasets:/app/datasets:ro
-      - ./outputs:/app/outputs
+    depends_on: [supernode]
+    networks: [flwr-network]
+networks:
+  flwr-network:
+    external: true
 ```
 
 ### Environment Variables

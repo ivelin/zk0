@@ -2,29 +2,24 @@ version: '3.8'
 
 services:
   supernode:
-    image: flwr/supernode:1.22.0
-    environment:
-      - FLWR_SERVER_ADDRESS=host.docker.internal:9092  # Adjust for remote server IP
-      - NODE_INVITE_KEY=${NODE_INVITE_KEY}  # Invitation key for validation
+    image: flwr/supernode:1.23.0
+    command: ["--insecure", "--isolation", "process", "--superlink", "superlink:9092", "--clientappio-api-address", "0.0.0.0:8080"]
+    ports:
+      - "8080"
     networks:
-      - zk0-network
+      - flwr-network
 
-  clientapp:
-    image: zk0:dev  # Use ghcr.io/ivelin/zk0:v0.4.0 for production
-    environment:
-      - PYTHONPATH=/workspace/src
-      - DATASET_URI=${DATASET_URI}  # e.g., local:/path/to/private/dataset or hf:user/private-repo
-      - HF_TOKEN=${HF_TOKEN}  # For private HF datasets
-    volumes:
-      - ${DATASET_PATH}:/workspace/dataset:ro  # Mount local dataset directory
-      - ./pyproject.toml:/workspace/pyproject.toml:ro
-      - ./outputs:/workspace/outputs  # For client logs
-    command: ["/lerobot/.venv/bin/python", "-m", "flwr.client.app", "src.client_app:app"]
+  superexec-client:
+    build:
+      context: .
+      dockerfile: superexec.Dockerfile
+    image: zk0-superexec:0.6.0
+    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:8080"]
     depends_on:
       - supernode
     networks:
-      - zk0-network
+      - flwr-network
 
 networks:
-  zk0-network:
-    driver: bridge
+  flwr-network:
+    external: true

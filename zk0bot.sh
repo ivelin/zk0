@@ -6,10 +6,11 @@
 set -e
 
 # Configuration
-ZK0_VERSION="v0.4.0"
+ZK0_VERSION="v0.6.0"
 DOCKER_COMPOSE_SERVER="docker-compose.server.yml"
 DOCKER_COMPOSE_CLIENT="docker-compose.client.yml"
-GHCR_IMAGE="ghcr.io/ivelin/zk0:${ZK0_VERSION}"
+SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
+NETWORK_NAME="flwr-network"
 
 # Colors for output
 RED='\033[0;31m'
@@ -50,21 +51,60 @@ check_dependencies() {
     log_success "Dependencies check passed"
 }
 
-# Pull latest zk0 image
+# Detect Docker Compose command
+detect_compose() {
+    if docker compose version &> /dev/null 2>&1; then
+        COMPOSE_CMD="docker compose"
+        log_info "Using docker compose plugin"
+    elif command -v docker-compose &> /dev/null; then
+        COMPOSE_CMD="docker-compose"
+        log_info "Using legacy docker-compose"
+    else
+        log_error "No valid Docker Compose command found"
+        exit 1
+    fi
+}
+
+# Create Docker network
+create_network() {
+    if ! docker network ls --format "{{.Name}}" | grep -q "^${NETWORK_NAME}$"; then
+        log_info "Creating Docker network: ${NETWORK_NAME}"
+        docker network create --driver bridge "${NETWORK_NAME}"
+        log_success "Network created successfully"
+    else
+        log_info "Network ${NETWORK_NAME} already exists"
+    fi
+}
+
+# Build SuperExec image
+build_superexec() {
+    log_info "Building SuperExec image: ${SUPEREXEC_IMAGE}"
+    docker build -f superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
+    log_success "SuperExec image built successfully"
+}
+
+# Pull or build SuperExec image
 pull_image() {
-    log_info "Pulling zk0 image: ${GHCR_IMAGE}"
-    docker pull "${GHCR_IMAGE}"
-    log_success "Image pulled successfully"
+    log_info "Checking/pulling SuperExec image: ${SUPEREXEC_IMAGE}"
+    if docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${SUPEREXEC_IMAGE}$"; then
+        log_info "Image ${SUPEREXEC_IMAGE} already exists locally"
+    else
+        log_info "Image not found, building..."
+        build_superexec
+    fi
+    log_success "SuperExec image ready"
 }
 
 # Server commands
 server_start() {
     log_info "Starting zk0 server..."
     check_dependencies
+    detect_compose
+    create_network
     pull_image
 
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_SERVER}" up -d
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up --build -d
         log_success "Server started successfully"
         log_info "Server APIs available on:"
         log_info "  - Fleet API: http://localhost:9092"
@@ -78,8 +118,10 @@ server_start() {
 
 server_stop() {
     log_info "Stopping zk0 server..."
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_SERVER}" down
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" down
+        docker network rm "${NETWORK_NAME}" 2>/dev/null || true
         log_success "Server stopped successfully"
     else
         log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
@@ -89,8 +131,9 @@ server_stop() {
 
 server_log() {
     log_info "Showing server logs..."
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_SERVER}" logs -f
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" logs -f
     else
         log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
         exit 1
@@ -99,8 +142,9 @@ server_log() {
 
 server_status() {
     log_info "Checking server status..."
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_SERVER}" ps
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" ps
     else
         log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
         exit 1
@@ -120,11 +164,13 @@ client_start() {
 
     log_info "Starting zk0 client with dataset: ${DATASET_URI}..."
     check_dependencies
+    detect_compose
     pull_image
 
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
         export DATASET_URI="${DATASET_URI}"
-        docker-compose -f "${DOCKER_COMPOSE_CLIENT}" up -d
+        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
+        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" up -d
         log_success "Client started successfully"
         log_info "Client will connect to server and begin federated learning"
     else
@@ -134,9 +180,17 @@ client_start() {
 }
 
 client_stop() {
-    log_info "Stopping zk0 client..."
+    DATASET_URI="$1"
+    if [ -z "${DATASET_URI}" ]; then
+        log_error "Dataset URI required. Usage: zk0bot client stop <dataset-uri>"
+        exit 1
+    fi
+
+    log_info "Stopping zk0 client with dataset: ${DATASET_URI}..."
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_CLIENT}" down
+        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
+        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" down
         log_success "Client stopped successfully"
     else
         log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
@@ -146,8 +200,9 @@ client_stop() {
 
 client_log() {
     log_info "Showing client logs..."
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_CLIENT}" logs -f
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" logs -f
     else
         log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
         exit 1
@@ -172,17 +227,27 @@ config() {
 status() {
     log_info "zk0 Status:"
 
+    echo "Network:"
+    if docker network ls --format "{{.Name}}" | grep -q "^${NETWORK_NAME}$"; then
+        echo "  ${NETWORK_NAME} exists"
+    else
+        echo "  ${NETWORK_NAME} not found"
+    fi
+
+    echo ""
     echo "Server:"
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_SERVER}" ps
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" ps
     else
         echo "  Compose file not found"
     fi
 
     echo ""
     echo "Client:"
+    detect_compose
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        docker-compose -f "${DOCKER_COMPOSE_CLIENT}" ps
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" ps
     else
         echo "  Compose file not found"
     fi

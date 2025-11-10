@@ -336,6 +336,36 @@
 4. Update conda and docker commands to use variable dataset
 5. Add dataset to logging output
 
+## zk0 CLI Refactor for Flower Docker Best Practices
+**Last performed:** 2025-11-08
+**Context:** Refactored zk0bot.sh to align with Flower v1.23.0 Docker quickstarts, integrating SuperLink, SuperNodes, SuperExec for orchestrated, stateless FL deployment without TLS/persistence.
+
+**Files modified:**
+- `zk0bot.sh` - Updated subcommands, added network creation, build logic, status with network check
+- `docker-compose.server.yml` - Updated to SuperLink + superexec-server, v1.23.0, flwr-network, no volumes
+- `docker-compose.client.yml` - Updated to SuperNode + superexec-client, env vars for partitions/ports, external network
+- `superexec.Dockerfile` - New: FROM flwr/superexec:1.23.0, install zk0 deps, ENTRYPOINT flower-superexec
+- `pyproject.toml` - Added [tool.flwr.federations.local-deployment] with insecure=true, version to 0.5.2
+
+**Steps:**
+1. **Update Compose Files**: Aligned with Flower quickstart: SuperLink/SuperNode v1.23.0, SuperExec builds, --isolation process, flwr-network bridge, no stateful volumes
+2. **Create SuperExec Dockerfile**: Base on flwr/superexec, sed remove flwr[simulation], pip install zk0 deps, ENTRYPOINT flower-superexec
+3. **Configure pyproject.toml**: Add local-deployment federation with address=127.0.0.1:9093, insecure=true
+4. **Refactor zk0bot.sh**: create_network(), build_superexec(), pull_image() for both server/client, updated start/stop/status with docker compose, network rm in stop
+5. **Test Feasibility**: Run zk0bot start-server; start-client hf:dataset; flwr run . local-deployment --run-config "num-server-rounds=1" --stream; verify no TLS/state, policy loss logged
+6. **Document**: Updated README.md with Production Deployment section, NODE-OPERATORS.md security notes for insecure mode
+
+**Benefits:**
+- Stateless FL deployment: No volumes/DBs, clean restarts
+- Flower Best Practices: SuperLink/SuperNodes/SuperExec orchestration
+- Prod Ready: Insecure mode for dev, extensible to TLS
+- SmolVLA Integration: Maintains FedProx, SO-100 focus
+
+**Testing:**
+- Tiny FL run: 1 round, verify logs, no artifacts post-stop
+- Coverage: pytest >=36%
+- Version: 0.5.2 patch bump
+
 ## Prepare for Release Workflow
 **Last performed:** 2025-11-06
 **Context:** Standardized workflow for preparing and pushing new releases, ensuring proper version management, testing, documentation, and GitHub release creation. Use this workflow when instructed to "prepare for release" or "push a new release" or similar prompts.
