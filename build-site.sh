@@ -56,7 +56,8 @@ else
   # Re-copy root LICENSE and CONTRIBUTING.md after clean
   cp ../LICENSE ./ 2>/dev/null || echo "LICENSE copy failed (non-fatal)"
   cp ../CONTRIBUTING.md ./ 2>/dev/null || echo "CONTRIBUTING.md copy failed (non-fatal)"
-  ls -la LICENSE CONTRIBUTING.md || echo "Copied files verification failed"
+  cp ../get-zk0bot.sh ./ 2>/dev/null || echo "get-zk0bot.sh copy failed (non-fatal)"
+  ls -la LICENSE CONTRIBUTING.md get-zk0bot.sh || echo "Copied files verification failed"
 
   # Build with explicit source/destination
   bundle exec jekyll build --source . --destination ../_site --verbose
