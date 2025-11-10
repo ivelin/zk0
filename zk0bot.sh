@@ -10,7 +10,7 @@ ZK0_VERSION="v0.6.0"
 DOCKER_COMPOSE_SERVER="docker-compose.server.yml"
 DOCKER_COMPOSE_CLIENT="docker-compose.client.yml"
 SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
-NETWORK_NAME="zk0-network"
+NETWORK_NAME="flwr-network"
 
 # Colors for output
 RED='\033[0;31m'
@@ -180,10 +180,17 @@ client_start() {
 }
 
 client_stop() {
-    log_info "Stopping zk0 client..."
+    DATASET_URI="$1"
+    if [ -z "${DATASET_URI}" ]; then
+        log_error "Dataset URI required. Usage: zk0bot client stop <dataset-uri>"
+        exit 1
+    fi
+
+    log_info "Stopping zk0 client with dataset: ${DATASET_URI}..."
     detect_compose
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" down
+        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
+        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" down
         log_success "Client stopped successfully"
     else
         log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"

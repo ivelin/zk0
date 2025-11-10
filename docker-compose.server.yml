@@ -24,4 +24,4 @@ services:
 
 networks:
   flwr-network:
-    driver: bridge
+    external: true
