@@ -19,7 +19,7 @@ By default, the training script uses the conda `zk0` environment for **fast and 
 conda activate zk0
 
 # Run federated learning (uses pyproject.toml defaults: 1 round, 2 steps/epochs, serialized GPU)
-./train.sh
+./train-fl-simulation.sh
 ls
 # Or direct Flower run with overrides
 conda run -n zk0 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
@@ -37,20 +37,20 @@ For **reproducible and isolated execution**, use the `--docker` flag or run dire
 
 ### Training Script Usage
 
-The `train.sh` script runs with configuration from `pyproject.toml` (defaults: 1 round, 2 steps/epochs for quick tests). Uses conda by default, with `--docker` flag for Docker execution.
+The `train-fl-simulation.sh` script runs with configuration from `pyproject.toml` (defaults: 1 round, 2 steps/epochs for quick tests). Uses conda by default, with `--docker` flag for Docker execution.
 
 ```bash
 # Basic usage with conda (default)
-./train.sh
+./train-fl-simulation.sh
 
 # Detached mode (anti-hang rule - prevents VSCode client crashes from stopping training)
-./train.sh --detached
+./train-fl-simulation.sh --detached
 
 # Use Docker instead of conda
-./train.sh --docker
+./train-fl-simulation.sh --docker
 
 # Detached mode with Docker
-./train.sh --docker --detached
+./train-fl-simulation.sh --docker --detached
 
 # For custom config, use direct Flower run with overrides
 flwr run . local-simulation-serialized-gpu --run-config "num-server-rounds=5 local-epochs=10"
@@ -232,7 +232,7 @@ To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
 
 ## Troubleshooting
 
-- **Training Appears Hung/Stuck**: Use `./train.sh --detached` to isolate training in tmux sessions (anti-hang rule). VSCode client crashes won't stop training processes.
+- **Training Appears Hung/Stuck**: Use `./train-fl-simulation.sh --detached` to isolate training in tmux sessions (anti-hang rule). VSCode client crashes won't stop training processes.
 - **Detached Session Management**: `tmux ls` to list sessions, `tmux attach -t <session-name>` to monitor, `tmux kill-session -t <session-name>` to stop.
 - **Missing Logs**: Ensure output directory permissions (conda) or Docker volume mounting (`-v $(pwd)/outputs:/workspace/outputs`).
 - **Permission Issues**: Check user permissions for log file creation in both conda and Docker environments.

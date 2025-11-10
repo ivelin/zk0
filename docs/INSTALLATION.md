@@ -8,7 +8,7 @@ description: "Step-by-step installation guide for zk0, the open-source platform 
 
 [Architecture Overview](ARCHITECTURE) | [Node Operators](NODE-OPERATORS) | [Running Simulations](RUNNING)
 - **Conda (Recommended for Development)**: Preferred for fast iteration and direct host GPU access. Use for local development and testing.
-- **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train.sh or direct Docker commands for consistent environments across machines.
+- **Docker (Recommended for Production/Reproducibility)**: Preferred for isolated, reproducible runs. Use `--docker` flag in train-fl-simulation.sh or direct Docker commands for consistent environments across machines.
 
 ## Standard Installation
 

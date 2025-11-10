@@ -161,7 +161,7 @@ The server evaluates the global model on all client tasks as well as additional 
 ## Integration Requirements
 
 ### SmolVLA + Flower Integration
-- **Framework Compatibility**: Flower 1.20.0 with Ray 2.31.0
+- **Framework Compatibility**: Flower 1.23.0 with Ray 2.31.0
 - **Dataset Format**: Flower Datasets for partitioning
 - **Model Loading**: Direct integration with LeRobot SmolVLA models
 - **Federated Dataset**: FederatedLeRobotDataset for distributed data
@@ -185,10 +185,10 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Scope Limitation**: All development work must remain within the project root directory
 
 ### 2. Environment Requirements
-- **Primary Environment**: Docker container (`zk0`) via train.sh for reproducible, isolated execution of training and simulations
-- **Alternative Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
+- **Primary Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
+- **Alternative Environment**: Docker container (`zk0`) via train-fl-simulation.sh for reproducible, isolated execution of training and simulations
 - **VSCode Integration**: VSCode with Docker integration and automatic environment detection
-- **Training Script**: Use `./train.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
+- **Training Script**: Use `./train-fl-simulation.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
 - **Dependencies**: Use pinned versions from `pyproject.toml`
 
 ### 3. Technical Focus

@@ -1,4 +1,4 @@
-do---
+---
 title: "zk0 Node Operators Guide: Join Decentralized Robotics AI Training"
 description: "Complete guide for node operators to contribute to zk0 federated learning network with private SO-100 datasets, using zk0bot CLI for SmolVLA training in humanoid robotics."
 ---
