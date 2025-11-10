@@ -1,5 +1,3 @@
----
----
 #!/bin/bash
 
 # zk0bot Installer
