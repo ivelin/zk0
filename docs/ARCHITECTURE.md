@@ -56,6 +56,13 @@ zk0/
 - **Evaluation**: Global model tested on unseen datasets (SO-101 for generalization).
 - **Implementation**: [`src/server_app.py`](src/server_app.py) with custom strategy.
 
+#### Dynamic Client Orchestration
+- **Always-On Server**: Server runs continuously via SuperExec-Server, waiting for client connections.
+- **Min Clients Threshold**: Auto-starts training sessions when min_fit_clients (config: 2) connect.
+- **Client Lifecycle**: Clients disconnect after configured rounds or remain connected for next sessions.
+- **Idle State**: Server idles when no active clients, restarts sessions as new clients join.
+- **Flower Best Practices**: Aligns with Flower Deployment Engine for production (no separate flwr run; orchestration handled automatically).
+
 ### Communication Layer
 - **Secure Channels**: TLS-encrypted parameter transmission.
 - **Asynchronous Updates**: Supports dynamic client joining/leaving.

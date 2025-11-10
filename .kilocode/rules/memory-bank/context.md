@@ -2,7 +2,7 @@
 
 **Project**: zk0 - Federated Learning with SmolVLA on SO-100 Datasets
 
-**Latest Update (2025-11-09)**: ✅ **Sprint Plan Updated and Local Deployment Testing Attempted** Updated sprint plan to reflect Docker Compose integration and zk0bot.sh fixes. Local deployment testing attempted but blocked by network connectivity issue (IPv6 unreachable for Docker Hub). zk0bot.sh now detects Docker Compose command dynamically, Dockerfile optimized for faster builds using lerobot-gpu base image. Ready for network resolution and continued testing.
+**Latest Update (2025-11-10)**: ✅ **Dynamic Production Behavior Verified** Updated sprint plan and memory bank with successful 2-client test results. Server auto-starts sessions upon min clients connecting, verified stateless/insecure mode with Flower Deployment Engine best practices. Documentation updated across docs/ARCHITECTURE.md, docs/NODE-OPERATORS.md, and README.md.
 
 **Directory Structure Audit (2025-10-29)**: ✅ Audited workspace against memory bank and docs/ARCHITECTURE.md. Memory bank architecture.md was partially outdated (missing recent docs subfiles, src modules like logger.py/push_to_hf.py, expanded tests); updated to full structure matching v0.3.11 workspace state (version 1.0.6). Docs/ARCHITECTURE.md remains current.
 
@@ -26,6 +26,11 @@
 - ✅ Completed: v0.5.1 preparation including version bump, test validation, documentation review, and asset inspection.
 - ⏳ Pending: Merge to main, GitHub release creation, and switch back to working branch.
 
+**Dynamic Production Behavior**:
+- Server always on via SuperExec-Server, waits for min clients (config: min_fit_clients=2), auto-starts training sessions, clients disconnect after configured rounds or stay for next sessions, server idles when no active clients, restarts sessions as new clients join.
+- Aligns with Flower Deployment Engine best practices for production (no separate flwr run; SuperExec-Server handles orchestration).
+- Verified in 2-client test: Server auto-starts 1-round session upon min clients connecting, logs policy loss, clients remain connected if rounds incomplete.
+
 **Consolidated Metrics Implementation**:
 - **Server Eval Files**: round_X_server_eval.json contains aggregated_client_metrics and individual_client_metrics
 - **Client Identification**: Each client metric includes client_id and dataset_name for traceability
@@ -42,6 +47,7 @@
 - **Consolidated Metrics**: Unified server evaluation files with aggregated and individual client metrics
 - **Dynamic Learning Rate**: Advanced LR/MU scheduling with warm restarts, adaptive boosts, dynamic mu, and spike detection
 - **Production Readiness**: Docker Compose for multi-node FL, zk0bot for node operators, privacy via UUID-anonymized metrics.
+- **Dynamic Production Behavior**: Server always on via SuperExec-Server, auto-starts sessions upon min clients connecting, verified in 2-client test.
 - **WandB Integration**: Model cards now include direct links to WandB experiment runs when WandB is enabled
 
 

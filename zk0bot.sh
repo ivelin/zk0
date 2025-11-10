@@ -10,7 +10,7 @@ ZK0_VERSION="v0.6.0"
 DOCKER_COMPOSE_SERVER="docker-compose.server.yml"
 DOCKER_COMPOSE_CLIENT="docker-compose.client.yml"
 SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
-NETWORK_NAME="flwr-network"
+NETWORK_NAME="zk0-network"
 
 # Colors for output
 RED='\033[0;31m'
@@ -169,7 +169,8 @@ client_start() {
 
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
         export DATASET_URI="${DATASET_URI}"
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" up -d
+        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
+        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" up -d
         log_success "Client started successfully"
         log_info "Client will connect to server and begin federated learning"
     else

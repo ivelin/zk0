@@ -131,6 +131,25 @@ zk0bot client log
 - Raw data never leaves your environment
 - Dataset metadata is anonymized
 
+## Dynamic Client Joining
+
+### Server Behavior
+- **Always-On Operation**: The zk0 server runs continuously via SuperExec-Server, waiting for client connections.
+- **Automatic Session Start**: Training sessions auto-start when the minimum number of clients (configured as min_fit_clients=2) connect.
+- **Idle State**: Server idles when no active clients are connected, conserving resources.
+- **Session Restart**: New sessions automatically begin as additional clients join.
+
+### Client Lifecycle
+- **Connection Management**: Clients can connect/disconnect dynamically without disrupting ongoing sessions.
+- **Round Completion**: Clients remain connected if training rounds are incomplete, or disconnect after configured rounds.
+- **Next Session Participation**: Connected clients can participate in subsequent training sessions automatically.
+- **Configuration**: Client behavior controlled via pyproject.toml settings (min_fit_clients, num-server-rounds).
+
+### Flower Deployment Engine
+- **No Manual Orchestration**: Unlike simulation mode, production uses Flower's Deployment Engine for automatic session management.
+- **Stateless Operation**: No persistent state between sessions; clean restarts supported.
+- **Insecure Mode**: Current implementation uses insecure mode for development; TLS can be added for production.
+
 ## Community and Support
 
 ### Discord

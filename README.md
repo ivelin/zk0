@@ -73,7 +73,7 @@ zk0bot server stop
 zk0bot client stop
 ```
 
-The CLI uses Flower's Deployment Engine (SuperLink, SuperNodes, SuperExec) for stateless, insecure-mode operation. See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for detailed setup and security notes.
+The CLI uses Flower's Deployment Engine (SuperLink, SuperNodes, SuperExec) for stateless, insecure-mode operation. Server runs continuously, automatically managing FL sessions based on connected clients. See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for detailed setup and security notes.
 
 For run details, outputs, experiment tracking, and model pushing, see [docs/RUNNING](docs/RUNNING). For repository branches and contributing guidelines, see [CONTRIBUTING](CONTRIBUTING).
 
