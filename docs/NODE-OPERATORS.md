@@ -34,7 +34,7 @@ Once approved, install the zk0bot CLI tool:
 
 ```bash
 # One-line installer
-curl -fsSL https://get.zk0.bot | bash
+curl -fsSL https://zk0.bot/get-zk0bot.sh | bash
 ```
 
 This will:
@@ -111,6 +111,7 @@ zk0bot client log
 **Permission denied**: Ensure Docker daemon is running and you have permissions
 **Dataset not found**: Verify dataset path/URL and credentials
 **Connection failed**: Check internet connection and server availability
+**Installer fails**: If `curl -fsSL https://get.zk0.bot | bash` fails, check GitHub status (api.github.com), ensure curl/wget available, or download manually from https://github.com/ivelin/zk0/releases/latest
 
 ## Dataset Requirements
 
@@ -239,4 +240,4 @@ zk0 is open-source software licensed under the Apache 2.0 License.
 
 ---
 
-*Last updated: 2025-10-31*
+*Last updated: 2025-11-10*

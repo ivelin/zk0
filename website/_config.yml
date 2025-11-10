@@ -9,6 +9,9 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
+include:
+  - get-zk0bot.sh
+
 defaults:
   - scope:
       type: pages

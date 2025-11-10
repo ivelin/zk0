@@ -378,11 +378,12 @@
 
 **Steps:**
 1. **Prepare to Commit to Working Branch**: Follow the "Prepare for Commit Workflow" to ensure code is ready (version bump, testing, documentation updates, asset inspection, commit to current branch)
-2. **Ask for Permission to Merge with Main**: Request user approval to merge the working branch into main
-3. **If Permission Granted, Proceed with Merge and Pull Request**: Merge the working branch into main and submit a pull request for review
-4. **Ask User to Review and Approve Pull Request**: Wait for user review and approval of the pull request
-5. **Push New GitHub Release**: Create a GitHub release with proper tags (semantic versioning), description (changelog summary), and changelog (detailed changes)
-6. **Switch Back to Working Branch**: Switch the local git branch back to the original working branch that was active before starting the release preparation workflow (usually dev branch, but not always)
+2. **Build and Test Website Locally**: Run `./build-site.sh` to build the Jekyll site, verify _site/ contains all expected files (docs/, get-zk0bot.sh, etc.), and test key URLs locally (e.g., curl localhost:4000/get-zk0bot.sh if serving) for consistency with latest code release
+3. **Ask for Permission to Merge with Main**: Request user approval to merge the working branch into main
+4. **If Permission Granted, Proceed with Merge and Pull Request**: Merge the working branch into main and submit a pull request for review
+5. **Ask User to Review and Approve Pull Request**: Wait for user review and approval of the pull request
+6. **Push New GitHub Release**: Create a GitHub release with proper tags (semantic versioning), description (changelog summary), and changelog (detailed changes)
+7. **Switch Back to Working Branch**: Switch the local git branch back to the original working branch that was active before starting the release preparation workflow (usually dev branch, but not always)
 
 **Success Criteria:**
 - Working branch successfully merged into main via approved pull request

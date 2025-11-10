@@ -76,6 +76,16 @@ graph TD
     I --> J[zk0bot stop<br/>compose down + network rm]
 ```
 
+## Immediate Priority: One-Line Installer Verification
+**Added**: 2025-11-10 (User Feedback)
+**Command**: `curl -fsSL https://get.zk0.bot | bash`
+**Goal**: Ensure the installer works end-to-end for node operators, downloading correct zk0bot version (dynamic latest tag, fallback v0.6.0), verifying integrity, installing to PATH, and supporting sprint features (SuperExec, dynamic Compose).
+**Steps**:
+1. Update `get-zk0bot.sh`: Dynamic version via GitHub API, basic integrity check (bash shebang).
+2. Test installer: Simulate run, verify download/install, `zk0bot --help`, `zk0bot server start`.
+3. Update docs: Add troubleshooting to NODE-OPERATORS.md, sync live site via Jekyll build.
+4. Mark complete in retrospective.
+
 ## Step-by-Step Implementation Plan
 Handover to Code Mode. Each step is atomic; update todos after each.
 
@@ -152,6 +162,10 @@ Handover to Code Mode. Each step is atomic; update todos after each.
 - [x] superexec.Dockerfile: Created with lerobot-gpu base for faster builds
 - [x] pyproject.toml: Updated to Flower 1.23.0 and added local-deployment federation
 - [x] Memory Bank context.md updated with progress
+- [x] One-line installer: Updated get-zk0bot.sh for dynamic version and integrity check
+- [x] One-line installer: Tested end-to-end, verified download/install/zk0bot commands
+- [x] One-line installer: Updated NODE-OPERATORS.md with troubleshooting, date 2025-11-10
+- [x] One-line installer: Rebuilt Jekyll site for live sync (zk0.bot/docs/NODE-OPERATORS.html)
 - [ ] Docker Compose files updated to SuperExec architecture
 - [ ] Full zk0bot.sh refactor to SuperLink/SuperNodes
 - [ ] Tiny FL run succeeds statelessly (blocked by network)

@@ -61,14 +61,19 @@ check_docker() {
 # Download zk0bot
 download_zk0bot() {
     local os="$1"
-    local version="v0.4.0"
     local repo="ivelin/zk0"
     local binary_name="zk0bot.sh"
 
+    # Fetch latest release tag from GitHub API, fallback to v0.6.0
+    local version
+    if command -v curl &> /dev/null; then
+        version=$(curl -s "https://api.github.com/repos/${repo}/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/' || echo "v0.6.0")
+    else
+        version="v0.6.0"
+    fi
+
     log_info "Downloading zk0bot ${version} for ${os}..."
 
-    # For now, assume the script is in the same repo
-    # In production, this would download from GitHub releases
     local download_url="https://raw.githubusercontent.com/${repo}/${version}/zk0bot.sh"
 
     if command -v curl &> /dev/null; then
@@ -80,8 +85,15 @@ download_zk0bot() {
         exit 1
     fi
 
+    # Basic integrity check: ensure it's a bash script
+    if ! head -n 1 "${binary_name}" | grep -q "#!/bin/bash"; then
+        log_error "Downloaded file does not appear to be a valid zk0bot script."
+        rm -f "${binary_name}"
+        exit 1
+    fi
+
     chmod +x "${binary_name}"
-    log_success "Downloaded and made executable: ${binary_name}"
+    log_success "Downloaded and verified: ${binary_name} (${version})"
 }
 
 # Install zk0bot to PATH
