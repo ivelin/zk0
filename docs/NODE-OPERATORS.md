@@ -26,7 +26,7 @@ To join the zk0 network:
 
 2. **Submit Application**: Create a new issue using our [Node Operator Application Template](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md)
 
-3. **Wait for Approval**: Our team will review your application and contact you via Discord
+3. **Wait for Approval**: Our team will review your application and contact you.
 
 ### 2. Install zk0bot CLI
 
@@ -124,7 +124,7 @@ zk0bot client log
 - Clear, well-annotated episodes
 - Consistent task definitions
 - No overlap with existing network datasets
-- Minimum 100 episodes recommended
+- Minimum 50 episodes recommended
 
 ### Privacy Considerations
 - All training happens locally
@@ -144,25 +144,24 @@ zk0bot client log
 - **Connection Management**: Clients can connect/disconnect dynamically without disrupting ongoing sessions.
 - **Round Completion**: Clients remain connected if training rounds are incomplete, or disconnect after configured rounds.
 - **Next Session Participation**: Connected clients can participate in subsequent training sessions automatically.
-- **Configuration**: Client behavior controlled via pyproject.toml settings (min_fit_clients, num-server-rounds).
+- **Configuration**: Client behavior controlled via pyproject.toml settings (num-server-rounds, local-epochs). For smolvla, good defaults are local-epochs=20, num-server-rounds=1,000.
 
 ### Flower Deployment Engine
 - **No Manual Orchestration**: Unlike simulation mode, production uses Flower's Deployment Engine for automatic session management.
 - **Stateless Operation**: No persistent state between sessions; clean restarts supported.
-- **Insecure Mode**: Current implementation uses insecure mode for development; TLS can be added for production.
+- **Connection Security**: Current implementation uses invitation-only VPN for security layer instead of Flower's TLS connections.
 
 ## Community and Support
 
 ### Discord
-Join our Discord community for support and updates: [zk0 Discord](https://discord.gg/zk0)
+Join our Discord community for support and updates: [zk0 Discord](https://discord.gg/sfk3D4V7Qb)
 
 ### GitHub
 - Report issues: [GitHub Issues](https://github.com/ivelin/zk0/issues)
 - Documentation: [zk0 Docs](https://github.com/ivelin/zk0/tree/main/docs)
 
 ### Contact
-- Email: operators@zk0.ai
-- Discord: @zk0-team
+- Email: operators@zk0.bot
 
 ## Technical Details
 
@@ -174,11 +173,10 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 - **Network**: Stable broadband connection
 
 ### Security
-- Communications use insecure mode for development (no TLS encryption)
+- Communications use invite-only VPN network
 - Data remains on your local machine
 - Secure parameter validation and hashing
 - No external access to your datasets
-- **Note**: TLS can be enabled for production deployments
 
 ### Performance
 - Training time: 10-30 minutes per round
