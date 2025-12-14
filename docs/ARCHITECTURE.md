@@ -119,9 +119,9 @@ flowchart TD
 
 This diagram captures the iterative cycle: model distribution, local training, aggregation, evaluation, and repetition across configured rounds (e.g., 30 rounds).
 
-## Production Mode Architecture (v0.4.0)
+## Production Mode Architecture (v0.7.0 - Stateless)
 
-zk0 v0.4.0 introduces production-ready deployment capabilities, enabling secure, multi-node federated learning with privacy-preserving client training. This extends the simulation architecture with Docker-based orchestration and the zk0bot CLI for node operators.
+zk0 v0.7.0 implements stateless production deployment with Flower SuperLink/SuperNode/SuperExec (1.23.0). Local builds only—no GHCR, volumes, or persistence. Clients run all rounds fresh.
 
 ### Production Mode Data Flow Diagram
 
@@ -158,7 +158,7 @@ This diagram shows the production workflow: CLI installation, mode-specific star
 | **Dataset Loading** | Partitioned from pyproject.toml          | From run_config URI (HF repo_id or local root) |
 | **Client ID**       | Fixed partition_id (0-3)                 | Persistent context.cid (SuperNode lifetime) |
 | **Metrics**         | Direct dataset names                     | Anonymized: dataset_name + uuid or cid      |
-| **Persistence**     | Ephemeral (in-memory)                    | Volumes for models/checkpoints/datasets    |
+| **Persistence**     | Ephemeral (in-memory)                    | Host mounts for outputs only (stateless)   |
 | **Scaling**         | Fixed clients                            | Dynamic SuperNodes, Kubernetes-ready        |
 | **Monitoring**      | Local logs/WandB                         | Prometheus/Grafana + WandB aggregates       |
 | **Auth/Security**   | None (local)                             | Network-level (VPN); app-level insecure     |
@@ -185,13 +185,13 @@ The zk0bot CLI provides a user-friendly interface for production operations, wra
   - `zk0bot status`: Overall network status.
 
 #### Integration with Architecture
-- **Docker Images**: Uses `ghcr.io/ivelin/zk0:v0.4.0` (built from Dockerfile.zk0).
+- **Docker Images**: Local `zk0-superexec:v0.7.0` (built from superexec.Dockerfile).
 - **Compose Files**:
   - `docker-compose.server.yml`: SuperLink (fleet) + ServerApp (FL coordination).
   - `docker-compose.client.yml`: SuperNode (client runtime) + ClientApp (training).
 - **Environment**: Passes `DATASET_URI`, `HF_TOKEN` via env vars.
 - **Security**: Runs in insecure mode; external VPN (Tailscale/WebRTC) handles networking.
-- **Persistence**: Volumes for datasets (`/app/datasets`), outputs (`/app/outputs`).
+- **Persistence**: Host mount `./outputs:/workspace/outputs` (server); stateless clients.
 
 #### Example Workflow
 1. **Server Admin**:

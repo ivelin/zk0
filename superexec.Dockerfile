@@ -5,7 +5,7 @@ WORKDIR /workspace
 
 # Install Flower with superexec support using uv
 RUN uv pip install "flwr[superexec]==1.23.0"
-RUN uv pip install "lerobot==0.3.3"
+RUN uv pip install "lerobot[smolvla]==0.3.3"
 
 # Copy and install zk0
 COPY pyproject.toml /workspace/pyproject.toml

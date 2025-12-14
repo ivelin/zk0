@@ -78,9 +78,9 @@ create_network() {
 
 # Build SuperExec image
 build_superexec() {
-    log_info "Building SuperExec image: ${SUPEREXEC_IMAGE}"
-    docker build -f superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
-    log_success "SuperExec image built successfully"
+    log_info "Building SuperExec image: ${SUPEREXEC_IMAGE} (fresh --pull --no-cache)"
+    docker build --pull --no-cache -f superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
+    log_success "SuperExec image built successfully (latest base)"
 }
 
 # Pull or build SuperExec image
