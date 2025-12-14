@@ -578,6 +578,11 @@ class AggregateEvaluationStrategy(FedProx):
 
         # 🔐 VALIDATE: Individual client parameter hashes BEFORE aggregation
         validated_results = self.validate_client_parameters(results)
+        if len(validated_results) == 0:
+            logger.warning(f"⚠️ Server: No valid fits in round {server_round} - retaining current params")
+            if self.current_parameters is None:
+                raise ValueError(f"No params available for empty round {server_round}")
+            return self.current_parameters, {}
 
         # Aggregate parameters using FedProx strategy
         aggregated_parameters, parent_metrics = self.aggregate_parameters(

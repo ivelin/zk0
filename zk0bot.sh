@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-ZK0_VERSION="v0.6.0"
+ZK0_VERSION="v0.7.0"
 DOCKER_COMPOSE_SERVER="docker-compose.server.yml"
 DOCKER_COMPOSE_CLIENT="docker-compose.client.yml"
 SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
@@ -104,8 +104,10 @@ server_start() {
     pull_image
 
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up --build -d
-        log_success "Server started successfully"
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up -d
+        log_info "Clearing LeRobot HF cache for fresh dataset downloads..."
+        docker exec zk0-superexec-server-1 rm -rf /home/user_lerobot/.cache/huggingface/lerobot/* || true
+        log_success "Server started successfully (SuperLink + SuperExec, cache cleared)"
         log_info "Server APIs available on:"
         log_info "  - Fleet API: http://localhost:9092"
         log_info "  - ServerApp API: http://localhost:9091"
@@ -130,10 +132,18 @@ server_stop() {
 }
 
 server_log() {
-    log_info "Showing server logs..."
+    log_info "Showing server logs (SuperExec + FL runner)..."
     detect_compose
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" logs -f
+        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" logs -f &
+        COMPOSE_PID=$!
+        sleep 1
+        if [ -f /tmp/zk0-flwr.pid ]; then
+            FLWR_CONTAINER=$(cat /tmp/zk0-flwr.pid)
+            docker logs -f ${FLWR_CONTAINER} || true
+        else
+            wait $COMPOSE_PID
+        fi
     else
         log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
         exit 1
@@ -151,21 +161,38 @@ server_status() {
     fi
 }
 
+server_run() {
+    log_info "Starting federated learning run on server (flwr run . local-deployment)..."
+    CONTAINER=$(docker ps --filter "ancestor=zk0-superexec:v0.7.0" --filter "name=superexec-server" --format "{{.Names}}" | head -1)
+    if [ -z "$CONTAINER" ]; then
+        log_error "No zk0-superexec server container running. Run 'zk0bot server start' first."
+        exit 1
+    fi
+    log_info "Executing 'flwr run . local-deployment' in container $CONTAINER"
+    docker exec -it "$CONTAINER" flwr run . local-deployment
+}
+
 # Client commands
 client_start() {
     DATASET_URI="$1"
     if [ -z "${DATASET_URI}" ]; then
         log_error "Dataset URI required. Usage: zk0bot client start <dataset-uri>"
         log_info "Examples:"
+        log_info "  zk0bot server start"
         log_info "  zk0bot client start hf:user/my-dataset"
         log_info "  zk0bot client start local:/path/to/dataset"
         exit 1
     fi
 
+    # NOTE: In production, server runs remotely. Local validation for development only.
+    # Users must ensure SuperLink (port 9092) is reachable before starting clients.
+
     log_info "Starting zk0 client with dataset: ${DATASET_URI}..."
     check_dependencies
     detect_compose
     pull_image
+
+    log_info "Using DATASET_URI=${DATASET_URI} for production SuperNode"
 
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
         export DATASET_URI="${DATASET_URI}"
@@ -188,10 +215,11 @@ client_stop() {
 
     log_info "Stopping zk0 client with dataset: ${DATASET_URI}..."
     detect_compose
+    export DATASET_URI="${DATASET_URI}"
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
         PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
         ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" down
-        log_success "Client stopped successfully"
+        log_success "Client stopped successfully (stateless - no state cleanup)"
     else
         log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
         exit 1
@@ -199,10 +227,17 @@ client_stop() {
 }
 
 client_log() {
-    log_info "Showing client logs..."
+    DATASET_URI="$1"
+    if [ -z "${DATASET_URI}" ]; then
+        log_error "Dataset URI required. Usage: zk0bot client log <dataset-uri>"
+        exit 1
+    fi
+    log_info "Showing client logs for dataset: ${DATASET_URI}..."
     detect_compose
+    export DATASET_URI="${DATASET_URI}"
+    PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" logs -f
+        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" logs -f
     else
         log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
         exit 1
@@ -244,14 +279,20 @@ status() {
     fi
 
     echo ""
-    echo "Client:"
-    detect_compose
-    if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_CLIENT}" ps
-    else
-        echo "  Compose file not found"
-    fi
+    echo "Client (dynamic zk0-client-*) :"
+    docker ps -a --filter "name=^zk0-client-" --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || echo "  No zk0-client-* containers found"
 }
+
+# Global stop - server + all clients
+stop() {
+    log_info "Stopping zk0 server and all clients..."
+    server_stop
+    log_info "Stopping all zk0-client-* containers (force clean)..."
+    docker rm -f $(docker ps -aq --filter "name=^zk0-client-") 2>/dev/null || true
+    log_success "All zk0-client-* containers removed"
+    log_success "All zk0 stopped"
+}
+
 
 # Main command dispatcher
 main() {
@@ -259,6 +300,9 @@ main() {
     SUBCOMMAND="$2"
 
     case "${COMMAND}" in
+        stop)
+            stop
+            ;;
         server)
             case "${SUBCOMMAND}" in
                 start)
@@ -269,6 +313,9 @@ main() {
                     ;;
                 log)
                     server_log
+                    ;;
+                run)
+                    server_run
                     ;;
                 status)
                     server_status
@@ -286,14 +333,14 @@ main() {
                     client_start "$3"
                     ;;
                 stop)
-                    client_stop
+                    client_stop "$3"
                     ;;
                 log)
-                    client_log
+                    client_log "$3"
                     ;;
                 *)
                     log_error "Invalid client subcommand: ${SUBCOMMAND}"
-                    echo "Usage: zk0bot client {start|stop|log} [dataset-uri]"
+                    echo "Usage: zk0bot client {start|stop|log} <dataset-uri>"
                     exit 1
                     ;;
             esac
@@ -308,11 +355,19 @@ main() {
             echo "zk0bot: CLI tool for zk0 federated learning operations"
             echo ""
             echo "Usage:"
-            echo "  zk0bot server {start|stop|log|status}"
-            echo "  zk0bot client {start|stop|log} [dataset-uri]"
+            echo "  zk0bot server {start|stop|log|run|status}"
+            echo "  zk0bot client {start|stop|log} <dataset-uri>"
             echo "  zk0bot config"
+            echo "  zk0bot stop                          # Stop server + ALL clients"
             echo "  zk0bot status"
             echo "  zk0bot --help"
+            echo ""
+            echo "Deployment sequence (MANDATORY):"
+            echo "  SERVER FIRST: Ensure SuperLink (port 9092) is running"
+            echo "  1. zk0bot server start          # Local dev server"
+            echo "  2. zk0bot client start hf:test  # Connects to SuperLink"
+            echo ""
+            echo "PRODUCTION: Server runs remotely. Clients connect to zk0.superlink:9092"
             echo ""
             echo "Examples:"
             echo "  zk0bot server start"

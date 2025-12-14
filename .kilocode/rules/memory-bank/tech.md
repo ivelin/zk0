@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-01
-**Version**: 1.0.5
+**Last Updated**: 2025-12-07
+**Version**: 1.0.6
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -286,3 +286,144 @@ Run these commands after any pyproject.toml updates or when switching branches t
 - **Rationale**: Ensures meaningful updates in short FL rounds (10-1000 steps). Mild intra-round decay balances exploration/stability. Aligns with Flower's stateless clients.
 - **Validation**: Check logs for override message, pre/post-norm delta >0.01, decreasing loss across rounds.
 - **Benefits**: Effective learning without global step tracking; compatible with zk0's partial-step architecture (200 steps/round default).
+## Server-Side Tools & LLM Integration Guidelines
+
+**Policy**: Proactively use all available Kilo Code server-side tools for research, coding, planning, and external data access to ensure up-to-date, accurate results. Leverage LLM-native tools from Grok (xAI), Gemini (Google), Claude (Anthropic), and others via Kilo Code modes.
+
+**Kilo Code Tools**:
+- **Web/X Search**: [`browser_action`](browser_action) for Puppeteer (Google, X.com/search, sites).
+- **Code**: [`codebase_search`](codebase_search), [`read_file`](read_file), [`apply_diff`](apply_diff).
+- **MCP/Advanced**: [`use_mcp_tool`](use_mcp_tool) (context7, playwright, filesystem).
+- **Workflow**: [`update_todo_list`](update_todo_list), [`ask_followup_question`](ask_followup_question).
+
+**Best Practices**: One tool/response, iterative, tools > static knowledge.
+## Grok Code Execution Tool (x.ai Native)
+
+**Encouragement**: Use Grok's [`code_execution`](code_execution) tool (aka code_interpreter) for real-time Python REPL execution.
+
+**Key Capabilities** (from docs.x.ai/guides/tools/code-execution-tool):
+* **Mathematical Computations**: Equations, stats, numerical.
+* **Data Analysis**: Datasets, insights.
+* **Financial Modeling**: Risk, quantitative.
+* **Scientific Computing**: Simulations, transformations.
+* **Code Gen/Testing**: Write/debug Python.
+
+**When to Use**:
+- Exact calculations (not approximations).
+- Multi-step data processing.
+- Verification of math/logic.
+
+**SDK/API**:
+- xAI SDK: `code_execution`
+- OpenAI Responses API: `code_interpreter`
+
+**Example**:
+```python
+# Compound interest calculation
+chat.append(user("Calculate compound interest $10k @5% 10yrs"))
+# Tool auto-calls Python code
+```
+
+**Sandbox**: NumPy, Pandas, Matplotlib, SciPy pre-installed; secure, stateless.
+
+Integrate via Kilo Code modes for enhanced accuracy.
+## Grok Search Tools (x.ai Native)
+
+**Encouragement**: Leverage Grok's agentic search tools (`web_search`, `x_search`) for web/X research.
+
+**Available**:
+- **web_search**: Web search + browsing, citations.
+- **x_search**: Keyword/semantic/user/thread search on X.
+
+**Filters**:
+- Web: `allowed_domains`/`excluded_domains` (max 5), `enable_image_understanding`.
+- X: `allowed_x_handles`/`excluded_x_handles` (max 10), `from_date`/`to_date`, `enable_image_understanding`/`enable_video_understanding`.
+
+**Citations**: Traceable sources in response.
+
+**SDK**: xAI `web_search`/`x_search`, OpenAI compatible.
+
+**Best Practices**: Specific queries, filters for precision, low temp for reasoning.
+
+Use via Kilo Code modes or approximate with [`browser_action`](browser_action).
+## Grok Remote MCP Tools (x.ai Native)
+
+**Encouragement**: Use Grok's `mcp` tool to connect external MCP servers for custom tools.
+
+**Configuration**:
+- `server_url`: HTTPS/SSE MCP server.
+- `server_label`/`description`: ID/desc.
+- `allowed_tool_names`: Filter tools.
+- `authorization`/`extra_headers`: Auth.
+
+**Multi-server**: Combine multiple MCPs.
+
+**Best Practices**:
+- Descriptive labels for multi-server.
+- Filter tools for efficiency/security.
+- HTTPS + auth.
+
+**Example**:
+```python
+tools=[
+  mcp(server_url="https://mcp.deepwiki.com/mcp"),
+]
+```
+
+Extends with 3rd-party/custom tools (docs/API/data).
+## Grok Advanced Tool Usage (x.ai Native)
+
+**Encouragement**: Advanced patterns for agentic tools.
+
+**Key Features**:
+- **Client/Server Mix**: Server tools (web_search/code_execution) auto-run; client tools manual execute/append results.
+- **Multi-turn**: `store_messages=True` + `previous_response_id` or `use_encrypted_content=True` + append response.
+- **Tool Combinations**: web_search + x_search + code_execution for research/analysis.
+- **Images**: Include images in context for visual analysis + search.
+
+**Best Practices**:
+- Stateful for iterative research.
+- Combinations for comprehensive tasks.
+- Client tools for local/specialized.
+
+See docs.x.ai/guides/tools/advanced-usage.
+## Grok Stateful Responses API (x.ai Native)
+
+**Encouragement**: Use stateful Responses API for multi-turn conversations preserving agentic state (reasoning/tools).
+
+**Key Features**:
+- `store_messages=True`: Server stores history (30 days).
+- Continue with `previous_response_id=response.id`.
+- Encrypted content: `use_encrypted_content=True` / `include=["reasoning.encrypted_content"]` for ZDR/privacy.
+- Retrieve/delete responses by ID.
+
+**Example** (xAI SDK):
+```python
+chat = client.chat.create(model="grok-4", store_messages=True)
+# ... append messages, sample/stream
+next_chat = client.chat.create(previous_response_id=response.id)
+```
+
+**Benefits**: Seamless multi-turn without resending history; billed for full context.
+
+See docs.x.ai/guides/responses-api.
+## Grok Files & Collections API
+
+**Encouragement**: Use Files/Collections for document upload/search in chats (agentic `document_search`/`file_search`).
+
+**Key Features**:
+- Upload files (48MB max, text/PDF/CSV/JSON/code).
+- Attach to messages: Auto-activates search tool.
+- Collections: Group files, semantic search across.
+- Multi-file/multi-turn, combine with code_execution/web_search.
+
+**.env Keys**: XAI_API_KEY (chat), XAI_MANAGEMENT_API_KEY.
+
+**Usage**:
+- Upload: `client.files.upload(content, filename)`
+- Chat: `user("Query?", file(file_id))`
+- Collections: Create group, upload, search via `collections_search`/`file_search`.
+
+Limits: 100k files/collection. Privacy: No training use without consent.
+
+See docs.x.ai/guides/files.

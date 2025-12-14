@@ -55,21 +55,27 @@ Note: WandB logging is handled server-side only. Client training does not requir
 
 ### 4. Start Your Client
 
-Launch your zk0 client with your private dataset:
-
+**Light Test Production Run (Recommended):**
 ```bash
-# For Hugging Face datasets
-zk0bot client start hf:yourusername/your-private-dataset
+# 3-round light test (CLI config override) - any dataset
+zk0bot client start hf:yourusername/your-private-dataset --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
 
-# For local datasets
+# Examples:
+# zk0bot client start hf:shaunkirby/record-test --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
+# zk0bot client start hf:ethanCSL/direction_test --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
+```
+
+**Production Run (Stateless):**
+```bash
+# Standard (pyproject.toml defaults) - runs all server rounds
+zk0bot client start hf:yourusername/your-private-dataset
 zk0bot client start local:/path/to/your/dataset
 ```
 
 Your client will:
-- Connect to the zk0 server
-- Participate in federated learning rounds
-- Train on your private data locally
-- Send only model updates (no raw data leaves your machine)
+- Connect to zk0 server (auto-starts at min_fit_clients=2)
+- Train locally for all server rounds (stateless, no persistence)
+- Send only model updates (no raw data leaves machine)
 
 ## Server Operations (For Server Operators)
 
@@ -132,24 +138,21 @@ zk0bot client log
 - Raw data never leaves your environment
 - Dataset metadata is anonymized
 
-## Dynamic Client Joining
+## Dynamic Client Joining (Stateless)
 
 ### Server Behavior
-- **Always-On Operation**: The zk0 server runs continuously via SuperExec-Server, waiting for client connections.
-- **Automatic Session Start**: Training sessions auto-start when the minimum number of clients (configured as min_fit_clients=2) connect.
-- **Idle State**: Server idles when no active clients are connected, conserving resources.
-- **Session Restart**: New sessions automatically begin as additional clients join.
+- **Always-On Operation**: Server runs continuously via SuperExec-Server.
+- **Automatic Start**: Sessions start at min_fit_clients=2.
+- **Idle Handling**: Idles below min_clients.
 
-### Client Lifecycle
-- **Connection Management**: Clients can connect/disconnect dynamically without disrupting ongoing sessions.
-- **Round Completion**: Clients remain connected if training rounds are incomplete, or disconnect after configured rounds.
-- **Next Session Participation**: Connected clients can participate in subsequent training sessions automatically.
-- **Configuration**: Client behavior controlled via pyproject.toml settings (min_fit_clients, num-server-rounds).
+### Client Lifecycle (Stateless)
+- **Full Participation**: Clients run ALL server rounds (num_server_rounds).
+- **Manual Stop**: Use zk0bot client stop to disconnect.
+- **Clean Restarts**: No state; always fresh.
 
 ### Flower Deployment Engine
-- **No Manual Orchestration**: Unlike simulation mode, production uses Flower's Deployment Engine for automatic session management.
-- **Stateless Operation**: No persistent state between sessions; clean restarts supported.
-- **Insecure Mode**: Current implementation uses insecure mode for development; TLS can be added for production.
+- **Stateless SuperExec**: Clean restarts, no persistence.
+- **Insecure Mode**: Dev; TLS for prod.
 
 ## Community and Support
 

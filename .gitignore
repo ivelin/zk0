@@ -196,3 +196,6 @@ website/LICENSE
 # VSCode preferences
 .vscode/
 website/get-zk0bot.sh
+
+# Repomix project digest for LLM prompting
+repomix-output.xml

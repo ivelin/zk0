@@ -174,8 +174,8 @@ key = "value"
         assert isinstance(app_config.get("fraction-fit"), float)
         assert isinstance(app_config.get("use-wandb"), bool)
 
-        # Test specific values from pyproject.toml
-        assert app_config["num-server-rounds"] == 250
+        # Test specific values from pyproject.toml (tiny mode: 2 rounds)
+        assert app_config["num-server-rounds"] == 2
         assert app_config["batch_size"] == 64
         assert app_config["fraction-fit"] == 0.3
         assert app_config["use-wandb"] is True

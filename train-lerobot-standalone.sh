@@ -116,6 +116,10 @@ if [[ "$MODE" == "docker" ]]; then
     print_info "Docker Image: $DOCKER_IMAGE"
 fi
 print_info ""
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+DATASET_SAFE=$(echo "$DATASET_REPO_ID" | tr '/' '_')
+OUTPUT_DIR="outputs/train/${TIMESTAMP}_${DATASET_SAFE}_${STEPS}steps"
+print_info "Output dir: $OUTPUT_DIR"
 
 # Function to execute conda training
 execute_conda_training() {
@@ -148,9 +152,9 @@ execute_conda_training() {
       --dataset.repo_id="$DATASET_REPO_ID" \
       --batch_size=64 \
       --steps=$STEPS \
-      --output_dir=outputs/train/my_smolvla \
+      --output_dir="$OUTPUT_DIR" \
       --job_name=my_smolvla_training \
-      --policy.device=cuda
+      --policy.device=cuda --policy.push_to_hub=false
 }
 
 # Function to execute docker training
@@ -185,13 +189,12 @@ execute_docker_training() {
     DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
     DOCKER_CMD="$DOCKER_CMD sh -c \"uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && PYTHONPATH=/workspace python -m lerobot.scripts.train \
       --policy.path=lerobot/smolvla_base \
-      --dataset.repo_id=tinkhireeva/so101_duck_sort \
+      --dataset.repo_id=\"$DATASET_REPO_ID\" \
       --batch_size=64 \
       --steps=$STEPS \
-      --output_dir=outputs/train/my_smolvla \
+      --output_dir="$OUTPUT_DIR" \
       --job_name=my_smolvla_training \
-      --policy.device=cuda \
-      --policy.repo_id=ivelin/smolvla_test
+      --policy.device=cuda --push_to_hub=false
       \""
 
     print_info "Executing Docker command:"

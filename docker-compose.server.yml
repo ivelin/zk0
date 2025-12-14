@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   superlink:
     image: flwr/superlink:1.23.0
@@ -15,8 +13,11 @@ services:
     build:
       context: .
       dockerfile: superexec.Dockerfile
-    image: zk0-superexec:0.6.0
+    image: zk0-superexec:v0.7.0
     command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
+    volumes:
+      - ./outputs:/workspace/outputs
+      - ./pyproject.toml:/workspace/pyproject.toml
     depends_on:
       - superlink
     networks:

@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.6.2"
+version = "0.7.0"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -53,18 +53,18 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
-local-epochs = 20 # steps/epochs per round
+num-server-rounds = 2 # 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
+local-epochs = 2 # 20 # steps/epochs per round
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
-fraction-fit = 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
+fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
 min-fit-clients = 2 # Minimum clients to train each round (ensure at least 2 for SO-100 with 4 clients)
 fraction-evaluate = 1 # Evaluate all clients when using client eval. For server eval, this is ignored.
-batch_size =  64 # Batch size for training and evaluation (match standalone train script)
+batch_size = 64 # Batch size for training and evaluation (match standalone train script)
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
-eval_batches = 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
-checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
+eval_batches = 4 # 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
+checkpoint_interval = 1 # 10 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
@@ -90,8 +90,8 @@ max_adjust_factor = 1.05  # Cap adjustments early (<R20)
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)
 level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
-flwr_log_level = "INFO"  # Flower framework logging level
-lerobot_log_level = "INFO"  # LeRobot framework logging level
+flwr_log_level = "DEBUG"  # Flower framework logging level
+lerobot_log_level = "DEBUG"  # LeRobot framework logging level
 enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
 enable_ray_logging = true   # Enable Ray distributed execution logs
 enable_audit_logging = false  # Disable JSON audit logging (requires Flower Enterprise)
@@ -128,7 +128,7 @@ options.backend.client-resources.num-cpus = 4 # CPU resources per client
 options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
 
 [tool.flwr.federations.local-deployment]
-address = "127.0.0.1:9093"
+address = "superlink:9093"
 insecure = true
 
 [tool.zk0.datasets]
@@ -156,6 +156,7 @@ server = [
 
 # Dataset loading configuration
 force_opencv_backend = true  # Force OpenCV video backend to avoid TorchCodec frame corruption issues
+
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

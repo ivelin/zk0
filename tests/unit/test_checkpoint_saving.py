@@ -10,7 +10,7 @@ import numpy as np
 class TestSaveModelCheckpoint:
     """Test save_model_checkpoint function."""
 
-    @patch("src.server.model_utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     @patch("importlib.metadata.version")
     @patch("safetensors.torch.save_file")
     @patch("src.server.model_utils.generate_model_card")
@@ -124,21 +124,27 @@ class TestSaveAndPushModel:
 
     @patch("src.server.model_utils.save_model_checkpoint")
     @patch("src.server.model_utils.push_model_to_hub_enhanced")
-    @patch("src.server.model_utils.get_tool_config")
+    @patch("src.common.utils.get_tool_config")
     def test_save_and_push_model_skip_local_save(self, mock_get_config, mock_push, mock_save):
         """Test that local saves are skipped when not at interval or final round."""
         from src.server.model_checkpointing import save_and_push_model
 
-        # Mock config: checkpoint_interval=10, num_server_rounds=50
+        # Mock full flwr config structure to override pyproject defaults
         mock_get_config.return_value = {
-            "app": {"config": {"checkpoint_interval": 10, "num-server-rounds": 50, "hf_repo_id": "test/repo"}}
+            "app": {
+                "config": {
+                    "checkpoint_interval": 10, 
+                    "num-server-rounds": 5, 
+                    "hf_repo_id": "test/repo"
+                }
+            }
         }
 
         mock_strategy = MagicMock()
         mock_parameters = MagicMock()
         metrics = {}
 
-        # Round 3: not multiple of 10 and not final (50)
+        # Round 3: not multiple of 10 and not final (5)
         result = save_and_push_model(mock_strategy, 3, mock_parameters, metrics)
 
         # Should skip local save

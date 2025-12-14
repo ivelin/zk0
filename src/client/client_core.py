@@ -1,8 +1,6 @@
 """zk0: Core client functionality for SmolVLA federated learning."""
 
-from pathlib import Path
 
-import psutil
 
 import torch
 from src.training.model_utils import (
@@ -22,7 +20,6 @@ from src.common.utils import (
 from loguru import logger
 
 from flwr.client import NumPyClient
-
 
 
 # Flower client
@@ -139,18 +136,19 @@ class SmolVLAClient(NumPyClient):
                 f"Client ID from client_fn mismatch with client ID in fit(): {client_id_from_config} != {self.client_id}"
             )
 
-        # Setup logging in the actor process
-        from src.logger import setup_client_logging
-
-        # this is necessary due to the way flower / ray recycle actors in the same python process
-        log_file_path = config.get("log_file_path")
-        if log_file_path:
+        # Setup client logging on first fit() call using fit config["save_path"] (matches metrics logic)
+        if not hasattr(self, 'logging_initialized') or not self.logging_initialized:
+            from src.logger import setup_client_logging
+            save_path = config.get("save_path")
             setup_client_logging(
-                Path(log_file_path), self.client_id
-            )  # Now handles cleanup internally
-            logger.info(
-                f"Client {self.client_id}: Dynamic logging setup (client_id from config: {client_id_from_config})"
+                save_path=save_path,
+                client_id=self.client_id,
+                dataset_slug=self.dataset_name
             )
+            self.logging_initialized = True
+            logger.info(f"Client {self.client_id}: Client logging setup complete (first fit, save_path={save_path})")
+        else:
+            logger.info(f"Client {self.client_id}: Fit logging active (already setup)")
 
         # Sync instance if mismatch (for safety, though rare post-client_fn)
         if client_id_from_config != self.client_id:
@@ -237,15 +235,13 @@ class SmolVLAClient(NumPyClient):
         except Exception as e:
             logger.error(f"Client {self.client_id}: Exception in train(): {e}")
             import traceback
-
             logger.error(traceback.format_exc())
             raise  # Re-raise to fail the client properly
 
         # Add client_id to metrics for server aggregation
         training_metrics["client_id"] = self.client_id
 
-        # Anonymize dataset name in production mode for privacy
-        training_metrics["dataset_name"] = self.dataset_name if self.is_simulation else f"{self.dataset_name}-{self.client_id}"
+        training_metrics["dataset_name"] = self.dataset_name
 
         logger.info(
             f"Client {self.client_id}: Training completed ({self.local_epochs} epochs, batch_size={batch_size})"
@@ -313,7 +309,10 @@ class SmolVLAClient(NumPyClient):
 
         logger.debug(f"Client {self.client_id}: Fit operation completed")
 
+        # Stateless: No state persistence
+
         logger.info(
             f"Client {self.client_id}: Fit operation completed, returning {len(updated_params)} parameter arrays"
         )
+
         return updated_params, len(self.trainloader), flower_metrics

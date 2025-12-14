@@ -215,7 +215,7 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Production Readiness Criteria**: Application code cannot be considered solid and production-ready if any tests fail
 - **Project Status Assessment**: Current project status is alpha stage - active early development that is largely untested by real users, not even close to beta where other developers can test it and expect substantial features
 - **Progress Declaration Policy**: Do not declare progress without explicit user approval
-- **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (minor, major, breaking, etc.)
+- **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (patch, minor, major, breaking, etc.)
 - **Task Completion Assessment**: When a big task is completed that involves substantial code changes, assess and propose project progress update, but wait for approval before making any changes
 - **Version Synchronization**: Project version should always be in sync with release tags and git tags
 

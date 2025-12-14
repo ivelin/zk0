@@ -1,9 +1,15 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-07
-**Version**: 1.0.6
+**Last Updated**: 2025-12-11
+**Version**: 1.0.8
 **Author**: Kilo Code
+
+## Latest Update (2025-12-11)
+**✅ Stateless Revert Complete (zk0-stateless-revert-2025-12-11)**: Code/docs clean (state_manager.py/tests gone, no usages), client_app/core/zk0bot/NODE-OPERATORS stateless. Clients run all rounds, no persistence. Tests/verification → v0.7.0 release (code mode). Coverage target >=36%.
+
+## Previous Updates
+**Stateful Client Resume Workflow (Archived 2025-12-11)**: Implemented persistent JSON state per dataset hash for production client resume after crashes/stops. Clients track completed_server_rounds, disconnect on target, server samples active clients indefinitely. Added --reset-state CLI flag, Docker volumes. Tests pass (36.73% coverage), live Docker test partial success (connection/state ready, FL slow due to SmolVLA loading). Updated memory bank. **Reverted to stateless**.
 
 ## Latest Update (2025-11-07)
 **✅ GitHub Pages Jekyll Deployment Fix**: Resolved live site (zk0.bot) mismatch with local serve by switching Pages source to "GitHub Actions" and leveraging existing .github/workflows/jekyll-build.yml (calls build-site.sh for website/ subdir build, copies root files like docs/README.md, deploys _site/). Confirmed success: Site now renders website/index.md content ("Decentralized AI for the next generation of helpful robots"), loads /assets/images/zk0-fl-concept.png, applies custom.css styling, and includes _includes/footer.html. No code changes; just settings update and workflow trigger. Updated memory bank.

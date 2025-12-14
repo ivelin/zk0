@@ -8,13 +8,6 @@ from loguru import logger
 
 # Import utils functions at module level for easier testing
 from src.common.utils import get_tool_config
-from src.server.model_utils import (
-    extract_training_hyperparameters,
-    extract_datasets,
-    compute_in_memory_insights,
-    save_model_checkpoint,
-    generate_model_card,
-)
 
 
 
@@ -91,7 +84,6 @@ def setup_output_directories(current_time):
     Returns:
         tuple: (save_path, clients_dir, server_dir, models_dir, simulation_log_path)
     """
-    from pathlib import Path
 
     folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_path = Path(f"outputs/{folder_name}")
@@ -404,5 +396,3 @@ def prepare_server_eval_metrics(strategy, server_round):
         "server_per_dataset_eval_results": server_per_dataset_eval_results,  # Detailed results per server evaluation dataset
         "num_server_eval_datasets": num_server_eval_datasets,  # Number of server evaluation datasets used
     }
-
-

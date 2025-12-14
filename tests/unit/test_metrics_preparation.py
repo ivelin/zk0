@@ -89,7 +89,7 @@ class TestInMemoryExtractTrainingInsights:
 
     def test_in_memory_insights_populated(self):
         """Test in-memory insights with populated history."""
-        from src.server.server_utils import compute_in_memory_insights  # Assuming helper is extracted
+        from src.server.model_utils import compute_in_memory_insights
 
         mock_strategy = MagicMock()
         mock_strategy.federated_metrics_history = [
@@ -107,29 +107,29 @@ class TestInMemoryExtractTrainingInsights:
 
     def test_in_memory_insights_with_anomalies(self):
         """Test in-memory insights with client dropouts."""
-        from src.server.server_utils import compute_in_memory_insights
-
+        from src.server.model_utils import compute_in_memory_insights
+ 
         mock_strategy = MagicMock()
         mock_strategy.federated_metrics_history = [
             {"round": 1, "avg_client_loss": 1.0, "num_clients": 2, "param_update_norm": 0.01},
             {"round": 2, "avg_client_loss": 0.8, "num_clients": 1, "param_update_norm": 0.008},  # Dropout
         ]
         mock_strategy.server_eval_losses = [0.9, 0.5]
-
+ 
         insights = compute_in_memory_insights(mock_strategy)
-
+ 
         assert "Client dropouts in rounds: [2]" in insights["anomalies"][0]
 
     def test_in_memory_insights_empty(self):
         """Test in-memory insights with empty history."""
-        from src.server.server_utils import compute_in_memory_insights
-
+        from src.server.model_utils import compute_in_memory_insights
+ 
         mock_strategy = MagicMock()
         mock_strategy.federated_metrics_history = []
         mock_strategy.server_eval_losses = []
-
+ 
         insights = compute_in_memory_insights(mock_strategy)
-
+ 
         assert insights["convergence_trend"] == "N/A"
         assert insights["avg_client_loss_trend"] == "N/A"
         assert insights["client_participation_rate"] == "N/A"
