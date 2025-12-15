@@ -9,11 +9,11 @@ services:
     networks:
       - flwr-network
 
-  superexec-server:
+  zk0-server:
     build:
       context: .
-      dockerfile: docker/superexec.Dockerfile
-    image: zk0-superexec:v0.7.0
+      dockerfile: docker/Dockerfile.zk0
+    image: zk0:latest
     command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
     volumes:
       - ./outputs:/workspace/outputs

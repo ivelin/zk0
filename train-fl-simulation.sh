@@ -140,8 +140,8 @@ if [ "$USE_DOCKER" = true ]; then
     DOCKER_CMD="$DOCKER_CMD -e RAY_LOGGING_CONFIG_LOGGER_NAMES=ray,ray.worker,ray.actor"
     DOCKER_CMD="$DOCKER_CMD -e RAY_DEDUP_LOGS=0"
     DOCKER_CMD="$DOCKER_CMD -e RAY_COLOR_PREFIX=1"
-    DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
-    DOCKER_CMD="$DOCKER_CMD sh -c 'cd /workspace && rm -rf .venv || true && uv venv .venv && . .venv/bin/activate && uv pip install \"lerobot==0.3.3\" && uv pip install -e . && export PYTHONPATH=/workspace:\$PYTHONPATH && flwr run . $FEDERATION $TINY_CONFIG' 2>&1"
+    DOCKER_CMD="$DOCKER_CMD --entrypoint sh $DOCKER_IMAGE"
+    DOCKER_CMD="$DOCKER_CMD -c 'cd /workspace && rm -rf .venv || true && uv venv .venv && . .venv/bin/activate && uv pip install \"lerobot==0.3.3\" && uv pip install -e . && export PYTHONPATH=/workspace:\$PYTHONPATH && flwr run . $FEDERATION $TINY_CONFIG' 2>&1"
 
     print_info "Executing Docker command:"
     print_info "$DOCKER_CMD"

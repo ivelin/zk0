@@ -9,15 +9,15 @@ services:
     networks:
       - flwr-network
 
-  superexec-client:
+  zk0-client:
     build:
       context: .
-      dockerfile: docker/superexec.Dockerfile
-    image: zk0-superexec:v0.7.0
+      dockerfile: docker/Dockerfile.zk0
+    image: zk0:latest
     command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:8080"]
     volumes:
-      - ./outputs:/app/outputs
-      - ./pyproject.toml:/app/pyproject.toml
+      - ./outputs:/workspace/outputs
+      - ./pyproject.toml:/workspace/pyproject.toml
     depends_on:
       - supernode
     deploy:

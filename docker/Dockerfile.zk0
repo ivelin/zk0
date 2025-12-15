@@ -39,6 +39,7 @@ COPY --chown=user_zk0:user_zk0 src/ src/
 RUN uv pip install "lerobot==0.3.3"
 RUN uv pip install -e . --no-cache
 
+ENTRYPOINT ["flower-superexec"]
 CMD ["/bin/bash"]
 
 # Entrypoint will be overridden in docker-compose.yml or train scripts

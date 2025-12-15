@@ -9,7 +9,7 @@ set -e
 ZK0_VERSION="v0.7.0"
 DOCKER_COMPOSE_SERVER="docker/docker-compose.server.yml"
 DOCKER_COMPOSE_CLIENT="docker/docker-compose.client.yml"
-SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
+ZK0_IMAGE="zk0:latest"
 NETWORK_NAME="flwr-network"
 
 # Colors for output
@@ -78,21 +78,21 @@ create_network() {
 
 # Build SuperExec image
 build_superexec() {
-    log_info "Building SuperExec image: ${SUPEREXEC_IMAGE} (fresh --pull --no-cache)"
-    docker build --pull --no-cache -f docker/superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
-    log_success "SuperExec image built successfully (latest base)"
+    log_info "Building zk0 image: ${ZK0_IMAGE} (fresh --pull --no-cache)"
+    docker build --pull --no-cache -f docker/Dockerfile.zk0 -t "${ZK0_IMAGE}" .
+    log_success "zk0 image built successfully (latest base)"
 }
 
 # Pull or build SuperExec image
 pull_image() {
-    log_info "Checking/pulling SuperExec image: ${SUPEREXEC_IMAGE}"
-    if docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${SUPEREXEC_IMAGE}$"; then
+    log_info "Checking/pulling zk0 image: ${ZK0_IMAGE}"
+    if docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${ZK0_IMAGE}$"; then
         log_info "Image ${SUPEREXEC_IMAGE} already exists locally"
     else
         log_info "Image not found, building..."
         build_superexec
     fi
-    log_success "SuperExec image ready"
+    log_success "zk0 image ready"
 }
 
 # Server commands
@@ -106,7 +106,7 @@ server_start() {
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
         ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up -d
         log_info "Clearing LeRobot HF cache for fresh dataset downloads..."
-        docker exec zk0-superexec-server-1 rm -rf /home/user_lerobot/.cache/huggingface/lerobot/* || true
+        docker exec zk0-server-1 rm -rf /home/user_zk0/.cache/huggingface/lerobot/* || true
         log_success "Server started successfully (SuperLink + SuperExec, cache cleared)"
         log_info "Server APIs available on:"
         log_info "  - Fleet API: http://localhost:9092"
@@ -163,7 +163,7 @@ server_status() {
 
 server_run() {
     log_info "Starting federated learning run on server (flwr run . local-deployment)..."
-    CONTAINER=$(docker ps --filter "ancestor=zk0-superexec:v0.7.0" --filter "name=superexec-server" --format "{{.Names}}" | head -1)
+    CONTAINER=$(docker ps --filter "ancestor=${ZK0_IMAGE}" --filter "name=zk0-server" --format "{{.Names}}" | head -1)
     if [ -z "$CONTAINER" ]; then
         log_error "No zk0-superexec server container running. Run 'zk0bot server start' first."
         exit 1
