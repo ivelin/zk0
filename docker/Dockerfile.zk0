@@ -34,7 +34,7 @@ RUN uv venv
 RUN uv pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 # Copy pyproject.toml/src and install zk0 editable from source (flwr from pyproject deps) + lerobot==0.3.3 separate (no [smolvla] extra)
-COPY --chown=user_zk0:user_zk0 pyproject.toml README.md ./
+COPY --chown=user_zk0:user_zk0 pyproject.toml README.md .gitignore ./
 COPY --chown=user_zk0:user_zk0 src/ src/
 RUN uv pip install "lerobot==0.3.3"
 RUN uv pip install -e . --no-cache

@@ -106,7 +106,8 @@ server_start() {
     if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
         ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up -d
         log_info "Clearing LeRobot HF cache for fresh dataset downloads..."
-        docker exec zk0-server-1 rm -rf /home/user_zk0/.cache/huggingface/lerobot/* || true
+        CACHE_CONTAINER=$(docker ps --filter "ancestor=${ZK0_IMAGE}" --filter "name=zk0-server" --format "{{.Names}}" | head -1)
+        [ -n "$CACHE_CONTAINER" ] && docker exec "$CACHE_CONTAINER" rm -rf /home/user_zk0/.cache/huggingface/lerobot/* || true
         log_success "Server started successfully (SuperLink + SuperExec, cache cleared)"
         log_info "Server APIs available on:"
         log_info "  - Fleet API: http://localhost:9092"

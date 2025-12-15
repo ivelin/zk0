@@ -16,8 +16,8 @@ services:
     image: zk0:latest
     command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:8080"]
     volumes:
-      - ./outputs:/workspace/outputs
-      - ./pyproject.toml:/workspace/pyproject.toml
+      - ../outputs:/workspace/outputs
+      - ../pyproject.toml:/workspace/pyproject.toml
     depends_on:
       - supernode
     deploy:
