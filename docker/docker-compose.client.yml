@@ -12,7 +12,7 @@ services:
   superexec-client:
     build:
       context: .
-      dockerfile: superexec.Dockerfile
+      dockerfile: docker/superexec.Dockerfile
     image: zk0-superexec:v0.7.0
     command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:8080"]
     volumes:
@@ -20,6 +20,13 @@ services:
       - ./pyproject.toml:/app/pyproject.toml
     depends_on:
       - supernode
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     networks:
       - flwr-network
 

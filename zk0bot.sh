@@ -7,8 +7,8 @@ set -e
 
 # Configuration
 ZK0_VERSION="v0.7.0"
-DOCKER_COMPOSE_SERVER="docker-compose.server.yml"
-DOCKER_COMPOSE_CLIENT="docker-compose.client.yml"
+DOCKER_COMPOSE_SERVER="docker/docker-compose.server.yml"
+DOCKER_COMPOSE_CLIENT="docker/docker-compose.client.yml"
 SUPEREXEC_IMAGE="zk0-superexec:${ZK0_VERSION}"
 NETWORK_NAME="flwr-network"
 
@@ -79,7 +79,7 @@ create_network() {
 # Build SuperExec image
 build_superexec() {
     log_info "Building SuperExec image: ${SUPEREXEC_IMAGE} (fresh --pull --no-cache)"
-    docker build --pull --no-cache -f superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
+    docker build --pull --no-cache -f docker/superexec.Dockerfile -t "${SUPEREXEC_IMAGE}" .
     log_success "SuperExec image built successfully (latest base)"
 }
 
