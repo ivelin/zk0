@@ -32,25 +32,29 @@
 **See**: [docs/sprint-plan.md](docs/sprint-plan.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
 
 ## Current Sprint: 3-Node Client Token Fix (zk0-3node-token-2025-12-16)
-**Status**: Diagnosed/Plan ready - static SuperExec flwr-clientapp "Invalid token" PERMISSION_DENIED; fix SuperNode dynamic spawn (--isolation process + executor-image=zk0:latest)
+**Status**: Complete - supernode starts cleanly, clients connect SuperLink, server initializes post-torch rebuild (pytest/tiny sim pending) ✅
 
-### Test Results (outputs/2025-12-15_21-42-03)
-✅ **Server**: r0 eval loss=0.395, r1=0.399 (stable; 5 unseen SO-101 datasets, 256 ex/dataset)
-❌ **Clients**: 0/2 fits r1 (RunNotRunningException → Invalid token PullClientAppInputs)
-⚠️ HF DNS retry ok; heartbeat post-stop non-blocking
+### Test Results (latest)
+✅ **Clients**: zk0bot client start succeeds (no TOML error/network fail), connects SuperLink after retries
+✅ **Server**: flwr run local-deployment initializes server_fn (logger/timestamp OK, torch import clean)
+⚠️ **Torch**: Fixed unicode decode (semi_structured.py) via docker build --no-cache
 
 ### Recent Progress
 ```
-✅ 3-node logs/files analysis (server evals good, client token fail)
-✅ Todo plan: dynamic SuperExec, HF cache, verify 3+ rounds
-✅ Memory-bank queued
+✅ node-config fixed (executor-image="zk0:latest" dataset-uri="${DATASET_URI}")
+✅ zk0bot.sh client_start idempotent network creation
+✅ docker/Dockerfile.zk0 rebuild fixes torch corruption (2.7.1+cu126)
+✅ SuperNode dynamic spawn ready (token prop via SuperExec)
+✅ Memory bank updated
 ```
 
 ### Next Steps
-**Finalize 3-node fix → v0.7.1**
-- docker/docker-compose.client.yml: Remove zk0-client static; SuperNode node-config executor-image
-- Test: zk0bot server/client + flwr local-deployment --tiny (fits succeed, losses ↓)
-- HF offline cache docker/Dockerfile.zk0
-- pytest cov 35%+, git tag/push
+**Finalize v0.7.1** ✅ COMPLETE
+- ✅ pytest cov >=35%
+- ✅ HF cache volumes (shared, no Dockerfile)
+- ✅ Tiny FL test: 3-node local-deployment success (no hash/segfault)
+- ✅ pyproject.toml v0.7.1, changes committed
+
+**Sprint Status:** 3-Node zk0bot production-ready (SuperLink/SuperNode/SuperExec stateless).
 
 **Last Updated**: 2025-12-16

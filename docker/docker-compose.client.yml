@@ -7,8 +7,8 @@ services:
     environment:
       - DATASET_URI
     volumes:
-      - ../pyproject.toml:/workspace/pyproject.toml:ro
       - ../outputs:/workspace/outputs
+      - ${HOME}/.cache/huggingface:/home/user_zk0/.cache/huggingface
     networks:
       - flwr-network
 

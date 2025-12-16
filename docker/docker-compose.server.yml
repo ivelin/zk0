@@ -6,6 +6,12 @@ services:
       - "9091:9091"  # ServerAppIO API
       - "9092:9092"  # Fleet API
       - "9093:9093"  # Control API
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+        reservations:
+          memory: 4G
     networks:
       - flwr-network
 
@@ -14,19 +20,22 @@ services:
       context: .
       dockerfile: docker/Dockerfile.zk0
     image: zk0:latest
-    command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
-    volumes:
-      - ../outputs:/workspace/outputs
-      - ../pyproject.toml:/workspace/pyproject.toml
-    depends_on:
-      - superlink
     deploy:
       resources:
+        limits:
+          memory: 16G
         reservations:
+          memory: 8G
           devices:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+    command: ["--insecure", "--plugin-type", "serverapp", "--appio-api-address", "superlink:9091"]
+    volumes:
+      - ../outputs:/workspace/outputs
+      - ${HOME}/.cache/huggingface:/home/user_zk0/.cache/huggingface
+    depends_on:
+      - superlink
     networks:
       - flwr-network
 

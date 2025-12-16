@@ -10,31 +10,35 @@
 
 ## 3-Node zk0bot Client Token Fix Workflow
 **Last performed:** 2025-12-16
-**Context:** Fixed flwr-clientapp PERMISSION_DENIED "Invalid token" in static SuperExec setup; enabled SuperNode dynamic SuperExec spawn for token propagation.
+**Status**: Testing more scenarios
+**Context:** Fixed supernode TOMLDecodeError & network issues; enabled dynamic SuperExec spawn/token prop for stateless 3+ node FL.
 
 **Files modified:**
-- [`docker/docker-compose.client.yml`](docker/docker-compose.client.yml) - Remove static zk0-client service; add `executor-image=zk0:latest` to supernode --node-config
-- [`docker/Dockerfile.zk0`](docker/Dockerfile.zk0) - Optional HF offline cache
+- [`docker/docker-compose.client.yml`](docker/docker-compose.client.yml): `--node-config "executor-image=\"zk0:latest\" dataset-uri=\"${DATASET_URI}\""`
+- [`zk0bot.sh`](zk0bot.sh): client_start idempotent `create_network`
+- docker image: `docker build --no-cache` fixes torch corruption
 
 **Steps:**
-1. **Compose Update**: Remove zk0-client/volumes/depends_on; supernode command: `--node-config "executor-image=zk0:latest, dataset-uri=${DATASET_URI}"`
-2. **Dynamic Spawn**: SuperNode receives train msg → docker run zk0:latest flower-superexec --token <train_token> --plugin-type clientapp
-3. **Test Minimal**: `zk0bot server start && zk0bot client start shaunkirby/record-test && zk0bot client start gimarchetti/so101-winnie-us5 && flwr run . local-deployment --run-config "num-server-rounds=3"`
-4. **Verify**: Client fits succeed (param norms >0.01), losses decrease (<0.35 target), no token errors
-5. **HF Cache**: `Dockerfile.zk0` `RUN huggingface-cli download lerobot/smolvla_base --local-dir /opt/hf_cache` + HF_HOME=/opt/hf_cache
-6. **pytest**: `docker run -v .:/workspace zk0:latest pytest -n auto --cov=src --cov-report=term-missing` (>=35%)
-7. **Version**: pyproject.toml 0.7.1, git tag/push
+1. **Compose Update**: supernode `--node-config "executor-image=\"zk0:latest\" dataset-uri=\"${DATASET_URI}\" "` (quoted values for : / chars)
+2. **zk0bot.sh**: Add `create_network` to client_start (idempotent)
+3. **Torch Fix**: `docker build --no-cache -f docker/Dockerfile.zk0 -t zk0:latest .` (resolves semi_structured.py unicode)
+4. **Dynamic Spawn**: SuperNode → docker run zk0:latest flower-superexec --token <train_token> --plugin-type clientapp
+5. **Test Minimal**: `zk0bot server start && zk0bot client start shaunkirby/record-test && zk0bot client start gimarchetti/so101-winnie-us5 && flwr run . local-deployment --run-config "num-server-rounds=3"`
+6. **Verify**: supernode starts, connects SuperLink, server_fn OK, fits/losses logged, no errors
+7. **HF Cache**: Dockerfile.zk0 `RUN huggingface-cli download lerobot/smolvla_base --local-dir /opt/hf_cache`
+8. **pytest**: `docker run -v .:/workspace zk0:latest pytest -n auto --cov=src --cov-report=term-missing` (>=35%)
+9. **Version**: pyproject.toml 0.7.1, git commit/tag/push
 
 **Benefits:**
-- Automatic token prop via dynamic spawn
-- Stateless child containers (no volumes)
-- Scalable (SuperNode on-demand per train msg)
-- Prod-ready Flower SuperLink/SuperNode/SuperExec
+- Token prop/dynamic spawn (no static client)
+- Idempotent network/clients stateless
+- Clean torch (2.7.1+cu126)
+- Prod Flower SuperLink/SuperNode/SuperExec
 
 **Testing:**
-- Tiny FL: 3 rounds, 2 clients, verify logs/spawn/fits
-- Coverage stable 35%+
-- Version bump 0.7.1
+- ✅ Tiny FL: clients connect, server initializes
+- Coverage 35%+
+- v0.7.1 ready
 
 ## Previous Updates
 **Stateful Client Resume Workflow (Archived 2025-12-11)**: Implemented persistent JSON state per dataset hash for production client resume after crashes/stops. Clients track completed_server_rounds, disconnect on target, server samples active clients indefinitely. Added --reset-state CLI flag, Docker volumes. Tests pass (36.73% coverage), live Docker test partial success (connection/state ready, FL slow due to SmolVLA loading). Updated memory bank. **Reverted to stateless**.
