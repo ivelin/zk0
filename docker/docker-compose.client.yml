@@ -1,32 +1,14 @@
 services:
   supernode:
     image: flwr/supernode:1.23.0
-    command: ["--insecure", "--isolation", "process", "--superlink", "superlink:9092", "--node-config", "dataset-uri = ${DATASET_URI}", "--clientappio-api-address", "0.0.0.0:8080"]
+    command: ["--insecure", "--isolation", "process", "--superlink", "superlink:9092", "--node-config", "executor-image=\"zk0:latest\" dataset-uri=\"${DATASET_URI}\"", "--clientappio-api-address", "0.0.0.0:8080"]
     ports:
       - "8080"
     environment:
       - DATASET_URI
-    networks:
-      - flwr-network
-
-  zk0-client:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.zk0
-    image: zk0:latest
-    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:8080"]
     volumes:
+      - ../pyproject.toml:/workspace/pyproject.toml:ro
       - ../outputs:/workspace/outputs
-      - ../pyproject.toml:/workspace/pyproject.toml
-    depends_on:
-      - supernode
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
     networks:
       - flwr-network
 

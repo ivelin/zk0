@@ -540,13 +540,16 @@ def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, ex
 
 def get_dataset_slug(context: Any) -> str:
     """Get dataset slug from context for unified sim/prod path generation."""
-    # Production: Check environment first (CLI/Docker), then run_config
+    logger.debug(f"get_dataset_slug node_config keys: {list(context.node_config.keys())}")
+    # Production: Check environment first (CLI/Docker), then run_config, SuperNode dataset-uri
     if os.environ.get("DATASET_NAME"):
         return os.environ["DATASET_NAME"]
     elif context.run_config.get("dataset.repo_id"):
         return context.run_config["dataset.repo_id"]
     elif context.run_config.get("dataset.root"):
         return Path(context.run_config["dataset.root"]).name
+    elif "dataset-uri" in context.node_config:
+        return context.node_config["dataset-uri"]
     else:
         # Simulation: Use partition_id to lookup from DatasetConfig
         partition_id = int(context.node_config["partition-id"])

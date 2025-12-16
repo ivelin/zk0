@@ -193,6 +193,8 @@ client_start() {
     detect_compose
     pull_image
 
+    create_network  # Ensure flwr-network exists for client (even if server down)
+
     log_info "Using DATASET_URI=${DATASET_URI} for production SuperNode"
 
     if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
