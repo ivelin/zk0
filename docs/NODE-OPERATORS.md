@@ -22,7 +22,7 @@ To join the zk0 network:
    - A private robotics dataset (SO-100/SO-101 compatible)
    - GPU-enabled machine (recommended for training)
    - Stable internet connection
-   - Basic familiarity with Docker
+   - Basic familiarity with Conda and tmux
 
 2. **Submit Application**: Create a new issue using our [Node Operator Application Template](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md)
 
@@ -34,13 +34,14 @@ Once approved, install the zk0bot CLI tool:
 
 ```bash
 # One-line installer
-curl -fsSL https://zk0.bot/get-zk0bot.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/dev/get-zk0bot.sh | bash
 ```
 
 This will:
-- Download and install zk0bot to your PATH
-- Verify Docker and Docker Compose installation
-- Set up necessary dependencies
+- Clone/update zk0 repo to ~/zk0 (dev branch)
+- Create conda zk0 env (Python 3.10)
+- Install flwr[superexec], lerobot[smolvla], torch cu121, pip install -e .
+- Optional Hugging Face login
 
 ### 3. Configure Your Environment
 
@@ -56,19 +57,18 @@ Note: WandB logging is handled server-side only. Client training does not requir
 ### 4. Start Your Client
 
 **Light Test Production Run (Recommended):**
-```bash
-# 3-round light test (CLI config override) - any dataset
-zk0bot client start hf:yourusername/your-private-dataset --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
+1. Server: zk0bot server start
+2. Clients: zk0bot client start shaunkirby/record-test
+3. Submit run: zk0bot run --rounds 3 --stream
 
-# Examples:
-# zk0bot client start hf:shaunkirby/record-test --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
-# zk0bot client start hf:ethanCSL/direction_test --run-config "num-server-rounds=3 local-epochs=2 checkpoint-interval=1"
-```
+Examples:
+  zk0bot client start shaunkirby/record-test
+  zk0bot client start ethanCSL/direction_test
 
 **Production Run (Stateless):**
 ```bash
 # Standard (pyproject.toml defaults) - runs all server rounds
-zk0bot client start hf:yourusername/your-private-dataset
+zk0bot client start yourusername/your-private-dataset
 zk0bot client start local:/path/to/your/dataset
 ```
 
@@ -113,11 +113,11 @@ zk0bot client log
 
 ### Common Issues
 
-**Docker not found**: Install Docker Desktop or Docker Engine
-**Permission denied**: Ensure Docker daemon is running and you have permissions
+**tmux not found**: sudo apt install tmux (Linux) or brew install tmux (macOS)
+**Conda zk0 not active**: conda activate zk0
 **Dataset not found**: Verify dataset path/URL and credentials
 **Connection failed**: Check internet connection and server availability
-**Installer fails**: If `curl -fsSL https://get.zk0.bot | bash` fails, check GitHub status (api.github.com), ensure curl/wget available, or download manually from https://github.com/ivelin/zk0/releases/latest
+**Installer fails**: Check GitHub status, ensure curl available, or git clone https://github.com/ivelin/zk0.git ~/zk0; cd ~/zk0; ./get-zk0bot.sh
 
 ## Dataset Requirements
 
@@ -153,6 +153,107 @@ zk0bot client log
 ### Flower Deployment Engine
 - **Stateless SuperExec**: Clean restarts, no persistence.
 - **Insecure Mode**: Dev; TLS for prod.
+
+## Federation Flow
+
+```mermaid
+sequenceDiagram
+    participant Admin as Admin/Submission<br>(zk0bot.sh run)
+    participant SuperLink as SuperLink<br>(flower-superlink)
+    participant SuperNode1 as SuperNode 1<br>(flower-supernode,<br>dataset-uri=uri1)
+    participant SuperNode2 as SuperNode 2<br>(flower-supernode,<br>dataset-uri=uri2)
+    participant ServerApp as ServerApp<br>(SuperExec process<br>on SuperLink host)
+    participant ClientApp1 as ClientApp 1<br>(SuperExec process<br>on SuperNode 1)
+    participant ClientApp2 as ClientApp 2<br>(SuperExec process<br>on SuperNode 2)
+
+    Note over SuperLink,SuperNode2: Persistent Infrastructure (started first)
+
+    Admin->>+SuperLink: Start SuperLink<br>(zk0bot.sh server start)
+    Note right of SuperLink: Listens on gRPC Fleet API<br>(ports 9091-9093)
+
+    Admin->>+SuperNode1: Start SuperNode 1<br>(zk0bot.sh client start <dataset-uri1>)
+    Note right of SuperNode1: e.g., dataset-uri1 = "shaunkirby/record-test"<br>or "local:/data/client1_episodes"
+    SuperNode1->>+SuperLink: Register via gRPC<br>(Fleet API handshake)
+    Note right of SuperNode1: Passes node-config<br>(dataset-uri=uri1 → unique/private dataset)
+
+    Admin->>+SuperNode2: Start SuperNode 2<br>(zk0bot.sh client start <dataset-uri2>)
+    Note right of SuperNode2: e.g., dataset-uri2 = "ethanCSL/direction_test"<br>or private HF repo / local path
+    SuperNode2->>+SuperLink: Register via gRPC<br>(Fleet API handshake)
+    Note right of SuperNode2: Passes node-config<br>(dataset-uri=uri2 → unique/private dataset)
+
+    Note over SuperLink,SuperNode2: SuperNodes now visible/registered in SuperLink logs
+
+    Admin->>+SuperLink: Submit Run<br>(zk0bot.sh run → flwr run)
+    Note right of Admin: Uploads Flower App Bundle (FAB)<br>containing ServerApp + ClientApp code
+
+    SuperLink->>+ServerApp: Spawn SuperExec process<br>for ServerApp execution
+    activate ServerApp
+    Note right of ServerApp: ServerApp starts (strategy, rounds, etc.)
+
+    SuperLink->>+SuperNode1: Instruct to execute ClientApp<br>(via registered Fleet API, sends FAB + config)
+    SuperNode1->>+ClientApp1: Spawn SuperExec process<br>for ClientApp
+    activate ClientApp1
+    Note over ClientApp1: ClientApp loads private/unique dataset<br>(from injected node-config dataset-uri=uri1)<br>e.g., HF dataset download or local path
+
+    SuperLink->>+SuperNode2: Instruct to execute ClientApp<br>(via registered Fleet API, sends FAB + config)
+    SuperNode2->>+ClientApp2: Spawn SuperExec process<br>for ClientApp
+    activate ClientApp2
+    Note over ClientApp2: ClientApp loads private/unique dataset<br>(from injected node-config dataset-uri=uri2)<br>e.g., different HF repo or local episodes
+
+    Note over ServerApp,ClientApp2: Federation begins (gRPC message passing via SuperLink/SuperNodes)
+
+    loop For each federation round (e.g., Fit)
+        ServerApp->>SuperLink: Send FitIns (parameters)<br>to selected SuperNodes
+        SuperLink->>SuperNode1: Forward FitIns (gRPC)
+        SuperNode1->>ClientApp1: Forward to local SuperExec
+        ClientApp1->>ClientApp1: Local training<br>on private unique dataset (from uri1)
+        ClientApp1->>SuperNode1: Return FitRes (updated parameters)
+        SuperNode1->>SuperLink: Forward FitRes
+        SuperLink->>ServerApp: Deliver FitRes
+
+        par Parallel for multiple clients
+            SuperLink->>SuperNode2: Forward FitIns (gRPC)
+            SuperNode2->>ClientApp2: Forward to local SuperExec
+            ClientApp2->>ClientApp2: Local training<br>on private unique dataset (from uri2)
+            ClientApp2->>SuperNode2: Return FitRes
+            SuperNode2->>SuperLink: Forward FitRes
+            SuperLink->>ServerApp: Deliver FitRes
+        end
+
+        ServerApp->>ServerApp: Aggregate updates<br>(e.g., FedAvg)
+    end
+
+    Note over ServerApp,ClientApp2: Similar flow for Evaluate rounds<br>(Server sends EvaluateIns, clients evaluate locally on their private datasets from uri1/uri2)
+
+    Note over SuperLink, SuperNode2: Run completes → SuperExec processes terminate. SuperLink & SuperNodes remain running for next Run
+```
+
+### Updated Explanation of the Sequence (Dataset URI Flow)
+
+The core architecture uses Flower's Deployment Engine, with client data privacy via **positional `<dataset-uri>`** in `zk0bot.sh client start <dataset-uri>`.
+
+#### CLI Change
+- `zk0bot.sh client start <dataset-uri>`
+  - Examples:
+    - `./zk0bot.sh client start shaunkirby/record-test`
+    - `./zk0bot.sh client start ethanCSL/direction_test`
+    - Private: `./zk0bot.sh client start yourusername/private-so100`
+    - Local: `./zk0bot.sh client start local:/home/user/robot_episodes`
+- Passes `--node-config '{"dataset-uri": "<uri>"}'` to `flower-supernode`.
+
+#### Persistent Infrastructure First
+- Start SuperLink (`zk0bot server start`).
+- SuperNodes register with SuperLink, injecting unique `dataset-uri` in node-config.
+
+#### Dynamic App Execution on Run Submission
+- `zk0bot run` submits FAB to SuperLink.
+- SuperLink spawns ServerApp; instructs SuperNodes to spawn ClientApps with pre-registered config.
+- Each ClientApp loads **exclusive dataset** from its `node_config["dataset-uri"]` (HF download/local).
+
+#### Message Passing During Federation
+- gRPC via SuperLink/SuperNodes: parameters/metrics only.
+- Local training/eval on private datasets.
+- No raw data leaves client.
 
 ## Community and Support
 
@@ -190,37 +291,10 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 
 ## Advanced Configuration
 
-### Custom Docker Compose
-The zk0bot CLI uses Flower's Deployment Engine components. For advanced setups, you can modify the provided Docker Compose files:
-
-- `docker-compose.server.yml`: SuperLink + SuperExec-Server
-- `docker-compose.client.yml`: SuperNode + SuperExec-Client
-- `superexec.Dockerfile`: Custom image with zk0 dependencies
-
-Example custom client configuration:
-
-```yaml
-# docker-compose.client.yml (custom)
-version: '3.8'
-services:
-  supernode:
-    image: flwr/supernode:1.23.0
-    command: ["--insecure", "--isolation", "process", "--superlink", "superlink:9092", "--node-config", "partition-id=${PARTITION_ID} num-partitions=4", "--clientappio-api-address", "0.0.0.0:${NODE_PORT}"]
-    ports: ["${NODE_PORT}:${NODE_PORT}"]
-    networks: [flwr-network]
-  superexec-client:
-    build: {context: ., dockerfile: superexec.Dockerfile}
-    image: zk0-superexec:0.6.0
-    command: ["--insecure", "--plugin-type", "clientapp", "--appio-api-address", "supernode:${NODE_PORT}"]
-    environment:
-      - DATASET_URI=${DATASET_URI}
-      - HF_TOKEN=${HF_TOKEN}
-    depends_on: [supernode]
-    networks: [flwr-network]
-networks:
-  flwr-network:
-    external: true
-```
+### Advanced tmux/Conda Configuration
+zk0bot uses native Flower CLI + tmux for persistence. For custom setups:
+- Edit [`zk0bot.sh`](zk0bot.sh) ports/node-config.
+- Env vars: `DATASET_URI`, `HF_TOKEN`.
 
 ### Environment Variables
 - `DATASET_URI`: Dataset location (hf:repo/name or local:/path)
@@ -243,4 +317,4 @@ zk0 is open-source software licensed under the Apache 2.0 License.
 
 ---
 
-*Last updated: 2025-11-10*
+*Last updated: 2025-12-17*

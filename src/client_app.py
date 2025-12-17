@@ -1,6 +1,7 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
 import sys
+import os
 
 import torch
 from src.common.utils import load_lerobot_dataset
@@ -17,16 +18,19 @@ def client_fn(context: Context) -> Client:
     """Construct a Client that will be run in a ClientApp."""
 
     print("[DEBUG client_fn] client_fn STARTED - context.node_config keys:", list(context.node_config.keys()), file=sys.stderr)
+    print(f"[DEBUG client_fn] DATASET_NAME env: '{os.environ.get('DATASET_NAME', 'MISSING')}'", file=sys.stderr)
+    print(f"[DEBUG client_fn] context keys: {list(context.__dict__.keys()) if hasattr(context, '__dict__') else 'No __dict__'}", file=sys.stderr)
     sys.stderr.flush()
-
+    
     # Determine runtime mode based on presence of partition-id in node_config
     is_simulation = "partition-id" in context.node_config
-    print(f"[DEBUG client_fn] is_simulation={is_simulation}", file=sys.stderr)
+    print(f"[DEBUG client_fn] is_simulation={is_simulation} (node_config has partition-id: {'partition-id' in context.node_config})", file=sys.stderr)
     sys.stderr.flush()
-
+    
     # Get dataset slug for unified path generation
     from src.common.utils import get_dataset_slug
     dataset_slug = get_dataset_slug(context)
+    print(f"[DEBUG client_fn] get_dataset_slug returned: '{dataset_slug}'", file=sys.stderr)
     
     # Determine client identifier
     if is_simulation:
@@ -77,9 +81,9 @@ def client_fn(context: Context) -> Client:
             logger.warning("⚠️ Simulation mode: dataset.repo_id or dataset.root in run_config will be ignored; using DatasetConfig partitions instead")
     else:
         logger.info("🔒 Production mode: Configuring for external networking")
-        # Guard: Ensure dataset is provided for production
-        if not (context.run_config.get("dataset.repo_id") or context.run_config.get("dataset.root")):
-            error_msg = "❌ Production mode requires dataset.repo_id or dataset.root in run_config"
+        # Guard: For production, require DATASET_NAME env or node_config dataset-uri (ignore server run_config)
+        if not (os.environ.get("DATASET_NAME") or context.node_config.get("dataset-uri")):
+            error_msg = "❌ Production mode requires DATASET_NAME env var OR dataset-uri in node_config"
             logger.error(error_msg)
             raise ValueError(error_msg)
 
@@ -119,37 +123,27 @@ def client_fn(context: Context) -> Client:
 
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    logger.info(f"✅ Client {partition_id}: Device set to {nn_device}")
+    logger.info(f"✅ Client {client_id}: Device set to {nn_device}")
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
     local_epochs = int(context.run_config["local-epochs"])
     logger.info(
-        f"✅ Client {partition_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
+        f"✅ Client {client_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
     )
 
     batch_size = context.run_config.get("batch_size", 64)
-    logger.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
+    logger.info(f"✅ Client {client_id}: Batch size set to {batch_size}")
 
 
     # Load dataset first to get metadata for model creation
     try:
         if not is_simulation:
-            dataset_repo_id = context.node_config.get("dataset-uri") or context.run_config.get("dataset.repo_id")
-            dataset_root = context.run_config.get("dataset.root")
-            source = "node_config.dataset-uri" if context.node_config.get("dataset-uri") else "run_config.dataset.repo_id" if dataset_repo_id else "unknown"
-            if dataset_repo_id:
-                logger.info(f"Client {client_id}: Loading HF dataset '{dataset_repo_id}' from {source}")
-                dataset = load_lerobot_dataset(dataset_repo_id)
-                dataset_name = dataset_repo_id
-            elif dataset_root:
-                logger.info(f"Client {client_id}: Loading local dataset: {dataset_root}")
-                from lerobot.datasets.lerobot_dataset import LeRobotDataset
-                dataset = LeRobotDataset(dataset_root)
-                dataset_name = dataset_root
-            else:
-                raise ValueError("Production mode requires dataset.repo_id/root in run_config OR node_config.dataset-uri")
-
+            dataset_repo_id = dataset_slug  # Unified fallback from get_dataset_slug (node_config.dataset-uri / DATASET_NAME / run_config.dataset.repo_id)
+            source = "dataset_slug fallback"
+            logger.info(f"Client {client_id}: Loading dataset '{dataset_repo_id}' from {source}")
+            dataset = load_lerobot_dataset(dataset_repo_id)
+            dataset_name = dataset_repo_id
             logger.info(f"✅ Client {client_id}: Dataset loaded - samples: {len(dataset)}")
         else:
             # Simulation mode: load from partitions

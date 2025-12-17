@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.7.1"
+version = "0.8.0"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -90,6 +90,7 @@ max_adjust_factor = 1.05  # Cap adjustments early (<R20)
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)
 level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
+log_level = "DEBUG"
 flwr_log_level = "DEBUG"  # Flower framework logging level
 lerobot_log_level = "DEBUG"  # LeRobot framework logging level
 enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
@@ -128,7 +129,11 @@ options.backend.client-resources.num-cpus = 4 # CPU resources per client
 options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
 
 [tool.flwr.federations.local-deployment]
-address = "superlink:9093"
+address = "127.0.0.1:9093"
+insecure = true
+
+[tool.flwr.federations.prod-deployment]
+address = "0.0.0.0:9093"
 insecure = true
 
 [tool.zk0.datasets]
@@ -148,10 +153,10 @@ clients = [
 ]
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
-    {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
-    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
-    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    
-    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=4},    
+#    {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
+#    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
+#    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    
+#    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=4},    
 ]
 
 # Dataset loading configuration

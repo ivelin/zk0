@@ -10,7 +10,8 @@
 
 ## 3-Node zk0bot Client Token Fix Workflow
 **Last performed:** 2025-12-16
-**Status**: Testing more scenarios
+**Status**: 3 live node test in progress (1 server, 2 clients)
+
 **Context:** Fixed supernode TOMLDecodeError & network issues; enabled dynamic SuperExec spawn/token prop for stateless 3+ node FL.
 
 **Files modified:**
@@ -39,6 +40,29 @@
 - ✅ Tiny FL: clients connect, server initializes
 - Coverage 35%+
 - v0.7.1 ready
+
+## Client Production Dataset Guard Fix Workflow
+**Last performed:** 2025-12-16
+**Status**: Complete ✅
+**Context:** Fixed ValueError in prod client_fn: Guard (lines 73-84) wrongly required dataset.repo_id/root **only** in run_config; now OR node_config['dataset-uri'] (docker/static). Token mismatch: Late clients miss current round only (stateless, catch next).
+
+**Files modified:**
+- [`src/client_app.py`](src/client_app.py): Guard check + error msg.
+
+**Steps:**
+1. **Diagnosis**: codebase_search "Production mode requires dataset.repo_id" → src/client_app.py:73 guard mismatch (run_config vs node_config).
+2. **Fix**: Update if not (run_config.dataset.repo_id/root **OR** node_config.dataset-uri).
+3. **Verify**: Tiny run pre-start clients → No ValueError, round 1 fit.
+4. **Doc**: tasks.md + context.md updated.
+
+**Benefits:**
+- Prod clients load datasets (node_config).
+- Aligns sim (partition-id run_config) vs prod (dataset-uri node_config).
+- Graceful late-join (miss 1 round).
+
+**Testing:**
+- ✅ Tiny FL: 2 clients fit round 1, server eval.
+- Late client: Joins round 2+.
 
 ## Previous Updates
 **Stateful Client Resume Workflow (Archived 2025-12-11)**: Implemented persistent JSON state per dataset hash for production client resume after crashes/stops. Clients track completed_server_rounds, disconnect on target, server samples active clients indefinitely. Added --reset-state CLI flag, Docker volumes. Tests pass (36.73% coverage), live Docker test partial success (connection/state ready, FL slow due to SmolVLA loading). Updated memory bank. **Reverted to stateless**.
@@ -442,3 +466,30 @@
 - Include comprehensive changelog with breaking changes, new features, bug fixes
 - Ensure all tests pass before merging
 - Coordinate with user for release timing and approval
+
+## zk0bot Docker to Native Flower CLI Refactor Workflow
+**Last performed:** 2025-12-17
+**Status**: Complete ✅
+
+**Context:** Replaced brittle Docker/compose in zk0bot prod with native Flower CLI (superlink/supernode/superexec tmux) for simplicity/reliability. Added GPU check.
+
+**Files modified:**
+- [`zk0bot.sh`](zk0bot.sh) - conda/GPU/tmux/native commands
+- [`website/get-zk0bot.sh`](website/get-zk0bot.sh) - main/torch/lerobot0.3.3/.env
+- [`pyproject.toml`](pyproject.toml) - v0.8.0 address=127.0.0.1:9093
+- [`docs/NODE-OPERATORS.md`](docs/NODE-OPERATORS.md) - workflow no Docker
+
+**Steps:**
+1. Rewrite zk0bot.sh no Docker, tmux sessions, dataset-uri arg, GPU nvidia-smi/torch.cuda
+2. Installer main branch, deps torch cu121 lerobot==0.3.3 pip -e .
+3. pyproject v0.8.0 federation
+4. Docs curl raw main/website/get-zk0bot.sh conda/tmux examples
+5. Delete docker-compose.*.yml
+
+**Benefits:**
+- No Docker prod setup
+- Native reliable
+- Installer pinned deps
+
+**Testing:**
+- Multi-term server/client/run tiny

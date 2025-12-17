@@ -1,25 +1,19 @@
 #!/bin/bash
+# zk0bot: CLI wrapper for Flower Deployment Engine (conda zk0 env, no Docker)
+# Usage: conda activate zk0; ./zk0bot.sh --help
+# Server: ./zk0bot.sh server start
+# Client: ./zk0bot.sh client start shaunkirby/record-test [--task-id 0]
+# Run: ./zk0bot.sh run --rounds 3 --stream
 
-# zk0bot: CLI tool for zk0 federated learning operations
-# Inspired by RocketPool CLI and OpenCode installer
+set -euo pipefail
 
-set -e
-
-# Configuration
-ZK0_VERSION="v0.7.0"
-DOCKER_COMPOSE_SERVER="docker/docker-compose.server.yml"
-DOCKER_COMPOSE_CLIENT="docker/docker-compose.client.yml"
-ZK0_IMAGE="zk0:latest"
-NETWORK_NAME="flwr-network"
-
-# Colors for output
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Logging functions
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -36,354 +30,210 @@ log_error() {
     echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# Check if Docker and Docker Compose are available
-check_dependencies() {
-    if ! command -v docker &> /dev/null; then
-        log_error "Docker is not installed or not in PATH"
+# Check conda zk0 env (safe for unbound vars)
+if [ "${CONDA_DEFAULT_ENV:-}" != "zk0" ]; then
+    log_info "Auto-activating conda zk0 env..."
+    exec conda run -n zk0 --live-stream bash "$0" "$@"
+fi
+
+# Prereq checks only for start commands
+if [[ "$1" == @(server|client) && "$2" == "start" ]]; then
+    # GPU check
+    log_info "Checking GPU/CUDA health..."
+    if command -v nvidia-smi > /dev/null 2>&1; then
+        GPU_COUNT=$(nvidia-smi --query-gpu=name --format=csv,noheader,nounits | wc -l)
+        log_success "NVIDIA GPU(s): $GPU_COUNT"
+    else
+        log_warning "nvidia-smi not found. Install NVIDIA drivers/CUDA toolkit."
+    fi
+
+    CUDA_AVAILABLE=$(python3 -c "import torch; print('True' if torch.cuda.is_available() else 'False')" 2>/dev/null || echo "False")
+    if [ "$CUDA_AVAILABLE" = "True" ]; then
+        log_success "PyTorch CUDA ready"
+    else
+        log_warning "PyTorch CUDA not available - FL training on CPU (much slower)."
+        log_info "Fix: https://pytorch.org/get-started/locally/ (match CUDA version)"
+    fi
+
+    # Check tmux (required for SuperLink/SuperNode sessions)
+    if ! command -v tmux >/dev/null 2>&1; then
+        log_error "tmux required for persistent SuperLink/SuperNode sessions. Install: sudo apt install tmux"
         exit 1
     fi
+    log_success "tmux ready"
+fi
 
-    if ! command -v docker-compose &> /dev/null && ! docker compose version &> /dev/null; then
-        log_error "Docker Compose is not installed or not in PATH"
-        exit 1
-    fi
+# Config
+SUPERLINK_FLEET_PORT=9092
+SUPERLINK_CONTROL_PORT=9093
+SUPERLINK_SERVERAPP_PORT=9091
+DEFAULT_CLIENTAPP_PORT=8080
+LOG_DIR="$(pwd)/outputs/zk0bot-cli-logs"
+mkdir -p "$LOG_DIR"
 
-    log_success "Dependencies check passed"
-}
-
-# Detect Docker Compose command
-detect_compose() {
-    if docker compose version &> /dev/null 2>&1; then
-        COMPOSE_CMD="docker compose"
-        log_info "Using docker compose plugin"
-    elif command -v docker-compose &> /dev/null; then
-        COMPOSE_CMD="docker-compose"
-        log_info "Using legacy docker-compose"
-    else
-        log_error "No valid Docker Compose command found"
-        exit 1
+get_server_ip() {
+    if [ -z "${ZK0_SERVER_IP:-}" ]; then
+        read -p "Enter Server IP (default: localhost): " ip
+        ZK0_SERVER_IP="${ip:-localhost}"
+        export ZK0_SERVER_IP
+        log_info "ZK0_SERVER_IP set to $ZK0_SERVER_IP (add to ~/.bashrc for persistence)"
     fi
 }
 
-# Create Docker network
-create_network() {
-    if ! docker network ls --format "{{.Name}}" | grep -q "^${NETWORK_NAME}$"; then
-        log_info "Creating Docker network: ${NETWORK_NAME}"
-        docker network create --driver bridge "${NETWORK_NAME}"
-        log_success "Network created successfully"
-    else
-        log_info "Network ${NETWORK_NAME} already exists"
-    fi
+usage() {
+    cat << EOF
+${GREEN}zk0bot.sh${NC} - zk0 Federation CLI (Flower native, conda zk0)
+Usage: ./zk0bot.sh <command> [options]
+
+Commands:
+  server start|stop|status|logs     Manage SuperLink (ServerApp spawns dynamically)
+  client start|stop|status|logs <dataset-uri> [--task-id <N>]  Manage SuperNode (ClientApp spawns dynamically)
+  stop                              Kill all zk0-* tmux sessions safely
+  run [--rounds <N>] [--stream]          Submit FL run to SuperLink Control API
+  status                               Show all zk0 processes/tmux
+
+Examples:
+  ./zk0bot.sh server start
+  ./zk0bot.sh client start shaunkirby/record-test
+  ./zk0bot.sh client start hf:shaunkirby/record-test --task-id 0
+  ./zk0bot.sh run --rounds 3 --stream
+
+Logs: $LOG_DIR/
+EOF
 }
 
-# Build SuperExec image
-build_superexec() {
-    log_info "Building zk0 image: ${ZK0_IMAGE} (fresh --pull --no-cache)"
-    docker build --pull --no-cache -f docker/Dockerfile.zk0 -t "${ZK0_IMAGE}" .
-    log_success "zk0 image built successfully (latest base)"
+# Arg parsing helper for run
+parse_run_args() {
+    ROUNDS=50
+    STREAM=""
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --rounds=*) ROUNDS="${1#*=}"; shift ;;
+            --stream) STREAM="--stream"; shift ;;
+            *) shift ;;
+        esac
+    done
+    echo "$ROUNDS $STREAM"
 }
 
-# Pull or build SuperExec image
-pull_image() {
-    log_info "Checking/pulling zk0 image: ${ZK0_IMAGE}"
-    if docker images --format "{{.Repository}}:{{.Tag}}" | grep -q "^${ZK0_IMAGE}$"; then
-        log_info "Image ${SUPEREXEC_IMAGE} already exists locally"
-    else
-        log_info "Image not found, building..."
-        build_superexec
-    fi
-    log_success "zk0 image ready"
-}
-
-# Server commands
-server_start() {
-    log_info "Starting zk0 server..."
-    check_dependencies
-    detect_compose
-    create_network
-    pull_image
-
-    if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" up -d
-        log_info "Clearing LeRobot HF cache for fresh dataset downloads..."
-        CACHE_CONTAINER=$(docker ps --filter "ancestor=${ZK0_IMAGE}" --filter "name=zk0-server" --format "{{.Names}}" | head -1)
-        [ -n "$CACHE_CONTAINER" ] && docker exec "$CACHE_CONTAINER" rm -rf /home/user_zk0/.cache/huggingface/lerobot/* || true
-        log_success "Server started successfully (SuperLink + SuperExec, cache cleared)"
-        log_info "Server APIs available on:"
-        log_info "  - Fleet API: http://localhost:9092"
-        log_info "  - ServerApp API: http://localhost:9091"
-        log_info "  - Control API: http://localhost:9093"
-    else
-        log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
-        exit 1
-    fi
-}
-
-server_stop() {
-    log_info "Stopping zk0 server..."
-    detect_compose
-    if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" down
-        docker network rm "${NETWORK_NAME}" 2>/dev/null || true
-        log_success "Server stopped successfully"
-    else
-        log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
-        exit 1
-    fi
-}
-
-server_log() {
-    log_info "Showing server logs (SuperExec + FL runner)..."
-    detect_compose
-    if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" logs -f &
-        COMPOSE_PID=$!
-        sleep 1
-        if [ -f /tmp/zk0-flwr.pid ]; then
-            FLWR_CONTAINER=$(cat /tmp/zk0-flwr.pid)
-            docker logs -f ${FLWR_CONTAINER} || true
-        else
-            wait $COMPOSE_PID
+case "${1:-}" in
+    server)
+        case "$2" in
+            start)
+                if tmux has-session -t zk0-superlink 2>/dev/null; then
+                    log_warning "SuperLink already running"
+                else
+                    log_info "Starting SuperLink..."
+                    tmux new-session -d -s zk0-superlink "flower-superlink --insecure > \"$LOG_DIR/superlink.log\" 2>&1"
+                    sleep 2
+                    log_success "Server started (ServerApp spawns dynamically on run)"
+                    log_info "Fleet API: localhost:$SUPERLINK_FLEET_PORT"
+                    log_info "Control API: localhost:$SUPERLINK_CONTROL_PORT"
+                fi
+                ;;
+            stop)
+                log_info "Stopping server..."
+                tmux kill-session -t zk0-superlink &>/dev/null || true
+                log_success "Server stopped"
+                ;;
+            status)
+                log_info "Server status:"
+                tmux ls 2>/dev/null | grep zk0-superlink || echo "No tmux zk0-superlink"
+                ps aux | grep flower-superlink | grep -v grep || true
+                ;;
+            logs|log)
+                log_info "Server logs (tail -f):"
+                tail -f "$LOG_DIR/superlink.log"
+                ;;
+            *)
+                log_error "server <start|stop|status|logs>"
+                usage
+                exit 1
+                ;;
+        esac
+        ;;
+    client)
+        ACTION="$2"
+        if [[ "$ACTION" == "start" ]]; then
+            get_server_ip
         fi
-    else
-        log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
-        exit 1
-    fi
-}
-
-server_status() {
-    log_info "Checking server status..."
-    detect_compose
-    if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" ps
-    else
-        log_error "Server compose file not found: ${DOCKER_COMPOSE_SERVER}"
-        exit 1
-    fi
-}
-
-server_run() {
-    log_info "Starting federated learning run on server (flwr run . local-deployment)..."
-    CONTAINER=$(docker ps --filter "ancestor=${ZK0_IMAGE}" --filter "name=zk0-server" --format "{{.Names}}" | head -1)
-    if [ -z "$CONTAINER" ]; then
-        log_error "No zk0-superexec server container running. Run 'zk0bot server start' first."
-        exit 1
-    fi
-    log_info "Executing 'flwr run . local-deployment' in container $CONTAINER"
-    docker exec -it "$CONTAINER" flwr run . local-deployment
-}
-
-# Client commands
-client_start() {
-    DATASET_URI="$1"
-    if [ -z "${DATASET_URI}" ]; then
-        log_error "Dataset URI required. Usage: zk0bot client start <dataset-uri>"
-        log_info "Examples:"
-        log_info "  zk0bot server start"
-        log_info "  zk0bot client start hf:user/my-dataset"
-        log_info "  zk0bot client start local:/path/to/dataset"
-        exit 1
-    fi
-
-    # NOTE: In production, server runs remotely. Local validation for development only.
-    # Users must ensure SuperLink (port 9092) is reachable before starting clients.
-
-    log_info "Starting zk0 client with dataset: ${DATASET_URI}..."
-    check_dependencies
-    detect_compose
-    pull_image
-
-    create_network  # Ensure flwr-network exists for client (even if server down)
-
-    log_info "Using DATASET_URI=${DATASET_URI} for production SuperNode"
-
-    if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        export DATASET_URI="${DATASET_URI}"
-        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
-        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" up -d
-        log_success "Client started successfully"
-        log_info "Client will connect to server and begin federated learning"
-    else
-        log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
-        exit 1
-    fi
-}
-
-client_stop() {
-    DATASET_URI="$1"
-    if [ -z "${DATASET_URI}" ]; then
-        log_error "Dataset URI required. Usage: zk0bot client stop <dataset-uri>"
-        exit 1
-    fi
-
-    log_info "Stopping zk0 client with dataset: ${DATASET_URI}..."
-    detect_compose
-    export DATASET_URI="${DATASET_URI}"
-    if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
-        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" down
-        log_success "Client stopped successfully (stateless - no state cleanup)"
-    else
-        log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
-        exit 1
-    fi
-}
-
-client_log() {
-    DATASET_URI="$1"
-    if [ -z "${DATASET_URI}" ]; then
-        log_error "Dataset URI required. Usage: zk0bot client log <dataset-uri>"
-        exit 1
-    fi
-    log_info "Showing client logs for dataset: ${DATASET_URI}..."
-    detect_compose
-    export DATASET_URI="${DATASET_URI}"
-    PROJECT_NAME="zk0-client-$(basename "${DATASET_URI}" | sed 's/[^a-zA-Z0-9]/-/g')"
-    if [ -f "${DOCKER_COMPOSE_CLIENT}" ]; then
-        ${COMPOSE_CMD} --project-name "${PROJECT_NAME}" -f "${DOCKER_COMPOSE_CLIENT}" logs -f
-    else
-        log_error "Client compose file not found: ${DOCKER_COMPOSE_CLIENT}"
-        exit 1
-    fi
-}
-
-# Config command
-config() {
-    log_info "zk0 Configuration:"
-    echo "Version: ${ZK0_VERSION}"
-    echo "Server Compose: ${DOCKER_COMPOSE_SERVER}"
-    echo "Client Compose: ${DOCKER_COMPOSE_CLIENT}"
-    echo "Image: ${GHCR_IMAGE}"
-    echo ""
-    log_info "Environment Variables:"
-    echo "DATASET_URI: ${DATASET_URI:-not set}"
-    echo "HF_TOKEN: ${HF_TOKEN:+set}"
-    echo "WANDB_API_KEY: ${WANDB_API_KEY:+set}"
-}
-
-# Status command
-status() {
-    log_info "zk0 Status:"
-
-    echo "Network:"
-    if docker network ls --format "{{.Name}}" | grep -q "^${NETWORK_NAME}$"; then
-        echo "  ${NETWORK_NAME} exists"
-    else
-        echo "  ${NETWORK_NAME} not found"
-    fi
-
-    echo ""
-    echo "Server:"
-    detect_compose
-    if [ -f "${DOCKER_COMPOSE_SERVER}" ]; then
-        ${COMPOSE_CMD} -f "${DOCKER_COMPOSE_SERVER}" ps
-    else
-        echo "  Compose file not found"
-    fi
-
-    echo ""
-    echo "Client (dynamic zk0-client-*) :"
-    docker ps -a --filter "name=^zk0-client-" --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || echo "  No zk0-client-* containers found"
-}
-
-# Global stop - server + all clients
-stop() {
-    log_info "Stopping zk0 server and all clients..."
-    server_stop
-    log_info "Stopping all zk0-client-* containers (force clean)..."
-    docker rm -f $(docker ps -aq --filter "name=^zk0-client-") 2>/dev/null || true
-    log_success "All zk0-client-* containers removed"
-    log_success "All zk0 stopped"
-}
-
-
-# Main command dispatcher
-main() {
-    COMMAND="$1"
-    SUBCOMMAND="$2"
-
-    case "${COMMAND}" in
-        stop)
-            stop
-            ;;
-        server)
-            case "${SUBCOMMAND}" in
-                start)
-                    server_start
-                    ;;
-                stop)
-                    server_stop
-                    ;;
-                log)
-                    server_log
-                    ;;
-                run)
-                    server_run
-                    ;;
-                status)
-                    server_status
-                    ;;
-                *)
-                    log_error "Invalid server subcommand: ${SUBCOMMAND}"
-                    echo "Usage: zk0bot server {start|stop|log|status}"
-                    exit 1
-                    ;;
+        DATASET_URI="$3"
+        TASK_ID=""
+        shift 3
+        while [[ $# -gt 0 ]]; do
+            case $1 in
+                --task-id=*) TASK_ID="${1#*=}"; shift ;;
+                *) shift ;;
             esac
-            ;;
-        client)
-            case "${SUBCOMMAND}" in
-                start)
-                    client_start "$3"
-                    ;;
-                stop)
-                    client_stop "$3"
-                    ;;
-                log)
-                    client_log "$3"
-                    ;;
-                *)
-                    log_error "Invalid client subcommand: ${SUBCOMMAND}"
-                    echo "Usage: zk0bot client {start|stop|log} <dataset-uri>"
-                    exit 1
-                    ;;
-            esac
-            ;;
-        config)
-            config
-            ;;
-        status)
-            status
-            ;;
-        --help|-h)
-            echo "zk0bot: CLI tool for zk0 federated learning operations"
-            echo ""
-            echo "Usage:"
-            echo "  zk0bot server {start|stop|log|run|status}"
-            echo "  zk0bot client {start|stop|log} <dataset-uri>"
-            echo "  zk0bot config"
-            echo "  zk0bot stop                          # Stop server + ALL clients"
-            echo "  zk0bot status"
-            echo "  zk0bot --help"
-            echo ""
-            echo "Deployment sequence (MANDATORY):"
-            echo "  SERVER FIRST: Ensure SuperLink (port 9092) is running"
-            echo "  1. zk0bot server start          # Local dev server"
-            echo "  2. zk0bot client start hf:test  # Connects to SuperLink"
-            echo ""
-            echo "PRODUCTION: Server runs remotely. Clients connect to zk0.superlink:9092"
-            echo ""
-            echo "Examples:"
-            echo "  zk0bot server start"
-            echo "  zk0bot client start hf:user/my-dataset"
-            echo "  zk0bot status"
-            ;;
-        *)
-            log_error "Invalid command: ${COMMAND}"
-            echo "Run 'zk0bot --help' for usage information"
+        done
+        if [ -z "$DATASET_URI" ]; then
+            log_error "dataset-uri required: client <start|stop|status|logs> <dataset-uri> [--task-id N]"
             exit 1
-            ;;
-    esac
-}
-
-# Run main function with all arguments
-main "$@"
+        fi
+        ID="$(echo $DATASET_URI | sed 's/[^a-zA-Z0-9-]/-/g' | cut -c1-20)"
+        HASH=$(echo -n "$ID" | cksum | cut -d' ' -f1)
+        CLIENT_PORT=$((DEFAULT_CLIENTAPP_PORT + (HASH % 100)))
+        TMUX_SUPERNODE="zk0-supernode-$ID"
+        case "$ACTION" in
+            start)
+                if tmux has-session -t "$TMUX_SUPERNODE" 2>/dev/null; then
+                    log_warning "Client $ID already running"
+                else
+                    NODE_CONFIG="dataset-uri = \"${DATASET_URI}\""
+                    [[ -n "$TASK_ID" ]] && NODE_CONFIG+=" task-id = ${TASK_ID}"
+                    echo "[DEBUG] Node config: $NODE_CONFIG" >> "$LOG_DIR/supernode-$ID.log"
+                    log_info "Starting SuperNode for $DATASET_URI (ID: $ID)..."
+                    FULL_CMD="flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --node-config \"${NODE_CONFIG}\" --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess"
+                    echo "[DEBUG] Full command: $FULL_CMD" >> "$LOG_DIR/supernode-$ID.log"
+                    tmux new-session -d -s "$TMUX_SUPERNODE" "$FULL_CMD > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
+                    log_success "SuperNode $ID started (ClientApp spawns dynamically on run)"
+                fi
+                ;;
+            stop)
+                log_info "Stopping client $ID..."
+                tmux kill-session -t "$TMUX_SUPERNODE" &>/dev/null || true
+                log_success "Client $ID stopped"
+                ;;
+            status)
+                log_info "Client $ID status:"
+                tmux ls 2>/dev/null | grep "$ID" || echo "No tmux zk0-$ID"
+                ps aux | grep "supernode-$ID" | grep -v grep || true
+                ;;
+            logs|log)
+                log_info "Client $ID logs:"
+                tail -f "$LOG_DIR/supernode-$ID.log"
+                ;;
+            *)
+                log_error "client <start|stop|status|logs> <dataset-uri> [--task-id N]"
+                exit 1
+                ;;
+        esac
+        ;;
+    run)
+        get_server_ip
+        read ROUNDS STREAM <<< "$(parse_run_args "${@:2}")"
+        log_info "Submitting FL run via prod-deployment (rounds: $ROUNDS)"
+        flwr run . prod-deployment --run-config "num-server-rounds=$ROUNDS" $STREAM
+        ;;
+    status)
+        log_info "zk0 Status (tmux + processes):"
+        tmux ls 2>/dev/null | grep zk0 || echo "No zk0 tmux sessions"
+        echo ""
+        ps aux | grep -E "(flower-super(link|node)|superexec)" | grep -v grep || echo "No flower processes"
+        ;;
+    stop)
+        log_info "Stopping ALL zk0 tmux sessions (global cleanup)..."
+        for session in $(tmux ls 2>/dev/null | grep '^zk0-' | cut -d: -f1); do
+            tmux kill-session -t "$session" &>/dev/null || true
+        done
+        log_success "All zk0 tmux sessions stopped"
+        ;;
+    --help|-h)
+        usage
+        ;;
+    *)
+        log_error "Unknown command: $1"
+        usage
+        exit 1
+        ;;
+esac

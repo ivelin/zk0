@@ -199,3 +199,6 @@ website/get-zk0bot.sh
 
 # Repomix project digest for LLM prompting
 repomix-output.xml
+
+# output logs
+logs/

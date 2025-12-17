@@ -541,23 +541,29 @@ def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, ex
 def get_dataset_slug(context: Any) -> str:
     """Get dataset slug from context for unified sim/prod path generation."""
     logger.debug(f"get_dataset_slug node_config keys: {list(context.node_config.keys())}")
+    logger.debug(f"get_dataset_slug DATASET_NAME env: '{os.environ.get('DATASET_NAME', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug run_config.dataset.repo_id: '{context.run_config.get('dataset.repo_id', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug run_config.dataset.root: '{context.run_config.get('dataset.root', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug node_config.dataset-uri: '{context.node_config.get('dataset-uri', 'MISSING')}'")
     # Production: Check environment first (CLI/Docker), then run_config, SuperNode dataset-uri
     if os.environ.get("DATASET_NAME"):
+        logger.debug("get_dataset_slug → using DATASET_NAME env")
         return os.environ["DATASET_NAME"]
     elif context.run_config.get("dataset.repo_id"):
+        logger.debug("get_dataset_slug → using run_config.dataset.repo_id")
         return context.run_config["dataset.repo_id"]
     elif context.run_config.get("dataset.root"):
+        logger.debug("get_dataset_slug → using run_config.dataset.root")
         return Path(context.run_config["dataset.root"]).name
     elif "dataset-uri" in context.node_config:
+        logger.debug("get_dataset_slug → using node_config.dataset-uri")
         return context.node_config["dataset-uri"]
     else:
-        # Simulation: Use partition_id to lookup from DatasetConfig
-        partition_id = int(context.node_config["partition-id"])
-        from src.configs.datasets import DatasetConfig
-        config = DatasetConfig.load()
-        if 0 <= partition_id < len(config.clients):
-            return config.clients[partition_id].name
-        raise ValueError(f"Invalid partition_id {partition_id}: no dataset mapping")
+        raise ValueError(
+            "Production mode: No dataset source found. "
+            "Require: DATASET_NAME env, run_config.dataset.repo_id/root, or node_config.dataset-uri. "
+            f"Got node_config keys: {list(context.node_config.keys())}"
+        )
 
 
 

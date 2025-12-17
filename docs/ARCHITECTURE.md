@@ -119,27 +119,28 @@ flowchart TD
 
 This diagram captures the iterative cycle: model distribution, local training, aggregation, evaluation, and repetition across configured rounds (e.g., 30 rounds).
 
-## Production Mode Architecture (v0.7.0 - Stateless)
+## Production Mode Architecture (v0.8.0 - Conda Native)
 
-zk0 v0.7.0 implements stateless production deployment with Flower SuperLink/SuperNode/SuperExec (1.23.0). Local builds only—no GHCR, volumes, or persistence. Clients run all rounds fresh.
+zk0 v0.8.0 implements stateless production deployment with Flower SuperLink/SuperNode/SuperExec CLI (1.23.0) in conda zk0 env via tmux. No Docker for prod; optional for sim. Clients run all rounds fresh.
 
 ### Production Mode Data Flow Diagram
 
-The following Mermaid diagram illustrates the production mode data flow, highlighting Docker Compose orchestration and zk0bot CLI integration:
+The following Mermaid diagram illustrates the production mode data flow, highlighting zk0bot CLI/tmux orchestration:
 
 ```mermaid
 graph TD
-    A["zk0bot CLI Installation<br/>curl -fsSL https://get.zk0.bot | bash"] --> B{"Mode Selection"}
-    B -->|Server Admin| C["zk0bot server start<br/>Docker Compose: SuperLink + ServerApp"]
-    B -->|Node Operator| D["zk0bot client start --dataset URI<br/>Docker Compose: SuperNode + ClientApp"]
+    A["get-zk0bot.sh Installer<br/>curl raw main/website/get-zk0bot.sh | bash"] --> B{"conda activate zk0"}
+    B -->|Server Admin| C["./zk0bot.sh server start<br/>tmux: SuperLink + SuperExec-ServerApp"]
+    B -->|Node Operator| D["./zk0bot.sh client start dataset-uri<br/>tmux: SuperNode + SuperExec-ClientApp"]
     C --> E["Server APIs Exposed<br/>Ports 9091-9093<br/>Fleet Management"]
-    D --> F["Private Dataset Mount<br/>HF or Local via URI<br/>UUID Anonymization"]
-    E --> G["Accept Client Connections<br/>Dynamic node_id Assignment<br/>Secure Parameter Exchange"]
-    F --> H["Connect to Server<br/>Load Dataset from URI<br/>Local Training with FedProx"]
-    H --> I["Report Anonymized Metrics<br/>node_id + dataset_uuid<br/>Model Updates Only"]
-    G --> J["Aggregate Updates<br/>Server-Side Evaluation<br/>WandB Public Aggregates"]
+    D --> F["Private Dataset<br/>hf:repo or local:/path"]
+    E --> G["Accept Client Connections<br/>Dynamic node_id<br/>Secure Parameter Exchange"]
+    F --> H["Connect to Server IP:9092<br/>Local Training with FedProx"]
+    H --> I["Report Metrics<br/>dataset_uuid + Model Updates"]
+    G --> J["Aggregate Updates<br/>Server-Side Evaluation<br/>WandB Aggregates"]
     I --> J
     J --> K["End Round<br/>Restart for New Dataset<br/>No Raw Data Shared"]
+
     style A fill:#BBDEFB,stroke:#1976D2,stroke-width:2px,color:#000
     style C fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#000
     style D fill:#C8E6C9,stroke:#388E3C,stroke-width:2px,color:#000
@@ -147,67 +148,37 @@ graph TD
     style K fill:#FFECB3,stroke:#F57F17,stroke-width:2px,color:#000
 ```
 
-This diagram shows the production workflow: CLI installation, mode-specific startup via Docker Compose, secure client-server communication, and privacy-focused metrics reporting.
-
 ### Simulation vs. Production Mode Differences
 
 | Aspect              | Simulation Mode                          | Production Mode                              |
 |---------------------|------------------------------------------|---------------------------------------------|
-| **Execution**       | Local Ray clients (fixed 4)              | Docker Compose (SuperLink + SuperNodes)     |
-| **Networking**      | Localhost/loopback                       | External IPs, ports 9091-9093, insecure mode with external VPN (Tailscale/WebRTC) |
-| **Dataset Loading** | Partitioned from pyproject.toml          | From run_config URI (HF repo_id or local root) |
-| **Client ID**       | Fixed partition_id (0-3)                 | Persistent context.cid (SuperNode lifetime) |
-| **Metrics**         | Direct dataset names                     | Anonymized: dataset_name + uuid or cid      |
-| **Persistence**     | Ephemeral (in-memory)                    | Host mounts for outputs only (stateless)   |
-| **Scaling**         | Fixed clients                            | Dynamic SuperNodes, Kubernetes-ready        |
-| **Monitoring**      | Local logs/WandB                         | Prometheus/Grafana + WandB aggregates       |
-| **Auth/Security**   | None (local)                             | Network-level (VPN); app-level insecure     |
-| **CLI Integration** | train-fl-simulation.sh                   | zk0bot server/client start/stop/log/status  |
-| **Onboarding**      | Manual config                            | GitHub issue template + Discord approval    |
+| **Execution**       | Local Ray (flwr run local-simulation-*)  | zk0bot CLI/tmux (SuperLink + SuperNodes)    |
+| **Networking**      | Localhost                                | ZK0_SERVER_IP:9092-9093, insecure dev       |
+| **Dataset Loading** | Partitioned pyproject.toml               | node-config dataset-uri (hf: or local:)     |
+| **Client ID**       | Fixed partition_id                       | Dynamic SuperNode ID                        |
+| **Persistence**     | Ephemeral                                | Stateless logs/outputs                      |
+| **Scaling**         | Fixed clients                            | Multi-machine tmux/CLI                      |
+| **CLI**             | train-fl-simulation.sh                   | zk0bot server/client/run                    |
 
-### zk0bot CLI Integration
+### zk0bot CLI Integration (v0.8.0)
 
-The zk0bot CLI provides a user-friendly interface for production operations, wrapping Docker Compose for server and client management.
+**Conda Native Prod**: flower CLI + tmux sessions, no Docker.
 
-#### Key Features
-- **One-Step Install**: `curl -fsSL https://get.zk0.bot | bash` downloads and sets up zk0bot.
-- **Server Commands**:
-  - `zk0bot server start`: Launches SuperLink + ServerApp.
-  - `zk0bot server status`: Checks running services.
-  - `zk0bot server log`: Streams logs.
-  - `zk0bot server stop`: Shuts down gracefully.
-- **Client Commands**:
-  - `zk0bot client start hf:user/dataset`: Starts SuperNode with HF dataset.
-  - `zk0bot client start local:/path`: Uses local dataset.
-  - `zk0bot client status/log/stop`: Management utilities.
-- **Utilities**:
-  - `zk0bot config`: Shows environment and setup.
-  - `zk0bot status`: Overall network status.
+#### Commands
+- `server start`: tmux SuperLink + SuperExec-ServerApp (9091-9093)
+- `client start dataset-uri`: tmux SuperNode + SuperExec-ClientApp (8080)
+- `run --rounds N --stream`: flwr run local-deployment to Control API
+- `status/logs/stop`
 
-#### Integration with Architecture
-- **Docker Images**: Local `zk0-superexec:v0.7.0` (built from superexec.Dockerfile).
-- **Compose Files**:
-  - `docker-compose.server.yml`: SuperLink (fleet) + ServerApp (FL coordination).
-  - `docker-compose.client.yml`: SuperNode (client runtime) + ClientApp (training).
-- **Environment**: Passes `DATASET_URI`, `HF_TOKEN` via env vars.
-- **Security**: Runs in insecure mode; external VPN (Tailscale/WebRTC) handles networking.
-- **Persistence**: Host mount `./outputs:/workspace/outputs` (server); stateless clients.
+#### Example
+```
+conda activate zk0
+./zk0bot.sh server start
+./zk0bot.sh client start shaunkirby/record-test
+./zk0bot.sh run --rounds 3 --stream
+```
 
-#### Example Workflow
-1. **Server Admin**:
-   ```bash
-   zk0bot server start  # Exposes APIs on localhost:9091-9093
-   zk0bot server status  # Verify running
-   ```
-2. **Node Operator**:
-   ```bash
-   zk0bot client start hf:myuser/private-so100  # Connects to server, trains locally
-   zk0bot client log  # Monitor training
-   ```
-3. **Onboarding**: Apply via GitHub issue; approved operators get Discord access.
-
-This CLI abstraction simplifies deployment while maintaining the core FL architecture. For full details, see [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md).
-
+See [NODE-OPERATORS.md](NODE-OPERATORS.md).
 
 ### Federated vs. Centralized Training Comparison
 
