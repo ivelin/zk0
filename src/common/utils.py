@@ -49,7 +49,7 @@ def load_env_safe():
                 loaded_keys = vars.keys()
                 logger.debug(f"Loaded env keys (sensitive preview): {len(loaded_keys)} ({sorted(loaded_keys)})")
         else:
-            logger.info(f".env not found")
+            logger.info(".env not found")
 
     except ImportError:
         logger.debug("dotenv unavailable")

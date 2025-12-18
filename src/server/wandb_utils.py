@@ -3,9 +3,9 @@
 import os
 import logging
 from typing import Optional, Dict, Any
+from src.common.utils import load_env_safe
 
 logger = logging.getLogger(__name__)
-from src.common.utils import load_env_safe
 
 
 def _load_wandb_env_and_log_key(context: str = "") -> Optional[str]:

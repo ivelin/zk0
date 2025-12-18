@@ -83,28 +83,14 @@
 
 **Last Updated**: 2025-12-16
 
-## Current Sprint: zk0bot Docker to Native Flower CLI Refactor (zk0bot-native-2025-12-17)
-**Status**: Complete - zk0bot.sh rewritten for native Flower CLI/tmux no Docker prod. Installer website/get-zk0bot.sh conda deps. v0.8.0. Docs GPU check. ✅
+## Current Sprint: Server Modular Refactor + v0.8.0 Sync (zk0-docs-sync-2025-12-18)
+**Status**: In Progress - Align memory-bank/docs with v0.8.0 code (src/server/ utils, native zk0bot, 12 clients, Docker optional sim).
 
 ### Key Features (v0.8.0)
-- **Conda Native Prod**: flower-superlink/supernode/superexec + tmux, ZK0_SERVER_IP, logs/, GPU/CUDA health check
-- **Installer**: curl raw main/website/get-zk0bot.sh | bash → ~/zk0 main, torch cu121, lerobot==0.3.3, pip -e .
-- **Stateless**: SuperLink + SuperExec-ServerApp (9091), SuperNode + SuperExec-ClientApp (8080) per dataset-ID
+- **Server Refactor**: [`src/server_app.py`](src/server_app.py) slim (~230L); orchestrates 11 utils: aggregation.py evaluation.py fit_configuration.py metrics_utils.py model_checkpointing.py model_utils.py parameter_validation.py server_utils.py strategy.py visualization.py wandb_utils.py
+- **Deployment**: Native zk0bot CLI/tmux (SuperLink 9091-9093, SuperNode per dataset); no Docker prod
+- **12 Clients**: Diverse SO-100/SO-101 (`pyproject.toml`)
+- **Flower 1.23.0**: Stateless prod-deployment (insecure dev)
+- **Recent Run** (2025-12-18 tiny 1R): 2 clients success; avg client loss 0.81 (std 0.17); server eval 0.15→0.28 post-train; HF push OK
 
-### Recent Progress
-```
-✅ zk0bot.sh rewrite (conda/GPU check, tmux per component, dataset-uri arg)
-✅ website/get-zk0bot.sh (main, deps order, .env note)
-✅ pyproject.toml v0.8.0 prod-deployment
-✅ docs/NODE-OPERATORS.md (curl main, conda/tmux workflow)
-✅ GPU health (nvidia-smi + torch.cuda)
-```
-
-### Next Steps
-**v0.8.0 Cleanup**
-- Update memory-bank
-- delete docker-compose.*.yml (stale)
-- Clean docker refs (ARCHITECTURE.md etc.)
-- git commit/tag v0.8.0
-
-**Last Updated**: 2025-12-17
+**Last Updated**: 2025-12-18

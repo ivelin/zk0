@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-12-07
-**Version**: 1.0.6
+**Last Updated**: 2025-12-18
+**Version**: 1.0.7
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -15,7 +15,7 @@
 
 ### Federated Learning Framework
 - **Flower Framework**: Federated learning orchestration and aggregation
-  - **Version**: Flower 1.22.0
+  - **Version**: Flower 1.23.0
   - **Architecture**: Client-Server with Deployment Engine
   - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
   - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -75,7 +75,7 @@ python lerobot/scripts/train.py \
 ```
 
 ### Flower Framework
-- **Version**: Flower 1.22.0
+- **Version**: Flower 1.23.0
 - **Architecture**: Client-Server with Deployment Engine
 - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
 - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -108,7 +108,7 @@ For detailed dataset information, including SO-100/SO-101 formats, client assign
 ## Integration Specifications
 
 ### SmolVLA + Flower Integration
-- **Framework Compatibility**: Flower 1.22.0 with Ray 2.10.0
+- **Framework Compatibility**: Flower 1.23.0 with Ray 2.31.0
 - **Dataset Format**: Flower Datasets for partitioning
 - **Model Loading**: Direct integration with LeRobot SmolVLA models
 - **Federated Dataset**: FederatedLeRobotDataset for distributed data
@@ -127,7 +127,7 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **No Mocks in Production**: Tests use real dependencies; fail-fast on missing env.
 - **Coverage**: 30% minimum; focus on integration points (Flower ↔ SmolVLA).
 - **Zk0-Specific**: Test parameter exchange, multi-repo partitioning, hash validation.
-- **Execution**: Always in Docker (`zk0`) or conda (`zk0`) for consistency.
+- **Execution**: Docker (`zk0`) or conda (`zk0`) for consistency
 - **Parallel**: `pytest -n auto` with coverage reporting.
 
 ### Code Quality Standards
@@ -141,11 +141,11 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **File Size Limits**: New source files must be under 500 lines of code (LOC) when possible for maintainability and readability. This ensures modular design and prevents bloated files. Exceptions require explicit approval in code reviews. Existing large files (e.g., server_app.py) should be refactored into smaller modules during maintenance.
 
 ### CI/CD and Deployment
-- **Docker-Based Testing**: CI uses `Dockerfile.ci` (CPU-only) for isolation; local uses `Dockerfile.zk0` (GPU).
+- **CI/CD**: Automated testing; local Docker/conda
 - **Parallel Coverage**: `.coveragerc` enables parallel mode; `coverage combine` merges files.
 - **GitHub Actions**: Auto-build/push on tag; GPU-only platforms.
 - **Local Simulation**: Test CI locally with `docker build -f Dockerfile.ci -t zk0-ci .` then run tests.
-- **Deployment**: Docker Compose for prod; GHCR for images.
+- **Deployment**: Native zk0bot CLI/tmux (SuperLink/SuperNode); Docker optional sim
 
 ## Logging and Monitoring
 - **Loguru Framework**: Structured logging with rotation, compression, and multi-process safety
@@ -182,7 +182,7 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **Validation**: Ensures no duplicate runs - clients join existing run, don't create separate ones
 
 ## Deployment and Operations
-- **Docker**: Containerization for reproducible deployments
+- **Native zk0bot CLI/tmux**: SuperLink/SuperNode (no Docker prod)
 - **Kubernetes**: Orchestration for distributed clients
 - **Monitoring**: Logging and performance tracking
 - **CI/CD**: Automated testing and deployment pipelines

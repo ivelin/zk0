@@ -5,7 +5,6 @@ from __future__ import annotations
 
 from pathlib import Path
 from loguru import logger
-import os
 
 # Import utils functions at module level for easier testing
 from src.common.utils import get_tool_config, load_env_safe
