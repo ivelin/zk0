@@ -31,6 +31,32 @@ from src.server.metrics_utils import create_client_metrics_dict
 # Import torchvision for image transforms
 
 
+def load_env_safe():
+    """Find and load .env. Consolidated client/server."""
+    try:
+        from dotenv import load_dotenv, find_dotenv, dotenv_values
+        env_path = find_dotenv(usecwd=False)
+        if not env_path:
+            env_path = find_dotenv(usecwd=True)
+        if env_path:
+            logger.info(f".env found at: {env_path}")
+            loaded_env = load_dotenv(dotenv_path=env_path, verbose=True, override=True)  # cwd
+            if not loaded_env:
+                logger.info("No .env loaded, env vars unchanged")
+            else:
+                vars = dotenv_values(env_path)
+                # Log loaded keys count (no values)
+                loaded_keys = vars.keys()
+                logger.debug(f"Loaded env keys (sensitive preview): {len(loaded_keys)} ({sorted(loaded_keys)})")
+        else:
+            logger.info(f".env not found")
+
+    except ImportError:
+        logger.debug("dotenv unavailable")
+    except Exception as e:
+        logger.debug(f"load_env_safe error: {e}")
+
+
 def load_smolvla_model(
     model_name: str = "lerobot/smolvla_base", device: str = "auto"
 ) -> SmolVLAPolicy:
@@ -54,13 +80,7 @@ def load_smolvla_model(
     Raises:
         RuntimeError: If model loading fails
     """
-    # Load environment variables from .env file
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-    except ImportError:
-        pass  # dotenv not available, continue
+    load_env_safe()
 
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"

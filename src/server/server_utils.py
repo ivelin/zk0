@@ -5,9 +5,10 @@ from __future__ import annotations
 
 from pathlib import Path
 from loguru import logger
+import os
 
 # Import utils functions at module level for easier testing
-from src.common.utils import get_tool_config
+from src.common.utils import get_tool_config, load_env_safe
 
 
 
@@ -122,18 +123,7 @@ def load_config_and_env():
         tuple: (flwr_config, app_config)
     """
     # Load environment variables from .env file
-    logger.debug("Loading .env")
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        logger.debug(".env loaded successfully")
-        logger.debug("Environment variables loaded from .env file")
-    except ImportError as e:
-        logger.debug(f".env load failed (ImportError): {e}")
-        logger.debug("python-dotenv not available, skipping .env loading")
-    except Exception as e:
-        logger.debug(f".env load failed: {e}")
+    load_env_safe()
 
     # Get wandb configuration from pyproject.toml
     try:

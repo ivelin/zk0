@@ -162,20 +162,20 @@ key = "value"
                 get_tool_config("test_tool")
 
     def test_get_flwr_app_config_from_real_pyproject(self):
-        """Test loading FLWR app config from actual pyproject.toml."""
-        from src.common.utils import get_tool_config
-
-        config = get_tool_config("flwr")
-        app_config = config.get("app", {}).get("config", {})
-
-        # Test that key config values are present and have expected types
-        assert isinstance(app_config.get("num-server-rounds"), int)
-        assert isinstance(app_config.get("batch_size"), int)
-        assert isinstance(app_config.get("fraction-fit"), float)
-        assert isinstance(app_config.get("use-wandb"), bool)
-
-        # Test specific values from pyproject.toml (tiny mode: 2 rounds)
-        assert app_config["num-server-rounds"] == 2
-        assert app_config["batch_size"] == 64
-        assert app_config["fraction-fit"] == 0.3
-        assert app_config["use-wandb"] is True
+            """Test loading FLWR app config from actual pyproject.toml."""
+            from src.common.utils import get_tool_config
+    
+            config = get_tool_config("flwr")
+            app_config = config.get("app", {}).get("config", {})
+    
+            # Test that key config values are present and have expected types
+            assert isinstance(app_config.get("num-server-rounds"), int)
+            assert isinstance(app_config.get("batch_size"), int)
+            assert isinstance(app_config.get("fraction-fit"), (int, float))
+            assert isinstance(app_config.get("use-wandb"), bool)
+    
+            # Test specific values from current pyproject.toml
+            assert app_config["num-server-rounds"] == 20
+            assert app_config["batch_size"] == 16
+            assert app_config["fraction-fit"] == 1
+            assert app_config["use-wandb"] is True

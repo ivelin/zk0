@@ -28,7 +28,7 @@ def client_fn(context: Context) -> Client:
     sys.stderr.flush()
     
     # Get dataset slug for unified path generation
-    from src.common.utils import get_dataset_slug
+    from src.common.utils import get_dataset_slug, load_env_safe
     dataset_slug = get_dataset_slug(context)
     print(f"[DEBUG client_fn] get_dataset_slug returned: '{dataset_slug}'", file=sys.stderr)
     
@@ -64,14 +64,8 @@ def client_fn(context: Context) -> Client:
     logger.info(f"Client {client_id}: Running in {'simulation' if is_simulation else 'production'} mode, dataset_slug={dataset_slug}")
 
 
-    # Load environment variables from .env file (excluding WANDB_API_KEY for clients)
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        logger.debug("Environment variables loaded from .env file in client")
-    except ImportError:
-        logger.debug("python-dotenv not available in client, skipping .env loading")
+    load_env_safe()
+    logger.debug("load_env_safe called in client_fn")
 
     # Runtime mode guards and validation
     if is_simulation:

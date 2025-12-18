@@ -149,20 +149,22 @@ def server_fn(context: Context) -> ServerAppComponents:
         logger.info("🔧 Server: Initializing WandB")
         from src.server.server_utils import initialize_wandb
         wandb_run, run_id = initialize_wandb(app_config, folder_name, save_path)
-        print(f"[DEBUG server_fn] After initialize_wandb: run_id={run_id}", file=sys.stderr)
+        logger.info(f"🔧 Server: wandb_run={wandb_run} (type={type(wandb_run)}), run_id={run_id}")
+        print(f"[DEBUG server_fn] After initialize_wandb: wandb_run={wandb_run} (type={type(wandb_run)}), run_id={run_id}", file=sys.stderr)
         sys.stderr.flush()
         logger.info(f"🔧 Server: WandB initialized with run_id: {run_id}")
-
-        # Store wandb run in context for access by visualization functions
-        context.run_config["wandb_run"] = wandb_run
-
+        
+        # Store wandb_run_id only (str); skip wandb_run object/None (non-serializable for Flower UserConfig)
+        if wandb_run is None:
+            logger.warning("⚠️ WandB disabled or failed (missing WANDB_API_KEY?): Skipping wandb_run in run_config")
+        else:
+            logger.warning("⚠️ Skipping wandb_run object in run_config (use wandb_run_id str only for serialization)")
+        
         # Add save_path and log_file_path to run config for clients (for client log paths)
         context.run_config["log_file_path"] = str(simulation_log_path)
         context.run_config["save_path"] = str(save_path)
-        context.run_config["wandb_run_id"] = (
-            run_id  # Pass shared run_id to clients for unified logging
-        )
-        logger.info("🔧 Server: Run config updated with paths and WandB ID")
+        context.run_config["wandb_run_id"] = run_id  # Pass shared run_id to clients for unified logging
+        logger.info("🔧 Server: Run config updated with paths and WandB ID (wandb_run skipped)")
 
         # Get project version using standard importlib.metadata approach
         logger.info("🔧 Server: Loading project version")

@@ -59,11 +59,8 @@ class TestSaveModelCheckpoint:
         # Mock parameters
         mock_parameters = MagicMock()
 
-        with patch("flwr.common.parameters_to_ndarrays") as mock_ndarrays, \
-              patch("builtins.open", mock_open()):
-
+        with patch("flwr.common.parameters_to_ndarrays") as mock_ndarrays:
             mock_ndarrays.return_value = [np.array([1.0, 2.0])]
-
             save_model_checkpoint(mock_strategy, mock_parameters, 2)
 
             # Verify in-memory usage
@@ -79,11 +76,11 @@ class TestSaveModelCheckpoint:
             mock_extract_datasets.assert_called_once()
 
     @patch("src.common.utils.get_tool_config")
-    @patch("src.server.server_utils.compute_in_memory_insights")
+    @patch("src.server.model_utils.compute_in_memory_insights")
     @patch("src.server.model_utils.generate_model_card")
     def test_save_model_checkpoint_in_memory_empty(self, mock_generate, mock_insights, mock_get_config):
         """Test in-memory checkpoint with empty strategy data."""
-        from src.server.server_utils import save_model_checkpoint
+        from src.server.model_utils import save_model_checkpoint
 
         mock_strategy = MagicMock()
         mock_strategy.context.run_config = {"federation": "local-simulation"}

@@ -36,14 +36,7 @@ if [ "${CONDA_DEFAULT_ENV:-}" != "zk0" ]; then
     exec conda run -n zk0 --live-stream bash "$0" "$@"
 fi
 
-# Source .env for HF_TOKEN etc. (propagates to tmux subprocesses)
-if [ -f .env ]; then
-    source .env
-    log_info ".env sourced (HF_TOKEN/WANDB_API_KEY available to Flower processes)"
-else
-    log_warning ".env missing - HF/WandB features will skip"
-fi
-
+# Apps handle .env loading internally (cwd or ~/.env fallback)
 # Prereq checks only for start commands
 if [[ "$1" == @(server|client) && "$2" == "start" ]]; then
     # GPU check
@@ -116,7 +109,7 @@ case "${1:-}" in
                     log_warning "SuperLink already running"
                 else
                     log_info "Starting SuperLink..."
-                    tmux new-session -d -s zk0-superlink "flower-superlink --insecure > \"$LOG_DIR/superlink.log\" 2>&1"
+                    tmux new-session -d -E -s zk0-superlink "flower-superlink --insecure > \"$LOG_DIR/superlink.log\" 2>&1"
                     sleep 2
                     log_success "Server started (ServerApp spawns dynamically on run)"
                     log_info "Fleet API: localhost:$SUPERLINK_FLEET_PORT"
@@ -165,7 +158,7 @@ case "${1:-}" in
                     log_warning "Client $ID already running"
                 else
                     log_info "Starting SuperNode for $DATASET_NAME (ID: $ID)"
-                    tmux new-session -d -s "$TMUX_SUPERNODE" "env DATASET_NAME=\"$DATASET_NAME\" flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
+                    tmux new-session -d -E -s "$TMUX_SUPERNODE" "env DATASET_NAME=\"$DATASET_NAME\" flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
                     log_success "SuperNode $ID started (ClientApp spawns dynamically on run, inherits conda env + DATASET_NAME env var)"
                 fi
                 ;;
@@ -189,18 +182,29 @@ case "${1:-}" in
         esac
         ;;
     run)
-        ROUNDS=50
         STREAM=""
+        RUN_CONFIG=""
+        ROUNDS=""
         shift
         while [[ $# -gt 0 ]]; do
             case $1 in
+                --rounds)
+                    shift  # Value next
+                    ROUNDS="$1"
+                    shift
+                    ;;
                 --rounds=*) ROUNDS="${1#*=}"; shift ;;
                 --stream) STREAM="--stream"; shift ;;
                 *) shift ;;
             esac
         done
-        log_info "Submitting FL run (rounds: $ROUNDS) via prod-deployment federation (SuperLink control localhost:9093)"
-        flwr run . prod-deployment --run-config "num-server-rounds=${ROUNDS}" $STREAM
+        log_info "FL run submitted (CLI rounds: ${ROUNDS:-pyproject.toml default}) via prod-deployment federation (SuperLink control localhost:9093)"
+        if [ -n "$ROUNDS" ]; then
+            RUN_CONFIG="--run-config num-server-rounds=$ROUNDS"
+        fi
+        echo "DEBUG zk0bot: $( [ -n "$ROUNDS" ] && echo "Overriding num-server-rounds=$ROUNDS" || echo "Using pyproject.toml default" )" >> "$LOG_DIR/zk0bot-run-debug.log"
+        echo "Full flwr command: flwr run . prod-deployment $RUN_CONFIG $STREAM" >> "$LOG_DIR/zk0bot-run-debug.log"
+        flwr run . prod-deployment $RUN_CONFIG $STREAM
         ;;
     status)
         log_info "zk0 Status (tmux + processes):"
