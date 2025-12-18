@@ -43,3 +43,10 @@ See [.kilocode/rules-code/testing-standards.md](.kilocode/rules-code/testing-sta
 - Validate data privacy and compliance with FL requirements
 - Test with simulation mode before deployment
 - Monitor communication efficiency and resource usage
+
+## Deployment Rules (MANDATORY)
+- Use only [`zk0bot.sh`](zk0bot.sh) for starting, stopping, logging, and status checking of live zk0 nodes (server and clients)
+- Do **not** use direct `conda run`, `docker`, `docker compose`, or similar commands for managing live zk0 nodes
+- Validate data privacy and compliance with FL requirements
+- Test with simulation mode before deployment
+- Monitor communication efficiency and resource usage

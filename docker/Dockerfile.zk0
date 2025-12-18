@@ -1,0 +1,45 @@
+FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=Etc/UTC
+
+# Install system dependencies and uv
+RUN apt-get update && apt-get install -y --allow-change-held-packages --no-install-recommends \
+    python3.10 python3.10-venv python3.10-dev \
+    libnccl2 libnccl-dev \
+    build-essential git curl libglib2.0-0 libegl1-mesa ffmpeg \
+    libusb-1.0-0-dev speech-dispatcher libgeos-dev portaudio19-dev \
+    libopencv-dev python3-opencv \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && mv /root/.local/bin/uv /usr/local/bin/uv \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+ENV MUJOCO_GL=egl
+
+WORKDIR /workspace
+
+RUN useradd --create-home --shell /bin/bash user_zk0 && chown -R user_zk0:user_zk0 /workspace
+
+USER user_zk0
+
+ENV HOME=/home/user_zk0 \
+    HF_HOME=/home/user_zk0/.cache/huggingface \
+    HF_LEROBOT_HOME=/home/user_zk0/.cache/huggingface/lerobot \
+    TORCH_HOME=/home/user_zk0/.cache/torch \
+    TRITON_CACHE_DIR=/home/user_zk0/.cache/triton \
+    PATH=/workspace/.venv/bin:$PATH
+
+RUN uv venv
+
+# Install torch cu121 first for better layer caching (reusable base ML layer)
+RUN uv pip install --no-cache torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Copy pyproject.toml/src and install zk0 editable from source (flwr from pyproject deps) + lerobot==0.3.3 separate (no [smolvla] extra)
+COPY --chown=user_zk0:user_zk0 pyproject.toml README.md .gitignore ./
+COPY --chown=user_zk0:user_zk0 src/ src/
+RUN uv pip install "lerobot==0.3.3"
+RUN uv pip install -e . --no-cache
+
+ENTRYPOINT ["flower-superexec"]
+CMD ["/bin/bash"]
+
+# Entrypoint will be overridden in docker-compose.yml or train scripts

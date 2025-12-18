@@ -1,7 +1,7 @@
 """Unit tests for configuration loading in src/configs/."""
 
 import pytest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch
 from src.configs.datasets import DatasetConfig, ClientConfig, ServerConfig
 
 
@@ -49,34 +49,28 @@ class TestDatasetConfig:
         assert config.clients[0].name == "client1"
         assert config.server[0].evaldata_id == 0
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('src.configs.datasets.tomllib.load')
-    def test_load_dataset_config(self, mock_tomllib_load, mock_file):
+    @patch('src.common.utils.get_tool_config')
+    def test_load_dataset_config(self, mock_get_tool_config):
         """Test loading dataset config from pyproject.toml."""
-        mock_tomllib_load.return_value = {
-            "tool": {
-                "zk0": {
-                    "datasets": {
-                        "clients": [
-                            {
-                                "name": "lerobot/svla_so100_stacking",
-                                "description": "Stacking task",
-                                "client_id": 0
-                            }
-                        ],
-                        "server": [
-                            {
-                                "name": "lerobot/svla_so101_pickplace",
-                                "description": "Server evaluation",
-                                "evaldata_id": 0
-                            }
-                        ]
-                    }
+        mock_get_tool_config.return_value = {
+            "clients": [
+                {
+                    "name": "lerobot/svla_so100_stacking",
+                    "description": "Stacking task",
+                    "client_id": 0
                 }
-            }
+            ],
+            "server": [
+                {
+                    "name": "lerobot/svla_so101_pickplace",
+                    "description": "Server evaluation",
+                    "evaldata_id": 0
+                }
+            ]
         }
-
+     
         config = DatasetConfig.load()
+        mock_get_tool_config.assert_called_once_with("zk0.datasets")
 
         assert len(config.clients) == 1
         assert len(config.server) == 1
@@ -84,25 +78,25 @@ class TestDatasetConfig:
         assert config.clients[0].client_id == 0
         assert config.server[0].evaldata_id == 0
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('src.configs.datasets.tomllib.load')
-    def test_load_dataset_config_empty(self, mock_tomllib_load, mock_file):
+    @patch('src.common.utils.get_tool_config')
+    def test_load_dataset_config_empty(self, mock_get_tool_config):
         """Test loading dataset config with empty configuration."""
-        mock_tomllib_load.return_value = {"tool": {"zk0": {}}}
-
+        mock_get_tool_config.return_value = {"tool": {"zk0": {}}}
+    
         config = DatasetConfig.load()
-
+        mock_get_tool_config.assert_called_once_with("zk0.datasets")
+    
         assert len(config.clients) == 0
         assert len(config.server) == 0
 
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('src.configs.datasets.tomllib.load')
-    def test_load_dataset_config_missing_tool(self, mock_tomllib_load, mock_file):
+    @patch('src.common.utils.get_tool_config')
+    def test_load_dataset_config_missing_tool(self, mock_get_tool_config):
         """Test loading dataset config when tool section is missing."""
-        mock_tomllib_load.return_value = {}
-
+        mock_get_tool_config.return_value = {}
+    
         config = DatasetConfig.load()
-
+        mock_get_tool_config.assert_called_once_with("zk0.datasets")
+    
         assert len(config.clients) == 0
         assert len(config.server) == 0
 

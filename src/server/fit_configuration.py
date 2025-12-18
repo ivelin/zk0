@@ -4,6 +4,7 @@ import torch
 
 from flwr.common import FitIns, parameters_to_ndarrays
 from loguru import logger
+from src.server.strategy import AggregateEvaluationStrategy
 
 
 def configure_fit(strategy, server_round: int, parameters, client_manager):
@@ -54,7 +55,6 @@ def configure_fit(strategy, server_round: int, parameters, client_manager):
         logger.debug(f"Server: Configuring client {i} (CID: {client_proxy.cid})")
         updated_fit_config = fit_ins.config.copy()
         updated_fit_config["round"] = server_round
-        updated_fit_config["log_file_path"] = str(strategy.log_file)
         updated_fit_config["save_path"] = str(strategy.save_path)
         updated_fit_config["base_save_path"] = str(strategy.save_path)
         # FedProx: Dynamically adjust proximal_mu and LR based on evaluation trends

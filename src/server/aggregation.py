@@ -16,7 +16,7 @@ def aggregate_parameters(strategy, results: List[Tuple], failures: List[Tuple], 
         return strategy.initial_parameters
 
     # Use parent class aggregation
-    aggregated_parameters = super(AggregateEvaluationStrategy, strategy).aggregate_fit(server_round, results, failures)
+    aggregated_parameters = super().aggregate_fit(server_round, results, failures)
 
     if aggregated_parameters is None:
         logger.error("Server: Parent aggregation returned None - using initial parameters")

@@ -1,6 +1,5 @@
 """Evaluation utilities for zk0 federated learning server."""
 
-from pathlib import Path
 from typing import Dict, List, Optional
 
 import numpy as np
@@ -13,7 +12,6 @@ from loguru import logger
 from src.training.model_utils import set_params
 from src.training.evaluation import test
 from src.common.utils import load_lerobot_dataset
-from .visualization import SmolVLAVisualizer
 from .wandb_utils import log_wandb_metrics
 from .metrics_utils import prepare_server_wandb_metrics
 from .server_utils import prepare_server_eval_metrics

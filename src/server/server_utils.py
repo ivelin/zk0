@@ -7,14 +7,7 @@ from pathlib import Path
 from loguru import logger
 
 # Import utils functions at module level for easier testing
-from src.common.utils import get_tool_config
-from src.server.model_utils import (
-    extract_training_hyperparameters,
-    extract_datasets,
-    compute_in_memory_insights,
-    save_model_checkpoint,
-    generate_model_card,
-)
+from src.common.utils import get_tool_config, load_env_safe
 
 
 
@@ -91,7 +84,6 @@ def setup_output_directories(current_time):
     Returns:
         tuple: (save_path, clients_dir, server_dir, models_dir, simulation_log_path)
     """
-    from pathlib import Path
 
     folder_name = current_time.strftime("%Y-%m-%d_%H-%M-%S")
     save_path = Path(f"outputs/{folder_name}")
@@ -130,18 +122,7 @@ def load_config_and_env():
         tuple: (flwr_config, app_config)
     """
     # Load environment variables from .env file
-    logger.debug("Loading .env")
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        logger.debug(".env loaded successfully")
-        logger.debug("Environment variables loaded from .env file")
-    except ImportError as e:
-        logger.debug(f".env load failed (ImportError): {e}")
-        logger.debug("python-dotenv not available, skipping .env loading")
-    except Exception as e:
-        logger.debug(f".env load failed: {e}")
+    load_env_safe()
 
     # Get wandb configuration from pyproject.toml
     try:
@@ -404,5 +385,3 @@ def prepare_server_eval_metrics(strategy, server_round):
         "server_per_dataset_eval_results": server_per_dataset_eval_results,  # Detailed results per server evaluation dataset
         "num_server_eval_datasets": num_server_eval_datasets,  # Number of server evaluation datasets used
     }
-
-

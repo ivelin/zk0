@@ -7,8 +7,10 @@ import os
 import sys
 import torch
 import numpy as np
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from pathlib import Path
+import re
+
 from loguru import logger
 
 # Import LeRobot components
@@ -27,6 +29,32 @@ from src.common.parameter_utils import compute_parameter_hash
 from src.server.metrics_utils import create_client_metrics_dict
 
 # Import torchvision for image transforms
+
+
+def load_env_safe():
+    """Find and load .env. Consolidated client/server."""
+    try:
+        from dotenv import load_dotenv, find_dotenv, dotenv_values
+        env_path = find_dotenv(usecwd=False)
+        if not env_path:
+            env_path = find_dotenv(usecwd=True)
+        if env_path:
+            logger.info(f".env found at: {env_path}")
+            loaded_env = load_dotenv(dotenv_path=env_path, verbose=True, override=True)  # cwd
+            if not loaded_env:
+                logger.info("No .env loaded, env vars unchanged")
+            else:
+                vars = dotenv_values(env_path)
+                # Log loaded keys count (no values)
+                loaded_keys = vars.keys()
+                logger.debug(f"Loaded env keys (sensitive preview): {len(loaded_keys)} ({sorted(loaded_keys)})")
+        else:
+            logger.info(".env not found")
+
+    except ImportError:
+        logger.debug("dotenv unavailable")
+    except Exception as e:
+        logger.debug(f"load_env_safe error: {e}")
 
 
 def load_smolvla_model(
@@ -52,13 +80,7 @@ def load_smolvla_model(
     Raises:
         RuntimeError: If model loading fails
     """
-    # Load environment variables from .env file
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-    except ImportError:
-        pass  # dotenv not available, continue
+    load_env_safe()
 
     if device == "auto":
         device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -327,7 +349,10 @@ def get_tool_config(tool_name: str, file_path: str = "pyproject.toml") -> dict:
     """Load tool configuration from pyproject.toml."""
     with open(file_path, "rb") as f:
         config = tomllib.load(f)
-    return config.get("tool", {}).get(tool_name, {})
+    current = config.get("tool", {})
+    for part in tool_name.split("."):
+        current = current.get(part, {})
+    return current
 
 
 def validate_scheduler_config(cfg: dict) -> None:
@@ -445,32 +470,27 @@ def compute_param_update_norm(pre_params, post_params):
     return float(param_diff_norm)
 
 
-def get_client_output_dir(config, client_id, logger):
-    """Get the client-specific output directory based on server-provided save_path.
+# DEPRECATED: get_client_output_dir(config, client_id, logger) - use get_client_dir(base_dir, dataset_slug)
+
+def get_client_dir(base_dir: Path, dataset_name: str) -> Path:
+    """Get the unified client-specific output directory using dataset name.
+    
+    Works for both sim and prod modes. Slugifies dataset_name (repo_id) for dir name.
     
     Args:
-        config: Flower config dict containing save_path
-        client_id: Client identifier
-        logger: Logger instance
+        base_dir: Base outputs directory (from server save_path or log_file.parent)
+        dataset_name: Raw dataset repo_id or name (will be slugified internally)
     
     Returns:
-        Path: Client output directory
+        Path: base_dir/clients/slugified_dataset_name
     """
-    save_path = config.get("save_path")
-    if save_path:
-        try:
-            output_dir = Path(save_path) / "clients" / f"client_{client_id}"
-            os.makedirs(output_dir.parent, exist_ok=True)  # Ensure clients dir exists
-            logger.debug(f"Client {client_id}: Using save_path from config: {save_path}")
-            return output_dir
-        except Exception as e:
-            logger.warning(f"Client {client_id}: Invalid save_path '{save_path}': {e}")
-    else:
-        logger.error(f"Client {client_id}: No save_path in config, falling back to outputs/unknown")
-        output_dir = Path("outputs/unknown") / "clients" / f"client_{client_id}"
-        os.makedirs(output_dir.parent, exist_ok=True)
-        return output_dir
-
+    # Stdlib-safe slugify: lower, replace non-alphanum with '_'
+    slug = re.sub(r'[^a-z0-9]+', '_', str(dataset_name).lower()).strip('_')
+    if not slug:
+        slug = "unknown_dataset"
+    client_dir = base_dir / "clients" / slug
+    client_dir.mkdir(parents=True, exist_ok=True)
+    return client_dir
 
 def save_client_round_metrics(
     config, training_metrics, round_num, client_id, logger
@@ -488,8 +508,9 @@ def save_client_round_metrics(
         None
     """
     try:
-        output_dir = get_client_output_dir(config, client_id, logger)
-        os.makedirs(output_dir, exist_ok=True)
+        base_dir = get_base_output_dir(save_path=config.get("save_path"))
+        output_dir = get_client_dir(base_dir, training_metrics["dataset_name"])
+        logger.info(f"Client {client_id}: Using unified client dir: {output_dir} for dataset '{training_metrics['dataset_name']}'")
 
         json_data = create_client_metrics_dict(
             round_num=round_num,
@@ -537,11 +558,48 @@ def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, ex
     return current_hash
 
 
-def get_base_output_dir(save_path: Optional[str] = None, log_file_path: Optional[str] = None) -> Path:
-    """Get the base output directory from save_path or derive from log_file_path."""
+def get_dataset_slug(context: Any) -> str:
+    """Get dataset slug from context for unified sim/prod path generation."""
+    logger.debug(f"get_dataset_slug node_config keys: {list(context.node_config.keys())}")
+    logger.debug(f"get_dataset_slug DATASET_NAME env: '{os.environ.get('DATASET_NAME', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug run_config.dataset.repo_id: '{context.run_config.get('dataset.repo_id', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug run_config.dataset.root: '{context.run_config.get('dataset.root', 'MISSING')}'")
+    logger.debug(f"get_dataset_slug node_config.dataset-uri: '{context.node_config.get('dataset-uri', 'MISSING')}'")
+    if "partition-id" in context.node_config:
+        from src.configs import DatasetConfig
+        config = DatasetConfig.load()
+        partition_id = int(context.node_config["partition-id"])
+        client_config = config.clients[partition_id % len(config.clients)]
+        slug = client_config.name
+        logger.info(f"🔍 SIM slug from DatasetConfig.clients[{partition_id % len(config.clients)}]: {slug}")
+        return slug
+    else:
+        # Production checks
+        if os.environ.get("DATASET_NAME"):
+            logger.debug("get_dataset_slug → using DATASET_NAME env")
+            return os.environ["DATASET_NAME"]
+        elif context.run_config.get("dataset.repo_id"):
+            logger.debug("get_dataset_slug → using run_config.dataset.repo_id")
+            return context.run_config["dataset.repo_id"]
+        elif context.run_config.get("dataset.root"):
+            logger.debug("get_dataset_slug → using run_config.dataset.root")
+            return Path(context.run_config["dataset.root"]).name
+        elif "dataset-uri" in context.node_config:
+            logger.debug("get_dataset_slug → using node_config.dataset-uri")
+            return context.node_config["dataset-uri"]
+        else:
+            raise ValueError(
+                "Production mode: No dataset source found. "
+                "Require: DATASET_NAME env, run_config.dataset.repo_id/root, or node_config.dataset-uri. "
+                f"Got node_config keys: {list(context.node_config.keys())}"
+            )
+
+
+
+
+def get_base_output_dir(save_path: Optional[str] = None) -> Path:
+    """Get the base output directory from save_path (default fallback)."""
     if save_path:
         return Path(save_path)
-    elif log_file_path:
-        return Path(log_file_path).parent
     else:
-        return Path("outputs/unknown")
+        return Path("outputs/default")  # Fallback when no timestamp/save_path (pre-round clients)

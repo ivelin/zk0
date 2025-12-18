@@ -1,8 +1,8 @@
 # System Architecture
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-06
-**Version**: 1.0.8
+**Last Updated**: 2025-12-18
+**Version**: 1.0.9
 **Author**: Kilo Code
 
 ## Source Code Paths
@@ -103,7 +103,7 @@ The system implements a carefully designed federated learning strategy to ensure
 
 #### Client Task Assignments
 Each client is assigned a unique robotics manipulation task to prevent data overlap and ensure diverse skill learning. See [Configuration System](#configuration-system) for complete client dataset configuration including:
-- **4 validated clients** with diverse robotics manipulation tasks:
+- **12 validated clients** with diverse robotics manipulation tasks (see pyproject.toml):
   - **Client 0**: shaunkirby/record-test - "Put the red LEGO in the bin"
   - **Client 1**: ethanCSL/direction_test - "turn to the right side" (VALIDATED CLEAN)
   - **Client 2**: gimarchetti/so101-winnie-us5 - "rub the plush toy with the bottle" (VALIDATED CLEAN)
@@ -185,8 +185,8 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Scope Limitation**: All development work must remain within the project root directory
 
 ### 2. Environment Requirements
-- **Primary Environment**: Conda environment "zk0" for local development and training runs (validated for federated learning execution)
-- **Alternative Environment**: Docker container (`zk0`) via train-fl-simulation.sh for reproducible, isolated execution of training and simulations
+- **Primary Environment**: Conda environment "zk0" (recommended)
+- **Alternative**: Docker (`zk0`) for sim reproducibility
 - **VSCode Integration**: VSCode with Docker integration and automatic environment detection
 - **Training Script**: Use `./train-fl-simulation.sh` for Docker-based executions or `conda run -n zk0 flwr run . local-simulation-serialized-gpu` for conda-based executions
 - **Dependencies**: Use pinned versions from `pyproject.toml`
@@ -215,19 +215,19 @@ The server evaluates the global model on all client tasks as well as additional 
 - **Production Readiness Criteria**: Application code cannot be considered solid and production-ready if any tests fail
 - **Project Status Assessment**: Current project status is alpha stage - active early development that is largely untested by real users, not even close to beta where other developers can test it and expect substantial features
 - **Progress Declaration Policy**: Do not declare progress without explicit user approval
-- **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (minor, major, breaking, etc.)
+- **Version Increment Guidelines**: When substantial progress is approved, update memory bank with progress status and increment project version according to level of progress (patch, minor, major, breaking, etc.)
 - **Task Completion Assessment**: When a big task is completed that involves substantial code changes, assess and propose project progress update, but wait for approval before making any changes
 - **Version Synchronization**: Project version should always be in sync with release tags and git tags
 
 ### 7. Testing Execution Requirements
-- **Environment**: All tests must run in Docker container (`zk0`) for consistency
+- **Environment**: Docker (`zk0`) or conda (`zk0`) for consistency
 - **Parallel Execution**: Use `pytest -n auto` for parallel test execution
 - **Coverage**: Always include `--cov=src --cov-report=term-missing` for coverage reporting
 - **Command Format**: Use train.sh or direct Docker run with `python -m pytest -n auto --cov=src --cov-report=term-missing`
 
 ### 8. Environment Dependency Management
 - **Reproducible Dependencies**: When new OS-level or Python dependencies are needed, update Dockerfile and/or requirements.txt for reproducibility
-- **Docker-first**: Prefer Docker-based dependency management over local environment modifications
+- **Conda Primary**: Native CLI preferred; Docker optional sim
 - **Version Pinning**: Always pin dependency versions in requirements.txt to ensure consistent environments
 - **Documentation**: Document any new dependencies and their purpose in commit messages and memory bank
 
@@ -331,37 +331,23 @@ Before running tests:
 
 ## Code Organization and Refactoring
 
-**Refactoring Overview (2025-10-27)**: To address code bloat in src/server_app.py (1766 lines), a comprehensive refactoring was performed focusing on modularity, testability, and maintainability. The primary goal was to reduce the size of the AggregateEvaluationStrategy class (especially the 266-line aggregate_fit() method) while leveraging existing utilities in src/server/server_utils.py.
+**Server Modular Refactor (v0.8.0 2025-12-18)**: src/server_app.py slim entrypoint (~230L) orchestrates 11 utils:
 
-### Key Changes
-1. **Modular Breakdown of aggregate_fit()**:
-   - **validate_client_parameters()**: Already extracted; handles hash validation and filtering of corrupted updates.
-   - **aggregate_parameters()**: New function in server_utils.py for core FedProx aggregation logic (moved from super().aggregate_fit() call).
-   - **aggregate_and_log_metrics()**: New function to handle client metrics aggregation, norm computation, and logging.
-   - **save_and_push_model()**: New function to manage checkpoint saving and conditional HF Hub push (combines save_model_checkpoint() and push_model_to_hub() logic).
-   - **finalize_round_metrics()**: New function for merging metrics, adding diagnostics (mu/LR), and returning the final tuple.
+- aggregation.py: aggregate_parameters
+- evaluation.py: server_evaluate, per-dataset results
+- fit_configuration.py: configure_fit (FedProx params, client selection)
+- metrics_utils.py: aggregate/log metrics, WandB prep
+- model_checkpointing.py: save_and_push_model
+- model_utils.py: init/eval metrics, checkpoint dir
+- parameter_validation.py: hash/validate
+- server_utils.py: setup dirs/logging/config/strategy/WandB
+- strategy.py: AggregateEvaluationStrategy
+- visualization.py: charts (policy loss)
+- wandb_utils.py: log_server_wandb
 
-2. **Leveraging server_utils.py**:
-   - Moved aggregate_client_metrics(), collect_individual_client_metrics(), and compute_server_param_update_norm() usage is now central; added new functions like aggregate_parameters() and save_and_push_model() to this module.
-   - Reduced redundancy: Removed duplicated hash computation/validation logic by centralizing in validate_and_log_parameters().
+**Benefits**: 70% size reduction, testability, maintainability. No functional change.
 
-3. **Dangling/Unused Code Removal**:
-   - Removed unused imports (e.g., redundant flwr.common imports).
-   - Eliminated dangling methods: configure_evaluate() (returns empty list, but kept for Flower compatibility; no active logic).
-   - Trimmed verbose logging in aggregate_fit() by extracting to dedicated log functions.
-
-4. **Benefits**:
-   - **Reduced Size**: aggregate_fit() now ~80 lines (70% reduction); server_app.py total ~1200 lines.
-   - **Testability**: Smaller functions enable unit testing (e.g., test_aggregate_parameters(), test_save_and_push_model()).
-   - **Maintainability**: Clear separation of concerns; easier to extend (e.g., new strategies).
-   - **No Functional Changes**: Preserves all behavior, including conditional HF push, security validation, and metrics logging.
-
-### Implementation Guidelines
-- All new functions in server_utils.py follow existing patterns (type hints, docstrings, logging).
-- Tests updated in tests/unit/test_server_app.py to cover new functions (coverage remains >80%).
-- Version bump: v0.3.6 (minor refactor, no breaking changes).
-
-This refactoring aligns with modular design principles while maintaining SmolVLA/Flower/SO-100 focus.
+Prior refactor (2025-10-27 v0.3.6): aggregate_fit breakdown to server_utils.py.
 
 ## Improvement Suggestions from Pusht Example Analysis
 
@@ -375,6 +361,8 @@ Based on analysis of the Flower LeRobot pusht example, the following improvement
 6. **Output Management**: Standardize output directories for models, evaluations, and videos across clients and server.
 
 These changes would align zk0 more closely with LeRobot best practices while maintaining SmolVLA focus.
+
+Deployment: Native zk0bot CLI/tmux SuperLink/SuperNode (no Docker prod).
 
 For hyperparameter analysis, see [docs/HYPERPARAMETER_ANALYSIS.md](../docs/HYPERPARAMETER_ANALYSIS.md).
 

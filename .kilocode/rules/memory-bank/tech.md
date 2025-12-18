@@ -1,8 +1,8 @@
 # Technologies and Development Setup
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-01
-**Version**: 1.0.5
+**Last Updated**: 2025-12-18
+**Version**: 1.0.7
 **Author**: Kilo Code
 
 ## Core Technologies
@@ -15,7 +15,7 @@
 
 ### Federated Learning Framework
 - **Flower Framework**: Federated learning orchestration and aggregation
-  - **Version**: Flower 1.22.0
+  - **Version**: Flower 1.23.0
   - **Architecture**: Client-Server with Deployment Engine
   - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
   - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -75,7 +75,7 @@ python lerobot/scripts/train.py \
 ```
 
 ### Flower Framework
-- **Version**: Flower 1.22.0
+- **Version**: Flower 1.23.0
 - **Architecture**: Client-Server with Deployment Engine
 - **Supported ML Frameworks**: PyTorch, TensorFlow, JAX, MLX, 🤗 Transformers, PyTorch Lightning, scikit-learn, XGBoost, fastai, Pandas
 - **Key Components**: ClientApp, ServerApp, Strategies (FedAvg, FedProx), Mods
@@ -108,7 +108,7 @@ For detailed dataset information, including SO-100/SO-101 formats, client assign
 ## Integration Specifications
 
 ### SmolVLA + Flower Integration
-- **Framework Compatibility**: Flower 1.22.0 with Ray 2.10.0
+- **Framework Compatibility**: Flower 1.23.0 with Ray 2.31.0
 - **Dataset Format**: Flower Datasets for partitioning
 - **Model Loading**: Direct integration with LeRobot SmolVLA models
 - **Federated Dataset**: FederatedLeRobotDataset for distributed data
@@ -127,7 +127,7 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **No Mocks in Production**: Tests use real dependencies; fail-fast on missing env.
 - **Coverage**: 30% minimum; focus on integration points (Flower ↔ SmolVLA).
 - **Zk0-Specific**: Test parameter exchange, multi-repo partitioning, hash validation.
-- **Execution**: Always in Docker (`zk0`) or conda (`zk0`) for consistency.
+- **Execution**: Docker (`zk0`) or conda (`zk0`) for consistency
 - **Parallel**: `pytest -n auto` with coverage reporting.
 
 ### Code Quality Standards
@@ -141,11 +141,11 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **File Size Limits**: New source files must be under 500 lines of code (LOC) when possible for maintainability and readability. This ensures modular design and prevents bloated files. Exceptions require explicit approval in code reviews. Existing large files (e.g., server_app.py) should be refactored into smaller modules during maintenance.
 
 ### CI/CD and Deployment
-- **Docker-Based Testing**: CI uses `Dockerfile.ci` (CPU-only) for isolation; local uses `Dockerfile.zk0` (GPU).
+- **CI/CD**: Automated testing; local Docker/conda
 - **Parallel Coverage**: `.coveragerc` enables parallel mode; `coverage combine` merges files.
 - **GitHub Actions**: Auto-build/push on tag; GPU-only platforms.
 - **Local Simulation**: Test CI locally with `docker build -f Dockerfile.ci -t zk0-ci .` then run tests.
-- **Deployment**: Docker Compose for prod; GHCR for images.
+- **Deployment**: Native zk0bot CLI/tmux (SuperLink/SuperNode); Docker optional sim
 
 ## Logging and Monitoring
 - **Loguru Framework**: Structured logging with rotation, compression, and multi-process safety
@@ -182,7 +182,7 @@ For installation, setup, and hardware requirements, see [docs/INSTALLATION.md](.
 - **Validation**: Ensures no duplicate runs - clients join existing run, don't create separate ones
 
 ## Deployment and Operations
-- **Docker**: Containerization for reproducible deployments
+- **Native zk0bot CLI/tmux**: SuperLink/SuperNode (no Docker prod)
 - **Kubernetes**: Orchestration for distributed clients
 - **Monitoring**: Logging and performance tracking
 - **CI/CD**: Automated testing and deployment pipelines
@@ -286,3 +286,144 @@ Run these commands after any pyproject.toml updates or when switching branches t
 - **Rationale**: Ensures meaningful updates in short FL rounds (10-1000 steps). Mild intra-round decay balances exploration/stability. Aligns with Flower's stateless clients.
 - **Validation**: Check logs for override message, pre/post-norm delta >0.01, decreasing loss across rounds.
 - **Benefits**: Effective learning without global step tracking; compatible with zk0's partial-step architecture (200 steps/round default).
+## Server-Side Tools & LLM Integration Guidelines
+
+**Policy**: Proactively use all available Kilo Code server-side tools for research, coding, planning, and external data access to ensure up-to-date, accurate results. Leverage LLM-native tools from Grok (xAI), Gemini (Google), Claude (Anthropic), and others via Kilo Code modes.
+
+**Kilo Code Tools**:
+- **Web/X Search**: [`browser_action`](browser_action) for Puppeteer (Google, X.com/search, sites).
+- **Code**: [`codebase_search`](codebase_search), [`read_file`](read_file), [`apply_diff`](apply_diff).
+- **MCP/Advanced**: [`use_mcp_tool`](use_mcp_tool) (context7, playwright, filesystem).
+- **Workflow**: [`update_todo_list`](update_todo_list), [`ask_followup_question`](ask_followup_question).
+
+**Best Practices**: One tool/response, iterative, tools > static knowledge.
+## Grok Code Execution Tool (x.ai Native)
+
+**Encouragement**: Use Grok's [`code_execution`](code_execution) tool (aka code_interpreter) for real-time Python REPL execution.
+
+**Key Capabilities** (from docs.x.ai/guides/tools/code-execution-tool):
+* **Mathematical Computations**: Equations, stats, numerical.
+* **Data Analysis**: Datasets, insights.
+* **Financial Modeling**: Risk, quantitative.
+* **Scientific Computing**: Simulations, transformations.
+* **Code Gen/Testing**: Write/debug Python.
+
+**When to Use**:
+- Exact calculations (not approximations).
+- Multi-step data processing.
+- Verification of math/logic.
+
+**SDK/API**:
+- xAI SDK: `code_execution`
+- OpenAI Responses API: `code_interpreter`
+
+**Example**:
+```python
+# Compound interest calculation
+chat.append(user("Calculate compound interest $10k @5% 10yrs"))
+# Tool auto-calls Python code
+```
+
+**Sandbox**: NumPy, Pandas, Matplotlib, SciPy pre-installed; secure, stateless.
+
+Integrate via Kilo Code modes for enhanced accuracy.
+## Grok Search Tools (x.ai Native)
+
+**Encouragement**: Leverage Grok's agentic search tools (`web_search`, `x_search`) for web/X research.
+
+**Available**:
+- **web_search**: Web search + browsing, citations.
+- **x_search**: Keyword/semantic/user/thread search on X.
+
+**Filters**:
+- Web: `allowed_domains`/`excluded_domains` (max 5), `enable_image_understanding`.
+- X: `allowed_x_handles`/`excluded_x_handles` (max 10), `from_date`/`to_date`, `enable_image_understanding`/`enable_video_understanding`.
+
+**Citations**: Traceable sources in response.
+
+**SDK**: xAI `web_search`/`x_search`, OpenAI compatible.
+
+**Best Practices**: Specific queries, filters for precision, low temp for reasoning.
+
+Use via Kilo Code modes or approximate with [`browser_action`](browser_action).
+## Grok Remote MCP Tools (x.ai Native)
+
+**Encouragement**: Use Grok's `mcp` tool to connect external MCP servers for custom tools.
+
+**Configuration**:
+- `server_url`: HTTPS/SSE MCP server.
+- `server_label`/`description`: ID/desc.
+- `allowed_tool_names`: Filter tools.
+- `authorization`/`extra_headers`: Auth.
+
+**Multi-server**: Combine multiple MCPs.
+
+**Best Practices**:
+- Descriptive labels for multi-server.
+- Filter tools for efficiency/security.
+- HTTPS + auth.
+
+**Example**:
+```python
+tools=[
+  mcp(server_url="https://mcp.deepwiki.com/mcp"),
+]
+```
+
+Extends with 3rd-party/custom tools (docs/API/data).
+## Grok Advanced Tool Usage (x.ai Native)
+
+**Encouragement**: Advanced patterns for agentic tools.
+
+**Key Features**:
+- **Client/Server Mix**: Server tools (web_search/code_execution) auto-run; client tools manual execute/append results.
+- **Multi-turn**: `store_messages=True` + `previous_response_id` or `use_encrypted_content=True` + append response.
+- **Tool Combinations**: web_search + x_search + code_execution for research/analysis.
+- **Images**: Include images in context for visual analysis + search.
+
+**Best Practices**:
+- Stateful for iterative research.
+- Combinations for comprehensive tasks.
+- Client tools for local/specialized.
+
+See docs.x.ai/guides/tools/advanced-usage.
+## Grok Stateful Responses API (x.ai Native)
+
+**Encouragement**: Use stateful Responses API for multi-turn conversations preserving agentic state (reasoning/tools).
+
+**Key Features**:
+- `store_messages=True`: Server stores history (30 days).
+- Continue with `previous_response_id=response.id`.
+- Encrypted content: `use_encrypted_content=True` / `include=["reasoning.encrypted_content"]` for ZDR/privacy.
+- Retrieve/delete responses by ID.
+
+**Example** (xAI SDK):
+```python
+chat = client.chat.create(model="grok-4", store_messages=True)
+# ... append messages, sample/stream
+next_chat = client.chat.create(previous_response_id=response.id)
+```
+
+**Benefits**: Seamless multi-turn without resending history; billed for full context.
+
+See docs.x.ai/guides/responses-api.
+## Grok Files & Collections API
+
+**Encouragement**: Use Files/Collections for document upload/search in chats (agentic `document_search`/`file_search`).
+
+**Key Features**:
+- Upload files (48MB max, text/PDF/CSV/JSON/code).
+- Attach to messages: Auto-activates search tool.
+- Collections: Group files, semantic search across.
+- Multi-file/multi-turn, combine with code_execution/web_search.
+
+**.env Keys**: XAI_API_KEY (chat), XAI_MANAGEMENT_API_KEY.
+
+**Usage**:
+- Upload: `client.files.upload(content, filename)`
+- Chat: `user("Query?", file(file_id))`
+- Collections: Create group, upload, search via `collections_search`/`file_search`.
+
+Limits: 100k files/collection. Privacy: No training use without consent.
+
+See docs.x.ai/guides/files.

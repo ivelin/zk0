@@ -204,41 +204,6 @@ class TestWandbUtils:
         from src.server.metrics_utils import prepare_server_wandb_metrics
 
         # Mock per_dataset_results matching JSON structure from round_49_server_eval.json
-        per_dataset_results = [
-            {
-                "dataset_name": "Hupy440/Two_Cubes_and_Two_Buckets_v2",
-                "evaldata_id": 0,
-                "loss": 0.20069279242306948,
-                "num_examples": 1024,
-                "metrics": {
-                    "policy_loss": 0.20069279242306948,
-                    "successful_batches": 16,
-                    "total_samples": 1024,
-                },
-            },
-            {
-                "dataset_name": "dll-hackathon-102025/oct_19_440pm",
-                "evaldata_id": 1,
-                "loss": 0.2598760323598981,
-                "num_examples": 1024,
-                "metrics": {
-                    "policy_loss": 0.2598760323598981,
-                    "successful_batches": 16,
-                    "total_samples": 1024,
-                },
-            },
-            {
-                "dataset_name": "shuohsuan/grasp1",
-                "evaldata_id": 3,
-                "loss": 0.209683109074831,
-                "num_examples": 1024,
-                "metrics": {
-                    "policy_loss": 0.209683109074831,
-                    "successful_batches": 16,
-                    "total_samples": 1024,
-                },
-            },
-        ]
 
         # Mock other required inputs
         server_round = 49
@@ -306,17 +271,8 @@ class TestWandbUtils:
         """Test prepare_server_wandb_metrics with missing evaldata_id (fallback to dataset_name)."""
         from src.server.metrics_utils import prepare_server_wandb_metrics
 
-        per_dataset_results = [
-            {
-                "dataset_name": "test_dataset",
-                "loss": 0.5,
-                "num_examples": 100,
-                "metrics": {"policy_loss": 0.5},
-                # Missing evaldata_id
-            }
-        ]
 
-        result = prepare_server_wandb_metrics(
+        prepare_server_wandb_metrics(
             server_round=1,
             server_loss=0.5,
             server_metrics={},

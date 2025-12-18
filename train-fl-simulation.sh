@@ -54,6 +54,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+TINY_CONFIG=""
+if [ "$TINY_TRAIN" = true ]; then
+    TINY_CONFIG='--run-config "num-server-rounds=2 local-epochs=2 batch_size=2 eval_batches=2 fraction-fit=0.2 fraction-evaluate=0.2"'
+fi
+
 # Configuration managed via environment variables and pyproject.toml
 # Use --docker flag to run with Docker instead of conda
 
@@ -128,15 +133,15 @@ if [ "$USE_DOCKER" = true ]; then
     DOCKER_CMD="$DOCKER_CMD -v $(pwd):/workspace"
     DOCKER_CMD="$DOCKER_CMD -v /tmp:/tmp"
     # Mount Hugging Face cache directory for model persistence
-    DOCKER_CMD="$DOCKER_CMD -v $HOME/.cache/huggingface:/home/user_lerobot/.cache/huggingface"
+    DOCKER_CMD="$DOCKER_CMD -v $HOME/.cache/huggingface:/home/user_zk0/.cache/huggingface"
     DOCKER_CMD="$DOCKER_CMD -w /workspace"
     # Pass Ray environment variables to Docker container (must be set before ray.init())
     DOCKER_CMD="$DOCKER_CMD -e RAY_LOGGING_CONFIG_LOG_LEVEL=INFO"
     DOCKER_CMD="$DOCKER_CMD -e RAY_LOGGING_CONFIG_LOGGER_NAMES=ray,ray.worker,ray.actor"
     DOCKER_CMD="$DOCKER_CMD -e RAY_DEDUP_LOGS=0"
     DOCKER_CMD="$DOCKER_CMD -e RAY_COLOR_PREFIX=1"
-    DOCKER_CMD="$DOCKER_CMD $DOCKER_IMAGE"
-    DOCKER_CMD="$DOCKER_CMD sh -c 'uv pip install --no-cache-dir --no-build-isolation -r requirements.txt && pip install -e . && PYTHONPATH=/workspace:$PYTHONPATH flwr run . $FEDERATION' 2>&1"
+    DOCKER_CMD="$DOCKER_CMD --entrypoint sh $DOCKER_IMAGE"
+    DOCKER_CMD="$DOCKER_CMD -c 'cd /workspace && rm -rf .venv || true && uv venv .venv && . .venv/bin/activate && uv pip install \"lerobot==0.3.3\" && uv pip install -e . && export PYTHONPATH=/workspace:\$PYTHONPATH && flwr run . $FEDERATION $TINY_CONFIG' 2>&1"
 
     print_info "Executing Docker command:"
     print_info "$DOCKER_CMD"

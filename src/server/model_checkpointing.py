@@ -54,7 +54,11 @@ def save_and_push_model(strategy, server_round: int, aggregated_parameters, metr
         from .model_utils import push_model_to_hub_enhanced
 
         repo_id = app_config["hf_repo_id"]
-        push_model_to_hub_enhanced(checkpoint_dir, repo_id)
+        try:
+            push_model_to_hub_enhanced(checkpoint_dir, repo_id)
+            logger.info(f"✅ Server: Successfully pushed checkpoint_round_{server_round} to HF Hub: {repo_id}")
+        except Exception as push_error:
+            logger.warning(f"⚠️ Server: HF Hub push skipped for round {server_round}: {push_error}. Local checkpoint saved.")
     elif should_push:
         logger.info("ℹ️ Server: No hf_repo_id configured, skipping Hub push")
     else:

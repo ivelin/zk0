@@ -151,17 +151,6 @@ def setup_common_logging(
 
     retention = config.get("file_retention", "10 days")
 
-    # Add direct file sink for simulation.log (for all processes including server)
-    logger.add(
-        str(log_file),
-        level=level,
-        rotation=f"{rotation_mb} MB",
-        retention=retention,
-        compression="zip",
-        format=file_format,
-        enqueue=True,
-        catch=True,
-    )
 
     # Bind default extras to logger
     if extras:
@@ -211,25 +200,27 @@ def setup_server_logging(log_file: Path):
     logger.info(f"Server-specific logging to {server_log_file}")
 
 
-def setup_client_logging(log_file: Path, client_id: str, save_path: Optional[str] = None):
+def setup_client_logging(client_id: str, dataset_slug: str, save_path: Optional[str] = None):
     """Setup client-specific logging for individual client processes.
     
     Args:
-        log_file: Path to the main simulation log file
         client_id: Client identifier (partition_id (int) in simulation, UUID (str) in production)
-        save_path: Optional base save path for unified directory construction
+        dataset_slug: Dataset name/slug for unified directory naming
+        save_path: Base save path for unified directory construction
     """
     
     level, file_format, retention, rotation_mb = setup_common_logging(
-        log_file, client_id=f"client_{client_id}"
+        None, client_id=f"client_{client_id}"
     )
 
-    # Create client-specific log file using unified directory logic
-    from src.common.utils import get_base_output_dir
-    base_dir = get_base_output_dir(save_path=save_path, log_file_path=str(log_file))
-    client_dir = base_dir / "clients" / f"client_{client_id}"
-    client_dir.mkdir(parents=True, exist_ok=True)
+    # Create client-specific log file using unified dataset-based directory logic
+    from src.common.utils import get_base_output_dir, get_client_dir
+    base_dir = get_base_output_dir(save_path=save_path)
+    client_dir = get_client_dir(base_dir, dataset_slug)
     client_log_file = client_dir / "client.log"
+    
+    client_dir.mkdir(parents=True, exist_ok=True)
+    logger.info(f"Client {client_id}: Using unified client dir: {client_dir} for dataset '{dataset_slug}'")
 
     # Add client-specific sink with enqueue=True for multiprocess safety
     logger.add(

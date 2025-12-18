@@ -3,6 +3,7 @@
 import os
 import logging
 from typing import Optional, Dict, Any
+from src.common.utils import load_env_safe
 
 logger = logging.getLogger(__name__)
 
@@ -16,13 +17,8 @@ def _load_wandb_env_and_log_key(context: str = "") -> Optional[str]:
     Returns:
         WANDB_API_KEY if available, None otherwise
     """
-    # Load environment variables from .env file
-    try:
-        from dotenv import load_dotenv
-        load_dotenv()
-        logger.debug(f"Environment variables loaded from .env file in {context}")
-    except ImportError:
-        logger.debug(f"python-dotenv not available in {context}, skipping .env loading")
+    load_env_safe()
+    logger.debug(f"load_env_safe called in {context}")
 
     # Log WANDB_API_KEY status without revealing full key
     wandb_key = os.environ.get("WANDB_API_KEY")

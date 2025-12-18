@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "zk0"
-version = "0.6.2"
+version = "0.8.1"
 description = "Federated Learning with SmolVLA and Flower (SO-100 Robotics Example)"
 license = "Apache-2.0"
 authors = [
@@ -15,7 +15,7 @@ authors = [
 ]
 
 dependencies = [
-    "flwr[simulation]==1.23.0",
+    "flwr[simulation,superexec]==1.23.0",
     "transformers>=4.50.3,<4.52.0",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
@@ -53,18 +53,18 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
-local-epochs = 20 # steps/epochs per round
+num-server-rounds = 20 # 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
+local-epochs = 2 # 20 # steps/epochs per round
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
-fraction-fit = 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
+fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
 min-fit-clients = 2 # Minimum clients to train each round (ensure at least 2 for SO-100 with 4 clients)
 fraction-evaluate = 1 # Evaluate all clients when using client eval. For server eval, this is ignored.
-batch_size =  64 # Batch size for training and evaluation (match standalone train script)
+batch_size = 16 # Reduced from 64 for multi-client GPU sharing on 24GB RTX (OOM fix); increase for single-client/high VRAM
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
-eval_batches = 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
-checkpoint_interval = 10 # Save checkpoint every N rounds (0 = disabled)
+eval_batches = 4 # 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
+checkpoint_interval = 1 # 10 # Save checkpoint every N rounds (0 = disabled)
 hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
@@ -90,8 +90,9 @@ max_adjust_factor = 1.05  # Cap adjustments early (<R20)
 [tool.zk0.logging]
 # Application logging configuration (automatically applied to Flower/Ray)
 level = "DEBUG"  # DEBUG, INFO, WARNING, ERROR, CRITICAL - Set to DEBUG for detailed troubleshooting
-flwr_log_level = "INFO"  # Flower framework logging level
-lerobot_log_level = "INFO"  # LeRobot framework logging level
+log_level = "DEBUG"
+flwr_log_level = "DEBUG"  # Flower framework logging level
+lerobot_log_level = "DEBUG"  # LeRobot framework logging level
 enable_grpc_logging = false  # Disable gRPC network communication logs to reduce noise
 enable_ray_logging = true   # Enable Ray distributed execution logs
 enable_audit_logging = false  # Disable JSON audit logging (requires Flower Enterprise)
@@ -127,8 +128,12 @@ options.backend.type = "multiprocess" # Use Python multiprocessing instead of Ra
 options.backend.client-resources.num-cpus = 4 # CPU resources per client
 options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
 
-[tool.flwr.federations.local-deployment]
-address = "127.0.0.1:9093"
+# [tool.flwr.federations.local-deployment]
+# address = "127.0.0.1:9093"
+# insecure = true
+
+[tool.flwr.federations.prod-deployment]
+address = "0.0.0.0:9093"
 insecure = true
 
 [tool.zk0.datasets]
@@ -148,14 +153,15 @@ clients = [
 ]
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
-    {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
-    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
-    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    
-    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=4},    
+#    {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
+#    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
+#    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    
+#    {name = "dll-hackathon-102025/oct_25_umbrella_435pm", description = "put umbrella in glass. - VALIDATED CLEAN", evaldata_id=4},    
 ]
 
 # Dataset loading configuration
 force_opencv_backend = true  # Force OpenCV video backend to avoid TorchCodec frame corruption issues
+
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -171,7 +177,7 @@ addopts = [
     "--cov=src",
     "--cov-report=term-missing",
     "--cov-report=html:htmlcov",
-    "--cov-fail-under=30"
+    "--cov-fail-under=35"
 ]
 markers = [
     "unit: Unit tests",

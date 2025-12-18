@@ -1,6 +1,7 @@
 """zk0: A Flower / Hugging Face LeRobot app."""
 
-from pathlib import Path
+import sys
+import os
 
 import torch
 from src.common.utils import load_lerobot_dataset
@@ -16,21 +17,44 @@ from src.client.client_core import SmolVLAClient
 def client_fn(context: Context) -> Client:
     """Construct a Client that will be run in a ClientApp."""
 
+    print("[DEBUG client_fn] client_fn STARTED - context.node_config keys:", list(context.node_config.keys()), file=sys.stderr)
+    print(f"[DEBUG client_fn] DATASET_NAME env: '{os.environ.get('DATASET_NAME', 'MISSING')}'", file=sys.stderr)
+    print(f"[DEBUG client_fn] context keys: {list(context.__dict__.keys()) if hasattr(context, '__dict__') else 'No __dict__'}", file=sys.stderr)
+    sys.stderr.flush()
+    
     # Determine runtime mode based on presence of partition-id in node_config
     is_simulation = "partition-id" in context.node_config
-
+    logger.info(f"🔍 MODE: is_simulation={is_simulation}, partition_id={context.node_config.get('partition-id', 'MISSING')}")
+    print(f"[DEBUG client_fn] is_simulation={is_simulation} (node_config has partition-id: {'partition-id' in context.node_config})", file=sys.stderr)
+    sys.stderr.flush()
+    
+    # Get dataset slug for unified path generation
+    from src.common.utils import get_dataset_slug, load_env_safe
+    logger.info(f"🔍 Calling get_dataset_slug in {'SIM' if is_simulation else 'PROD'} mode")
+    print(f"[DEBUG FULL context.node_config] {context.node_config}", file=sys.stderr)
+    print(f"[DEBUG FULL context.run_config] {context.run_config}", file=sys.stderr)
+    dataset_slug = get_dataset_slug(context)
+    print(f"[DEBUG client_fn] get_dataset_slug returned: '{dataset_slug}'", file=sys.stderr)
+    
     # Determine client identifier
     if is_simulation:
+        print("[DEBUG client_fn] Before raw_partition_id extraction", file=sys.stderr)
+        sys.stderr.flush()
         # DEBUG: Log types and values before conversion for diagnosis
         raw_partition_id = context.node_config["partition-id"]
-        logger.debug(
-            f"DEBUG client_fn: raw_partition_id='{raw_partition_id}' (type: {type(raw_partition_id)}), context.node_id={context.node_id} (type: {type(context.node_id)})"
-        )
-
+        print(f"[DEBUG client_fn] raw_partition_id='{raw_partition_id}' (type: {type(raw_partition_id)})", file=sys.stderr)
+        sys.stderr.flush()
+    
+        print("[DEBUG client_fn] Before int conversion", file=sys.stderr)
+        sys.stderr.flush()
         # Convert to int early for type consistency and assertion
         try:
             partition_id = int(raw_partition_id)
+            print(f"[DEBUG client_fn] partition_id converted to int: {partition_id}", file=sys.stderr)
+            sys.stderr.flush()
         except ValueError:
+            print(f"[DEBUG client_fn] ValueError on int(): {raw_partition_id}", file=sys.stderr)
+            sys.stderr.flush()
             logger.error(
                 f"❌ client_fn: Invalid partition-id '{raw_partition_id}' - must be integer"
             )
@@ -41,29 +65,11 @@ def client_fn(context: Context) -> Client:
         # Production mode: use node_id (reliable UUID from Flower)
         client_id = context.node_id
 
-    logger.info(f"Client {client_id}: Running in {'simulation' if is_simulation else 'production'} mode")
+    logger.info(f"Client {client_id}: Running in {'simulation' if is_simulation else 'production'} mode, dataset_slug={dataset_slug}")
 
-    # Setup client logging
-    from src.logger import setup_client_logging
 
-    log_file_path = context.run_config.get("log_file_path")
-
-    if log_file_path:
-        setup_client_logging(Path(log_file_path), client_id)
-        logger.info(
-            f"✅ Client {client_id}: Logging setup complete"
-        )
-    else:
-        logger.warning(f"⚠️ Client {client_id}: No log_file_path provided in config")
-
-    # Load environment variables from .env file (excluding WANDB_API_KEY for clients)
-    try:
-        from dotenv import load_dotenv
-
-        load_dotenv()
-        logger.debug("Environment variables loaded from .env file in client")
-    except ImportError:
-        logger.debug("python-dotenv not available in client, skipping .env loading")
+    load_env_safe()
+    logger.debug("load_env_safe called in client_fn")
 
     # Runtime mode guards and validation
     if is_simulation:
@@ -73,9 +79,9 @@ def client_fn(context: Context) -> Client:
             logger.warning("⚠️ Simulation mode: dataset.repo_id or dataset.root in run_config will be ignored; using DatasetConfig partitions instead")
     else:
         logger.info("🔒 Production mode: Configuring for external networking")
-        # Guard: Ensure dataset is provided for production
-        if not (context.run_config.get("dataset.repo_id") or context.run_config.get("dataset.root")):
-            error_msg = "❌ Production mode requires dataset.repo_id or dataset.root in run_config"
+        # Guard: For production, require DATASET_NAME env or node_config dataset-uri (ignore server run_config)
+        if not (os.environ.get("DATASET_NAME") or context.node_config.get("dataset-uri")):
+            error_msg = "❌ Production mode requires DATASET_NAME env var OR dataset-uri in node_config"
             logger.error(error_msg)
             raise ValueError(error_msg)
 
@@ -102,65 +108,69 @@ def client_fn(context: Context) -> Client:
             f"✅ Client {client_id}: Extracted partition_id={client_id}, num_partitions={num_partitions}"
         )
 
-    # Extract save_path for WandB dir isolation
+    # Extract save_path
     save_path = context.run_config.get("save_path")
-    wandb_dir = f"{save_path}/clients/client_{partition_id}" if save_path else None
-    logger.info(f"✅ Client {partition_id}: WandB dir set to {wandb_dir}")
+    logger.info(f"Client {client_id}: save_path from context.run_config: '{save_path}' (type: {type(save_path)})")
+    logger.info(f"Client {client_id}: context.run_config keys containing 'save' or 'path' or 'timestamp': {[k for k in context.run_config if 'save' in k.lower() or 'path' in k.lower() or 'time' in k.lower()]}")
+    
+    from src.common.utils import get_base_output_dir, get_client_dir
+    base_dir = get_base_output_dir(save_path)
+    client_dir = get_client_dir(base_dir, dataset_slug)
+    
+    logger.info(f"Client {client_id}: constructed base_dir={base_dir}, client_dir={client_dir}")
 
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    logger.info(f"✅ Client {partition_id}: Device set to {nn_device}")
+    logger.info(f"✅ Client {client_id}: Device set to {nn_device}")
 
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
     local_epochs = int(context.run_config["local-epochs"])
     logger.info(
-        f"✅ Client {partition_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
+        f"✅ Client {client_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
     )
 
     batch_size = context.run_config.get("batch_size", 64)
-    logger.info(f"✅ Client {partition_id}: Batch size set to {batch_size}")
+    logger.info(f"✅ Client {client_id}: Batch size set to {batch_size}")
 
 
     # Load dataset first to get metadata for model creation
     try:
         if not is_simulation:
-            # Production mode: load from run_config (matches LeRobot CLI args)
-            dataset_repo_id = context.run_config.get("dataset.repo_id")
-            dataset_root = context.run_config.get("dataset.root")
-
-            if dataset_repo_id:
-                logger.info(f"Client {client_id}: Loading HF dataset: {dataset_repo_id}")
-                dataset = load_lerobot_dataset(dataset_repo_id)
-                dataset_name = dataset_repo_id
-            elif dataset_root:
-                logger.info(f"Client {client_id}: Loading local dataset: {dataset_root}")
-                from lerobot.datasets.lerobot_dataset import LeRobotDataset
-                dataset = LeRobotDataset(dataset_root)
-                dataset_name = dataset_root
-            else:
-                raise ValueError("dataset.repo_id or dataset.root required in production mode run_config")
-
+            dataset_repo_id = dataset_slug  # Unified fallback from get_dataset_slug (node_config.dataset-uri / DATASET_NAME / run_config.dataset.repo_id)
+            source = "dataset_slug fallback"
+            logger.info(f"Client {client_id}: Loading dataset '{dataset_repo_id}' from {source}")
+            dataset = load_lerobot_dataset(dataset_repo_id)
+            dataset_name = dataset_repo_id
             logger.info(f"✅ Client {client_id}: Dataset loaded - samples: {len(dataset)}")
         else:
             # Simulation mode: load from partitions
-            logger.info(
-                f"📊 Client {client_id}: Loading dataset (partition_id={client_id}, num_partitions={num_partitions})"
-            )
+            print(f"[DEBUG client_fn] Before DatasetConfig.load() for client_id={client_id}", file=sys.stderr)
+            sys.stderr.flush()
             # Load dataset configuration
             from src.configs import DatasetConfig
-
+        
+            print("[DEBUG client_fn] DatasetConfig imported", file=sys.stderr)
+            sys.stderr.flush()
             logger.info(f"🔍 Client {client_id}: Loading DatasetConfig")
             config = DatasetConfig.load()
+            print(f"[DEBUG client_fn] DatasetConfig loaded, len(clients)={len(config.clients)}", file=sys.stderr)
+            sys.stderr.flush()
             client_config = config.clients[client_id % len(config.clients)]
             dataset_name = client_config.name
+            print(f"[DEBUG client_fn] Selected dataset_name={dataset_name}", file=sys.stderr)
+            sys.stderr.flush()
             logger.info(f"🔍 Client {client_id}: Selected dataset: {dataset_name}")
 
             # Load dataset directly
+            print(f"[DEBUG client_fn] Before load_lerobot_dataset({dataset_name})", file=sys.stderr)
+            sys.stderr.flush()
             logger.info(
                 f"📥 Client {client_id}: Calling load_lerobot_dataset({dataset_name})"
             )
             dataset = load_lerobot_dataset(dataset_name)
+            print(f"[DEBUG client_fn] load_lerobot_dataset returned dataset len={len(dataset)}", file=sys.stderr)
+            sys.stderr.flush()
             logger.info(
                 f"✅ Client {client_id}: Dataset loaded - samples: {len(dataset)}"
             )
@@ -196,18 +206,32 @@ def client_fn(context: Context) -> Client:
 
     # Client-side WandB removed - clients get recycled between rounds
 
+    # Setup client logging once here (unified dir, before client creation)
+    from src.logger import setup_client_logging
+    setup_client_logging(
+        save_path=save_path,
+        client_id=client_id,
+        dataset_slug=dataset_slug
+    )
+    logger.info(f"Client {client_id}: Client logging setup complete")
+
+    # Stateless: No state management
+    target_rounds = int(context.run_config.get("num-server-rounds", 250))
+    logger.info(f"Client {client_id}: Stateless - will run all {target_rounds} rounds")
+    
     logger.info(
         f"🏗️ Client {client_id}: Creating SmolVLAClient with {local_epochs} epochs"
     )
     try:
-        logger.info(f"🔧 Client {client_id}: Instantiating SmolVLAClient")
+        logger.info(f"🔧 Client {client_id}: Instantiating SmolVLAClient (stateless)")
+        
         client = SmolVLAClient(
             client_id=client_id,
             local_epochs=local_epochs,
             trainloader=trainloader,
             nn_device=nn_device,
             batch_size=batch_size,
-            dataset_repo_id=dataset_name,
+            dataset_repo_id=dataset_slug,
             is_simulation=is_simulation,
         )
         logger.info(f"✅ Client {client_id}: SmolVLAClient created successfully")

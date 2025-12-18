@@ -1,9 +1,71 @@
 # Repetitive Task Workflows
 
 **Created**: 2025-09-06
-**Last Updated**: 2025-11-07
-**Version**: 1.0.6
+**Last Updated**: 2025-12-11
+**Version**: 1.0.8
 **Author**: Kilo Code
+
+## Latest Update (2025-12-11)
+**✅ Stateless Revert Complete (zk0-stateless-revert-2025-12-11)**: Code/docs clean (state_manager.py/tests gone, no usages), client_app/core/zk0bot/NODE-OPERATORS stateless. Clients run all rounds, no persistence. Tests/verification → v0.7.0 release (code mode). Coverage target >=36%.
+
+## 3-Node zk0bot Client Token Fix Workflow
+**Last performed:** 2025-12-16
+**Status**: 3 live node test in progress (1 server, 2 clients)
+
+**Context:** Fixed supernode TOMLDecodeError & network issues; enabled dynamic SuperExec spawn/token prop for stateless 3+ node FL.
+
+**Files modified:**
+- [`docker/docker-compose.client.yml`](docker/docker-compose.client.yml): `--node-config "executor-image=\"zk0:latest\" dataset-uri=\"${DATASET_URI}\""`
+- [`zk0bot.sh`](zk0bot.sh): client_start idempotent `create_network`
+- docker image: `docker build --no-cache` fixes torch corruption
+
+**Steps:**
+1. **Compose Update**: supernode `--node-config "executor-image=\"zk0:latest\" dataset-uri=\"${DATASET_URI}\" "` (quoted values for : / chars)
+2. **zk0bot.sh**: Add `create_network` to client_start (idempotent)
+3. **Torch Fix**: `docker build --no-cache -f docker/Dockerfile.zk0 -t zk0:latest .` (resolves semi_structured.py unicode)
+4. **Dynamic Spawn**: SuperNode → docker run zk0:latest flower-superexec --token <train_token> --plugin-type clientapp
+5. **Test Minimal**: `zk0bot server start && zk0bot client start shaunkirby/record-test && zk0bot client start gimarchetti/so101-winnie-us5 && flwr run . prod-deployment --run-config "num-server-rounds=3"`
+6. **Verify**: supernode starts, connects SuperLink, server_fn OK, fits/losses logged, no errors
+7. **HF Cache**: Dockerfile.zk0 `RUN huggingface-cli download lerobot/smolvla_base --local-dir /opt/hf_cache`
+8. **pytest**: `docker run -v .:/workspace zk0:latest pytest -n auto --cov=src --cov-report=term-missing` (>=35%)
+9. **Version**: pyproject.toml 0.7.1, git commit/tag/push
+
+**Benefits:**
+- Token prop/dynamic spawn (no static client)
+- Idempotent network/clients stateless
+- Clean torch (2.7.1+cu126)
+- Prod Flower SuperLink/SuperNode/SuperExec
+
+**Testing:**
+- ✅ Tiny FL: clients connect, server initializes
+- Coverage 35%+
+- v0.7.1 ready
+
+## Client Production Dataset Guard Fix Workflow
+**Last performed:** 2025-12-16
+**Status**: Complete ✅
+**Context:** Fixed ValueError in prod client_fn: Guard (lines 73-84) wrongly required dataset.repo_id/root **only** in run_config; now OR node_config['dataset-uri'] (docker/static). Token mismatch: Late clients miss current round only (stateless, catch next).
+
+**Files modified:**
+- [`src/client_app.py`](src/client_app.py): Guard check + error msg.
+
+**Steps:**
+1. **Diagnosis**: codebase_search "Production mode requires dataset.repo_id" → src/client_app.py:73 guard mismatch (run_config vs node_config).
+2. **Fix**: Update if not (run_config.dataset.repo_id/root **OR** node_config.dataset-uri).
+3. **Verify**: Tiny run pre-start clients → No ValueError, round 1 fit.
+4. **Doc**: tasks.md + context.md updated.
+
+**Benefits:**
+- Prod clients load datasets (node_config).
+- Aligns sim (partition-id run_config) vs prod (dataset-uri node_config).
+- Graceful late-join (miss 1 round).
+
+**Testing:**
+- ✅ Tiny FL: 2 clients fit round 1, server eval.
+- Late client: Joins round 2+.
+
+## Previous Updates
+**Stateful Client Resume Workflow (Archived 2025-12-11)**: Implemented persistent JSON state per dataset hash for production client resume after crashes/stops. Clients track completed_server_rounds, disconnect on target, server samples active clients indefinitely. Added --reset-state CLI flag, Docker volumes. Tests pass (36.73% coverage), live Docker test partial success (connection/state ready, FL slow due to SmolVLA loading). Updated memory bank. **Reverted to stateless**.
 
 ## Latest Update (2025-11-07)
 **✅ GitHub Pages Jekyll Deployment Fix**: Resolved live site (zk0.bot) mismatch with local serve by switching Pages source to "GitHub Actions" and leveraging existing .github/workflows/jekyll-build.yml (calls build-site.sh for website/ subdir build, copies root files like docs/README.md, deploys _site/). Confirmed success: Site now renders website/index.md content ("Decentralized AI for the next generation of helpful robots"), loads /assets/images/zk0-fl-concept.png, applies custom.css styling, and includes _includes/footer.html. No code changes; just settings update and workflow trigger. Updated memory bank.
@@ -345,14 +407,14 @@
 - `docker-compose.server.yml` - Updated to SuperLink + superexec-server, v1.23.0, flwr-network, no volumes
 - `docker-compose.client.yml` - Updated to SuperNode + superexec-client, env vars for partitions/ports, external network
 - `superexec.Dockerfile` - New: FROM flwr/superexec:1.23.0, install zk0 deps, ENTRYPOINT flower-superexec
-- `pyproject.toml` - Added [tool.flwr.federations.local-deployment] with insecure=true, version to 0.5.2
+- `pyproject.toml` - Added [tool.flwr.federations.prod-deployment] with insecure=true, version to 0.5.2
 
 **Steps:**
 1. **Update Compose Files**: Aligned with Flower quickstart: SuperLink/SuperNode v1.23.0, SuperExec builds, --isolation process, flwr-network bridge, no stateful volumes
 2. **Create SuperExec Dockerfile**: Base on flwr/superexec, sed remove flwr[simulation], pip install zk0 deps, ENTRYPOINT flower-superexec
-3. **Configure pyproject.toml**: Add local-deployment federation with address=127.0.0.1:9093, insecure=true
+3. **Configure pyproject.toml**: Add prod-deployment federation with address=127.0.0.1:9093, insecure=true
 4. **Refactor zk0bot.sh**: create_network(), build_superexec(), pull_image() for both server/client, updated start/stop/status with docker compose, network rm in stop
-5. **Test Feasibility**: Run zk0bot start-server; start-client hf:dataset; flwr run . local-deployment --run-config "num-server-rounds=1" --stream; verify no TLS/state, policy loss logged
+5. **Test Feasibility**: Run zk0bot start-server; start-client hf:dataset; flwr run . prod-deployment --run-config "num-server-rounds=1" --stream; verify no TLS/state, policy loss logged
 6. **Document**: Updated README.md with Production Deployment section, NODE-OPERATORS.md security notes for insecure mode
 
 **Benefits:**
@@ -404,3 +466,30 @@
 - Include comprehensive changelog with breaking changes, new features, bug fixes
 - Ensure all tests pass before merging
 - Coordinate with user for release timing and approval
+
+## zk0bot Docker to Native Flower CLI Refactor Workflow
+**Last performed:** 2025-12-17
+**Status**: Complete ✅
+
+**Context:** Replaced brittle Docker/compose in zk0bot prod with native Flower CLI (superlink/supernode/superexec tmux) for simplicity/reliability. Added GPU check.
+
+**Files modified:**
+- [`zk0bot.sh`](zk0bot.sh) - conda/GPU/tmux/native commands
+- [`website/get-zk0bot.sh`](website/get-zk0bot.sh) - main/torch/lerobot0.3.3/.env
+- [`pyproject.toml`](pyproject.toml) - v0.8.0 address=127.0.0.1:9093
+- [`docs/NODE-OPERATORS.md`](docs/NODE-OPERATORS.md) - workflow no Docker
+
+**Steps:**
+1. Rewrite zk0bot.sh no Docker, tmux sessions, dataset-uri arg, GPU nvidia-smi/torch.cuda
+2. Installer main branch, deps torch cu121 lerobot==0.3.3 pip -e .
+3. pyproject v0.8.0 federation
+4. Docs curl raw main/website/get-zk0bot.sh conda/tmux examples
+5. Delete docker-compose.*.yml
+
+**Benefits:**
+- No Docker prod setup
+- Native reliable
+- Installer pinned deps
+
+**Testing:**
+- Multi-term server/client/run tiny

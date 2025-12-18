@@ -2,6 +2,7 @@
 
 import time
 import torch
+import os
 from contextlib import nullcontext
 
 from loguru import logger
@@ -35,6 +36,18 @@ def run_training_step(
     start_time = time.perf_counter()  # For update_s metric
 
     policy.train()
+
+    # Diagnostic log pre-forward (OOM debug)
+    pid = os.getpid()
+    batch_img_shape = getattr(batch.get('observation.image'), 'shape', 'N/A') if 'observation.image' in batch else 'N/A'
+    amp_enabled = cfg.policy.use_amp
+    if torch.cuda.is_available():
+        alloc_gb = torch.cuda.memory_allocated() / 1e9
+        res_gb = torch.cuda.memory_reserved() / 1e9
+        logger.info(f"Step {step} PID:{pid} pre-forward alloc={alloc_gb:.2f}GB res={res_gb:.2f}GB batch_img={batch_img_shape} AMP={amp_enabled}")
+    else:
+        logger.info(f"Step {step} PID:{pid} pre-forward CPU batch_img={batch_img_shape} AMP={amp_enabled}")
+
     with (
         torch.autocast(device_type=device.type) if cfg.policy.use_amp else nullcontext()
     ):
@@ -96,6 +109,8 @@ def run_training_step(
     # Clear cache after each step (keep for memory management)
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
+        post_alloc_gb = torch.cuda.memory_allocated() / 1e9
+        logger.info(f"Step {step} PID:{pid} post-cache alloc={post_alloc_gb:.2f}GB")
 
     logger.debug(
         f"Step {step}: Training step completed successfully. Total loss: {total_loss.item():.6f}"
