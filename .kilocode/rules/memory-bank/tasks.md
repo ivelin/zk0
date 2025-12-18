@@ -24,7 +24,7 @@
 2. **zk0bot.sh**: Add `create_network` to client_start (idempotent)
 3. **Torch Fix**: `docker build --no-cache -f docker/Dockerfile.zk0 -t zk0:latest .` (resolves semi_structured.py unicode)
 4. **Dynamic Spawn**: SuperNode → docker run zk0:latest flower-superexec --token <train_token> --plugin-type clientapp
-5. **Test Minimal**: `zk0bot server start && zk0bot client start shaunkirby/record-test && zk0bot client start gimarchetti/so101-winnie-us5 && flwr run . local-deployment --run-config "num-server-rounds=3"`
+5. **Test Minimal**: `zk0bot server start && zk0bot client start shaunkirby/record-test && zk0bot client start gimarchetti/so101-winnie-us5 && flwr run . prod-deployment --run-config "num-server-rounds=3"`
 6. **Verify**: supernode starts, connects SuperLink, server_fn OK, fits/losses logged, no errors
 7. **HF Cache**: Dockerfile.zk0 `RUN huggingface-cli download lerobot/smolvla_base --local-dir /opt/hf_cache`
 8. **pytest**: `docker run -v .:/workspace zk0:latest pytest -n auto --cov=src --cov-report=term-missing` (>=35%)
@@ -407,14 +407,14 @@
 - `docker-compose.server.yml` - Updated to SuperLink + superexec-server, v1.23.0, flwr-network, no volumes
 - `docker-compose.client.yml` - Updated to SuperNode + superexec-client, env vars for partitions/ports, external network
 - `superexec.Dockerfile` - New: FROM flwr/superexec:1.23.0, install zk0 deps, ENTRYPOINT flower-superexec
-- `pyproject.toml` - Added [tool.flwr.federations.local-deployment] with insecure=true, version to 0.5.2
+- `pyproject.toml` - Added [tool.flwr.federations.prod-deployment] with insecure=true, version to 0.5.2
 
 **Steps:**
 1. **Update Compose Files**: Aligned with Flower quickstart: SuperLink/SuperNode v1.23.0, SuperExec builds, --isolation process, flwr-network bridge, no stateful volumes
 2. **Create SuperExec Dockerfile**: Base on flwr/superexec, sed remove flwr[simulation], pip install zk0 deps, ENTRYPOINT flower-superexec
-3. **Configure pyproject.toml**: Add local-deployment federation with address=127.0.0.1:9093, insecure=true
+3. **Configure pyproject.toml**: Add prod-deployment federation with address=127.0.0.1:9093, insecure=true
 4. **Refactor zk0bot.sh**: create_network(), build_superexec(), pull_image() for both server/client, updated start/stop/status with docker compose, network rm in stop
-5. **Test Feasibility**: Run zk0bot start-server; start-client hf:dataset; flwr run . local-deployment --run-config "num-server-rounds=1" --stream; verify no TLS/state, policy loss logged
+5. **Test Feasibility**: Run zk0bot start-server; start-client hf:dataset; flwr run . prod-deployment --run-config "num-server-rounds=1" --stream; verify no TLS/state, policy loss logged
 6. **Document**: Updated README.md with Production Deployment section, NODE-OPERATORS.md security notes for insecure mode
 
 **Benefits:**

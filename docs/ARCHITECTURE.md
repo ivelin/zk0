@@ -167,7 +167,7 @@ graph TD
 #### Commands
 - `server start`: tmux SuperLink + SuperExec-ServerApp (9091-9093)
 - `client start dataset-uri`: tmux SuperNode + SuperExec-ClientApp (8080)
-- `run --rounds N --stream`: flwr run local-deployment to Control API
+- `run --rounds N --stream`: flwr run prod-deployment to Control API
 - `status/logs/stop`
 
 #### Example

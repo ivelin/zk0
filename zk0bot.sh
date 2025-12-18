@@ -2,7 +2,7 @@
 # zk0bot: CLI wrapper for Flower Deployment Engine (conda zk0 env, no Docker)
 # Usage: conda activate zk0; ./zk0bot.sh --help
 # Server: ./zk0bot.sh server start
-# Client: ./zk0bot.sh client start shaunkirby/record-test [--task-id 0]
+# Client: ./zk0bot.sh client start shaunkirby/record-test
 # Run: ./zk0bot.sh run --rounds 3 --stream
 
 set -euo pipefail
@@ -51,7 +51,7 @@ if [[ "$1" == @(server|client) && "$2" == "start" ]]; then
     if [ "$CUDA_AVAILABLE" = "True" ]; then
         log_success "PyTorch CUDA ready"
     else
-        log_warning "PyTorch CUDA not available - FL training on CPU (much slower)."
+        log_warning "PyTorch CUDA not available - training on CPU (much slower)."
         log_info "Fix: https://pytorch.org/get-started/locally/ (match CUDA version)"
     fi
 
@@ -66,7 +66,6 @@ fi
 # Config
 SUPERLINK_FLEET_PORT=9092
 SUPERLINK_CONTROL_PORT=9093
-SUPERLINK_SERVERAPP_PORT=9091
 DEFAULT_CLIENTAPP_PORT=8080
 LOG_DIR="$(pwd)/outputs/zk0bot-cli-logs"
 mkdir -p "$LOG_DIR"
@@ -87,33 +86,18 @@ Usage: ./zk0bot.sh <command> [options]
 
 Commands:
   server start|stop|status|logs     Manage SuperLink (ServerApp spawns dynamically)
-  client start|stop|status|logs <dataset-uri> [--task-id <N>]  Manage SuperNode (ClientApp spawns dynamically)
+  client start|stop|status|logs <dataset-uri>  Manage SuperNode (ClientApp spawns dynamically)
   stop                              Kill all zk0-* tmux sessions safely
-  run [--rounds <N>] [--stream]          Submit FL run to SuperLink Control API
-  status                               Show all zk0 processes/tmux
+  run [--rounds <N>] [--stream]     Submit FL run
+  status                            Show all zk0 processes/tmux
 
 Examples:
   ./zk0bot.sh server start
   ./zk0bot.sh client start shaunkirby/record-test
-  ./zk0bot.sh client start hf:shaunkirby/record-test --task-id 0
   ./zk0bot.sh run --rounds 3 --stream
 
 Logs: $LOG_DIR/
 EOF
-}
-
-# Arg parsing helper for run
-parse_run_args() {
-    ROUNDS=50
-    STREAM=""
-    while [[ $# -gt 0 ]]; do
-        case $1 in
-            --rounds=*) ROUNDS="${1#*=}"; shift ;;
-            --stream) STREAM="--stream"; shift ;;
-            *) shift ;;
-        esac
-    done
-    echo "$ROUNDS $STREAM"
 }
 
 case "${1:-}" in
@@ -157,20 +141,13 @@ case "${1:-}" in
         if [[ "$ACTION" == "start" ]]; then
             get_server_ip
         fi
-        DATASET_URI="$3"
-        TASK_ID=""
-        shift 3
-        while [[ $# -gt 0 ]]; do
-            case $1 in
-                --task-id=*) TASK_ID="${1#*=}"; shift ;;
-                *) shift ;;
-            esac
-        done
-        if [ -z "$DATASET_URI" ]; then
-            log_error "dataset-uri required: client <start|stop|status|logs> <dataset-uri> [--task-id N]"
+        DATASET_NAME="${3:-}"
+        if [[ -z "$DATASET_NAME" && "$ACTION" != "stop" ]]; then
+            log_error "dataset-name required for start/status/logs"
+            usage
             exit 1
         fi
-        ID="$(echo $DATASET_URI | sed 's/[^a-zA-Z0-9-]/-/g' | cut -c1-20)"
+        ID="$(echo "$DATASET_NAME" | sed 's/[^a-zA-Z0-9-]/-/g' | cut -c1-20)"
         HASH=$(echo -n "$ID" | cksum | cut -d' ' -f1)
         CLIENT_PORT=$((DEFAULT_CLIENTAPP_PORT + (HASH % 100)))
         TMUX_SUPERNODE="zk0-supernode-$ID"
@@ -179,14 +156,9 @@ case "${1:-}" in
                 if tmux has-session -t "$TMUX_SUPERNODE" 2>/dev/null; then
                     log_warning "Client $ID already running"
                 else
-                    NODE_CONFIG="dataset-uri = \"${DATASET_URI}\""
-                    [[ -n "$TASK_ID" ]] && NODE_CONFIG+=" task-id = ${TASK_ID}"
-                    echo "[DEBUG] Node config: $NODE_CONFIG" >> "$LOG_DIR/supernode-$ID.log"
-                    log_info "Starting SuperNode for $DATASET_URI (ID: $ID)..."
-                    FULL_CMD="flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --node-config \"${NODE_CONFIG}\" --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess"
-                    echo "[DEBUG] Full command: $FULL_CMD" >> "$LOG_DIR/supernode-$ID.log"
-                    tmux new-session -d -s "$TMUX_SUPERNODE" "$FULL_CMD > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
-                    log_success "SuperNode $ID started (ClientApp spawns dynamically on run)"
+                    log_info "Starting SuperNode for $DATASET_NAME (ID: $ID)"
+                    tmux new-session -d -s "$TMUX_SUPERNODE" "env DATASET_NAME=\"$DATASET_NAME\" flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
+                    log_success "SuperNode $ID started (ClientApp spawns dynamically on run, inherits conda env + DATASET_NAME env var)"
                 fi
                 ;;
             stop)
@@ -196,30 +168,37 @@ case "${1:-}" in
                 ;;
             status)
                 log_info "Client $ID status:"
-                tmux ls 2>/dev/null | grep "$ID" || echo "No tmux zk0-$ID"
-                ps aux | grep "supernode-$ID" | grep -v grep || true
+                tmux ls 2>/dev/null | grep "$TMUX_SUPERNODE" || echo "No session for $ID"
                 ;;
             logs|log)
                 log_info "Client $ID logs:"
                 tail -f "$LOG_DIR/supernode-$ID.log"
                 ;;
             *)
-                log_error "client <start|stop|status|logs> <dataset-uri> [--task-id N]"
+                log_error "client <start|stop|status|logs> <dataset-name>"
                 exit 1
                 ;;
         esac
         ;;
     run)
-        get_server_ip
-        read ROUNDS STREAM <<< "$(parse_run_args "${@:2}")"
-        log_info "Submitting FL run via prod-deployment (rounds: $ROUNDS)"
-        flwr run . prod-deployment --run-config "num-server-rounds=$ROUNDS" $STREAM
+        ROUNDS=50
+        STREAM=""
+        shift
+        while [[ $# -gt 0 ]]; do
+            case $1 in
+                --rounds=*) ROUNDS="${1#*=}"; shift ;;
+                --stream) STREAM="--stream"; shift ;;
+                *) shift ;;
+            esac
+        done
+        log_info "Submitting FL run (rounds: $ROUNDS) via prod-deployment federation (SuperLink control localhost:9093)"
+        flwr run . prod-deployment --run-config "num-server-rounds=${ROUNDS}" $STREAM
         ;;
     status)
         log_info "zk0 Status (tmux + processes):"
         tmux ls 2>/dev/null | grep zk0 || echo "No zk0 tmux sessions"
         echo ""
-        ps aux | grep -E "(flower-super(link|node)|superexec)" | grep -v grep || echo "No flower processes"
+        ps aux | grep -E "(flower-superlink|flower-supernode)" | grep -v grep || echo "No flower processes"
         ;;
     stop)
         log_info "Stopping ALL zk0 tmux sessions (global cleanup)..."
@@ -228,7 +207,7 @@ case "${1:-}" in
         done
         log_success "All zk0 tmux sessions stopped"
         ;;
-    --help|-h)
+    --help|-h|"")
         usage
         ;;
     *)

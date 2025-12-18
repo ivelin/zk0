@@ -36,7 +36,7 @@
 
 ### Test Results (latest)
 ✅ **Clients**: zk0bot client start succeeds (no TOML error/network fail), connects SuperLink after retries
-✅ **Server**: flwr run local-deployment initializes server_fn (logger/timestamp OK, torch import clean)
+✅ **Server**: flwr run prod-deployment initializes server_fn (logger/timestamp OK, torch import clean)
 ⚠️ **Torch**: Fixed unicode decode (semi_structured.py) via docker build --no-cache
 
 ### Recent Progress
@@ -52,7 +52,7 @@
 **Finalize v0.7.1** ✅ COMPLETE
 - ✅ pytest cov >=35%
 - ✅ HF cache volumes (shared, no Dockerfile)
-- ✅ Tiny FL test: 3-node local-deployment success (no hash/segfault)
+- ✅ Tiny FL test: 3-node prod-deployment success (no hash/segfault)
 - ✅ pyproject.toml v0.7.1, changes committed
 
 **Sprint Status:** 3-Node zk0bot production testing various scenarios in progress (SuperLink/SuperNode/SuperExec stateless).
@@ -95,7 +95,7 @@
 ```
 ✅ zk0bot.sh rewrite (conda/GPU check, tmux per component, dataset-uri arg)
 ✅ website/get-zk0bot.sh (main, deps order, .env note)
-✅ pyproject.toml v0.8.0 local-deployment 127.0.0.1:9093
+✅ pyproject.toml v0.8.0 prod-deployment
 ✅ docs/NODE-OPERATORS.md (curl main, conda/tmux workflow)
 ✅ GPU health (nvidia-smi + torch.cuda)
 ```

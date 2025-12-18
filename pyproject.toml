@@ -59,7 +59,7 @@ model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # 
 fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
 min-fit-clients = 2 # Minimum clients to train each round (ensure at least 2 for SO-100 with 4 clients)
 fraction-evaluate = 1 # Evaluate all clients when using client eval. For server eval, this is ignored.
-batch_size = 64 # Batch size for training and evaluation (match standalone train script)
+batch_size = 16 # Reduced from 64 for multi-client GPU sharing on 24GB RTX (OOM fix); increase for single-client/high VRAM
 server-device = "gpu" # could be also "cpu"
 use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
@@ -128,9 +128,9 @@ options.backend.type = "multiprocess" # Use Python multiprocessing instead of Ra
 options.backend.client-resources.num-cpus = 4 # CPU resources per client
 options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avoids conflicts)
 
-[tool.flwr.federations.local-deployment]
-address = "127.0.0.1:9093"
-insecure = true
+# [tool.flwr.federations.local-deployment]
+# address = "127.0.0.1:9093"
+# insecure = true
 
 [tool.flwr.federations.prod-deployment]
 address = "0.0.0.0:9093"
