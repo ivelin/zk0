@@ -45,12 +45,39 @@ This will:
 
 ### 3. Configure Your Environment
 
-Set up required environment variables:
+Set up required environment variables in `.env` (auto-sourced by zk0bot.sh):
 
 ```bash
-# For Hugging Face datasets (if using HF-hosted private datasets)
-export HF_TOKEN="your_huggingface_token"
+# .env example (create in ~/zk0)
+HF_TOKEN=your_huggingface_token_here
+WANDB_API_KEY=your_wandb_key_here  # optional, server-side only
 ```
+
+**Note**: zk0bot.sh automatically sources `.env` after conda activation, propagating HF_TOKEN/WANDB_API_KEY to tmux Flower subprocesses (SuperLink/SuperNode). No manual export needed.
+
+### Full Production Session Example (Local Network)
+
+**Server Machine:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
+cd ~/zk0
+zk0bot server start  # Auto-activates zk0 env; SuperLink ready
+```
+
+**Client Machines (same LAN, add to ~/.bashrc: export ZK0_SERVER_IP=server_ip):**
+```bash
+curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
+cd ~/zk0
+zk0bot client start shaunkirby/record-test  # Auto-activates zk0 env; or your private dataset
+zk0bot client start ethanCSL/direction_test
+```
+
+**On Server (submit run):**
+```bash
+zk0bot run --rounds 20 --stream  # Full FL session, stateless; auto-zk0 env
+```
+
+**Remote Clients:** Set `ZK0_SERVER_IP=public_server_ip` (insecure=true for dev; TLS for prod).
 
 Note: WandB logging is handled server-side only. Client training does not require WandB credentials.
 
