@@ -183,77 +183,73 @@ zk0bot client log
 
 ## Federation Flow
 
-```mermaid
+<div class="mermaid">
 sequenceDiagram
-    participant Admin as Admin/Submission<br>(zk0bot.sh run)
-    participant SuperLink as SuperLink<br>(flower-superlink)
-    participant SuperNode1 as SuperNode 1<br>(flower-supernode,<br>dataset-uri=uri1)
-    participant SuperNode2 as SuperNode 2<br>(flower-supernode,<br>dataset-uri=uri2)
-    participant ServerApp as ServerApp<br>(SuperExec process<br>on SuperLink host)
-    participant ClientApp1 as ClientApp 1<br>(SuperExec process<br>on SuperNode 1)
-    participant ClientApp2 as ClientApp 2<br>(SuperExec process<br>on SuperNode 2)
+    participant Admin as Admin/Submission\n(zk0bot.sh run)
+    participant SuperLink as SuperLink\n(flower-superlink)
+    participant SuperNode1 as SuperNode 1\n(flower-supernode,\ndataset-uri=uri1)
+    participant SuperNode2 as SuperNode 2\n(flower-supernode,\ndataset-uri=uri2)
+    participant ServerApp as ServerApp\n(SuperExec process\non SuperLink host)
+    participant ClientApp1 as ClientApp 1\n(SuperExec process\non SuperNode 1)
+    participant ClientApp2 as ClientApp 2\n(SuperExec process\non SuperNode 2)
 
     Note over SuperLink,SuperNode2: Persistent Infrastructure (started first)
 
-    Admin->>+SuperLink: Start SuperLink<br>(zk0bot.sh server start)
-    Note right of SuperLink: Listens on gRPC Fleet API<br>(ports 9091-9093)
+    Admin->>+SuperLink: Start SuperLink\n(zk0bot.sh server start)
+    Note right of SuperLink: Listens on gRPC Fleet API\n(ports 9091-9093)
 
-    Admin->>+SuperNode1: Start SuperNode 1<br>(zk0bot.sh client start <dataset-uri1>)
-    Note right of SuperNode1: e.g., dataset-uri1 = "shaunkirby/record-test"<br>or "local:/data/client1_episodes"
-    SuperNode1->>+SuperLink: Register via gRPC<br>(Fleet API handshake)
-    Note right of SuperNode1: Passes node-config<br>(dataset-uri=uri1 → unique/private dataset)
+    Admin->>+SuperNode1: Start SuperNode 1\n(zk0bot.sh client start &lt;dataset-uri1&gt;)
+    Note right of SuperNode1: e.g., dataset-uri1 = "shaunkirby/record-test"\nor "local:/data/client1_episodes"
+    SuperNode1->>+SuperLink: Register via gRPC\n(Fleet API handshake)
+    Note right of SuperNode1: Passes node-config\n(dataset-uri=uri1 → unique/private dataset)
 
-    Admin->>+SuperNode2: Start SuperNode 2<br>(zk0bot.sh client start <dataset-uri2>)
-    Note right of SuperNode2: e.g., dataset-uri2 = "ethanCSL/direction_test"<br>or private HF repo / local path
-    SuperNode2->>+SuperLink: Register via gRPC<br>(Fleet API handshake)
-    Note right of SuperNode2: Passes node-config<br>(dataset-uri=uri2 → unique/private dataset)
+    Admin->>+SuperNode2: Start SuperNode 2\n(zk0bot.sh client start &lt;dataset-uri2&gt;)
+    Note right of SuperNode2: e.g., dataset-uri2 = "ethanCSL/direction_test"\nor private HF repo / local path
+    SuperNode2->>+SuperLink: Register via gRPC\n(Fleet API handshake)
+    Note right of SuperNode2: Passes node-config\n(dataset-uri=uri2 → unique/private dataset)
 
     Note over SuperLink,SuperNode2: SuperNodes now visible/registered in SuperLink logs
 
-    Admin->>+SuperLink: Submit Run<br>(zk0bot.sh run → flwr run)
-    Note right of Admin: Uploads Flower App Bundle (FAB)<br>containing ServerApp + ClientApp code
+    Admin->>+SuperLink: Submit Run\n(zk0bot.sh run → flwr run)
+    Note right of Admin: Uploads Flower App Bundle (FAB)\ncontaining ServerApp + ClientApp code
 
-    SuperLink->>+ServerApp: Spawn SuperExec process<br>for ServerApp execution
-    activate ServerApp
+    SuperLink->>ServerApp: Spawn SuperExec process\nfor ServerApp execution
     Note right of ServerApp: ServerApp starts (strategy, rounds, etc.)
 
-    SuperLink->>+SuperNode1: Instruct to execute ClientApp<br>(via registered Fleet API, sends FAB + config)
-    SuperNode1->>+ClientApp1: Spawn SuperExec process<br>for ClientApp
-    activate ClientApp1
-    Note over ClientApp1: ClientApp loads private/unique dataset<br>(from injected node-config dataset-uri=uri1)<br>e.g., HF dataset download or local path
+    SuperLink->>SuperNode1: Instruct to execute ClientApp\n(via registered Fleet API, sends FAB + config)
+    SuperNode1->>ClientApp1: Spawn SuperExec process\nfor ClientApp
+    Note over ClientApp1: ClientApp loads private/unique dataset\n(from injected node-config dataset-uri=uri1)\ne.g., HF dataset download or local path
 
-    SuperLink->>+SuperNode2: Instruct to execute ClientApp<br>(via registered Fleet API, sends FAB + config)
-    SuperNode2->>+ClientApp2: Spawn SuperExec process<br>for ClientApp
-    activate ClientApp2
-    Note over ClientApp2: ClientApp loads private/unique dataset<br>(from injected node-config dataset-uri=uri2)<br>e.g., different HF repo or local episodes
+    SuperLink->>SuperNode2: Instruct to execute ClientApp\n(via registered Fleet API, sends FAB + config)
+    SuperNode2->>ClientApp2: Spawn SuperExec process\nfor ClientApp
+    Note over ClientApp2: ClientApp loads private/unique dataset\n(from injected node-config dataset-uri=uri2)\ne.g., different HF repo or local episodes
 
     Note over ServerApp,ClientApp2: Federation begins (gRPC message passing via SuperLink/SuperNodes)
 
     loop For each federation round (e.g., Fit)
-        ServerApp->>SuperLink: Send FitIns (parameters)<br>to selected SuperNodes
+        ServerApp->>SuperLink: Send FitIns (parameters)\nto selected SuperNodes
         SuperLink->>SuperNode1: Forward FitIns (gRPC)
         SuperNode1->>ClientApp1: Forward to local SuperExec
-        ClientApp1->>ClientApp1: Local training<br>on private unique dataset (from uri1)
+        ClientApp1->>ClientApp1: Local training\non private unique dataset (from uri1)
         ClientApp1->>SuperNode1: Return FitRes (updated parameters)
         SuperNode1->>SuperLink: Forward FitRes
         SuperLink->>ServerApp: Deliver FitRes
 
-        par Parallel for multiple clients
-            SuperLink->>SuperNode2: Forward FitIns (gRPC)
-            SuperNode2->>ClientApp2: Forward to local SuperExec
-            ClientApp2->>ClientApp2: Local training<br>on private unique dataset (from uri2)
-            ClientApp2->>SuperNode2: Return FitRes
-            SuperNode2->>SuperLink: Forward FitRes
-            SuperLink->>ServerApp: Deliver FitRes
-        end
+        SuperLink->>SuperNode2: Forward FitIns (gRPC)
+        SuperNode2->>ClientApp2: Forward to local SuperExec
+        ClientApp2->>ClientApp2: Local training\non private unique dataset (from uri2)
+        ClientApp2->>SuperNode2: Return FitRes
+        SuperNode2->>SuperLink: Forward FitRes
+        SuperLink->>ServerApp: Deliver FitRes
 
-        ServerApp->>ServerApp: Aggregate updates<br>(e.g., FedAvg)
+        ServerApp->>ServerApp: Aggregate updates\n(e.g., FedAvg)
     end
 
-    Note over ServerApp,ClientApp2: Similar flow for Evaluate rounds<br>(Server sends EvaluateIns, clients evaluate locally on their private datasets from uri1/uri2)
+    Note over ServerApp,ClientApp2: Similar flow for Evaluate rounds\n(Server sends EvaluateIns, clients evaluate locally on their private datasets from uri1/uri2)
 
     Note over SuperLink, SuperNode2: Run completes → SuperExec processes terminate. SuperLink & SuperNodes remain running for next Run
-```
+</div>
+
 
 ### Updated Explanation of the Sequence (Dataset URI Flow)
 
