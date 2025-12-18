@@ -24,11 +24,15 @@ def client_fn(context: Context) -> Client:
     
     # Determine runtime mode based on presence of partition-id in node_config
     is_simulation = "partition-id" in context.node_config
+    logger.info(f"🔍 MODE: is_simulation={is_simulation}, partition_id={context.node_config.get('partition-id', 'MISSING')}")
     print(f"[DEBUG client_fn] is_simulation={is_simulation} (node_config has partition-id: {'partition-id' in context.node_config})", file=sys.stderr)
     sys.stderr.flush()
     
     # Get dataset slug for unified path generation
     from src.common.utils import get_dataset_slug, load_env_safe
+    logger.info(f"🔍 Calling get_dataset_slug in {'SIM' if is_simulation else 'PROD'} mode")
+    print(f"[DEBUG FULL context.node_config] {context.node_config}", file=sys.stderr)
+    print(f"[DEBUG FULL context.run_config] {context.run_config}", file=sys.stderr)
     dataset_slug = get_dataset_slug(context)
     print(f"[DEBUG client_fn] get_dataset_slug returned: '{dataset_slug}'", file=sys.stderr)
     

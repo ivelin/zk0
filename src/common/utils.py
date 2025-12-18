@@ -565,25 +565,34 @@ def get_dataset_slug(context: Any) -> str:
     logger.debug(f"get_dataset_slug run_config.dataset.repo_id: '{context.run_config.get('dataset.repo_id', 'MISSING')}'")
     logger.debug(f"get_dataset_slug run_config.dataset.root: '{context.run_config.get('dataset.root', 'MISSING')}'")
     logger.debug(f"get_dataset_slug node_config.dataset-uri: '{context.node_config.get('dataset-uri', 'MISSING')}'")
-    # Production: Check environment first (CLI/Docker), then run_config, SuperNode dataset-uri
-    if os.environ.get("DATASET_NAME"):
-        logger.debug("get_dataset_slug → using DATASET_NAME env")
-        return os.environ["DATASET_NAME"]
-    elif context.run_config.get("dataset.repo_id"):
-        logger.debug("get_dataset_slug → using run_config.dataset.repo_id")
-        return context.run_config["dataset.repo_id"]
-    elif context.run_config.get("dataset.root"):
-        logger.debug("get_dataset_slug → using run_config.dataset.root")
-        return Path(context.run_config["dataset.root"]).name
-    elif "dataset-uri" in context.node_config:
-        logger.debug("get_dataset_slug → using node_config.dataset-uri")
-        return context.node_config["dataset-uri"]
+    if "partition-id" in context.node_config:
+        from src.configs import DatasetConfig
+        config = DatasetConfig.load()
+        partition_id = int(context.node_config["partition-id"])
+        client_config = config.clients[partition_id % len(config.clients)]
+        slug = client_config.name
+        logger.info(f"🔍 SIM slug from DatasetConfig.clients[{partition_id % len(config.clients)}]: {slug}")
+        return slug
     else:
-        raise ValueError(
-            "Production mode: No dataset source found. "
-            "Require: DATASET_NAME env, run_config.dataset.repo_id/root, or node_config.dataset-uri. "
-            f"Got node_config keys: {list(context.node_config.keys())}"
-        )
+        # Production checks
+        if os.environ.get("DATASET_NAME"):
+            logger.debug("get_dataset_slug → using DATASET_NAME env")
+            return os.environ["DATASET_NAME"]
+        elif context.run_config.get("dataset.repo_id"):
+            logger.debug("get_dataset_slug → using run_config.dataset.repo_id")
+            return context.run_config["dataset.repo_id"]
+        elif context.run_config.get("dataset.root"):
+            logger.debug("get_dataset_slug → using run_config.dataset.root")
+            return Path(context.run_config["dataset.root"]).name
+        elif "dataset-uri" in context.node_config:
+            logger.debug("get_dataset_slug → using node_config.dataset-uri")
+            return context.node_config["dataset-uri"]
+        else:
+            raise ValueError(
+                "Production mode: No dataset source found. "
+                "Require: DATASET_NAME env, run_config.dataset.repo_id/root, or node_config.dataset-uri. "
+                f"Got node_config keys: {list(context.node_config.keys())}"
+            )
 
 
 
