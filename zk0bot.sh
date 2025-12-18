@@ -36,6 +36,14 @@ if [ "${CONDA_DEFAULT_ENV:-}" != "zk0" ]; then
     exec conda run -n zk0 --live-stream bash "$0" "$@"
 fi
 
+# Source .env for HF_TOKEN etc. (propagates to tmux subprocesses)
+if [ -f .env ]; then
+    source .env
+    log_info ".env sourced (HF_TOKEN/WANDB_API_KEY available to Flower processes)"
+else
+    log_warning ".env missing - HF/WandB features will skip"
+fi
+
 # Prereq checks only for start commands
 if [[ "$1" == @(server|client) && "$2" == "start" ]]; then
     # GPU check

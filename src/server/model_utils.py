@@ -39,14 +39,16 @@ def push_model_to_hub_enhanced(checkpoint_dir: Path, hf_repo_id: str) -> None:
         # Get HF token from environment
         import os
 
+        logger.info(f"🔍 Diagnostics: CWD={os.getcwd()}, .env_exists={os.path.exists('.env')}")
+        logger.info(f"🔍 Process: PID={os.getpid()}, PPID={os.getppid()}")
+
         hf_token = os.environ.get("HF_TOKEN")
         logger.info(
             f"🔍 HF_TOKEN check: {'Set' if hf_token else 'MISSING (this will cause 403)'}"
         )
         if not hf_token:
-            raise ValueError(
-                "HF_TOKEN environment variable not found. Required for pushing to Hugging Face Hub."
-            )
+            logger.warning("⚠️ HF_TOKEN missing - skipping HF Hub push (training continues)")
+            return
 
         from huggingface_hub import HfApi
 
