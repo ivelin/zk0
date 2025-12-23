@@ -288,8 +288,8 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 - Documentation: [zk0 Docs](https://github.com/ivelin/zk0/tree/main/docs)
 
 ### Contact
-- Email: operators@zk0.ai
-- Discord: @zk0-team
+- Email: [operators@zk0.bot](mailto:operators@zk0.bot?subject=Join+Network)
+- Discord: [zk0-team](https://discord.gg/PemKaGeM9P)
 
 ## Technical Details
 
