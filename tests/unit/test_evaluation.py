@@ -66,9 +66,13 @@ class TestEvaluateModelOnDatasets:
 
         smol_mod = Mock()
         smol_mod.SmolVLAConfig = Mock()
+        factory_mod = Mock()
+        factory_mod.make_policy = make_policy_fn
         with (
-            patch.dict("sys.modules", {"lerobot.policies.smolvla.configuration_smolvla": smol_mod}),
-            patch("lerobot.policies.factory.make_policy", make_policy_fn, create=True),
+            patch.dict("sys.modules", {
+                "lerobot.policies.smolvla.configuration_smolvla": smol_mod,
+                "lerobot.policies.factory": factory_mod,
+            }),
         ):
             result = evaluate_single_dataset(
                 global_parameters=global_parameters,
@@ -131,8 +135,10 @@ class TestEvaluateModelOnDatasets:
             patch("src.server.evaluation.test", test_fn),
             patch("src.server.evaluation.set_params", set_params_fn),
             patch("src.server.evaluation.load_lerobot_dataset", load_lerobot_dataset_fn),
-            patch.dict("sys.modules", {"lerobot.policies.smolvla.configuration_smolvla": Mock(SmolVLAConfig=Mock())}),
-            patch("lerobot.policies.factory.make_policy", make_policy_fn, create=True),
+            patch.dict("sys.modules", {
+                "lerobot.policies.smolvla.configuration_smolvla": Mock(SmolVLAConfig=Mock()),
+                "lerobot.policies.factory": Mock(make_policy=make_policy_fn),
+            }),
         ):
             composite_loss, total_examples, composite_metrics, per_dataset_results = (
                 evaluate_model_on_datasets(
@@ -198,8 +204,10 @@ class TestEvaluateModelOnDatasets:
             patch("src.server.evaluation.test", test_fn),
             patch("src.server.evaluation.set_params", set_params_fn),
             patch("src.server.evaluation.load_lerobot_dataset", load_lerobot_dataset_fn),
-            patch.dict("sys.modules", {"lerobot.policies.smolvla.configuration_smolvla": Mock(SmolVLAConfig=Mock())}),
-            patch("lerobot.policies.factory.make_policy", make_policy_fn, create=True),
+            patch.dict("sys.modules", {
+                "lerobot.policies.smolvla.configuration_smolvla": Mock(SmolVLAConfig=Mock()),
+                "lerobot.policies.factory": Mock(make_policy=make_policy_fn),
+            }),
         ):
             composite_loss, total_examples, composite_metrics, per_dataset_results = (
                 evaluate_model_on_datasets(
