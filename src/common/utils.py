@@ -13,20 +13,13 @@ import re
 
 from loguru import logger
 
-# Import LeRobot components
-try:
-    from lerobot.datasets.lerobot_dataset import LeRobotDataset, FilteredLeRobotDataset
-except ImportError:
-    from lerobot.datasets.lerobot_dataset import LeRobotDataset
-
-    FilteredLeRobotDataset = None
-from lerobot.datasets.factory import make_dataset
-
-from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
-
-# Import additional utilities
+# Import additional utilities (lazy for heavy ones)
 from src.common.parameter_utils import compute_parameter_hash
 from src.server.metrics_utils import create_client_metrics_dict
+
+# LeRobot heavy imports are done lazily inside functions to allow unit tests
+# to collect and run in envs without the full runtime deps (lerobot, torch specifics).
+# Real execution (tiny sim, docker CI) provides the full deps.
 
 # Import torchvision for image transforms
 
@@ -217,7 +210,7 @@ def load_lerobot_dataset(
     delta_timestamps: Optional[Dict[str, List[float]]] = None,
     episode_filter: Optional[Dict[str, int]] = None,
     split: Optional[str] = None,
-) -> LeRobotDataset:
+) -> Any:  # LeRobotDataset  (lazy import inside to allow test collection without full deps)
     """Load LeRobot dataset using the same approach as lerobot train.py.
 
     This simplified version matches the working standalone training script,
@@ -237,6 +230,8 @@ def load_lerobot_dataset(
         RuntimeError: If loading fails
     """
     try:
+        # Lazy import to support envs without full lerobot at collection time
+        from lerobot.datasets.lerobot_dataset import LeRobotDataset
         # Load config from SmolVLA model hub (same as standalone training)
         from lerobot.configs.train import TrainPipelineConfig
 

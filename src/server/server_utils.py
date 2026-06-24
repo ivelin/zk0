@@ -35,7 +35,7 @@ def create_model_template(model_type: str = "smolvla"):
     """
     try:
         # Try to load real dataset meta (same as server initialization)
-        from src.core.utils import load_lerobot_dataset
+        from src.common.utils import load_lerobot_dataset
         from src.configs import DatasetConfig
         from src.training.model_utils import get_model
 
