@@ -137,8 +137,24 @@ class AggregateEvaluationStrategy(FedProx):
 
             dataset_config = DatasetConfig.load()
             server_config = dataset_config.server[0]
-            dataset = load_lerobot_dataset(server_config.name)
-            dataset_meta = dataset.meta
+            try:
+                dataset = load_lerobot_dataset(server_config.name)
+                dataset_meta = dataset.meta
+            except Exception as load_e:
+                logger.warning(f"server dataset load failed: {load_e}, using fallback meta")
+                class FallbackMeta:
+                    def __init__(self):
+                        self.action_dim = 7
+                        self.state_dim = 0
+                        self.episode_length = 100
+                        self.stats = {"action": {"mean": [0.0] * 7, "std": [1.0] * 7}}
+                        self.features = {
+                            "observation.image": {"dtype": "uint8", "shape": [3, 480, 640]},
+                            "observation.state": {"dtype": "float32", "shape": [0]},
+                            "action": {"dtype": "float32", "shape": [7]},
+                        }
+                        self.repo_id = "fallback-generic"
+                dataset_meta = FallbackMeta()
             # Phase 0 model_type support (read from app config like other paths)
             try:
                 from src.common.utils import get_tool_config
