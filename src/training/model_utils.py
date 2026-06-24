@@ -1,4 +1,8 @@
-"""Model loading and parameter handling utilities for zk0."""
+"""Model loading and parameter handling utilities for zk0.
+
+Phase 0: Added thin extension point for pluggable models (see src/models/).
+SmolVLA behavior is 100% preserved via the default path.
+"""
 
 import torch
 from collections import OrderedDict
@@ -6,8 +10,12 @@ from collections import OrderedDict
 from loguru import logger
 
 
-def get_model(dataset_meta=None):
-    """Load SmolVLA model using lerobot factory (like standalone train script)."""
+def _load_smolvla_model(dataset_meta=None):
+    """Internal: original SmolVLA loading logic (LeRobot factory).
+
+    Extracted for DRY reuse by adapter + future model types.
+    Do not call directly from outside model loading.
+    """
     from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
     from lerobot.policies.factory import make_policy
 
@@ -32,6 +40,31 @@ def get_model(dataset_meta=None):
         )
 
     return policy
+
+
+def get_model(dataset_meta=None, model_type: str = "smolvla"):
+    """Load model using LeRobot-compatible harness.
+
+    model_type="smolvla" (default) preserves exact prior behavior.
+    "world_model" wires the Phase 0 minimal WM stub (same ds_meta harness).
+    Future types (pi0, etc.) will be added the same way.
+    See src/models/ for the Phase 0 adapter skeleton + registry.
+    """
+    try:
+        from src.models import get_adapter
+
+        adapter = get_adapter(model_type)
+        return adapter.load(dataset_meta)
+    except Exception as exc:  # pragma: no cover - fallback keeps everything working
+        if model_type == "smolvla":
+            logger.debug("models adapter dispatch failed, falling back to direct loader")
+            return _load_smolvla_model(dataset_meta)
+        # For world_model (or others) in Phase 0 we want the error to surface
+        # if the adapter truly can't be used with the given ds_meta.
+        raise NotImplementedError(
+            f"model_type={model_type} load failed: {exc}. "
+            "See src/models/ for registered adapters and Phase 0 wiring."
+        ) from exc
 
 
 def compute_param_norms(model, trainable_only=True):

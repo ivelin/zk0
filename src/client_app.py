@@ -126,6 +126,7 @@ def client_fn(context: Context) -> Client:
     # Read the run config to get settings to configure the Client
     model_name = context.run_config["model-name"]
     local_epochs = int(context.run_config["local-epochs"])
+    model_type = context.run_config.get("model_type", context.run_config.get("model-type", "smolvla"))
     logger.info(
         f"✅ Client {client_id}: Config loaded - model_name={model_name}, local_epochs={local_epochs}"
     )
@@ -233,6 +234,7 @@ def client_fn(context: Context) -> Client:
             batch_size=batch_size,
             dataset_repo_id=dataset_slug,
             is_simulation=is_simulation,
+            model_type=model_type,
         )
         logger.info(f"✅ Client {client_id}: SmolVLAClient created successfully")
         logger.info(f"🚀 Client {client_id}: Converting to Flower client")

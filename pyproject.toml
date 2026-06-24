@@ -56,6 +56,7 @@ clientapp = "src.client_app:app"
 num-server-rounds = 20 # 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
 local-epochs = 2 # 20 # steps/epochs per round
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
+model_type = "smolvla"  # Phase 0: "smolvla" | "world_model" (see src/models/ + ROADMAP)
 fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
 min-fit-clients = 2 # Minimum clients to train each round (ensure at least 2 for SO-100 with 4 clients)
 fraction-evaluate = 1 # Evaluate all clients when using client eval. For server eval, this is ignored.

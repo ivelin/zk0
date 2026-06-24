@@ -143,6 +143,11 @@ def server_fn(context: Context) -> ServerAppComponents:
         context.run_config["checkpoint_interval"] = app_config.get("checkpoint_interval", 2)
         logger.info(f"🔧 Server: Checkpoint interval set to {context.run_config['checkpoint_interval']}")
 
+        # Phase 0 model_type (default smolvla; supports "world_model" etc.)
+        if "model_type" not in context.run_config:
+            context.run_config["model_type"] = app_config.get("model_type", "smolvla")
+        logger.info(f"🔧 Server: model_type={context.run_config['model_type']}")
+
         print("[DEBUG server_fn] Before initialize_wandb", file=sys.stderr)
         sys.stderr.flush()
         # Initialize WandB if enabled

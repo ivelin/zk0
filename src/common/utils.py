@@ -13,22 +13,15 @@ import re
 
 from loguru import logger
 
-# Import LeRobot components
-try:
-    from lerobot.datasets.lerobot_dataset import LeRobotDataset, FilteredLeRobotDataset
-except ImportError:
-    from lerobot.datasets.lerobot_dataset import LeRobotDataset
-
-    FilteredLeRobotDataset = None
-from lerobot.datasets.factory import make_dataset
-
-from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
-
-# Import additional utilities
+# Import additional utilities (lazy for heavy ones)
 from src.common.parameter_utils import compute_parameter_hash
 from src.server.metrics_utils import create_client_metrics_dict
 
-# Import torchvision for image transforms
+# LeRobot heavy imports are done lazily inside functions to allow unit tests
+# to collect and run in envs without the full runtime deps (lerobot, torch specifics).
+# Real execution (tiny sim, docker CI) provides the full deps.
+
+from .parameter_utils import validate_and_log_parameters  # re-export after dedup
 
 
 def load_env_safe():
@@ -217,7 +210,7 @@ def load_lerobot_dataset(
     delta_timestamps: Optional[Dict[str, List[float]]] = None,
     episode_filter: Optional[Dict[str, int]] = None,
     split: Optional[str] = None,
-) -> LeRobotDataset:
+) -> Any:  # LeRobotDataset  (lazy import inside to allow test collection without full deps)
     """Load LeRobot dataset using the same approach as lerobot train.py.
 
     This simplified version matches the working standalone training script,
@@ -237,6 +230,9 @@ def load_lerobot_dataset(
         RuntimeError: If loading fails
     """
     try:
+        # Lazy imports inside function to support test collection in envs without full deps
+        from lerobot.datasets.lerobot_dataset import LeRobotDataset
+        from lerobot.datasets.factory import make_dataset
         # Load config from SmolVLA model hub (same as standalone training)
         from lerobot.configs.train import TrainPipelineConfig
 
@@ -531,31 +527,6 @@ def save_client_round_metrics(
         )
     except Exception as e:
         logger.warning(f"Client {client_id}: Failed to save per-round metrics: {e}")
-
-
-def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, expected_count: Optional[int] = None) -> str:
-    """Validate parameter count (if expected_count provided) and compute hash for logging.
-
-    Args:
-        parameters: List of numpy arrays containing model parameters
-        gate_name: Name of the validation gate (for logging)
-        expected_count: Optional expected number of parameter arrays
-
-    Returns:
-        SHA256 hash string of the parameters
-
-    Raises:
-        AssertionError: If parameter count doesn't match expected count (when provided)
-    """
-    if expected_count is not None:
-        assert len(parameters) == expected_count, f"Parameter count mismatch: got {len(parameters)}, expected {expected_count}"
-
-    # Compute hash
-    current_hash = compute_parameter_hash(parameters)
-
-    logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:16]}...")
-
-    return current_hash
 
 
 def get_dataset_slug(context: Any) -> str:

@@ -33,6 +33,7 @@ class SmolVLAClient(NumPyClient):
         batch_size=64,
         dataset_repo_id=None,
         is_simulation=True,
+        model_type: str = "smolvla",
     ) -> None:
         self.client_id = client_id
         self.trainloader = trainloader
@@ -40,10 +41,11 @@ class SmolVLAClient(NumPyClient):
         self.device = nn_device
         self.dataset_name = dataset_repo_id  # Cache dataset name to avoid repeated loading
         self.is_simulation = is_simulation
+        self.model_type = model_type
 
         # Log CUDA availability on instantiation
         logger.info(
-            f"Client {self.client_id}: Instantiated - CUDA available: {torch.cuda.is_available()}, using device: {self.device}"
+            f"Client {self.client_id}: Instantiated - CUDA available: {torch.cuda.is_available()}, using device: {self.device}, model_type={self.model_type}"
         )
 
         # Validate required parameters
@@ -57,8 +59,8 @@ class SmolVLAClient(NumPyClient):
             trainloader.dataset.meta if hasattr(trainloader.dataset, "meta") else None
         )
 
-        # Load model using global function
-        self.net = get_model(dataset_meta)
+        # Load model using global function (Phase 0: supports "smolvla" | "world_model")
+        self.net = get_model(dataset_meta, model_type=self.model_type)
 
         # Store data
         self.trainloader = trainloader

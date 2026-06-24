@@ -84,29 +84,29 @@ class TestUtils:
 
         assert hash1 != hash2
 
-    @patch('src.common.utils.logger')
+    @patch('src.common.parameter_utils.logger')
     def test_validate_and_log_parameters_valid(self, mock_logger):
         """Test parameter validation with valid parameters."""
         from src.common.utils import validate_and_log_parameters
 
-        # Create 506 test parameters (matching SmolVLA)
-        params = [np.array([1.0, 2.0]) for _ in range(506)]
+        # Create 500 test parameters (current SmolVLA param count)
+        params = [np.array([1.0, 2.0]) for _ in range(500)]
 
-        hash_result = validate_and_log_parameters(params, "test_gate", 506)
+        hash_result = validate_and_log_parameters(params, "test_gate", 500)
 
         assert isinstance(hash_result, str)
         assert len(hash_result) == 64
         mock_logger.info.assert_called()
 
-    @patch('src.common.utils.logger')
+    @patch('src.common.parameter_utils.logger')
     def test_validate_and_log_parameters_wrong_count(self, mock_logger):
         """Test parameter validation fails with wrong count."""
         from src.common.utils import validate_and_log_parameters
 
-        params = [np.array([1.0, 2.0]) for _ in range(500)]  # Wrong count
+        params = [np.array([1.0, 2.0]) for _ in range(499)]  # Wrong count
 
         with pytest.raises(AssertionError, match="Parameter count mismatch"):
-            validate_and_log_parameters(params, "test_gate", 506)
+            validate_and_log_parameters(params, "test_gate", 500)
 
     def test_get_tool_config(self):
         """Test loading tool config from pyproject.toml."""

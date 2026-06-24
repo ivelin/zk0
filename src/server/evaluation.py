@@ -109,13 +109,12 @@ def evaluate_model_on_datasets(
     Returns:
         tuple: (composite_loss, total_examples, composite_metrics, per_dataset_results)
     """
-    from lerobot.policies.factory import make_policy
-
     dataset_losses = []
     per_dataset_results = []
     total_examples = 0
 
     for server_config in datasets_config:
+        from lerobot.policies.factory import make_policy
         dataset_result = evaluate_single_dataset(
             global_parameters=global_parameters,
             dataset_name=server_config.name,
