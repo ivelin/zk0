@@ -98,7 +98,7 @@ class TestSmolVLAClient:
     @pytest.fixture
     def client(self, mock_model, mock_trainloader):
         """Create a test client instance."""
-        with patch('src.client_app.get_model', return_value=mock_model):
+        with patch('src.training.model_utils.get_model', return_value=mock_model):
             client = SmolVLAClient(
                 partition_id=0,
                 local_epochs=1,

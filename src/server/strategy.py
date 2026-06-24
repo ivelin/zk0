@@ -139,9 +139,17 @@ class AggregateEvaluationStrategy(FedProx):
             server_config = dataset_config.server[0]
             dataset = load_lerobot_dataset(server_config.name)
             dataset_meta = dataset.meta
-            self.template_model = get_model(dataset_meta=dataset_meta)
+            # Phase 0 model_type support (read from app config like other paths)
+            try:
+                from src.common.utils import get_tool_config
+                flwr_config = get_tool_config("flwr", "pyproject.toml")
+                app_config = flwr_config.get("app", {}).get("config", {})
+                model_type = app_config.get("model_type", "smolvla")
+            except Exception:
+                model_type = "smolvla"
+            self.template_model = get_model(dataset_meta=dataset_meta, model_type=model_type)
             logger.info(
-                "✅ Server: Created reusable model template for parameter operations"
+                f"✅ Server: Created reusable model template for parameter operations (model_type={model_type})"
             )
         except Exception as e:
             import sys

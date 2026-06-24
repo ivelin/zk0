@@ -27,7 +27,7 @@ class TestFitEvaluateExceptionHandling:
     @pytest.fixture
     def mock_client(self, client_config):
         """Create a mock client for testing."""
-        with patch('src.task.get_model') as mock_get_model:
+        with patch('src.training.model_utils.get_model') as mock_get_model:
             mock_get_model.return_value = MagicMock()
             client = SmolVLAClient(**client_config)
             return client
