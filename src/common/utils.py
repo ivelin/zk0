@@ -21,7 +21,7 @@ from src.server.metrics_utils import create_client_metrics_dict
 # to collect and run in envs without the full runtime deps (lerobot, torch specifics).
 # Real execution (tiny sim, docker CI) provides the full deps.
 
-# Import torchvision for image transforms
+from .parameter_utils import validate_and_log_parameters  # re-export after dedup
 
 
 def load_env_safe():
@@ -230,8 +230,9 @@ def load_lerobot_dataset(
         RuntimeError: If loading fails
     """
     try:
-        # Lazy import to support envs without full lerobot at collection time
+        # Lazy imports inside function to support test collection in envs without full deps
         from lerobot.datasets.lerobot_dataset import LeRobotDataset
+        from lerobot.datasets.factory import make_dataset
         # Load config from SmolVLA model hub (same as standalone training)
         from lerobot.configs.train import TrainPipelineConfig
 
@@ -526,31 +527,6 @@ def save_client_round_metrics(
         )
     except Exception as e:
         logger.warning(f"Client {client_id}: Failed to save per-round metrics: {e}")
-
-
-def validate_and_log_parameters(parameters: List[np.ndarray], gate_name: str, expected_count: Optional[int] = None) -> str:
-    """Validate parameter count (if expected_count provided) and compute hash for logging.
-
-    Args:
-        parameters: List of numpy arrays containing model parameters
-        gate_name: Name of the validation gate (for logging)
-        expected_count: Optional expected number of parameter arrays
-
-    Returns:
-        SHA256 hash string of the parameters
-
-    Raises:
-        AssertionError: If parameter count doesn't match expected count (when provided)
-    """
-    if expected_count is not None:
-        assert len(parameters) == expected_count, f"Parameter count mismatch: got {len(parameters)}, expected {expected_count}"
-
-    # Compute hash
-    current_hash = compute_parameter_hash(parameters)
-
-    logger.info(f"🛡️ {gate_name}: {len(parameters)} params, hash={current_hash[:16]}...")
-
-    return current_hash
 
 
 def get_dataset_slug(context: Any) -> str:

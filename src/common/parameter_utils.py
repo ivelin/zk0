@@ -55,7 +55,7 @@ def compute_rounded_hash(ndarrays, precision="float32"):
 
 
 def validate_and_log_parameters(
-    parameters: List[np.ndarray], gate_name: str, expected_count: int = 506
+    parameters: List[np.ndarray], gate_name: str, expected_count: Optional[int] = None
 ) -> str:
     """
     Validate parameters and log basic information about them.
@@ -71,10 +71,11 @@ def validate_and_log_parameters(
     Raises:
         AssertionError: If validation fails
     """
-    # Basic validation
-    assert len(parameters) == expected_count, (
-        f"Parameter count mismatch at {gate_name}: expected {expected_count}, got {len(parameters)}"
-    )
+    # Basic validation (only if expected provided)
+    if expected_count is not None:
+        assert len(parameters) == expected_count, (
+            f"Parameter count mismatch at {gate_name}: expected {expected_count}, got {len(parameters)}"
+        )
 
     # Compute hash
     current_hash = compute_parameter_hash(parameters)

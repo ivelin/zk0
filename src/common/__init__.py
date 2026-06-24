@@ -21,7 +21,6 @@ from .utils import (
     compute_param_update_norm,
     get_client_dir,
     save_client_round_metrics,
-    validate_and_log_parameters,
     get_base_output_dir,
 )
-from .parameter_utils import compute_parameter_hash
+from .parameter_utils import compute_parameter_hash, validate_and_log_parameters
