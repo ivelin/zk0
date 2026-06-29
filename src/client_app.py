@@ -65,6 +65,11 @@ def client_fn(context: Context) -> Client:
         # Production mode: use node_id (reliable UUID from Flower)
         client_id = context.node_id
 
+    if not is_simulation:
+        from src.common.contributor_registry import record_contributor_from_context
+
+        record_contributor_from_context(context, source="client_registration")
+
     logger.info(f"Client {client_id}: Running in {'simulation' if is_simulation else 'production'} mode, dataset_slug={dataset_slug}")
 
 

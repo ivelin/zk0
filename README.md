@@ -52,40 +52,48 @@ See [docs/INSTALLATION](docs/INSTALLATION) for full instructions.
 
 ```
 
-## Production Deployment
+## Join the Network (Self-Service)
 
-For production use with multiple distributed nodes, use the zk0bot CLI tool for orchestrated federated learning:
+Contributors join the zk0 federated network via the hosted coordinator and `zk0bot` CLI — no GitHub application required.
 
 ```bash
-# Server operator: Start the central coordinator
-zk0bot server start
+# Install zk0bot (one line)
+curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
+cd ~/zk0
 
-# Client operators (each with their private dataset)
-zk0bot client start hf:yourusername/your-private-dataset
-# or
+# Remote client: point at the hosted coordinator
+export ZK0_SERVER_IP=coordinator.zk0.bot   # fleet API host
+
+# Register your dataset-uri and start a SuperNode
+zk0bot client start yourusername/your-private-dataset
+# or local episodes:
 zk0bot client start local:/path/to/your/dataset
 
-# Monitor status
 zk0bot status
-
-# Stop services
-zk0bot server stop
-zk0bot client stop
 ```
 
-The CLI uses Flower's Deployment Engine (SuperLink, SuperNodes, SuperExec) for stateless, insecure-mode operation. Server runs continuously, automatically managing FL sessions based on connected clients. See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for detailed setup and security notes.
+Coordinator operators start the always-on SuperLink:
+
+```bash
+zk0bot server start
+ZK0_COORDINATOR_ADDRESS=coordinator.zk0.bot:9093 zk0bot run --rounds 20 --stream
+```
+
+Each run writes `contributor_registry.jsonl` under the run output directory with `{node_id, dataset_uri, timestamp}` for attribution (opt-out anonymity supported at join time).
+
+The CLI uses Flower's Deployment Engine (SuperLink, SuperNodes, SuperExec). See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for the full self-service path, remote coordinator config, and security notes.
 
 For run details, outputs, experiment tracking, and model pushing, see [docs/RUNNING](docs/RUNNING). For repository branches and contributing guidelines, see [CONTRIBUTING](CONTRIBUTING).
 
 ## Project Status
 
-### Current Stage: Beta
+### Current Stage: Beta (Self-Service Network)
 
-The project is ready for local simulation testing with multiple clients and datasets.
+Local FL simulation and production deployment via `zk0bot` are supported. Contributors register a `dataset-uri` via CLI and connect to a hosted coordinator using `ZK0_SERVER_IP`.
 
 #### In Progress
-- Preparing client and server modules for production deployment
-- ZK proofs, onchain coordination.
+- zk0.bot MCP-guided onboarding and x402 network gate
+- ZK proofs, onchain coordination (roadmap)
 
 **Config**: 12 clients available (4 active); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation.
 
@@ -107,7 +115,7 @@ We welcome contributions from the community! At this Beta stage, we're particula
 - **Network**: Stable internet connection for federated communication
 - **Data**: Unique training data from your robotics setup
 
-If you meet these requirements, we'd love for you to join as a node operator. Your unique training data and compute resources will help improve the federated learning system. For detailed setup instructions, see [CONTRIBUTING](CONTRIBUTING).
+If you meet these requirements, join via the self-service path in [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) — install `zk0bot`, register your `dataset-uri`, and connect to the hosted coordinator. No application approval required.
 
 ### Other Ways to Contribute
 

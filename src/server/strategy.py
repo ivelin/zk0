@@ -589,6 +589,13 @@ class AggregateEvaluationStrategy(FedProx):
             server_round, validated_results
         )
 
+        if self.save_path is not None:
+            from src.common.contributor_registry import record_contributors_from_fit_results
+
+            record_contributors_from_fit_results(
+                self.save_path, server_round, validated_results
+            )
+
         # Aggregate client metrics and compute norms
 
         aggregated_client_metrics = aggregate_and_log_metrics(
