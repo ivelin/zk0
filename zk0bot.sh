@@ -210,10 +210,10 @@ case "${1:-}" in
         if [ -n "$ROUNDS" ]; then
             RUN_CONFIG="--run-config num-server-rounds=$ROUNDS"
         fi
-        FEDERATION_CONFIG="--federation-config address=${ZK0_COORDINATOR_ADDRESS}"
+        FEDERATION_CONFIG=(--federation-config "address=\"${ZK0_COORDINATOR_ADDRESS}\"")
         echo "DEBUG zk0bot: $( [ -n "$ROUNDS" ] && echo "Overriding num-server-rounds=$ROUNDS" || echo "Using pyproject.toml default" )" >> "$LOG_DIR/zk0bot-run-debug.log"
-        echo "Full flwr command: flwr run . prod-deployment $RUN_CONFIG $FEDERATION_CONFIG $STREAM" >> "$LOG_DIR/zk0bot-run-debug.log"
-        flwr run . prod-deployment $RUN_CONFIG $FEDERATION_CONFIG $STREAM
+        echo "Full flwr command: flwr run . prod-deployment $RUN_CONFIG --federation-config address=\"${ZK0_COORDINATOR_ADDRESS}\" $STREAM" >> "$LOG_DIR/zk0bot-run-debug.log"
+        flwr run . prod-deployment $RUN_CONFIG "${FEDERATION_CONFIG[@]}" $STREAM
         ;;
     status)
         log_info "zk0 Status (tmux + processes):"
