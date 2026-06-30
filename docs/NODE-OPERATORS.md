@@ -14,23 +14,20 @@ zk0 is a federated learning platform for robotics AI, enabling privacy-preservin
 
 ## Getting Started
 
-### 1. Apply to Become a Node Operator
+### 1. Review Requirements
 
-To join the zk0 network:
+Before joining the zk0 network, ensure you have:
 
-1. **Review Requirements**: Ensure you have:
-   - A private robotics dataset (SO-100/SO-101 compatible)
-   - GPU-enabled machine (recommended for training)
-   - Stable internet connection
-   - Basic familiarity with Conda and tmux
+- A private robotics dataset (SO-100/SO-101 compatible, ~50 episodes recommended)
+- GPU-enabled machine (RTX 3090 or better recommended)
+- Stable internet connection
+- Basic familiarity with Conda and tmux
 
-2. **Submit Application**: Create a new issue using our [Node Operator Application Template](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md)
-
-3. **Wait for Approval**: Our team will review your application and contact you via Discord
+No GitHub application or manual approval is required. Contributors self-certify readiness after local fine-tuning and FL simulation (see [CONTRIBUTING](../CONTRIBUTING.md)).
 
 ### 2. Install zk0bot CLI
 
-Once approved, install the zk0bot CLI tool:
+Install the zk0bot CLI tool:
 
 ```bash
 # One-line installer
@@ -55,29 +52,37 @@ WANDB_API_KEY=your_wandb_key_here  # optional, server-side only
 
 **Note**: zk0bot.sh automatically sources `.env` after conda activation, propagating HF_TOKEN/WANDB_API_KEY to tmux Flower subprocesses (SuperLink/SuperNode). No manual export needed.
 
-### Full Production Session Example (Local Network)
+### Full Production Session Example (Hosted Coordinator)
 
-**Server Machine:**
+**Coordinator operator** (always-on SuperLink, binds `0.0.0.0` for remote clients):
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
 cd ~/zk0
-zk0bot server start  # Auto-activates zk0 env; SuperLink ready
+zk0bot server start
+ZK0_COORDINATOR_ADDRESS=localhost:9093 zk0bot run --rounds 20 --stream
 ```
 
-**Client Machines (same LAN, add to ~/.bashrc: export ZK0_SERVER_IP=server_ip):**
+**Contributor clients** (local LAN or remote):
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
 cd ~/zk0
-zk0bot client start shaunkirby/record-test  # Auto-activates zk0 env; or your private dataset
-zk0bot client start ethanCSL/direction_test
+export ZK0_SERVER_IP=coordinator.zk0.bot   # fleet API host (public IP or DNS)
+zk0bot client start yourusername/your-private-dataset
+zk0bot client start local:/path/to/your/dataset
 ```
 
-**On Server (submit run):**
-```bash
-zk0bot run --rounds 20 --stream  # Full FL session, stateless; auto-zk0 env
-```
+`zk0bot client start` injects `--node-config '{"dataset-uri": "<uri>"}'` into the SuperNode. The contributor registry captures `{node_id, dataset_uri, timestamp}` in `outputs/<run>/contributor_registry.jsonl`.
 
-**Remote Clients:** Set `ZK0_SERVER_IP=public_server_ip` (insecure=true for dev; TLS for prod).
+**Remote coordinator addressing:**
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `ZK0_SERVER_IP` | SuperNode → SuperLink fleet API host | `localhost` |
+| `ZK0_COORDINATOR_ADDRESS` | `flwr run` control API `host:port` | `localhost:9093` |
+
+Set both when connecting across networks. Dev mode uses `--insecure`; enable TLS for production.
 
 Note: WandB logging is handled server-side only. Client training does not require WandB credentials.
 
@@ -320,10 +325,11 @@ zk0bot uses native Flower CLI + tmux for persistence. For custom setups:
 - Env vars: `DATASET_URI`, `HF_TOKEN`.
 
 ### Environment Variables
-- `DATASET_URI`: Dataset location (hf:repo/name or local:/path)
+- `ZK0_SERVER_IP`: Hosted coordinator fleet API host for SuperNodes (default: `localhost`)
+- `ZK0_COORDINATOR_ADDRESS`: Control API `host:port` for `zk0bot run` / `flwr run` (default: `localhost:9093`)
+- `DATASET_URI`: Dataset location (hf:repo/name or local:/path) — prefer `zk0bot client start <dataset-uri>` which sets `node_config`
 - `HF_TOKEN`: Hugging Face API token
-- `WANDB_API_KEY`: Weights & Biases API key
-- `ZK0_SERVER_URL`: Custom server URL (default: auto-discovery)
+- `WANDB_API_KEY`: Weights & Biases API key (server-side only)
 
 ## Contributing
 

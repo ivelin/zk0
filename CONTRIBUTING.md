@@ -25,12 +25,26 @@ Thank you for your interest in contributing to this project! We welcome contribu
 
 There are several ways you can contribute to this project:
 
-1. **Node Operators**: Join the federated network with your hardware and data
+1. **Node Operators**: Self-service join via `zk0bot client start <dataset-uri>` (see [Node Operators](#node-operators))
 2. **Code Contributors**: Improve the codebase, add features, fix bugs
 3. **Documentation**: Help improve documentation and tutorials
 4. **Testing**: Report bugs, test new features, improve test coverage
 5. **Feedback**: Share your experience and suggestions
 
+
+## Node Operators
+
+Join the zk0 federated network via self-service — no GitHub application required.
+
+### Progressive Onboarding Funnel
+
+1. **Local fine-tune**: Train SmolVLA on your own ~50 episodes locally (LeRobot standalone).
+2. **FL simulation**: Run `./train-fl-simulation.sh --tiny` to understand federated rounds.
+3. **Self-certify**: Confirm your dataset meets [quality guidelines](docs/NODE-OPERATORS.md#dataset-requirements).
+4. **Join the network**: Install `zk0bot`, set `ZK0_SERVER_IP` to the hosted coordinator, and run `zk0bot client start <dataset-uri>`.
+5. **MCP-guided deploy** (coming soon): zk0.bot MCP server with x402 gate for guided production setup.
+
+See [docs/NODE-OPERATORS.md](docs/NODE-OPERATORS.md) for the full CLI reference, remote coordinator config (`ZK0_SERVER_IP`, `ZK0_COORDINATOR_ADDRESS`), and contributor registry (`contributor_registry.jsonl`).
 
 ## Code Contributors
 

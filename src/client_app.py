@@ -119,6 +119,20 @@ def client_fn(context: Context) -> Client:
     
     logger.info(f"Client {client_id}: constructed base_dir={base_dir}, client_dir={client_dir}")
 
+    if not is_simulation and save_path:
+        from src.common.contributor_registry import (
+            append_contributor_record,
+            build_contributor_record,
+            get_registry_path,
+        )
+
+        registration_record = build_contributor_record(
+            node_id=context.node_id,
+            dataset_uri=dataset_slug,
+            source="client_registration",
+        )
+        append_contributor_record(get_registry_path(save_path), registration_record)
+
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     logger.info(f"✅ Client {client_id}: Device set to {nn_device}")

@@ -16,7 +16,7 @@ authors = [
 
 dependencies = [
     "flwr[simulation,superexec]==1.23.0",
-    "transformers>=4.50.3,<4.52.0",
+    "transformers>=4.50.3",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
     # "torch>=2.9.0",  # torch version is managed separately to ensure compatibility with lerobot on DGX Spark and other CUDA environments
@@ -132,8 +132,11 @@ options.backend.client-resources.num-gpus = 0.25 # GPU resources per client (avo
 # address = "127.0.0.1:9093"
 # insecure = true
 
+# Production federation: control API for `flwr run`. Override at runtime via
+# ZK0_COORDINATOR_ADDRESS (zk0bot run passes --federation-config address=...).
+# Remote SuperNodes connect to fleet API via ZK0_SERVER_IP (default localhost).
 [tool.flwr.federations.prod-deployment]
-address = "0.0.0.0:9093"
+address = "localhost:9093"
 insecure = true
 
 [tool.zk0.datasets]

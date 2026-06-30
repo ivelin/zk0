@@ -71,13 +71,16 @@ DEFAULT_CLIENTAPP_PORT=8080
 LOG_DIR="$(pwd)/outputs/zk0bot-cli-logs"
 mkdir -p "$LOG_DIR"
 
+# Hosted coordinator: SuperNodes connect via fleet API; run submitter uses control API.
+#   export ZK0_SERVER_IP=coordinator.example.com      # remote SuperNode → SuperLink
+#   export ZK0_COORDINATOR_ADDRESS=coordinator.example.com:9093  # flwr run control API
+ZK0_SERVER_IP="${ZK0_SERVER_IP:-localhost}"
+ZK0_COORDINATOR_ADDRESS="${ZK0_COORDINATOR_ADDRESS:-localhost:9093}"
+export ZK0_SERVER_IP ZK0_COORDINATOR_ADDRESS
+
 get_server_ip() {
-    if [ -z "${ZK0_SERVER_IP:-}" ]; then
-        read -p "Enter Server IP (default: localhost): " ip
-        ZK0_SERVER_IP="${ip:-localhost}"
-        export ZK0_SERVER_IP
-        log_info "ZK0_SERVER_IP set to $ZK0_SERVER_IP (add to ~/.bashrc for persistence)"
-    fi
+    log_info "Using coordinator fleet API at ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT}"
+    log_info "Run submissions use control API ${ZK0_COORDINATOR_ADDRESS}"
 }
 
 usage() {
@@ -94,8 +97,12 @@ Commands:
 
 Examples:
   ./zk0bot.sh server start
-  ./zk0bot.sh client start shaunkirby/record-test
-  ./zk0bot.sh run --rounds 3 --stream
+  ZK0_SERVER_IP=coordinator.example.com ./zk0bot.sh client start shaunkirby/record-test
+  ZK0_COORDINATOR_ADDRESS=coordinator.example.com:9093 ./zk0bot.sh run --rounds 3 --stream
+
+Environment:
+  ZK0_SERVER_IP            SuperLink fleet API host (default: localhost)
+  ZK0_COORDINATOR_ADDRESS  SuperLink control API host:port for flwr run (default: localhost:9093)
 
 Logs: $LOG_DIR/
 EOF
@@ -108,12 +115,12 @@ case "${1:-}" in
                 if tmux has-session -t zk0-superlink 2>/dev/null; then
                     log_warning "SuperLink already running"
                 else
-                    log_info "Starting SuperLink..."
-                    tmux new-session -d -E -s zk0-superlink "flower-superlink --insecure > \"$LOG_DIR/superlink.log\" 2>&1"
+                    log_info "Starting hosted SuperLink (0.0.0.0:$SUPERLINK_FLEET_PORT / 0.0.0.0:$SUPERLINK_CONTROL_PORT)..."
+                    tmux new-session -d -E -s zk0-superlink "flower-superlink --insecure --fleet-api-address 0.0.0.0:$SUPERLINK_FLEET_PORT --control-api-address 0.0.0.0:$SUPERLINK_CONTROL_PORT > \"$LOG_DIR/superlink.log\" 2>&1"
                     sleep 2
-                    log_success "Server started (ServerApp spawns dynamically on run)"
-                    log_info "Fleet API: localhost:$SUPERLINK_FLEET_PORT"
-                    log_info "Control API: localhost:$SUPERLINK_CONTROL_PORT"
+                    log_success "Hosted coordinator started (ServerApp spawns dynamically on run)"
+                    log_info "Fleet API: 0.0.0.0:$SUPERLINK_FLEET_PORT (remote clients: export ZK0_SERVER_IP=<public-host>)"
+                    log_info "Control API: 0.0.0.0:$SUPERLINK_CONTROL_PORT (run submit: export ZK0_COORDINATOR_ADDRESS=<host>:9093)"
                 fi
                 ;;
             stop)
@@ -157,9 +164,10 @@ case "${1:-}" in
                 if tmux has-session -t "$TMUX_SUPERNODE" 2>/dev/null; then
                     log_warning "Client $ID already running"
                 else
-                    log_info "Starting SuperNode for $DATASET_NAME (ID: $ID)"
-                    tmux new-session -d -E -s "$TMUX_SUPERNODE" "env DATASET_NAME=\"$DATASET_NAME\" flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
-                    log_success "SuperNode $ID started (ClientApp spawns dynamically on run, inherits conda env + DATASET_NAME env var)"
+                    log_info "Starting SuperNode for $DATASET_NAME (ID: $ID) → coordinator ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT}"
+                    NODE_CONFIG="{\"dataset-uri\": \"${DATASET_NAME}\"}"
+                    tmux new-session -d -E -s "$TMUX_SUPERNODE" "env DATASET_NAME=\"$DATASET_NAME\" flower-supernode --insecure --superlink ${ZK0_SERVER_IP}:${SUPERLINK_FLEET_PORT} --node-config '${NODE_CONFIG}' --clientappio-api-address 0.0.0.0:${CLIENT_PORT} --isolation subprocess > \"$LOG_DIR/supernode-$ID.log\" 2>&1"
+                    log_success "SuperNode $ID started (dataset-uri registered in node_config; contributor registry will capture on run)"
                 fi
                 ;;
             stop)
@@ -198,13 +206,14 @@ case "${1:-}" in
                 *) shift ;;
             esac
         done
-        log_info "FL run submitted (CLI rounds: ${ROUNDS:-pyproject.toml default}) via prod-deployment federation (SuperLink control localhost:9093)"
+        log_info "FL run submitted (CLI rounds: ${ROUNDS:-pyproject.toml default}) via prod-deployment federation (control API ${ZK0_COORDINATOR_ADDRESS})"
         if [ -n "$ROUNDS" ]; then
             RUN_CONFIG="--run-config num-server-rounds=$ROUNDS"
         fi
+        FEDERATION_CONFIG=(--federation-config "address=\"${ZK0_COORDINATOR_ADDRESS}\"")
         echo "DEBUG zk0bot: $( [ -n "$ROUNDS" ] && echo "Overriding num-server-rounds=$ROUNDS" || echo "Using pyproject.toml default" )" >> "$LOG_DIR/zk0bot-run-debug.log"
-        echo "Full flwr command: flwr run . prod-deployment $RUN_CONFIG $STREAM" >> "$LOG_DIR/zk0bot-run-debug.log"
-        flwr run . prod-deployment $RUN_CONFIG $STREAM
+        echo "Full flwr command: flwr run . prod-deployment $RUN_CONFIG --federation-config address=\"${ZK0_COORDINATOR_ADDRESS}\" $STREAM" >> "$LOG_DIR/zk0bot-run-debug.log"
+        flwr run . prod-deployment $RUN_CONFIG "${FEDERATION_CONFIG[@]}" $STREAM
         ;;
     status)
         log_info "zk0 Status (tmux + processes):"
