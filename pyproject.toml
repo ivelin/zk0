@@ -16,7 +16,7 @@ authors = [
 
 dependencies = [
     "flwr[simulation,superexec]==1.23.0",
-    "transformers>=4.50.3,<4.52.0",
+    "transformers>=4.50.3",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
     # "torch>=2.9.0",  # torch version is managed separately to ensure compatibility with lerobot on DGX Spark and other CUDA environments

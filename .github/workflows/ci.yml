@@ -38,6 +38,5 @@ jobs:
             cd /workspace &&
             export CI=true &&
             uv pip install -e '.[test]' &&
-            uv pip install 'transformers>=5.5.0' &&
             pytest ${{ matrix.test-path }} -x --tb=short --durations=10 --no-cov -n ${{ matrix.parallel }}
           "
