@@ -13,6 +13,7 @@ from src.common.contributor_registry import (
     build_contributor_record,
     extract_dataset_uri_from_context,
     get_registry_path,
+    lookup_dataset_from_client_round,
     record_contributor_from_context,
     record_contributors_from_fit_results,
 )
@@ -90,6 +91,44 @@ class TestContextIntegration:
 
 
 class TestFitResultRecording:
+    def test_lookup_dataset_from_client_round(self, tmp_path: Path):
+        save_path = tmp_path / "run"
+        client_dir = save_path / "clients" / "shaunkirby_record_test"
+        client_dir.mkdir(parents=True)
+        round_data = {
+            "round": 1,
+            "client_id": "4071570064407701866",
+            "dataset_name": "shaunkirby/record-test",
+        }
+        (client_dir / "round_1.json").write_text(
+            __import__("json").dumps(round_data), encoding="utf-8"
+        )
+
+        dataset = lookup_dataset_from_client_round(
+            save_path, server_round=1, node_id="4071570064407701866"
+        )
+        assert dataset == "shaunkirby/record-test"
+
+    def test_record_contributors_from_fit_results_uses_client_round_fallback(
+        self, tmp_path: Path
+    ):
+        save_path = tmp_path / "server-run"
+        client_dir = save_path / "clients" / "ethancsl_direction_test"
+        client_dir.mkdir(parents=True)
+        (client_dir / "round_3.json").write_text(
+            '{"round": 3, "client_id": "node-9", "dataset_name": "ethanCSL/direction_test"}',
+            encoding="utf-8",
+        )
+        client_proxy = SimpleNamespace(cid="node-9")
+        fit_res = SimpleNamespace(metrics={"client_id": "node-9"})
+
+        records = record_contributors_from_fit_results(
+            save_path, server_round=3, validated_results=[(client_proxy, fit_res)]
+        )
+
+        assert len(records) == 1
+        assert records[0]["dataset_uri"] == "ethanCSL/direction_test"
+
     def test_record_contributors_from_fit_results(self, tmp_path: Path):
         save_path = tmp_path / "server-run"
         client_proxy = SimpleNamespace(cid="client-proxy-1")

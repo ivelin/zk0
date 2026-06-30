@@ -65,11 +65,6 @@ def client_fn(context: Context) -> Client:
         # Production mode: use node_id (reliable UUID from Flower)
         client_id = context.node_id
 
-    if not is_simulation:
-        from src.common.contributor_registry import record_contributor_from_context
-
-        record_contributor_from_context(context, source="client_registration")
-
     logger.info(f"Client {client_id}: Running in {'simulation' if is_simulation else 'production'} mode, dataset_slug={dataset_slug}")
 
 
@@ -123,6 +118,20 @@ def client_fn(context: Context) -> Client:
     client_dir = get_client_dir(base_dir, dataset_slug)
     
     logger.info(f"Client {client_id}: constructed base_dir={base_dir}, client_dir={client_dir}")
+
+    if not is_simulation and save_path:
+        from src.common.contributor_registry import (
+            append_contributor_record,
+            build_contributor_record,
+            get_registry_path,
+        )
+
+        registration_record = build_contributor_record(
+            node_id=context.node_id,
+            dataset_uri=dataset_slug,
+            source="client_registration",
+        )
+        append_contributor_record(get_registry_path(save_path), registration_record)
 
     # Discover device
     nn_device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

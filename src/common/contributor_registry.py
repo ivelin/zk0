@@ -107,6 +107,27 @@ def record_contributor_from_context(
     return record
 
 
+def lookup_dataset_from_client_round(
+    save_path: Union[str, Path],
+    server_round: int,
+    node_id: Union[str, int],
+) -> Optional[str]:
+    """Resolve dataset_uri from per-client round JSON written during fit."""
+    clients_dir = Path(save_path) / "clients"
+    if not clients_dir.is_dir():
+        return None
+
+    node_id_str = str(node_id)
+    for round_file in clients_dir.glob(f"*/round_{server_round}.json"):
+        try:
+            data = json.loads(round_file.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if str(data.get("client_id")) == node_id_str and data.get("dataset_name"):
+            return str(data["dataset_name"])
+    return None
+
+
 def record_contributors_from_fit_results(
     save_path: Union[str, Path],
     server_round: int,
@@ -118,15 +139,20 @@ def record_contributors_from_fit_results(
 
     for client_proxy, fit_res in validated_results:
         metrics = getattr(fit_res, "metrics", {}) or {}
+        node_id = getattr(client_proxy, "cid", None) or metrics.get("client_id", "unknown")
         dataset_uri = metrics.get("dataset_name") or metrics.get("dataset_uri")
         if not dataset_uri:
+            dataset_uri = lookup_dataset_from_client_round(
+                save_path, server_round, node_id
+            )
+        if not dataset_uri:
             logger.warning(
-                "Contributor registry: skipping fit result without dataset_name (round {})",
+                "Contributor registry: skipping fit result without dataset_uri (round {}, node_id={})",
                 server_round,
+                node_id,
             )
             continue
 
-        node_id = getattr(client_proxy, "cid", None) or metrics.get("client_id", "unknown")
         record = build_contributor_record(
             node_id=node_id,
             dataset_uri=str(dataset_uri),
@@ -136,4 +162,34 @@ def record_contributors_from_fit_results(
         append_contributor_record(registry_path, record)
         records.append(record)
 
+    return records
+
+
+def sync_contributor_registry_from_client_rounds(
+    save_path: Union[str, Path],
+    server_round: int,
+) -> List[Dict[str, Any]]:
+    """Sync contributor registry from client round JSON artifacts."""
+    clients_dir = Path(save_path) / "clients"
+    records: List[Dict[str, Any]] = []
+    if not clients_dir.is_dir():
+        return records
+
+    for round_file in clients_dir.glob(f"*/round_{server_round}.json"):
+        try:
+            data = json.loads(round_file.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        dataset_uri = data.get("dataset_name")
+        node_id = data.get("client_id")
+        if not dataset_uri or node_id is None:
+            continue
+        record = build_contributor_record(
+            node_id=node_id,
+            dataset_uri=str(dataset_uri),
+            source="client_round_metrics",
+            server_round=server_round,
+        )
+        append_contributor_record(get_registry_path(save_path), record)
+        records.append(record)
     return records
