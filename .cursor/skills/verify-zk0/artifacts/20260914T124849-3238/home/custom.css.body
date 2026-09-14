@@ -1,0 +1,255 @@
+/* zk0 Custom Styles - Lighter yellow-orange theme inspired by LeRobot and Flower - No Gradients */
+
+ /* Color Palette - Lighter yellow-orange like LeRobot/Flower (warm, vibrant, less deep orange) */
+:root {
+  --primary-color: #FFB74D; /* Light yellow-orange (Flower/LeRobot inspired) */
+  --primary-light: #FFF176; /* Even lighter yellow for accents */
+  --primary-dark: #F57C00; /* Slightly darker warm orange for hover */
+  --secondary-color: #333333; /* Dark neutral for text and borders */
+  --accent-color: #FF8F00; /* Warm amber/yellow accent for highlights */
+  --text-color: #2C3E50; /* Dark blue-gray for body text */
+  --bg-color: #FAFAFA; /* Very light gray background */
+  --card-bg: #FFFFFF; /* White cards */
+  --border-color: #E0E0E0; /* Light borders */
+}
+
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+/* Hide default Minima theme navigation header to remove ugly top links */
+.site-header {
+  display: none;
+}
+
+.site-nav {
+  display: none;
+}
+
+h1, h2, h3 {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Hero Section - Solid light yellow-orange background with improved readability */
+.hero {
+  background-color: var(--primary-color); /* Solid color, no gradient */
+  color: #1A1A1A; /* Darker text color for better contrast */
+  text-align: center;
+  padding: 4rem 2rem;
+  margin-bottom: 3rem;
+  border-radius: 0 0 20px 20px;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #1A1A1A; /* Dark text for readability */
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.4); /* Stronger shadow for better contrast */
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #1A1A1A; /* Dark text for readability */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4); /* Stronger shadow */
+  font-weight: 500; /* Slightly bolder for better legibility */
+}
+
+/* Intro Paragraph */
+.intro {
+  background: var(--card-bg);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-left: 5px solid var(--primary-color);
+}
+
+/* Feature Grid */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-color: var(--primary-light);
+}
+
+.feature-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.feature-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-card li {
+  padding: 0.25rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  font-weight: 400; /* Ensure normal weight for readability */
+}
+
+.feature-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+/* Get Started Section - Solid light yellow-orange CTA */
+.get-started {
+  background-color: var(--primary-light); /* Solid color, no gradient */
+  color: #1A1A1A; /* Darker text for contrast */
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 10px;
+  margin: 3rem 0;
+}
+
+.get-started h2 {
+  color: #1A1A1A; /* Dark text */
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3); /* Light shadow for readability */
+  font-weight: bold;
+}
+
+.get-started p {
+  color: #1A1A1A;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  font-weight: 500;
+}
+
+.get-started a {
+  background: var(--primary-dark);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  margin: 0 0.5rem;
+  display: inline-block;
+  transition: background 0.2s;
+  font-weight: bold; /* Bolder buttons for clarity */
+}
+
+.get-started a:hover {
+  background: var(--secondary-color);
+  text-decoration: none;
+}
+
+/* Code Blocks */
+code {
+  background: #FFF8E1; /* Very light yellow background */
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  color: var(--primary-dark);
+  font-weight: 500; /* Slightly bolder for code readability */
+}
+
+pre {
+  background: #FFF8E1;
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto;
+  border-left: 4px solid var(--primary-color);
+}
+
+/* Footer Image */
+.splash-image {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.splash-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Social Posts - Community Buzz Grid */
+.social-posts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.social-posts blockquote {
+  margin: 0;
+  padding: 0.75rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.social-posts blockquote:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .social-posts {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .social-posts blockquote {
+    max-height: none;
+  }
+}

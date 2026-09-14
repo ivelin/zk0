@@ -202,3 +202,8 @@ repomix-output.xml
 
 # output logs
 logs/
+
+# verify-zk0 runtime (proof artifacts are kept)
+.cursor/skills/verify-zk0/runs/
+.cursor/skills/verify-zk0/.bundle/
+.cursor/skills/verify-zk0/.gems/

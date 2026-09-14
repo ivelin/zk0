@@ -1,0 +1,464 @@
+#!/usr/bin/env bash
+# control-zk0 — launch, doctor, fetch, and stop an isolated zk0.bot Jekyll instance.
+# Resolves the repo root from this script path. Never kills by process name.
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$SKILL_DIR/../../.." && pwd)"
+RUNS_DIR="$SKILL_DIR/runs"
+ARTIFACTS_DIR="$SKILL_DIR/artifacts"
+BUNDLE_HOME="$SKILL_DIR/.bundle"
+GEM_HOME_DIR="$SKILL_DIR/.gems"
+
+usage() {
+  cat <<'EOF'
+Usage: control-zk0 <command> [args]
+
+  launch              Start an isolated Jekyll instance. Prints RUN_ID.
+  doctor              Read-only health check for the current run.
+  env                 Print RUN_ID, URL, PORT, PID, DEST.
+  fetch <path>        GET a site path. Writes headers + body under --out or stdout.
+  assert <path>       GET a path and require --contains <text> (repeatable).
+  drive home          Run the mapped home / Community Buzz curl recipe.
+  stop | cleanup      Tear down only this run's PIDs. Does not delete artifacts.
+
+Env:
+  ZK0_VERIFY_RUN_ID   Existing run id (else newest run, or a new id on launch).
+  ZK0_VERIFY_PORT     Listen port (default 14000). Must not already be in use.
+  ZK0_VERIFY_HOST     Bind address (default 127.0.0.1).
+
+Examples:
+  .cursor/skills/verify-zk0/scripts/control-zk0 launch
+  export ZK0_VERIFY_RUN_ID=<printed RUN_ID>
+  .cursor/skills/verify-zk0/scripts/control-zk0 doctor
+  .cursor/skills/verify-zk0/scripts/control-zk0 drive home
+  .cursor/skills/verify-zk0/scripts/control-zk0 stop
+EOF
+}
+
+die() { echo "control-zk0: $*" >&2; exit 1; }
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || die "missing command: $1"
+}
+
+newest_run_id() {
+  local newest=""
+  local f
+  for f in "$RUNS_DIR"/*/state.env; do
+    [ -f "$f" ] || continue
+    newest="$(basename "$(dirname "$f")")"
+  done
+  echo "$newest"
+}
+
+resolve_run_id() {
+  if [ -n "${ZK0_VERIFY_RUN_ID:-}" ]; then
+    echo "$ZK0_VERIFY_RUN_ID"
+    return
+  fi
+  newest_run_id
+}
+
+run_dir() {
+  echo "$RUNS_DIR/$1"
+}
+
+load_state() {
+  local id="$1"
+  local state
+  state="$(run_dir "$id")/state.env"
+  [ -f "$state" ] || die "no state for RUN_ID=$id (run launch first)"
+  # shellcheck disable=SC1090
+  source "$state"
+}
+
+write_state() {
+  local id="$1"
+  local dir
+  dir="$(run_dir "$id")"
+  mkdir -p "$dir"
+  cat >"$dir/state.env" <<EOF
+RUN_ID=$id
+HOST=$HOST
+PORT=$PORT
+URL=$URL
+PID=${PID:-}
+LISTEN_PID=${LISTEN_PID:-}
+DEST=$DEST
+LOG=$LOG
+PIDFILE=$PIDFILE
+STARTED_AT=$STARTED_AT
+EOF
+}
+
+port_pids() {
+  local port="$1"
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -nP -iTCP:"$port" -sTCP:LISTEN -t 2>/dev/null | sort -u || true
+  elif command -v ss >/dev/null 2>&1; then
+    ss -ltnp "sport = :$port" 2>/dev/null | grep -oE 'pid=[0-9]+' | cut -d= -f2 | sort -u || true
+  else
+    die "need lsof or ss to check port ownership"
+  fi
+}
+
+pid_alive() {
+  local pid="$1"
+  [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null
+}
+
+ensure_ruby_bundle() {
+  need_cmd ruby
+  export GEM_HOME="$GEM_HOME_DIR"
+  export GEM_PATH="$GEM_HOME_DIR"
+  export PATH="$GEM_HOME_DIR/bin:$PATH"
+  export BUNDLE_IGNORE_CONFIG=1
+  export BUNDLE_PATH="$BUNDLE_HOME"
+  export BUNDLE_GEMFILE="$REPO_ROOT/Gemfile"
+  mkdir -p "$GEM_HOME_DIR" "$BUNDLE_HOME"
+  if ! command -v bundle >/dev/null 2>&1; then
+    gem install bundler:2.5.23 --no-document >/dev/null
+  fi
+  if ! (cd "$REPO_ROOT" && bundle check >/dev/null 2>&1); then
+    (cd "$REPO_ROOT" && bundle install)
+  fi
+  (cd "$REPO_ROOT" && bundle exec jekyll -v >/dev/null)
+}
+
+prep_website_source() {
+  # Same copy steps as ./build-site.sh --serve, plus optional installer copy
+  # used only in the script's build mode.
+  local website="$REPO_ROOT/website"
+  [ -d "$website" ] || die "website/ missing"
+  rm -rf "$website/docs"
+  mkdir -p "$website/docs"
+  cp -R "$REPO_ROOT/docs/." "$website/docs/"
+  cp "$REPO_ROOT/LICENSE" "$website/LICENSE"
+  cp "$REPO_ROOT/CONTRIBUTING.md" "$website/CONTRIBUTING.md"
+  if [ -f "$REPO_ROOT/get-zk0bot.sh" ]; then
+    cp "$REPO_ROOT/get-zk0bot.sh" "$website/get-zk0bot.sh"
+  fi
+}
+
+wait_ready() {
+  local url="$1"
+  local log="$2"
+  local i
+  for i in $(seq 1 90); do
+    if curl -fsS --max-time 2 "$url/" >/dev/null 2>&1; then
+      return 0
+    fi
+    if [ -f "$log" ] && grep -qE "Error:|jekyll.*failed|Permission denied" "$log"; then
+      die "Jekyll failed during startup. See $log"
+    fi
+    sleep 1
+  done
+  die "site did not become ready at $url within 90s. See $log"
+}
+
+cmd_launch() {
+  need_cmd curl
+  ensure_ruby_bundle
+  local id="${ZK0_VERIFY_RUN_ID:-}"
+  if [ -z "$id" ]; then
+    id="$(date +%Y%m%dT%H%M%S)-$$"
+  fi
+  if [ -f "$(run_dir "$id")/state.env" ]; then
+    die "RUN_ID=$id already exists; stop it or pick a new ZK0_VERIFY_RUN_ID"
+  fi
+
+  HOST="${ZK0_VERIFY_HOST:-127.0.0.1}"
+  PORT="${ZK0_VERIFY_PORT:-14000}"
+  local existing
+  existing="$(port_pids "$PORT")"
+  if [ -n "$existing" ]; then
+    die "port $PORT already in use by pid(s): $existing — refuse to attach. Set ZK0_VERIFY_PORT to a free port."
+  fi
+
+  DEST="/tmp/zk0-verify-$id/site"
+  LOG="$(run_dir "$id")/jekyll.log"
+  PIDFILE="$(run_dir "$id")/jekyll.pid"
+  URL="http://$HOST:$PORT"
+  STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  mkdir -p "$(run_dir "$id")" "$DEST" "$ARTIFACTS_DIR"
+
+  prep_website_source
+
+  # Isolated dest + port so this run does not share website/_site or :4000.
+  (
+    cd "$REPO_ROOT/website"
+    exec setsid bundle exec jekyll serve \
+      --source . \
+      --destination "$DEST" \
+      --host "$HOST" \
+      --port "$PORT" \
+      --disable-disk-cache \
+      --no-watch \
+      >"$LOG" 2>&1 < /dev/null
+  ) &
+  PID=$!
+  echo "$PID" >"$PIDFILE"
+  LISTEN_PID=""
+  write_state "$id"
+
+  wait_ready "$URL" "$LOG"
+
+  local listen
+  listen="$(port_pids "$PORT")"
+  LISTEN_PID="$(echo "$listen" | head -n1)"
+  [ -n "$LISTEN_PID" ] || die "ready but no listener on $PORT"
+  write_state "$id"
+
+  echo "RUN_ID=$id"
+  echo "URL=$URL"
+  echo "PID=$PID"
+  echo "LISTEN_PID=$LISTEN_PID"
+  echo "Ready: GET $URL/ contains Welcome to zk0"
+}
+
+cmd_doctor() {
+  need_cmd curl
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID (launch first or set ZK0_VERIFY_RUN_ID)"
+  load_state "$id"
+
+  echo "RUN_ID=$id"
+  echo "URL=$URL"
+  echo "DEST=$DEST"
+
+  pid_alive "$PID" || die "recorded PID $PID is not running"
+  echo "pid_alive=$PID"
+
+  local owners
+  owners="$(port_pids "$PORT")"
+  [ -n "$owners" ] || die "nothing listening on $PORT"
+  echo "$owners" | grep -qx "$PID" || echo "$owners" | grep -qx "${LISTEN_PID:-}" \
+    || die "port $PORT is owned by [$owners], not this run (PID=$PID LISTEN_PID=${LISTEN_PID:-})"
+  echo "port_owned_by_us=$PORT pids=[$owners]"
+
+  [ -d "$DEST" ] || die "destination $DEST missing (wrong build)"
+  echo "dest_ok=$DEST"
+
+  local body
+  body="$(mktemp)"
+  local code
+  code="$(curl -sS -o "$body" -w '%{http_code}' --max-time 10 "$URL/")"
+  [ "$code" = "200" ] || die "GET $URL/ returned $code"
+  grep -q "Welcome to zk0" "$body" || die "GET / missing 'Welcome to zk0' (wrong build or not zk0.bot site)"
+  grep -q "Community Buzz" "$body" || die "GET / missing Community Buzz"
+  rm -f "$body"
+  echo "home_ok=200 Welcome to zk0 + Community Buzz"
+
+  local inst
+  inst="$(curl -sS -o /dev/null -w '%{http_code}' --max-time 10 "$URL/docs/INSTALLATION.html")"
+  [ "$inst" = "200" ] || die "GET /docs/INSTALLATION.html returned $inst"
+  echo "docs_installation_ok=200"
+  echo "doctor=ok"
+}
+
+cmd_env() {
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID"
+  load_state "$id"
+  echo "ZK0_VERIFY_RUN_ID=$RUN_ID"
+  echo "URL=$URL"
+  echo "HOST=$HOST"
+  echo "PORT=$PORT"
+  echo "PID=$PID"
+  echo "LISTEN_PID=${LISTEN_PID:-}"
+  echo "DEST=$DEST"
+  echo "LOG=$LOG"
+}
+
+cmd_fetch() {
+  local path="${1:-}"
+  [ -n "$path" ] || die "fetch requires a path (e.g. / or /docs/INSTALLATION.html)"
+  shift || true
+  local out=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --out) out="$2"; shift 2 ;;
+      *) die "unknown fetch arg: $1" ;;
+    esac
+  done
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID"
+  load_state "$id"
+  case "$path" in
+    /*) ;;
+    *) path="/$path" ;;
+  esac
+  if [ -z "$out" ]; then
+    curl -sS -D - --max-time 20 "$URL$path"
+    return
+  fi
+  mkdir -p "$(dirname "$out")"
+  local code
+  code="$(curl -sS -D "$out.headers" -o "$out.body" -w '%{http_code}' --max-time 20 "$URL$path")"
+  echo "$code" >"$out.status"
+  echo "status=$code url=$URL$path out=$out"
+}
+
+cmd_assert() {
+  local path="${1:-}"
+  [ -n "$path" ] || die "assert requires a path"
+  shift
+  local needles=()
+  local status="200"
+  local ctype=""
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --contains) needles+=("$2"); shift 2 ;;
+      --status) status="$2"; shift 2 ;;
+      --content-type) ctype="$2"; shift 2 ;;
+      *) die "unknown assert arg: $1" ;;
+    esac
+  done
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID"
+  load_state "$id"
+  case "$path" in
+    /*) ;;
+    *) path="/$path" ;;
+  esac
+  local tmp
+  tmp="$(mktemp -d)"
+  local code
+  code="$(curl -sS -D "$tmp/headers" -o "$tmp/body" -w '%{http_code}' --max-time 20 "$URL$path")"
+  [ "$code" = "$status" ] || die "GET $path expected $status got $code"
+  if [ -n "$ctype" ]; then
+    grep -qi "^content-type:.*$ctype" "$tmp/headers" || die "GET $path missing Content-Type $ctype"
+  fi
+  local n
+  for n in "${needles[@]+"${needles[@]}"}"; do
+    grep -q -- "$n" "$tmp/body" || die "GET $path missing: $n"
+  done
+  rm -rf "$tmp"
+  echo "assert_ok $path status=$code"
+}
+
+cmd_drive_home() {
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID"
+  load_state "$id"
+  local out="${1:-$ARTIFACTS_DIR/$id/home}"
+  mkdir -p "$out"
+
+  cmd_assert / --status 200 \
+    --contains "Welcome to zk0" \
+    --contains "Decentralized AI for the next generation of helpful robots" \
+    --contains "Discover zk0" \
+    --contains "Community Buzz" \
+    --contains 'href="/docs/INSTALLATION.html"' \
+    --contains "For Developers" \
+    --contains 'href="/docs/NODE-OPERATORS.html"' \
+    --contains "For Node Operators" \
+    --contains 'href="/docs/zk0-white-paper-Dec-2025.pdf"' \
+    --contains "class=\"social-posts\"" \
+    --contains "twitter-tweet" \
+    --contains 'alt="zk0 Federated Learning Concept Diagram"' \
+    --contains "Federated Learning with Flower" \
+    --contains "Navigation"
+
+  cmd_fetch / --out "$out/home"
+  cmd_fetch /assets/css/custom.css --out "$out/custom.css"
+  cmd_fetch /assets/images/zk0-fl-concept.png --out "$out/concept.png"
+  cmd_fetch /docs/zk0-white-paper-Dec-2025.pdf --out "$out/white-paper"
+
+  local home_status css_status img_status pdf_status
+  home_status="$(cat "$out/home.status")"
+  css_status="$(cat "$out/custom.css.status")"
+  img_status="$(cat "$out/concept.png.status")"
+  pdf_status="$(cat "$out/white-paper.status")"
+  [ "$home_status" = "200" ] || die "home status $home_status"
+  [ "$css_status" = "200" ] || die "custom.css status $css_status"
+  [ "$img_status" = "200" ] || die "concept.png status $img_status"
+  [ "$pdf_status" = "200" ] || die "white-paper status $pdf_status"
+  grep -qi "^content-type:.*image" "$out/concept.png.headers" || die "concept.png not an image"
+  grep -qi "^content-type:.*pdf" "$out/white-paper.headers" || die "white paper not application/pdf"
+
+  # Side-effect / second view: static site has no writes. Re-GET / and
+  # confirm the same identity strings still render.
+  cmd_assert / --status 200 --contains "Welcome to zk0" --contains "Community Buzz"
+
+  cat >"$out/PROOF.md" <<EOF
+# home proof
+
+- feature: home
+- entry: GET $URL/
+- run: $id
+- captured: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+- action: GET / (visitor home)
+- resulting state: 200 HTML with Welcome to zk0, Discover zk0, Community Buzz, Get Started links
+- side effects: none (static Jekyll page). Second GET / still 200 with the same identity strings.
+- assets: custom.css=$css_status concept.png=$img_status white-paper.pdf=$pdf_status
+- production boundary: Twitter widget JS (platform.twitter.com) is not executed by curl; markup \`twitter-tweet\` + Community Buzz is the in-repo proof.
+EOF
+  echo "drive_home_ok out=$out"
+}
+
+kill_pid_tree() {
+  local pid="$1"
+  [ -n "$pid" ] || return 0
+  if ! pid_alive "$pid"; then
+    return 0
+  fi
+  local child
+  for child in $(pgrep -P "$pid" 2>/dev/null || true); do
+    kill_pid_tree "$child"
+  done
+  kill "$pid" 2>/dev/null || true
+  local i
+  for i in $(seq 1 20); do
+    pid_alive "$pid" || return 0
+    sleep 0.1
+  done
+  kill -9 "$pid" 2>/dev/null || true
+}
+
+cmd_stop() {
+  local id
+  id="$(resolve_run_id)"
+  [ -n "$id" ] || die "no RUN_ID to stop"
+  local state
+  state="$(run_dir "$id")/state.env"
+  [ -f "$state" ] || die "no state for RUN_ID=$id"
+  load_state "$id"
+
+  kill_pid_tree "${LISTEN_PID:-}"
+  kill_pid_tree "${PID:-}"
+
+  if [ -n "${DEST:-}" ] && [ -d "$DEST" ]; then
+    rm -rf "/tmp/zk0-verify-$id"
+  fi
+  rm -rf "$(run_dir "$id")"
+  echo "stopped RUN_ID=$id (artifacts left in $ARTIFACTS_DIR/$id if present)"
+}
+
+cmd="${1:-}"
+shift || true
+case "$cmd" in
+  launch) cmd_launch "$@" ;;
+  doctor) cmd_doctor "$@" ;;
+  env) cmd_env "$@" ;;
+  fetch) cmd_fetch "$@" ;;
+  assert) cmd_assert "$@" ;;
+  drive)
+    sub="${1:-}"
+    shift || true
+    case "$sub" in
+      home) cmd_drive_home "$@" ;;
+      *) die "unknown drive target: ${sub:-} (supported: home)" ;;
+    esac
+    ;;
+  stop|cleanup) cmd_stop "$@" ;;
+  -h|--help|help|"") usage ;;
+  *) usage; die "unknown command: $cmd" ;;
+esac
