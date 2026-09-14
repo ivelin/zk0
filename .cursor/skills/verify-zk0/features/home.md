@@ -36,4 +36,5 @@ Preconditions:
 - Root `index.md` is **not** the GitHub Pages home. `build-site.sh` / Actions build from `website/index.md`. Assert `Welcome to zk0`, not the root file's "Welcome to zk0: Collaborative AI for Humanoid Robots".
 - `./build-site.sh --serve` listens on `:4000` and writes `website/_site`. Doctor must see `/tmp/zk0-verify-$RUN_ID/site` and this run's port.
 - Curl does not execute `https://platform.twitter.com/widgets.js`. Do not fail home because embed iframes are empty; fail if the `twitter-tweet` markup or Community Buzz heading is missing.
+- Headless Chrome `--screenshot` of `/` can hang after writing the PNG while `widgets.js` talks to Twitter. Kill that browser PID (not `killall chrome`); the PNG is already valid. Prefer `control-zk0 drive home` as the action proof.
 - The QR image (`/assets/images/zk0-qr-code.png`) is in the Share block; `drive home` does not fetch it. Fetch it separately if you claim the Share block.

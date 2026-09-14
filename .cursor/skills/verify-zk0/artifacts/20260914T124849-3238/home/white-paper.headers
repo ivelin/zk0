@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Etag: 67769-41d65f-6aa7ed31
+Content-Type: application/pdf
+Content-Length: 4314719
+Last-Modified: Mon, 14 Sep 2026 12:48:49 GMT
+Cache-Control: private, max-age=0, proxy-revalidate, no-store, no-cache, must-revalidate
+Server: WEBrick/1.9.1 (Ruby/3.2.3/2024-01-18)
+Date: Mon, 14 Sep 2026 12:48:59 GMT
+Connection: Keep-Alive
+

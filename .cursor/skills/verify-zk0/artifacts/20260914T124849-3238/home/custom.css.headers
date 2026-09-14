@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Etag: 67762-161a-6aa79344
+Content-Type: text/css; charset=utf-8
+Content-Length: 5658
+Last-Modified: Mon, 14 Sep 2026 06:25:08 GMT
+Cache-Control: private, max-age=0, proxy-revalidate, no-store, no-cache, must-revalidate
+Server: WEBrick/1.9.1 (Ruby/3.2.3/2024-01-18)
+Date: Mon, 14 Sep 2026 12:48:59 GMT
+Connection: Keep-Alive
+

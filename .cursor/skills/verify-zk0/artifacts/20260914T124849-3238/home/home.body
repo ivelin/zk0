@@ -1,0 +1,258 @@
+<!-- custom layout -->
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>zk0 - Decentralized Robotics AI | Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="zk0 - Decentralized Robotics AI" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives." />
+<meta property="og:description" content="Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives." />
+<link rel="canonical" href="http://localhost:14000/" />
+<meta property="og:url" content="http://localhost:14000/" />
+<meta property="og:site_name" content="zk0 - Decentralized Robotics AI" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="zk0 - Decentralized Robotics AI" />
+<meta name="twitter:site" content="@ivelini" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.","headline":"zk0 - Decentralized Robotics AI","name":"zk0 - Decentralized Robotics AI","url":"http://localhost:14000/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="canonical" href="http://localhost:14000">
+  <meta property="og:title" content="zk0 - Decentralized Robotics AI">
+  <meta property="og:description" content="Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.">
+  <meta property="og:image" content="http://localhost:14000/docs/images/lerobot_flower_splash.png">
+  <meta property="og:url" content="http://localhost:14000/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ivelini">
+  <meta name="twitter:title" content="zk0 - Decentralized Robotics AI">
+  <meta name="twitter:description" content="Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.">
+  <meta name="twitter:image" content="http://localhost:14000/docs/images/lerobot_flower_splash.png">
+  <link rel="stylesheet" href="/assets/main.css">
+  <link rel="stylesheet" href="/assets/css/custom.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:14000/feed.xml" title="zk0 - Decentralized Robotics AI" /><script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "zk0",
+    "url": "https://zk0.bot",
+    "description": "Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.",
+    "sameAs": [
+      "https://github.com/ivelin/zk0",
+      "https://twitter.com/ivelini"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "zk0",
+    "applicationCategory": "DeveloperApplication",
+    "description": "Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.",
+    "offers": {"@type": "Offer", "price": "0", "url": "https://github.com/ivelin/zk0"},
+    "author": {"@type": "Person", "name": "ivelin.eth"},
+    "url": "https://zk0.bot",
+    "sameAs": ["https://github.com/ivelin/zk0", "https://huggingface.co/ivelin/zk0-smolvla-fl"]
+  }
+  </script>
+  <!-- Mermaid.js for diagram rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'default',
+        securityLevel: 'loose'
+      });
+    });
+  </script>
+  <!-- Fallback CSS for raw Mermaid blocks if JS fails -->
+  <style>
+    .mermaid {
+      display: block;
+      margin: 1em 0;
+      padding: 1em;
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head><body>
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="hero">
+  <div class="hero-content">
+    <h1>Welcome to zk0</h1>
+    <p>Decentralized AI for the next generation of helpful robots</p>
+  </div>
+</div>
+
+<div class="intro">
+  <p>Imagine teaching robots to help around the house—like picking up toys or sorting laundry—but without sharing family videos from different homes. zk0 makes this possible by letting robots learn skills together safely and privately, just like neighbors sharing tips without showing their own photos. It's open-source technology that brings smarter, more helpful robots to everyone while keeping your data secure.</p>
+</div>
+
+<div class="concept-diagram" style="text-align: center;">
+  <img src="/assets/images/zk0-fl-concept.png" alt="zk0 Federated Learning Concept Diagram" style="max-width: 80%; height: auto;" />
+</div>
+
+<h1>Discover zk0</h1>
+
+<p>zk0 is an open-source federated learning platform for training advanced vision-language-action models on real-world robotics datasets. Learn more about the project fundamentals from the
+<a href="/docs/zk0-white-paper-Dec-2025.pdf">white paper</a>.
+
+Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evolve with the latest open-source ML models and advanced humanoid embodiments as they become available, enabling broader decentralized robotics AI development.</p>
+
+<div class="features">
+  <div class="feature-card">
+    <h3>🌸 Federated Learning with Flower</h3>
+    <ul>
+      <li>Secure, scalable training without sharing raw data</li>
+      <li>Privacy-preserving model updates across distributed clients</li>
+      <li>Handles heterogeneous data and devices</li>
+    </ul>
+  </div>
+  
+  <div class="feature-card">
+    <h3>🤖 SmolVLA Integration</h3>
+    <ul>
+      <li>Efficient 450M parameter models for robotics AI</li>
+      <li>Vision-language-action capabilities for manipulation tasks</li>
+      <li>Optimized for consumer GPUs and real-world deployment</li>
+    </ul>
+  </div>
+  
+  <div class="feature-card">
+    <h3>📦 SO-100 Datasets</h3>
+    <ul>
+      <li>Real-world manipulation tasks (pick-place, stacking, tool use)</li>
+      <li>Diverse robotics scenarios for robust skill learning</li>
+      <li>Community-driven dataset expansion</li>
+    </ul>
+  </div>
+  
+  <div class="feature-card">
+    <h3>🚀 Production-Ready</h3>
+    <ul>
+      <li>Docker-based deployment for easy scaling</li>
+      <li>zk0bot CLI for node operators and monitoring</li>
+      <li>Advanced scheduling for optimal convergence</li>
+    </ul>
+  </div>
+</div>
+
+<div class="get-started">
+  <h2>Get Started Today</h2>
+  <p>Join the decentralized robotics revolution</p>
+  <a href="/docs/INSTALLATION.html">For Developers</a>
+  <a href="/docs/NODE-OPERATORS.html">For Node Operators</a>
+  <a href="https://github.com/ivelin/zk0">View on GitHub</a>
+</div>
+
+<h2>Quick Start</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clone and install</span>
+git clone https://github.com/ivelin/zk0.git
+<span class="nb">cd </span>zk0
+conda create <span class="nt">-n</span> zk0 <span class="nv">python</span><span class="o">=</span>3.10
+conda activate zk0
+pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
+
+<span class="c"># Quick check with tiny simulation</span>
+./train-fl-simulation.sh <span class="nt">--tiny</span>
+
+<span class="c"># Or test a single dataset first</span>
+./train-lerobot-standalone.sh <span class="nt">-d</span> lerobot/pusht <span class="nt">-s</span> 10
+</code></pre></div></div>
+
+<div class="social-posts">
+  <h2>Community Buzz</h2>
+
+  <!-- Austin Robotics presentation at HICAM (photo post) -->
+  <blockquote class="twitter-tweet" data-media-max-width="560"><a href="https://twitter.com/ivelini/status/2016885550741852291"></a></blockquote>
+  <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">It's time for a complete open-source stack for autonomy/robotics plus distributed learning. The first step is here: <a href="https://twitter.com/LeRobotHF?ref_src=twsrc%5Etfw">@LeRobotHF</a> + <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> LFG 🚀<a href="https://twitter.com/comma_ai?ref_src=twsrc%5Etfw">@comma_ai</a> <a href="https://twitter.com/wayve_ai?ref_src=twsrc%5Etfw">@wayve_ai</a> <a href="https://twitter.com/Figure_robot?ref_src=twsrc%5Etfw">@Figure_robot</a> <a href="https://twitter.com/Tesla?ref_src=twsrc%5Etfw">@Tesla</a> <a href="https://t.co/8O8cSD3SbO">https://t.co/8O8cSD3SbO</a> <a href="https://t.co/oVUOLTvwzm">https://t.co/oVUOLTvwzm</a></p>&mdash; nic lane (@niclane7) <a href="https://twitter.com/niclane7/status/1879597539676266726?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Open-source robots just got a boost. Frameworks like Flower FL enable faster learning, efficient scaling, and continuous knowledge sharing using real-world data. <a href="https://t.co/j8VSGiWF0W">https://t.co/j8VSGiWF0W</a></p>&mdash; 𝚐𝔪𝟾𝚡𝚡𝟾 (@gm8xx8) <a href="https://twitter.com/gm8xx8/status/1879633368427761785?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">We are not so far from a future where robots will be constantly learning by interacting with humans and their environments.<br /><br />Frameworks like <a href="https://twitter.com/flwrlabs?ref_src=twsrc%5Etfw">@flwrlabs</a> will enable these robots to learn much faster by continuously sharing their learnings.<br /><br />We really live in a sci-fi movie 😅 <a href="https://t.co/kAz3xZ2qvB">https://t.co/kAz3xZ2qvB</a></p>&mdash; Remi Cadene (@RemiCadene) <a href="https://twitter.com/RemiCadene/status/1879592068865282227?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+  <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Federated Learning Meets Robotics: 🤖 LeRobot + 🌼 Flower<br /><br />This demo demonstrates how robots in remote environments can collaboratively train an AI model using their local data, which is then aggregated into a shared model. <br /><br />In this quickstart, you will train a Diffusion policy… <a href="https://t.co/i32MkbxoPW">pic.twitter.com/i32MkbxoPW</a></p>&mdash; Flower (@flwrlabs) <a href="https://twitter.com/flwrlabs/status/1879571258532036739?ref_src=twsrc%5Etfw">January 15, 2025</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+<div class="share">
+  <h2>Share</h2>
+  <p>Scan the QR code or share the link: <a href="https://zk0.bot">https://zk0.bot</a></p>
+  <!-- Placeholder for actual QR code; generate and replace src -->
+  <img src="/assets/images/zk0-qr-code.png" alt="zk0 QR Code" style="max-width: 200px; height: auto;" />
+</div>
+
+      </div>
+    </main><footer class="site-footer">
+  <div class="navigation subtle">
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/docs/INSTALLATION.html">Installation</a></li>
+      <li><a href="/docs/RUNNING.html">Running</a></li>
+      <li><a href="/docs/ARCHITECTURE.html">Architecture</a></li>
+      <li><a href="/docs/NODE-OPERATORS.html">Node Operators</a></li>
+      <li><a href="/CONTRIBUTING.html">Contribute</a></li>
+      <li><a href="https://github.com/ivelin/zk0">GitHub</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 zk0. Powered by Flower, LeRobot, and SmolVLA. <a href="https://discord.gg/dhMnEne7RP">Discord</a> | <a href="/LICENSE">License</a></p>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  padding: 2rem 0;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.navigation {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navigation ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.navigation li {
+  margin: 0;
+}
+
+.footer-bottom {
+  color: #666;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .navigation ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+</style></body>
+</html>
