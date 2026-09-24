@@ -1,6 +1,6 @@
 ---
 name: verify-zk0
-description: Drive the zk0.bot Jekyll visitor site (website/ plus copied docs pages) the way a user does. Use when proving a home, Community Buzz, docs, or installer-link change on zk0.bot — not Flower/SuperLink, Bootstrap invites, or pirin.ai routes.
+description: Drive the zk0.bot Jekyll visitor site (website/ plus copied docs pages) the way a user does. Use when proving a home, Community Buzz, docs, or installer-link change on zk0.bot — not Flower/SuperLink, Bootstrap invites, or pirin.ai routes. Local control-zk0 is the test leg only; Ready-for-human-eyes requires synthetic critical-path eval through every zk0.bot env that exists (test→dev→staging→prod). CI green alone is not Ready.
 ---
 
 # Verify zk0.bot
@@ -12,6 +12,21 @@ It does **not** own Bootstrap invite/MCP Accept flows, pirin.ai marketing routes
 Read `features/README.md` before driving. A proof that uses one convenient entry point is incomplete when the map lists others.
 
 There is no Playwright or Cypress harness in this repo. The in-repo check the site authors already describe is curl against a local Jekyll listen (`localhost:4000` in `build-site.sh` / memory-bank). This skill ships `control-zk0` as that curl recipe, plus optional browser/CDP screenshots for visual proof.
+
+## Ready-for-human-eyes (hard gate)
+
+No Ready-for-human-eyes, and no prod declared ready for real humans, until synthetic users pass a critical-path eval 360° on test → dev → staging → prod where those environments exist for zk0.bot. CI green alone is not Ready.
+
+`control-zk0` local/test runs are the **test** leg of that chain. A green `launch`, `doctor`, or `drive` does not by itself authorize Ready-for-human-eyes or prod-ready claims.
+
+Before any PR body or `PROOF.md` claims Ready, human-eyes, or prod-ready for real humans, require evidence — or an explicit blocked status that names the missing environment — for each existing rung:
+
+1. **Local verify (test).** This skill: `control-zk0` against the isolated Jekyll listen, with captures under `.cursor/skills/verify-zk0/artifacts/$RUN_ID/`.
+2. **Preview / dev**, if a preview or dev host is used for the change.
+3. **Staging**, if a staging environment is present for zk0.bot.
+4. **Prod pin.** The same critical path on the production URL that is actually serving the pinned commit (`https://zk0.bot`).
+
+A rung that does not exist is blocked, not passed. Name that missing env in the PR body and in `PROOF.md`. Do not treat a green local `doctor` / `drive`, a green GitHub Actions run, or a Pages build as a later rung.
 
 ## Launch
 
@@ -97,6 +112,7 @@ Proof standards:
 - Mocks only at production boundaries. Twitter embed iframes load `platform.twitter.com`; curl proof is the in-repo `blockquote.twitter-tweet` markup, not a live tweet card. Do not mock Jekyll or replace docs HTML with fixtures.
 - Record the feature ID and entry point in `PROOF.md` next to the captures.
 - `drive home` writes `PROOF.md` plus home HTML, `custom.css`, concept PNG, and the white paper PDF.
+- These captures prove the local test leg only. Do not write Ready, human-eyes, or prod-ready for real humans in `PROOF.md` or a PR body unless the hard gate above has evidence or an explicit blocked status for every existing rung.
 
 ## Cleanup
 

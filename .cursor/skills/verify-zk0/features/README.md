@@ -2,6 +2,8 @@
 
 This directory is the maintained source for verifying visitor-facing behavior of the zk0.bot Jekyll site (`website/` plus docs copied at serve time). Read this index before driving, then use the matching feature file as the recipe.
 
+Local `control-zk0` runs are the test leg only. Ready-for-human-eyes and prod-ready claims for real humans follow the hard gate in [`../SKILL.md`](../SKILL.md#ready-for-human-eyes-hard-gate). CI green alone is not Ready.
+
 ## Ownership
 
 verify-zk0 owns: zk0.bot site + claimed visitor paths on that host (Jekyll under `website/`, docs pages, installer/docs links that live in this repo).
