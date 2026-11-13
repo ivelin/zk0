@@ -27,6 +27,8 @@ permalink: /
 
 Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evolve with the latest open-source ML models and advanced humanoid embodiments as they become available, enabling broader decentralized robotics AI development.</p>
 
+<p>New: <a href="/docs/DATA-BEATS-PARAMETERS.html">Data Beats Parameters: why we train a 450M model — and who we're recruiting</a> — the published evidence behind our data-first bet, and how to join as a data or compute contributor.</p>
+
 <div class="features">
   <div class="feature-card">
     <h3>🌸 Federated Learning with Flower</h3>
