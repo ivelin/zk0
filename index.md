@@ -1,6 +1,6 @@
 ---
 title: zk0 - Decentralized Robotics AI
-description: Open source federated learning for SmolVLA on SO-100 datasets with ZK proofs and blockchain incentives.
+description: Open-source federated learning for SmolVLA on SO-101 arms — pooling compute and data into one shared model.
 permalink: /
 og_image: /docs/images/lerobot_flower_splash.png
 ---
