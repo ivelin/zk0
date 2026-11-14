@@ -33,7 +33,7 @@ Register for our Robotics AI session in Buenos Aires, Nov 18, 2025: [Federated L
 [Watch Past Talks](https://www.youtube.com/embed/fwAtTOZttWo?si=3d50oQtSvMvGxNg6) | [Join Discord](https://discord.gg/dhMnEne7RP)
 
 ### Why Contribute?
-Decentralize humanoid AI: Train on your data, earn incentives via ZK proofs & blockchain. From $100T market potential to open alternatives—be part of it.
+Decentralize humanoid AI: Train on your data, earn audited, value-weighted contribution credit — no token, no chain. From $100T market potential to open alternatives—be part of it.
 
 [Read the Vision](README.html#why) | [Roadmap Teaser](README.html#roadmap)
 
@@ -77,7 +77,7 @@ Decentralize humanoid AI: Train on your data, earn incentives via ZK proofs & bl
     "name": "What is zk0?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "zk0 enables collaborative training of SmolVLA models via federated learning on SO-100 datasets, with ZK proofs for privacy and blockchain for incentives."
+      "text": "zk0 enables collaborative training of SmolVLA models via federated learning on SO-100 datasets, keeping data local and crediting contributions through audited, value-weighted accounting — no token, no chain."
     }
   }]
 }
