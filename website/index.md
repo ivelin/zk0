@@ -29,7 +29,7 @@ Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evol
 
 <p>New: <a href="/docs/DATA-BEATS-PARAMETERS.html">Data Beats Parameters: why we train a 450M model — and who we're recruiting</a> — the published evidence behind our data-first bet, and how to join as a data or compute contributor.</p>
 
-<p>Roadmap: <a href="/docs/ROADMAP.html">zk0 Roadmap: Pool Compute and Data for Physical AI</a> — the phased plan (Prove It, Cluster It, Bond It, Institutionalize), the M0 calibration protocol, and the decisive M1 experiment, with honest status on what is and is not yet measured.</p>
+<p>Roadmap: <a href="/docs/ROADMAP.html">zk0 Roadmap: Pool Compute and Data for Physical AI</a> — the phased public roadmap (Prove It, Grow It, Sustain It, Open It Up): tangible wins first, and acceleration as traction earns it, with honest status on what is and is not yet measured. The detailed research behind it stays in private systems.</p>
 
 <div class="features">
   <div class="feature-card">
