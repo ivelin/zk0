@@ -85,7 +85,7 @@ The project is ready for local simulation testing with multiple clients and data
 
 #### In Progress
 - Preparing client and server modules for production deployment
-- ZK proofs, onchain coordination.
+- Selective ZK techniques (aggregator and norm proofs), transparency-log provenance.
 
 **Config**: 12 clients available (4 active); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation.
 
