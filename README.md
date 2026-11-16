@@ -1,8 +1,44 @@
+<p align="center">
+  <img src=".github/assets/banner.png" alt="zk0 — Federated learning for robot arms: one shared model, trained on data that never leaves the operator’s disk" width="100%">
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0"></a>
+  <a href="https://huggingface.co/collections/zk0bot/zk0-simulation-assets"><img src="https://img.shields.io/badge/Hugging%20Face-simulation%20assets-yellow" alt="Hugging Face: zk0 Simulation Assets collection"></a>
+  <a href="https://discord.gg/dhMnEne7RP"><img src="https://img.shields.io/badge/Discord-join%20the%20community-5865F2" alt="Discord: join the community"></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/python-3.10%2B-green" alt="Python 3.10+"></a>
+</p>
+
 # zk0: Federated Learning for Robotics AI
 
 Open-source federated learning platform for SmolVLA models on SO-100 datasets using Flower framework.
 
-**Start here:** try the free, open-licensed simulation assets in the [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) · join the [Discord](https://discord.gg/dhMnEne7RP) · own a robot arm? [Become a node operator](#node-operators).
+## Start here
+
+| What | Where |
+| --- | --- |
+| 📦 **Simulation assets** | [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) — free, open-licensed, verified |
+| 🤖 **Model checkpoint** | [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) |
+| 🗺️ **Roadmap** | [zk0.bot/docs/ROADMAP.html](https://zk0.bot/docs/ROADMAP.html) |
+| 💬 **Community** | [Discord](https://discord.gg/dhMnEne7RP) · [GitHub Discussions](https://github.com/ivelin/zk0/discussions) |
+| 🦾 **Node operators** | [Become a node operator](#node-operators) |
+| 🛠️ **For AI assistants** | [AGENTS.md](AGENTS.md) — the operating contract for assistants working on this repo |
+
+## See it
+
+<p align="center">
+  <img src=".github/assets/arm-motion.gif" alt="The SO-101 model sweeping its joints through their range of motion — wide and gripper close-up views" width="640">
+</p>
+
+*The motion above is the SO-101 model’s joint range-of-motion sweep from the asset package — wide and gripper close-up views of the same recorded trajectory, rendered from the [zk0bot/so101-realistic](https://huggingface.co/zk0bot/so101-realistic) model files.*
+
+<p align="center">
+  <img src=".github/assets/arm-hero.png" alt="The SO-101 arm model in reach pose" width="480">
+</p>
+
+*The SO-101 arm model in reach pose — hero still from the same asset package.*
+
+**Contents:** [Latest Model Release](#latest-model-release) · [Direction](#direction) · [Latest findings (Nov 2026)](#latest-findings-we-caught-our-own-simulator-lying-nov-2026) · [Simulation assets](#simulation-assets-on-hugging-face) · [Quick Start](#quick-start) · [Production Deployment](#production-deployment) · [Project Status](#project-status) · [Contributing](#contributing) · [Get involved](#get-involved)
 
 ## Latest Model Release
 
