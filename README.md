@@ -2,6 +2,8 @@
 
 Open-source federated learning platform for SmolVLA models on SO-100 datasets using Flower framework.
 
+**Start here:** try the free, open-licensed simulation assets in the [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) · join the [Discord](https://discord.gg/dhMnEne7RP) · own a robot arm? [Become a node operator](#node-operators).
+
 ## Latest Model Release
 
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
@@ -9,11 +11,47 @@ Open-source federated learning platform for SmolVLA models on SO-100 datasets us
 - **Final Policy Loss**: 0.495
 - **Clients**: 4 clients on diverse SO-100 tasks
 - **Framework**: Flower + SmolVLA + SO-100 datasets
+- **Maintenance (2026-11-16)**: the checkpoint was repaired so it loads cleanly with current LeRobot. The published weights are unchanged — verified tensor-for-tensor against the original.
 
 ```python
 from transformers import AutoModel
 model = AutoModel.from_pretrained("ivelin/zk0-smolvla-fl")
 ```
+
+## Direction
+
+zk0 trains **one shared model** across many independent robot-arm operators:
+
+- Distributed operators train a shared SmolVLA-class model on their **private** LeRobot datasets. Only model updates move — training data never leaves the operator's machine.
+- **Sim-first, with measured physics.** Simulation is our proving ground, but only when the physics is honest (see the audit below).
+- **Provenance is never blurred.** Every result is marked for what it actually is: *sim-trained*, *sim-validated*, or *real-validated*.
+- The current goal is concrete: the **first external node** running zk0 on data that never leaves its operator's disk.
+- All node software is open source (Apache-2.0).
+
+Public roadmap: [zk0.bot/docs/ROADMAP.html](https://zk0.bot/docs/ROADMAP.html)
+
+## Latest findings: we caught our own simulator lying (Nov 2026)
+
+In November 2026 we audited the standard SO-101 simulation stack end-to-end — engines, arm model, object assets, and our own scoring code. The scoring code was the weakest link:
+
+- **Final position is not grasp quality.** Our task scorer only checked where objects ended up. We built a grasp-quality gate that also measures the carry itself — object tilt, in-gripper slip, grip force relative to object weight, and actuator saturation. Re-scoring our recorded results under the gate **flipped 5 previously "passing" verdicts to FAIL**.
+- **One "pass" was a physics exploit.** A mug grasp that scored as a success was being held by a ~47× body-weight stall clamp, squeezed through gripper contacts that a demo-tuned arm model ships with — finger friction that overrides the grasped object's own material. The real arm cannot do that; the score was fiction.
+- **Engine scorecard.** On pre-registered, weighted criteria — scored by an independent verifier from the raw logs, not by the team that ran the tests — **MuJoCo ranked first of six engine configurations (82.6/100)**. Our working stack is MuJoCo + the Newton OpenUSD bridge + an open-licensed object shelf, probe-measured asset by asset before it enters a scene. Standing qualification: **a sim score is not evidence of real-world transfer**, and we never quote it as any.
+- **An honest servo changes the answers.** We added a fitted STS3215 servo model (BAM) as a switchable profile: under load it sags 24.8–65.1 mm where the stock model sags under 1 mm, and grasps that "pass" under the stock servo fail under it. That is the point — evaluation should use the servo the hardware actually has.
+- **Friction belongs to the object's coating, and clearance is a budget.** The same grasp strategy holds or sheds depending on the mug's surface class (glazed vs slippery vs rubbery), and one placement task flipped from fail to complete with 20 mm more clearance — while still failing the carry-quality gate. Both effects are now first-class fields in our asset database, not footnotes.
+
+Full write-up: linked from [zk0.bot](https://zk0.bot). The assets in the next section are the ones these findings were measured on.
+
+## Simulation assets on Hugging Face
+
+Free, open-licensed, and verified the hard way — every asset below ships with its verification sheet, and this project's scenes load only from the collection:
+
+**[zk0 Simulation Assets](https://huggingface.co/collections/zk0bot/zk0-simulation-assets)** (collection)
+
+- **[zk0bot/so101-realistic](https://huggingface.co/zk0bot/so101-realistic)** — SO-101 arm realism variant, v0.2.0: de-tuned gripper contacts so the grasped object's material governs friction, a measured elbow joint limit, and the BAM fitted-servo profile as a switchable option. Apache-2.0.
+- **[zk0bot/ycb-025-mug](https://huggingface.co/datasets/zk0bot/ycb-025-mug)** — the YCB mug, converted for simulation around its *measured* mass (0.118 kg — most object libraries guess), and probe-passed against our asset battery. CC BY 4.0.
+- **[zk0bot/triposg-mug](https://huggingface.co/datasets/zk0bot/triposg-mug)** — a generated mug, and the collection's one **sealed** asset: its files are hash-stamped against the exact test record that validated them, so anyone can check the proof instead of re-running it. CC BY 4.0.
+- **[ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)** — the federated SmolVLA checkpoint (see Latest Model Release).
 
 ## Quick Start
 
@@ -85,7 +123,9 @@ The project is ready for local simulation testing with multiple clients and data
 
 #### In Progress
 - Preparing client and server modules for production deployment
-- Selective ZK techniques (aggregator and norm proofs), transparency-log provenance.
+- Recruiting the first external node operators — see Contributing below
+- Simulation validation program: measured-physics assets and honest evaluation gates — see Latest findings above
+- Longer-term research: selective ZK techniques (aggregator and norm proofs); transparency-log provenance
 
 **Config**: 12 clients available (4 active); 500 rounds; policy loss metric; FedProx (μ=0.01); server-side evaluation.
 
@@ -120,3 +160,10 @@ There are several ways you can contribute to this project:
 5. **Feedback**: Share your experience and suggestions
 
 For more details on each, see [CONTRIBUTING](CONTRIBUTING).
+
+## Get involved
+
+- **Try the assets** — everything in the [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) is free and open-licensed. Download a mug, stress our physics, tell us what you find.
+- **Star / watch this repo** — follow along as verified results and releases land.
+- **Join the community** — [Discord](https://discord.gg/dhMnEne7RP) for operators and builders; [GitHub Discussions](https://github.com/ivelin/zk0/discussions) for longer-form questions.
+- **Own an SO-100/SO-101 arm?** zk0 is recruiting its **first external node operators** — the milestone this whole project is pointed at. Start with the [node-operator application](https://github.com/ivelin/zk0/issues/new/choose) or say hello in Discord.
