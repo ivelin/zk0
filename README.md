@@ -2,6 +2,8 @@
   <img src=".github/assets/banner.png" alt="zk0 — Federated learning for robot arms: one shared model, trained on data that never leaves the operator’s disk" width="100%">
 </p>
 
+<p align="center"><em>The bet: many operators, one shared model — only model updates move; data never leaves the operator’s disk.</em></p>
+
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0-blue" alt="License: Apache-2.0"></a>
   <a href="https://huggingface.co/collections/zk0bot/zk0-simulation-assets"><img src="https://img.shields.io/badge/Hugging%20Face-simulation%20assets-yellow" alt="Hugging Face: zk0 Simulation Assets collection"></a>
@@ -63,6 +65,12 @@ zk0 trains **one shared model** across many independent robot-arm operators:
 - **Provenance is never blurred.** Every result is marked for what it actually is: *sim-trained*, *sim-validated*, or *real-validated*.
 - The current goal is concrete: the **first external node** running zk0 on data that never leaves its operator's disk.
 - All node software is open source (Apache-2.0).
+
+<p align="center">
+  <img src=".github/assets/fl-diagram.png" alt="Schematic of the zk0 bet: independent operators train at home on private data and send only model updates to one shared model, which comes back to every operator" width="880">
+</p>
+
+*The bet, as a diagram: many operators, one shared model — only model updates move; training data never leaves the operator’s disk.*
 
 Public roadmap: [zk0.bot/docs/ROADMAP.html](https://zk0.bot/docs/ROADMAP.html)
 
