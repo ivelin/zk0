@@ -18,5 +18,5 @@
 
 - [ ] Every public-facing claim in this PR traces to a certified record (link it)
 - [ ] Sim results are not presented as real-world evidence; provenance marks (sim-trained / sim-validated / real-validated) are exact
-- [ ] Content split respected: no docs/reports/analysis that belong in Drive, no objects/models that belong on Hugging Face
+- [ ] Content split respected: no docs/reports/analysis that belong in the maintainer's private docs, no objects/models that belong on Hugging Face
 - [ ] No secrets, tokens, or credentials anywhere in the diff
