@@ -161,6 +161,10 @@ There are several ways you can contribute to this project:
 
 For more details on each, see [CONTRIBUTING](CONTRIBUTING).
 
+### Working with AI assistants
+
+Day-to-day work on this repo — setup, upkeep, deployment, issue triage, and PR preparation — is done by AI assistants working under the maintainer's supervision, the same way zk0 node operators will work with their own bots. Assistants can prepare a change end to end, but merges, releases, and public claims stay human-approved, and whoever builds a change never certifies it: every PR carries its verification evidence. The operating contract for assistants is [AGENTS.md](AGENTS.md) — humans directing an assistant should point it there first.
+
 ## Get involved
 
 - **Try the assets** — everything in the [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) is free and open-licensed. Download a mug, stress our physics, tell us what you find.
