@@ -77,10 +77,32 @@ files under `website/docs/` — edit the sources in `docs/` and `website/`.
   as `docs(readme): ...`, `fix: ...`, `feat: ...`).
 - Open a **pull request instead of pushing to shared branches**. Never
   force-push, and never rewrite another contributor's branch.
-- Open a PR only when its checks pass locally. Keep the number of open
-  PRs small — finish or close the pending set before opening more.
+- Open a PR only when its checks pass locally. **Keep no more than
+  2–3 of our PRs open at a time.** When 2–3 are open, merge or close
+  the pending set before opening any new PR — a pile of open PRs
+  multiplies merge conflicts.
 - Use the PR template (`.github/pull_request_template.md`); its evidence
   section is mandatory, not decoration.
+
+## Branch model and daily sync
+
+- **`main` is the canonical branch.** All PRs target `main`; the site
+  deploys from `main` and releases are tagged from it (see Deployment).
+- **`dev` and `staging` are long-lived legacy branches.** Do not branch
+  new work off them, and do not promote anything through them, without
+  the maintainer's explicit say. Their divergence from `main` is
+  tracked, not assumed.
+- **A daily sync check runs automatically.** It is report-only — it
+  never merges, pushes, or deletes. It fetches origin and reports every
+  branch's ahead/behind against `main` and its last-commit age.
+  Branches with no commit in over 3 days, or falling behind `main`, are
+  flagged for the maintainer to prune, merge, or keep.
+- **Sync your own branch daily while you work it.** Rebase your own
+  unpushed work onto current `main`; merge `main` into shared branches.
+  Always re-check base freshness immediately before opening a PR (see
+  How work flows).
+- **Merged branches are deleted** once their PR lands. Never force-push
+  or rewrite a branch to tidy it (see How work flows).
 
 ## Verification rule
 
