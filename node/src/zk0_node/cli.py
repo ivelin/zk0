@@ -1,8 +1,12 @@
 """The `zk0` CLI — a thin skin over zk0-core (spec §6.2).
 
-Slice 1 commands: doctor, status, mode, enroll, sim run. Human-facing
-output leads with the verdict in plain words; records and hashes are
-one flag away (--json), not the default view.
+Slice 1 commands: doctor, status, mode, enroll, sim run. Slice 2:
+key, verify, gate, trainpack, eval, fl (local network). Slice 3:
+arm (bridge scan + the MOCK demonstration), sim run --servo (the
+BAM fitted-servo profile), fl start-staging / join-staging (the
+staging connector path). Human-facing output leads with the
+verdict in plain words; records and hashes are one flag away
+(--json), not the default view.
 """
 import argparse
 import json
@@ -31,6 +35,35 @@ def _print_checks(bundle):
     print(f"diagnostic bundle: {bundle['bundle_path']}")
 
 
+def _gate_or_refuse(cfg, founder_override) -> bool:
+    """The M0 gate pre-check shared by fl join / join-staging:
+    current attestation, else run the gate; a refusal is final
+    unless a founder override is recorded. Prints its own verdicts;
+    returns True when the caller may proceed."""
+    from . import joingate
+    if joingate.current_attestation(cfg) is not None:
+        return True
+    rec = joingate.run_gate(cfg)
+    if rec["pass"]:
+        return True
+    if founder_override:
+        try:
+            ov = joingate.record_founder_override(
+                cfg, rec, founder_override)
+        except joingate.GateRefused as e:
+            print(f"REFUSED — {e}")
+            return False
+        print(f"FOUNDER OVERRIDE recorded: {ov['path']} "
+              f"(bypassed: {', '.join(ov['bypassed_checks'])})")
+        return True
+    print("JOIN REFUSED by the M0 gate:")
+    for c in rec["checks"]:
+        if not c["pass"]:
+            print(f"  - {c['check']}: {c['reason']}")
+    print(f"refusal record: {rec['path']}")
+    return False
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="zk0", description="zk0 Node operator CLI")
     ap.add_argument("--version", action="version",
@@ -57,7 +90,20 @@ def main(argv=None) -> int:
                        choices=["realistic", "stock"],
                        help="realistic = so101-realistic (package default); "
                             "stock = the certified T1 control configuration")
+    p_run.add_argument("--servo", default=None,
+                       choices=["variant", "bam"],
+                       help="servo profile: variant (default, the MJCF's "
+                            "position actuators) or bam (the certified BAM "
+                            "fitted-servo profile; also ZK0_SERVO)")
     p_run.add_argument("--out", default=None, help="output directory")
+
+    p_arm = sub.add_parser("arm", help="the SO-101 arm bridge (slice 3)")
+    arm_sub = p_arm.add_subparsers(dest="arm_cmd", required=True)
+    arm_sub.add_parser("scan", help="scan the bus through the bridge: "
+                                    "servos, firmware audit, contract state")
+    arm_sub.add_parser("demo-mock", help="run the MOCK bridge demonstration "
+                                         "(simulated bus — not hardware "
+                                         "evidence)")
 
     p_key = sub.add_parser("key", help="node signing key (slice 2)")
     key_sub = p_key.add_subparsers(dest="key_cmd", required=True)
@@ -104,6 +150,25 @@ def main(argv=None) -> int:
     p_join.add_argument("--steps", type=int, default=8)
     p_join.add_argument("--founder-override", default=None,
                         help="founder-scope only: bypass a refused gate with this stated reason (recorded)")
+    p_stg = fl_sub.add_parser("start-staging",
+                              help="run the STAGING aggregator (must run "
+                                   "under the staging service home)")
+    p_stg.add_argument("--rounds", type=int, default=1)
+    p_stg.add_argument("--aggregator", default="fedprox", choices=["fedprox", "fedavg"])
+    p_stg.add_argument("--weighting", default="dynamic", choices=["dynamic", "plain"])
+    p_stg.add_argument("--mu", type=float, default=0.1)
+    p_stg.add_argument("--steps", type=int, default=8)
+    p_stg.add_argument("--min-clients", type=int, default=2)
+    p_js = fl_sub.add_parser("join-staging",
+                             help="join a STAGING round (node must be in "
+                                  "staging mode)")
+    p_js.add_argument("--endpoint", required=True, help="aggregator host:port")
+    p_js.add_argument("--enroll-url", required=True)
+    p_js.add_argument("--token", required=True)
+    p_js.add_argument("--dataset", required=True, help="local LeRobot dataset root")
+    p_js.add_argument("--steps", type=int, default=8)
+    p_js.add_argument("--founder-override", default=None,
+                      help="founder-scope only: bypass a refused gate with this stated reason (recorded)")
 
     args = ap.parse_args(argv)
     cfg = load_config()
@@ -130,6 +195,10 @@ def main(argv=None) -> int:
         print(f"network_scopes: {cfg['network_scopes'] or '[]'}")
         print(f"terms:         live={cfg['terms']['live']} "
               f"acceptance_record={cfg['terms']['acceptance_record']}")
+        arm = cfg.get("arm") or {}
+        print(f"arm port:      {arm.get('port') or 'not pinned'}")
+        ep = (cfg.get("endpoints") or {}).get("staging")
+        print(f"staging:       {ep}")
         return 0
 
     if args.cmd == "mode":
@@ -169,12 +238,14 @@ def main(argv=None) -> int:
     if args.cmd == "sim" and args.sim_cmd == "run":
         from .sim.benchmark import run_sim1
         try:
-            record = run_sim1(variant=args.arm_model, outdir=args.out, cfg=cfg)
+            record = run_sim1(variant=args.arm_model, outdir=args.out,
+                              cfg=cfg, servo=args.servo)
         except FileNotFoundError as e:
             print(f"sim run failed: {e}")
             return 2
         t1, t2 = record["results"]["tier1"], record["results"]["tier2"]
         print(f"SIM-1 (cube → box) — arm model: {args.arm_model}, "
+              f"servo: {record['arm_model']['servo_profile'][:40]}…, "
               f"policy: scripted reference pilot (ORACLE-GUIDED, rung 0)")
         print(f"Tier 1: {'PASS' if t1['pass'] else 'FAIL'} "
               f"(containment {t1['containment']}, damage "
@@ -187,6 +258,70 @@ def main(argv=None) -> int:
               + (f" — failed: {', '.join(t2['failed_gates'])}"
                  if t2["failed_gates"] else ""))
         print(f"records: {record['outdir']}")
+        return 0
+
+    if args.cmd == "arm" and args.arm_cmd == "scan":
+        from .arm.bridge import ArmBridge, BridgeError
+        from .arm.bus import RealBusAdapter, find_arm_port
+        pinned = (cfg.get("arm") or {}).get("port")
+        port, how = find_arm_port(pinned)
+        if port is None:
+            print(f"arm scan: NO ARM PRESENT — {how}. The bridge "
+                  f"reports absence honestly; it never invents a "
+                  f"bus. (The MOCK demonstration is `zk0 arm "
+                  f"demo-mock`.)")
+            return 5
+        from .sim import assets
+        bridge = ArmBridge(RealBusAdapter(port),
+                           work_dir=assets.model_dir("realistic"))
+        try:
+            conn = bridge.connect()
+            state = bridge.read_contract_state()
+        except BridgeError as e:
+            print(f"arm scan: bus audit FAILED — {e}")
+            return 1
+        finally:
+            bridge.disconnect()
+        print(f"arm scan: port {port} ({how})")
+        print(f"servos answering: ids "
+              f"{sorted(int(k) for k in conn['scan'])}")
+        for m, a in conn["audit"].items():
+            print(f"  {m:14} id {a['id']}  {a['model']}  "
+                  f"firmware {a['firmware']}")
+        print(f"positions (deg / gripper 0-100): "
+              f"{ {k: round(v, 1) for k, v in state['positions'].items()} }")
+        print(f"bus voltage: {state['voltage_v']}; status faults: "
+              f"{state['status_faults'] or 'none'}")
+        print("telemetry read over contract channels only: "
+              + ", ".join(state["channels"]))
+        return 0
+
+    if args.cmd == "arm" and args.arm_cmd == "demo-mock":
+        from .arm.bridge import run_mock_demo
+        from .config import zk0_home
+        from .identity import load_or_create_key
+        from .records import write_signed_record
+        from .sim import assets
+        rec = run_mock_demo(zk0_home(), assets.model_dir("realistic"))
+        rec["record_type"] = "arm_mock_demo"
+        rec["schema"] = "zk0-node-arm/0.1"
+        rec["node"] = {"node_id": cfg["node_id"]}
+        from .records import utcnow_iso
+        rec["created_utc"] = utcnow_iso()
+        out = (zk0_home() / "records" / "arm" /
+               f"mock-demo-{rec['created_utc'].replace(':', '').replace('-', '')}.json")
+        write_signed_record(rec, out, load_or_create_key())
+        print("MOCK bridge demonstration (simulated bus — NOT "
+              "hardware evidence; hardware proof is the acceptance "
+              "test on the founder's arm):")
+        for s in rec["steps"]:
+            if s["step"].startswith("safety events"):
+                continue
+            line = f"  [{s['outcome']}] {s['step']}"
+            if s["outcome"] == "raised":
+                line += f" — {s['error_type']}: {s['error']}"
+            print(line)
+        print(f"record (scope: mock, signed): {out}")
         return 0
 
     if args.cmd == "key" and args.key_cmd == "show":
@@ -301,35 +436,60 @@ def main(argv=None) -> int:
         return 0
 
     if args.cmd == "fl" and args.fl_cmd == "join":
-        from . import joingate
         from .fl.client import run_client
-        att = joingate.current_attestation(cfg)
-        if att is None:
-            rec = joingate.run_gate(cfg)
-            if not rec["pass"]:
-                if args.founder_override:
-                    try:
-                        ov = joingate.record_founder_override(
-                            cfg, rec, args.founder_override)
-                    except joingate.GateRefused as e:
-                        print(f"REFUSED — {e}")
-                        return 4
-                    print(f"FOUNDER OVERRIDE recorded: {ov['path']} "
-                          f"(bypassed: {', '.join(ov['bypassed_checks'])})")
-                else:
-                    print("JOIN REFUSED by the M0 gate:")
-                    for c in rec["checks"]:
-                        if not c["pass"]:
-                            print(f"  - {c['check']}: {c['reason']}")
-                    print(f"refusal record: {rec['path']}")
-                    return 4
-        host = args.endpoint.split(":")[0]
+        if not _gate_or_refuse(cfg, args.founder_override):
+            return 4
         part = run_client(args.endpoint, args.enroll_url, args.token,
                           args.dataset, cfg=cfg, steps=args.steps)
         print(f"round joined and completed — network {part['network_id']}")
         print(f"shared model received: {part['received_model_dir']} "
               f"(sha256 verified against the round record)")
         print(f"participation record (LOCAL, signed): {part['path']}")
+        return 0
+
+    if args.cmd == "fl" and args.fl_cmd == "start-staging":
+        from .config import zk0_home
+        from .fl.staging import run_staging_aggregator, staging_service_home
+        svc = staging_service_home()
+        if zk0_home().resolve() != svc.resolve():
+            print("REFUSED — the staging aggregator is a separate "
+                  "service with its own home, key, and records; it "
+                  "never runs inside a node's home.")
+            print(f"run it as the staging service:")
+            print(f"  ZK0_HOME={svc} ZK0_STAGING_HOME={svc} "
+                  f"zk0 fl start-staging")
+            print("(production: that home is the zk0bot account's "
+                  "home on the Spark — key authorization still "
+                  "outstanding; see the slice-3 report)")
+            return 2
+        rec = run_staging_aggregator(
+            rounds=args.rounds, aggregator=args.aggregator,
+            weighting=args.weighting, proximal_mu=args.mu,
+            steps=args.steps, min_clients=args.min_clients, cfg=cfg)
+        print(f"STAGING round complete — network {rec['network_id']}, "
+              f"participants: "
+              f"{rec['participants'][0]['accepted_node_ids'] if rec['participants'] else []}")
+        print(f"round record (STAGING, signed): {rec['path']}")
+        return 0
+
+    if args.cmd == "fl" and args.fl_cmd == "join-staging":
+        from .fl.client import run_client
+        if cfg.get("mode") != "staging":
+            print(f"REFUSED — staging rounds enroll only "
+                  f"staging-mode nodes; this node is in mode "
+                  f"{cfg.get('mode')!r}. Run `zk0 mode staging` "
+                  f"first (spec §2: scopes are not blurred).")
+            return 3
+        if not _gate_or_refuse(cfg, args.founder_override):
+            return 4
+        part = run_client(args.endpoint, args.enroll_url, args.token,
+                          args.dataset, cfg=cfg, steps=args.steps,
+                          scope="staging")
+        print(f"STAGING round joined and completed — network "
+              f"{part['network_id']}")
+        print(f"shared model received: {part['received_model_dir']} "
+              f"(sha256 verified against the round record)")
+        print(f"participation record (STAGING, signed): {part['path']}")
         return 0
 
     return 2

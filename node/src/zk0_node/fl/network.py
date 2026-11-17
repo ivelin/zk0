@@ -25,6 +25,16 @@ Aggregation (spec section 5.3 + preregistration Q7):
 
 The round record is scope-marked LOCAL, signed by the server node's
 key, and held locally. It is not a hosted connector record.
+
+Build slice 3 adds the STAGING scope (spec section 2.2): the same
+server run as a staging aggregator — `start_network(scope=
+"staging", require_mode="staging")`, normally by the separate
+staging service (its own ZK0_HOME, on the zk0bot account in the
+production deployment). A staging aggregator refuses enrollment
+from any node not itself in staging mode, and its round records
+are scope-marked STAGING. The aggregator code is one code path;
+the scope is a property of the deployment, recorded in every
+record it issues.
 """
 import json
 import secrets
@@ -180,7 +190,7 @@ class _State:
 
 
 def _enrollment_server(port, token, network_id, server_key, registry,
-                       state):
+                       state, scope="local", require_mode=None):
     class H(BaseHTTPRequestHandler):
         def log_message(self, *a):
             pass
@@ -204,6 +214,14 @@ def _enrollment_server(port, token, network_id, server_key, registry,
             if body.get("token") != token:
                 return self._json(403, {"ok": False,
                                         "error": "bad join token"})
+            if require_mode and body.get("mode") != require_mode:
+                return self._json(403, {
+                    "ok": False,
+                    "error": f"this is a {scope} aggregator: it "
+                             f"enrolls only nodes in {require_mode} "
+                             f"mode (node presented mode="
+                             f"{body.get('mode')!r}) — scopes are "
+                             f"not blurred (spec section 2)"})
             nid = body.get("node_id")
             pub = body.get("public_key_hex")
             att = body.get("attestation") or {}
@@ -225,6 +243,8 @@ def _enrollment_server(port, token, network_id, server_key, registry,
             if self.path == "/status":
                 return self._json(200, {
                     "network_id": network_id,
+                    "scope": scope,
+                    "require_mode": require_mode,
                     "enrolled": registry.ids(),
                     "round_done": state.round_record is not None})
             if self.path == "/round-record":
@@ -258,9 +278,13 @@ def start_network(port: int = 8797, enroll_port: int = 8798,
                   rounds: int = 1, aggregator: str = "fedprox",
                   weighting: str = "dynamic", proximal_mu: float = 0.1,
                   steps: int = 8, lr: float = 1e-5,
-                  min_clients: int = 2, cfg=None) -> dict:
-    """Run a local network until its rounds complete; write the
-    signed round record; return it."""
+                  min_clients: int = 2, cfg=None, scope: str = "local",
+                  require_mode: str = None) -> dict:
+    """Run an aggregator until its rounds complete; write the
+    signed, scope-marked round record; return it. scope="local" is
+    the operator's own network (spec 2.3); scope="staging" with
+    require_mode="staging" is the staging aggregator (spec 2.2),
+    run under the staging service's own ZK0_HOME."""
     import flwr as fl
     from flwr.common import ndarrays_to_parameters
 
@@ -279,9 +303,10 @@ def start_network(port: int = 8797, enroll_port: int = 8798,
     sink: dict = {}
     state = _State()
     _enrollment_server(enroll_port, token, network_id, server_key,
-                       registry, state)
-    print(f"[zk0 network {network_id}] enrollment on :{enroll_port}, "
-          f"flower on :{port}")
+                       registry, state, scope=scope,
+                       require_mode=require_mode)
+    print(f"[zk0 network {network_id}] scope={scope} enrollment on "
+          f":{enroll_port}, flower on :{port}")
     print(f"[zk0 network {network_id}] join token: {token}")
     print(f"[zk0 network {network_id}] aggregator={aggregator} "
           f"weighting={weighting} mu={proximal_mu} rounds={rounds}")
@@ -311,7 +336,7 @@ def start_network(port: int = 8797, enroll_port: int = 8798,
             "record_type": "fl_round_record",
             "schema": "zk0-node-fl/0.1",
             "created_utc": utcnow_iso(),
-            "scope": "local",
+            "scope": scope,
             "network_id": network_id,
             "node": {"node_id": cfg["node_id"],
                      "runtime_manifest_sha256": manifest_sha256(
@@ -337,9 +362,14 @@ def start_network(port: int = 8797, enroll_port: int = 8798,
                           sink["final_arrays"]),
                       "model_safetensors_sha256": after_file_sha},
             "shared_model_after_dir": str(out_dir),
-            "note": "LOCAL round on the operator's own network "
-                    "(spec 2.3) — held locally, not a hosted "
-                    "connector record.",
+            "note": ("STAGING round on the staging aggregator "
+                     "(spec 2.2) — scope-marked staging; a staging "
+                     "round is rehearsal evidence, never a "
+                     "production claim."
+                     if scope == "staging" else
+                     "LOCAL round on the operator's own network "
+                     "(spec 2.3) — held locally, not a hosted "
+                     "connector record."),
         }
         out = zk0_home() / "records" / "fl-rounds" / \
             f"round-{network_id}.json"

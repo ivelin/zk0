@@ -165,6 +165,7 @@ def enroll(enroll_url: str, token: str, cfg: dict, attestation: dict,
     attestation + node public key. Returns the server credential."""
     body = json.dumps({
         "node_id": cfg["node_id"], "token": token,
+        "mode": cfg.get("mode"),
         "public_key_hex": key.public_key_hex,
         "attestation": attestation}).encode()
     req = urllib.request.Request(
@@ -207,16 +208,30 @@ def _get_when_ready(enroll_url: str, path: str, binary=False,
 
 def run_client(server_address: str, enroll_url: str, token: str,
                dataset_root, cfg=None, steps: int = 8,
-               lr: float = 1e-5) -> dict:
-    """Join a local network and participate in its rounds.
+               lr: float = 1e-5, scope: str = "local") -> dict:
+    """Join a network and participate in its rounds.
 
     Precondition (enforced by the CLI before this is called): the M0
     gate — a current attestation, or a recorded founder override.
     Enrollment itself re-verifies the attestation server-side.
+
+    scope="staging" is the staging connector path (spec 2.2, build
+    slice 3): the node must itself be in staging mode — the client
+    refuses otherwise, and the staging aggregator independently
+    refuses enrollment from a node in any other mode. The
+    participation record is scope-marked STAGING.
     """
     import flwr as fl
 
     cfg = cfg or load_config()
+    if scope == "staging" and cfg.get("mode") != "staging":
+        raise ValueError(
+            f"staging rounds enroll only staging-mode nodes; this "
+            f"node is in mode={cfg.get('mode')!r} — run "
+            f"`zk0 mode staging` first (spec section 2: scopes are "
+            f"not blurred)")
+    if scope not in ("local", "staging"):
+        raise ValueError(f"unknown round scope {scope!r}")
     key = load_or_create_key()
     from .. import joingate
     att = joingate.current_attestation(cfg)
@@ -233,9 +248,9 @@ def run_client(server_address: str, enroll_url: str, token: str,
                **override}
     cred = enroll(enroll_url, token, cfg, att, key)
     cfg.setdefault("network_scopes", [])
-    if "local" not in cfg["network_scopes"]:
-        cfg["network_scopes"].append("local")
-    cfg.setdefault("endpoints", {})["local"] = (
+    if scope not in cfg["network_scopes"]:
+        cfg["network_scopes"].append(scope)
+    cfg.setdefault("endpoints", {})[scope] = (
         f"{server_address} (enroll {enroll_url})")
     save_config(cfg)
 
@@ -278,7 +293,7 @@ def run_client(server_address: str, enroll_url: str, token: str,
         "record_type": "fl_participation_record",
         "schema": "zk0-node-fl/0.1",
         "created_utc": utcnow_iso(),
-        "scope": "local",
+        "scope": scope,
         "network_id": net_id,
         "node": {"node_id": cfg["node_id"]},
         "enrollment": "gate attestation" if not override
@@ -291,9 +306,13 @@ def run_client(server_address: str, enroll_url: str, token: str,
                   "model_safetensors_sha256": got_sha},
         "round_record_content_sha256": record.get("content_sha256"),
         "received_model_dir": str(recv_dir),
-        "note": "LOCAL round on the operator's own network (spec "
-                "2.3). This record is held locally; it is not a "
-                "hosted connector record and claims no hosted round.",
+        "note": ("STAGING round against the staging aggregator "
+                 "(spec 2.2) — rehearsal evidence, scope-marked "
+                 "staging; not a production round."
+                 if scope == "staging" else
+                 "LOCAL round on the operator's own network (spec "
+                 "2.3). This record is held locally; it is not a "
+                 "hosted connector record and claims no hosted round."),
     }
     out = zk0_home() / "records" / "fl-rounds" / f"participation-{net_id}.json"
     write_signed_record(part, out, key)
