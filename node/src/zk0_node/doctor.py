@@ -109,15 +109,27 @@ def check_dependency_consistency(cfg):
             hard_fail = True
             subs.append(f"{mod} NOT INSTALLED (pin {pin['version']})")
     for mod, pin_name in (("lerobot", "lerobot"), ("av", "pyav"),
-                          ("datasets", "datasets")):
+                          ("datasets", "datasets"), ("flwr", "flwr"),
+                          ("newton", "newton"), ("torch", "torch")):
         pin = _pin(m, pin_name)
         try:
-            __import__(mod)
-            subs.append(f"{mod} present (pin {pin['version']})")
+            got = __import__(mod).__version__
+            if got == pin["version"]:
+                subs.append(f"{mod} {got} == pin {pin['version']}")
+            else:
+                hard_fail = True
+                subs.append(f"{mod} {got} != pin {pin['version']}")
         except ImportError:
-            subs.append(f"{mod} not installed — pin {pin['version']} is "
-                        f"DECLARED for the train pack (build slice 2), not "
-                        f"silently treated as present")
+            hard_fail = True
+            subs.append(f"{mod} NOT INSTALLED (pin {pin['version']}) — "
+                        f"the train pack is required for Stages 3/5/8; "
+                        f"run dev/bootstrap.sh")
+    subs.append("known resolver override: flwr 1.23.0's click<8.2 "
+                "conflicts with huggingface-hub's click>=8.4.2 (see "
+                "the flwr pin's note in the manifest) — pip check "
+                "reports this one conflict; the runtime does not "
+                "claim a clean resolve, and flwr is exercised by "
+                "the local-round proof instead")
     return _check(2, "Dependency consistency", FAIL if hard_fail else PASS,
                   subs)
 
@@ -212,16 +224,32 @@ def check_camera_identity(cfg):
 
 
 def check_calibration_state(cfg):
-    cal = zk0_home() / "calibration.json"
-    if not cal.exists():
+    # Slice 2: calibration lives in the node config (Stage 2 state),
+    # fingerprinted against the staged arm model; the M0 gate
+    # (Stage 3) is what verifies it — doctor reports the state.
+    from . import calibration as C
+    from .sim import assets
+    calib = C.ensure_calibration(cfg)
+    md5 = assets.arm_model_info("realistic").get("canonical_md5")
+    if calib["generation"] < 1:
         return _check(7, "Calibration state", SKIP,
-                      "no calibration file on this node — calibration, the "
-                      "calibration fingerprint (backlog C3) and pose "
-                      "verification are Stage 2/3 arm-mode work; sim mode "
-                      "does not require them")
-    return _check(7, "Calibration state", SKIP,
-                  "calibration file present; fingerprint verification lands "
-                  "with the arm bridge (build slice 2)")
+                      "calibration generation 0 — this node has never "
+                      "been calibrated (Stage 2); the M0 join gate "
+                      "will refuse it until it is")
+    expect = C.calibration_fingerprint(calib, md5) if md5 else None
+    if calib.get("fingerprint") != expect:
+        return _check(7, "Calibration state", FAIL,
+                      "stored calibration fingerprint does not match "
+                      "the calibration in config — the calibration "
+                      "changed since it was fingerprinted; the M0 "
+                      "gate is re-opened until it is refreshed and "
+                      "the gate re-run",
+                      fix="refresh the fingerprint over the verified "
+                          "calibration (Stage 2/3), then `zk0 gate run`")
+    return _check(7, "Calibration state", PASS,
+                  f"generation {calib['generation']}, action_norm "
+                  f"{calib['action_norm'].get('type')}, fingerprint "
+                  f"current ({calib['fingerprint'][:16]}…)")
 
 
 def check_servo_configuration(cfg):

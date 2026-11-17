@@ -46,3 +46,53 @@ check "$ZK0_HOME/assets/model-stock/so101.xml" \
 
 echo "bootstrap: runtime ready at $NODE_DIR/runtime/venv"
 echo "bootstrap: assets staged at $ZK0_HOME/assets"
+
+# ---------------------------------------------------------------- slice 2
+# Train pack (spec §1.3): two phases. Phase 1 resolves LeRobot's
+# stack against the certified environment's constraints
+# (dev/trainpack-constraints.txt = that environment's freeze, minus
+# the lines a named pin's own requirements supersede). Phase 2 adds
+# Flower: flwr 1.23.0's click<8.2 is jointly unsatisfiable with
+# huggingface-hub's click>=8.4.2 (every hub in LeRobot 0.7.0's
+# range), so flwr's non-click dependencies install normally and
+# flwr itself installs --no-deps. The override is recorded in
+# runtime-manifest.json (flwr pin note); `pip check` will report
+# exactly that one conflict — that is expected, not a defect.
+PIP="$NODE_DIR/runtime/venv/bin/pip"
+"$PIP" install --quiet -c "$NODE_DIR/dev/trainpack-constraints.txt" \
+  "lerobot[dataset,smolvla]==0.7.0" "av==15.1.0" "datasets==5.1.0" \
+  "newton==1.8.0" "numpy==2.2.6" "mujoco==4.0.1"
+"$PIP" install --quiet "grpcio" "grpcio-health-checking" "protobuf<5" \
+  "cryptography<45" "pycryptodome<4" "iterators" "typer<0.13" "tomli" \
+  "tomli-w" "pathspec" "rich<14"
+"$PIP" install --quiet --no-deps "flwr==1.23.0"
+echo "bootstrap: train pack installed (lerobot 0.7.0, av 15.1.0, datasets 5.1.0, flwr 1.23.0, newton 1.8.0)"
+
+# SIM-2 object: the measured YCB mug package.
+SRC_MUG="${ZK0_ASSETS_SRC_MUG:-/home/openclaw/muse-work/zk0-ycbmug-20261116}"
+rm -rf "$ZK0_HOME/assets/ycb-025-mug"
+mkdir -p "$ZK0_HOME/assets/ycb-025-mug"
+cp "$SRC_MUG"/visual.obj "$SRC_MUG"/texture_map.png "$SRC_MUG"/params.json \
+   "$ZK0_HOME/assets/ycb-025-mug/"
+cp "$SRC_MUG"/hull_*.obj "$ZK0_HOME/assets/ycb-025-mug/"
+check "$ZK0_HOME/assets/ycb-025-mug/visual.obj" \
+      8ff104788e7691e586fdfb30500a31f2 "ycb-025-mug visual"
+check "$ZK0_HOME/assets/ycb-025-mug/params.json" \
+      981589df76b70441a0f66a5f4a6efad8 "ycb-025-mug measured params"
+
+# The shared checkpoint, pinned by revision + sha256 (manifest).
+CKPT_DIR="$ZK0_HOME/checkpoint/ivelin--zk0-smolvla-fl"
+"$NODE_DIR/runtime/venv/bin/python" - "$CKPT_DIR" <<'PYEOF'
+import hashlib, os, sys
+from pathlib import Path
+from huggingface_hub import snapshot_download
+out = sys.argv[1]
+snapshot_download("ivelin/zk0-smolvla-fl",
+                  revision="d1c3198fbdb23ea24c9f6751992986af328ce4eb",
+                  local_dir=out, token=os.environ.get("HF_TOKEN"))
+sha = hashlib.sha256((Path(out) / "model.safetensors").read_bytes()).hexdigest()
+want = "693dfdeb68e322ac194d28923ccb9e971e23b38c07cec743705a3b09fbcc7ec4"
+if sha != want:
+    raise SystemExit(f"bootstrap: checkpoint sha256 mismatch: {sha} != {want}")
+print(f"bootstrap: checkpoint ivelin/zk0-smolvla-fl @ d1c3198f sha256 {sha[:16]}… OK")
+PYEOF
