@@ -215,3 +215,5 @@ Day-to-day work on this repo — setup, upkeep, deployment, issue triage, and PR
 - **Star / watch this repo** — follow along as verified results and releases land.
 - **Join the community** — [Discord](https://discord.gg/dhMnEne7RP) for operators and builders; [GitHub Discussions](https://github.com/ivelin/zk0/discussions) for longer-form questions.
 - **Own an SO-100/SO-101 arm?** zk0 is recruiting its **first external node operators** — the milestone this whole project is pointed at. Start with the [node-operator application](https://github.com/ivelin/zk0/issues/new/choose) or say hello in Discord.
+
+zk0 is a project of CocoonHive LLC dba zk0.
