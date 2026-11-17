@@ -23,13 +23,11 @@ def setup_training_components(
     """
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
-    from lerobot.configs.default import (
-        WandBConfig,
-    )  # + Import WandBConfig for logging enablement
+    import lerobot.configs.default as lerobot_default
     from lerobot.utils.logging_utils import MetricsTracker
     from torch.amp import GradScaler
 
-    # Create client-specific WandB configuration to prevent metric overlap
+    # Create client-specific tracking config to prevent metric overlap
     client_id = partition_id if partition_id is not None else "unknown"
     dataset_name = (
         trainloader.dataset.meta.repo_id
@@ -37,27 +35,35 @@ def setup_training_components(
         else "unknown"
     )
 
-    # Create minimal config for lerobot factories (like standalone script)
-    from lerobot.configs.default import DatasetConfig
-
-    cfg = TrainPipelineConfig(
-        dataset=DatasetConfig(repo_id=trainloader.dataset.meta.repo_id),
-        policy=policy.config,
-        use_policy_training_preset=False,
-        optimizer=policy.config.get_optimizer_preset(),
-        scheduler=policy.config.get_scheduler_preset(),
-        batch_size=batch_size,
-        num_workers=0,
-        log_freq=250,
-        steps=epochs,
-        wandb=WandBConfig(  # Disable WandB in LeRobot (we handle it at Flower level)
+    pipeline_kwargs = {
+        "dataset": lerobot_default.DatasetConfig(
+            repo_id=trainloader.dataset.meta.repo_id
+        ),
+        "policy": policy.config,
+        "use_policy_training_preset": False,
+        "optimizer": policy.config.get_optimizer_preset(),
+        "scheduler": policy.config.get_scheduler_preset(),
+        "batch_size": batch_size,
+        "num_workers": 0,
+        "log_freq": 250,
+        "steps": epochs,
+    }
+    # LeRobot replaced WandBConfig with TrackioConfig; disable both so Flower owns logging.
+    if hasattr(lerobot_default, "WandBConfig"):
+        pipeline_kwargs["wandb"] = lerobot_default.WandBConfig(
             project="zk0",
-            enable=False,  # Always disable to prevent duplicate WandB runs
+            enable=False,
             mode="online",
             run_id=f"client_{client_id}_{dataset_name}",
             notes=f"Federated Learning Client {client_id} - Dataset: {dataset_name}",
-        ),
-    )
+        )
+    else:
+        pipeline_kwargs["trackio"] = lerobot_default.TrackioConfig(
+            project="zk0",
+            enable=False,
+        )
+
+    cfg = TrainPipelineConfig(**pipeline_kwargs)
 
     # Use lerobot's optimizer factory
     optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
