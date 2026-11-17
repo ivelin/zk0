@@ -47,6 +47,12 @@ def default_config() -> dict:
         "identity_kind": "external",
         "mode": "sim",
         "network_scopes": [],
+        # Stage 2 calibration state (canonical shape:
+        # calibration.default_calibration). Must be a known key —
+        # load_config drops unknown keys by design.
+        "calibration": {"generation": 0, "offsets_deg": [0.0] * 6,
+                        "action_norm": {"type": "identity"},
+                        "fingerprint": None},
         "terms": {
             # `live` mirrors the server-side flag that removes the
             # external block when the contributor terms ship (Q3);
@@ -72,6 +78,8 @@ def load_config() -> dict:
         base["terms"] = {**default_config()["terms"], **cfg.get("terms", {})}
         base["endpoints"] = {**default_config()["endpoints"],
                              **cfg.get("endpoints", {})}
+        base["calibration"] = {**default_config()["calibration"],
+                               **(cfg.get("calibration") or {})}
         return base
     return default_config()
 
