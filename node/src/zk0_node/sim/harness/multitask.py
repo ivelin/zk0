@@ -45,7 +45,7 @@ def walls_xml(prefix, cx, cy, hx, hy, t, h, rgba):
     <geom name="{prefix}_n" type="box" pos="{cx} {cy + hy + t} {z}" size="{hx + t} {t} {z}" friction="1 0.005 0.0001" rgba="{rgba}"/>
     <geom name="{prefix}_s" type="box" pos="{cx} {cy - hy - t} {z}" size="{hx + t} {t} {z}" friction="1 0.005 0.0001" rgba="{rgba}"/>
     <geom name="{prefix}_e" type="box" pos="{cx + hx + t} {cy} {z}" size="{t} {hy + t} {z}" friction="1 0.005 0.0001" rgba="{rgba}"/>
-    <geom name="{prefix}_w" type="box" pos="{cx - hx + t} {cy} {z}" size="{t} {hy + t} {z}" friction="1 0.005 0.0001" rgba="{rgba}"/>"""
+    <geom name="{prefix}_w" type="box" pos="{cx - hx - t} {cy} {z}" size="{t} {hy + t} {z}" friction="1 0.005 0.0001" rgba="{rgba}"/>"""
 
 def cube_body(name, x, y, rgba):
     return f"""
