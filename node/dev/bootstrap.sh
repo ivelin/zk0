@@ -98,3 +98,15 @@ if sha != want:
     raise SystemExit(f"bootstrap: checkpoint sha256 mismatch: {sha} != {want}")
 print(f"bootstrap: checkpoint ivelin/zk0-smolvla-fl @ d1c3198f sha256 {sha[:16]}… OK")
 PYEOF
+
+# ------------------------------------------------------------------
+# Build slice 3: the arm bridge's serial pack + the BAM servo library.
+# LeRobot 0.7.0's [serial-motors] extra pins: rustypot >=1.13.1,<2.0.0
+# and pyserial >=3.5,<4.0 (from the installed lerobot METADATA). The
+# BAM library installs from the certified tier's pinned commit
+# (Rhoban/bam @ e9a619d) with --no-deps: its only runtime deps are
+# numpy (already pinned) and colorama, installed explicitly.
+"$PIP" install --quiet "rustypot==1.14.0" "pyserial==3.5" "colorama==0.4.6"
+"$PIP" install --quiet --no-deps \
+  "git+https://github.com/Rhoban/bam@e9a619d56da5236206f4de6ceec2c1ee1b497b5c"
+echo "bootstrap: slice-3 pack installed (rustypot 1.14.0, pyserial 3.5, bam 1.0.2 from Rhoban/bam @ e9a619d)"

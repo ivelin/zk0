@@ -34,8 +34,13 @@ HARNESS_DIR = Path(__file__).parent / "harness"
 DAMAGE_BOUND_N = 25.0  # PROVISIONAL — preregistration §2
 
 
-def run_sim1(variant: str = "realistic", outdir=None, cfg=None) -> dict:
+def run_sim1(variant: str = "realistic", outdir=None, cfg=None,
+             servo: str = None) -> dict:
     cfg = cfg or load_config()
+    servo = servo or os.environ.get("ZK0_SERVO", "variant")
+    if servo not in ("variant", "bam"):
+        raise ValueError(f"unknown servo profile {servo!r} "
+                         f"(variant | bam)")
     staged = assets.model_dir(variant)
     if not staged.exists():
         raise FileNotFoundError(
@@ -44,7 +49,8 @@ def run_sim1(variant: str = "realistic", outdir=None, cfg=None) -> dict:
 
     stamp = utcnow_iso().replace(":", "").replace("-", "")
     outdir = Path(outdir) if outdir else (
-        zk0_home() / "records" / f"sim1-{variant}-{stamp}")
+        zk0_home() / "records" /
+        f"sim1-{variant}{'-bam' if servo == 'bam' else ''}-{stamp}")
     outdir.mkdir(parents=True, exist_ok=True)
 
     # Stage a private copy of the model dir: the Pilot writes its
@@ -58,12 +64,18 @@ def run_sim1(variant: str = "realistic", outdir=None, cfg=None) -> dict:
     import multitask as MT
     from grasp_gate import evaluate_cycle
 
-    P, log, _snaps, _frames, res = MT.task1({})
+    if servo == "bam":
+        from ..sim import bam_servo
+        P, log, _snaps, _frames, res = bam_servo.task1_bam({})
+        force_limit = bam_servo.gate_force_limit(P, "bam")
+    else:
+        P, log, _snaps, _frames, res = MT.task1({})
+        force_limit = P.gate.force_limit
     body = "cube_green"
     t_close, t_open = P.events["close_end_t1"], P.events["open_end_t1"]
     gate = evaluate_cycle(P.gate.rows, body, t_close, t_open,
                           MT.GRIP_CLOSE_CUBE, P.gate.mass[body],
-                          P.gate.jnt_range, P.gate.force_limit)
+                          P.gate.jnt_range, force_limit)
     rows = P.gate.rows
     max_single_run = max(r[body]["max_single"] for r in rows)
     window = [r for r in rows if t_close <= r["t"] <= t_open]
@@ -78,6 +90,7 @@ def run_sim1(variant: str = "realistic", outdir=None, cfg=None) -> dict:
         "log_type": "sim_state_log/0.1",
         "task": "SIM-1",
         "arm_model_variant": variant,
+        "servo_profile": servo,
         "events": P.events,
         "t": log["t"], "tcp": log["tcp"], "q": log["q"],
         "bodies": log["bodies"], "quats": log["quats"],
@@ -117,9 +130,17 @@ def run_sim1(variant: str = "realistic", outdir=None, cfg=None) -> dict:
             "name": info["name"], "version": info["version"],
             "canonical_file": info["canonical_file"],
             "canonical_md5": info.get("canonical_md5"),
-            "servo_profile": "variant (the MJCF's position actuators; "
-                             "the BAM fitted-servo profile is not engaged "
-                             "by this harness — build slice 2)",
+            "servo_profile": (
+                "BAM fitted-servo profile (Rhoban/bam @ e9a619d, "
+                "STS3215 7.4 V 'm6', via punkfab/robot-actuators @ "
+                "fb59c95 servo law) — engaged build slice 3 behind "
+                "ZK0_SERVO=bam; engagement is not a re-certification "
+                "of the certified BAM tier"
+                if servo == "bam" else
+                "variant (the MJCF's position actuators; the BAM "
+                "fitted-servo profile is available via ZK0_SERVO=bam "
+                "since build slice 3)"),
+            "servo_gate_force_limit_Nm": force_limit,
         },
         "engine": {"name": "MuJoCo", "version": _mujoco_version()},
         "ablation_rung": 0,
