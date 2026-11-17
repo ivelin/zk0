@@ -38,6 +38,6 @@ jobs:
             cd /workspace &&
             export CI=true &&
             uv pip install -e '.[test]' &&
-            uv pip install --no-deps 'huggingface_hub==1.33.0' 'transformers==5.22.2' &&
+            uv pip install --no-deps 'huggingface_hub==1.33.0' 'transformers==5.22.2' 'tokenizers==0.23.3' &&
             pytest ${{ matrix.test-path }} -x --tb=short --durations=10 --no-cov -n ${{ matrix.parallel }}
           "
