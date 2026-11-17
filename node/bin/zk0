@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# zk0 — the operator entry point (spec §1.1: the launcher layer).
+# Runs the package on its own pinned runtime (spec §1.3); never on the
+# system Python. Install the runtime first with dev/bootstrap.sh.
+set -euo pipefail
+NODE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+VENV="${ZK0_NODE_VENV:-$NODE_DIR/runtime/venv}"
+if [ ! -x "$VENV/bin/python" ]; then
+  echo "zk0: runtime not installed — run $NODE_DIR/dev/bootstrap.sh first" >&2
+  exit 2
+fi
+export ZK0_RUNTIME_VENV="$VENV"
+export PYTHONPATH="$NODE_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+exec "$VENV/bin/python" -m zk0_node.cli "$@"

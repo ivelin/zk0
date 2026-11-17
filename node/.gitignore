@@ -1,0 +1,4 @@
+# The package runtime is installed state, never source (spec §1.2).
+runtime/
+__pycache__/
+*.pyc

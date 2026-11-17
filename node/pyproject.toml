@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zk0-node"
+version = "0.1.0"
+description = "zk0 Node — the operator distribution package for the zk0 federated-learning network (sim / staging / prod modes of one install)"
+requires-python = ">=3.12,<3.13"
+# Slice-1 runtime dependencies (the sim layer). The full pin set —
+# LeRobot 0.7.0, PyAV 15.x, datasets, Newton 1.8, Flower 1.23.0 —
+# lives in runtime-manifest.json with reasons and is installed with
+# the components that consume it (train pack, USD bridge, FL client).
+dependencies = [
+    "mujoco==4.0.1",
+    "numpy==2.2.6",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
