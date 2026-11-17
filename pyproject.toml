@@ -16,7 +16,12 @@ authors = [
 
 dependencies = [
     "flwr[simulation,superexec]==1.23.0",
-    "transformers>=4.50.3,<4.52.0",
+    # huggingface_hub 1.33+ exports download_bucket_files, which current LeRobot
+    # (huggingface/lerobot-cpu:latest) imports from lerobot.utils.hub. transformers
+    # 4.51 required huggingface_hub<1.0 and CI's `uv pip install -e '.[test]'`
+    # downgraded hub 1.33.0 -> 0.36.2, breaking test collection.
+    "huggingface_hub>=1.33.0,<3.0.0",
+    "transformers>=5.22.0,<6.0.0",
     # "lerobot[smolvla]>=0.3.3",  # Installed separately in train.sh to avoid torch version conflicts
     # "flwr-datasets>=0.5.0",
     # "torch>=2.9.0",  # torch version is managed separately to ensure compatibility with lerobot on DGX Spark and other CUDA environments
