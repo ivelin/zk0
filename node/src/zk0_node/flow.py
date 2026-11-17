@@ -1227,25 +1227,56 @@ def run_dry_run(workdir, cfg=None) -> dict:
                     raise RuntimeError("no join token after 600 s")
                 token = token_file.read_text().strip()
                 net_id = token_file.parent.name
-                _driver_cli(
-                    ["fl", "join", "--endpoint", f"127.0.0.1:{port}",
-                     "--enroll-url", f"http://127.0.0.1:{enroll_port}",
-                     "--token", token, "--dataset", dataset_root,
-                     "--steps", str(FINETUNE_BUDGET["steps"])],
-                    home_a, logs / "round-join-a.log")
-                _driver_cli(
-                    ["fl", "join", "--endpoint", f"127.0.0.1:{port}",
-                     "--enroll-url", f"http://127.0.0.1:{enroll_port}",
-                     "--token", token, "--noop-dry-run"],
-                    home_b, logs / "round-join-b.log")
-                deadline = time.time() + 1200
-                while server.poll() is None and time.time() < deadline:
-                    time.sleep(5)
-                if server.poll() is None:
-                    server.kill()
-                    raise RuntimeError(
-                        "aggregator did not exit within 1200 s of "
-                        "the joins completing")
+                # BOTH joins run concurrently: a round client exits
+                # only after the round completes, and the round
+                # completes only when every participant has joined
+                # — sequential joins deadlock (found in dry-run
+                # pass 2; the slice-2 rehearsal backgrounded both).
+                joins = []
+                join_logs = []
+                for home, extra, name in (
+                        (home_a, ["--dataset", dataset_root,
+                                  "--steps",
+                                  str(FINETUNE_BUDGET["steps"])],
+                         "round-join-a.log"),
+                        (home_b, ["--noop-dry-run"],
+                         "round-join-b.log")):
+                    env = dict(os.environ)
+                    env["ZK0_HOME"] = str(home)
+                    lg = open(logs / name, "w")
+                    join_logs.append(lg)
+                    joins.append(subprocess.Popen(
+                        [sys.executable, "-m", "zk0_node.cli",
+                         "fl", "join",
+                         "--endpoint", f"127.0.0.1:{port}",
+                         "--enroll-url",
+                         f"http://127.0.0.1:{enroll_port}",
+                         "--token", token] + extra,
+                        stdout=lg, stderr=subprocess.STDOUT, env=env))
+                try:
+                    for proc in joins:
+                        proc.wait(timeout=3600)
+                    bad = [proc.returncode for proc in joins
+                           if proc.returncode != 0]
+                    if bad:
+                        raise RuntimeError(
+                            f"round join(s) failed rc={bad}; see "
+                            f"the round join logs")
+                    deadline = time.time() + 1200
+                    while (server.poll() is None
+                           and time.time() < deadline):
+                        time.sleep(5)
+                    if server.poll() is None:
+                        server.kill()
+                        raise RuntimeError(
+                            "aggregator did not exit within 1200 s "
+                            "of the joins completing")
+                finally:
+                    for proc in joins:
+                        if proc.poll() is None:
+                            proc.kill()
+                    for lg in join_logs:
+                        lg.close()
             finally:
                 if server.poll() is None:
                     server.kill()
