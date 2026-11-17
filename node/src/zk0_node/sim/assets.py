@@ -31,6 +31,10 @@ def md5_of(path: Path) -> str:
     return hashlib.md5(Path(path).read_bytes()).hexdigest()
 
 
+def sha256_of(path: Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
 def arm_model_info(variant: str) -> dict:
     """Identity of the staged arm model, from the staged bytes."""
     d = model_dir(variant)
@@ -59,4 +63,35 @@ def arm_model_info(variant: str) -> dict:
     live = d / "so101.xml"
     if live.exists():
         info["live_include_md5"] = md5_of(live)
+    return info
+
+
+# ---------------------------------------------------------------- YCB mug
+
+def mug_dir() -> Path:
+    """The staged ycb-025-mug asset package (collection asset, CC BY 4.0)."""
+    return assets_dir() / "ycb-025-mug"
+
+
+def mug_info() -> dict:
+    """Identity of the staged mug package, from the staged bytes."""
+    d = mug_dir()
+    info = {"staged_dir": str(d), "present": d.exists(),
+            "name": "ycb-025-mug", "version": "0.1.0",
+            "source": "HF zk0bot/ycb-025-mug (CC BY 4.0); staged from the "
+                      "certified local copy"}
+    if d.exists():
+        vis = d / "visual.obj"
+        par = d / "params.json"
+        if vis.exists():
+            info["visual_md5"] = md5_of(vis)
+        if par.exists():
+            info["params_md5"] = md5_of(par)
+        hulls = sorted(d.glob("hull_*.obj"))
+        info["n_hulls"] = len(hulls)
+        if hulls:
+            h = hashlib.sha256()
+            for hp in hulls:
+                h.update(hp.read_bytes())
+            info["hulls_sha256"] = h.hexdigest()
     return info

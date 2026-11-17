@@ -59,6 +59,52 @@ def main(argv=None) -> int:
                             "stock = the certified T1 control configuration")
     p_run.add_argument("--out", default=None, help="output directory")
 
+    p_key = sub.add_parser("key", help="node signing key (slice 2)")
+    key_sub = p_key.add_subparsers(dest="key_cmd", required=True)
+    key_sub.add_parser("show", help="show (creating if needed) the node key")
+
+    p_ver = sub.add_parser("verify", help="verify a signed record")
+    p_ver.add_argument("record", help="path to a record JSON")
+
+    p_gate = sub.add_parser("gate", help="the M0 join gate (Stage 3)")
+    gate_sub = p_gate.add_subparsers(dest="gate_cmd", required=True)
+    gate_sub.add_parser("run", help="run the gate's four checks")
+    gate_sub.add_parser("status", help="show the current attestation")
+
+    p_tp = sub.add_parser("trainpack", help="train-pack proofs")
+    tp_sub = p_tp.add_subparsers(dest="tp_cmd", required=True)
+    tp_sub.add_parser("prove", help="LeRobot dataset write/read round-trip")
+
+    p_ev = sub.add_parser("eval", help="checkpoint policy evaluation (Stage 5)")
+    ev_sub = p_ev.add_subparsers(dest="ev_cmd", required=True)
+    p_evc = ev_sub.add_parser("checkpoint", help="run a benchmark suite with the shared checkpoint as policy")
+    p_evc.add_argument("--task", default="sim1", choices=["sim1", "sim2"])
+    p_evc.add_argument("--trials", type=int, default=20)
+
+    p_fl = sub.add_parser("fl", help="federated rounds (spec §2.3/§5)")
+    fl_sub = p_fl.add_subparsers(dest="fl_cmd", required=True)
+    p_ds = fl_sub.add_parser("build-dataset", help="build this node's sim demo dataset")
+    p_ds.add_argument("--node-tag", required=True)
+    p_ds.add_argument("--episodes", type=int, default=4)
+    p_ds.add_argument("--seed", type=int, default=0)
+    p_net = fl_sub.add_parser("start-network", help="run a local network (aggregator) on this machine")
+    p_net.add_argument("--port", type=int, default=8797)
+    p_net.add_argument("--enroll-port", type=int, default=8798)
+    p_net.add_argument("--rounds", type=int, default=1)
+    p_net.add_argument("--aggregator", default="fedprox", choices=["fedprox", "fedavg"])
+    p_net.add_argument("--weighting", default="dynamic", choices=["dynamic", "plain"])
+    p_net.add_argument("--mu", type=float, default=0.1)
+    p_net.add_argument("--steps", type=int, default=8)
+    p_net.add_argument("--min-clients", type=int, default=2)
+    p_join = fl_sub.add_parser("join", help="join a local network and train a round")
+    p_join.add_argument("--endpoint", required=True, help="aggregator host:port")
+    p_join.add_argument("--enroll-url", required=True)
+    p_join.add_argument("--token", required=True)
+    p_join.add_argument("--dataset", required=True, help="local LeRobot dataset root")
+    p_join.add_argument("--steps", type=int, default=8)
+    p_join.add_argument("--founder-override", default=None,
+                        help="founder-scope only: bypass a refused gate with this stated reason (recorded)")
+
     args = ap.parse_args(argv)
     cfg = load_config()
     if not config_path().exists():
@@ -141,6 +187,143 @@ def main(argv=None) -> int:
               + (f" — failed: {', '.join(t2['failed_gates'])}"
                  if t2["failed_gates"] else ""))
         print(f"records: {record['outdir']}")
+        return 0
+
+    if args.cmd == "key" and args.key_cmd == "show":
+        from .identity import key_path, load_or_create_key
+        k = load_or_create_key()
+        print(f"node_id:    {cfg['node_id']}")
+        print(f"public key: {k.public_key_hex}")
+        print(f"fingerprint: {k.fingerprint}")
+        print(f"key file:   {key_path()} (mode 0600, never leaves this machine)")
+        return 0
+
+    if args.cmd == "verify":
+        from .records import verify_record
+        rec = json.loads(open(args.record).read())
+        v = verify_record(rec)
+        print(f"record: {rec.get('record_type', '?')} "
+              f"(created {rec.get('created_utc', '?')})")
+        print(f"content hash: {'OK' if v['hash_ok'] else 'MISMATCH'}")
+        if v["signature_present"]:
+            print(f"signature:    {'OK' if v['signature_ok'] else 'INVALID'} "
+                  f"(signer fingerprint {v['signer']})")
+        else:
+            print("signature:    none (content-hash-only record)")
+        return 0 if v["hash_ok"] and v["signature_ok"] else 1
+
+    if args.cmd == "gate" and args.gate_cmd == "run":
+        from .joingate import run_gate
+        rec = run_gate(cfg)
+        for c in rec["checks"]:
+            print(f"[{'PASS' if c['pass'] else 'FAIL'}] {c['check']}: {c['reason']}")
+        if rec["pass"]:
+            print(f"\nJOIN GATE: PASS — attestation {rec['path']}, "
+                  f"expires {rec['expires_utc']}")
+            return 0
+        print(f"\nJOIN GATE: REFUSED — {'; '.join(rec['failed_checks'])}")
+        print(f"refusal record: {rec['path']}")
+        print("contribution stages stay disabled until the gate passes.")
+        return 4
+
+    if args.cmd == "gate" and args.gate_cmd == "status":
+        from .joingate import current_attestation
+        att = current_attestation(cfg)
+        if att is None:
+            print("no current attestation — run `zk0 gate run`")
+            return 4
+        print(f"attestation current: issued {att['created_utc']}, "
+              f"expires {att['expires_utc']}, fingerprint "
+              f"{att['calibration_fingerprint'][:16]}…")
+        return 0
+
+    if args.cmd == "trainpack" and args.tp_cmd == "prove":
+        from .trainpack import prove
+        try:
+            res = prove()
+        except Exception as e:
+            print(f"train-pack proof FAILED: {e}")
+            return 1
+        print(f"train-pack round-trip: PASS — {res['frames_written']} frames "
+              f"written with video (PyAV encode), {res['frames_reloaded']} "
+              f"reloaded, action round-trip max err "
+              f"{res['action_roundtrip_max_err']}")
+        print(f"versions: {res['versions']}")
+        return 0
+
+    if args.cmd == "eval" and args.ev_cmd == "checkpoint":
+        from .sim.policy_eval import run_suite
+        try:
+            rec = run_suite(args.task, trials=args.trials, cfg=cfg)
+        except FileNotFoundError as e:
+            print(f"eval failed: {e}")
+            return 2
+        t1 = rec["results"]["tier1"]
+        print(f"{rec['task']['id']} — policy: shared checkpoint "
+              f"(SmolVLA), ablation rung: {rec['ablation_rung']}")
+        print(f"Tier 1: {t1['successes']}/{t1['trials']} = "
+              f"{t1['rate']:.0%} (95% Wilson CI "
+              f"{t1['ci95_wilson'][0]:.0%}–{t1['ci95_wilson'][1]:.0%}); "
+              f"bar (preregistration, rung 3): ≥60% — this run is "
+              f"rung 0, the bar does not apply to it")
+        print(f"records: {rec['outdir']}")
+        return 0
+
+    if args.cmd == "fl" and args.fl_cmd == "build-dataset":
+        from .demodata import build_demo_dataset
+        rec = build_demo_dataset(args.node_tag, episodes=args.episodes,
+                                 seed=args.seed)
+        print(f"dataset built: {rec['root']} — {rec['episodes']} episodes, "
+              f"{rec['frames']} frames @ {rec['fps']} fps "
+              f"(sim-generated, ORACLE-GUIDED; plan hash "
+              f"{rec['plan_hash'][:16]}…)")
+        return 0
+
+    if args.cmd == "fl" and args.fl_cmd == "start-network":
+        from .fl.network import start_network
+        rec = start_network(port=args.port, enroll_port=args.enroll_port,
+                            rounds=args.rounds, aggregator=args.aggregator,
+                            weighting=args.weighting, proximal_mu=args.mu,
+                            steps=args.steps, min_clients=args.min_clients,
+                            cfg=cfg)
+        print(f"round complete — network {rec['network_id']}, "
+              f"participants: "
+              f"{rec['participants'][0]['accepted_node_ids'] if rec['participants'] else []}")
+        print(f"action-expert subset: {rec['before']['action_expert_subset_sha256'][:16]}… "
+              f"→ {rec['after']['action_expert_subset_sha256'][:16]}…")
+        print(f"round record (LOCAL, signed): {rec['path']}")
+        return 0
+
+    if args.cmd == "fl" and args.fl_cmd == "join":
+        from . import joingate
+        from .fl.client import run_client
+        att = joingate.current_attestation(cfg)
+        if att is None:
+            rec = joingate.run_gate(cfg)
+            if not rec["pass"]:
+                if args.founder_override:
+                    try:
+                        ov = joingate.record_founder_override(
+                            cfg, rec, args.founder_override)
+                    except joingate.GateRefused as e:
+                        print(f"REFUSED — {e}")
+                        return 4
+                    print(f"FOUNDER OVERRIDE recorded: {ov['path']} "
+                          f"(bypassed: {', '.join(ov['bypassed_checks'])})")
+                else:
+                    print("JOIN REFUSED by the M0 gate:")
+                    for c in rec["checks"]:
+                        if not c["pass"]:
+                            print(f"  - {c['check']}: {c['reason']}")
+                    print(f"refusal record: {rec['path']}")
+                    return 4
+        host = args.endpoint.split(":")[0]
+        part = run_client(args.endpoint, args.enroll_url, args.token,
+                          args.dataset, cfg=cfg, steps=args.steps)
+        print(f"round joined and completed — network {part['network_id']}")
+        print(f"shared model received: {part['received_model_dir']} "
+              f"(sha256 verified against the round record)")
+        print(f"participation record (LOCAL, signed): {part['path']}")
         return 0
 
     return 2
