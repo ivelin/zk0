@@ -666,7 +666,7 @@ torch.save(model.state_dict(), "centralized_checkpoint.pt")
 - Multi-task learning across SO-100 variants.
 - Advanced strategies (SCAFFOLD).
 - Hyperparam auto-tuning.
-- ZK proofs for verifiable contributions.
+- ZK proofs for verifiable contributions — **not yet built**; there is no certified ZK proof in the current system.
 
 ## Current Config (v0.2.6)
 

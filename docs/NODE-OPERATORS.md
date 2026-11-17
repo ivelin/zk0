@@ -281,7 +281,7 @@ The core architecture uses Flower's Deployment Engine, with client data privacy 
 ## Community and Support
 
 ### Discord
-Join our Discord community for support and updates: [zk0 Discord](https://discord.gg/zk0)
+Join our Discord community for support and updates: [zk0 Discord](https://discord.gg/dhMnEne7RP)
 
 ### GitHub
 - Report issues: [GitHub Issues](https://github.com/ivelin/zk0/issues)
@@ -289,7 +289,7 @@ Join our Discord community for support and updates: [zk0 Discord](https://discor
 
 ### Contact
 - Email: [operators@zk0.bot](mailto:operators@zk0.bot?subject=Join+Network)
-- Discord: [zk0-team](https://discord.gg/PemKaGeM9P)
+- Discord: [zk0-team](https://discord.gg/dhMnEne7RP)
 
 ## Technical Details
 

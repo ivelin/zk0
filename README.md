@@ -94,7 +94,7 @@ Free, open-licensed, and verified the hard way — every asset below ships with 
 
 - **[zk0bot/so101-realistic](https://huggingface.co/zk0bot/so101-realistic)** — SO-101 arm realism variant, v0.2.0: de-tuned gripper contacts so the grasped object's material governs friction, a measured elbow joint limit, and the BAM fitted-servo profile as a switchable option. Apache-2.0.
 - **[zk0bot/ycb-025-mug](https://huggingface.co/datasets/zk0bot/ycb-025-mug)** — the YCB mug, converted for simulation around its *measured* mass (0.118 kg — most object libraries guess), and probe-passed against our asset battery. CC BY 4.0.
-- **[zk0bot/triposg-mug](https://huggingface.co/datasets/zk0bot/triposg-mug)** — a generated mug, and the collection's one **sealed** asset: its files are hash-stamped against the exact test record that validated them, so anyone can check the proof instead of re-running it. CC BY 4.0.
+- **[zk0bot/triposg-mug](https://huggingface.co/datasets/zk0bot/triposg-mug)** — a generated mug, and the collection's one **sealed** asset: its files are recorded against the exact test record that validated them, so anyone can inspect the auditable record and re-run the replicated benchmark evaluation. There is no certified ZK proof of this asset today. CC BY 4.0.
 - **[ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)** — the federated SmolVLA checkpoint (see Latest Model Release).
 
 ## Quick Start
