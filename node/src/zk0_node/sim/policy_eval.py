@@ -92,8 +92,8 @@ def checkpoint_dir() -> Path:
     return zk0_home() / "checkpoint" / "ivelin--zk0-smolvla-fl"
 
 
-def checkpoint_info() -> dict:
-    d = checkpoint_dir()
+def checkpoint_info(ckpt_dir=None) -> dict:
+    d = Path(ckpt_dir) if ckpt_dir else checkpoint_dir()
     info = {"repo": CHECKPOINT_REPO, "revision": CHECKPOINT_REVISION,
             "staged_dir": str(d), "present": d.exists()}
     ms = d / "model.safetensors"
@@ -481,7 +481,7 @@ def run_suite(task_id, trials=20, seed=20261117, outdir=None, cfg=None,
         raise ValueError(f"unknown task {task_id!r} ({sorted(TASK_TEXT)})")
     cfg = cfg or load_config()
     bundle = load_policy(ckpt_dir)
-    ckpt = checkpoint_info()
+    ckpt = checkpoint_info(ckpt_dir)
 
     stamp = utcnow_iso().replace(":", "").replace("-", "")
     outdir = Path(outdir) if outdir else (

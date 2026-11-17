@@ -80,7 +80,7 @@ class Zk0NumPyClient:
     hard import at module load)."""
 
     def __init__(self, policy, pre, dataset_root, node_id, key,
-                 steps=8, lr=1e-5, batch_size=4):
+                 steps=8, lr=1e-5, batch_size=4, noop=False):
         import torch
 
         self.policy = policy
@@ -89,10 +89,20 @@ class Zk0NumPyClient:
         self.key = key
         self.steps = steps
         self.lr = lr
+        # Dry-run participant mode (slice 4): this client enrolls
+        # and returns the round's initial parameters UNCHANGED —
+        # an identity/no-op update, labeled as such in its metrics
+        # and in the participation record, so a local dry run can
+        # exercise the two-node round machinery honestly. It never
+        # touches a dataset and reports 0 examples.
+        self.noop = noop
         self.trainable = _make_trainable(policy)
         self.opt = torch.optim.AdamW(self.trainable, lr=lr)
-        self.batches, self.n_examples = _dataset_batches(
-            dataset_root, batch_size=batch_size)
+        if noop:
+            self.batches, self.n_examples = None, 0
+        else:
+            self.batches, self.n_examples = _dataset_batches(
+                dataset_root, batch_size=batch_size)
         self.received_initial_hash = None
 
     # -- Flower NumPyClient interface ----------------------------------
@@ -102,6 +112,17 @@ class Zk0NumPyClient:
     def fit(self, parameters, config):
         import torch
 
+        if self.noop:
+            if self.received_initial_hash is None:
+                self.received_initial_hash = arrays_hash(parameters)
+            uh = arrays_hash(parameters)
+            return parameters, 0, {
+                "train_loss": 0.0,
+                "node_id": self.node_id,
+                "update_hash": uh,
+                "update_sig": self.key.sign_hex(bytes.fromhex(uh)),
+                "update_kind": "identity-noop (dry-run participant)",
+            }
         set_subset(self.policy, parameters)
         if self.received_initial_hash is None:
             self.received_initial_hash = arrays_hash(parameters)
@@ -139,6 +160,8 @@ class Zk0NumPyClient:
         }
 
     def evaluate(self, parameters, config):
+        if self.noop:
+            return 0.0, 0, {}
         set_subset(self.policy, parameters)
         self.policy.eval()
         losses = []
@@ -208,7 +231,8 @@ def _get_when_ready(enroll_url: str, path: str, binary=False,
 
 def run_client(server_address: str, enroll_url: str, token: str,
                dataset_root, cfg=None, steps: int = 8,
-               lr: float = 1e-5, scope: str = "local") -> dict:
+               lr: float = 1e-5, scope: str = "local",
+               noop: bool = False) -> dict:
     """Join a network and participate in its rounds.
 
     Precondition (enforced by the CLI before this is called): the M0
@@ -260,7 +284,8 @@ def run_client(server_address: str, enroll_url: str, token: str,
     # the averaged result needlessly coarse.
     bundle.policy.float()
     client = make_client_class()(bundle.policy, bundle.pre, dataset_root,
-                                 cfg["node_id"], key, steps=steps, lr=lr)
+                                 cfg["node_id"], key, steps=steps, lr=lr,
+                                 noop=noop)
     try:
         fl.client.start_client(
             server_address=server_address, client=client,
@@ -298,7 +323,12 @@ def run_client(server_address: str, enroll_url: str, token: str,
         "node": {"node_id": cfg["node_id"]},
         "enrollment": "gate attestation" if not override
                       else "FOUNDER OVERRIDE (see override record)",
-        "dataset_root": str(dataset_root),
+        "dataset_root": str(dataset_root) if dataset_root else None,
+        "update_kind": ("identity-noop (dry-run participant — "
+                        "contributed the round's initial parameters "
+                        "unchanged, 0 examples; enrolled to exercise "
+                        "the two-node round machinery)"
+                        if noop else "trained update"),
         "before": {"action_expert_subset_sha256":
                    client.received_initial_hash},
         "after": {"action_expert_subset_sha256":

@@ -59,15 +59,20 @@ def main():
     # harness writes compiled scene XML into its model dir, so it
     # gets a private writable copy of the staged arm model.
     from . import assets
-    model_copy = out / "model"
-    if model_copy.exists():
-        shutil.rmtree(model_copy)
-    shutil.copytree(assets.model_dir("realistic"), model_copy)
+    if os.environ.get("ZK0_HARDENED_MODEL_DIR"):
+        # Caller-provided shared work model (Stage 7 runs many
+        # draws sequentially against one copy).
+        model_copy = Path(os.environ["ZK0_HARDENED_MODEL_DIR"])
+    else:
+        model_copy = out / "model"
+        if model_copy.exists():
+            shutil.rmtree(model_copy)
+        shutil.copytree(assets.model_dir("realistic"), model_copy)
+        os.environ["ZK0_HARDENED_MODEL_DIR"] = str(model_copy)
 
     os.environ["ZK0_SERVO"] = "bam"
     os.environ["ZK0_MUG_MU"] = repr(args.mu)
     os.environ["ZK0_MUG_PKG"] = str(assets.mug_dir())
-    os.environ["ZK0_HARDENED_MODEL_DIR"] = str(model_copy)
     if args.mass is not None:
         os.environ["ZK0_MUG_MASS"] = repr(args.mass)
     else:

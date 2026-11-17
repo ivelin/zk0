@@ -126,6 +126,12 @@ def main(argv=None) -> int:
     p_evc = ev_sub.add_parser("checkpoint", help="run a benchmark suite with the shared checkpoint as policy")
     p_evc.add_argument("--task", default="sim1", choices=["sim1", "sim2"])
     p_evc.add_argument("--trials", type=int, default=20)
+    p_evc.add_argument("--ckpt-dir", default=None,
+                       help="evaluate this checkpoint dir instead of "
+                            "the staged shared checkpoint (Stages "
+                            "8/10: fine-tuned / post-contribution "
+                            "models); the record names the evaluated "
+                            "dir")
 
     p_fl = sub.add_parser("fl", help="federated rounds (spec §2.3/§5)")
     fl_sub = p_fl.add_subparsers(dest="fl_cmd", required=True)
@@ -146,7 +152,15 @@ def main(argv=None) -> int:
     p_join.add_argument("--endpoint", required=True, help="aggregator host:port")
     p_join.add_argument("--enroll-url", required=True)
     p_join.add_argument("--token", required=True)
-    p_join.add_argument("--dataset", required=True, help="local LeRobot dataset root")
+    p_join.add_argument("--dataset", default=None,
+                        help="local LeRobot dataset root (required "
+                             "unless --noop-dry-run)")
+    p_join.add_argument("--noop-dry-run", action="store_true",
+                        help="DRY-RUN PARTICIPANT: enroll and "
+                             "contribute an identity/no-op update "
+                             "(the round's initial parameters "
+                             "unchanged, 0 examples), labeled as "
+                             "such in every record it touches")
     p_join.add_argument("--steps", type=int, default=8)
     p_join.add_argument("--founder-override", default=None,
                         help="founder-scope only: bypass a refused gate with this stated reason (recorded)")
@@ -169,6 +183,47 @@ def main(argv=None) -> int:
     p_js.add_argument("--steps", type=int, default=8)
     p_js.add_argument("--founder-override", default=None,
                       help="founder-scope only: bypass a refused gate with this stated reason (recorded)")
+
+    p_flow = sub.add_parser("flow", help="task flow stages 7-11 "
+                                         "(slice 4)")
+    flow_sub = p_flow.add_subparsers(dest="flow_cmd", required=True)
+    flow_sub.add_parser("admit", help="Stage 7: trajectory admission "
+                                      "(decision 54) — generate "
+                                      "candidates, run the envelope "
+                                      "draws at rung 3, write the "
+                                      "admitted dataset + signed "
+                                      "admission record")
+    p_ft = flow_sub.add_parser("finetune", help="Stage 8: local "
+                                                "fine-tune on an "
+                                                "admitted dataset")
+    p_ft.add_argument("--dataset", required=True,
+                      help="admitted LeRobot dataset root (Stage 7)")
+    p_ft.add_argument("--steps", type=int, default=None)
+    p_ft.add_argument("--lr", type=float, default=None)
+    p_ft.add_argument("--mu", type=float, default=None,
+                      help="FedProx proximal mu")
+    p_ft.add_argument("--out", default=None)
+    p_cmp = flow_sub.add_parser("compare", help="Stage 10: paired "
+                                                "comparison from the "
+                                                "six suite records")
+    for a in ("--pre-sim1", "--pre-sim2", "--bench-sim1",
+              "--bench-sim2", "--post-sim1", "--post-sim2"):
+        p_cmp.add_argument(a, required=True,
+                           help="eval_record.json path")
+    p_cmp.add_argument("--round-record", default=None)
+    p_cmp.add_argument("--out", default=None)
+    p_dec = flow_sub.add_parser("declare", help="Stage 11: generate "
+                                                "the win/no-win "
+                                                "declaration FROM "
+                                                "the records")
+    p_dec.add_argument("--comparison", required=True,
+                       help="comparison_record.json path")
+    p_dec.add_argument("--round-record", default=None)
+    p_dec.add_argument("--out", default=None)
+    p_dry = flow_sub.add_parser("dry-run", help="stages 5-11 in one "
+                                                "scripted pass from "
+                                                "fresh node homes")
+    p_dry.add_argument("--workdir", required=True)
 
     args = ap.parse_args(argv)
     cfg = load_config()
@@ -395,7 +450,8 @@ def main(argv=None) -> int:
     if args.cmd == "eval" and args.ev_cmd == "checkpoint":
         from .sim.policy_eval import run_suite
         try:
-            rec = run_suite(args.task, trials=args.trials, cfg=cfg)
+            rec = run_suite(args.task, trials=args.trials, cfg=cfg,
+                            ckpt_dir=args.ckpt_dir)
         except FileNotFoundError as e:
             print(f"eval failed: {e}")
             return 2
@@ -437,10 +493,15 @@ def main(argv=None) -> int:
 
     if args.cmd == "fl" and args.fl_cmd == "join":
         from .fl.client import run_client
+        if not args.noop_dry_run and not args.dataset:
+            print("REFUSED — --dataset is required unless "
+                  "--noop-dry-run is given")
+            return 2
         if not _gate_or_refuse(cfg, args.founder_override):
             return 4
         part = run_client(args.endpoint, args.enroll_url, args.token,
-                          args.dataset, cfg=cfg, steps=args.steps)
+                          args.dataset, cfg=cfg, steps=args.steps,
+                          noop=args.noop_dry_run)
         print(f"round joined and completed — network {part['network_id']}")
         print(f"shared model received: {part['received_model_dir']} "
               f"(sha256 verified against the round record)")
@@ -491,6 +552,75 @@ def main(argv=None) -> int:
               f"(sha256 verified against the round record)")
         print(f"participation record (STAGING, signed): {part['path']}")
         return 0
+
+    if args.cmd == "flow" and args.flow_cmd == "admit":
+        from .flow import run_admission
+        rec = run_admission(cfg=cfg)
+        s = rec["summary"]
+        print(f"Stage 7 admission: {s['admitted']}/{s['candidates']} "
+              f"candidates admitted "
+              f"(SIM-1 {s['per_task']['SIM-1']['admitted']}/"
+              f"{s['per_task']['SIM-1']['candidates']}, "
+              f"SIM-2 {s['per_task']['SIM-2']['admitted']}/"
+              f"{s['per_task']['SIM-2']['candidates']}); "
+              f"dataset: {(rec['dataset'] or {}).get('root')}")
+        print(json.dumps({"record": rec["path"],
+                          "admitted": s["admitted"],
+                          "candidates": s["candidates"]}))
+        return 0
+
+    if args.cmd == "flow" and args.flow_cmd == "finetune":
+        from .flow import run_finetune
+        rec = run_finetune(args.dataset, steps=args.steps,
+                           lr=args.lr, proximal_mu=args.mu,
+                           out_dir=args.out, cfg=cfg)
+        b = rec["budget"]
+        print(f"Stage 8 local fine-tune: {b['steps']} steps @ lr "
+              f"{b['lr']} in {b['wall_clock_s']} s on {b['hardware']}; "
+              f"train loss {rec['training_metrics']['train_loss']:.4f}")
+        print(json.dumps({"record": rec["path"],
+                          "model_dir": rec["model_dir"]}))
+        return 0
+
+    if args.cmd == "flow" and args.flow_cmd == "compare":
+        from .flow import run_comparison
+        rec = run_comparison(
+            {"SIM-1": args.pre_sim1, "SIM-2": args.pre_sim2},
+            {"SIM-1": args.bench_sim1, "SIM-2": args.bench_sim2},
+            {"SIM-1": args.post_sim1, "SIM-2": args.post_sim2},
+            round_record_path=args.round_record,
+            out_dir=args.out, cfg=cfg)
+        for task, t in rec["tasks"].items():
+            print(f"{task}: pre {t['pre_contribution']['rate']:.0%} "
+                  f"-> benchmark {t['stage8_benchmark']['rate']:.0%} "
+                  f"-> post {t['post_contribution']['rate']:.0%} "
+                  f"(parity margin "
+                  f"{t['parity']['margin_pp']:+.1f}pp)")
+        print(json.dumps({"record": rec["path"]}))
+        return 0
+
+    if args.cmd == "flow" and args.flow_cmd == "declare":
+        from .flow import run_declaration
+        rec = run_declaration(args.comparison,
+                              round_record_path=args.round_record,
+                              out_dir=args.out, cfg=cfg)
+        print(rec["declaration_text"])
+        print(json.dumps({"record": rec["path"],
+                          "win": rec["verdict"]["win"]}))
+        return 0
+
+    if args.cmd == "flow" and args.flow_cmd == "dry-run":
+        from .flow import run_dry_run
+        rec = run_dry_run(args.workdir, cfg=cfg)
+        print(f"full-loop dry run: status={rec['status']}, "
+              f"{len(rec['chain'])} records in chain, all verified: "
+              f"{rec['chain_all_verified']}, total "
+              f"{rec['total_wall_clock_s']} s")
+        print(json.dumps({"record": rec["path"],
+                          "status": rec["status"],
+                          "chain_all_verified":
+                              rec["chain_all_verified"]}))
+        return 0 if rec["status"] == "complete" else 5
 
     return 2
 
