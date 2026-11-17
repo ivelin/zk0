@@ -1,0 +1,60 @@
+{
+ "rim": {
+  "strategy": "rim",
+  "gz": 0.077,
+  "mug_mu": 0.35,
+  "events": {
+   "floor_reached": 8.4,
+   "floor_hold_end": 9.4,
+   "cert_cmd_reached": 10.4,
+   "probe_end": 11.9
+  },
+  "fallback_used": false,
+  "d_lo": 0.1515,
+  "d_lo_at": {
+   "t": 7.58,
+   "F_N": 13.34
+  },
+  "d_hi": 0.1759,
+  "d_hi_at": {
+   "t": 7.94,
+   "F_N": 28.01
+  },
+  "probe_max_F_N": 38.82,
+  "cert_cmd_hold": {
+   "mean_abs_torque_Nm": 0.081,
+   "mean_grip_q": -0.0976,
+   "mean_F_N": 1.27,
+   "mean_Ds": 0.0228
+  }
+ },
+ "pinch": {
+  "strategy": "pinch",
+  "gz": 0.058,
+  "mug_mu": 0.35,
+  "events": {
+   "floor_reached": 8.4,
+   "floor_hold_end": 9.4,
+   "cert_cmd_reached": 10.4,
+   "probe_end": 11.9
+  },
+  "fallback_used": false,
+  "d_lo": 0.1337,
+  "d_lo_at": {
+   "t": 7.5,
+   "F_N": 10.0
+  },
+  "d_hi": 0.1715,
+  "d_hi_at": {
+   "t": 7.86,
+   "F_N": 18.1
+  },
+  "probe_max_F_N": 46.94,
+  "cert_cmd_hold": {
+   "mean_abs_torque_Nm": 0.077,
+   "mean_grip_q": -0.0978,
+   "mean_F_N": 3.42,
+   "mean_Ds": 0.0223
+  }
+ }
+}
