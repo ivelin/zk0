@@ -210,7 +210,13 @@ def main(argv=None) -> int:
                   f"(signer fingerprint {v['signer']})")
         else:
             print("signature:    none (content-hash-only record)")
-        return 0 if v["hash_ok"] and v["signature_ok"] else 1
+        # A content-hash-only record (the slice-1 form) verifies on
+        # its hash alone; a signed record must also pass its
+        # signature. An absent signature is not a failure — an
+        # invalid one is.
+        ok = v["hash_ok"] and (not v["signature_present"]
+                               or v["signature_ok"])
+        return 0 if ok else 1
 
     if args.cmd == "gate" and args.gate_cmd == "run":
         from .joingate import run_gate

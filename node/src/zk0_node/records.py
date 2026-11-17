@@ -5,10 +5,19 @@ hash (so a result traces to the exact stack that produced it), and is
 content-hashed (SHA-256 over the canonical form). Build slice 2 adds
 node-key signing on top: the signature signs the content hash with
 the node's Ed25519 key (identity.py), so a record is both
-tamper-evident (hash) and attributable (signature). The content
-hash excludes the `content_sha256` and `signature` keys themselves;
-slice-1 records carry no signature key, so their hashes recompute
-identically under this rule.
+tamper-evident (hash) and attributable (signature).
+
+The content hash excludes `content_sha256` itself, and excludes
+`signature` ONLY when it is an Ed25519 signature block (the dict
+sign_record attaches): a signature block signs the hash, so it
+cannot be part of the hashed body. Slice-1 records carry
+`signature` as a plain status STRING (benchmark.py's hash-only
+records still do) — that string is ordinary record content, was
+inside the slice-1 hash body, and stays inside it under this rule,
+so slice-1 hashes recompute identically. (Verifier fix F1,
+2026-11-17: the slice-2 rule as first written excluded `signature`
+unconditionally, which broke verification of every slice-1 record;
+the records were never corrupt — the rule was.)
 """
 import hashlib
 import json
@@ -46,9 +55,22 @@ def jsonable(obj):
     return obj
 
 
+def _is_signature_block(value) -> bool:
+    """True iff `value` is an Ed25519 signature block — the dict
+    sign_record attaches. Only this form of the `signature` key is
+    excluded from the content hash (see the module docstring); a
+    slice-1 status string under the same key is hashed content."""
+    return isinstance(value, dict) and value.get("alg") == "ed25519"
+
+
 def content_sha256(record: dict) -> str:
-    body = {k: v for k, v in record.items()
-            if k not in ("content_sha256", "signature")}
+    body = {}
+    for k, v in record.items():
+        if k == "content_sha256":
+            continue
+        if k == "signature" and _is_signature_block(v):
+            continue
+        body[k] = v
     canonical = json.dumps(jsonable(body), sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical.encode()).hexdigest()
 

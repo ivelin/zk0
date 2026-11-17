@@ -1,0 +1,167 @@
+{
+ "ablation_rung": 0,
+ "arm_model": {
+  "canonical_file": "so101_realistic.xml",
+  "canonical_md5": "8f3937f109fd512d027935b56689fff8",
+  "name": "so101-realistic",
+  "servo_profile": "variant (the MJCF's position actuators; the BAM fitted-servo profile is not engaged by this harness \u2014 build slice 2)",
+  "version": "0.2.0"
+ },
+ "content_sha256": "31508fd89e6bc9000852610e77a74dec4354b188c732560e32ef576d953e9af7",
+ "created_utc": "2026-11-17T20:39:49Z",
+ "engine": {
+  "name": "MuJoCo",
+  "version": "4.0.1"
+ },
+ "marks": {
+  "envelope": "n/a (trajectory admission is Stage 7 work)",
+  "generation": "ORACLE-GUIDED",
+  "provenance": "sim-only reference run \u2014 no model, no contribution; no provenance mark is earned"
+ },
+ "mode": "sim",
+ "node": {
+  "node_id": "a182aee8-6820-4318-8b1a-f97c5d994436",
+  "package": "zk0 Node",
+  "package_version": "0.1.0",
+  "runtime_manifest_sha256": "83ab0d850dd1683704c61a44445ed509c0bcfeb3505d6aad80b5ee3ef40a95f0"
+ },
+ "policy": {
+  "generation_mark": "ORACLE-GUIDED",
+  "id": "multitask.task1 plan (certified T1 configuration)",
+  "kind": "scripted_pilot",
+  "note": "scripted reference pilot, NOT the shared checkpoint (ivelin/zk0-smolvla-fl); the checkpoint's rollout rate on this task remains unmeasured"
+ },
+ "record_type": "eval_record",
+ "results": {
+  "original_scorer": {
+   "arm_retreated": true,
+   "below_rim": true,
+   "dx": -0.01,
+   "final_cube": [
+    0.2627,
+    -0.1392,
+    0.0199
+   ],
+   "inside_xy": true,
+   "ok": true,
+   "settled_mm": 0.0,
+   "task": "task1"
+  },
+  "tier1": {
+   "containment": true,
+   "containment_detail": {
+    "arm_retreated": true,
+    "below_rim": true,
+    "final_cube": [
+     0.2627,
+     -0.1392,
+     0.0199
+    ],
+    "inside_xy": true,
+    "settled_mm": 0.0
+   },
+   "damage": {
+    "bound_N": 25.0,
+    "bound_status": "PROVISIONAL",
+    "max_single_contact_N_carry_window": 8.92,
+    "max_single_contact_N_whole_run": 10.16,
+    "pass": true
+   },
+   "legal_actuation": {
+    "command_gate": {
+     "applied_max": 1.7453,
+     "applied_min": -0.1,
+     "clamped": false,
+     "joint_range": [
+      -0.1745,
+      1.7453
+     ],
+     "pass": true,
+     "requested": -0.1,
+     "requested_in_range": true
+    },
+    "pass": true
+   },
+   "pass": true
+  },
+  "tier2": {
+   "failed_gates": [
+    "tilt",
+    "force_band",
+    "saturation"
+   ],
+   "gate_pass": false,
+   "gates": {
+    "command": {
+     "applied_max": 1.7453,
+     "applied_min": -0.1,
+     "clamped": false,
+     "joint_range": [
+      -0.1745,
+      1.7453
+     ],
+     "pass": true,
+     "requested": -0.1,
+     "requested_in_range": true
+    },
+    "force_band": {
+     "band": [
+      1.0,
+      15.0
+     ],
+     "max_ratio": 135.2,
+     "median_ratio": 134.5,
+     "pass": false
+    },
+    "free_support": {
+     "loadbearing_samples": 0,
+     "longest_loadbearing_run_samples": 0,
+     "pass": true,
+     "support_contact_samples_inside_span": 0
+    },
+    "penetration": {
+     "limit_mm": 2.0,
+     "max_mm": 1.66,
+     "pass": true
+    },
+    "saturation": {
+     "frac_saturated": 1.0,
+     "limit_frac": 0.5,
+     "pass": false
+    },
+    "slip": {
+     "limit_mm": 10.0,
+     "max_mm": 1.3,
+     "pass": true
+    },
+    "tilt": {
+     "limit_deg": 15.0,
+     "max_deg": 55.6,
+     "pass": false
+    },
+    "two_sided": {
+     "frac_both_jaws": 1.0,
+     "limit_frac": 0.95,
+     "pass": true
+    }
+   },
+   "n_airborne": 534,
+   "status": "PROVISIONAL (SSOT decision 53 \u2014 not human-validated; does not gate anything)",
+   "window_s": [
+    4.9,
+    11.6
+   ]
+  }
+ },
+ "rung_note": "the scripted oracle pilot consumes ground-truth state; rung 0 is a diagnostic reference run, not a telemetry-contract conformance claim (contract \u00a76)",
+ "schema": "zk0-node-eval/0.1",
+ "signature": "content hash only in build slice 1; node-key signing lands with the Stage 1 identity work",
+ "state_log": "state_log.json (same directory)",
+ "task": {
+  "id": "SIM-1",
+  "name": "Cube \u2192 box (green-box family)",
+  "suite": "vendored multitask.task1 \u2014 the certified T1 scene and plan (SSOT decisions 24\u201327)",
+  "trial_note": "single reference trial in build slice 1; the \u226520-trial suite machinery is Stage 5 build work \u2014 no success rate is claimed from n=1",
+  "trials": 1
+ }
+}
