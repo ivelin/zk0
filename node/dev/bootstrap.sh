@@ -57,7 +57,9 @@ echo "bootstrap: assets staged at $ZK0_HOME/assets"
 # range), so flwr's non-click dependencies install normally and
 # flwr itself installs --no-deps. The override is recorded in
 # runtime-manifest.json (flwr pin note); `pip check` will report
-# exactly that one conflict — that is expected, not a defect.
+# exactly three conflicts, all flwr's — click<8.2 (carried: 8.5.1),
+# iterators<0.0.3,>=0.0.2 (carried: 0.2.0), pathspec<0.13.0,>=0.12.1
+# (carried: 1.1.1) — that is expected, disclosed, not a defect.
 PIP="$NODE_DIR/runtime/venv/bin/pip"
 "$PIP" install --quiet -c "$NODE_DIR/dev/trainpack-constraints.txt" \
   "lerobot[dataset,smolvla]==0.7.0" "av==15.1.0" "datasets==5.1.0" \

@@ -124,12 +124,15 @@ def check_dependency_consistency(cfg):
             subs.append(f"{mod} NOT INSTALLED (pin {pin['version']}) — "
                         f"the train pack is required for Stages 3/5/8; "
                         f"run dev/bootstrap.sh")
-    subs.append("known resolver override: flwr 1.23.0's click<8.2 "
-                "conflicts with huggingface-hub's click>=8.4.2 (see "
-                "the flwr pin's note in the manifest) — pip check "
-                "reports this one conflict; the runtime does not "
-                "claim a clean resolve, and flwr is exercised by "
-                "the local-round proof instead")
+    subs.append("known resolver override: flwr 1.23.0 installed "
+                "--no-deps (see the flwr pin's note in the manifest) "
+                "— pip check reports THREE known conflicts, all "
+                "flwr's: click<8.2 (carried: 8.5.1; huggingface-hub "
+                "requires >=8.4.2 — jointly unsatisfiable), "
+                "iterators<0.0.3,>=0.0.2 (carried: 0.2.0), and "
+                "pathspec<0.13.0,>=0.12.1 (carried: 1.1.1). The "
+                "runtime does not claim a clean resolve, and flwr "
+                "is exercised by the local-round proof instead")
     return _check(2, "Dependency consistency", FAIL if hard_fail else PASS,
                   subs)
 
