@@ -61,6 +61,19 @@ def default_config() -> dict:
             "live": False,
             "acceptance_record": None,
         },
+        # Stage 6 hardware declarations (build slice 3): the arm's
+        # serial port pinned by stable device path (never by
+        # enumeration order, backlog S4) and the declared camera
+        # set the vision clause requires (front + wrist). A null
+        # path means "not pinned yet" — doctor says so, it does not
+        # guess.
+        "arm": {
+            "port": None,
+            "cameras": {
+                "front": {"path": None},
+                "wrist": {"path": None},
+            },
+        },
         "endpoints": {
             "prod_connector": "https://mcp.zk0.pirin.ai",
             "staging": "DGX Spark dev federation (zk0bot account)",
@@ -80,6 +93,11 @@ def load_config() -> dict:
                              **cfg.get("endpoints", {})}
         base["calibration"] = {**default_config()["calibration"],
                                **(cfg.get("calibration") or {})}
+        arm_in = cfg.get("arm") or {}
+        base["arm"] = {**default_config()["arm"], **arm_in}
+        base["arm"]["cameras"] = {
+            **default_config()["arm"]["cameras"],
+            **(arm_in.get("cameras") or {})}
         return base
     return default_config()
 
