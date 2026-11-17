@@ -1,0 +1,15 @@
+# zk0
+
+> zk0 is an open-source federated-learning network for robot arms: independent node operators train one shared vision-language-action model (SmolVLA-class) on private SO-101 trajectory data, and only model updates move. This file indexes the site's key pages for LLM crawlers.
+
+## Articles
+
+- [47× Too Much Force. Five Passes Flipped. One Dangling Mug.](https://zk0.bot/open-source-robotics-simulators-physics-engines-object-libraries/): zk0 benchmarked six open-source robotics simulators for SO-101 simulation — physics engines, object formats, and object libraries — and built the grasp-quality gate that flipped five of its own passing grades to FAIL.
+- [Data Beats Parameters: Why zk0 Trains a 450M Robot Model — and Who We Are Recruiting to Train It](https://zk0.bot/docs/DATA-BEATS-PARAMETERS.html): The published evidence says robot-arm policies gain more from diverse data than from bigger models; zk0 is recruiting SO-100/SO-101 data contributors and 10GB+ VRAM compute contributors.
+
+## Docs
+
+- [Node Operators](https://zk0.bot/docs/NODE-OPERATORS.html): How to run a zk0 node and contribute data or compute.
+- [Architecture](https://zk0.bot/docs/ARCHITECTURE.html): How the zk0 federated-learning system is put together.
+- [Roadmap](https://zk0.bot/docs/ROADMAP.html): The phased public roadmap — tangible wins first, acceleration as traction earns it.
+- [White paper (PDF)](https://zk0.bot/docs/zk0-white-paper-Dec-2025.pdf): The zk0 design in full.
