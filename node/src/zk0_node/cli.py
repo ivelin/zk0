@@ -147,6 +147,10 @@ def main(argv=None) -> int:
     p_net.add_argument("--weighting", default="dynamic", choices=["dynamic", "plain"])
     p_net.add_argument("--mu", type=float, default=0.1)
     p_net.add_argument("--steps", type=int, default=8)
+    p_net.add_argument("--lr", type=float, default=1e-5,
+                       help="client learning rate for the round "
+                            "config (start_network already accepted "
+                            "it; the CLI never exposed it — slice 4)")
     p_net.add_argument("--min-clients", type=int, default=2)
     p_join = fl_sub.add_parser("join", help="join a local network and train a round")
     p_join.add_argument("--endpoint", required=True, help="aggregator host:port")
@@ -481,7 +485,8 @@ def main(argv=None) -> int:
         rec = start_network(port=args.port, enroll_port=args.enroll_port,
                             rounds=args.rounds, aggregator=args.aggregator,
                             weighting=args.weighting, proximal_mu=args.mu,
-                            steps=args.steps, min_clients=args.min_clients,
+                            steps=args.steps, lr=args.lr,
+                            min_clients=args.min_clients,
                             cfg=cfg)
         print(f"round complete — network {rec['network_id']}, "
               f"participants: "
