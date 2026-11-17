@@ -1080,6 +1080,43 @@ def run_dry_run(workdir, cfg=None) -> dict:
     stages = []
     chain_paths = []
 
+    def stamp_calibration(home):
+        """Stage 2 setup for a fresh home (the slice-2/3 rehearsal
+        precedent, rehearsal.sh's setup_home): persist the node
+        identity, then stamp the canonical zero-offset sim
+        calibration — generation 1, fingerprint refreshed over the
+        staged arm model. Without it the M0 gate refuses a fresh
+        node by design (it has never been calibrated)."""
+        _driver_cli(["status"], home, logs / f"status-{home.name}.log")
+        import zk0_node
+        src_dir = str(Path(zk0_node.__file__).resolve().parent.parent)
+        env = dict(os.environ)
+        env["ZK0_HOME"] = str(home)
+        env["PYTHONPATH"] = src_dir + os.pathsep + env.get(
+            "PYTHONPATH", "")
+        snippet = (
+            "from zk0_node import calibration as C\n"
+            "from zk0_node.config import load_config, save_config\n"
+            "from zk0_node.sim import assets\n"
+            "cfg = load_config()\n"
+            "cal = C.ensure_calibration(cfg)\n"
+            "if cal['generation'] < 1:\n"
+            "    cal['generation'] = 1\n"
+            "cfg['calibration'] = cal\n"
+            "C.refresh_fingerprint(cfg, assets.arm_model_info("
+            "'realistic')['canonical_md5'])\n"
+            "save_config(cfg)\n")
+        proc = subprocess.run([sys.executable, "-c", snippet],
+                              capture_output=True, text=True, env=env,
+                              timeout=300)
+        if proc.returncode != 0:
+            raise RuntimeError(
+                f"calibration stamp failed for {home}: "
+                f"{proc.stderr[-1000:]}")
+        return ("Stage 2 calibration stamp: canonical zero-offset "
+                "sim calibration, generation 1, fingerprint over "
+                "the staged arm model (rehearsal precedent)")
+
     def stage(name, fn):
         t0 = time.time()
         print(f"[dry-run] {name} ...", flush=True)
@@ -1095,12 +1132,13 @@ def run_dry_run(workdir, cfg=None) -> dict:
     status = "complete"
 
     def gate(home, tag):
+        cal_note = stamp_calibration(home)
         _driver_cli(["gate", "run"], home, logs / f"gate-{tag}.log")
         atts = sorted(home.glob("records/attestations/gate-*.json"))
         if not atts:
             raise RuntimeError(f"no attestation written for {tag}")
         chain_paths.append(str(atts[-1]))
-        return {"attestation": str(atts[-1])}
+        return {"attestation": str(atts[-1]), "setup": cal_note}
 
     stage("setup + join gate (node A)", lambda: gate(home_a, "a"))
     stage("setup + join gate (node B, dry-run participant)",
