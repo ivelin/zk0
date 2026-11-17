@@ -1,4 +1,8 @@
-# Use the official LeRobot CPU base image for CI compatibility
+# Use the official LeRobot CPU base image for CI compatibility.
+# That image currently ships huggingface_hub 1.33.x (download_bucket_files)
+# and transformers 5.22.x. zk0's pyproject pin is transformers 4.51.x for
+# production; CI reinstalls the image versions with --no-deps after
+# `uv pip install -e '.[test]'` (see .github/workflows/ci.yml).
 FROM huggingface/lerobot-cpu:latest
 
 # Install OpenCV for video processing in LeRobot datasets
