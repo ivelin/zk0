@@ -39,9 +39,11 @@ STALL_AT = 55.0
 
 
 def _model_number():
+    # rustypot.find_model returns (model_number, definition) — the
+    # same pair LeRobot's bus resolves for its scan expectations.
     try:
         import rustypot
-        return int(rustypot.find_model("sts3215").model_number)
+        return int(rustypot.find_model("sts3215")[0])
     except Exception:
         return None
 
