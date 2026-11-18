@@ -348,7 +348,8 @@ def run_episode(task_id, draw, bundle: PolicyBundle, work_model: Path,
 
     rows = gate.rows
     max_single = max((r[body]["max_single"] for r in rows), default=0.0)
-    settled_mm = float(MT.settled(log, body)) if len(log["t"]) else 999.0
+    settled_mm = (float(MT.settled(log, body)) * 1000.0
+                  if len(log["t"]) else 999.0)
     final_pos = log["bodies"][body][-1] if len(log["t"]) else \
         np.array(d.qpos[bqadr:bqadr + 3])
     containment = _containment(task_id, final_pos, settled_mm)
@@ -420,7 +421,7 @@ def _containment(task_id, final_pos, settled_mm) -> dict:
         x, y, z = (float(v) for v in final_pos)
         inside = abs(x - cx) < hx and abs(y - cy) < hy
         below = z + 0.02 < rim
-        settled_ok = settled_mm <= 2.0
+        settled_ok = settled_mm < 2.0
         return {"inside_xy": bool(inside), "below_rim": bool(below),
                 "settled": bool(settled_ok),
                 "pass": bool(inside and below and settled_ok)}

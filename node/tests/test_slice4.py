@@ -202,5 +202,164 @@ class TestVendoredHardened(unittest.TestCase):
         self.assertIn("ebf1d1a3671ac9de4ee0946222925cec", prov)
 
 
+# ---------------------------------------------------------------------
+# Slice-4 fix pass (verifier audit section H): policy_eval settled
+# units. MT.settled returns METRES; run_episode must convert to
+# millimetres so the record's settled_mm field holds true mm and the
+# containment settled sub-check enforces the certified < 2.0 mm
+# bound. These tests drive the real run_episode scoring path with
+# the physics engine, the gate, and the policy stubbed out;
+# MT.settled is pinned to a known metre value and the recorded
+# millimetres plus the sub-check verdict are asserted:
+# 0.0015 m -> 1.5 mm (pass), 0.0025 m -> 2.5 mm (fail),
+# exactly 0.002 m -> 2.0 mm (fail: the certified bound is strict).
+# ---------------------------------------------------------------------
+import tempfile
+import types
+from unittest import mock
+
+import numpy as np
+
+from zk0_node.sim import policy_eval as _pe
+
+_FAKE_JOINTS = ["shoulder_pan", "shoulder_lift", "elbow_flex",
+                "wrist_flex", "wrist_roll", "gripper"]
+
+
+class _FakeMjModel:
+    def __init__(self):
+        self.opt = types.SimpleNamespace(timestep=None)
+
+    def cam(self, name):
+        return types.SimpleNamespace(id=0)
+
+    def site(self, name):
+        return types.SimpleNamespace(id=0)
+
+    def jnt(self, name):
+        return types.SimpleNamespace(
+            qposadr=[_FAKE_JOINTS.index(name)],
+            range=np.array([-3.0, 3.0]))
+
+
+class _FakeMjData:
+    def __init__(self, model):
+        self.qpos = np.zeros(13)
+        # Cube freejoint at qpos[6:9]: parked at the SIM-1 box centre,
+        # below the rim, so containment hinges on settled alone.
+        self.qpos[6:9] = [0.27, -0.14, 0.03]
+        self.qpos[9:13] = [1.0, 0.0, 0.0, 0.0]
+        self.ctrl = np.zeros(6)
+        self.time = 0.0
+        self.site_xpos = np.zeros((1, 3))
+
+
+class _FakeRenderer:
+    def __init__(self, model, height=None, width=None):
+        self._shape = (height or 240, width or 320, 3)
+
+    def update_scene(self, data, camera=None):
+        pass
+
+    def render(self):
+        return np.zeros(self._shape, dtype=np.uint8)
+
+
+def _fake_mujoco():
+    mod = types.ModuleType("mujoco")
+    mod.MjModel = types.SimpleNamespace(
+        from_xml_path=lambda path: _FakeMjModel())
+    mod.MjData = _FakeMjData
+    mod.Renderer = _FakeRenderer
+    mod.mj_forward = lambda m, d: None
+
+    def _step(m, d):
+        d.time += m.opt.timestep
+
+    mod.mj_step = _step
+    return mod
+
+
+class _FakeGateRecorder:
+    def __init__(self, model, bodies, site_id):
+        self.bqadr = {b: 6 for b in bodies}
+        self.rows = []
+
+    def sample(self, data, ctrl):
+        pass
+
+
+def _fake_grasp_gate():
+    mod = types.ModuleType("grasp_gate")
+    mod.GateRecorder = _FakeGateRecorder
+    mod.evaluate_cycle = lambda *a, **k: {}
+    return mod
+
+
+def _fake_mt(settled_m):
+    return types.SimpleNamespace(
+        JOINTS=list(_FAKE_JOINTS), GRIP_OPEN=0.0,
+        aim_camera=lambda m, cam_id, pos, lookat: None,
+        settled=lambda log, body: settled_m)
+
+
+class _ZeroPolicy:
+    def select_action(self, obs):
+        import torch
+        return torch.zeros(6)
+
+
+class PolicyEvalSettledUnitsTest(unittest.TestCase):
+    def _run_episode(self, settled_m):
+        bundle = _pe.PolicyBundle(_ZeroPolicy(), lambda o: o,
+                                  lambda a: a, "cpu")
+        draw = {"x": 0.26, "y": 0.02, "yaw_rad": 0.0}
+        # Swap ONLY the mujoco / grasp_gate sys.modules entries and
+        # restore them exactly afterwards. mock.patch.dict is NOT
+        # used for this: on exit it evicts every module first
+        # imported inside the patched region -- including torch,
+        # whose re-import then raises "torch can only be
+        # initialized once per process" in later tests.
+        saved = {}
+        for name, fake in (("mujoco", _fake_mujoco()),
+                           ("grasp_gate", _fake_grasp_gate())):
+            saved[name] = sys.modules.get(name)
+            sys.modules[name] = fake
+        try:
+            with tempfile.TemporaryDirectory() as td, \
+                    mock.patch.object(_pe, "_import_mt",
+                                      lambda: _fake_mt(settled_m)), \
+                    mock.patch.object(_pe, "_scene_xml",
+                                      lambda *a, **k: "<mujoco/>"), \
+                    mock.patch.object(_pe, "HORIZON_S", 1.0):
+                return _pe.run_episode("sim1", draw, bundle,
+                                       Path(td), None)
+        finally:
+            for name, prev in saved.items():
+                if prev is None:
+                    sys.modules.pop(name, None)
+                else:
+                    sys.modules[name] = prev
+
+    def test_settled_1p5mm_passes(self):
+        r = self._run_episode(0.0015)
+        self.assertEqual(r["settled_mm"], 1.5)
+        self.assertTrue(r["tier1"]["containment"]["settled"])
+        self.assertTrue(r["tier1"]["containment"]["pass"])
+        self.assertTrue(r["tier1"]["pass"])
+
+    def test_settled_2p5mm_fails(self):
+        r = self._run_episode(0.0025)
+        self.assertEqual(r["settled_mm"], 2.5)
+        self.assertFalse(r["tier1"]["containment"]["settled"])
+        self.assertFalse(r["tier1"]["containment"]["pass"])
+        self.assertFalse(r["tier1"]["pass"])
+
+    def test_settled_exactly_2mm_fails_strict_bound(self):
+        r = self._run_episode(0.002)
+        self.assertEqual(r["settled_mm"], 2.0)
+        self.assertFalse(r["tier1"]["containment"]["settled"])
+
+
 if __name__ == "__main__":
     unittest.main()
