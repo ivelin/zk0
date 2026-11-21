@@ -93,6 +93,18 @@ stats hash == a0455b5ba7d75b9c3d743754828020ca751f29fe93447a10620
 written (it is the G-8 packaging form, consistent with how every
 lerobot checkpoint - including the centralized arm's - carries
 its preprocessor).
+Policy construction (realization found by the first smoke
+attempt, 2026-11-21): the substrate's `get_model(ds_meta)` names
+the policy's image features after the DATASET (front/top/wrist),
+which is self-consistent for per-client-stats training but
+incompatible with D-9, whose pooled stats are keyed to the base
+config's camera names. In study configuration the client policy
+is therefore built from the base checkpoint's own config -
+`SmolVLAPolicy.from_pretrained("lerobot/smolvla_base")`, exactly
+the study driver's client construction (`src/client/
+client_core.py`, gated on the pooled path being set). Census
+verified identical: 500 tensors, 155 trainable, 99,880,992
+params; image features camera1/2/3.
 Camera rename (row 19): lerobot 0.7.0's SmolVLA pipeline does
 not rename observations - its rename step carries an empty map
 (the certified pilot checkpoint's own policy_preprocessor.json

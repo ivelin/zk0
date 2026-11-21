@@ -58,7 +58,41 @@ class SmolVLAClient(NumPyClient):
         )
 
         # Load model using global function
-        self.net = get_model(dataset_meta)
+        # Study 001 (D-11/G-6 realization): in study configuration
+        # the client policy is built from the BASE CHECKPOINT's own
+        # config - SmolVLAPolicy.from_pretrained("lerobot/
+        # smolvla_base"), exactly the study driver's client
+        # construction - NOT from this dataset's metadata. The
+        # substrate's get_model(ds_meta) names the policy's image
+        # features after the dataset (front/top/wrist), which is
+        # self-consistent for per-client-stats training but
+        # incompatible with D-9: the pooled preprocessor and its
+        # registered stats hash are keyed to the base config's
+        # camera names (camera1/2/3), and the registered camera
+        # rename maps the data onto them. Tensor shapes and the
+        # 155-tensor trainable census are identical either way
+        # (feature names attach no weights).
+        _study_mode = False
+        try:
+            from src.common.utils import get_tool_config as _gtc
+
+            _study_mode = bool(
+                _gtc("flwr", "pyproject.toml")
+                .get("app", {})
+                .get("config", {})
+                .get("pooled_preprocessor_path")
+            )
+        except Exception:
+            _study_mode = False
+        if _study_mode:
+            from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
+
+            logger.info(
+                f"Client {self.client_id}: Study 001 - policy from base checkpoint config (D-11/G-6)"
+            )
+            self.net = SmolVLAPolicy.from_pretrained("lerobot/smolvla_base")
+        else:
+            self.net = get_model(dataset_meta)
 
         # Store data
         self.trainloader = trainloader
