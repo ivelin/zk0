@@ -53,7 +53,7 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 20 # 250 # LeRobot SmolVLA guideline is for combined epochs X rounds ~= 20,000 for a single dataset with ~ 50 training episodes
+num-server-rounds = 3 # SOAK 2026-11-21: 3 rounds (file baseline 20) - fix-verification soak, see reproduction protocol
 local-epochs = 2 # 20 # steps/epochs per round
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
@@ -65,7 +65,7 @@ use-wandb = true # requires WANDB_API_KEY env var set
 eval-frequency = 1 # Evaluate every eval-frequency rounds
 eval_batches = 4 # 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
 checkpoint_interval = 1 # 10 # Save checkpoint every N rounds (0 = disabled)
-hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
+# SOAK 2026-11-21: hf_repo_id commented out so the soak cannot push to the published repo; local checkpoints still save every round (checkpoint_interval=1). Original: hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
 proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
 dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
@@ -116,7 +116,7 @@ options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4C
 options.backend.client-resources.num-gpus = 0.2 # 20% for each for 4 clients and 20% for server process (eval). SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
-options.num-supernodes = 2 # STAGE-A SCALE: 2 supernodes (was 12), number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping 
+options.num-supernodes = 5 # SOAK SCALE: 5 supernodes (baseline pool subset; baseline file had 12, Stages A-C miniature had 2), number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping
 options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
 options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
 backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time
@@ -138,8 +138,11 @@ insecure = true
 
 [tool.zk0.datasets]
 clients = [
-    {name = "giovipeg/record-test", description = "Pick and place pink knob. - VALIDATED CLEAN", client_id = 0},
-    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1},
+    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 0},
+    {name = "giovipeg/record-test", description = "Pick and place pink knob. - VALIDATED CLEAN", client_id = 1},
+    {name = "stanl1y/record_60_simple", description = "Grab the red pen and place it into the bin. - VALIDATED CLEAN", client_id = 2},
+    {name = "qm30631122/so101_grab_pen_20sec_50ep_SCB_102725_2", description = "Grab pen and put in to cylinder. - VALIDATED CLEAN", client_id = 3},
+    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 4},
 ]
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
