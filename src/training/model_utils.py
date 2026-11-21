@@ -23,6 +23,12 @@ def get_model(dataset_meta=None):
     # Use lerobot factory to create policy (like standalone train script)
     policy = make_policy(cfg=cfg, ds_meta=dataset_meta)
 
+    # STAGE B VARIATION (reproduction protocol, precision row -- a
+    # deliberate experimental variable, NOT an era adaptation): run
+    # the policy in fp32 instead of bf16, mirroring the Study 001
+    # driver's policy.float(). Delete this block to revert to Stage A.
+    policy = policy.float()
+
     # Log memory usage after model loading (for OOM debugging)
     if torch.cuda.is_available():
         allocated_gb = torch.cuda.memory_allocated() / 1e9
