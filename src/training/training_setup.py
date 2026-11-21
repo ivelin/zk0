@@ -159,3 +159,26 @@ def create_train_metrics():
         "update_s": AverageMeter("updt_s", ":.3f"),
         "dataloading_s": AverageMeter("data_s", ":.3f"),
     }
+
+
+def build_batch_preprocessor(policy, dataset):
+    """Build the canonical lerobot 0.7.0 SmolVLA batch preprocessor.
+
+    Adaptation #3 (founder-approved 2026-11-21): era lerobot tokenized
+    the language task inside its own training path; lerobot 0.7.0
+    externalized batch preparation into the policy processor pipeline.
+    SmolVLA.forward requires `observation.language.tokens` in the
+    batch, which only that pipeline produces (alongside the rename,
+    device, and normalize steps). This mirrors lerobot's own training
+    pipeline (lerobot_train.py): processors built from the policy
+    config plus the training dataset's own statistics, with the
+    default (empty) rename map used throughout this codebase.
+    """
+    from lerobot.policies.factory import make_pre_post_processors
+    from lerobot.scripts.lerobot_train import rename_stats
+
+    preprocessor, _postprocessor = make_pre_post_processors(
+        policy_cfg=policy.config,
+        dataset_stats=rename_stats(dataset.meta.stats, {}),
+    )
+    return preprocessor

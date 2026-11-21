@@ -21,14 +21,20 @@ def run_training_step(
     cfg,
     global_params,
     fedprox_mu,
+    preprocessor=None,
 ):
     """Run a single training step with FedProx regularization."""
     from src.training.fedprox_utils import compute_fedprox_proximal_loss
 
-    # Move batch to device
-    for key in batch:
-        if isinstance(batch[key], torch.Tensor):
-            batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
+    if preprocessor is not None:
+        # Adaptation #3: canonical 0.7.0 batch preparation (rename,
+        # tokenize, device transfer, normalize) before forward.
+        batch = preprocessor(batch)
+    else:
+        # Move batch to device
+        for key in batch:
+            if isinstance(batch[key], torch.Tensor):
+                batch[key] = batch[key].to(device, non_blocking=device.type == "cuda")
 
     # Skip per-step VRAM logging for cleaner output
 
@@ -133,6 +139,7 @@ def run_training_loop(
     fedprox_mu,
     partition_id=None,
     round_num=None,
+    preprocessor=None,
 ):
     """Run the main training loop."""
     from lerobot.datasets.utils import cycle
@@ -236,6 +243,7 @@ def run_training_loop(
                     cfg,
                     global_params,
                     fedprox_mu,
+                    preprocessor=preprocessor,
                 )
             )
         except Exception as step_error:

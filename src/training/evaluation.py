@@ -20,6 +20,12 @@ def test(
     policy = policy.to(device)
     policy.eval()
 
+    # Adaptation #3: canonical 0.7.0 batch preparation (see
+    # src.training.training_setup.build_batch_preprocessor)
+    from src.training.training_setup import build_batch_preprocessor
+
+    preprocessor = build_batch_preprocessor(policy, dataset)
+
     logging.info("Evaluating on server dataset")
 
     # Use the provided dataset
@@ -81,12 +87,9 @@ def test(
             break
 
         try:
-            # Move batch to device
-            for key in batch:
-                if isinstance(batch[key], torch.Tensor):
-                    batch[key] = batch[key].to(
-                        device, non_blocking=device.type == "cuda"
-                    )
+            # Adaptation #3: canonical batch preparation (tokenize,
+            # normalize, device transfer) before forward.
+            batch = preprocessor(batch)
 
             # Compute policy loss (primary metric for SmolVLA flow-matching)
             with torch.no_grad():

@@ -5,7 +5,11 @@ import logging
 from loguru import logger
 
 from src.training.model_utils import log_param_status
-from src.training.training_setup import setup_training_components, reset_learning_rate_scheduler
+from src.training.training_setup import (
+    setup_training_components,
+    reset_learning_rate_scheduler,
+    build_batch_preprocessor,
+)
 from src.training.training_loop import run_training_loop
 
 
@@ -52,6 +56,9 @@ def train(
         optimizer, lr_scheduler, initial_lr, epochs
     )
 
+    # Adaptation #3: canonical batch preparation for lerobot 0.7.0
+    preprocessor = build_batch_preprocessor(policy, trainloader.dataset)
+
     # Run training loop
     final_step = run_training_loop(
         policy,
@@ -68,6 +75,7 @@ def train(
         fedprox_mu,
         partition_id,
         round_num,
+        preprocessor=preprocessor,
     )
 
     # Log post-training param status
