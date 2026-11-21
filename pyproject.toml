@@ -75,7 +75,7 @@ fixed_fedprox = true # Study 001 adaptation #5 (D-11/G-2): constant-mu path in c
 lr_within_round = "constant" # Study 001 adaptation #7 (D-11/G-4): flat LR within a round; the server sends lr_at(mid-round offset)
 round_offset = 0 # Study 001 adaptation #10 (D-11/G-7): resume offset (0 = fresh run; a resume launch overrides via run-config)
 pooled_preprocessor_path = "/home/openclaw/muse-work/zk0-study001-fl-20261121/study_assets/pooled_preprocessor" # Study 001 adaptation #9 (D-11/G-6): serialized D-9 pooled preprocessor (stats hash gated at a0455b5b...)
-# initial_model_path intentionally ABSENT: fresh runs start from lerobot/smolvla_base; a resume launch sets it via run-config (adaptation #10)
+initial_model_path = "" # Study 001 adaptation #10 (D-11/G-7): empty = fresh start from lerobot/smolvla_base; a resume launch overrides it via run-config with a checkpoint dir (the key must EXIST for Flower's run-config override fusion - a missing key is rejected)
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
 dynamic_training_decay = false # Study 001: superseded by fixed_fedprox (adaptation #5)
 # New parameters for LR/MU scheduling enhancements (v0.2.6)
