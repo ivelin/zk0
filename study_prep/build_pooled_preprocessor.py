@@ -38,6 +38,25 @@ OUT.mkdir(parents=True, exist_ok=True)
 pre.save_pretrained(str(OUT), config_filename="policy_preprocessor.json")
 print("pipeline serialization saved:", sorted(p.name for p in OUT.iterdir()), flush=True)
 
+# The packaged (eval-facing) form follows the study's train-saved
+# convention (cf. the centralized arm's checkpoint): the rename
+# step carries the registered RENAME map, so a consumer feeding
+# raw ArmnetBench batches gets the rename inside the pipeline -
+# the same net transformation the driver applies in its data path
+# during training. (The driver's factory call passes the rename as
+# an `overrides=` kwarg this lerobot version silently ignores, so
+# the raw saved json carries {}; the stats - the gated content -
+# are unaffected.)
+import json as _json
+
+_cfg_path = OUT / "policy_preprocessor.json"
+_cfg = _json.loads(_cfg_path.read_text())
+for _step in _cfg["steps"]:
+    if _step.get("registry_name") == "rename_observations_processor":
+        _step["config"]["rename_map"] = fl_driver.RENAME
+_cfg_path.write_text(_json.dumps(_cfg, indent=2))
+print("packaged preprocessor json: rename_map set to RENAME", flush=True)
+
 # ---- bit-exact stats serialization ----
 import torch
 from safetensors.torch import save_file
@@ -55,6 +74,23 @@ for key in sorted(norm.stats):
         flat[f"{key}|{sub}"] = t.detach().cpu().clone()
 save_file(flat, str(OUT / "pooled_stats.safetensors"), metadata={"format": "pt"})
 print(f"pooled stats serialized: {len(flat)} tensors", flush=True)
+
+# Postprocessor state for packaging (G-8): the unnormalizer step's
+# state file in lerobot's own save format (keys "key.sub", F32) -
+# the substrate's save_model_checkpoint does not write it, and a
+# packaged checkpoint does not load without it. Content: the same
+# pooled stats (the unnormalizer reads the action entries).
+post_flat = {
+    f"{key}.{sub}": torch.as_tensor(t).to(torch.float32).contiguous()
+    for key in sorted(norm.stats)
+    for sub, t in ((s, norm.stats[key][s]) for s in norm.stats[key])
+}
+save_file(
+    post_flat,
+    str(OUT / "policy_postprocessor_step_0_unnormalizer_processor.safetensors"),
+    metadata={"format": "pt"},
+)
+print(f"postprocessor state serialized: {len(post_flat)} tensors", flush=True)
 
 # ---- end-to-end gate through the real client construction path ----
 from src.common.utils import load_lerobot_dataset

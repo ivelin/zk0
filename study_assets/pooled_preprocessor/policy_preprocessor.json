@@ -4,7 +4,11 @@
     {
       "registry_name": "rename_observations_processor",
       "config": {
-        "rename_map": {}
+        "rename_map": {
+          "observation.images.front": "observation.images.camera1",
+          "observation.images.top": "observation.images.camera2",
+          "observation.images.wrist": "observation.images.camera3"
+        }
       }
     },
     {

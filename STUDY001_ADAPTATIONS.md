@@ -133,11 +133,24 @@ before the production launch (hard gate).
 
 ## G-8 — Packaging
 Post-run step (`study_prep/package_final_checkpoint.py`): copies
-the hash-verified pooled preprocessor files into
-`checkpoint_round_30` (the substrate's `save_model_checkpoint`
-copies BASE preprocessor files in), then verifies the packaged
-directory's preprocessor hashes to the D-9 value and loads via
-`SmolVLAPolicy.from_pretrained` + `make_pre_post_processors`.
+the pooled preprocessor files into `checkpoint_round_30` (the
+substrate's `save_model_checkpoint` copies BASE preprocessor
+files in), plus two artifacts the substrate checkpoint lacks -
+the tokenizer artifact directory and the postprocessor
+unnormalizer state (written by the prep from the pooled stats in
+lerobot's own save format) - without which the packaged
+directory does not load at all. The packaged preprocessor json
+follows the study's train-saved convention (cf. the centralized
+arm): its rename step carries RENAME, so the artifact is
+standalone-correct for eval consumers feeding raw ArmnetBench
+batches. Verification: the directory loads via
+`SmolVLAPolicy.from_pretrained` + `make_pre_post_processors`;
+the packaged stats equal the pooled D-9 stats tensor-for-tensor
+at F32 (the serialization form every arm's checkpoint carries -
+bit-equality with the F64 D-9 hash is impossible in this form by
+construction); the unnormalizer's action stats equal the pooled
+action stats at F32. Dry-run on the smoke checkpoint before the
+production launch.
 
 ## Configuration (pyproject.toml)
 30 rounds; local-epochs 100 (= steps/fit); batch 32; fraction-fit
