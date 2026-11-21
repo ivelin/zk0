@@ -23,9 +23,6 @@ def setup_training_components(
     """
     from lerobot.optim.factory import make_optimizer_and_scheduler
     from lerobot.configs.train import TrainPipelineConfig
-    from lerobot.configs.default import (
-        WandBConfig,
-    )  # + Import WandBConfig for logging enablement
     from lerobot.utils.logging_utils import MetricsTracker
     from torch.amp import GradScaler
 
@@ -50,13 +47,6 @@ def setup_training_components(
         num_workers=0,
         log_freq=250,
         steps=epochs,
-        wandb=WandBConfig(  # Disable WandB in LeRobot (we handle it at Flower level)
-            project="zk0",
-            enable=False,  # Always disable to prevent duplicate WandB runs
-            mode="online",
-            run_id=f"client_{client_id}_{dataset_name}",
-            notes=f"Federated Learning Client {client_id} - Dataset: {dataset_name}",
-        ),
     )
 
     # Use lerobot's optimizer factory

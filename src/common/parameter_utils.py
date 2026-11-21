@@ -55,7 +55,7 @@ def compute_rounded_hash(ndarrays, precision="float32"):
 
 
 def validate_and_log_parameters(
-    parameters: List[np.ndarray], gate_name: str, expected_count: int = 506
+    parameters: List[np.ndarray], gate_name: str, expected_count: int = 500
 ) -> str:
     """
     Validate parameters and log basic information about them.

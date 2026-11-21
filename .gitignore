@@ -202,3 +202,10 @@ repomix-output.xml
 
 # output logs
 logs/
+# DGX reproduction working dirs (guard telemetry / run state, 2026-11-21)
+run/
+runA/
+runB/
+runC/
+runD/
+mirror*/

@@ -116,7 +116,7 @@ options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4C
 options.backend.client-resources.num-gpus = 0.2 # 20% for each for 4 clients and 20% for server process (eval). SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
-options.num-supernodes = 12 # in the zk0 sim setup, number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping 
+options.num-supernodes = 2 # STAGE-A SCALE: 2 supernodes (was 12), number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping 
 options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
 options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
 backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time
@@ -138,18 +138,8 @@ insecure = true
 
 [tool.zk0.datasets]
 clients = [
-    {name = "shaunkirby/record-test", description = "Put the red LEGO in the bin", client_id = 0},
+    {name = "giovipeg/record-test", description = "Pick and place pink knob. - VALIDATED CLEAN", client_id = 0},
     {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 1},
-    {name = "gimarchetti/so101-winnie-us5", description = "rub the plush toy with the bottle - VALIDATED CLEAN", client_id = 2},
-    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 3},
-    {name = "sebastiandavidlee/chopsticksTable2Organizer", description = "Grasp each utensil, classify it, and place it in its designated organizer slot. - VALIDATED CLEAN", client_id = 4},
-    {name = "giovipeg/record-test", description = "Pick and place pink knob. - VALIDATED CLEAN", client_id = 5},
-    {name = "VoicAndrei/so100_cubes_three_cameras", description = "Pick up the green cubes from the white plate and place them in the black recipient. - VALIDATED CLEAN", client_id = 6},
-    {name = "qm30631122/so101_grab_pen_20sec_50ep_SCB_102725_2", description = "Grab pen and put in to cylinder. - VALIDATED CLEAN", client_id = 7},
-    {name = "wsi-dev/tictactoe", description = "Place the X in the top right box. - VALIDATED CLEAN", client_id = 8},
-    {name = "KeisukeSato1024/so101_pp_green_box", description = "Pick and place the green box. - VALIDATED CLEAN", client_id = 9},
-    {name = "stanl1y/record_60_simple", description = "Grab the red pen and place it into the bin. - VALIDATED CLEAN", client_id = 10},
-    {name = "RickRain/Imperio", description = "Grab the block and drop it on the black square. - VALIDATED CLEAN", client_id = 11},
 ]
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
