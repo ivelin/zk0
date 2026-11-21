@@ -1,0 +1,32 @@
+{
+  "add_prefix_space": false,
+  "backend": "tokenizers",
+  "bos_token": "<|im_start|>",
+  "clean_up_tokenization_spaces": false,
+  "end_of_utterance_token": "<end_of_utterance>",
+  "eos_token": "<end_of_utterance>",
+  "extra_special_tokens": [
+    "<fake_token_around_image>",
+    "<image>",
+    "<end_of_utterance>"
+  ],
+  "fake_image_token": "<fake_token_around_image>",
+  "global_image_token": "<global-img>",
+  "image_token": "<image>",
+  "is_local": false,
+  "legacy": false,
+  "local_files_only": false,
+  "model_max_length": 8192,
+  "model_specific_special_tokens": {
+    "end_of_utterance_token": "<end_of_utterance>",
+    "fake_image_token": "<fake_token_around_image>",
+    "global_image_token": "<global-img>",
+    "image_token": "<image>"
+  },
+  "pad_token": "<|im_end|>",
+  "processor_class": "SmolVLMProcessor",
+  "tokenizer_class": "TokenizersBackend",
+  "truncation_side": "left",
+  "unk_token": "<|endoftext|>",
+  "vocab_size": 49152
+}

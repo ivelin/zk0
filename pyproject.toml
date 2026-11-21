@@ -53,22 +53,31 @@ serverapp = "src.server_app:app"
 clientapp = "src.client_app:app"
 
 [tool.flwr.app.config]
-num-server-rounds = 20 # SOAK SEGMENT 2 (runI) 2026-11-21: baseline file value restored - segment 1 (runH, 3 rounds) took ~11.5 min, too short for the >=52 min gate; 20 rounds at ~3.7 min/round gives the continuous window
-local-epochs = 2 # 20 # steps/epochs per round
+num-server-rounds = 30 # Study 001 (D-11): registered FL arm - 30 rounds x 100 local steps/node
+local-epochs = 100 # Study 001 (D-11): 100 local steps per node per round (the loop "epochs" value is a step count) = 3000 steps/node over 30 rounds
 model-name = "ivelin/zk0-smolvla-fl" # fl fine tuned: "ivelin/zk0-smolvla-fl" # Baseline: "lerobot/smolvla_base"
 fraction-fit = 1 # 0.3 # set to 1 for all clients to train each round; 0.5 for half of all
 min-fit-clients = 2 # Minimum clients to train each round (ensure at least 2 for SO-100 with 4 clients)
-fraction-evaluate = 1 # Evaluate all clients when using client eval. For server eval, this is ignored.
-batch_size = 16 # Reduced from 64 for multi-client GPU sharing on 24GB RTX (OOM fix); increase for single-client/high VRAM
+fraction-evaluate = 0 # Study 001 (D-11, founder decision 5): in-training client evaluation OFF
+batch_size = 32 # Study 001 (D-11): registered batch size 32
 server-device = "gpu" # could be also "cpu"
-use-wandb = true # requires WANDB_API_KEY env var set
-eval-frequency = 1 # Evaluate every eval-frequency rounds
+use-wandb = false # Study 001: wandb off (the launch also passes use-wandb=false)
+eval-frequency = 31 # Study 001 (D-11, founder decision 5): server eval off except the substrate round-0 evaluation (logged, ignored)
 eval_batches = 4 # 16 # Number of batches to evaluate in each eval dataset (0 = all eval split batches (about 10 per episode), 8 = tiny/quick eval mode (about 1 episode))
 checkpoint_interval = 1 # 10 # Save checkpoint every N rounds (0 = disabled)
-# SOAK 2026-11-21: hf_repo_id commented out so the soak cannot push to the published repo; local checkpoints still save every round (checkpoint_interval=1). Original: hf_repo_id = "ivelin/zk0-smolvla-fl" # HF repo for final model push (optional; requires HF_TOKEN env var)
-proximal_mu = 0.01 # Increased from 0.001 for better heterogeneity handling in SO-100
+# Study 001 (D-11): the hf repo key is ABSENT by design - push_to_hub
+# is false everywhere in this study (preregistration section 3). Do
+# NOT add the key: save_and_push_model pushes whenever it is present
+# (the runE/runF accidental pushes to the published repo are the
+# cautionary tale - reproduction protocol, 2026-11-21).
+proximal_mu = 0.1 # Study 001 (D-11): registered FedProx mu = 0.1, constant (fixed_fedprox path, adaptation #5)
+fixed_fedprox = true # Study 001 adaptation #5 (D-11/G-2): constant-mu path in compute_fedprox_parameters
+lr_within_round = "constant" # Study 001 adaptation #7 (D-11/G-4): flat LR within a round; the server sends lr_at(mid-round offset)
+round_offset = 0 # Study 001 adaptation #10 (D-11/G-7): resume offset (0 = fresh run; a resume launch overrides via run-config)
+pooled_preprocessor_path = "/home/openclaw/muse-work/zk0-study001-fl-20261121/study_assets/pooled_preprocessor" # Study 001 adaptation #9 (D-11/G-6): serialized D-9 pooled preprocessor (stats hash gated at a0455b5b...)
+# initial_model_path intentionally ABSENT: fresh runs start from lerobot/smolvla_base; a resume launch sets it via run-config (adaptation #10)
 initial_lr = 1e-4 # Initial learning rate for FL training (reduced from 1e-3 for better FedProx convergence)
-dynamic_training_decay = true # Enable joint mu/LR adjustment based on eval trends for FL stability (default: disabled)
+dynamic_training_decay = false # Study 001: superseded by fixed_fedprox (adaptation #5)
 # New parameters for LR/MU scheduling enhancements (v0.2.6)
 scheduler_type = "cosine_warm_restarts"  # "cosine" (current), "cosine_warm_restarts", "reduce_on_plateau"
 cosine_warm_restarts_T_0 = 15  # Restart period (rounds) for warm restarts
@@ -116,7 +125,7 @@ options.backend.client-resources.num-cpus = 4 # each ClientApp assumes to use 4C
 options.backend.client-resources.num-gpus = 0.2 # 20% for each for 4 clients and 20% for server process (eval). SmolVLA is more memory efficient, allowing more parallelism
 
 [tool.flwr.federations.local-simulation-serialized-gpu]
-options.num-supernodes = 5 # SOAK SCALE: 5 supernodes (baseline pool subset; baseline file had 12, Stages A-C miniature had 2), number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping
+options.num-supernodes = 5 # Study 001 (D-11): 5 supernodes = the 5 study nodes; number of super nodes / clients must match exactly the number of train datasets in order to guarantee correct mapping
 options.backend.client-resources.num-cpus = 4 # dedicated CPU resources for serialized execution
 options.backend.client-resources.num-gpus = 1.0 # full GPU access, but serialized to prevent conflicts
 backend.client-resources.memory = "16GB"  # Per client actor; serialized mode uses one at a time
@@ -138,11 +147,11 @@ insecure = true
 
 [tool.zk0.datasets]
 clients = [
-    {name = "ethanCSL/direction_test", description = "turn to the right side - VALIDATED CLEAN", client_id = 0},
-    {name = "giovipeg/record-test", description = "Pick and place pink knob. - VALIDATED CLEAN", client_id = 1},
-    {name = "stanl1y/record_60_simple", description = "Grab the red pen and place it into the bin. - VALIDATED CLEAN", client_id = 2},
-    {name = "qm30631122/so101_grab_pen_20sec_50ep_SCB_102725_2", description = "Grab pen and put in to cylinder. - VALIDATED CLEAN", client_id = 3},
-    {name = "olingoudey/so101_stationary_mug445", description = "Put the stuffed animal in the mug. - VALIDATED CLEAN", client_id = 4},
+    {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 0 - block_stack (P0 subset, 50 teleop demos, 12975 frames)", client_id = 0, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/block_stack/episodes.json"},
+    {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 1 - eye_drops_to_basket (P0 subset, 50 teleop demos, 9127 frames)", client_id = 1, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/eye_drops_to_basket/episodes.json"},
+    {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 2 - ring_insert (P0 subset, 50 teleop demos, 11679 frames)", client_id = 2, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/ring_insert/episodes.json"},
+    {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 3 - tool_insert (P0 subset, 50 teleop demos, 20806 frames)", client_id = 3, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/tool_insert/episodes.json"},
+    {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 4 - cable_clip (P0 subset, 50 teleop demos, 27647 frames)", client_id = 4, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/cable_clip/episodes.json"},
 ]
 server = [
     {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},

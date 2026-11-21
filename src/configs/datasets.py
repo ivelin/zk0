@@ -2,7 +2,7 @@
 
 import sys
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from loguru import logger
 
 if sys.version_info >= (3, 11):
@@ -18,6 +18,13 @@ class ClientConfig:
     name: str
     description: str
     client_id: int
+    # Study 001 adaptation #4 (deviation D-11, gap G-1): optional
+    # on-disk dataset root + P0 episode-list file. When set, the
+    # client loads exactly its own task subset from the pinned
+    # on-disk tree (the study driver's own LeRobotDataset
+    # construction) instead of a full hub dataset.
+    root: Optional[str] = None
+    episodes_file: Optional[str] = None
 
 
 @dataclass

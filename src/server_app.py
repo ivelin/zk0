@@ -201,7 +201,9 @@ def server_fn(context: Context) -> ServerAppComponents:
         # Initialize global model
         logger.info("🔧 Server: Initializing global model")
         from src.server.server_utils import initialize_global_model
-        global_model_init, dataset_meta = initialize_global_model()
+        global_model_init, dataset_meta = initialize_global_model(
+            initial_model_path=context.run_config.get("initial_model_path")
+        )
         print("[DEBUG server_fn] After initialize_global_model - model loaded", file=sys.stderr)
         sys.stderr.flush()
         logger.info("🔧 Server: Global model initialized successfully")

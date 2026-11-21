@@ -8,6 +8,50 @@ from torch.optim.lr_scheduler import (
 from loguru import logger
 
 
+# Study 001 (D-11/G-6): the registered camera rename of the study
+# driver's construction (front->camera1, top->camera2,
+# wrist->camera3), used in the pooled-preprocessor factory call.
+_STUDY_RENAME_MAP = {
+    "observation.images.front": "observation.images.camera1",
+    "observation.images.top": "observation.images.camera2",
+    "observation.images.wrist": "observation.images.camera3",
+}
+
+
+def _construct_pooled_preprocessor(pooled_dir):
+    """Reconstruct the D-9 pooled preprocessor from its serialized
+    normalizer statistics, through the same factory call the study
+    driver's build_pooled_preprocessor uses (same base config
+    handling, same rename override), so the constructed pipeline is
+    the gated object itself, not a serialization of it."""
+    import os
+
+    import torch
+    from lerobot.policies.factory import make_pre_post_processors
+    from lerobot.policies.smolvla.configuration_smolvla import SmolVLAConfig
+    from safetensors.torch import load_file
+
+    stats_file = os.path.join(pooled_dir, "pooled_stats.safetensors")
+    flat = load_file(stats_file)
+    stats = {}
+    for flat_key, tensor in flat.items():
+        key, _, sub = flat_key.rpartition("|")
+        stats.setdefault(key, {})[sub] = tensor
+
+    pc = SmolVLAConfig.from_pretrained("lerobot/smolvla_base")
+    pc.pretrained_path = "lerobot/smolvla_base"
+    pc.empty_cameras = 0
+    preprocessor, _postprocessor = make_pre_post_processors(
+        policy_cfg=pc,
+        dataset_stats=stats,
+        overrides={
+            "rename_observations_processor": {"rename_map": _STUDY_RENAME_MAP}
+        },
+    )
+    return preprocessor
+
+
+
 def setup_training_components(
     policy,
     trainloader,
@@ -62,6 +106,27 @@ def setup_training_components(
 
     if lr_scheduler is not None:
         eta_min = initial_lr * 0.1  # Decay to 10% of initial LR
+        # Study 001 adaptation #7 (D-11/G-4): the registered schedule
+        # holds the LR constant WITHIN a round (the server sends
+        # lr_at at the mid-round offset per round). When the app
+        # config carries lr_within_round = "constant", a flat cosine
+        # (eta_min == initial_lr) realizes it with the stock
+        # scheduler type.
+        try:
+            from src.common.utils import get_tool_config
+
+            _app_cfg = (
+                get_tool_config("flwr", "pyproject.toml")
+                .get("app", {})
+                .get("config", {})
+            )
+        except Exception:
+            _app_cfg = {}
+        if _app_cfg.get("lr_within_round") == "constant":
+            eta_min = initial_lr
+            logger.info(
+                "FL scheduler: flat within-round LR (adaptation #7, lr_within_round=constant)"
+            )
         lr_scheduler = CosineAnnealingLR(optimizer, T_max=epochs, eta_min=eta_min)
         logger.info(
             f"FL scheduler: CosineAnnealingLR with initial_lr={initial_lr}, eta_min={eta_min} over {epochs} steps"
@@ -173,7 +238,43 @@ def build_batch_preprocessor(policy, dataset):
     pipeline (lerobot_train.py): processors built from the policy
     config plus the training dataset's own statistics, with the
     default (empty) rename map used throughout this codebase.
+
+    Study 001 adaptation #9 (D-11/G-6): when the app config carries
+    pooled_preprocessor_path, the ONE pooled union-250 preprocessor
+    of deviation D-9 is constructed instead of building from this
+    client's own dataset statistics - per-node stats would put the
+    nodes in incommensurable normalization frames, which is exactly
+    what D-9 forbids. The pooled preprocessor was built once by the
+    study driver's own build_pooled_preprocessor construction; its
+    normalizer statistics are serialized bit-exactly (float64
+    safetensors, study_assets/pooled_preprocessor/pooled_stats.
+    safetensors) and every client reconstructs the pipeline from
+    them through the driver's own factory call, so the object each
+    client trains with hashes (the driver's preprocessor_stats_
+    hash) to the D-9 value a0455b5b... - lerobot's pipeline-level
+    save_pretrained/from_pretrained round-trip was measured to
+    degrade the stats to float32 (max diff 1.8e-6) and squeeze
+    scalar shapes, so it is used only for checkpoint packaging
+    (G-8), never for the training-time object.
     """
+    pooled_path = None
+    try:
+        from src.common.utils import get_tool_config
+
+        pooled_path = (
+            get_tool_config("flwr", "pyproject.toml")
+            .get("app", {})
+            .get("config", {})
+            .get("pooled_preprocessor_path")
+        )
+    except Exception:
+        pooled_path = None
+    if pooled_path:
+        logger.info(
+            f"Study 001 D-9: constructing pooled union-250 preprocessor from serialized stats at {pooled_path} (adaptation #9)"
+        )
+        return _construct_pooled_preprocessor(pooled_path)
+
     from lerobot.policies.factory import make_pre_post_processors
     from lerobot.scripts.lerobot_train import rename_stats
 

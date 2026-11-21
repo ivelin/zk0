@@ -203,8 +203,15 @@ def save_config_snapshot(context, save_path, current_time, project_version):
         json.dump(config_snapshot, f, indent=2, default=str)
 
 
-def initialize_global_model():
+def initialize_global_model(initial_model_path=None):
     """Initialize the global SmolVLA model.
+
+    Study 001 adaptation #10 (D-11/G-7): resume wiring - when
+    initial_model_path is given (run_config: pyproject default unset,
+    or a --run-config override at resume time), the initial global
+    parameters are loaded from that checkpoint directory instead of
+    the base model, so a relaunched segment continues the registered
+    run rather than restarting it.
 
     Returns:
         tuple: (global_model_init, dataset_meta)
@@ -241,7 +248,17 @@ def initialize_global_model():
     logger.debug("Getting initial model params")
 
     try:
-        ndarrays = get_params(get_model(dataset_meta=dataset_meta))
+        if initial_model_path:
+            from lerobot.policies.smolvla.modeling_smolvla import SmolVLAPolicy
+
+            logger.info(
+                f"Server: RESUME - loading initial global parameters from checkpoint dir: {initial_model_path} (adaptation #10)"
+            )
+            resume_policy = SmolVLAPolicy.from_pretrained(initial_model_path)
+            ndarrays = get_params(resume_policy)
+            del resume_policy
+        else:
+            ndarrays = get_params(get_model(dataset_meta=dataset_meta))
         logger.debug(f"Initial params obtained: {len(ndarrays)} arrays")
     except Exception as e:
         logger.debug(f"get_params/get_model failed: {e}")

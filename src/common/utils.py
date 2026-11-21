@@ -217,6 +217,8 @@ def load_lerobot_dataset(
     delta_timestamps: Optional[Dict[str, List[float]]] = None,
     episode_filter: Optional[Dict[str, int]] = None,
     split: Optional[str] = None,
+    root: Optional[str] = None,
+    episodes: Optional[List[int]] = None,
 ) -> LeRobotDataset:
     """Load LeRobot dataset using the same approach as lerobot train.py.
 
@@ -275,6 +277,15 @@ def load_lerobot_dataset(
 
         # Override dataset configuration with our specific dataset
         cfg.dataset.repo_id = repo_id
+        # Study 001 adaptation #4 (D-11/G-1): forward the on-disk root
+        # and the P0 episode restriction into the DatasetConfig that
+        # make_dataset turns into a LeRobotDataset - the exact
+        # construction the study driver uses (fl_driver.make_batches:
+        # LeRobotDataset(repo_id, root, episodes)).
+        if root is not None:
+            cfg.dataset.root = root
+        if episodes is not None:
+            cfg.dataset.episodes = list(episodes)
         cfg.dataset.decode_videos = (
             False  # Lazy decode for memory efficiency (match standalone train script)
         )

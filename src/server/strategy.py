@@ -39,6 +39,60 @@ from .evaluation import (
 )
 
 
+def dynamic_weighted_average(entries):
+    """Registered dynamic weighting (Study 001 adaptation #6, D-11/G-3).
+
+    Pure function; unit-checked against the study driver's
+    aggregate_round (fl_driver.py) on identical synthetic inputs.
+    entries: list of (ndarrays, num_examples, policy_loss).
+    Rule (the driver's mirror of network.py aggregate_fit): median of
+    the accepted losses; f_i = clip(median / L_i, 0.5, 2.0) when
+    L_i > 0 and median > 0, else 1.0; eff_i = round(num_examples_i *
+    f_i); weighted average with eff_i. Accumulation here is fp32
+    (registered substrate difference (iii) in D-11); the driver
+    accumulates in fp64 and casts to fp32.
+    Returns (aggregated_ndarrays, record_dict).
+    """
+    losses = [float(loss) for _, _, loss in entries]
+    med = float(np.median(losses)) if losses else 0.0
+    per_client = []
+    weighted = []
+    total_eff = 0
+    for idx, (arrays, num_examples, loss) in enumerate(entries):
+        if loss > 0 and med > 0:
+            f = float(np.clip(med / loss, 0.5, 2.0))
+        else:
+            f = 1.0
+        eff = int(round(int(num_examples) * f))
+        total_eff += eff
+        weighted.append((arrays, eff))
+        per_client.append(
+            {
+                "client_index": idx,
+                "n_examples": int(num_examples),
+                "policy_loss": float(loss),
+                "weight_factor": round(f, 4),
+                "effective_weight": eff,
+            }
+        )
+    if not weighted or total_eff == 0:
+        raise RuntimeError("dynamic_weighted_average: no accepted updates")
+    aggregated = None
+    for arrays, eff in weighted:
+        if aggregated is None:
+            aggregated = [a.astype(np.float32) * eff for a in arrays]
+        else:
+            for j in range(len(aggregated)):
+                aggregated[j] += arrays[j].astype(np.float32) * eff
+    aggregated = [a / total_eff for a in aggregated]
+    record = {
+        "median_policy_loss": med,
+        "total_effective_weight": total_eff,
+        "per_client": per_client,
+    }
+    return aggregated, record
+
+
 class AggregateEvaluationStrategy(FedProx):
     """Custom strategy that aggregates client evaluation results."""
 
@@ -105,6 +159,19 @@ class AggregateEvaluationStrategy(FedProx):
         self.num_rounds = num_rounds
         self.wandb_run = wandb_run
         self.context = context
+        # Study 001 adaptation #10 (D-11/G-7): resume wiring - when a
+        # run is relaunched from a round checkpoint, round_offset
+        # shifts every round-indexed quantity (fit-config round,
+        # lr_at offsets, checkpoint names) onto the registered
+        # trajectory. Read from run_config (pyproject default 0, or a
+        # --run-config override at resume time).
+        self.round_offset = (
+            int(context.run_config.get("round_offset", 0)) if context is not None else 0
+        )
+        if self.round_offset:
+            logger.info(
+                f"Server: round_offset={self.round_offset} (resume segment; rounds numbered from {self.round_offset + 1})"
+            )
         self.federated_metrics_history = []  # Track metrics across rounds for plotting
         self.current_parameters = (
             None  # Store current global model parameters for server evaluation
@@ -323,6 +390,19 @@ class AggregateEvaluationStrategy(FedProx):
             self.current_lr = app_config.get("initial_lr", 1e-3)
         current_lr = self.current_lr
 
+        # Study 001 adaptation #5 (D-11/G-2): fixed FedProx path - the
+        # registered mu is a CONSTANT 0.1 for all 30 rounds. Neither
+        # stock path ever returns it (the fallback halves mu every 10
+        # rounds; the dynamic path scales it by an eval-trend factor),
+        # so when the app config carries fixed_fedprox = true, return
+        # (strategy.proximal_mu, app_config initial_lr) unchanged.
+        if app_config.get("fixed_fedprox", False):
+            fixed_lr = app_config.get("initial_lr", 1e-3)
+            logger.info(
+                f"Server R{server_round}: fixed_fedprox mu={initial_mu:.6f}, lr={fixed_lr:.6f} (constant, registered)"
+            )
+            return initial_mu, fixed_lr
+
         # Check if dynamic training decay is enabled
         dynamic_training_decay = app_config.get("dynamic_training_decay", False)
         if (
@@ -405,6 +485,9 @@ class AggregateEvaluationStrategy(FedProx):
 
     def configure_fit(self, server_round: int, parameters, client_manager):
         """Configure the next round of training."""
+        # Study 001 adaptation #10 (D-11/G-7): on a resumed segment,
+        # number rounds on the registered trajectory.
+        server_round = server_round + self.round_offset
         # Log CUDA before training round
         logger.info(
             f"Server: Starting training round {server_round} - CUDA available: {torch.cuda.is_available()}"
@@ -450,13 +533,18 @@ class AggregateEvaluationStrategy(FedProx):
             )
 
             updated_fit_config["proximal_mu"] = current_mu
-            updated_fit_config["initial_lr"] = current_lr
 
-            # Add initial_lr parameter for client-side training
-            initial_lr = app_config.get("initial_lr", 1e-3)
-            updated_fit_config["initial_lr"] = initial_lr
+            # Study 001 adaptation #7 (D-11/G-4): registered LR
+            # schedule - the round's constant LR is lr_at evaluated
+            # at the MID-ROUND offset of the node's 3000-step budget
+            # (100 local steps per round), replacing the stock static
+            # overwrite that discarded the computed per-round LR.
+            from src.server.lr_schedule import lr_at
+
+            round_lr = lr_at((server_round - 1) * 100 + 50)
+            updated_fit_config["initial_lr"] = round_lr
             logger.debug(
-                f"Server: Added initial_lr={initial_lr} to client {client_proxy.cid} config"
+                f"Server: Added initial_lr={round_lr} (lr_at mid-round offset {(server_round - 1) * 100 + 50}) to client {client_proxy.cid} config"
             )
 
             # + Add use_wandb flag for client-side WandB enablement
@@ -529,27 +617,69 @@ class AggregateEvaluationStrategy(FedProx):
             return None, {}
 
     def aggregate_parameters(self, server_round: int, validated_results):
-        """Aggregate parameters from validated client results using FedProx strategy.
+        """Aggregate parameters from validated client results.
+
+        Study 001 adaptation #6 (D-11/G-3): the registered dynamic
+        weighting replaces the FedProx parent's plain num_examples
+        FedAvg - eff_i = round(n_examples_i * clip(median(L)/L_i,
+        0.5, 2.0)), where L_i is the client's returned policy_loss
+        (NOT the substrate's total loss, which includes the FedProx
+        term) and the median is over the round's valid fits.
+        Per-round per-client (n_examples, policy_loss, factor,
+        eff_weight) is logged and written to
+        <save_path>/server/aggregation_round_<round>.json - the
+        section 9.2 re-derivation is impossible without this record.
 
         Args:
-            server_round: Current server round number
+            server_round: Current server round number (registered
+                numbering; aggregate_fit applies the round offset)
             validated_results: List of validated (client_proxy, fit_result) tuples
 
         Returns:
-            tuple: (aggregated_parameters, parent_metrics) from FedProx aggregation
+            tuple: (aggregated_parameters, parent_metrics)
         """
-        logger.info(f"DEBUG AGG: Entering aggregate_parameters for round {server_round}, {len(validated_results)} validated clients")
-        try:
-            # Call parent aggregate_fit (FedProx) with validated results only
-            logger.info(f"DEBUG AGG: Calling super().aggregate_fit for round {server_round}")
-            aggregated_parameters, parent_metrics = super().aggregate_fit(
-                server_round, validated_results, []  # No failures since we validated
+        logger.info(
+            f"Server: Aggregating parameters for round {server_round} with registered dynamic weighting (adaptation #6), {len(validated_results)} validated clients"
+        )
+        entries = []
+        client_ids = []
+        for client_proxy, fit_res in validated_results:
+            metrics = fit_res.metrics or {}
+            loss = metrics.get("policy_loss")
+            loss = float(loss) if loss is not None else 0.0
+            entries.append(
+                (
+                    parameters_to_ndarrays(fit_res.parameters),
+                    int(fit_res.num_examples),
+                    loss,
+                )
             )
-            logger.info(f"DEBUG AGG: super().aggregate_fit succeeded for round {server_round}, params non-None: {aggregated_parameters is not None}, len NDArrays: {len(parameters_to_ndarrays(aggregated_parameters)) if aggregated_parameters else 0}")
-            return aggregated_parameters, parent_metrics
-        except Exception as agg_e:
-            logger.error(f"DEBUG AGG: super().aggregate_fit failed for round {server_round}: {agg_e}, type: {type(agg_e).__name__}")
-            raise
+            client_ids.append(metrics.get("client_id"))
+        aggregated_ndarrays, record = dynamic_weighted_average(entries)
+        for row, cid in zip(record["per_client"], client_ids):
+            row["client_id"] = cid
+            logger.info(
+                f"Server R{server_round} AGG: client_id={cid} n_examples={row['n_examples']} policy_loss={row['policy_loss']:.6f} factor={row['weight_factor']} eff_weight={row['effective_weight']}"
+            )
+        logger.info(
+            f"Server R{server_round} AGG: median_policy_loss={record['median_policy_loss']:.6f} total_effective_weight={record['total_effective_weight']}"
+        )
+        try:
+            import json as _json
+            from pathlib import Path as _Path
+
+            record_path = (
+                _Path(self.save_path) / "server" / f"aggregation_round_{server_round}.json"
+            )
+            record_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(record_path, "w") as f:
+                _json.dump({"round": server_round, **record}, f, indent=2)
+            logger.info(f"Server R{server_round} AGG: record written to {record_path}")
+        except Exception as rec_e:
+            logger.warning(
+                f"Server R{server_round} AGG: could not write aggregation record: {rec_e}"
+            )
+        return ndarrays_to_parameters(aggregated_ndarrays), {}
 
     def aggregate_fit(
         self,
@@ -558,6 +688,10 @@ class AggregateEvaluationStrategy(FedProx):
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
     ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
         """Aggregate fit results from clients."""
+        # Study 001 adaptation #10 (D-11/G-7): on a resumed segment,
+        # number rounds on the registered trajectory (aggregation
+        # records and checkpoint names use the registered round).
+        server_round = server_round + self.round_offset
         logger.info(f"Server: Aggregating fit results for round {server_round}")
         logger.info(
             f"📊 Server: Received {len(results)} successful results, {len(failures)} failures"

@@ -14,6 +14,68 @@ from flwr.common import Context
 from src.client.client_core import SmolVLAClient
 
 
+def _load_episode_list(path: str) -> list:
+    """Load a P0 episode list (adaptation #4): accepts a bare JSON
+    list, or a dict carrying the indices under "episodes" /
+    "episode_indices" (possibly nested under "subset")."""
+    import json as _json
+
+    with open(path) as f:
+        data = _json.load(f)
+
+    def _find(obj):
+        if isinstance(obj, list):
+            return obj
+        if isinstance(obj, dict):
+            for key in ("episodes", "episode_indices"):
+                if key in obj and isinstance(obj[key], list):
+                    return obj[key]
+            for value in obj.values():
+                found = _find(value)
+                if found is not None:
+                    return found
+        return None
+
+    episodes = _find(data)
+    if episodes is None:
+        raise ValueError(f"No episode list found in {path}")
+    # P0 files carry per-episode record dicts; take their indices.
+    out = []
+    for e in episodes:
+        if isinstance(e, dict):
+            out.append(int(e["episode_index"]))
+        else:
+            out.append(int(e))
+    return out
+
+
+# Study 001 (D-11/G-6, row 19): the registered camera rename
+# front->camera1, top->camera2, wrist->camera3. The study driver
+# applies it in its data path (make_batches renames each item
+# before stacking); lerobot 0.7.0's SmolVLA processor pipeline
+# does NOT rename (its rename step carries an empty map - the
+# certified pilot checkpoint's own policy_preprocessor.json shows
+# rename_map {}), so on this substrate the rename belongs in the
+# DataLoader collate, gated on the study configuration (the pooled
+# preprocessor path being set). Mirrors _STUDY_RENAME_MAP in
+# src/training/training_setup.py.
+_STUDY_RENAME_MAP = {
+    "observation.images.front": "observation.images.camera1",
+    "observation.images.top": "observation.images.camera2",
+    "observation.images.wrist": "observation.images.camera3",
+}
+
+
+def _study_rename_collate(batch_items):
+    from torch.utils.data._utils.collate import default_collate
+
+    renamed = [
+        {_STUDY_RENAME_MAP.get(k, k): v for k, v in item.items()}
+        for item in batch_items
+    ]
+    return default_collate(renamed)
+
+
 def client_fn(context: Context) -> Client:
     """Construct a Client that will be run in a ClientApp."""
 
@@ -158,6 +220,17 @@ def client_fn(context: Context) -> Client:
             sys.stderr.flush()
             client_config = config.clients[client_id % len(config.clients)]
             dataset_name = client_config.name
+            # Study 001 adaptation #8 (D-11/G-5): per-client seeding,
+            # seed = 1000 + client_id (the registered seed 1000 with
+            # the driver's per-node offset). The substrate had no
+            # seeding anywhere; DataLoader shuffle draws from the
+            # global RNG, so seeding here fixes each client's stream.
+            import numpy as _np
+            torch.manual_seed(1000 + int(client_id))
+            _np.random.seed(1000 + int(client_id))
+            logger.info(
+                f"Client {client_id}: seeded torch/numpy RNG with {1000 + int(client_id)} (adaptation #8)"
+            )
             print(f"[DEBUG client_fn] Selected dataset_name={dataset_name}", file=sys.stderr)
             sys.stderr.flush()
             logger.info(f"🔍 Client {client_id}: Selected dataset: {dataset_name}")
@@ -168,7 +241,20 @@ def client_fn(context: Context) -> Client:
             logger.info(
                 f"📥 Client {client_id}: Calling load_lerobot_dataset({dataset_name})"
             )
-            dataset = load_lerobot_dataset(dataset_name)
+            # Study 001 adaptation #4 (D-11/G-1): when the client
+            # config carries a root + P0 episodes file, load exactly
+            # this node's task subset from the pinned on-disk tree.
+            _episodes = None
+            if getattr(client_config, "episodes_file", None):
+                _episodes = _load_episode_list(client_config.episodes_file)
+                logger.info(
+                    f"Client {client_id}: P0 episode restriction from {client_config.episodes_file}: {len(_episodes)} episodes"
+                )
+            dataset = load_lerobot_dataset(
+                dataset_name,
+                root=getattr(client_config, "root", None),
+                episodes=_episodes,
+            )
             print(f"[DEBUG client_fn] load_lerobot_dataset returned dataset len={len(dataset)}", file=sys.stderr)
             sys.stderr.flush()
             logger.info(
@@ -179,6 +265,25 @@ def client_fn(context: Context) -> Client:
         logger.info(
             f"🔄 Client {client_id}: Creating DataLoader (batch_size={batch_size}, num_workers=0)"
         )
+        # Study 001 (D-11/G-6): in study configuration (pooled
+        # preprocessor path set), collate with the registered
+        # camera rename; otherwise the substrate default.
+        _collate_fn = None
+        try:
+            from src.common.utils import get_tool_config as _gtc
+
+            if (
+                _gtc("flwr", "pyproject.toml")
+                .get("app", {})
+                .get("config", {})
+                .get("pooled_preprocessor_path")
+            ):
+                _collate_fn = _study_rename_collate
+                logger.info(
+                    f"Client {client_id}: study camera-rename collate active (adaptation #9)"
+                )
+        except Exception:
+            _collate_fn = None
         trainloader = torch.utils.data.DataLoader(
             dataset,
             num_workers=0,
@@ -186,6 +291,7 @@ def client_fn(context: Context) -> Client:
             shuffle=True,
             pin_memory=False,
             drop_last=True,
+            collate_fn=_collate_fn,
         )
         logger.info(
             f"✅ Client {client_id}: DataLoader created - length: {len(trainloader)}"
