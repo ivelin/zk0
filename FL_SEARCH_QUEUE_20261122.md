@@ -56,6 +56,68 @@ confirmation standard in §2.
    HF backup of significant checkpoints with hashes · documentation +
    commit (rule 1). **Never** write to `ivelin/zk0-smolvla-fl`
    (pin discipline stands).
+5. **Milestone canary judging** (founder, 2026-11-22 16:48 CT —
+   applies to every long FL training run launched under this
+   queue). Pass/fail judging (and the trajectory eval) runs
+   periodically *during* training, between round milestones —
+   not only on the final checkpoint — so each run natively
+   produces a judged learning curve.
+   - **Cadence.** At every ~5-round milestone (≈1.5–2 h at the
+     certified ~21 min/round), judge a **fixed stratified subset**
+     of the frozen held-out 100: 8 episodes per task, 40 total,
+     the same subset at every milestone (seeded, recorded in the
+     run manifest). At pre-declared major checkpoints (e.g.
+     rounds 10/20/30), judge the **full frozen 100**.
+   - **Labels.** Subset reads are **canary reads** — indicative
+     only, never the run's verdict (40 episodes carries ~±10 pp
+     noise); full-100 reads are verdicts. Both are labeled
+     "JUDGED completion (offline replay)", with the subset size
+     attached wherever a canary read is reported.
+   - **Execution.** Judging runs in a scheduled pause between
+     rounds, on the round's saved checkpoint (the substrate
+     already saves per-round model-only checkpoints). It never
+     runs concurrently with training on the shared box (guard /
+     70% rules), and its wall time is accounted in the run's
+     stated budget up front. The eval gate's identical-inputs
+     check applies to milestone judging exactly as to final evals.
+   - **Purpose.** (1) *Early detection* of doomed or diverging
+     runs: loss/completion decoupling — the Study 001 signature,
+     client loss falling while completion stays flat — becomes
+     visible by the second milestone (round 10, ~3.5 h in)
+     instead of after the full 10.7 h run. (2) *Analysis
+     fairness*: every milestone uses the same frozen held-out
+     set and the same rubric, so the judged curve is comparable
+     across runs and across queue items; trigger items
+     (Q-STEPS, Q-LR) read judged slopes directly from the run's
+     own record instead of reconstructing them retroactively
+     from saved checkpoints.
+   - **Reproducibility.** Canary milestones keep **full
+     per-episode artifacts** in exactly the final-eval record
+     format — rollout records, judgment packets, judgments —
+     committed with the run's record (rule 1), so a third party
+     can re-judge or re-analyze any milestone, not just read its
+     score. A canary score without its artifacts does not count
+     as documented.
+   - **Low-cost completeness.** Standing principle: when the
+     resource/time cost is low, prefer the option that improves
+     documentation, reproducibility, and fairness of analysis.
+     Concretely: the run manifest records the **measured** cost
+     of a full-100 judging pass relative to round time at the
+     first milestone; if that cost is small — under ~10% of the
+     run's elapsed budget — subsequent milestones judge the full
+     100 instead of the 40-episode subset. The subset remains
+     the default until that measurement exists.
+   - **Discipline.** Canary results may trigger a pre-registered
+     abort rule **only** for the clearest cases (divergence /
+     NaN-class failures), written into the run manifest before
+     launch. Otherwise they surface to the zk0 chat and inform
+     queue re-sorting — they never tune the run mid-flight, and
+     the held-out set is never trained on.
+   - **Implementation dependency.** The eval harness needs a
+     milestone mode (subset selection + pause/resume hooks in
+     the run driver), owned by the S0 substrate-hardening /
+     gap-closure workstream. The standard is documented now;
+     first use is the next queue run after S0 lands.
 
 ## 2. Scoring
 
@@ -218,7 +280,11 @@ adds exactly one variable, its metric, and its specifics:
   the original run; the continuation's per-client losses are
   reported round by round, and further divergence is a finding,
   not noise. Judged by: frozen 100 vs 26/100, reported as
-  FL @ 18,000 steps.
+  FL @ 18,000 steps. **Canary link:** this item's trigger
+  consumes a judged slope — for Study 001 that slope was
+  reconstructed retroactively from saved checkpoints; under
+  §1 rule 5 (milestone canary judging) future runs produce it
+  natively, in the run's own record.
 - **Q-D** — Variable: server update gains FedAvgM β=0.9; dynamic
   weighting and FedProx μ=0.1 held exactly as certified. Judged by:
   frozen 100 vs 26/100.
@@ -285,7 +351,11 @@ adds exactly one variable, its metric, and its specifics:
   including a flat series (rule must hold LR at its floor/ceiling
   behavior as registered, not drift) and a diverging-client
   series (median must not chase one client's divergence).
-  Judged by: frozen 100 vs 26/100.
+  Judged by: frozen 100 vs 26/100. **Canary link:** whether the
+  slope-driven rule helped completion is read off the run's
+  judged curve, which §1 rule 5 (milestone canary judging)
+  produces natively — same frozen set, same rubric at every
+  milestone, comparable across runs and items.
 - **Q-T2S** — Teacher = strongest available checkpoint (centralized
   model or a larger released VLA) on public/sim data only;
   contributor data never meets the teacher. Also delivers the
@@ -480,6 +550,44 @@ Status checked against the 2026-11-22 gatefix re-audit.
   LR is a clean cross-round lever; if Q-A (carry) becomes the
   recipe, Q-LR's design is revisited — tested separately, never
   combined.
+- **2026-11-22 16:48 CT — Standing standard added: milestone
+  canary judging (§1 rule 5).** Founder direction: run pass/fail
+  judging (and the trajectory eval) periodically during long FL
+  training runs — roughly hourly, between major round
+  milestones — instead of only judging the final checkpoint.
+  Registered parameters: canary reads at every ~5-round
+  milestone on a fixed stratified 40-episode subset (8/task,
+  seeded, recorded in the run manifest); the full frozen 100 at
+  pre-declared major checkpoints (rounds 10/20/30); subset reads
+  labeled canary (indicative only, ~±10 pp noise, never the
+  verdict), both labeled "JUDGED completion (offline replay)"
+  with the subset size attached. Judging runs in a scheduled
+  pause between rounds on the saved per-round checkpoint, never
+  concurrent with training, its wall time budgeted up front; the
+  eval gate's identical-inputs check applies. Purposes: early
+  detection of doomed/diverging runs (the Study 001
+  loss/completion decoupling would have been visible by round
+  10, not after 10.7 h) and analysis fairness — same frozen set,
+  same rubric at every milestone, so judged curves are
+  comparable across runs and items, and the Q-STEPS/Q-LR
+  triggers read judged slopes natively (cross-references added
+  to both entries). Founder addendum (same direction):
+  canary milestones keep full per-episode artifacts in the
+  final-eval record format, committed with the run's record — a
+  canary score without its artifacts does not count as
+  documented; and the low-cost completeness principle is stated
+  in the standard — the manifest records the measured cost of a
+  full-100 judging pass at the first milestone, and if it is
+  under ~10% of the run's elapsed budget, later milestones judge
+  the full 100 (the subset is the default until measured).
+  Abort discipline: canary reads may fire only a pre-registered
+  abort rule for divergence/NaN-class failures; otherwise they
+  surface to the zk0 chat and inform re-sorting, never tune the
+  run mid-flight. Implementation (a milestone mode in the eval
+  harness) is a dependency owned by S0 / the gap-closure
+  workstream — the standard is documented now, first used on
+  the next queue run after S0 lands; nothing is implemented by
+  this entry.
 
 ---
 
