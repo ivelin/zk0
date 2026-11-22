@@ -159,6 +159,7 @@ Lane: **Φ** = closes/explains the FL gap · **M** = measurement ·
 | Q-WA | **Dynamic-weighting ablation: weighting OFF** (pure n-weighted FedAvg) | G/Φ | 3 | .35 | 12.2 | 2 | **7.4** | The weighting was an adaptation never independently validated; a config flag decides whether it earns its place |
 | Q-PSW | **Per-sample loss weighting probe** (1/√length + pad-only masking, flow-expert analog, specialist scale) | G/Φ | 2 | .30 | 4 | 6 | **6.0** | A free knob from the NAT recipe; cheap to kill or adopt at small scale before any FL-scale test |
 | Q-INT4 | **INT4 + QAT recovery** — *gated: only if Q-INT8's PTQ delta >5 pp on precision tasks* | G/I | 3 | .50 | 6 | 24 | **5.0** | Exists only as Q-INT8's contingency; ~0.25 GB weights if it works |
+| Q-LR | **Loss-slope-adaptive learning rate** — round-to-round AdamW LR set by the slope of the median client policy loss instead of the fixed round-indexed schedule — *conditional: behind tonight's diagnostic and the first structural readout (Q-A/Q-B/Q-STEPS per §6); score conditional* | G/Φ | 3 | .35 | 12.2 | 12 | **4.3** | With per-round AdamW reset, the round-level LR is one of the few cross-round control surfaces the server actually has; a slope-driven rule is a second-order refinement until the bigger levers have readings (protocol §5) |
 | Q-HPO | **Continuous hyperparameter stage** (Optuna TPE over client LR, FedProx μ, server LR) — *dependency-gated on Q-A/Q-B/Q-D readouts* | G/Φ | 4 | .40 | 32 | 8 | **4.0** | Tuning continuous knobs around a structurally unsettled recipe wastes trials; runs once the structural factors are decided |
 | Q-T2S | **Teacher→student distillation as a standing recipe stage** (public/sim data only; decoupled Top-K objective) | G/Φ | 4 | .45 | 12 | 40 | **3.5** | Buys intelligence federation alone can't reach and doubles as the dataset-admission auto-labeler; P is the honest unknown at 450M |
 | Q-MAT | **MatFormer-style nested sizes for heterogeneous node inference** | G/A | 2 | .50 | 10 | 40 | **2.0** | Train once, extract smaller sub-models for weak nodes — inference only; does not solve federated training |
@@ -249,6 +250,42 @@ adds exactly one variable, its metric, and its specifics:
   client LR ∈ [5e-5, 2e-4], μ ∈ [0, 0.3], server LR ∈ [0.5, 1.0];
   each trial is a full protocol run; the ≥10 pp promotion rule (§6)
   applies per trial.
+- **Q-LR** — Variable: how the round-to-round LR is determined.
+  The certified recipe sets each round's LR from the round index
+  (per-round `lr_at`(mid-round), flat within-round, per D-11);
+  Q-LR replaces that determination with a **loss-slope-driven
+  rule**: the next round's LR is a function of the recent slope
+  of the training curve. Everything else identical. **Signal:**
+  the per-round **median client policy loss** — the series we
+  actually have (0.391 → 0.322 → 0.246 → 0.222 over rounds
+  1/10/20/30) — with the slope estimated over a smoothing window
+  (e.g. the last 3 rounds), because 5 heterogeneous clients make
+  single-round deltas noisy. The controller must **NOT** read the
+  server composite eval loss: that per-round value is broken
+  (rounds-10/20 prep gap G1 — every round's `metrics.json`
+  carries round 0's 0.5773 verbatim, masquerading as a per-round
+  value); its fix is owned by S0. **Pre-registration
+  requirement:** the exact rule — window, slope threshold,
+  multiplier, LR floor and ceiling — is frozen in the item's run
+  manifest **before launch** and becomes part of the config the
+  equivalence gate checks. A data-dependent LR makes the run's
+  config partly endogenous; the frozen rule is what keeps the
+  test honest and reproducible. No post-hoc tuning of the rule
+  mid-run. **Why it is a clean lever here:** with per-round
+  AdamW reset (the certified recipe), optimizer state does not
+  cross rounds, so the round-level LR is one of the few
+  cross-round control surfaces the server actually has.
+  **Interaction:** if Q-A (AdamW carry) ever becomes the recipe,
+  Q-LR's design must be revisited before it runs; the two are
+  tested as separate single-variable items, never combined in
+  one run. **Position:** conditional and second-order — behind
+  tonight's diagnostic and behind the first structural readout
+  (§6). Smoke addition to the §1 protocol: the controller is
+  exercised on synthetic loss series before the miniature fit,
+  including a flat series (rule must hold LR at its floor/ceiling
+  behavior as registered, not drift) and a diverging-client
+  series (median must not chase one client's divergence).
+  Judged by: frozen 100 vs 26/100.
 - **Q-T2S** — Teacher = strongest available checkpoint (centralized
   model or a larger released VLA) on public/sim data only;
   contributor data never meets the teacher. Also delivers the
@@ -289,6 +326,17 @@ activates and slots into the GPU order as a short run (~2.2 h
 training) ahead of the structural three; if judged scores are flat
 r20→r30, it drops to low priority and the branch order above
 stands unchanged.
+
+**Q-LR position (added 2026-11-22 16:37 CT):** the
+loss-slope-adaptive LR item (§5) is conditional and
+second-order: it does not enter the GPU order until tonight's
+diagnostic has been read **and** the first structural readout
+(whichever of Q-A / Q-B / Q-STEPS fires first under the branch
+order and trigger above) has landed. Its rule is pre-registered
+in its run manifest and gate-checked like any other config
+field. If Q-A (carry) ever becomes the standing recipe, Q-LR's
+design is revisited before it runs — the two are never combined
+in one run.
 
 After the structural three: Q-WA (post-audit), then Q-HPO unlocks.
 Cheap GPU probes (Q-NAT-A, Q-VLR, Q-PSW) slot into short windows
@@ -409,6 +457,29 @@ Status checked against the 2026-11-22 gatefix re-audit.
   is labeled in the item — a practical "more time" test, not an
   attribution comparison. The eye_drops client's divergence (loss
   rising from round 21) is carried as a named watch item.
+- **2026-11-22 16:37 CT — Item added: Q-LR (loss-slope-adaptive
+  learning rate).** Founder suggestion: if the learning curve is
+  flattening, dynamically adjust the AdamW learning rate as a
+  function of the steepness of the learning curve between rounds
+  rather than holding the round-indexed schedule fixed.
+  Registered as a conditional, second-order item. Signal is the
+  per-round median client policy loss (the series we have:
+  0.391 → 0.322 → 0.246 → 0.222), slope over a smoothing window —
+  explicitly NOT the server composite eval loss, whose per-round
+  value is broken (rounds-10/20 prep gap G1: every round's
+  metrics.json carries round 0's 0.5773 verbatim; fix owned by
+  S0). The exact rule (window, threshold, multiplier, LR
+  floor/ceiling) must be pre-registered in the item's run
+  manifest before launch and is gate-checked — a data-dependent
+  LR makes the config partly endogenous, and the frozen rule is
+  what keeps the test honest and reproducible. Provisional score
+  **4.3** (Impact 3 × P .35 ÷ 24.2 effort = 12.2 DGX-h + 12
+  eng-h), conditional on its position: behind tonight's
+  diagnostic and the first structural readout (Q-A/Q-B/Q-STEPS).
+  Interaction noted: with per-round AdamW reset the round-level
+  LR is a clean cross-round lever; if Q-A (carry) becomes the
+  recipe, Q-LR's design is revisited — tested separately, never
+  combined.
 
 ---
 
