@@ -145,6 +145,7 @@ Lane: **Φ** = closes/explains the FL gap · **M** = measurement ·
 | S1 | **Optuna v5 record layer** (one study per item, SQLite, wrapper around guarded runs) | P/S | 2 | .90 | 0 | 4 | **45.0** | Cheapest permanent win: every queue result becomes a queryable public record from item #1 onward |
 | Q-NAT-A | **NAT VLA Slot A — as-released reference run** | G/A | 3 | .85 | 3 | 8 | **23.2** | ~3 DGX-h buys the only external reference point for the token-space lane; its number re-prices Q-NAT-B and Q-SPEC |
 | Q-CSD | **Chunk-switch discontinuity metric in the eval harness** | P/M | 2 | .90 | 0 | 8 | **22.5** | Zero GPU; quantifies FL's known tool_insert plunge signature, which the current table cannot express |
+| Q-STEPS | **FL +20% steps continuation** — 6 more rounds from the round-30 checkpoint (36 rounds, 18,000 steps) — *trigger-gated: activates only if the rounds 10/20 diagnostic shows judged completion still climbing r20→r30; score conditional on the trigger* | G/Φ | 3 | .50 | 3.7 | 4 | **19.5** | Cheapest test of "just train longer": median client loss was still falling at r30 (0.246→0.222), not plateaued; if judged scores are flat r20→r30 it drops to low priority — steps would not be the binding constraint (protocol §5) |
 | Q-VLR | **Vision-encoder knobs: unfreeze check + differential vision LR** (specialist scale) | G/Φ | 3 | .60 | 4 | 6 | **18.0** | Published ablation says a frozen encoder cost PushT 57.8%→25%; one controlled check replaces an inherited default in every future fine-tune |
 | Q-PROXY | **Proxy-metric validation for future multi-fidelity** | P/M | 3 | .60 | 0 | 10 | **18.0** | Converts accumulated judged cells (rounds 10/20/30 + queue items) into a validated — or killed — early-stopping proxy; makes all later search cheaper |
 | Q-DW | **Dynamic-weighting offline audit** (did loss-based weighting help or hurt Study 001's FL?) | P/M | 2 | .50 | 0 | 8 | **12.5** | Free evidence from existing round logs; sets Q-WA's P and sharpens Q-D's interpretation |
@@ -198,6 +199,25 @@ adds exactly one variable, its metric, and its specifics:
   semantics are part of the registered variable, stated in the
   item manifest so the sweep's LR-horizon flag stays visible.
   Judged by: frozen 100 vs 26/100.
+- **Q-STEPS** — Variable: total steps 15,000 → 18,000. Continue the
+  certified FL run from its round-30 checkpoint for 6 more rounds
+  (36 total) via the run's existing resume mechanism
+  (`initial_model_path` / `round_offset`, D-11); recipe, datasets,
+  substrate identical — the only change is where training stops.
+  **Trigger (evaluated at re-sort #1, §6):** activates only if the
+  rounds 10/20 diagnostic shows judged completion still climbing
+  from round 20 to round 30 by a real margin; if judged scores are
+  flat r20→r30, the item drops to low priority — falling loss
+  without rising completion means steps are not the binding
+  constraint. **Budget asymmetry, labeled:** FL at 18,000 steps vs
+  C-exp at 15,000 is NOT an attribution comparison; it answers the
+  practical question "can FL get closer given more time?", and
+  every report of its result carries both step counts.
+  **Watch item:** the eye_drops client's loss rose from round 21 of
+  the original run; the continuation's per-client losses are
+  reported round by round, and further divergence is a finding,
+  not noise. Judged by: frozen 100 vs 26/100, reported as
+  FL @ 18,000 steps.
 - **Q-D** — Variable: server update gains FedAvgM β=0.9; dynamic
   weighting and FedProx μ=0.1 held exactly as certified. Judged by:
   frozen 100 vs 26/100.
@@ -262,6 +282,13 @@ Read FL judged completion at rounds 10 and 20 against round 30's
   **GPU order: Q-A → Q-B → Q-D** (the prepped default, §7).
 - **AMBIGUOUS** — neither signature clean: default order
   Q-A → Q-B → Q-D, ambiguity logged in the changelog.
+
+**Q-STEPS trigger (same readout):** if judged completion is still
+climbing from round 20 to round 30 by a real margin, Q-STEPS (§5)
+activates and slots into the GPU order as a short run (~2.2 h
+training) ahead of the structural three; if judged scores are flat
+r20→r30, it drops to low priority and the branch order above
+stands unchanged.
 
 After the structural three: Q-WA (post-audit), then Q-HPO unlocks.
 Cheap GPU probes (Q-NAT-A, Q-VLR, Q-PSW) slot into short windows
@@ -368,6 +395,20 @@ Status checked against the 2026-11-22 gatefix re-audit.
   watches for the final eval batch and performs re-sort #1.
   This document is committed to `ivelin/zk0` @
   `study001/fl-substrate-20261121` in the same step that creates it.
+- **2026-11-22 16:17 CT — Item added: Q-STEPS (FL +20% steps
+  continuation).** Founder asked whether FL had converged or was
+  still learning at round 30: median client policy loss was still
+  falling (0.246 @r20 → 0.222 @r30), so a 6-round continuation from
+  the round-30 checkpoint (36 rounds, 18,000 steps, via the D-11
+  resume mechanism) is registered as a conditional item.
+  Provisional score **19.5** (Impact 3 × P .50 ÷ 7.7 effort =
+  3.7 DGX-h + 4 eng-h), explicitly conditional on its trigger: it
+  activates only if tonight's judged diagnostic shows completion
+  still climbing r20→r30; flat judged scores demote it to low
+  priority. The budget asymmetry (18,000 vs C-exp's 15,000 steps)
+  is labeled in the item — a practical "more time" test, not an
+  attribution comparison. The eye_drops client's divergence (loss
+  rising from round 21) is carried as a named watch item.
 
 ---
 
