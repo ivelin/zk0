@@ -1,0 +1,92 @@
+[
+  {
+    "repo": "zk0bot/study001-fl-round30",
+    "head": "24cb17e8c15b9ebcbba1baae514147564a0c7a85",
+    "sha256": "5b1cbf290b8b4beeeb9a77473f0d03c0e3ffce8c038b7aab56bc6795fc7a84b4",
+    "size": 1197789224,
+    "remote_size": 1197789224,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-fl-20261121/outputs/2026-11-21_14-56-47/models/checkpoint_round_30"
+  },
+  {
+    "repo": "zk0bot/study001-specialist-block-stack",
+    "head": "c295a3453201f991ea16e70f6ace2a0dfe250032",
+    "sha256": "40dbe86783e805cf6b5f9885d7b450ba49a7dc1d8247081704052d0ad55e12f2",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/spec_block_stack/out/checkpoints/003000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/study001-specialist-eye-drops",
+    "head": "f1ba48a5700d5f0ead059b5488ecc4bb5b046ccd",
+    "sha256": "9bce0d3f55bc54747c9ce9992b27c418ccdbccc02bee3cca31600cd0622cbfff",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/spec_eye_drops/out/checkpoints/003000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/study001-specialist-ring-insert",
+    "head": "68212092cb7366f74c9b68ab9e42cb535a08e12b",
+    "sha256": "2e7dc0357cf264d5acccbb01d94c49b9cfca14b08c43628600d8a20abc0e861f",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/spec_ring_insert/out/checkpoints/003000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/study001-specialist-tool-insert",
+    "head": "b1368be150fe829b8a5a4b80ca97cddd19c3a4d2",
+    "sha256": "3a148d80f488a31701e632b4abf88e1d739564f198eeaa89d02b0d727a171cb0",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/spec_tool_insert/out/checkpoints/003000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/study001-specialist-cable-clip",
+    "head": "b3fad507266b8a6666d03c6de15d6e8da5de16d8",
+    "sha256": "39c1c2b0e979220f91a70092896ad8369e552c68b4d8d82fcd03699853938033",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/spec_cable_clip/out/checkpoints/003000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/study001-centralized-cexp",
+    "head": "38bed8c03977772bc4ede4fe7f59dc7c06a6273a",
+    "sha256": "8f6807ed65d997f2820ff68205431c60cf40d5b35f56da1127b8179f65d48379",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-study001-20261119/run/train/centralized/out/checkpoints/015000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/onarm-ft-base-so101",
+    "head": "e845a73130046a9bb2e699777fd799dea43a0c2f",
+    "sha256": "aa520f20b488f6e927187022bbe17cef92201a42318235396bfcddb40fc6a7c4",
+    "size": 906712552,
+    "remote_size": 906712552,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-onarm-20261117/ft/outputs/ft_base/checkpoints/010000/pretrained_model"
+  },
+  {
+    "repo": "zk0bot/onarm-ft-zk0-so101",
+    "head": "10206c5f8811795aac578e4578210608cb522ad8",
+    "sha256": "80d020776d1166ae3e40e5a98faec80d9d581f0bee94e44f1b505b015577bea4",
+    "size": 1197789256,
+    "remote_size": 1197789256,
+    "hash_match": true,
+    "status": "OK",
+    "local_source": "/home/openclaw/muse-work/zk0-onarm-20261117/ft/outputs/ft_zk0/checkpoints/010000/pretrained_model"
+  }
+]
