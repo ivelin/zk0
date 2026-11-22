@@ -1,0 +1,427 @@
+{
+ "arms_expected": {
+  "centralized_cexp": {
+   "sampling": "WAIVER W-D8: EpisodeAwareSampler frame-proportional over union-250 (registered D-8)",
+   "scheduler": "warmup 100, cosine decay to 2.5e-6 at 15000 steps",
+   "scope": "expert-only (train_expert_only=true, freeze_vision_encoder=true) \u2014 155 tensors / 99,880,992 params",
+   "status": "as-run, complete",
+   "steps": 15000
+  },
+  "fl_rerun": {
+   "aggregation": "dynamic weighting clip(median/policy_loss, 0.5, 2.0), fp32 accumulation",
+   "fedprox_mu": 0.1,
+   "packaging": "final checkpoint packaged with the D-9 pooled preprocessor + 3-camera config; standard from_pretrained load test must PASS before eval (defect A5 gate)",
+   "saved_checkpoint_config_must_equal": "expected_policy_config.input_features \u2014 asserted on round-1 checkpoint before round 2 proceeds",
+   "scheduler": "server lr_at per-node schedule: warmup 100, cosine to 2.5e-6 at 3000 local steps, evaluated at mid-round offset, flat within round",
+   "scope": "expert-only \u2014 155 tensors / 99,880,992 params (census asserted pre-launch and per round)",
+   "seeds": "1000 + client_id",
+   "server_dataset_must_be": "the study dataset (armnet pooled) or none \u2014 the Hupy440 server entry must be removed/replaced before launch",
+   "server_template_features_must_equal": "expected_policy_config.input_features \u2014 P1 HARD GATE (this is the camera-miss fix)",
+   "structure": "serialized Flower, 5 clients by-task, 30 rounds x 100 local steps, fraction-fit 1.0, 5/5 fits per round or run void"
+  },
+  "sequential_chain": {
+   "note": "separate arm by design: expert-only blocks CHAINED (each block inits from previous block, not from base). Not part of Phi. As-run, in progress at sweep time."
+  },
+  "specialists_full_ft": {
+   "scheduler": "warmup 100, cosine decay to 2.5e-6 at 3000 steps",
+   "scope": "full fine-tune (train_expert_only=false, freeze_vision_encoder=false; library freezes LM-head-only 57,142,080 params by design)",
+   "status": "as-run, complete",
+   "steps_per_task": 3000
+  }
+ },
+ "arms_machine": {
+  "centralized": {
+   "batch_size": 32,
+   "census": {
+    "trainable_name_set_sha256": "b36812bc9d9cec6c527d92d7e54e2f93196c2e89105facae892e5eb664c79ea6",
+    "trainable_params": 99880992,
+    "trainable_tensors": 155
+   },
+   "episode_counts": {
+    "union": 250
+   },
+   "episodes_sha256": {
+    "union": "4158ba0971c8ba804bd4c33886be9fa999002ea92686954d4e1d91ff68735dc4"
+   },
+   "frame_counts": {
+    "union": 82234
+   },
+   "freeze_vision_encoder": true,
+   "harness": "lerobot (run_train.py / study_cfg.build; resolved config = effective_config_*.json written by the harness)",
+   "scheduler_decay_steps": 15000,
+   "scope": "expert_only",
+   "seed": 1000,
+   "steps": 15000,
+   "train_expert_only": true,
+   "use_policy_training_preset": true
+  },
+  "fl_rerun": {
+   "app_config_expected": {
+    "batch_size": 32,
+    "checkpoint_interval": 1,
+    "cosine_warm_restarts_T_0": 15,
+    "cosine_warm_restarts_T_mult": 2,
+    "eta_min": 5e-07,
+    "eval-frequency": 31,
+    "fraction-fit": 1.0,
+    "initial_lr": 0.0001,
+    "local-epochs": 100,
+    "lr_within_round": "constant",
+    "num-server-rounds": 30,
+    "proximal_mu": 0.1,
+    "scheduler_type": "cosine_warm_restarts",
+    "use-wandb": false
+   },
+   "batch_size": 32,
+   "census": {
+    "trainable_name_set_sha256": "b36812bc9d9cec6c527d92d7e54e2f93196c2e89105facae892e5eb664c79ea6",
+    "trainable_params": 99880992,
+    "trainable_tensors": 155
+   },
+   "clients": 5,
+   "harness": "serialized Flower substrate (src/client_app.py, src/server_app.py; resolved config = pyproject [tool.flwr.app.config])",
+   "local_steps_per_round": 100,
+   "optimizer_state_policy": "reset_per_round (waiver W-D11-ii)",
+   "rounds": 30,
+   "scope": "expert_only",
+   "step_equivalents": 15000
+  },
+  "sequential": {
+   "batch_size": 32,
+   "census": {
+    "trainable_name_set_sha256": "b36812bc9d9cec6c527d92d7e54e2f93196c2e89105facae892e5eb664c79ea6",
+    "trainable_params": 99880992,
+    "trainable_tensors": 155
+   },
+   "chained_init": true,
+   "episode_counts": {
+    "block_stack": 50,
+    "cable_clip": 50,
+    "eye_drops_to_basket": 50,
+    "ring_insert": 50,
+    "tool_insert": 50
+   },
+   "episodes_sha256": {
+    "block_stack": "db0445408083df4e5fe6f27ad784594f2560032eff5a3aac91c8ad3e1ff716b4",
+    "cable_clip": "15ed041b3bd52915595d21c6725cf94561b6aec05438504775172e6fed15e451",
+    "eye_drops_to_basket": "b28fe1680627ad0c2368e2651724b26e684a9ced506ff1f6f568088fba58c3e4",
+    "ring_insert": "54e5562ef8e0501d13adff00ea1328d24952d2b8511e29c912bd78e3a917fbb2",
+    "tool_insert": "840b288ba37589c003ad5232d4e91fcde454a5995dda0de619d1cf492ddeb6d0"
+   },
+   "frame_counts": {
+    "block_stack": 12975,
+    "cable_clip": 27647,
+    "eye_drops_to_basket": 9127,
+    "ring_insert": 11679,
+    "tool_insert": 20806
+   },
+   "freeze_vision_encoder": true,
+   "harness": "lerobot (run_train.py / study_cfg.build; resolved config = effective_config_*.json written by the harness)",
+   "note": "each block inits from the previous block final checkpoint (checkpoint_path set), block 1 from the pinned base",
+   "scheduler_decay_steps": 3000,
+   "scope": "expert_only",
+   "seed": 1000,
+   "steps_per_task": 3000,
+   "tasks": [
+    "block_stack",
+    "eye_drops_to_basket",
+    "ring_insert",
+    "tool_insert",
+    "cable_clip"
+   ],
+   "train_expert_only": true,
+   "use_policy_training_preset": true
+  },
+  "specialist": {
+   "batch_size": 32,
+   "census": {
+    "trainable_name_set_sha256": "91412384596d03b71e9a938c7da4bf1888a3d6b24050e974cc6f8949cb070b76",
+    "trainable_params": 392904096,
+    "trainable_tensors": 489
+   },
+   "episode_counts": {
+    "block_stack": 50,
+    "cable_clip": 50,
+    "eye_drops_to_basket": 50,
+    "ring_insert": 50,
+    "tool_insert": 50
+   },
+   "episodes_sha256": {
+    "block_stack": "db0445408083df4e5fe6f27ad784594f2560032eff5a3aac91c8ad3e1ff716b4",
+    "cable_clip": "15ed041b3bd52915595d21c6725cf94561b6aec05438504775172e6fed15e451",
+    "eye_drops_to_basket": "b28fe1680627ad0c2368e2651724b26e684a9ced506ff1f6f568088fba58c3e4",
+    "ring_insert": "54e5562ef8e0501d13adff00ea1328d24952d2b8511e29c912bd78e3a917fbb2",
+    "tool_insert": "840b288ba37589c003ad5232d4e91fcde454a5995dda0de619d1cf492ddeb6d0"
+   },
+   "frame_counts": {
+    "block_stack": 12975,
+    "cable_clip": 27647,
+    "eye_drops_to_basket": 9127,
+    "ring_insert": 11679,
+    "tool_insert": 20806
+   },
+   "freeze_vision_encoder": false,
+   "harness": "lerobot (run_train.py / study_cfg.build; resolved config = effective_config_*.json written by the harness)",
+   "scheduler_decay_steps": 3000,
+   "scope": "full_ft",
+   "seed": 1000,
+   "steps_per_task": 3000,
+   "tasks": [
+    "block_stack",
+    "eye_drops_to_basket",
+    "ring_insert",
+    "tool_insert",
+    "cable_clip"
+   ],
+   "train_expert_only": false,
+   "use_policy_training_preset": true
+  },
+  "specialist_exp": {
+   "batch_size": 32,
+   "census": {
+    "trainable_name_set_sha256": "b36812bc9d9cec6c527d92d7e54e2f93196c2e89105facae892e5eb664c79ea6",
+    "trainable_params": 99880992,
+    "trainable_tensors": 155
+   },
+   "episode_counts": {
+    "block_stack": 50,
+    "cable_clip": 50,
+    "eye_drops_to_basket": 50,
+    "ring_insert": 50,
+    "tool_insert": 50
+   },
+   "episodes_sha256": {
+    "block_stack": "db0445408083df4e5fe6f27ad784594f2560032eff5a3aac91c8ad3e1ff716b4",
+    "cable_clip": "15ed041b3bd52915595d21c6725cf94561b6aec05438504775172e6fed15e451",
+    "eye_drops_to_basket": "b28fe1680627ad0c2368e2651724b26e684a9ced506ff1f6f568088fba58c3e4",
+    "ring_insert": "54e5562ef8e0501d13adff00ea1328d24952d2b8511e29c912bd78e3a917fbb2",
+    "tool_insert": "840b288ba37589c003ad5232d4e91fcde454a5995dda0de619d1cf492ddeb6d0"
+   },
+   "frame_counts": {
+    "block_stack": 12975,
+    "cable_clip": 27647,
+    "eye_drops_to_basket": 9127,
+    "ring_insert": 11679,
+    "tool_insert": 20806
+   },
+   "freeze_vision_encoder": true,
+   "harness": "lerobot (run_train.py / study_cfg.build; resolved config = effective_config_*.json written by the harness)",
+   "scheduler_decay_steps": 3000,
+   "scope": "expert_only",
+   "seed": 1000,
+   "steps_per_task": 3000,
+   "tasks": [
+    "block_stack",
+    "eye_drops_to_basket",
+    "ring_insert",
+    "tool_insert",
+    "cable_clip"
+   ],
+   "train_expert_only": true,
+   "use_policy_training_preset": true
+  }
+ },
+ "census": {
+  "expert_only": {
+   "trainable_name_set_sha256": "b36812bc9d9cec6c527d92d7e54e2f93196c2e89105facae892e5eb664c79ea6",
+   "trainable_params": 99880992,
+   "trainable_tensors": 155
+  },
+  "full_ft": {
+   "trainable_name_set_sha256": "91412384596d03b71e9a938c7da4bf1888a3d6b24050e974cc6f8949cb070b76",
+   "trainable_params": 392904096,
+   "trainable_tensors": 489
+  },
+  "total": {
+   "name_set_sha256": "843e48df89fee2f9f8b57305e8dc5e10caf100d30bc2634b748b55df5b3d73e6",
+   "params": 450046176,
+   "tensors": 500
+  }
+ },
+ "dataset": {
+  "cameras": {
+   "observation.images.front": [
+    576,
+    1024,
+    3
+   ],
+   "observation.images.top": [
+    576,
+    1024,
+    3
+   ],
+   "observation.images.wrist": [
+    720,
+    1280,
+    3
+   ]
+  },
+  "filter": "policy_type == teleoperated AND task in 5 training tasks; sealed tasks eye_drops_to_shelf, tool_removal, cable_unclip excluded",
+  "format": "LeRobot v3.0, 20 fps, state[6], action[6]",
+  "license": "apache-2.0",
+  "per_episode_video_presence_verified": "2026-11-22: all 250 P0 episodes reference all 3 cameras, timestamps increasing, 0 missing/empty files",
+  "repo_id": "armnet/armnetbench_v01_lerobot_so101",
+  "revision_pinned_and_used": "1db69c82b589c7172ee31a6b8f7ef58d1fc2c663",
+  "subsets_sha256": {
+   "block_stack": "97ae521c56801b541923f2e3b8ec172e2020f947e1528461b04901c7b4b48417",
+   "cable_clip": "b752353f6478a770d0ec209dc80e78898412cc249c1fad27d7eb73c255395d8a",
+   "eye_drops_to_basket": "dd5ea56de9850e6fe13eb1d04fa3acd91727ed7f5d1fe58fa25da0686410d1c7",
+   "ring_insert": "d961d8b14297d88d7b3702bd4ebcbf342c9ae25203af9823f00e7c221c169af5",
+   "tool_insert": "38bae64f8ce13ae059f8d583ca5a9ef843b7bf7ffc10869178908abf9bdc4e29"
+  },
+  "union_episode_list_sha256_centralized": "4158ba0971c8ba804bd4c33886be9fa999002ea92686954d4e1d91ff68735dc4",
+  "union_episodes": 250
+ },
+ "eval_gate": {
+  "rule": "D9: before any trajectory pass or judging, every checkpoint in the comparison set must declare IDENTICAL input_features (post-rename namespace, shape-exact) AND equal the registered expected_policy_config.input_features; the eval episode list must hash to the frozen split.",
+  "split": {
+   "canonical_rows": "sha256 of json list of [task, episode_index, length_frames] sorted by task then episode_index",
+   "canonical_rows_sha256": "24b0b99e305345d0edbd3cc9d7bb1b33fa9d10222a65460e0737322415e8a3e6",
+   "disjoint_from_training": true,
+   "n_episodes": 100,
+   "per_task": 20,
+   "seed": 20261122,
+   "training_index_count": 250
+  }
+ },
+ "expected_policy_config": {
+  "chunk_size": 50,
+  "empty_cameras": 0,
+  "input_features": {
+   "observation.images.camera1": [
+    3,
+    256,
+    256
+   ],
+   "observation.images.camera2": [
+    3,
+    256,
+    256
+   ],
+   "observation.images.camera3": [
+    3,
+    256,
+    256
+   ],
+   "observation.state": [
+    6
+   ]
+  },
+  "model_total_params": 450046176,
+  "model_total_tensors": 500,
+  "n_action_steps": 50,
+  "num_steps_flow": 10,
+  "output_features": {
+   "action": [
+    6
+   ]
+  },
+  "rename_map": {
+   "observation.images.front": "observation.images.camera1",
+   "observation.images.top": "observation.images.camera2",
+   "observation.images.wrist": "observation.images.camera3"
+  },
+  "resize_imgs_with_padding": [
+   512,
+   512
+  ],
+  "vlm_model_name": "HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
+ },
+ "expected_preprocessor": {
+  "normalizer_safetensors_sha256_prefix": "f7aee4dd396bb966",
+  "note": "D-9 pooled (union-250) stats; hash-verified IDENTICAL across C-exp, all 5 specialists, sequential blocks, and the FL pooled preprocessor in the as-run study",
+  "policy_preprocessor_json_sha256": "97af2771802a5c57725fb5c1c4d0e044d97a1341e50ab67a715108284c568c10",
+  "unnormalizer_safetensors_sha256_prefix": "a7e82ef19cf09763"
+ },
+ "hard_gates_for_rerun": [
+  "P1 diff of resolved configs (client policy, server template, round-1 saved checkpoint, packaged final checkpoint) against expected_policy_config \u2014 any unexplained difference stops the launch",
+  "trained-tensor census == 155 tensors / 99,880,992 params, asserted from the actual client construction, not config text",
+  "camera-token proof on a real batch: 3 image slots / 192 image tokens per sample reaching the model (64 tokens per view, measured in miniature 2026-11-22)",
+  "eval gate: before judging, assert every checkpoint in the table declares identical input_features; a 2-view artifact can never again be silently evaluated against 3-view arms",
+  "no launch without founder review of the sweep report"
+ ],
+ "manifest_revision_note": "2026-11-22 gate-fix build (audit F1-F11): arms_expected prose replaced by machine-readable arms_machine for the LeRobot arms; recipe.optimizer parsed into recipe.optimizer_struct; FL app-config scheduler/optimizer semantics pinned in arms_machine.fl_rerun.app_config_expected; budget inputs made per-arm computable; census name-set hashes pinned (derived 2026-11-22 from the training harness construction path, study_cfg.build + make_policy, independent of the checker); eval_gate section added (split hash pinned from the frozen split.json).",
+ "manifest_version": "1.1",
+ "methodology_rule": "Founder, 2026-11-22 12:22 CT: before any comparative training run, ALL important parameters/config/hyperparameters are compared across arms in advance, all else equal, isolating the pooling strategy alone.",
+ "purpose": "P1 config-equivalence gate input: the human-approved expected values every arm's resolved config is diffed against before launch. Only the studied variable (pooling/federation structure) plus the registered waivers below may differ.",
+ "recipe": {
+  "batch_size": 32,
+  "budget": {
+   "images_at_3_views": 1440000,
+   "per_task_steps": 3000,
+   "total_samples": 480000,
+   "total_step_equivalents": 15000
+  },
+  "budget_inputs": {
+   "note": "budget computed by the checker per arm: steps_equivalents x batch x views; totals must equal recipe.budget",
+   "views": 3
+  },
+  "optimizer": "AdamW lr 1e-4, betas [0.9, 0.95], eps 1e-8, weight_decay 1e-10, grad_clip 10",
+  "optimizer_struct": {
+   "betas": [
+    0.9,
+    0.95
+   ],
+   "eps": 1e-08,
+   "grad_clip_norm": 10.0,
+   "lr": 0.0001,
+   "type": "AdamW",
+   "weight_decay": 1e-10
+  },
+  "push_to_hub": false,
+  "scheduler_lerobot": {
+   "decay_lr": 2.5e-06,
+   "decay_steps_rule": "scheduler_decay_steps == arm steps (per-arm horizon; cross-arm horizon difference is waiver W-LR-horizon)",
+   "warmup_steps": 100
+  },
+  "seed_base": 1000
+ },
+ "registered_waivers": [
+  {
+   "diff": "specialists full-FT vs C-exp/FL expert-only scope",
+   "id": "W-D2/D10-scope",
+   "source": "preregistration \u00a73 + amendments D-2/D-10; Phi = C-exp - FL compares expert-only vs expert-only"
+  },
+  {
+   "diff": "centralized frame-proportional per-task exposure (expected samples: block ~75,700; eye_drops ~53,300; ring ~68,200; tool ~121,400; cable ~161,400) vs FL/specialist uniform 96,000/task",
+   "id": "W-D8",
+   "source": "deviation D-8, recorded before the centralized run"
+  },
+  {
+   "diff": "FL aggregation accumulates fp32 (in-process driver used fp64)",
+   "id": "W-D11-iii",
+   "source": "D-11"
+  },
+  {
+   "diff": "FL clients train in base policy native bf16/fp32 mix; LeRobot arms uniform fp32 (use_amp=false, mixed_precision=no, tf32=true)",
+   "id": "W-D11-iv",
+   "source": "D-11, founder-accepted 2026-11-21"
+  },
+  {
+   "diff": "FL AdamW state resets per round; LeRobot arms carry AdamW continuously",
+   "id": "W-D11-ii",
+   "source": "D-11, substrate-native, founder-accepted"
+  },
+  {
+   "diff": "FL batch order = reshuffled DataLoader epochs; LeRobot arms EpisodeAwareSampler",
+   "id": "W-D11-vi",
+   "source": "D-11"
+  },
+  {
+   "diff": "FL-only FedProx mu=0.1 proximal term + dynamic loss-based aggregation weighting",
+   "id": "W-FedProx/dyn",
+   "source": "preregistration \u00a73, certified Module M configuration"
+  },
+  {
+   "diff": "FL/specialist LR cosine horizon = 3000 steps (per task/node); C-exp horizon = 15000 pooled steps",
+   "id": "W-LR-horizon",
+   "source": "by construction from per-task budget K=3000; flagged in sweep as a grid-search factor, not silently accepted for future studies"
+  }
+ ],
+ "starting_checkpoint": {
+  "applies_to": "ALL arms including the FL re-run \u2014 no continuation from any Study 001 checkpoint",
+  "repo": "lerobot/smolvla_base",
+  "snapshot": "5e8d12a6e2975b0e5e5fce7c8caf47c371d257b6"
+ },
+ "study": "BENCH-003 Study 001 \u2014 FL clean re-run (gated on founder review of the 2026-11-22 sweep)"
+}

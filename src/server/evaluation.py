@@ -259,9 +259,18 @@ def process_evaluation_metrics(
     if not hasattr(strategy, "server_eval_losses"):
         strategy.server_eval_losses = []
     strategy.server_eval_losses.append(loss)
+    # Study 001 gap G-10: record WHICH round each loss was measured
+    # in, in a parallel list truncated identically. Without the round,
+    # prepare_server_eval_metrics cannot tell a this-round measurement
+    # from a stale one - which is how every round checkpoint of
+    # Study 001 came to carry the round-0 composite verbatim.
+    if not hasattr(strategy, "server_eval_rounds"):
+        strategy.server_eval_rounds = []
+    strategy.server_eval_rounds.append(server_round)
     # Keep only last 10 losses to prevent unbounded growth
     if len(strategy.server_eval_losses) > 10:
         strategy.server_eval_losses = strategy.server_eval_losses[-10:]
+        strategy.server_eval_rounds = strategy.server_eval_rounds[-10:]
 
 
 def log_evaluation_to_wandb(

@@ -13,6 +13,7 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy with complete data
         strategy = Mock()
         strategy.server_eval_losses = [1.0, 0.95, 0.9]
+        strategy.server_eval_rounds = [3, 4, 5]
         strategy.last_aggregated_metrics = {
             "avg_client_loss": 1.2,
             "std_client_loss": 0.3,
@@ -58,6 +59,7 @@ class TestPrepareServerEvalMetrics:
                 },
             },
         ]
+        strategy.last_per_dataset_results_round = 5
 
         server_round = 5
 
@@ -91,9 +93,11 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy with minimal data
         strategy = Mock()
         strategy.server_eval_losses = [0.5]
+        strategy.server_eval_rounds = [1]
         strategy.last_aggregated_metrics = {}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = []
+        strategy.last_per_dataset_results_round = 1
 
         server_round = 1
 
@@ -114,16 +118,19 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy without eval losses
         strategy = Mock()
         strategy.server_eval_losses = None
+        strategy.server_eval_rounds = []
         strategy.last_aggregated_metrics = {"num_clients": 2}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = []
+        strategy.last_per_dataset_results_round = 3
 
         server_round = 3
 
         result = prepare_server_eval_metrics(strategy, server_round)
 
-        # Should use default loss of "N/A"
-        assert result["server_composite_eval_loss"] == "N/A"
+        # Gap G-10 contract: no measurement -> null, never a
+        # placeholder string or a stale value.
+        assert result["server_composite_eval_loss"] is None
         assert result["client_aggregated_training_metrics"]["num_clients"] == 2
 
     def test_prepare_server_eval_metrics_single_dataset(self):
@@ -132,6 +139,7 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy with single dataset
         strategy = Mock()
         strategy.server_eval_losses = [0.7]
+        strategy.server_eval_rounds = [2]
         strategy.last_aggregated_metrics = {"avg_client_loss": 1.0}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = [
@@ -143,6 +151,7 @@ class TestPrepareServerEvalMetrics:
                 "metrics": {"policy_loss": 0.7},
             }
         ]
+        strategy.last_per_dataset_results_round = 2
 
         server_round = 2
 
@@ -159,6 +168,7 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy with client metrics from previous round
         strategy = Mock()
         strategy.server_eval_losses = [0.6]
+        strategy.server_eval_rounds = [5]
         strategy.last_aggregated_metrics = {}
         strategy.last_client_metrics = [
             {
@@ -173,6 +183,7 @@ class TestPrepareServerEvalMetrics:
             }
         ]
         strategy.last_per_dataset_results = []
+        strategy.last_per_dataset_results_round = 5
 
         server_round = 5
 
@@ -189,9 +200,11 @@ class TestPrepareServerEvalMetrics:
 
         strategy = Mock()
         strategy.server_eval_losses = [0.5]
+        strategy.server_eval_rounds = [1]
         strategy.last_aggregated_metrics = {}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = []
+        strategy.last_per_dataset_results_round = 1
 
         server_round = 1
 
@@ -206,9 +219,11 @@ class TestPrepareServerEvalMetrics:
 
         strategy = Mock()
         strategy.server_eval_losses = [0.5]
+        strategy.server_eval_rounds = [1]
         strategy.last_aggregated_metrics = {}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = []
+        strategy.last_per_dataset_results_round = 1
 
         server_round = 1
 
@@ -224,6 +239,7 @@ class TestPrepareServerEvalMetrics:
         # Mock strategy with detailed per-dataset results
         strategy = Mock()
         strategy.server_eval_losses = [1.0]
+        strategy.server_eval_rounds = [10]
         strategy.last_aggregated_metrics = {}
         strategy.last_client_metrics = []
         strategy.last_per_dataset_results = [
@@ -242,6 +258,7 @@ class TestPrepareServerEvalMetrics:
                 },
             }
         ]
+        strategy.last_per_dataset_results_round = 10
 
         server_round = 10
 

@@ -467,6 +467,8 @@ class TestSaveEvaluationResults:
             strategy = Mock()
             strategy.server_dir = Path(temp_dir)
             strategy.server_eval_losses = [0.8]  # Set to list to avoid Mock subscript error
+            strategy.server_eval_rounds = [5]  # G-10: the loss was measured in round 5
+            strategy.last_per_dataset_results_round = None
 
             server_round = 5
             loss = 0.8

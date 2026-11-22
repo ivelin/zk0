@@ -15,9 +15,13 @@ class TestPrepareCheckpointMetrics:
 
         mock_strategy = MagicMock()
         mock_strategy.server_eval_losses = [0.723, 0.655]
+        # G-10 (2026-11-22): losses are attributable only with their
+        # measured rounds; the latest was measured in round 0.
+        mock_strategy.server_eval_rounds = [-1, 0]
         mock_strategy.last_aggregated_metrics = {"avg_client_loss": 0.894, "num_clients": 2}
         mock_strategy.last_client_metrics = [{"client_id": 6}, {"client_id": 2}]
         mock_strategy.last_per_dataset_results = [{"loss": 0.578, "dataset_name": "Hupy440/Two_Cubes_and_Two_Buckets_v2"}]
+        mock_strategy.last_per_dataset_results_round = 0
 
         metrics = prepare_server_eval_metrics(mock_strategy, server_round=0)
 
@@ -32,13 +36,17 @@ class TestPrepareCheckpointMetrics:
 
         mock_strategy = MagicMock()
         mock_strategy.server_eval_losses = []
+        mock_strategy.server_eval_rounds = []
         mock_strategy.last_aggregated_metrics = {}
         mock_strategy.last_client_metrics = []
         mock_strategy.last_per_dataset_results = []
+        mock_strategy.last_per_dataset_results_round = None
 
         metrics = prepare_server_eval_metrics(mock_strategy, server_round=0)
 
-        assert metrics["server_composite_eval_loss"] == "N/A"
+        # G-10 (2026-11-22): an unmeasured value is null in the data;
+        # "N/A" is a display rendering (model card), never a datum.
+        assert metrics["server_composite_eval_loss"] is None
         assert metrics["client_aggregated_training_metrics"] == {}
         assert len(metrics["individual_client_training_metrics"]) == 0
         assert len(metrics["server_per_dataset_eval_results"]) == 0
@@ -53,9 +61,11 @@ class TestInMemoryExtractFinalMetrics:
 
         mock_strategy = MagicMock()
         mock_strategy.server_eval_losses = [0.655]
+        mock_strategy.server_eval_rounds = [2]  # measured in round 2 (G-10)
         mock_strategy.last_aggregated_metrics = {"avg_client_loss": 0.894, "num_clients": 2}
         mock_strategy.last_client_metrics = [{"client_id": 6, "policy_loss": 0.778}]
         mock_strategy.last_per_dataset_results = [{"loss": 0.578, "dataset_name": "test_dataset"}]
+        mock_strategy.last_per_dataset_results_round = 2
         mock_strategy.template_model = MagicMock()
         mock_strategy.models_dir = Path(tempfile.mkdtemp())
         mock_strategy.server_dir = Path(tempfile.mkdtemp())
