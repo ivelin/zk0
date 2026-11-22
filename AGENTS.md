@@ -15,13 +15,18 @@ datasets via Flower; only model updates move, data stays local.
 
 - **Code lives here** — the Python package in `src/` (Flower server/client
   apps), `tests/`, `docker/`, the Jekyll site source in `website/`, and the
-  user-facing docs already in `docs/`. GitHub carries code and issue
-  tickets only.
-- **Project docs, reports, research, and analysis are maintained
-  privately by the maintainer, outside this repo.** Do not add them to
-  GitHub, and do not reference private stores, folders, or documents
-  from anything in this repo. When a task needs such a document, the
-  maintainer provides it in the task brief.
+  user-facing docs in `docs/`.
+- **Public-first for the project record** (founder rule, 2026-11-21,
+  extended 2026-11-22): experiment records — methods, configs, results,
+  postmortems — and engineering practices belong in this repo, written
+  so outside contributors can reproduce the work. The single source of
+  truth for engineering practice is `docs/engineering-practices.md`.
+  Material that is not publishable (personal information, secrets,
+  non-publishable strategy or operations detail) is maintained
+  privately by the maintainer, outside this repo — and is never
+  referenced from anything in this repo: no links, IDs, folder names,
+  or summaries. When a task needs such a document, the maintainer
+  provides it in the task brief.
 - **Objects, models, and asset evidence live on Hugging Face** — the
   `zk0bot` org and the
   [zk0 Simulation Assets](https://huggingface.co/collections/zk0bot/zk0-simulation-assets)

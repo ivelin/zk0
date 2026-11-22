@@ -25,6 +25,7 @@ Open-source federated learning platform for SmolVLA models on SO-100 datasets us
 | 💬 **Community** | [Discord](https://discord.gg/dhMnEne7RP) · [GitHub Discussions](https://github.com/ivelin/zk0/discussions) |
 | 🦾 **Node operators** | [Become a node operator](#node-operators) |
 | 🛠️ **For AI assistants** | [AGENTS.md](AGENTS.md) — the operating contract for assistants working on this repo |
+| 🧭 **Engineering practices** | [docs/engineering-practices.md](docs/engineering-practices.md) — the single source of truth for how zk0 work is done: architecture invariants, experiment methodology, CI/CD, SRE, release gates |
 
 ## See it
 
