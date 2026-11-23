@@ -4,6 +4,7 @@
 
 ## Articles
 
+- [The Week Our Training Box Died Three Times](https://zk0.bot/the-week-our-training-box-died-three-times/): Three times in four days, our training machine froze dead. This is the full record of what killed it, how we found out, and what fixed it.
 - [47× Too Much Force. Five Passes Flipped. One Dangling Mug.](https://zk0.bot/open-source-robotics-simulators-physics-engines-object-libraries/): zk0 benchmarked six open-source robotics simulators for SO-101 simulation — physics engines, object formats, and object libraries — and built the grasp-quality gate that flipped five of its own passing grades to FAIL.
 - [Data Beats Parameters: Why zk0 Trains a 450M Robot Model — and Who We Are Recruiting to Train It](https://zk0.bot/docs/DATA-BEATS-PARAMETERS.html): The published evidence says robot-arm policies gain more from diverse data than from bigger models; zk0 is recruiting SO-100/SO-101 data contributors and 10GB+ VRAM compute contributors.
 

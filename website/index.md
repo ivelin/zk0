@@ -27,7 +27,9 @@ permalink: /
 
 Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evolve with the latest open-source ML models and advanced humanoid embodiments as they become available, enabling broader decentralized robotics AI development.</p>
 
-<p>New: <a href="/open-source-robotics-simulators-physics-engines-object-libraries/">47× Too Much Force. Five Passes Flipped. One Dangling Mug.</a> — we benchmarked six physics engines for SO-101 simulation, then built the grasp-quality gate that flipped five of our own passing grades to FAIL.</p>
+<p>New: <a href="/the-week-our-training-box-died-three-times/">The Week Our Training Box Died Three Times</a> — three times in four days, our training machine froze dead; the full record of what killed it, how we found out, and what fixed it.</p>
+
+<p>Also: <a href="/open-source-robotics-simulators-physics-engines-object-libraries/">47× Too Much Force. Five Passes Flipped. One Dangling Mug.</a> — we benchmarked six physics engines for SO-101 simulation, then built the grasp-quality gate that flipped five of our own passing grades to FAIL.</p>
 
 <p>Also: <a href="/docs/DATA-BEATS-PARAMETERS.html">Data Beats Parameters: why we train a 450M model — and who we're recruiting</a> — the published evidence behind our data-first bet, and how to join as a data or compute contributor.</p>
 
