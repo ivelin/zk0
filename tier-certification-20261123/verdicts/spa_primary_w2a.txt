@@ -1,0 +1,25 @@
+ep150 | PASS | open glass container inside the bowl, gripper released, closed orange-capped container still on table
+ep151 | PASS | closed purple-capped glass container inside the bowl, gripper released
+ep152 | PASS | closed orange-capped glass container inside the bowl, open clear container still on table
+ep153 | PASS | glass spice container inside the bowl, gripper released
+ep154 | PASS | open glass container inside the bowl, closed orange-capped container still on table
+ep155 | PASS | closed purple-capped glass container inside the bowl, open clear container still on table
+ep156 | PASS | open clear glass container inside the bowl, closed purple-capped container still on table
+ep157 | PASS | glass spice container inside the bowl, gripper released
+ep158 | PASS | closed orange-capped glass container inside the bowl, open clear container still on table
+ep159 | FAIL | open clear glass container inside the bowl, closed purple-capped container still on table
+ep160 | PASS | open clear glass container inside the bowl, closed purple-capped container still on table
+ep161 | PASS | glass spice container with purple cap inside the bowl, gripper released
+ep162 | PASS | open clear glass container inside the bowl, closed purple-capped container still on table
+ep163 | PASS | closed purple-capped glass container inside the bowl, open clear container still on table
+ep164 | PASS | glass spice container inside the bowl, gripper released
+ep165 | PASS | open clear glass container inside the bowl, closed purple-capped container still on table
+ep166 | PASS | glass spice container with purple cap inside the bowl, gripper released
+ep167 | PASS | closed purple-capped glass container inside the bowl, open clear container still on table
+ep168 | PASS | open clear glass container inside the bowl, closed purple-capped container still on table
+ep169 | PASS | glass spice container with orange cap inside the bowl, gripper released
+ep170 | PASS | open clear glass container inside the bowl, closed orange-capped container still on table
+ep171 | PASS | closed purple-capped glass container inside the bowl, open clear container still on table
+ep172 | PASS | glass spice container with orange cap inside the bowl, gripper released
+ep173 | PASS | open clear glass container inside the bowl, closed orange-capped container still on table
+ep174 | PASS | closed orange-capped glass container inside the bowl, open clear container still on table

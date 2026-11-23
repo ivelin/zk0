@@ -1,0 +1,25 @@
+ep225 | PASS | green pen rests on table adjacent to red block, gripper released
+ep226 | PASS | green pen rests vertically beside red block in top view, gripper released
+ep227 | PASS | green pen rests leaning near red block, gripper released
+ep228 | PASS | green pen rests on table next to red block, gripper released
+ep229 | PASS | green pen rests to the left of pink marker in top view, gripper released
+ep230 | PASS | green pen rests to the left of pink marker in top view, gripper released
+ep231 | PASS | green pen rests to the left of pink marker in top view, gripper released
+ep232 | PASS | green pen rests to the left of pink marker in top view, gripper released
+ep233 | PASS | green pen rests to the left of blue block in top view, gripper released
+ep234 | PASS | green pen rests to the left of blue block in top view, gripper released
+ep235 | PASS | green pen rests to the left of blue block in top view, gripper released
+ep236 | PASS | green pen rests to the left of blue block in top view, gripper released
+ep237 | PASS | green pen rests on table next to red block, gripper released
+ep238 | PASS | green pen rests on table beside red block, gripper released
+ep239 | PASS | green pen rests on table near red block, gripper released
+ep240 | PASS | green pen rests on table next to red block, gripper released
+ep241 | PASS | green pen rests on table beside red block, gripper released
+ep242 | PASS | green pen rests to the right of pink marker in top view, gripper released
+ep243 | PASS | green pen rests to the right of pink marker in top view, gripper released
+ep244 | PASS | green pen rests to the right of pink marker in top view, gripper released
+ep245 | PASS | green pen rests to the right of pink marker in top view, gripper released
+ep246 | PASS | green pen rests to the right of blue block in top view, gripper released
+ep247 | PASS | green pen rests to the right of blue block in top view, gripper released
+ep248 | PASS | green pen rests to the right of blue block in top view, gripper released
+ep249 | PASS | green pen rests to the right of blue block in top view, gripper released

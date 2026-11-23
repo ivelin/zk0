@@ -4739,7 +4739,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-01",
+  "batch_id": "spa-size-01",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [
@@ -4871,7 +4871,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-02",
+  "batch_id": "spa-size-02",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [
@@ -5003,7 +5003,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-03",
+  "batch_id": "spa-size-03",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [
@@ -5135,7 +5135,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-04",
+  "batch_id": "spa-size-04",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [
@@ -5267,7 +5267,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-05",
+  "batch_id": "spa-size-05",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [
@@ -5399,7 +5399,7 @@
   ]
  },
  {
-  "batch_id": "spa-rela-06",
+  "batch_id": "spa-size-06",
   "source": "spa-bench",
   "rule": "Relative Size",
   "episodes": [

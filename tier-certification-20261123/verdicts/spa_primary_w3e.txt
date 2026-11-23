@@ -1,0 +1,25 @@
+ep966 | PASS | silver airplane toy rests inside the bowl beside the yellow block, gripper released
+ep967 | PASS | silver airplane toy sits inside the bowl between the green and yellow objects
+ep968 | PASS | silver airplane toy is inside the bowl with the pen, gripper empty
+ep969 | PASS | silver airplane toy lies inside the bowl next to the yellow block
+ep970 | PASS | silver airplane toy is inside the bowl beside the green and yellow objects
+ep971 | PASS | silver airplane toy rests inside the bowl, gripper released
+ep972 | PASS | silver airplane toy sits inside the bowl next to the yellow block
+ep973 | PASS | silver airplane toy is inside the bowl between the green and yellow objects
+ep974 | PASS | small silver airplane toy lies inside the bowl beside the green object
+ep1000 | PASS | red pencil sharpener rests inside the bowl, gripper released
+ep1001 | PASS | red pencil sharpener sits inside the bowl at episode end
+ep1002 | PASS | red pencil sharpener is inside the bowl, gripper empty
+ep1003 | PASS | red pencil sharpener lies inside the bowl at episode end
+ep1004 | PASS | red pencil sharpener rests inside the bowl, gripper released
+ep1075 | PASS | green block sits inside the bowl, gripper released
+ep1076 | PASS | green block rests inside the bowl at episode end
+ep1077 | PASS | green block is inside the bowl, gripper empty
+ep1078 | PASS | green block lies inside the bowl at episode end
+ep1079 | PASS | green block sits inside the bowl, gripper released
+ep1080 | PASS | green block is inside the bowl at episode end
+ep1081 | PASS | green block rests inside the bowl, gripper empty
+ep1082 | PASS | green block sits inside the bowl at episode end
+ep1083 | PASS | green block lies inside the bowl, gripper released
+ep1084 | PASS | green block is inside the bowl at episode end
+ep1085 | PASS | green block rests inside the bowl, gripper empty

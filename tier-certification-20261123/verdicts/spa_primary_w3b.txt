@@ -1,0 +1,25 @@
+ep818 | PASS | blue pen inside the bowl at end, gripper released
+ep819 | PASS | blue pen inside the bowl at end, gripper released
+ep820 | PASS | blue pen inside the bowl at end, gripper released
+ep821 | PASS | blue pen inside the bowl at end, gripper released
+ep822 | PASS | blue pen inside the bowl at end, gripper released
+ep823 | PASS | blue pen inside the bowl at end, gripper released
+ep824 | PASS | blue pen inside the bowl at end, gripper released
+ep866 | PASS | yellow block inside the bowl at end, gripper released
+ep867 | PASS | yellow block inside the bowl at end, gripper released
+ep868 | PASS | yellow block inside the bowl at end, gripper released
+ep869 | PASS | yellow block inside the bowl at end, gripper released
+ep870 | PASS | yellow block inside the bowl at end, gripper released
+ep871 | PASS | yellow block inside the bowl at end, gripper released
+ep872 | PASS | yellow block inside the bowl at end, gripper released
+ep873 | PASS | yellow block inside the bowl at end, gripper released
+ep874 | PASS | yellow block inside the bowl at end, gripper released
+ep916 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep917 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep918 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep919 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep920 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep921 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep922 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep923 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep924 | PASS | green pencil sharpener inside the bowl at end, gripper released

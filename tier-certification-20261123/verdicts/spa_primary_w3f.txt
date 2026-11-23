@@ -1,0 +1,25 @@
+ep200 | PASS | green pen rests on table adjacent to red block, gripper released
+ep201 | PASS | green pen rests on table next to red block, gripper released
+ep202 | PASS | green pen rests beside red block, gripper released
+ep203 | PASS | green pen rests just above red block, gripper released
+ep204 | PASS | green pen rests in front of pink marker, gripper released
+ep205 | PASS | green pen rests in front of pink marker, gripper released
+ep206 | PASS | green pen rests in front of pink marker, gripper released
+ep207 | PASS | green pen rests in front of pink marker, gripper released
+ep208 | PASS | green pen rests in front of blue block, gripper released
+ep209 | PASS | green pen rests in front of blue block, gripper released
+ep210 | PASS | green pen rests in front of blue block, gripper released
+ep211 | PASS | green pen rests in front of blue block, gripper released
+ep212 | PASS | green pen rests near red block, gripper released
+ep213 | PASS | green pen rests next to red block, gripper released
+ep214 | PASS | green pen rests beside red block, gripper released
+ep215 | PASS | green pen rests near red block, gripper released
+ep216 | PASS | green pen rests next to red block, gripper released
+ep217 | PASS | green pen rests behind pink marker, gripper released
+ep218 | PASS | green pen rests behind pink marker, gripper released
+ep219 | PASS | green pen rests behind pink marker, gripper released
+ep220 | PASS | green pen rests behind pink marker, gripper released
+ep221 | PASS | green pen rests behind blue block, gripper released
+ep222 | PASS | green pen rests behind blue block, gripper released
+ep223 | PASS | green pen rests behind blue block, gripper released
+ep224 | PASS | green pen rests behind blue block, gripper released

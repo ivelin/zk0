@@ -1,0 +1,25 @@
+ep350 | PASS | blue block rests on the table in front of (below in top view) the green pen, gripper released
+ep351 | PASS | blue block rests below the green pen in the top view, in front of it, gripper released
+ep352 | PASS | blue block rests below the green pen in the top view, in front of it, gripper released
+ep353 | PASS | blue block rests just below the green pen beside the arm tip in the top view, in front of it
+ep354 | PASS | blue block rests directly below the red block in the top view, in front of it, gripper released
+ep355 | PASS | blue block rests directly below the red block in the top view, in front of it, gripper released
+ep356 | PASS | blue block rests below the red block in the top view, in front of it, gripper released
+ep357 | PASS | blue block rests directly below the red block in the top view, in front of it, gripper released
+ep358 | PASS | blue block rests below the pink marker in the top view, in front of it, gripper released
+ep359 | PASS | blue block rests below the pink marker in the top view, in front of it, gripper released
+ep360 | PASS | blue block rests below the pink marker in the top view, in front of it, gripper released
+ep361 | PASS | blue block rests below the pink marker in the top view, in front of it, gripper released
+ep362 | PASS | blue block rests above the green pen in the top view, behind it, gripper released
+ep363 | PASS | blue block rests above the green pen in the top view, behind it, gripper released
+ep364 | PASS | blue block rests above the green pen's end in the top view, behind it, gripper released
+ep365 | PASS | blue block rests above the green pen in the top view, behind it, gripper released
+ep366 | PASS | blue block rests above the green pen in the top view, behind it, gripper released
+ep367 | PASS | blue block rests above the red block in the top view, behind it, gripper released
+ep368 | PASS | blue block rests above the red block in the top view, behind it, gripper released
+ep369 | PASS | blue block rests above the red block in the top view, behind it, gripper released
+ep370 | PASS | blue block rests above the red block in the top view, behind it, gripper released
+ep371 | PASS | blue block rests above the pink marker in the top view, behind it, gripper released
+ep372 | PASS | blue block rests above the pink marker's end in the top view, behind it, gripper released
+ep373 | PASS | blue block rests above the pink marker in the top view, behind it, gripper released
+ep374 | PASS | blue block rests above the pink marker in the top view, behind it, gripper released

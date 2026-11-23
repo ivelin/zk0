@@ -1,0 +1,25 @@
+ep600 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep601 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep602 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep603 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep608 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep609 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep610 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep611 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep612 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep629 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep630 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep631 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep632 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep633 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep634 | PASS | airplane toy visible inside the bowl at end, gripper released
+ep654 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep655 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep656 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep657 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep662 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep663 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep664 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep665 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep666 | PASS | blue tape ball visible inside the bowl at end, gripper released
+ep667 | PASS | blue tape ball visible inside the bowl at end, gripper released

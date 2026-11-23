@@ -1,0 +1,25 @@
+ep300 | PASS | pink marker rests on table toward robot from blue block, gripper released
+ep301 | PASS | pink marker rests vertically below blue block in top view, toward robot
+ep302 | PASS | pink marker rests just below blue block in top view, toward robot
+ep303 | PASS | pink marker rests below blue block in top view, toward robot
+ep304 | PASS | pink marker rests just below green pen in top view, toward robot
+ep305 | PASS | pink marker rests below green pen in top view, toward robot
+ep306 | PASS | pink marker rests below green pen in top view, toward robot
+ep307 | PASS | pink marker rests just below green pen in top view, toward robot
+ep308 | PASS | pink marker rests just below red block in top view, toward robot
+ep309 | PASS | pink marker rests below red block in top view, toward robot
+ep310 | PASS | pink marker rests just below red block in top view, toward robot
+ep311 | PASS | pink marker rests diagonally below red block in top view, toward robot
+ep312 | PASS | pink marker rests above blue block in top view, away from robot
+ep313 | PASS | pink marker rests above blue block in top view, away from robot
+ep314 | PASS | pink marker rests above blue block in top view, away from robot
+ep315 | PASS | pink marker rests above blue block in top view, away from robot
+ep316 | PASS | pink marker rests above blue block in top view, away from robot
+ep317 | PASS | pink marker rests above green pen in top view, away from robot
+ep318 | PASS | pink marker rests just above green pen in top view, away from robot
+ep319 | PASS | pink marker rests just above green pen in top view, away from robot
+ep320 | PASS | pink marker rests just above green pen in top view, away from robot
+ep321 | PASS | pink marker rests above red block in top view, away from robot
+ep322 | PASS | pink marker rests just above red block in top view, away from robot
+ep323 | PASS | pink marker rests above red block in top view, away from robot
+ep324 | PASS | pink marker rests just above red block in top view, away from robot

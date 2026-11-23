@@ -1,0 +1,25 @@
+ep275 | PASS | red block rests left of the pink marker in the top view, gripper released
+ep276 | PASS | red block rests left of the pink marker in the top view, gripper released
+ep277 | PASS | red block rests left of the pink marker in the top view, gripper released
+ep278 | PASS | red block rests left of the pink marker in the top view, gripper released
+ep279 | PASS | red block rests left of the blue block in the top view, gripper released
+ep280 | PASS | red block rests left of the blue block in the top view, gripper released
+ep281 | PASS | red block rests left of the blue block in the top view, gripper released
+ep282 | PASS | red block rests left of the blue block in the top view, gripper released
+ep283 | PASS | red block rests beside the green pen in the top view, gripper released
+ep284 | PASS | red block rests near the green pen in the top view, gripper released
+ep285 | PASS | red block rests next to the green pen in the top view, gripper released
+ep286 | PASS | red block rests beside the green pen in the top view, gripper released
+ep287 | PASS | red block rests right of the pink marker in the top view, gripper released
+ep288 | PASS | red block rests right of the pink marker in the top view, gripper released
+ep289 | PASS | red block rests right of the pink marker in the top view, gripper released
+ep290 | PASS | red block rests right of the pink marker in the top view, gripper released
+ep291 | PASS | red block rests right of the pink marker in the top view, gripper released
+ep292 | PASS | red block rests right of the blue block in the top view, gripper released
+ep293 | PASS | red block rests right of the blue block in the top view, gripper released
+ep294 | PASS | red block rests right of the blue block in the top view, gripper released
+ep295 | PASS | red block rests right of the blue block in the top view, gripper released
+ep296 | PASS | red block rests near the green pen in the top view, gripper released
+ep297 | PASS | red block rests next to the green pen in the top view, gripper released
+ep298 | PASS | red block rests beside the green pen in the top view, gripper released
+ep299 | PASS | red block rests near the green pen in the top view, gripper released

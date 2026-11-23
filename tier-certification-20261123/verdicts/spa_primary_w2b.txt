@@ -1,0 +1,25 @@
+ep490 | PASS | green pencil sharpener inside the bowl, gripper released
+ep491 | PASS | red pencil sharpener inside the bowl, gripper released
+ep492 | PASS | green pencil sharpener inside the bowl, gripper released
+ep493 | PASS | red pencil sharpener inside the bowl, gripper released
+ep494 | PASS | red pencil sharpener inside the bowl, gripper released
+ep495 | PASS | green pencil sharpener inside the bowl, gripper released
+ep496 | PASS | green pencil sharpener inside the bowl, gripper released
+ep497 | FAIL | red sharpener in the bowl while the green sharpener remains on the table
+ep498 | PASS | red pencil sharpener inside the bowl, gripper released
+ep499 | PASS | red pencil sharpener inside the bowl, gripper released
+ep565 | PASS | airplane toy inside the bowl, gripper released
+ep566 | PASS | airplane toy inside the bowl, gripper released
+ep567 | PASS | airplane toy inside the bowl, gripper released
+ep568 | PASS | airplane toy inside the bowl, gripper released
+ep569 | PASS | airplane toy inside the bowl, gripper released
+ep570 | PASS | airplane toy inside the bowl, gripper released
+ep571 | PASS | airplane toy inside the bowl, gripper released
+ep572 | PASS | airplane toy inside the bowl, gripper released
+ep573 | PASS | airplane toy inside the bowl, gripper released
+ep574 | PASS | airplane toy inside the bowl, gripper released
+ep575 | PASS | airplane toy inside the bowl, gripper released
+ep576 | PASS | airplane toy inside the bowl, gripper released
+ep577 | PASS | airplane toy inside the bowl, gripper released
+ep578 | PASS | airplane toy inside the bowl, gripper released
+ep579 | PASS | airplane toy inside the bowl, gripper released

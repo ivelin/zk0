@@ -1,0 +1,25 @@
+ep400 | PASS | crushed red Coke can inside the bowl, gripper released
+ep401 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep402 | PASS | crushed red Coke can inside the bowl, gripper released
+ep403 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep404 | PASS | crushed red Coke can inside the bowl, gripper released
+ep405 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep406 | PASS | crushed red Coke can inside the bowl, gripper released
+ep407 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep408 | PASS | crushed red Coke can inside the bowl, gripper released
+ep409 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep410 | PASS | crushed red Coke can inside the bowl, gripper released
+ep411 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep412 | PASS | crushed red Coke can inside the bowl, gripper released
+ep413 | PASS | crushed blue Pepsi can inside the bowl, gripper released
+ep414 | PASS | crushed red Coke can inside the bowl, gripper released
+ep480 | PASS | red pencil sharpener inside the bowl, gripper released
+ep481 | PASS | red pencil sharpener inside the bowl, gripper released
+ep482 | PASS | green pencil sharpener inside the bowl, gripper released
+ep483 | PASS | green pencil sharpener inside the bowl, gripper released
+ep484 | PASS | red pencil sharpener inside the bowl, gripper released
+ep485 | PASS | green pencil sharpener inside the bowl, gripper released
+ep486 | PASS | red pencil sharpener inside the bowl, gripper released
+ep487 | PASS | green pencil sharpener inside the bowl, gripper released
+ep488 | PASS | red pencil sharpener inside the bowl, gripper released
+ep489 | PASS | green pencil sharpener inside the bowl, gripper released

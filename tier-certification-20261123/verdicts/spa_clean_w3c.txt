@@ -1,0 +1,25 @@
+ep400 | CLEAN
+ep401 | CLEAN
+ep402 | INCIDENT | gripper brushed the green pen beside the Coke can while grasping it, displacing the pen from its start position
+ep403 | INCIDENT | gripper brushed the yellow pen beside the Pepsi can while grasping it, displacing the pen from its start position
+ep404 | CLEAN
+ep405 | CLEAN
+ep406 | INCIDENT | gripper brushed the green pencil sharpener beside the Coke can while grasping it, displacing the sharpener from its start position
+ep407 | CLEAN
+ep408 | INCIDENT | gripper brushed the green pen beside the Coke can while grasping it, displacing the pen from its start position
+ep409 | INCIDENT | gripper brushed the yellow pen lying against the Pepsi can while grasping it, displacing the pen to the middle of the table
+ep410 | CLEAN
+ep411 | CLEAN
+ep412 | INCIDENT | gripper brushed the green pencil sharpener beside the Coke can while grasping it, displacing the sharpener from its start position
+ep413 | CLEAN
+ep414 | CLEAN
+ep480 | CLEAN
+ep481 | CLEAN
+ep482 | CLEAN
+ep483 | INCIDENT | gripper brushed the silver ball beside the green pencil sharpener while grasping it, nudging the ball from its start position
+ep484 | INCIDENT | arm leaned against the non-target blue can while reaching past it to grasp the red pencil sharpener
+ep485 | CLEAN
+ep486 | CLEAN
+ep487 | CLEAN
+ep488 | CLEAN
+ep489 | CLEAN
