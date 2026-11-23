@@ -2,19 +2,71 @@
  "episode": 779,
  "episode_key": "tool_insert__ep779",
  "task": "tool_insert",
+ "v11_status": "OUT \u2014 low-confidence FK-only pose (amendment3)",
  "calibration_id": "calib_v2_mat_homography",
  "objects": {
   "tool": {
    "pose_xyz_yaw": [
+    0.162,
+    0.0201,
+    0.005,
+    null
+   ],
+   "confidence": "low",
+   "method": "FK-anchored estimate ONLY (v1.1 repair rule v2, Builder 2; relabelled fixpass FP-H): first-grasp dwell FK (S7) + train-fitted offset. Visual status INDETERMINATE -- no loose tool is visible in top_first and neither grounding candidate is credible on frame read (V-Env+Poses F2); the pose is plausible and uncontradicted but NOT frame-verified. Replaces fabricated detect4 segmentation pose.",
+   "sigma_xy_cm": 4.3,
+   "sigma_yaw_deg": null,
+   "pose_v1_fabricated": [
     0.0792,
     0.3123,
     0.005,
     -3.094
    ],
-   "confidence": "medium",
-   "method": "metal+median-diff segmentation outside tray (detect4)",
-   "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": 20
+   "v11_repair": {
+    "chosen_source": "fk_anchor_only",
+    "chosen_px": null,
+    "fk_anchor_px": [
+     417.2,
+     363.5
+    ],
+    "candidates_px": {
+     "builder2_grounding": [
+      499,
+      286
+     ],
+     "venv_grounding": [
+      220,
+      360
+     ]
+    },
+    "candidate_dist_to_anchor_px": {
+     "builder2_grounding": 112.7,
+     "venv_grounding": 197.2
+    },
+    "rule_v2": {
+     "chosen_source": "fk_anchor_only",
+     "chosen_px": null,
+     "candidate_dist_to_anchor_px": {
+      "builder2_grounding": 112.7,
+      "venv_grounding": 197.2
+     }
+    },
+    "fixpass_fp_h": {
+     "pose_value_changed": false,
+     "visual_status": "indeterminate",
+     "basis": "FK-only; governing uncertainty is the anchor radial RMS 4.3 cm (per-axis held-out 3.03 cm)."
+    }
+   },
+   "fk_anchor": {
+    "xy_world_b": [
+     0.162,
+     0.0201
+    ],
+    "sigma_xy_cm_heldout": 3.03,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 0.0,
+    "note": "FK-anchored estimate (S7 dwell + train-fitted per-task offset). For THIS episode the anchor DOES supply the pose (rule v2 step 3): pose xy == fk_anchor.xy_world_b. It is an FK-only estimate with indeterminate visual status, not a frame-verified image pose."
+   }
   },
   "tool_final": {
    "pose_xyz_yaw": [
@@ -26,7 +78,17 @@
    "confidence": "medium",
    "method": "target slot position (fixture): recorded demos all succeed; loose tool ends in the tray cross slot",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": 15
+   "sigma_yaw_deg": 15,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.3343,
+     -0.003
+    ],
+    "sigma_xy_cm_heldout": 2.48,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 3.87,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

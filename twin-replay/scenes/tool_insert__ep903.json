@@ -6,15 +6,67 @@
  "objects": {
   "tool": {
    "pose_xyz_yaw": [
+    0.2077,
+    -0.0399,
+    0.005,
+    null
+   ],
+   "confidence": "medium",
+   "method": "visual grounding pick on top_first (v1.1 repair rule v2, Builder 2; source=grounding_consensus) \u2014 replaces fabricated detect4 segmentation pose",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null,
+   "pose_v1_fabricated": [
     0.1258,
     -0.0819,
     0.005,
     2.592
    ],
-   "confidence": "medium",
-   "method": "metal+median-diff segmentation outside tray (detect4)",
-   "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": 20
+   "v11_repair": {
+    "chosen_source": "venv_grounding",
+    "chosen_px": [
+     360,
+     302
+    ],
+    "fk_anchor_px": [
+     403.6,
+     327.3
+    ],
+    "candidates_px": {
+     "builder2_grounding": [
+      354,
+      313
+     ],
+     "venv_grounding": [
+      360,
+      302
+     ]
+    },
+    "candidate_dist_to_anchor_px": {
+     "builder2_grounding": 51.6,
+     "venv_grounding": 50.4
+    },
+    "rule_v2": {
+     "chosen_source": "grounding_consensus",
+     "chosen_px": [
+      357.0,
+      307.5
+     ],
+     "candidate_dist_to_anchor_px": {
+      "builder2_grounding": 51.6,
+      "venv_grounding": 50.4
+     }
+    }
+   },
+   "fk_anchor": {
+    "xy_world_b": [
+     0.193,
+     -0.0016
+    ],
+    "sigma_xy_cm_heldout": 3.03,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 4.1,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   },
   "tool_final": {
    "pose_xyz_yaw": [
@@ -26,7 +78,17 @@
    "confidence": "medium",
    "method": "target slot position (fixture): recorded demos all succeed; loose tool ends in the tray cross slot",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": 15
+   "sigma_yaw_deg": 15,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2542,
+     0.048
+    ],
+    "sigma_xy_cm_heldout": 2.48,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 6.95,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

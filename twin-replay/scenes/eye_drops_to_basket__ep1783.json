@@ -26,7 +26,17 @@
    "confidence": "medium",
    "method": "visual grounding pick on top_final (carton inside basket)",
    "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2058,
+     -0.213
+    ],
+    "sigma_xy_cm_heldout": 4.59,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 3.24,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

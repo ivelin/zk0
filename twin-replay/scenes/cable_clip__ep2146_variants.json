@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "cable_clip",
  "episode": 2146,
  "confidence": "medium",
@@ -19,23 +19,17 @@
    "k": 1,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.03875,
-      0.00974,
-      0.0
-     ],
      "cable": [
-      -0.06611,
-      0.01439,
+      -0.0775,
+      0.01949,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.04072
+     "cable_total": 0.05443
     },
     "friction_mult": {
-     "clip_block": 1.0886,
-     "cable": 0.8435
+     "cable": 0.8563
     }
    },
    "scene": "cable_clip__ep2146_v1.xml"
@@ -44,23 +38,17 @@
    "k": 2,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.04065,
-      -0.02002,
-      0.0
-     ],
      "cable": [
-      0.12083,
-      0.04039,
+      0.08,
+      -0.04005,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05804
+     "cable_total": 0.04832
     },
     "friction_mult": {
-     "clip_block": 0.9664,
-     "cable": 1.1116
+     "cable": 1.164
     }
    },
    "scene": "cable_clip__ep2146_v2.xml"
@@ -69,23 +57,17 @@
    "k": 3,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.07734,
-      -0.00891,
-      0.0
-     ],
      "cable": [
-      -0.06445,
-      -0.03728,
+      -0.08,
+      -0.01781,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.04108
+     "cable_total": 0.04411
     },
     "friction_mult": {
-     "clip_block": 0.8822,
-     "cable": 1.0685
+     "cable": 0.8384
     }
    },
    "scene": "cable_clip__ep2146_v3.xml"
@@ -94,23 +76,17 @@
    "k": 4,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.04978,
-      0.00888,
-      0.0
-     ],
      "cable": [
-      0.08249,
-      0.14763,
+      0.08,
+      0.01777,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05646
+     "cable_total": 0.05326
     },
     "friction_mult": {
-     "clip_block": 1.0653,
-     "cable": 0.9515
+     "cable": 0.9599
     }
    },
    "scene": "cable_clip__ep2146_v4.xml"

@@ -1,0 +1,1246 @@
+{
+ "n_entries": 62,
+ "n_over_2cm": 27,
+ "entries": [
+  {
+   "episode_key": "block_stack__ep411",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 13.09,
+   "class": "MANUAL_PICK_INITIAL",
+   "authoritative_source": "published JSON pose (manual pick)",
+   "rationale": "finalize.py HAND_BLOCK_FIRST: the preserved detection is the FAILED auto detection (occlusion/median coincidence) that Builder B replaced by a visual-verification manual pick; V-Env frame read on ep411 supports the pick (JSON ~2-3cm from visible cube, detection ~13cm off on empty mat). Detection px retained as the failed-auto record.",
+   "json_pose_xy": [
+    0.1956,
+    0.0596
+   ],
+   "detpx": [
+    446.97520661157023,
+    482.2809917355372
+   ],
+   "detpx_world_xy": [
+    0.0659,
+    0.0774
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep411",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 4.92,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1387,
+    0.0603
+   ],
+   "detpx": [
+    421.90835030549897,
+    450.6367956551256
+   ],
+   "detpx_world_xy": [
+    0.0903,
+    0.0513
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep411",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2801,
+    0.0314
+   ],
+   "detpx": [
+    493.2016632016632,
+    241.85654885654887
+   ],
+   "detpx_world_xy": [
+    0.2801,
+    0.0314
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep411",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 5.35,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1387,
+    0.0603
+   ],
+   "detpx": [
+    501.9138028169014,
+    335.5695774647887
+   ],
+   "detpx_world_xy": [
+    0.1913,
+    0.07
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep453",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3163,
+    0.0074
+   ],
+   "detpx": [
+    479.24763033175356,
+    204.92890995260663
+   ],
+   "detpx_world_xy": [
+    0.3163,
+    0.0074
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep453",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 7.32,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2176,
+    0.1169
+   ],
+   "detpx": [
+    539.5355072463768,
+    252.40652173913043
+   ],
+   "detpx_world_xy": [
+    0.2739,
+    0.07
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep453",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2397,
+    0.0883
+   ],
+   "detpx": [
+    548.0332759609868,
+    287.54618473895584
+   ],
+   "detpx_world_xy": [
+    0.2397,
+    0.0883
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep453",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 7.05,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2176,
+    0.1169
+   ],
+   "detpx": [
+    610.3044897959184,
+    372.6130612244898
+   ],
+   "detpx_world_xy": [
+    0.1634,
+    0.162
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep476",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3438,
+    0.059
+   ],
+   "detpx": [
+    555.142797319933,
+    187.28098827470686
+   ],
+   "detpx_world_xy": [
+    0.3438,
+    0.059
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep476",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.0572,
+    0.166
+   ],
+   "detpx": [
+    570.3267716535433,
+    495.43307086614175
+   ],
+   "detpx_world_xy": [
+    0.0572,
+    0.166
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep479",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2083,
+    0.0678
+   ],
+   "detpx": [
+    507.192749244713,
+    317.3963746223565
+   ],
+   "detpx_world_xy": [
+    0.2083,
+    0.0678
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep479",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 3.71,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.01 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2411,
+    0.0421
+   ],
+   "detpx": [
+    470.37689393939394,
+    250.8125
+   ],
+   "detpx_world_xy": [
+    0.2692,
+    0.0179
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep479",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1224,
+    0.1984
+   ],
+   "detpx": [
+    640.7916274694262,
+    419.66415804327374
+   ],
+   "detpx_world_xy": [
+    0.1224,
+    0.1984
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep479",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 3.64,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.01 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2411,
+    0.0421
+   ],
+   "detpx": [
+    506.8636890951276,
+    311.8921113689095
+   ],
+   "detpx_world_xy": [
+    0.2135,
+    0.0658
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep489",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1522,
+    0.1588
+   ],
+   "detpx": [
+    601.6295336787565,
+    384.4378238341969
+   ],
+   "detpx_world_xy": [
+    0.1522,
+    0.1588
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep489",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3259,
+    -0.0601
+   ],
+   "detpx": [
+    395.8934837092732,
+    186.71553884711778
+   ],
+   "detpx_world_xy": [
+    0.3259,
+    -0.0601
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep498",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2739,
+    -0.0329
+   ],
+   "detpx": [
+    404.69711538461536,
+    240.02824519230768
+   ],
+   "detpx_world_xy": [
+    0.2739,
+    -0.0329
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep498",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2364,
+    0.1125
+   ],
+   "detpx": [
+    577.1498771498772,
+    293.3310810810811
+   ],
+   "detpx_world_xy": [
+    0.2364,
+    0.1125
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep499",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3233,
+    0.0244
+   ],
+   "detpx": [
+    503.9242282507016,
+    200.8353601496726
+   ],
+   "detpx_world_xy": [
+    0.3233,
+    0.0244
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep499",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1689,
+    0.1212
+   ],
+   "detpx": [
+    559.8167164179105,
+    363.70746268656717
+   ],
+   "detpx_world_xy": [
+    0.1689,
+    0.1212
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep513",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2658,
+    -0.0226
+   ],
+   "detpx": [
+    414.46715328467155,
+    249.24087591240877
+   ],
+   "detpx_world_xy": [
+    0.2658,
+    -0.0226
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep513",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 3.23,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2458,
+    -0.0119
+   ],
+   "detpx": [
+    407.308261405672,
+    304.26510480887794
+   ],
+   "detpx_world_xy": [
+    0.2139,
+    -0.0072
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep513",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.269,
+    0.1557
+   ],
+   "detpx": [
+    641.920613742495,
+    266.49232821881253
+   ],
+   "detpx_world_xy": [
+    0.269,
+    0.1557
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep513",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 3.36,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2458,
+    -0.0119
+   ],
+   "detpx": [
+    429.29024390243904,
+    236.95853658536586
+   ],
+   "detpx_world_xy": [
+    0.2791,
+    -0.0168
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep514",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2915,
+    0.1011
+   ],
+   "detpx": [
+    585.0448275862069,
+    239.52758620689656
+   ],
+   "detpx_world_xy": [
+    0.2915,
+    0.1011
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep514",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2871,
+    0.0639
+   ],
+   "detpx": [
+    537.5724431818181,
+    239.2137784090909
+   ],
+   "detpx_world_xy": [
+    0.2871,
+    0.0639
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep525",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.177,
+    0.1229
+   ],
+   "detpx": [
+    565.510460251046,
+    355.139470013947
+   ],
+   "detpx_world_xy": [
+    0.177,
+    0.1229
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep525",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2923,
+    0.0287
+   ],
+   "detpx": [
+    495.3324607329843,
+    229.9973821989529
+   ],
+   "detpx_world_xy": [
+    0.2923,
+    0.0287
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep526",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2788,
+    0.1186
+   ],
+   "detpx": [
+    601.3415195702225,
+    253.3031465848043
+   ],
+   "detpx_world_xy": [
+    0.2788,
+    0.1186
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep526",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2942,
+    -0.0427
+   ],
+   "detpx": [
+    402.3461318051576,
+    218.9707736389685
+   ],
+   "detpx_world_xy": [
+    0.2942,
+    -0.0427
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep527",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1398,
+    0.1258
+   ],
+   "detpx": [
+    552.9551122194514,
+    396.0573566084788
+   ],
+   "detpx_world_xy": [
+    0.1398,
+    0.1258
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep527",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 7.96,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.01 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1778,
+    0.0885
+   ],
+   "detpx": [
+    469.35753575357535,
+    288.7807114044738
+   ],
+   "detpx_world_xy": [
+    0.2325,
+    0.0307
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep527",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2999,
+    0.039
+   ],
+   "detpx": [
+    511.85,
+    224.21
+   ],
+   "detpx_world_xy": [
+    0.2999,
+    0.039
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep527",
+   "entry": "cube_orange_final",
+   "dist_json_vs_detpx_cm": 3.57,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.01 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1778,
+    0.0885
+   ],
+   "detpx": [
+    561.7388888888889,
+    364.4338888888889
+   ],
+   "detpx_world_xy": [
+    0.1684,
+    0.1229
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep530",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 8.26,
+   "class": "MANUAL_PICK_INITIAL",
+   "authoritative_source": "published JSON pose (manual pick)",
+   "rationale": "finalize.py HAND_BLOCK_FIRST: the preserved detection is the FAILED auto detection (occlusion/median coincidence) that Builder B replaced by a visual-verification manual pick; V-Env frame read on ep411 supports the pick (JSON ~2-3cm from visible cube, detection ~13cm off on empty mat). Detection px retained as the failed-auto record.",
+   "json_pose_xy": [
+    0.1492,
+    0.1167
+   ],
+   "detpx": [
+    462.82310379241517,
+    473.9867764471058
+   ],
+   "detpx_world_xy": [
+    0.0726,
+    0.0856
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep530",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 5.73,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1045,
+    0.0977
+   ],
+   "detpx": [
+    412.2032258064516,
+    479.2032258064516
+   ],
+   "detpx_world_xy": [
+    0.0678,
+    0.0537
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep530",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3031,
+    0.0341
+   ],
+   "detpx": [
+    507.0887040887041,
+    220.56618156618157
+   ],
+   "detpx_world_xy": [
+    0.3031,
+    0.0341
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep530",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 6.31,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1045,
+    0.0977
+   ],
+   "detpx": [
+    582.2280701754386,
+    391.66315789473686
+   ],
+   "detpx_world_xy": [
+    0.1449,
+    0.1462
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep531",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.3066,
+    0.0492
+   ],
+   "detpx": [
+    527.6357243319269,
+    219.30520393811534
+   ],
+   "detpx_world_xy": [
+    0.3066,
+    0.0492
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep531",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 2.11,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.3196,
+    0.0413
+   ],
+   "detpx": [
+    532.950184501845,
+    223.04889298892988
+   ],
+   "detpx_world_xy": [
+    0.3033,
+    0.0547
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep531",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1939,
+    0.1029
+   ],
+   "detpx": [
+    546.8125,
+    335.6223958333333
+   ],
+   "detpx_world_xy": [
+    0.1939,
+    0.1029
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep531",
+   "entry": "cube_green_final",
+   "dist_json_vs_detpx_cm": 2.13,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.3196,
+    0.0413
+   ],
+   "detpx": [
+    513.8656174334141,
+    189.82203389830508
+   ],
+   "detpx_world_xy": [
+    0.3361,
+    0.0278
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep539",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 11.06,
+   "class": "MANUAL_PICK_INITIAL",
+   "authoritative_source": "published JSON pose (manual pick)",
+   "rationale": "finalize.py HAND_BLOCK_FIRST: the preserved detection is the FAILED auto detection (occlusion/median coincidence) that Builder B replaced by a visual-verification manual pick; V-Env frame read on ep411 supports the pick (JSON ~2-3cm from visible cube, detection ~13cm off on empty mat). Detection px retained as the failed-auto record.",
+   "json_pose_xy": [
+    0.2143,
+    0.2207
+   ],
+   "detpx": [
+    557.5749279538904,
+    344.6902017291066
+   ],
+   "detpx_world_xy": [
+    0.1862,
+    0.1138
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep539",
+   "entry": "cube_green",
+   "dist_json_vs_detpx_cm": 2.48,
+   "class": "MANUAL_PICK_INITIAL",
+   "authoritative_source": "published JSON pose (manual pick)",
+   "rationale": "finalize.py HAND_BLOCK_FIRST: the preserved detection is the FAILED auto detection (occlusion/median coincidence) that Builder B replaced by a visual-verification manual pick; V-Env frame read on ep411 supports the pick (JSON ~2-3cm from visible cube, detection ~13cm off on empty mat). Detection px retained as the failed-auto record.",
+   "json_pose_xy": [
+    0.061,
+    0.1361
+   ],
+   "detpx": [
+    556.6509661835748,
+    463.2699275362319
+   ],
+   "detpx_world_xy": [
+    0.083,
+    0.1476
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep545",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2834,
+    0.1077
+   ],
+   "detpx": [
+    589.8732959101844,
+    247.76583801122695
+   ],
+   "detpx_world_xy": [
+    0.2834,
+    0.1077
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep545",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 4.8,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2771,
+    0.0639
+   ],
+   "detpx": [
+    470.5521454112038,
+    273.17580452920146
+   ],
+   "detpx_world_xy": [
+    0.2475,
+    0.0261
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep545",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2568,
+    -0.0354
+   ],
+   "detpx": [
+    391.9036511156187,
+    256.6815415821501
+   ],
+   "detpx_world_xy": [
+    0.2568,
+    -0.0354
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep545",
+   "entry": "cube_orange_final",
+   "dist_json_vs_detpx_cm": 5.17,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.2771,
+    0.0639
+   ],
+   "detpx": [
+    595.9922351636162,
+    224.00554631170272
+   ],
+   "detpx_world_xy": [
+    0.309,
+    0.1046
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep546",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 12.12,
+   "class": "MANUAL_PICK_INITIAL",
+   "authoritative_source": "published JSON pose (manual pick)",
+   "rationale": "finalize.py HAND_BLOCK_FIRST: the preserved detection is the FAILED auto detection (occlusion/median coincidence) that Builder B replaced by a visual-verification manual pick; V-Env frame read on ep411 supports the pick (JSON ~2-3cm from visible cube, detection ~13cm off on empty mat). Detection px retained as the failed-auto record.",
+   "json_pose_xy": [
+    0.1492,
+    0.1167
+   ],
+   "detpx": [
+    617.2522522522522,
+    492.1261261261261
+   ],
+   "detpx_world_xy": [
+    0.0605,
+    0.1992
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep546",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 7.08,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1189,
+    0.1136
+   ],
+   "detpx": [
+    418.6695464362851,
+    455.622030237581
+   ],
+   "detpx_world_xy": [
+    0.0863,
+    0.0507
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep546",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2721,
+    0.1436
+   ],
+   "detpx": [
+    628.7398137369033,
+    262.30267753201394
+   ],
+   "detpx_world_xy": [
+    0.2721,
+    0.1436
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep546",
+   "entry": "cube_orange_final",
+   "dist_json_vs_detpx_cm": 5.38,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1189,
+    0.1136
+   ],
+   "detpx": [
+    596.0168408826945,
+    381.232868757259
+   ],
+   "detpx_world_xy": [
+    0.1549,
+    0.1536
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep548",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2438,
+    0.172
+   ],
+   "detpx": [
+    652.4107485604607,
+    291.978886756238
+   ],
+   "detpx_world_xy": [
+    0.2438,
+    0.172
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep548",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 9.8,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1684,
+    0.1169
+   ],
+   "detpx": [
+    428.36684782608694,
+    447.9103260869565
+   ],
+   "detpx_world_xy": [
+    0.0926,
+    0.0547
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep548",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1997,
+    0.1016
+   ],
+   "detpx": [
+    547.7058096415327,
+    329.47404202719406
+   ],
+   "detpx_world_xy": [
+    0.1997,
+    0.1016
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep548",
+   "entry": "cube_orange_final",
+   "dist_json_vs_detpx_cm": 11.64,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.1684,
+    0.1169
+   ],
+   "detpx": [
+    679.2696741854637,
+    279.9739348370927
+   ],
+   "detpx_world_xy": [
+    0.2584,
+    0.1907
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep549",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2984,
+    -0.0031
+   ],
+   "detpx": [
+    457.0895618556701,
+    220.21907216494844
+   ],
+   "detpx_world_xy": [
+    0.2984,
+    -0.0031
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep549",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1499,
+    0.2217
+   ],
+   "detpx": [
+    679.9568306010929,
+    390.98032786885244
+   ],
+   "detpx_world_xy": [
+    0.1499,
+    0.2217
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep557",
+   "entry": "cube_purple",
+   "dist_json_vs_detpx_cm": 0.01,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.2993,
+    -0.0118
+   ],
+   "detpx": [
+    446.2492354740061,
+    218.20030581039757
+   ],
+   "detpx_world_xy": [
+    0.2993,
+    -0.0118
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep557",
+   "entry": "cube_purple_final",
+   "dist_json_vs_detpx_cm": 3.07,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.3255,
+    -0.0506
+   ],
+   "detpx": [
+    396.18495077355834,
+    163.6139240506329
+   ],
+   "detpx_world_xy": [
+    0.3498,
+    -0.0694
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep557",
+   "entry": "cube_orange",
+   "dist_json_vs_detpx_cm": 0.0,
+   "class": "AGREE",
+   "authoritative_source": "both (identical quantity)",
+   "rationale": "JSON pose re-derives from preserved detection px through calib_v2 homography.",
+   "json_pose_xy": [
+    0.1659,
+    0.1128
+   ],
+   "detpx": [
+    547.3643031784841,
+    366.34352078239607
+   ],
+   "detpx_world_xy": [
+    0.1659,
+    0.1128
+   ]
+  },
+  {
+   "episode_key": "block_stack__ep557",
+   "entry": "cube_orange_final",
+   "dist_json_vs_detpx_cm": 3.02,
+   "class": "FINAL_STACK_CONSTRUCTION",
+   "authoritative_source": "published JSON pose (stack location)",
+   "rationale": "JSON final = stack location (mean of top_final cube detections; re-derived mean deviates 0.0 cm from JSON, rounding/median-pass differences only). The per-colour final detection px measures an individual colour blob in top_final (often only the visible top cube or lettering), NOT the stack location - a different quantity, not a competing pose. Builder C build_scenes derives its own stack px (detection nearest base initial) from the same preserved pixels.",
+   "json_pose_xy": [
+    0.3255,
+    -0.0506
+   ],
+   "detpx": [
+    420.49623430962345,
+    213.37322175732217
+   ],
+   "detpx_world_xy": [
+    0.3016,
+    -0.0321
+   ]
+  }
+ ]
+}

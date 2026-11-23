@@ -2,7 +2,7 @@
 
 Executes the RECORDED gt trajectory kinematically in a per-episode twin
 scene: arm qpos set from gt (degrees->radians, identical joint names) with
-linear interpolation at physics substeps (500 Hz), objects fully dynamic,
+linear interpolation at physics substeps (2000 Hz), objects fully dynamic,
 grasp via the declared weld device (docs/physics-parameters.md section 7 +
 normalisation in twin_params.py). After the trajectory, 1.0 s settle.
 No checkpoint inference of any kind is performed here.
@@ -315,7 +315,46 @@ def _finish(model, data, task, epi, events, g_lo, g_hi, has_excursion, attached,
     return result
 
 def evaluate(model, data, task, epi, mujoco):
-    """Pre-registered mechanical outcome criteria, exactly as written."""
+    """Pre-registered mechanical outcome criteria (preregistration, verbatim
+    definitions; v1.1 fix F-01: the contact/support clauses are now actually
+    tested via contacts_with() -- in v1 it was dead code and position proxies
+    silently stood in for the criteria. Position quantities are still computed
+    and recorded, but only as REPORTED diagnostics / the secondary criterion.)
+
+    Per-task PRIMARY criterion (registered text -> mechanism):
+    - block_stack: SUCCESS iff upper cube in CONTACT with lower cube's top
+      (contact pair upper<->lower present at settle), upper centre within
+      lower top footprint inset by 25%, and NO OTHER support contact for the
+      upper cube (its contact set is exactly {lower cube}).
+    - eye_drops_to_basket: SUCCESS iff carton centre inside the basket
+      interior footprint AND the carton's resting support is the basket:
+      contact with the basket body present, and NO contact with the platform
+      body or the world (mat/floor/walls).
+    - ring_insert: SUCCESS iff the ring is seated on the peg (engagement
+      boolean): peg passes through the ring hole -- planar ring-to-peg
+      distance <= physical radial clearance (RING_R_IN - PEG_R) -- and the
+      ring's lowest point is within 1 cm above the board top surface
+      (0 <= ring_bottom - board_top <= 0.010; no interpenetration credit).
+    - tool_insert: SUCCESS iff tool centre within the slot footprint
+      (evaluated in the SLOT frame, yaw applied), tool axis within 20 deg of
+      the slot axis, and the tool is resting in the tray (contact with the
+      tray body at settle).
+    - cable_clip: SUCCESS iff a cable segment is seated in the clip with the
+      clip CLOSED over it. Closure mechanism (documented modelling device):
+      the clip is a fixed-geometry sprung clip -- two static jaw geoms
+      (clip_jaw_a/b on the clip_block body) whose gap IS the channel; the
+      jaws cannot articulate in this model, so closure is registered
+      mechanically as RETENTION: at settle (after the 1.0 s settle, gripper
+      released or not) a segment lies inside the channel volume between the
+      jaws AND is in contact with the clip_block body -- i.e. the clip, not
+      the gripper or the mat, is what holds that segment in the channel.
+      A segment merely passing over the block, or resting on the mat beside
+      it, does not register closure.
+    Solver failure (cable, Amendment 1 A2): any cable segment ending outside
+    the physical workspace envelope (see twin_params CABLE_* bounds) or with
+    a non-finite position marks the variant solver_failure; such variants
+    are excluded from agreement denominators by run_validation.py.
+    """
     def pos(nm):
         bid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, nm)
         return np.array(data.xpos[bid]), np.array(data.xquat[bid])
@@ -329,10 +368,11 @@ def evaluate(model, data, task, epi, mujoco):
                 other = b2 if b1 == bid else b1
                 out.add(mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_BODY, other))
         return out
+    WORLD = {None, "world"}   # body 0: mat/floor/wall geoms live on it
     poses = B.load_episode_poses(task, epi)
     fixtures = B.load_fixtures(task, poses)
     fin = (poses or {}).get("final", {})
-    res = {"objects_final": {}, "checks": {}}
+    res = {"objects_final": {}, "checks": {}, "solver_failure": False}
     def planar_err(nm, *aliases):
         for a in (nm,) + aliases:
             if a in fin:
@@ -343,16 +383,20 @@ def evaluate(model, data, task, epi, mujoco):
         pa, _ = pos("cube_a"); pb, _ = pos("cube_b")
         upper, lower = (pa, pb) if pa[2] >= pb[2] else (pb, pa)
         uname = "cube_a" if pa[2] >= pb[2] else "cube_b"
+        lname = "cube_b" if uname == "cube_a" else "cube_a"
         e = P.CUBE_EDGE
-        dz = (upper[2] - e / 2) - (lower[2] + e / 2)   # gap between faces
+        dz = (upper[2] - e / 2) - (lower[2] + e / 2)   # diagnostic only
         inset = (e / 2) * 0.75                          # footprint inset by 25%
         within = abs(upper[0] - lower[0]) <= inset and abs(upper[1] - lower[1]) <= inset
-        stacked_height = upper[2] > e * 1.2             # upper clearly above mat level
-        no_other = upper[2] - e / 2 > 0.004              # bottom face off the mat
-        success = bool(within and abs(dz) < 0.006 and stacked_height and no_other)
+        ucontacts = contacts_with(uname)
+        contact_lower = lname in ucontacts
+        no_other_support = ucontacts <= {lname}
+        success = bool(within and contact_lower and no_other_support)
         res["checks"] = {"upper": uname, "face_gap_m": round(float(dz), 4),
                          "within_inset_footprint": bool(within),
-                         "upper_off_mat": bool(no_other)}
+                         "contact_with_lower": bool(contact_lower),
+                         "no_other_support_contact": bool(no_other_support),
+                         "upper_contacts": sorted(str(x) for x in ucontacts)}
         res["objects_final"] = {"cube_a": pa.tolist(), "cube_b": pb.tolist()}
         res["planar_err_m"] = planar_err(uname, "cube_a", "cube_b")
     elif task == "eye_drops_to_basket":
@@ -360,27 +404,38 @@ def evaluate(model, data, task, epi, mujoco):
         bk = fixtures["basket"]["pos"]
         inside = (abs(pc[0] - bk[0]) <= P.BASKET_OUTER[0] / 2 - P.BASKET_WALL_T and
                   abs(pc[1] - bk[1]) <= P.BASKET_OUTER[1] / 2 - P.BASKET_WALL_T)
-        on_basket_floor = pc[2] < P.PLATFORM_HEIGHT * 0.6 and pc[2] > 0.005
-        success = bool(inside and on_basket_floor)
-        res["checks"] = {"centre_inside_basket": bool(inside), "low_resting_z": bool(on_basket_floor),
+        supp = contacts_with("carton")
+        supported_by_basket = "basket" in supp
+        on_platform = "platform" in supp
+        on_mat = bool(supp & WORLD)
+        success = bool(inside and supported_by_basket and not on_platform and not on_mat)
+        res["checks"] = {"centre_inside_basket": bool(inside),
+                         "support_is_basket": bool(supported_by_basket),
+                         "contact_platform": bool(on_platform),
+                         "contact_mat_or_floor": bool(on_mat),
+                         "carton_contacts": sorted(str(x) for x in supp),
                          "carton_z": round(float(pc[2]), 4)}
         res["objects_final"] = {"carton": pc.tolist()}
         res["planar_err_m"] = planar_err("carton", "box", "eye_drops")
     elif task == "ring_insert":
         pr, qr = pos("ring")
         # peg reference = the peg body's actual position in THIS scene
-        # (variant scenes jitter the peg within Builder B's sigma)
+        # (v1.1: variant scenes no longer jitter the peg/board -- the outcome
+        # reference stays at nominal per Amendment 1; reading the sim body
+        # remains correct for the nominal scene.)
         try:
             bp = np.array(data.xpos[mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "peg")])
         except Exception:
             bp = fixtures.get("peg", {}).get("pos", fixtures["board"]["pos"])
         bt = P.BOARD_H
         planar = float(np.linalg.norm(pr[:2] - np.array(bp[:2])))
-        engaged = planar <= 0.005 + (P.RING_R_IN - P.PEG_R) + 0.002
+        clearance = P.RING_R_IN - P.PEG_R   # physical radial clearance, 3 mm
+        engaged = planar <= clearance
         ring_bottom = pr[2] - P.RING_THICK / 2
-        low_ok = -0.005 <= (ring_bottom - bt) <= 0.010
+        low_ok = 0.0 <= (ring_bottom - bt) <= 0.010
         success = bool(engaged and low_ok)
         res["checks"] = {"planar_to_peg_m": round(planar, 4), "engaged": bool(engaged),
+                         "hole_clearance_m": round(float(clearance), 4),
                          "bottom_above_board_m": round(float(ring_bottom - bt), 4)}
         res["objects_final"] = {"ring": pr.tolist()}
         res["planar_err_m"] = None if engaged else planar_err("ring")
@@ -388,38 +443,77 @@ def evaluate(model, data, task, epi, mujoco):
     elif task == "tool_insert":
         pt, qt = pos("tool")
         sp = fixtures["slot"]["pos"]; syaw = math.radians(fixtures["slot"].get("yaw_deg", 0.0))
-        # tool axis = local x of its body frame
         axis = B.qrot(qt, np.array([1.0, 0, 0]))
         slot_axis = np.array([math.cos(syaw), math.sin(syaw), 0])
         ang = math.degrees(math.acos(min(1.0, abs(float(np.dot(axis, slot_axis))))))
-        within = (abs(pt[0] - sp[0]) <= P.SLOT_SIZE[0] / 2 and abs(pt[1] - sp[1]) <= P.SLOT_SIZE[1] / 2)
-        in_tray_z = 0.02 <= pt[2] <= 0.075
-        success = bool(within and ang <= 20.0 and in_tray_z)
+        # centre-in-slot evaluated in the slot frame (v1 tested world axes)
+        d = np.array(pt[:2]) - np.array(sp[:2])
+        lx = math.cos(-syaw) * d[0] - math.sin(-syaw) * d[1]
+        ly = math.sin(-syaw) * d[0] + math.cos(-syaw) * d[1]
+        within = abs(lx) <= P.SLOT_SIZE[0] / 2 and abs(ly) <= P.SLOT_SIZE[1] / 2
+        resting_in_tray = "tray" in contacts_with("tool")
+        success = bool(within and ang <= 20.0 and resting_in_tray)
         res["checks"] = {"centre_in_slot": bool(within), "axis_angle_deg": round(ang, 1),
+                         "resting_in_tray_contact": bool(resting_in_tray),
                          "tool_z": round(float(pt[2]), 4)}
         res["objects_final"] = {"tool": pt.tolist()}
         res["planar_err_m"] = planar_err("tool", "loose_tool")
     elif task == "cable_clip":
-        cbp = (poses or {}).get("objects", {}).get("clip_block")
-        if cbp is not None:
-            cb = cbp["pos"]; yaw = 2 * math.atan2(cbp["quat"][3], cbp["quat"][0])
-        else:
-            cb = fixtures["clip_block"]["pos"]; yaw = math.radians(fixtures["clip_block"].get("yaw_deg", 0.0))
+        # v1.1 fixpass FP-A (V11-01): clip reference = the clip_block body's
+        # ACTUAL pose in this sim scene (mirrors ring_insert reading the peg
+        # from the sim body), so scoring always uses actual scene geometry.
+        try:
+            cbv, cbq = pos("clip_block")
+            cb = cbv; yaw = 2 * math.atan2(cbq[3], cbq[0])
+        except Exception:
+            cbp = (poses or {}).get("objects", {}).get("clip_block")
+            if cbp is not None:
+                cb = cbp["pos"]; yaw = 2 * math.atan2(cbp["quat"][3], cbp["quat"][0])
+            else:
+                cb = fixtures["clip_block"]["pos"]; yaw = math.radians(fixtures["clip_block"].get("yaw_deg", 0.0))
         chan_z = P.BLOCK_SIZE[2] + 0.006
         seated, nearest = False, 1e9
         seg_pos = {}
+        exploded, max_radial = False, 0.0
         for i in range(P.CABLE_N):
             ps, _ = pos(f"cable_seg_{i}")
             seg_pos[f"seg_{i}"] = [round(float(x), 4) for x in ps]
+            if not np.all(np.isfinite(ps)):
+                exploded = True; continue
+            radial = float(np.linalg.norm(ps[:2]))
+            max_radial = max(max_radial, radial)
+            if radial > P.CABLE_MAX_RADIAL_M or not (P.CABLE_Z_MIN_M <= ps[2] <= P.CABLE_Z_MAX_M):
+                exploded = True
             d = float(np.linalg.norm(ps[:2] - np.array(cb[:2])))
             nearest = min(nearest, d)
             local = B.qrot(B.yaw_quat(-math.degrees(yaw)), ps - np.array([cb[0], cb[1], 0]))
-            if abs(local[0]) <= 0.012 and abs(local[1]) <= P.CLIP_CHANNEL_W / 2 + 0.002 and abs(ps[2] - chan_z) <= 0.012:
+            in_channel = (abs(local[0]) <= P.CABLE_CHAN_X_HALF_M and abs(local[1]) <= P.CLIP_CHANNEL_W / 2 + P.CABLE_CHAN_Y_EXTRA_M
+                          and abs(ps[2] - chan_z) <= P.CABLE_CHAN_Z_HALF_M)
+            if in_channel and "clip_block" in contacts_with(f"cable_seg_{i}"):
                 seated = True
-        success = bool(seated)
-        res["checks"] = {"cable_seated_in_clip": seated, "nearest_seg_to_block_xy_m": round(nearest, 4)}
+        res["solver_failure"] = bool(exploded)
+        success = bool(seated and not exploded)
+        res["checks"] = {"cable_seated_in_clip_closed": seated,
+                         "solver_failure": bool(exploded),
+                         "max_seg_radial_m": round(max_radial, 3),
+                         "nearest_seg_to_block_xy_m": round(nearest, 4)}
         res["objects_final"] = seg_pos
         res["planar_err_m"] = None
+    # ---- Secondary criterion (F-02): thresholded, reported per episode ----
+    # Registered thresholds: planar err <= 3.0 cm (block/eye/tool);
+    # ring <= 2.0 cm when NOT engaged (the engagement boolean governs when
+    # engaged); cable exempt (deformable -- outcome class only).
+    if task in ("block_stack", "eye_drops_to_basket", "tool_insert"):
+        thr = P.SECONDARY_THRESH_M[task]
+        res["secondary_pass"] = (res["planar_err_m"] is not None and res["planar_err_m"] <= thr)
+    elif task == "ring_insert":
+        thr = P.SECONDARY_THRESH_M[task]
+        res["secondary_pass"] = True if res.get("ring_engaged") else (
+            res["planar_err_m"] is not None and res["planar_err_m"] <= thr)
+    else:
+        thr = None
+        res["secondary_pass"] = None
+    res["secondary_threshold_m"] = thr
     res["sim_success"] = bool(success)
     return res
 

@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "tool_insert",
  "episode": 903,
  "confidence": "medium",
@@ -22,14 +22,14 @@
      "tool": [
       0.01439,
       0.01114,
-      1.967
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.06109
+     "tool": 0.07543
     },
     "friction_mult": {
-     "tool": 0.8606
+     "tool": 0.8887
     }
    },
    "scene": "tool_insert__ep903_v1.xml"
@@ -41,14 +41,14 @@
      "tool": [
       0.01768,
       -0.01075,
-      -19.453
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.07014
+     "tool": 0.05351
     },
     "friction_mult": {
-     "tool": 1.058
+     "tool": 0.9611
     }
    },
    "scene": "tool_insert__ep903_v2.xml"
@@ -60,14 +60,14 @@
      "tool": [
       0.00252,
       0.02656,
-      13.451
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.08615
+     "tool": 0.05537
     },
     "friction_mult": {
-     "tool": 1.0266
+     "tool": 1.0892
     }
    },
    "scene": "tool_insert__ep903_v3.xml"
@@ -79,14 +79,14 @@
      "tool": [
       -0.0347,
       0.01948,
-      17.955
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.09213
+     "tool": 0.07398
     },
     "friction_mult": {
-     "tool": 0.9546
+     "tool": 1.137
     }
    },
    "scene": "tool_insert__ep903_v4.xml"

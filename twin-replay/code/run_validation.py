@@ -89,6 +89,10 @@ def main():
                 defects.append({"variant": r["variant"], "defect": "run error: " + r["error"]}); continue
             if r.get("build_defect"):
                 defects.append({"variant": r["variant"], "defect": r["build_defect"]}); continue
+            if r.get("solver_failure"):
+                # Amendment 1 A2: solver failure is an exclusion ground;
+                # excluded from agreement denominators, logged per variant.
+                defects.append({"variant": r["variant"], "defect": "solver_failure"}); continue
             valid.append(r["variant"])
             agree = bool(r["sim_success"]) == bool(rec_succ)
             r["agree"] = agree
@@ -103,10 +107,16 @@ def main():
                   "reproduced": reproduced, "fragile": not reproduced,
                   "nominal_planar_err_m": (nominal or {}).get("planar_err_m"),
                   "nominal_sim_success": (nominal or {}).get("sim_success"),
+                  "nominal_secondary_pass": (nominal or {}).get("secondary_pass"),
+                  "secondary_threshold_m": (nominal or {}).get("secondary_threshold_m"),
+                  "n_solver_failures": sum(1 for d in defects if d["defect"] == "solver_failure"),
                   "variants_detail": rs}
         episodes_out.append(ep_out)
         d = per_task.setdefault(task, {"included": 0, "reproduced": 0, "fracs": [],
-                                       "certified_total": 0, "valid_total": 0, "fragile": []})
+                                       "certified_total": 0, "valid_total": 0, "fragile": [],
+                                       "solver_failures": 0, "secondary_passes": 0})
+        d["solver_failures"] += ep_out["n_solver_failures"]
+        d["secondary_passes"] += int(ep_out["nominal_secondary_pass"] is True)
         d["included"] += 1; d["reproduced"] += int(reproduced)
         d["fracs"].append(frac); d["certified_total"] += len(certified)
         d["valid_total"] += len(valid)
@@ -120,6 +130,8 @@ def main():
                       "certified_variants": d["certified_total"],
                       "valid_variants": d["valid_total"],
                       "fragile_episodes": d["fragile"],
+                      "solver_failure_variants": d["solver_failures"],
+                      "nominal_secondary_passes": d["secondary_passes"],
                       "bar_80pct_met": bool(d["included"] and d["reproduced"] / d["included"] >= 0.8)}
     out = {"suite_version": P.SUITE_VERSION, "seed": P.VARIANT_SEED,
            "param_hash": B.param_table_hash(), "summary": summary,

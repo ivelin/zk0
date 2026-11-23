@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "eye_drops_to_basket",
  "episode": 1618,
  "confidence": "medium",
@@ -21,15 +21,15 @@
     "jitter": {
      "carton": [
       0.00862,
-      -0.05498,
+      -0.035,
       0.0
      ]
     },
     "mass": {
-     "carton": 0.02315
+     "carton": 0.03125
     },
     "friction_mult": {
-     "carton": 1.1251
+     "carton": 0.8504
     }
    },
    "scene": "eye_drops_to_basket__ep1618_v1.xml"
@@ -45,10 +45,10 @@
      ]
     },
     "mass": {
-     "carton": 0.03815
+     "carton": 0.02122
     },
     "friction_mult": {
-     "carton": 1.0436
+     "carton": 1.0904
     }
    },
    "scene": "eye_drops_to_basket__ep1618_v2.xml"
@@ -64,10 +64,10 @@
      ]
     },
     "mass": {
-     "carton": 0.02236
+     "carton": 0.02361
     },
     "friction_mult": {
-     "carton": 0.8113
+     "carton": 0.8377
     }
    },
    "scene": "eye_drops_to_basket__ep1618_v3.xml"
@@ -78,15 +78,15 @@
     "jitter": {
      "carton": [
       -0.01618,
-      0.04717,
+      0.035,
       0.0
      ]
     },
     "mass": {
-     "carton": 0.04401
+     "carton": 0.02964
     },
     "friction_mult": {
-     "carton": 0.8186
+     "carton": 1.1841
     }
    },
    "scene": "eye_drops_to_basket__ep1618_v4.xml"

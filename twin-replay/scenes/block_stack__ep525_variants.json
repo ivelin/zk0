@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "block_stack",
  "episode": 525,
  "confidence": "high",
@@ -21,12 +21,12 @@
     "jitter": {
      "cube_a": [
       -0.00325,
-      0.04574,
-      -25.712
+      0.025,
+      -25.0
      ],
      "cube_b": [
       -0.00309,
-      -0.06222,
+      -0.025,
       13.971
      ]
     },
@@ -47,12 +47,12 @@
     "jitter": {
      "cube_a": [
       0.00448,
-      0.03156,
-      -43.604
+      0.025,
+      -25.0
      ],
      "cube_b": [
       -0.00955,
-      -0.03742,
+      -0.025,
       -18.944
      ]
     },

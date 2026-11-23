@@ -21,7 +21,17 @@
    "confidence": "medium",
    "method": "target slot position (fixture): recorded demos all succeed; loose tool ends in the tray cross slot",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": 15
+   "sigma_yaw_deg": 15,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2359,
+     0.0451
+    ],
+    "sigma_xy_cm_heldout": 2.48,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 7.99,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

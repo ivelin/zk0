@@ -13,12 +13,22 @@
    ],
    "confidence": "medium",
    "method": "colour+median-diff segmentation (detect3)",
-   "color": "yellow",
+   "color": "red",
    "start_recess": "board_surface_or_unmatched",
    "start_recess_dist_px": 55.2,
    "start_recess_note": "6 recesses (corrects scene-inventory count of 5; counted in ring_insert__ep33 frames); board rotation per episode not estimated, recess identity approximate",
    "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2701,
+     0.0375
+    ],
+    "sigma_xy_cm_heldout": 3.11,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 7.37,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   },
   "ring_final": {
    "pose_xyz_yaw": [
@@ -30,7 +40,17 @@
    "confidence": "medium",
    "method": "colour+median-diff segmentation on top_final; ring seated on peg (recorded demo success); peg anchor for this episode",
    "sigma_xy_cm": 2.0,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2571,
+     0.0444
+    ],
+    "sigma_xy_cm_heldout": 3.19,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 7.43,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {
@@ -53,5 +73,7 @@
    "note": "peg position = ring final position (ring seated on peg in recorded final frame)"
   }
  },
- "notes": []
+ "notes": [
+  "Colour corrected yellow->red 2026-11-22 (twin-suite v1.1, Builder 3): the JSON label was contradicted by the episode own frame -- ring_insert__ep48/top_first.png shows a red ring, as recorded in scene-inventory.md section 5 and verification-objects-assets.md F2."
+ ]
 }

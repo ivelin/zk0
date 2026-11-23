@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "block_stack",
  "episode": 530,
  "confidence": "medium",
@@ -21,8 +21,8 @@
     "jitter": {
      "cube_a": [
       -0.00473,
-      -0.02828,
-      -60.811
+      -0.025,
+      -25.0
      ],
      "cube_b": [
       -0.0008,
@@ -32,11 +32,11 @@
     },
     "mass": {
      "cube_a": 0.01894,
-     "cube_b": 0.02129
+     "cube_b": 0.02158
     },
     "friction_mult": {
      "cube_a": 0.9777,
-     "cube_b": 1.044
+     "cube_b": 0.9806
     }
    },
    "scene": "block_stack__ep530_v1.xml"
@@ -52,17 +52,17 @@
      ],
      "cube_b": [
       0.00055,
-      -0.04025,
+      -0.035,
       0.0
      ]
     },
     "mass": {
      "cube_a": 0.02913,
-     "cube_b": 0.02413
+     "cube_b": 0.017
     },
     "friction_mult": {
      "cube_a": 0.9451,
-     "cube_b": 1.1148
+     "cube_b": 1.0261
     }
    },
    "scene": "block_stack__ep530_v2.xml"
@@ -84,11 +84,11 @@
     },
     "mass": {
      "cube_a": 0.03233,
-     "cube_b": 0.03381
+     "cube_b": 0.02714
     },
     "friction_mult": {
      "cube_a": 0.9793,
-     "cube_b": 0.8445
+     "cube_b": 1.1809
     }
    },
    "scene": "block_stack__ep530_v3.xml"
@@ -99,22 +99,22 @@
     "jitter": {
      "cube_a": [
       -0.01824,
-      -0.02613,
+      -0.025,
       10.756
      ],
      "cube_b": [
-      0.03678,
+      0.035,
       -0.03285,
       0.0
      ]
     },
     "mass": {
      "cube_a": 0.03296,
-     "cube_b": 0.02889
+     "cube_b": 0.0197
     },
     "friction_mult": {
      "cube_a": 1.0817,
-     "cube_b": 1.084
+     "cube_b": 1.1023
     }
    },
    "scene": "block_stack__ep530_v4.xml"

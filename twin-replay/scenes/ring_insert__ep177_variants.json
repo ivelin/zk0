@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "ring_insert",
  "episode": 177,
  "confidence": "high",
@@ -20,22 +20,16 @@
    "draws": {
     "jitter": {
      "ring": [
-      -0.03732,
+      -0.025,
       -0.02274,
       0.0
      ]
     },
     "mass": {
-     "ring": 0.00567
+     "ring": 0.01352
     },
     "friction_mult": {
-     "ring": 0.8745
-    },
-    "fixture_jitter": {
-     "peg": [
-      0.01542,
-      0.01465
-     ]
+     "ring": 0.8606
     }
    },
    "scene": "ring_insert__ep177_v1.xml"
@@ -51,16 +45,10 @@
      ]
     },
     "mass": {
-     "ring": 0.00903
+     "ring": 0.00544
     },
     "friction_mult": {
-     "ring": 0.8398
-    },
-    "fixture_jitter": {
-     "peg": [
-      -0.01988,
-      0.02801
-     ]
+     "ring": 0.9829
     }
    },
    "scene": "ring_insert__ep177_v2.xml"
@@ -76,16 +64,10 @@
      ]
     },
     "mass": {
-     "ring": 0.00666
+     "ring": 0.00854
     },
     "friction_mult": {
-     "ring": 1.1931
-    },
-    "fixture_jitter": {
-     "peg": [
-      -0.01148,
-      -0.01568
-     ]
+     "ring": 0.8969
     }
    },
    "scene": "ring_insert__ep177_v3.xml"
@@ -101,16 +83,10 @@
      ]
     },
     "mass": {
-     "ring": 0.00688
+     "ring": 0.00461
     },
     "friction_mult": {
-     "ring": 0.9502
-    },
-    "fixture_jitter": {
-     "peg": [
-      -0.0278,
-      -0.0198
-     ]
+     "ring": 0.9047
     }
    },
    "scene": "ring_insert__ep177_v4.xml"

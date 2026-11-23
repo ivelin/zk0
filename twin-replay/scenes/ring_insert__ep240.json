@@ -18,7 +18,17 @@
    "start_recess_dist_px": 25.7,
    "start_recess_note": "6 recesses (corrects scene-inventory count of 5; counted in ring_insert__ep33 frames); board rotation per episode not estimated, recess identity approximate",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.2706,
+     0.0833
+    ],
+    "sigma_xy_cm_heldout": 3.11,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 4.75,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   },
   "ring_final": {
    "pose_xyz_yaw": [
@@ -30,7 +40,17 @@
    "confidence": "medium",
    "method": "colour+median-diff segmentation on top_final; ring seated on peg (recorded demo success); peg anchor for this episode",
    "sigma_xy_cm": 2.0,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.3439,
+     0.0759
+    ],
+    "sigma_xy_cm_heldout": 3.19,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 4.19,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

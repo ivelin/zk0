@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "tool_insert",
  "episode": 902,
  "confidence": "medium",
@@ -26,10 +26,10 @@
      ]
     },
     "mass": {
-     "tool": 0.08371
+     "tool": 0.05567
     },
     "friction_mult": {
-     "tool": 1.1272
+     "tool": 1.0697
     }
    },
    "scene": "tool_insert__ep902_v1.xml"
@@ -39,16 +39,16 @@
    "draws": {
     "jitter": {
      "tool": [
-      0.04149,
-      0.04125,
+      0.035,
+      0.035,
       0.0
      ]
     },
     "mass": {
-     "tool": 0.05168
+     "tool": 0.08241
     },
     "friction_mult": {
-     "tool": 0.9655
+     "tool": 0.8135
     }
    },
    "scene": "tool_insert__ep902_v2.xml"
@@ -59,15 +59,15 @@
     "jitter": {
      "tool": [
       0.01209,
-      -0.04386,
+      -0.035,
       0.0
      ]
     },
     "mass": {
-     "tool": 0.08041
+     "tool": 0.08487
     },
     "friction_mult": {
-     "tool": 0.9672
+     "tool": 1.0433
     }
    },
    "scene": "tool_insert__ep902_v3.xml"
@@ -77,16 +77,16 @@
    "draws": {
     "jitter": {
      "tool": [
-      0.06522,
+      0.035,
       -0.00434,
       0.0
      ]
     },
     "mass": {
-     "tool": 0.09884
+     "tool": 0.06587
     },
     "friction_mult": {
-     "tool": 0.8981
+     "tool": 1.1907
     }
    },
    "scene": "tool_insert__ep902_v4.xml"

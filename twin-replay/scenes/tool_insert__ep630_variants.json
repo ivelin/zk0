@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "frame_correction": "fk-affine-v2 (AffineFK o inv(H_B), changelog #1)",
  "task": "tool_insert",
  "episode": 630,
@@ -22,15 +22,15 @@
     "jitter": {
      "tool": [
       -0.00554,
-      0.03643,
+      0.035,
       0.0
      ]
     },
     "mass": {
-     "tool": 0.09928
+     "tool": 0.08206
     },
     "friction_mult": {
-     "tool": 1.1009
+     "tool": 1.1942
     }
    },
    "scene": "tool_insert__ep630_v1.xml"
@@ -46,10 +46,10 @@
      ]
     },
     "mass": {
-     "tool": 0.05515
+     "tool": 0.07244
     },
     "friction_mult": {
-     "tool": 0.9278
+     "tool": 0.8412
     }
    },
    "scene": "tool_insert__ep630_v2.xml"
@@ -65,10 +65,10 @@
      ]
     },
     "mass": {
-     "tool": 0.08
+     "tool": 0.09841
     },
     "friction_mult": {
-     "tool": 0.8465
+     "tool": 1.04
     }
    },
    "scene": "tool_insert__ep630_v3.xml"
@@ -78,16 +78,16 @@
    "draws": {
     "jitter": {
      "tool": [
-      -0.06424,
+      -0.035,
       0.00257,
       0.0
      ]
     },
     "mass": {
-     "tool": 0.09148
+     "tool": 0.07464
     },
     "friction_mult": {
-     "tool": 1.1064
+     "tool": 1.1318
     }
    },
    "scene": "tool_insert__ep630_v4.xml"

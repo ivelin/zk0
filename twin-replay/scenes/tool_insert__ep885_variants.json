@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "tool_insert",
  "episode": 885,
  "confidence": "medium",
@@ -21,15 +21,15 @@
     "jitter": {
      "tool": [
       -0.01113,
-      -0.05526,
-      -9.111
+      -0.035,
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.05801
+     "tool": 0.08662
     },
     "friction_mult": {
-     "tool": 1.0211
+     "tool": 0.8641
     }
    },
    "scene": "tool_insert__ep885_v1.xml"
@@ -41,14 +41,14 @@
      "tool": [
       -0.02828,
       -0.02486,
-      29.262
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.08287
+     "tool": 0.06018
     },
     "friction_mult": {
-     "tool": 1.1834
+     "tool": 1.063
     }
    },
    "scene": "tool_insert__ep885_v2.xml"
@@ -60,14 +60,14 @@
      "tool": [
       -0.00266,
       0.01662,
-      -8.579
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.06756
+     "tool": 0.09568
     },
     "friction_mult": {
-     "tool": 1.0599
+     "tool": 0.9405
     }
    },
    "scene": "tool_insert__ep885_v3.xml"
@@ -79,14 +79,14 @@
      "tool": [
       0.02299,
       0.01402,
-      -0.974
+      0.0
      ]
     },
     "mass": {
-     "tool": 0.07897
+     "tool": 0.06391
     },
     "friction_mult": {
-     "tool": 1.0572
+     "tool": 1.1381
     }
    },
    "scene": "tool_insert__ep885_v4.xml"

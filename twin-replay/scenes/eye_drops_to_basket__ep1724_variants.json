@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "eye_drops_to_basket",
  "episode": 1724,
  "confidence": "high",
@@ -22,7 +22,7 @@
      "carton": [
       0.00789,
       0.01496,
-      -12.085
+      -12.0
      ]
     },
     "mass": {
@@ -41,7 +41,7 @@
      "carton": [
       -0.00752,
       -0.00655,
-      -33.801
+      -12.0
      ]
     },
     "mass": {
@@ -60,7 +60,7 @@
      "carton": [
       -0.00532,
       0.01504,
-      -15.095
+      -12.0
      ]
     },
     "mass": {
@@ -79,7 +79,7 @@
      "carton": [
       -0.00656,
       0.01133,
-      24.493
+      12.0
      ]
     },
     "mass": {

@@ -21,10 +21,43 @@ import twin_params as P
 
 SCENES = P.TWIN / "scenes"
 
+# v1.1 (F-10): the hash covers everything that can change a scene or a
+# score -- the parameter table, the physics doc, AND every code file the
+# pipeline executes. v1 hashed only twin_params.py + the physics doc, so
+# runs 1-3 carried an identical hash despite embodying different
+# replay.py/build_scenes.py code. File names are hashed alongside contents,
+# in a fixed order. (Re-applied by Builder 1 after a parallel builder's
+# build_scenes.py rewrite clobbered the first application -- see changelog
+# v1.1 #15.)
+HASH_FILES = ["code/twin_params.py", "code/build_scenes.py", "code/replay.py",
+              "code/run_validation.py", "code/calibration.py", "code/finalize.py",
+              "code/patch_finalize.py", "code/patch2.py",
+              "docs/physics-parameters.md"]
+# v1.1 fixpass FP-C (V11-03): hash coverage extended to the pose-pipeline
+# patch/stage code and to the scene/calibration DATA the pipeline consumes.
+HASH_GLOBS = ["code/builder2_stage*.py"]
+HASH_DATA_FILES = ["scenes/calibration_fk_affine.json",
+                   "scenes/calibration_v2.json", "scenes/detections_px.json",
+                   "scenes/fixtures.json"]
+
 def param_table_hash():
     h = hashlib.sha256()
-    h.update(Path(__file__).with_name("twin_params.py").read_bytes())
-    h.update((P.TWIN / "docs" / "physics-parameters.md").read_bytes())
+    def _add(rel, data=None):
+        h.update(str(rel).encode()); h.update(b"\0")
+        h.update((P.TWIN / rel).read_bytes() if data is None else data)
+        h.update(b"\0")
+    for rel in HASH_FILES:
+        if (P.TWIN / rel).exists(): _add(rel)
+    for pat in HASH_GLOBS:
+        for p in sorted(P.TWIN.glob(pat)):
+            _add(p.relative_to(P.TWIN))
+    for rel in HASH_DATA_FILES:
+        if (P.TWIN / rel).exists(): _add(rel)
+    # Sorted manifest of the per-episode pose files (scenes/<task>__ep*.json,
+    # excluding *_variants.json build logs): name + contents, sorted order.
+    for p in sorted(SCENES.glob("*__ep*.json")):
+        if p.name.endswith("_variants.json"): continue
+        _add(p.relative_to(P.TWIN))
     return h.hexdigest()[:16]
 
 # ---------------- FK frame correction (Builder C calibration finding) ----
@@ -110,7 +143,7 @@ def make_draws(task, epi, poses, k):
     rng = np.random.default_rng(np.random.SeedSequence([P.VARIANT_SEED, crc, k]))
     bodies = {"block_stack": ["cube_a", "cube_b"], "eye_drops_to_basket": ["carton"],
               "ring_insert": ["ring"], "tool_insert": ["tool"],
-              "cable_clip": ["clip_block", "cable"]}[task]
+              "cable_clip": ["cable"]}[task]  # v1.1 fixpass FP-A (V11-01): clip_block is a fixture/reference (like ring peg+board, changelog #12 principle) and is NOT jittered; only the manipulated cable is jittered
     objs = (poses or {}).get("objects", {})
     draws = {"jitter": {}, "mass": {}, "friction_mult": {}}
     for b in bodies:
@@ -122,24 +155,24 @@ def make_draws(task, epi, poses, k):
             o = objs.get(b) or {}
             sxy = (o.get("sigma_xy_cm") or 3.5) / 100.0
             syaw = o.get("sigma_yaw_deg") or 0.0
-        draws["jitter"][b] = [round(float(rng.normal(0, sxy)), 5),
-                              round(float(rng.normal(0, sxy)), 5),
-                              round(float(rng.normal(0, syaw)), 3)]
+        # v1.1 (F-13): Amendment 1 samples pose jitter WITHIN Builder B's
+        # per-pose error estimate; v1's Gaussian was unbounded. Sampler is
+        # now a Gaussian clipped at the registered bound (+/- sigma).
+        def _clip_gauss(sigma):
+            if sigma <= 0: return 0.0
+            return float(min(max(rng.normal(0, sigma), -sigma), sigma))
+        draws["jitter"][b] = [round(_clip_gauss(sxy), 5),
+                              round(_clip_gauss(sxy), 5),
+                              round(_clip_gauss(syaw), 3)]
         mr = P.MASS_RANGES.get(b)
         if mr: draws["mass"][b] = round(float(rng.uniform(*mr)), 5)
         draws["friction_mult"][b] = round(float(rng.uniform(*P.FRICTION_MULT_RANGE)), 4)
     if task == "cable_clip":
         lo, hi = P.MASS_RANGES["cable_total"]
         draws["mass"]["cable_total"] = round(float(rng.uniform(lo, hi)), 5)
-    if task == "ring_insert":
-        # The peg is the outcome reference and is itself a Builder B pose
-        # (ring_final, sigma_xy 2.0 cm): sample it per variant within its
-        # sigma (changelog #6). Board centre derives from the peg, so the
-        # board moves rigidly with it.
-        fin = (poses or {}).get("final", {}).get("ring", {})
-        sig = (fin.get("sigma_xy_cm") or 2.0) / 100.0
-        draws.setdefault("fixture_jitter", {})["peg"] = [
-            round(float(rng.normal(0, sig)), 5), round(float(rng.normal(0, sig)), 5)]
+    # v1.1 (F-11): the changelog-#6 peg+board fixture jitter is REMOVED.
+    # Amendment 1 A2 jitters only the manipulated object and the sampled
+    # parameters; the outcome reference (peg+board) stays at nominal.
     return draws
 
 
@@ -278,6 +311,17 @@ def load_episode_poses(task, epi):
             if mf: put(out["final"], "cube_a", objs_raw[mf])
             if bf: put(out["final"], "cube_b", objs_raw[bf])
         init_keys = [k for k in objs_raw if not k.endswith("_final")]
+        # Recorded colours (v1.1): body -> colour name, from the object
+        # keys (cube_<colour>). cube_a takes the manipulated key, cube_b
+        # the base key; unroled episodes fall back to key order, matching
+        # the pose assignment above exactly.
+        _order = [k for k in objs_raw if not k.endswith("_final")]
+        _ka = man or next((k for k in _order if k != base), None)
+        _kb = base or next((k for k in _order if k != _ka), None)
+        out["colors"] = {}
+        for _body, _key in (("cube_a", _ka), ("cube_b", _kb)):
+            if _key:
+                out["colors"][_body] = _key[len("cube_"):] if _key.startswith("cube_") else _key
     elif task == "cable_clip":
         if "clip_block" in objs_raw: put(out["objects"], "clip_block", objs_raw["clip_block"])
         cab = objs_raw.get("cable", {})
@@ -293,6 +337,8 @@ def load_episode_poses(task, epi):
     else:
         name = {"eye_drops_to_basket": "carton", "ring_insert": "ring", "tool_insert": "tool"}[task]
         if name in objs_raw: put(out["objects"], name, objs_raw[name])
+        if objs_raw.get(name, {}).get("color"):
+            out["colors"] = {name: objs_raw[name]["color"]}
         if task == "eye_drops_to_basket" and "carton" in out["objects"]:
             o = out["objects"]["carton"]
             o["pos"] = [o["pos"][0] + EYE_CARTON_OFFSET[0], o["pos"][1] + EYE_CARTON_OFFSET[1], o["pos"][2]]
@@ -340,6 +386,22 @@ def load_fixtures(task, poses=None):
         if "pos" in fx["slot"]: fx["slot"]["pos"] = [fx["slot"]["pos"][0], fx["slot"]["pos"][1], fx["slot"]["pos"][2]]
     return fx
 
+# ---------------- recorded object colours (twin-suite v1.1, Builder 3) ----
+# Per-episode colours are DATA from each episode's own Builder B record:
+# block_stack object keys are cube_<colour> (role maps key -> body), and
+# ring_insert objects carry an explicit "color" field. load_episode_poses
+# surfaces them as poses["colors"] = {body_name: colour_name}; build()
+# renders them through this table. Purple/green/yellow rgba are the v1
+# values (unchanged); orange/red are visual-only rendering approximations
+# for the recorded colour names (mass/friction are colour-independent).
+COLOR_RGBA = {"purple": "0.55 0.25 0.75 1", "green": "0.25 0.65 0.30 1",
+              "orange": "0.90 0.45 0.10 1", "yellow": "0.95 0.80 0.15 1",
+              "red": "0.80 0.15 0.15 1"}
+
+def color_rgba(poses, body, default):
+    name = ((poses or {}).get("colors") or {}).get(body)
+    return COLOR_RGBA.get(name, default)
+
 # ---------------- XML fragments ----------------
 def common_xml():
     mx, my = P.MAT_CENTER; sx, sy, st = P.MAT_SIZE
@@ -386,7 +448,11 @@ def build(task, epi, poses, fixtures, var=None):
         return default
     if task == "block_stack":
         e = P.CUBE_EDGE
-        cols = {"cube_a": "0.55 0.25 0.75 1", "cube_b": "0.25 0.65 0.30 1"}
+        # v1.1: per-episode recorded colours (v1 hard-coded a=purple,
+        # b=green for every episode). Defaults preserve the v1 colours
+        # when an episode record carries no colour data.
+        cols = {"cube_a": color_rgba(poses, "cube_a", "0.55 0.25 0.75 1"),
+                "cube_b": color_rgba(poses, "cube_b", "0.25 0.65 0.30 1")}
         for i, nm in enumerate(["cube_a", "cube_b"]):
             dflt = {"pos": [0.26 + 0.07 * i, -0.05 + 0.09 * i, e / 2], "quat": [1, 0, 0, 0]}
             pose = obj_pose(nm, "cube1" if i == 0 else "cube2", "purple" if i == 0 else "green", default=dflt)
@@ -422,10 +488,7 @@ def build(task, epi, poses, fixtures, var=None):
     elif task == "ring_insert":
         bp = list(fixtures["board"]["pos"]); bt = P.BOARD_H
         pegp = list(fixtures.get("peg", {}).get("pos", bp))
-        fj = (var.get("fixture_jitter") or {}).get("peg")
-        if fj:
-            bp = [bp[0] + fj[0], bp[1] + fj[1], bp[2]]
-            pegp = [pegp[0] + fj[0], pegp[1] + fj[1], pegp[2]]
+        # v1.1 (F-11): no fixture jitter -- peg+board at nominal, always.
         bodies.append(f"""
     <body name="board" pos="{bp[0]} {bp[1]} 0">
       <geom name="board_geom" type="cylinder" pos="0 0 {bt/2}" size="{P.BOARD_R} {bt/2}"
@@ -445,7 +508,7 @@ def build(task, epi, poses, fixtures, var=None):
             p0 = (rmid * math.cos(a0), rmid * math.sin(a0), 0)
             p1 = (rmid * math.cos(a1), rmid * math.sin(a1), 0)
             geoms.append(f'<geom type="capsule" fromto="{fmt(p0)} {fmt(p1)}" size="{tube}" '
-                         f'friction="{fmt(vfric("ring", P.RING_FRICTION))}" rgba="0.95 0.80 0.15 1"/>')
+                         f'friction="{fmt(vfric("ring", P.RING_FRICTION))}" rgba="{color_rgba(poses, "ring", "0.95 0.80 0.15 1")}"/>')
         per = vmass("ring", P.RING_MASS) / n
         geoms = [g.replace('friction=', f'mass="{per:.6g}" friction=', 1) for g in geoms]
         dflt = {"pos": [bp[0] - 0.045, bp[1] - 0.045, bt + P.RING_THICK / 2], "quat": [1, 0, 0, 0]}
@@ -454,12 +517,46 @@ def build(task, epi, poses, fixtures, var=None):
     elif task == "tool_insert":
         tp = fixtures["tray"]["pos"]; sp = fixtures["slot"]["pos"]
         tw, td, th = P.TRAY_SIZE
+        # v1.1 (Builder 3): target slot modelled as an actual recess, per
+        # physics-parameters.md section 5 ("shallow box recess modelled as
+        # a 4-wall + floor inset in the tray top at the empty slot's
+        # location") -- v1 emitted one solid box, so the tool had no slot
+        # to seat into (verification-objects-assets.md F3). Construction:
+        # a full-footprint slab up to (th - depth) whose top face is the
+        # recess floor, plus rim boxes filling the top layer around the
+        # recess opening. Footprint = P.SLOT_SIZE (110x32 mm, the recorded
+        # LOCAL-CHOICE slot size in twin_params.py), centred on the slot
+        # fixture pose in tray-local coordinates. Depth = 5 mm [ESTIMATE,
+        # not measured: set to the loose tool's radius (P.TOOL_R) so a
+        # seated tool's centre rests at tray-top height, matching the
+        # recorded tool_final z = tray top = 0.045 m]. The recess floor
+        # carries the red backing colour seen in the frames
+        # (scene-inventory.md section 6: tray has red recess backing).
+        sw, sd = P.SLOT_SIZE
+        depth = P.TOOL_R
+        lx, ly = sp[0] - tp[0], sp[1] - tp[1]
+        rx0, rx1 = max(lx - sw / 2, -tw / 2), min(lx + sw / 2, tw / 2)
+        ry0, ry1 = max(ly - sd / 2, -td / 2), min(ly + sd / 2, td / 2)
+        rims = []
+        def _rim(name, cx, cy, hx, hy):
+            if hx > 1e-9 and hy > 1e-9:
+                rims.append(f'<geom name="{name}" type="box" pos="{cx} {cy} {th - depth/2}" '
+                            f'size="{hx} {hy} {depth/2}" friction="{fmt(P.TRAY_FRICTION)}" rgba="0.10 0.10 0.10 1"/>')
+        _rim("tray_rim_w", (-tw / 2 + rx0) / 2, 0.0, (rx0 + tw / 2) / 2, td / 2)
+        _rim("tray_rim_e", (rx1 + tw / 2) / 2, 0.0, (tw / 2 - rx1) / 2, td / 2)
+        _rim("tray_rim_s", (rx0 + rx1) / 2, (-td / 2 + ry0) / 2, (rx1 - rx0) / 2, (ry0 + td / 2) / 2)
+        _rim("tray_rim_n", (rx0 + rx1) / 2, (ry1 + td / 2) / 2, (rx1 - rx0) / 2, (td / 2 - ry1) / 2)
         bodies.append(f"""
     <body name="tray" pos="{tp[0]} {tp[1]} 0">
-      <geom name="tray_geom" type="box" pos="0 0 {th/2}" size="{tw/2} {td/2} {th/2}"
+      <geom name="tray_geom" type="box" pos="0 0 {(th-depth)/2}" size="{tw/2} {td/2} {(th-depth)/2}"
         friction="{fmt(P.TRAY_FRICTION)}" rgba="0.10 0.10 0.10 1"/>
+      <geom name="slot_floor" type="box" pos="{(rx0+rx1)/2} {(ry0+ry1)/2} {th-depth+0.0005}" size="{(rx1-rx0)/2} {(ry1-ry0)/2} 0.0005"
+        friction="{fmt(P.TRAY_FRICTION)}" rgba="0.45 0.08 0.08 1"/>
+      {''.join(rims)}
     </body>""")
         meta["slot_pos"] = sp; meta["slot_yaw_deg"] = fixtures["slot"].get("yaw_deg", 0.0)
+        meta["slot_recess"] = {"local_xy": [lx, ly], "size": [sw, sd], "depth": depth,
+                               "floor_top_z": th - depth + 0.001}
         dflt = {"pos": [0.28, -0.06, P.TOOL_R], "quat": list(yaw_quat(20))}
         pose = obj_pose("tool", "loose_tool", default=dflt)
         inner = (f'<geom name="tool_geom" type="capsule" fromto="{-P.TOOL_LEN/2} 0 0 {P.TOOL_LEN/2} 0 0" '

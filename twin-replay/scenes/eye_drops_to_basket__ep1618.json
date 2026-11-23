@@ -14,7 +14,17 @@
    "confidence": "medium",
    "method": "visual grounding pick on top_first, cross-checked by Builder B visual read",
    "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.1994,
+     0.1306
+    ],
+    "sigma_xy_cm_heldout": 4.61,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 16.7,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   },
   "carton_final": {
    "pose_xyz_yaw": null,

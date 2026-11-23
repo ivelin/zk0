@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "cable_clip",
  "episode": 1903,
  "confidence": "medium",
@@ -19,23 +19,17 @@
    "k": 1,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.05058,
-      0.01111,
-      0.0
-     ],
      "cable": [
-      -0.02383,
-      0.03866,
+      0.08,
+      0.02221,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05465
+     "cable_total": 0.05066
     },
     "friction_mult": {
-     "clip_block": 1.0132,
-     "cable": 1.1879
+     "cable": 1.0209
     }
    },
    "scene": "cable_clip__ep1903_v1.xml"
@@ -44,23 +38,17 @@
    "k": 2,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.00216,
-      -0.05448,
-      0.0
-     ],
      "cable": [
-      0.04461,
-      0.04604,
+      -0.00431,
+      -0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.0574
+     "cable_total": 0.04749
     },
     "friction_mult": {
-     "clip_block": 0.9498,
-     "cable": 0.9807
+     "cable": 1.1282
     }
    },
    "scene": "cable_clip__ep1903_v2.xml"
@@ -69,23 +57,17 @@
    "k": 3,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.02654,
-      0.02209,
-      0.0
-     ],
      "cable": [
-      -0.11649,
-      0.07963,
+      -0.05307,
+      0.04418,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05723
+     "cable_total": 0.05498
     },
     "friction_mult": {
-     "clip_block": 1.0996,
-     "cable": 1.0447
+     "cable": 0.8346
     }
    },
    "scene": "cable_clip__ep1903_v3.xml"
@@ -94,23 +76,17 @@
    "k": 4,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.04917,
-      0.00331,
-      0.0
-     ],
      "cable": [
-      -0.07354,
-      0.03831,
+      0.08,
+      0.00662,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05115
+     "cable_total": 0.04729
     },
     "friction_mult": {
-     "clip_block": 0.9457,
-     "cable": 1.1759
+     "cable": 0.9079
     }
    },
    "scene": "cable_clip__ep1903_v4.xml"

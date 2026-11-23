@@ -41,7 +41,17 @@
    "method": "colour+median-diff segmentation (detect3)",
    "role": "manipulated",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": 25
+   "sigma_yaw_deg": 25,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.204,
+     0.1766
+    ],
+    "sigma_xy_cm_heldout": 4.9,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 8.45,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   },
   "cube_green_final": {
    "pose_xyz_yaw": [
@@ -54,7 +64,17 @@
    "method": "final stack location from top_final cube detection(s); this cube is the one that moved (initial position differs from stack)",
    "role": "manipulated_final",
    "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": null
+   "sigma_yaw_deg": null,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.159,
+     0.0917
+    ],
+    "sigma_xy_cm_heldout": 7.2,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 9.6,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {},

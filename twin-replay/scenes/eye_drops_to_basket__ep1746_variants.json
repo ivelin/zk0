@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "eye_drops_to_basket",
  "episode": 1746,
  "confidence": "high",
@@ -40,7 +40,7 @@
     "jitter": {
      "carton": [
       -0.00188,
-      0.02622,
+      0.025,
       -10.09
      ]
     },
@@ -58,7 +58,7 @@
    "draws": {
     "jitter": {
      "carton": [
-      0.0312,
+      0.025,
       -0.00649,
       -5.442
      ]

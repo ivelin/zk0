@@ -6,15 +6,96 @@
  "objects": {
   "tool": {
    "pose_xyz_yaw": [
+    0.2094,
+    -0.0365,
+    0.005,
+    null
+   ],
+   "confidence": "medium",
+   "method": "visual grounding pick on top_first (v1.1 FIXPASS FP-G): fresh visual-grounding centre pick (363, 306) px by the fix-pass builder, converted through the calib_v2 homography (finalize.py TOOL_GROUND path, px2world) -- replaces the v1.1 FK-anchor repair pose, which the independent verifier found unsound at its claimed sigma (visible tool 6.7-7.7 cm away)",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null,
+   "pose_v1_fabricated": [
     0.0779,
     0.3123,
     0.005,
     -3.092
    ],
-   "confidence": "medium",
-   "method": "metal+median-diff segmentation outside tray (detect4)",
-   "sigma_xy_cm": 3.5,
-   "sigma_yaw_deg": 20
+   "v11_repair": {
+    "chosen_source": "fk_anchor_only \u2014 SUPERSEDED by fixpass_fp_g visual_grounding",
+    "chosen_px": null,
+    "fk_anchor_px": [
+     426.3,
+     342.5
+    ],
+    "candidates_px": {
+     "builder2_grounding": [
+      500,
+      291
+     ],
+     "venv_grounding": [
+      340,
+      320
+     ]
+    },
+    "candidate_dist_to_anchor_px": {
+     "builder2_grounding": 89.9,
+     "venv_grounding": 89.2
+    },
+    "rule_v2": {
+     "chosen_source": "fk_anchor_only",
+     "chosen_px": null,
+     "candidate_dist_to_anchor_px": {
+      "builder2_grounding": 89.9,
+      "venv_grounding": 89.2
+     }
+    },
+    "fixpass_fp_g": {
+     "chosen_source": "visual_grounding_fixpass",
+     "chosen_px": [
+      363,
+      306
+     ],
+     "crosscheck_verifier_picks_px": [
+      [
+       340,
+       305
+      ],
+      [
+       340,
+       320
+      ]
+     ],
+     "dist_to_verifier_picks_px": [
+      23.0,
+      26.9
+     ],
+     "superseded_fk_anchor_pose": [
+      0.1808,
+      0.0192,
+      0.005,
+      null
+     ],
+     "reason": "V-Environments+Poses F1: FK-only repair contradicted by the visible tool in top_first; re-anchored to the visible fragment at grounding-grade sigma (3.5 cm)."
+    },
+    "operative_source": "fixpass_fp_g visual_grounding"
+   },
+   "fk_anchor": {
+    "xy_world_b": [
+     0.1808,
+     0.0192
+    ],
+    "sigma_xy_cm_heldout": 3.03,
+    "kind": "grasp",
+    "agreement_with_image_pose_cm": 0.0,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). This anchor DID supply the v1.1 repair pose for this episode; that pose was superseded in fixpass FP-G by a visual grounding pick of the visible tool. The anchor is now a cross-check only for this episode."
+   },
+   "pose_v11_fk_anchor_superseded": [
+    0.1808,
+    0.0192,
+    0.005,
+    null
+   ]
   },
   "tool_final": {
    "pose_xyz_yaw": [
@@ -26,7 +107,17 @@
    "confidence": "medium",
    "method": "target slot position (fixture): recorded demos all succeed; loose tool ends in the tray cross slot",
    "sigma_xy_cm": 2.5,
-   "sigma_yaw_deg": 15
+   "sigma_yaw_deg": 15,
+   "fk_anchor": {
+    "xy_world_b": [
+     0.3139,
+     -0.0074
+    ],
+    "sigma_xy_cm_heldout": 2.48,
+    "kind": "place",
+    "agreement_with_image_pose_cm": 1.8,
+    "note": "FK-anchored cross-check (S7 dwell + train-fitted per-task offset). Held-out sigma is WORSE than the image pipeline on every task (builder2 report); anchor does NOT replace the image pose."
+   }
   }
  },
  "fixtures": {

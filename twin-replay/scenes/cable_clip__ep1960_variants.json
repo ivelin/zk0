@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "cable_clip",
  "episode": 1960,
  "confidence": "medium",
@@ -19,23 +19,17 @@
    "k": 1,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.01769,
-      0.05036,
-      0.0
-     ],
      "cable": [
-      -0.04202,
-      -0.03804,
+      -0.03538,
+      0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05835
+     "cable_total": 0.05841
     },
     "friction_mult": {
-     "clip_block": 1.1682,
-     "cable": 1.1916
+     "cable": 0.8976
     }
    },
    "scene": "cable_clip__ep1960_v1.xml"
@@ -44,23 +38,17 @@
    "k": 2,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.04002,
-      -0.00861,
-      0.0
-     ],
      "cable": [
-      -0.05775,
-      -0.10447,
+      0.08,
+      -0.01723,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.04534
+     "cable_total": 0.04386
     },
     "friction_mult": {
-     "clip_block": 0.8772,
-     "cable": 1.1557
+     "cable": 1.1668
     }
    },
    "scene": "cable_clip__ep1960_v2.xml"
@@ -69,23 +57,17 @@
    "k": 3,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.03205,
-      0.04138,
-      0.0
-     ],
      "cable": [
-      0.02423,
-      -0.01994,
+      0.0641,
+      0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.0452
+     "cable_total": 0.05963
     },
     "friction_mult": {
-     "clip_block": 1.1926,
-     "cable": 0.9083
+     "cable": 1.1837
     }
    },
    "scene": "cable_clip__ep1960_v3.xml"
@@ -94,23 +76,17 @@
    "k": 4,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.00319,
-      0.04996,
-      0.0
-     ],
      "cable": [
-      -0.10256,
-      0.03183,
+      -0.00639,
+      0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05219
+     "cable_total": 0.04133
     },
     "friction_mult": {
-     "clip_block": 0.8266,
-     "cable": 0.8802
+     "cable": 0.921
     }
    },
    "scene": "cable_clip__ep1960_v4.xml"

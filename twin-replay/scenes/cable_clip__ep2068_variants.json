@@ -1,7 +1,7 @@
 {
- "suite_version": "twin-suite-v1",
+ "suite_version": "twin-suite-v1.1",
  "seed": 20261122,
- "param_hash": "5ef4c692a314e87b",
+ "param_hash": "a4eb3f8c3611894d",
  "task": "cable_clip",
  "episode": 2068,
  "confidence": "medium",
@@ -19,23 +19,17 @@
    "k": 1,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.02055,
-      -0.053,
-      0.0
-     ],
      "cable": [
-      0.04506,
-      0.10112,
+      -0.0411,
+      -0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05783
+     "cable_total": 0.04232
     },
     "friction_mult": {
-     "clip_block": 0.8464,
-     "cable": 0.8773
+     "cable": 0.8673
     }
    },
    "scene": "cable_clip__ep2068_v1.xml"
@@ -44,23 +38,17 @@
    "k": 2,
    "draws": {
     "jitter": {
-     "clip_block": [
-      0.01352,
-      -0.03068,
-      0.0
-     ],
      "cable": [
-      -0.07862,
-      0.01867,
+      0.02704,
+      -0.06137,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05525
+     "cable_total": 0.05124
     },
     "friction_mult": {
-     "clip_block": 1.0248,
-     "cable": 0.939
+     "cable": 0.9379
     }
    },
    "scene": "cable_clip__ep2068_v2.xml"
@@ -69,23 +57,17 @@
    "k": 3,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.01587,
-      0.01437,
-      0.0
-     ],
      "cable": [
-      -0.01105,
-      0.01961,
+      -0.03174,
+      0.02874,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05466
+     "cable_total": 0.05437
     },
     "friction_mult": {
-     "clip_block": 1.0873,
-     "cable": 0.9781
+     "cable": 0.9503
     }
    },
    "scene": "cable_clip__ep2068_v3.xml"
@@ -94,23 +76,17 @@
    "k": 4,
    "draws": {
     "jitter": {
-     "clip_block": [
-      -0.02256,
-      0.05533,
-      0.0
-     ],
      "cable": [
-      0.06212,
-      -0.07554,
+      -0.04513,
+      0.08,
       0.0
      ]
     },
     "mass": {
-     "cable_total": 0.05879
+     "cable_total": 0.0455
     },
     "friction_mult": {
-     "clip_block": 0.9101,
-     "cable": 1.1503
+     "cable": 1.1483
     }
    },
    "scene": "cable_clip__ep2068_v4.xml"
