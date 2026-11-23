@@ -129,7 +129,7 @@ The following Mermaid diagram illustrates the production mode data flow, highlig
 
 ```mermaid
 graph TD
-    A["get-zk0bot.sh Installer<br/>curl raw main/website/get-zk0bot.sh | bash"] --> B{"conda activate zk0"}
+    A["Install from repo checkout<br/>git clone github.com/ivelin/zk0.git → node/dev/bootstrap.sh"] --> B{"conda activate zk0"}
     B -->|Server Admin| C["./zk0bot.sh server start<br/>tmux: SuperLink + SuperExec-ServerApp"]
     B -->|Node Operator| D["./zk0bot.sh client start dataset-uri<br/>tmux: SuperNode + SuperExec-ClientApp"]
     C --> E["Server APIs Exposed<br/>Ports 9091-9093<br/>Fleet Management"]
