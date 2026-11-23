@@ -461,3 +461,26 @@ and had never been independently confirmed for any training demo
   `verdicts_j1..j10.txt` (primary judges), `verdicts_v1..v2.txt`
   (blind verifiers), `frames/` (250 contact sheets, JPEG derivatives
   of the PNG masters rendered on the DGX from the pinned dataset).
+
+## 10. Addendum — founder adjudication of ep573 (2026-11-23 16:10 CT)
+
+- The external-CLI stage that §6 reported as not run was
+  subsequently executed for the Grok leg (founder correction,
+  2026-11-23 15:12 CT): Grok judged all 250 episodes blind,
+  agreeing with this audit on 249/250 (99.6%) — full record in
+  `training-demo-audit-20261123/external-cli-verification-20261123.md`
+  (committed `12f4871`). The agy (Gemini) leg is still owed.
+- **Episode:** ep573 (block_stack) — the stage's one disagreement.
+- **Dispute:** this audit's PASS ("green block stacked on purple
+  block, standing, gripper released") vs Grok's FAIL ("gripper is
+  back down on the green block, stack not released") — whether
+  the gripper had released the stack in the final frames.
+- **Adjudication:** the founder reviewed the full ep573 episode
+  video and ruled PASS (2026-11-23 16:10 CT), verbatim: "Yes.
+  Gripper released green block and stack stood on its own." The
+  audit's PASS stands; Grok's FAIL remains on the record as the
+  dissenting read.
+- **Set state after the Grok leg + adjudication:** 249 certified
+  PASS / 1 FAIL (ep604). Still owed: the agy (Gemini) leg, and
+  the founder's human-eyes approval of the set as a whole — the
+  final leg of the certified-data gate before any training use.

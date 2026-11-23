@@ -62,7 +62,7 @@ episode_index,task,judged_verdict,judge_evidence,recorded_success,recorded_succe
 570,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep570.jpg,,
 571,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep571.jpg,,
 572,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep572.jpg,,
-573,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep573.jpg,,
+573,block_stack,PASS,"green block stacked on purple block, standing, gripper released [founder-adjudicated PASS 2026-11-23 16:10 CT; Grok external verdict FAIL stands as dissenting read]",1,successful,1.0,frames/block_stack__ep573.jpg,,
 574,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep574.jpg,,
 575,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep575.jpg,,
 576,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep576.jpg,,

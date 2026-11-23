@@ -96,3 +96,22 @@ qualified PASS (cable ep2201).
 - Net certified-by-this-stage count: 248 episodes carry audit + Grok
   agreement on PASS; ep604 is confirmed FAIL by both; ep573 is
   contested (1).
+
+## 7. Addendum — founder adjudication of ep573 (2026-11-23 16:10 CT)
+
+- **Episode:** ep573 (block_stack) — the contested episode of §4.
+- **Dispute:** audit PASS ("green block stacked on purple block,
+  standing, gripper released") vs Grok FAIL ("gripper is back down
+  on the green block, stack not released") — whether the gripper
+  had released the stack in the final frames.
+- **Adjudication:** the founder reviewed the full ep573 episode
+  video and ruled PASS (2026-11-23 16:10 CT), verbatim: "Yes.
+  Gripper released green block and stack stood on its own."
+- **Result:** ep573 is PASS by human-eyes adjudication; the audit's
+  PASS stands; Grok's FAIL remains on the record as the dissenting
+  read.
+- **Set state after the Grok leg + adjudication:** 249 certified
+  PASS / 1 FAIL (ep604). Still owed: the agy (Gemini) leg (§6),
+  and the founder's human-eyes approval of the set as a whole —
+  the final leg of the certified-data gate before any training
+  use.
