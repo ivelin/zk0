@@ -1,0 +1,25 @@
+ep25 | PASS | white cup lying in the bowl, gripper released
+ep26 | PASS | upright white cup lying in the bowl, gripper released
+ep27 | PASS | upright white cup lying in the bowl, gripper released
+ep28 | PASS | white cup lying in the bowl, gripper released
+ep29 | PASS | white cup lying in the bowl, gripper released
+ep30 | PASS | white cup lying in the bowl, gripper released
+ep31 | PASS | upright white cup lying in the bowl, gripper released
+ep32 | PASS | white cup lying in the bowl, gripper released
+ep33 | PASS | upright white cup lying in the bowl, gripper released
+ep34 | PASS | white cup lying in the bowl, gripper released
+ep35 | PASS | white cup lying in the bowl, gripper released
+ep36 | PASS | white cup lying in the bowl, gripper released
+ep37 | PASS | white cup lying in the bowl, gripper released
+ep38 | PASS | white cup lying in the bowl, gripper released
+ep39 | PASS | white cup lying in the bowl, gripper released
+ep40 | PASS | upright white cup lying in the bowl, gripper released
+ep41 | PASS | white cup lying in the bowl, gripper released
+ep42 | PASS | white cup lying in the bowl, gripper released
+ep43 | PASS | white cup lying in the bowl, gripper released
+ep44 | PASS | upright white cup lying in the bowl, gripper released
+ep45 | PASS | white cup lying in the bowl, gripper released
+ep46 | PASS | white cup lying in the bowl, gripper released
+ep47 | PASS | upright white cup lying in the bowl, gripper released
+ep48 | PASS | upright white cup lying in the bowl, gripper released
+ep49 | PASS | white cup lying in the bowl, gripper released

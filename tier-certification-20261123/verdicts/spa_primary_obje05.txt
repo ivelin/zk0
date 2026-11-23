@@ -1,0 +1,25 @@
+ep100 | PASS | brown cup lies inside the bowl, gripper released
+ep101 | PASS | open brown cup lies inside the bowl, gripper released
+ep102 | PASS | brown cup lies inside the bowl, gripper released
+ep103 | PASS | brown cup lies inside the bowl, gripper released
+ep104 | PASS | open brown cup lies inside the bowl, gripper released
+ep105 | PASS | brown cup lies inside the bowl, gripper released
+ep106 | PASS | open brown cup lies inside the bowl, gripper released
+ep107 | PASS | brown cup lies inside the bowl, gripper released
+ep108 | PASS | brown cup lies inside the bowl, gripper released
+ep109 | PASS | brown cup lies inside the bowl, gripper released
+ep110 | FAIL | lidded brown cup is in the bowl while the open brown cup remains on the table
+ep111 | PASS | brown cup lies inside the bowl, gripper released
+ep112 | PASS | open brown cup lies inside the bowl, gripper released
+ep113 | PASS | brown cup lies inside the bowl, gripper released
+ep114 | PASS | open brown cup lies inside the bowl, gripper released
+ep115 | PASS | brown cup lies inside the bowl, gripper released
+ep116 | PASS | brown cup lies inside the bowl, gripper released
+ep117 | PASS | brown cup lies inside the bowl, gripper released
+ep118 | PASS | open brown cup lies inside the bowl, gripper released
+ep119 | PASS | brown cup lies inside the bowl, gripper released
+ep120 | FAIL | lidded brown cup is in the bowl while the open brown cup remains on the table
+ep121 | PASS | open brown cup lies inside the bowl, gripper released
+ep122 | PASS | brown cup lies inside the bowl, gripper released
+ep123 | PASS | brown cup lies inside the bowl, gripper released
+ep124 | PASS | open brown cup lies inside the bowl, gripper released
