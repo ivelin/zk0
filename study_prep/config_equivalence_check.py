@@ -425,24 +425,40 @@ def finish_per_task_budgets(gate: Gate, manifest: dict, budget_tasks_seen: dict)
 # ---------------------------------------------------------------- FL optimizer-state probe (F5)
 
 
-def fl_optimizer_reset_probe() -> tuple[bool, str]:
-    """W-D11-ii: FL AdamW state resets per round. Static code probe of
-    the substrate: the optimizer is constructed fresh inside the
-    per-fit training setup (make_optimizer_and_scheduler in
-    src/training/training_setup.py) and no code path loads optimizer
-    state from a previous round. Fail closed if either fact changes."""
+def fl_optimizer_reset_probe(expected_policy="reset"):
+    """Static code probe for the cross-round AdamW optimizer-state policy.
 
-    setup = (REPO / "src/training/training_setup.py").read_text()
+    reset: fresh optimizer construction per fit and NO optimizer-state
+    loads anywhere under src/. carry (Q-A, queue re-sort #1 2026-11-23):
+    fresh construction AND optimizer-state loads present AND the carry
+    helpers wired (load in training_setup, save in train).
+    """
+    setup_p = REPO / "src/training/training_setup.py"
+    train_p = REPO / "src/training/train.py"
+    setup = setup_p.read_text() if setup_p.exists() else ""
     fresh = "make_optimizer_and_scheduler" in setup
-    loads = []
-    for p in (REPO / "src").rglob("*.py"):
+    load_files = []
+    for p in sorted((REPO / "src").rglob("*.py")):
         t = p.read_text(errors="ignore")
         if "optimizer.load_state_dict" in t or "optim.load_state_dict" in t:
-            loads.append(str(p.relative_to(REPO)))
-    return (fresh and not loads), (
-        f"fresh-construction={'found' if fresh else 'MISSING'} in "
-        f"src/training/training_setup.py; optimizer-state loads: {loads or 'none'}"
+            load_files.append(str(p.relative_to(REPO)))
+    detail = (
+        f"fresh-construction={'found' if fresh else 'MISSING'} in src/training/training_setup.py; "
+        f"optimizer-state loads: {load_files if load_files else 'none'}"
     )
+    policy = str(expected_policy).strip().lower()
+    if policy.startswith("reset"):
+        return (fresh and not load_files), detail
+    if policy.startswith("carry"):
+        train = train_p.read_text() if train_p.exists() else ""
+        wired_load = "load_optimizer_state" in setup
+        wired_save = "save_optimizer_state" in train
+        detail += (
+            f"; carry wiring: load={'found' if wired_load else 'MISSING'}, "
+            f"save={'found' if wired_save else 'MISSING'}"
+        )
+        return (fresh and bool(load_files) and wired_load and wired_save), detail
+    return False, detail + f"; unknown policy: {expected_policy}"
 
 
 # ---------------------------------------------------------------- main
@@ -560,7 +576,7 @@ def main() -> int:
                 recipe["push_to_hub"] is False and not push_keys,
                 "no hf_repo_id / push key in resolved config (P3)",
                 f"push keys present: {push_keys}" if push_keys else "none")
-    probe_ok, probe_detail = fl_optimizer_reset_probe()
+    probe_ok, probe_detail = fl_optimizer_reset_probe(fl_am["optimizer_state_policy"])
     gate.record("fl.optimizer_state_policy", "fl", "optimizer_state_policy",
                 probe_ok, fl_am["optimizer_state_policy"], probe_detail)
 
