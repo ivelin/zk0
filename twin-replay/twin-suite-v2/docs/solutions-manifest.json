@@ -1,0 +1,519 @@
+{
+  "controllers": {
+    "rev1": {
+      "code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "label": "rev1 (frozen)"
+    },
+    "rev2.1": {
+      "code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "label": "rev2.1 (canonical)"
+    }
+  },
+  "count": 20,
+  "created": "2026-11-23",
+  "dataset": "zk0bot/sim-scene-solutions",
+  "license": "cc-by-4.0",
+  "not_solutions_note": "The cable_clip twin-suite v1.1 dataset (zk0bot/twin-suite) is a fidelity-certified twin set: its certification attests the twins faithfully reproduce the recorded human demonstrations, and those recorded demonstrations are FAILED executions (all 20 episodes carry recorded_success=0). It is NOT a solutions set and none of its demo-replays appear here.",
+  "param_hash_v2": "311adc26fe06c3b5",
+  "per_task_counts": {
+    "block_stack": 8,
+    "cable_clip": 7,
+    "eye_drops_to_basket": 4,
+    "tool_insert": 1
+  },
+  "ring_insert": 0,
+  "rule": "One verified solution per unique (scene, task) pair. A scene enters this set only with an executed trajectory that completes the task in that scene, independently certified.",
+  "scenes": [
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 411,
+      "provenance_file": "provenance/block_stack__ep411.json",
+      "scene_file": "scenes/block_stack__ep411.xml",
+      "scene_sha256": "f4ed61d7984fe23b5b0f590555675d940eff0493639c581bb594bd32243571a5",
+      "scene_size": 3182,
+      "solution_file": "solutions/block_stack__ep411.json",
+      "solution_sha256": "ac14172d84e3338d6c3552dbc238346acc58768a569a69fdc728720734db381b",
+      "solution_size": 3873,
+      "solution_source_dir": "results3-canonical",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 453,
+      "provenance_file": "provenance/block_stack__ep453.json",
+      "scene_file": "scenes/block_stack__ep453.xml",
+      "scene_sha256": "24e427166bec7a49b85b18982667a58414ba4e8e6437dc197fc2b7c367697fb4",
+      "scene_size": 3181,
+      "solution_file": "solutions/block_stack__ep453.json",
+      "solution_sha256": "5c5c6c1f3a0110539b09d90c2dbf7d89b6b3b70bd2dba75e1faa6512b0f09a60",
+      "solution_size": 2735,
+      "solution_source_dir": "results3-canonical",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 489,
+      "provenance_file": "provenance/block_stack__ep489.json",
+      "scene_file": "scenes/block_stack__ep489.xml",
+      "scene_sha256": "fdd08866c7a9f877f7bbf9bde891d0144fed9f7ccbe536562df63711bffb0515",
+      "scene_size": 3181,
+      "solution_file": "solutions/block_stack__ep489.json",
+      "solution_sha256": "671cfb88620c4b6f2c879a8a068e8689874ff1990282bc6e91e310cba4a6e4c9",
+      "solution_size": 2728,
+      "solution_source_dir": "results3-canonical",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 498,
+      "provenance_file": "provenance/block_stack__ep498.json",
+      "scene_file": "scenes/block_stack__ep498.xml",
+      "scene_sha256": "608fe9b052f5020feae1c8449d4e57fa8d5ba0a33e4300f83a06a2fdf42b370d",
+      "scene_size": 3181,
+      "solution_file": "solutions/block_stack__ep498.json",
+      "solution_sha256": "9c613df7f17cd7d45341670aad222cc811041ff231db28bfde857f09b56af43d",
+      "solution_size": 2819,
+      "solution_source_dir": "results3-canonical",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 499,
+      "provenance_file": "provenance/block_stack__ep499.json",
+      "scene_file": "scenes/block_stack__ep499.xml",
+      "scene_sha256": "a0f9a709af52a716a9cb4e9a0e1919a37e349485e0a5c38e3241d5e7abb6d459",
+      "scene_size": 3180,
+      "solution_file": "solutions/block_stack__ep499.json",
+      "solution_sha256": "de40cb7af365ae1d204658aa80f7555358095a376e247a427826b666e4fff778",
+      "solution_size": 2172,
+      "solution_source_dir": "results-env-frozen",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 527,
+      "provenance_file": "provenance/block_stack__ep527.json",
+      "scene_file": "scenes/block_stack__ep527.xml",
+      "scene_sha256": "eb5077854c3b74a9cdab88fe7211ddde9062ab6972325d595540c3d82b991216",
+      "scene_size": 3180,
+      "solution_file": "solutions/block_stack__ep527.json",
+      "solution_sha256": "e1252733a14e76d82c421998795ee799ac027cf1b28a692d68a259b0c195f04c",
+      "solution_size": 1785,
+      "solution_source_dir": "results-env-frozen",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 546,
+      "provenance_file": "provenance/block_stack__ep546.json",
+      "scene_file": "scenes/block_stack__ep546.xml",
+      "scene_sha256": "f637004b0d14c680f826165280f185b5fe192fccc48f3095d0f505ed4fcc31b2",
+      "scene_size": 3181,
+      "solution_file": "solutions/block_stack__ep546.json",
+      "solution_sha256": "23359546e60e928ec09bb8cd93d8eff87adc8076307104facc3ddc17289a6ec5",
+      "solution_size": 1797,
+      "solution_source_dir": "results-env-frozen",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 549,
+      "provenance_file": "provenance/block_stack__ep549.json",
+      "scene_file": "scenes/block_stack__ep549.xml",
+      "scene_sha256": "4c1de875e2c57ecb4deeddfecfcfea824f2ffa2e00045b4b24fafc412141e2e7",
+      "scene_size": 3180,
+      "solution_file": "solutions/block_stack__ep549.json",
+      "solution_sha256": "ed570d1388f2f62642bc2d4beb63913b6a3e99b479cb764d7df63303f4906892",
+      "solution_size": 2187,
+      "solution_source_dir": "results-env-frozen",
+      "task": "block_stack",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 1609,
+      "provenance_file": "provenance/eye_drops_to_basket__ep1609.json",
+      "scene_file": "scenes/eye_drops_to_basket__ep1609.xml",
+      "scene_sha256": "37a9efe6eccf3513bb8e482823bee33b8c80376a52c710587799d6fcbe262d73",
+      "scene_size": 3805,
+      "solution_file": "solutions/eye_drops_to_basket__ep1609.json",
+      "solution_sha256": "447ae9f80be398860c59fe7c76c83271105d26d70ef6379a574718813a3416a7",
+      "solution_size": 3880,
+      "solution_source_dir": "results-env-frozen",
+      "task": "eye_drops_to_basket",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 1630,
+      "provenance_file": "provenance/eye_drops_to_basket__ep1630.json",
+      "scene_file": "scenes/eye_drops_to_basket__ep1630.xml",
+      "scene_sha256": "cb35d1cbce3212904fc5c5847a1589a69be2fb7e4a061fc879381aa65e3ea4f7",
+      "scene_size": 3805,
+      "solution_file": "solutions/eye_drops_to_basket__ep1630.json",
+      "solution_sha256": "d9785a0f4507a4442330163daa5b6857e85be52b9484519b0edb98c1079173fb",
+      "solution_size": 1871,
+      "solution_source_dir": "results3-canonical",
+      "task": "eye_drops_to_basket",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 1746,
+      "provenance_file": "provenance/eye_drops_to_basket__ep1746.json",
+      "scene_file": "scenes/eye_drops_to_basket__ep1746.xml",
+      "scene_sha256": "5709bfec3cea558396f63151a89d73b8fe8da170aa2ec73f26114ea50c5ff03c",
+      "scene_size": 3818,
+      "solution_file": "solutions/eye_drops_to_basket__ep1746.json",
+      "solution_sha256": "144dc4d84dbd91a2c7fafd2d67a5d457047654fc829f7ccf501ec9052d33fcf8",
+      "solution_size": 1871,
+      "solution_source_dir": "results3-canonical",
+      "task": "eye_drops_to_basket",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 1798,
+      "provenance_file": "provenance/eye_drops_to_basket__ep1798.json",
+      "scene_file": "scenes/eye_drops_to_basket__ep1798.xml",
+      "scene_sha256": "f84d290ca725e376a34134817a3e4e76d88747785964a78f778923645f813d2d",
+      "scene_size": 3818,
+      "solution_file": "solutions/eye_drops_to_basket__ep1798.json",
+      "solution_sha256": "ae89cc55eea9a81ca6322e11a527d8ae266b04f0a31a721e0b5fbcd90db1e307",
+      "solution_size": 2562,
+      "solution_source_dir": "results3-canonical",
+      "task": "eye_drops_to_basket",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 683,
+      "provenance_file": "provenance/tool_insert__ep683.json",
+      "scene_file": "scenes/tool_insert__ep683.xml",
+      "scene_sha256": "21188122b67378f824bd0d26b7e67dd74d76d28bf47dc641d0cd20a30b4011ca",
+      "scene_size": 3674,
+      "solution_file": "solutions/tool_insert__ep683.json",
+      "solution_sha256": "a9cfcc17f4f26dd7c9e2a13f34032dbe872e25706dd94dcdfbcdf45d4bf74b5d",
+      "solution_size": 3580,
+      "solution_source_dir": "results",
+      "task": "tool_insert",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 1905,
+      "provenance_file": "provenance/cable_clip__ep1905.json",
+      "scene_file": "scenes/cable_clip__ep1905.xml",
+      "scene_sha256": "8b36baa6f49a9d38b7cffc0fec9a531061707048ad507dbee6f9e10b36562d7d",
+      "scene_size": 15187,
+      "solution_file": "solutions/cable_clip__ep1905.json",
+      "solution_sha256": "b6c27198216000c56572879677b694eb37cb1db65efd012f0bb2dab5f4e3ae8d",
+      "solution_size": 3065,
+      "solution_source_dir": "results-env-frozen",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 1969,
+      "provenance_file": "provenance/cable_clip__ep1969.json",
+      "scene_file": "scenes/cable_clip__ep1969.xml",
+      "scene_sha256": "7ba30873751c99798a1e16755de148109526c17fabf504ced14a3fca836cc17b",
+      "scene_size": 15178,
+      "solution_file": "solutions/cable_clip__ep1969.json",
+      "solution_sha256": "1a3afc4189b03e640a01abe91ae9522739baa0424054b275634f12df98c03f9a",
+      "solution_size": 3029,
+      "solution_source_dir": "results3-canonical",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 2020,
+      "provenance_file": "provenance/cable_clip__ep2020.json",
+      "scene_file": "scenes/cable_clip__ep2020.xml",
+      "scene_sha256": "0f0c90e9001ea162d6579ed8e461edd08ba2079c2b881ad00c0fdf0a7475ab33",
+      "scene_size": 15199,
+      "solution_file": "solutions/cable_clip__ep2020.json",
+      "solution_sha256": "3c14d303be63e74d1761bef2fe0351da5a019c320c22f2e16d092a6ef588ced3",
+      "solution_size": 3091,
+      "solution_source_dir": "results3-canonical",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 2046,
+      "provenance_file": "provenance/cable_clip__ep2046.json",
+      "scene_file": "scenes/cable_clip__ep2046.xml",
+      "scene_sha256": "03a63acda339e718e6555aa7ff1c403930aaf1aa36666a164e79792fe8cb71ad",
+      "scene_size": 15180,
+      "solution_file": "solutions/cable_clip__ep2046.json",
+      "solution_sha256": "c37c562b912ac059a70109ba4a790e72ecde83993f0c0fd06d018ecea3d2dac2",
+      "solution_size": 3004,
+      "solution_source_dir": "results-env-frozen",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 2068,
+      "provenance_file": "provenance/cable_clip__ep2068.json",
+      "scene_file": "scenes/cable_clip__ep2068.xml",
+      "scene_sha256": "8cf0668a76115596697e46c750d912066ef980797573fdacead6336172d8af78",
+      "scene_size": 15189,
+      "solution_file": "solutions/cable_clip__ep2068.json",
+      "solution_sha256": "e1ecbb5d905512a0c79e31ea7c9daa3a3cf4f9261ee6bcfcc693d9285d078323",
+      "solution_size": 3015,
+      "solution_source_dir": "results-env-frozen",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore.py": "96aa928072e5487b1fe1f077be293132",
+        "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457"
+      },
+      "controller_version": "rev1 (frozen)",
+      "episode": 2085,
+      "provenance_file": "provenance/cable_clip__ep2085.json",
+      "scene_file": "scenes/cable_clip__ep2085.xml",
+      "scene_sha256": "c287cda3582b436f1ec3a40437e86368cd7fcb0bbe920a2044a430aaca2cfd0f",
+      "scene_size": 15210,
+      "solution_file": "solutions/cable_clip__ep2085.json",
+      "solution_sha256": "538d91592e09e230daddfdf99d31fd5b73965420007bd5fd8b4bcee3e7a0acde",
+      "solution_size": 3090,
+      "solution_source_dir": "results-env-frozen",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently recomputed from the raw record files; matched the solvability register scene-for-scene",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    },
+    {
+      "controller_code_md5": {
+        "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+        "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+      },
+      "controller_version": "rev2.1 (canonical)",
+      "episode": 2130,
+      "provenance_file": "provenance/cable_clip__ep2130.json",
+      "scene_file": "scenes/cable_clip__ep2130.xml",
+      "scene_sha256": "14b53cd9555507a2bab149ea4e4c729ffdca004834106d64e45cf3856c92b60d",
+      "scene_size": 15188,
+      "solution_file": "solutions/cable_clip__ep2130.json",
+      "solution_sha256": "dcd55012fe84ab523888821880048610f035e2376e003099ae0610b9a22fb9df",
+      "solution_size": 3025,
+      "solution_source_dir": "results3-canonical",
+      "task": "cable_clip",
+      "verification": "independently certified \u2014 independently re-executed, byte-identical PASS",
+      "verification_records": [
+        "twin-suite-v2-docs/verification-v2-solvability.md (CERTIFIED-WITH-FINDINGS, two rounds + delta CERTIFIED)",
+        "twin-suite-v2-docs/verification-v2-controls-prep.md (CERTIFIED)"
+      ]
+    }
+  ],
+  "shared_files": [
+    {
+      "file": "scenes/arm/so101_new_calib_padded.xml",
+      "sha256": "23db631ba86444ae8007faffd04e04f96a9c5ff9a9f7dde269d5dfd0c987688d",
+      "size": 18273
+    },
+    {
+      "file": "scenes/arm/assets/moving_jaw_so101_gripper_part0_v1.stl",
+      "sha256": "3a92e115d1934d4c45cff808c4eff2ea10361a137a7f89940033a1f8a821b88c",
+      "size": 50684
+    },
+    {
+      "file": "scenes/arm/assets/moving_jaw_so101_gripper_part1_v1.stl",
+      "sha256": "d10f6c671d26f62988ec95efee9370a0657b5833b3c5f8aad59fd69a87ef2aee",
+      "size": 342684
+    },
+    {
+      "file": "scenes/arm/assets/wrist_roll_follower_so101_gripper_part0_v1.stl",
+      "sha256": "370eb470a6ab48b08febcaeb5274d2bcc91246692532ce12c795fb82977def72",
+      "size": 73784
+    },
+    {
+      "file": "controllers/refcore.py",
+      "sha256": "cb6e01c54501c4ccf5c8990325cc2c84bd12de92f99cb368830634a7ba7098cb",
+      "size": 41824
+    },
+    {
+      "file": "controllers/run_reference.py",
+      "sha256": "716eee7a72f0f86c8816395135bd056fcb2868801f64cda0d52693f569e9dc21",
+      "size": 23236
+    },
+    {
+      "file": "controllers/refcore2.py",
+      "sha256": "a77f4f8e89abfe6227b4944995628076cdcde70e45f081a0b93938503befba7d",
+      "size": 45528
+    },
+    {
+      "file": "controllers/run_reference3.py",
+      "sha256": "0845a1eb41182f5705fd89d8a260b1897a0edd908e8047fd1489975d922c8702",
+      "size": 29653
+    }
+  ],
+  "solution_type": "reference-controller executed passes (oracle-guided, Amendment 2 section A2.2 route (b)); cable_clip passes use the twin's registered v1.1 weld manipulation device",
+  "suite": "twin-suite v2 (Study 001 sim twins, spec-only program)",
+  "title": "zk0 twin-suite v2 \u2014 certified task-completing scene solutions"
+}
