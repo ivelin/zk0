@@ -60,15 +60,6 @@ Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evol
       <li>Community-driven dataset expansion</li>
     </ul>
   </div>
-  
-  <div class="feature-card">
-    <h3>🚀 Production-Ready</h3>
-    <ul>
-      <li>Docker-based deployment for easy scaling</li>
-      <li>zk0bot CLI for node operators and monitoring</li>
-      <li>Advanced scheduling for optimal convergence</li>
-    </ul>
-  </div>
 </div>
 
 <div class="get-started">
