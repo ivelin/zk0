@@ -1,0 +1,22 @@
+{
+  "phaseA_rc": 0,
+  "phaseA_state_files": 5,
+  "phaseA_loadable": 5,
+  "phaseA_step_min": 10.0,
+  "phaseA_step_max": 10.0,
+  "phaseB_killed": 1,
+  "phaseB_after_kill_files": 5,
+  "phaseB_after_kill_loadable": 5,
+  "phaseB_after_kill_step_max": 10.0,
+  "phaseB_resume_rc": 0,
+  "phaseB_final_files": 5,
+  "phaseB_final_loadable": 5,
+  "phaseB_final_step_min": 20.0,
+  "phaseB_final_step_max": 20.0,
+  "miniature_checkpoint": "2026-11-23_09-47-01",
+  "package_verify_rc": 0,
+  "census_tensors": 500,
+  "gate_artifact_copied": 1,
+  "package_rc": 0,
+  "package_note": "verify-only on the raw server checkpoint failed (missing preprocessor files); packaging step run first, then --verify-only --cpu-verify PASS"
+}
