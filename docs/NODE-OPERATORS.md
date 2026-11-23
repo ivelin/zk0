@@ -33,12 +33,14 @@ To join the zk0 network:
 Once approved, install the zk0bot CLI tool:
 
 ```bash
-# One-line installer
-curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/dev/get-zk0bot.sh | bash
+# Install the node package from a repo checkout
+git clone https://github.com/ivelin/zk0.git
+cd zk0
+node/dev/bootstrap.sh
 ```
 
 This will:
-- Clone/update zk0 repo to ~/zk0 (dev branch)
+- Clone/update zk0 repo to ~/zk0
 - Create conda zk0 env (Python 3.10)
 - Install flwr[superexec], lerobot[smolvla], torch cu121, pip install -e .
 - Optional Hugging Face login
@@ -59,14 +61,14 @@ WANDB_API_KEY=your_wandb_key_here  # optional, server-side only
 
 **Server Machine:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
+git clone https://github.com/ivelin/zk0.git
 cd ~/zk0
 zk0bot server start  # Auto-activates zk0 env; SuperLink ready
 ```
 
 **Client Machines (same LAN, add to ~/.bashrc: export ZK0_SERVER_IP=server_ip):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ivelin/zk0/main/website/get-zk0bot.sh | bash
+git clone https://github.com/ivelin/zk0.git
 cd ~/zk0
 zk0bot client start shaunkirby/record-test  # Auto-activates zk0 env; or your private dataset
 zk0bot client start ethanCSL/direction_test
@@ -144,7 +146,7 @@ zk0bot client log
 **Conda zk0 not active**: conda activate zk0
 **Dataset not found**: Verify dataset path/URL and credentials
 **Connection failed**: Check internet connection and server availability
-**Installer fails**: Check GitHub status, ensure curl available, or git clone https://github.com/ivelin/zk0.git ~/zk0; cd ~/zk0; ./get-zk0bot.sh
+**Installer fails**: Check GitHub status, ensure curl available, or git clone https://github.com/ivelin/zk0.git ~/zk0; cd ~/zk0; node/dev/bootstrap.sh
 
 ## Dataset Requirements
 
