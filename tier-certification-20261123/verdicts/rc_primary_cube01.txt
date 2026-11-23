@@ -1,0 +1,25 @@
+ep0 | PASS | cube seen entering drawer, final frames show drawer closed with blue cube gone from table
+ep1 | PASS | cube seen in drawer in wrist view, final frames show drawer closed and no blue cube on table
+ep2 | PASS | cube seen at drawer in front view, final frames show drawer closed and no blue cube on table
+ep3 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep4 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep5 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep6 | PASS | cube seen entering drawer in front view, final frames show drawer closed and no blue cube on table
+ep7 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep8 | PASS | cube seen entering drawer, final frames show drawer closed with blue cube visible inside
+ep9 | PASS | front view shows blue cube in drawer, final frames show drawer closed
+ep10 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep11 | PASS | front view shows blue cube at drawer, final frames show drawer closed and no blue cube on table
+ep12 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed with cube visible through front
+ep13 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep14 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep15 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep16 | PASS | cube seen entering drawer, final frames show drawer closed with blue cube visible inside
+ep17 | PASS | wrist view shows blue cube in drawer, final frames show drawer closed
+ep18 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep19 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep20 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep21 | PASS | cube carried to drawer, final frames show drawer closed with blue cube visible inside
+ep22 | PASS | front view shows blue cube at drawer, final frames show drawer closed and no blue cube on table
+ep23 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed
+ep24 | PASS | wrist view shows blue cube inside drawer, final frames show drawer closed

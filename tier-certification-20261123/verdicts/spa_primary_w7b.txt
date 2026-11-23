@@ -1,0 +1,25 @@
+ep1030 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1031 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1032 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1033 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1034 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1035 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1036 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1037 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1038 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1039 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1040 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1041 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1042 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1043 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1044 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1045 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1046 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1047 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1048 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1049 | PASS | smallest red cube sits in the bowl, larger ball remains on table
+ep1050 | PASS | smallest green object sits in the bowl, ball and can remain on table
+ep1051 | PASS | smallest green cube sits in the bowl, ball and can remain on table
+ep1052 | PASS | smallest green object sits in the bowl, ball and can remain on table
+ep1053 | PASS | smallest green cube sits in the bowl, ball and can remain on table
+ep1054 | PASS | smallest green cube sits in the bowl, ball and can remain on table

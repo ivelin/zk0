@@ -1,0 +1,27 @@
+ep785 | PASS | final frames show the yellow pen, second from the right in the top view, inside the bowl with gripper released
+ep786 | PASS | final frames show the yellow pen, third from the left in the top view, inside the bowl with gripper released
+ep1005 | PASS | smallest red cube in the bowl at end, gripper released
+ep1006 | PASS | smallest red cube in the bowl at end, gripper released
+ep1007 | PASS | smallest red cube in the bowl at end, gripper released
+ep1008 | PASS | smallest red cube in the bowl at end, gripper released
+ep1009 | PASS | smallest red cube in the bowl at end, gripper released
+ep1010 | PASS | smallest red cube in the bowl at end, gripper released
+ep1011 | PASS | smallest red cube in the bowl at end, gripper released
+ep1012 | PASS | smallest red cube in the bowl at end, gripper released
+ep1013 | PASS | smallest red cube in the bowl at end, gripper released
+ep1014 | PASS | smallest red cube in the bowl at end, gripper released
+ep1015 | PASS | smallest red cube in the bowl at end, gripper released
+ep1016 | PASS | smallest red cube in the bowl at end, gripper released
+ep1017 | PASS | smallest red cube in the bowl at end, gripper released
+ep1018 | PASS | smallest red cube in the bowl at end, gripper released
+ep1019 | PASS | smallest red cube in the bowl at end, gripper released
+ep1020 | PASS | smallest red cube in the bowl at end, gripper released
+ep1021 | PASS | smallest red cube in the bowl at end, gripper released
+ep1022 | PASS | smallest red cube in the bowl at end, gripper released
+ep1023 | PASS | smallest red cube in the bowl at end, gripper released
+ep1024 | PASS | smallest red cube in the bowl at end, gripper released
+ep1025 | PASS | smallest red cube in the bowl at end, gripper released
+ep1026 | PASS | smallest red cube in the bowl at end, gripper released
+ep1027 | PASS | smallest red cube in the bowl at end, gripper released
+ep1028 | PASS | smallest red cube in the bowl at end, gripper released
+ep1029 | PASS | smallest red cube in the bowl at end, gripper released

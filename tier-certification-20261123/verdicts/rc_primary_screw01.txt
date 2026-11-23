@@ -1,0 +1,25 @@
+ep0 | PASS | screwdriver rests on table right of empty box, gripper released
+ep1 | PASS | screwdriver rests on table right of empty box, gripper released
+ep2 | PASS | screwdriver rests on table right of empty box, gripper released
+ep3 | PASS | screwdriver rests on table right of empty box, gripper released
+ep4 | PASS | screwdriver rests on table right of empty box, gripper released
+ep5 | PASS | screwdriver rests on table above empty box, gripper released
+ep6 | PASS | screwdriver rests on table right of empty box, gripper released
+ep7 | PASS | screwdriver rests on table right of empty box, gripper released
+ep8 | PASS | screwdriver rests on table right of empty box, gripper released
+ep9 | PASS | screwdriver rests on table right of empty box, gripper released
+ep10 | PASS | screwdriver rests on table right of empty box, gripper released
+ep11 | PASS | screwdriver rests on table right of empty box, gripper released
+ep12 | PASS | screwdriver rests on table right of empty box, gripper released
+ep13 | PASS | screwdriver rests on table right of empty box, gripper released
+ep14 | PASS | screwdriver rests on table right of empty box, gripper released
+ep15 | PASS | screwdriver rests on table right of empty box, gripper released
+ep16 | PASS | screwdriver rests on table right of empty box, gripper released
+ep17 | PASS | screwdriver rests on table right of empty box, gripper released
+ep18 | PASS | screwdriver rests on table right of empty box, gripper released
+ep19 | PASS | screwdriver rests on table right of empty box, gripper released
+ep20 | PASS | screwdriver rests on table right of empty box, gripper released
+ep21 | PASS | screwdriver rests on table right of empty box, gripper released
+ep22 | PASS | screwdriver rests on table right of empty box, gripper released
+ep23 | PASS | screwdriver rests on table right of empty box, gripper released
+ep24 | PASS | screwdriver rests on table right of empty box, gripper released

@@ -1,0 +1,25 @@
+ep893 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep894 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep895 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep896 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep897 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep898 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep899 | PASS | final bowl holds 3 objects — toothbrush, green block and silver ball, yellow block out on the table
+ep900 | PASS | final bowl holds exactly 1 object, the green block
+ep901 | PASS | final bowl holds exactly 1 object, the green block
+ep902 | PASS | final bowl holds exactly 1 object, the green block
+ep903 | PASS | final bowl holds exactly 1 object, the green block
+ep904 | PASS | final bowl holds exactly 1 object, the green block
+ep905 | PASS | final bowl holds exactly 1 object, the green block
+ep906 | PASS | final bowl holds exactly 1 object, the green block
+ep907 | PASS | final bowl holds exactly 1 object, the green block
+ep908 | PASS | final bowl holds exactly 2 objects, the green block and silver ball
+ep909 | PASS | final bowl holds exactly 2 objects, the toothbrush and green block
+ep910 | PASS | final bowl holds exactly 2 objects, the yellow block and green block
+ep911 | PASS | final bowl holds exactly 2 objects, the green block and silver ball
+ep912 | PASS | final bowl holds exactly 2 objects, the green block and toothbrush
+ep913 | PASS | final bowl holds exactly 2 objects, the yellow block and green block
+ep914 | PASS | final bowl holds exactly 2 objects, the toothbrush and green block
+ep915 | PASS | final bowl holds exactly 2 objects, the silver ball and green block
+ep925 | PASS | final bowl is empty, 0 objects, green block out on the table
+ep926 | PASS | final bowl is empty, 0 objects, green block out on the table

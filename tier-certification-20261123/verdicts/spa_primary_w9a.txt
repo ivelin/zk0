@@ -1,0 +1,25 @@
+ep375 | PASS | blue block rests on the table to the left of the green pen in the top view, gripper released
+ep376 | PASS | blue block rests to the left of the green pen in the top view, gripper released
+ep377 | PASS | blue block rests to the left of the green pen in the top view, gripper released
+ep378 | PASS | blue block rests to the left of the green pen in the top view, gripper released
+ep379 | PASS | blue block rests to the left of the red block in the top view, gripper released
+ep380 | PASS | blue block rests to the left of the red block in the top view, gripper released
+ep381 | PASS | blue block rests to the left of the red block in the top view, gripper released
+ep382 | PASS | blue block rests to the left of the red block, gripper released
+ep383 | PASS | blue block rests to the left of the pink marker in the top view, gripper released
+ep384 | PASS | blue block rests to the left of the pink marker in the top view, gripper released
+ep385 | PASS | blue block rests to the left of the pink marker in the top view, gripper released
+ep386 | PASS | blue block rests to the left of the pink marker in the top view, gripper released
+ep387 | PASS | blue block rests to the right of the green pen in the top view, gripper released
+ep388 | PASS | blue block rests to the right of the green pen in the top view, gripper released
+ep389 | PASS | blue block rests to the right of the green pen in the top view, gripper released
+ep390 | PASS | blue block rests to the right of the green pen, gripper released
+ep391 | PASS | blue block rests to the right of the green pen in the top view, gripper released
+ep392 | PASS | blue block rests to the right of the red block in the top view, gripper released
+ep393 | PASS | blue block rests to the right of the red block in the top view, gripper released
+ep394 | PASS | blue block rests to the right of the red block in the top view, gripper released
+ep395 | PASS | blue block rests to the right of the red block in the top view, gripper released
+ep396 | PASS | blue block rests to the right of the pink marker in the top view, gripper released
+ep397 | PASS | blue block rests to the right of the pink marker in the top view, gripper released
+ep398 | PASS | blue block rests to the right of the pink marker in the top view, gripper released
+ep399 | PASS | blue block rests to the right of the pink marker in the top view, gripper released

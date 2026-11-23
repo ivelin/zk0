@@ -1,0 +1,25 @@
+ep75 | PASS | cube seen inside drawer in wrist frame, drawer closed at end with only red and white cubes left on table
+ep76 | PASS | cube seen inside drawer in wrist frame, drawer closed at end with blue cube absent from table
+ep77 | PASS | cube clearly inside drawer in wrist frame, drawer closed at end
+ep78 | PASS | cube clearly inside drawer in wrist frame, drawer closed at end
+ep79 | PASS | cube carried into drawer and visible at drawer in mid frames, drawer closed at end
+ep80 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep81 | PASS | cube edge visible inside drawer in wrist frame, drawer closed at end with blue cube gone from table
+ep82 | PASS | cube clearly inside drawer in wrist frame, drawer closed at end
+ep83 | PASS | blue cube visible at gripper entering drawer in front frames, drawer closed at end
+ep84 | PASS | cube edge visible inside drawer in wrist frame, drawer closed at end
+ep85 | PASS | cube edge visible inside drawer in wrist frame, drawer closed at end
+ep86 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep87 | PASS | cube clearly inside drawer in wrist frame, drawer closed at end
+ep88 | PASS | blue cube visible entering drawer in front frame and through closed drawer at end, drawer closed
+ep89 | PASS | blue cube visible inside closed drawer compartment in wrist frame, drawer closed at end
+ep90 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep91 | PASS | cube edge visible inside drawer in wrist frame, drawer closed at end
+ep92 | PASS | cube clearly inside drawer in wrist frame, drawer closed at end
+ep93 | PASS | blue cube visible entering drawer in front frame and inside drawer in wrist frame, drawer closed at end
+ep94 | PASS | blue cube visible entering drawer in front frame, drawer closed at end with blue patch visible through drawer front
+ep95 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep96 | PASS | cube edge visible inside drawer in wrist frame and at drawer in front frame, drawer closed at end
+ep97 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep98 | PASS | cube seen inside drawer in wrist frame, drawer closed at end
+ep99 | PASS | cube clearly inside drawer in wrist frames, drawer closed at end

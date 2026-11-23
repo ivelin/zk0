@@ -1,0 +1,25 @@
+ep800 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep801 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep802 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep803 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep804 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep805 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep806 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep807 | PASS | final frames show exactly 1 object, the blue pen, inside the bowl
+ep808 | PASS | final frames show exactly 2 objects, a yellow block and the blue pen, inside the bowl
+ep809 | PASS | final frames show exactly 2 objects, a green block and a pen, inside the bowl
+ep810 | PASS | final frames show exactly 2 objects, a small silver object and the blue pen, inside the bowl
+ep811 | PASS | final frames show exactly 2 objects, a yellow block and the blue pen, inside the bowl
+ep812 | PASS | final frames show exactly 2 objects, a green block and the blue pen, inside the bowl
+ep813 | PASS | final frames show exactly 2 objects, a small silver object and the blue pen, inside the bowl
+ep814 | PASS | final frames show exactly 2 objects, a green block and the blue pen, inside the bowl
+ep815 | PASS | final frames show exactly 2 objects, a yellow block and the blue pen, inside the bowl
+ep825 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep826 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep827 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep828 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep829 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep830 | PASS | final frames show 0 objects in the bowl, the blue pen on the table
+ep831 | PASS | final frames show the blue pen out of the bowl on the table, not held, with only a yellow block left in the bowl
+ep832 | PASS | final frames show the blue pen out of the bowl on the table, not held, with only a green block left in the bowl
+ep833 | PASS | final frames show the blue pen out of the bowl on the table, not held

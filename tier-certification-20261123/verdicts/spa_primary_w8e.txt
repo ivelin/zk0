@@ -1,0 +1,25 @@
+ep927 | PASS | final bowl is empty, count 0, green sharpener on the table
+ep928 | PASS | final bowl is empty, count 0, green sharpener on the table
+ep929 | PASS | final bowl is empty, count 0, green sharpener on the table
+ep930 | PASS | final bowl is empty, count 0, green sharpener on the table
+ep931 | PASS | green sharpener is out of the bowl on the table, not held
+ep932 | PASS | green sharpener is out of the bowl on the table, not held
+ep933 | PASS | green sharpener is out of the bowl on the table, not held
+ep934 | PASS | green sharpener is out of the bowl on the table, not held
+ep935 | PASS | green sharpener is out of the bowl on the table, not held
+ep936 | PASS | green sharpener is out of the bowl on the table, not held
+ep937 | PASS | final bowl contains exactly 2 objects, the spoon and the silver object
+ep938 | PASS | final bowl contains exactly 2 objects, the yellow block and the pen
+ep939 | PASS | final bowl contains exactly 2 objects, the yellow block and the silver object
+ep940 | PASS | final bowl contains exactly 2 objects, the pen and the silver object
+ep941 | PASS | final bowl contains exactly 2 objects, the yellow block and the pen
+ep942 | PASS | final bowl contains exactly 2 objects, the yellow block and the silver object
+ep943 | PASS | final bowl contains exactly 3 objects, the yellow block, pen and silver object
+ep944 | PASS | final bowl contains exactly 3 objects, the yellow block, pen and silver object
+ep945 | PASS | final bowl contains exactly 3 objects, the yellow block, spoon and silver object
+ep946 | PASS | final bowl contains exactly 3 objects, the yellow block, spoon and silver object
+ep947 | PASS | final bowl contains exactly 3 objects, the yellow block, spoon and silver object
+ep948 | PASS | final bowl contains exactly 3 objects, the yellow block, pen and silver object
+ep949 | PASS | final bowl contains exactly 3 objects, the yellow block, pen and silver object
+ep950 | PASS | final bowl contains exactly 1 object, the silver object
+ep951 | PASS | final bowl contains exactly 1 object, the silver object

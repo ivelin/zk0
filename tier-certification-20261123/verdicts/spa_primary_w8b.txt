@@ -1,0 +1,25 @@
+ep834 | PASS | blue pen lies on the table out of the bowl, bowl holds only the yellow block (count 1 in bowl)
+ep835 | PASS | blue pen lies on the table, out of the bowl and not held
+ep836 | PASS | blue pen lies on the table, out of the bowl and not held
+ep837 | PASS | bowl contains exactly 2 objects, the yellow and green blocks, pen on the table
+ep838 | PASS | bowl contains exactly 2 objects, the green block and silver object, pen on the table
+ep839 | PASS | bowl contains exactly 2 objects, the yellow block and silver object, pen on the table
+ep840 | PASS | bowl contains exactly 2 objects, the yellow and green blocks, pen on the table
+ep841 | PASS | bowl contains exactly 2 objects, the green block and silver object, pen on the table
+ep842 | PASS | bowl contains exactly 2 objects, the yellow block and silver object, pen on the table
+ep843 | PASS | bowl contains exactly 3 objects, the yellow and green blocks and silver object, pen on the table
+ep844 | PASS | bowl contains exactly 3 objects, the yellow and green blocks and silver object, pen on the table
+ep845 | PASS | bowl contains exactly 3 objects, the orange and green blocks and silver object, pen on the table
+ep846 | PASS | bowl contains exactly 3 objects, the orange and green blocks and silver object, pen on the table
+ep847 | PASS | bowl contains exactly 3 objects, the yellow and green blocks and silver object, pen on the table
+ep848 | PASS | bowl contains exactly 3 objects, the yellow and green blocks and silver object, pen on the table
+ep849 | PASS | bowl contains exactly 3 objects, the yellow and green blocks and silver object, pen on the table
+ep850 | PASS | bowl contains exactly 1 object, the yellow block
+ep851 | PASS | bowl contains exactly 1 object, the yellow block
+ep852 | PASS | bowl contains exactly 1 object, the yellow block
+ep853 | PASS | bowl contains exactly 1 object, the yellow block
+ep854 | PASS | bowl contains exactly 1 object, the yellow block
+ep855 | PASS | bowl contains exactly 1 object, the yellow block
+ep856 | PASS | bowl contains exactly 1 object, the yellow block
+ep857 | PASS | bowl contains exactly 1 object, the yellow block
+ep858 | PASS | bowl contains exactly 2 objects, the green and yellow blocks

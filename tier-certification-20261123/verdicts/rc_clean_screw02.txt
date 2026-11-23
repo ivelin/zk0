@@ -1,0 +1,25 @@
+ep25 | CLEAN
+ep26 | CLEAN
+ep27 | INCIDENT | screwdriver slips out of the open gripper and falls diagonally onto the table mid-placement, with no re-grasp
+ep28 | CLEAN
+ep29 | CLEAN
+ep30 | CLEAN
+ep31 | CLEAN
+ep32 | INCIDENT | screwdriver slips out of the open gripper and falls diagonally onto the table mid-placement, with no re-grasp
+ep33 | CLEAN
+ep34 | CLEAN
+ep35 | CLEAN
+ep36 | CLEAN
+ep37 | CLEAN
+ep38 | CLEAN
+ep39 | CLEAN
+ep40 | CLEAN
+ep41 | CLEAN
+ep42 | CLEAN
+ep43 | CLEAN
+ep44 | CLEAN
+ep45 | CLEAN
+ep46 | CLEAN
+ep47 | CLEAN
+ep48 | CLEAN
+ep49 | CLEAN

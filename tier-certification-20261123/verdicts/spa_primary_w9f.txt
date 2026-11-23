@@ -1,0 +1,25 @@
+ep535 | PASS | yellow pen that sat between the green sharpener and the Pepsi can is in the bowl, green pen still on the table
+ep536 | PASS | green pen that sat between the red sharpener and the propeller airplane is in the bowl, yellow pen still on the table
+ep537 | PASS | yellow pen that sat between the propeller-less airplane and the Pepsi can is in the bowl, green pen still on the table
+ep538 | PASS | green pen that sat between the Coke can and the red sharpener is in the bowl, yellow pen still on the table
+ep539 | PASS | yellow pen that sat between the red sharpener and the propeller-less airplane is in the bowl, green pen still on the table
+ep540 | PASS | yellow pen that sat between the green sharpener and the Coke can is in the bowl, green pen still on the table
+ep541 | PASS | green pen that sat between the propeller airplane and the green sharpener is in the bowl, yellow pen still on the table
+ep542 | PASS | yellow pen that sat between the propeller airplane and the Coke can is in the bowl, green pen still on the table
+ep543 | PASS | green pen that sat between the green sharpener and the Pepsi can is in the bowl, yellow pen still on the table
+ep544 | PASS | yellow pen that sat between the red sharpener and the propeller airplane is in the bowl, green pen still on the table
+ep545 | PASS | yellow pen that sat between the propeller-less airplane and the Pepsi can is in the bowl, green pen still on the table
+ep546 | PASS | yellow pen that sat between the Coke can and the red sharpener is in the bowl, green pen still on the table
+ep547 | PASS | yellow pen that sat between the red sharpener and the propeller-less airplane is in the bowl, green pen still on the table
+ep548 | PASS | green pen that sat between the Coke can and the propeller-less airplane is in the bowl, yellow pen still on the table
+ep549 | PASS | green pen that sat between the Pepsi can and the red sharpener is in the bowl, green pen still on the table
+ep550 | PASS | airplane closest to the green pen is in the bowl, the farther airplane still on the table
+ep551 | PASS | airplane nearest the yellow pen is in the bowl, the other airplane still on the table
+ep552 | PASS | airplane closest to the green pencil sharpener is in the bowl, the other airplane still on the table
+ep553 | PASS | airplane closest to the red pencil sharpener is in the bowl, the other airplane still on the table
+ep554 | PASS | airplane closest to the Coke can is in the bowl, the other airplane still on the table
+ep555 | PASS | airplane closest to the Pepsi can is in the bowl, the other airplane still on the table
+ep556 | PASS | airplane closest to the green pen is in the bowl, the other airplane still on the table
+ep557 | PASS | airplane nearest the yellow pen is in the bowl, the other airplane still on the table
+ep558 | PASS | airplane closest to the green pencil sharpener is in the bowl, the other airplane still on the table
+ep559 | PASS | airplane closest to the red pencil sharpener is in the bowl, the other airplane still on the table

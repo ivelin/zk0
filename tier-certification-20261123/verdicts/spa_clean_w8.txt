@@ -1,0 +1,25 @@
+ep375 | INCIDENT | Gripper brushed the green pen, tilting it, while placing the blue block beside it
+ep376 | CLEAN
+ep377 | CLEAN
+ep378 | INCIDENT | Gripper pressed against the green pen, tilting it, while placing the blue block beyond it
+ep379 | CLEAN
+ep380 | CLEAN
+ep381 | CLEAN
+ep382 | CLEAN
+ep383 | INCIDENT | Gripper brushed the pink marker's cap end while placing the blue block beside it
+ep384 | INCIDENT | Gripper and arm brushed across the pink marker while placing the blue block beside it
+ep385 | INCIDENT | Gripper brushed the pink marker's end while placing the blue block beside it
+ep386 | CLEAN
+ep387 | INCIDENT | Gripper brushed the green pen while placing the blue block beside it
+ep388 | CLEAN
+ep389 | INCIDENT | Gripper pressed the green pen under it while placing the blue block beside the pen
+ep390 | CLEAN
+ep391 | INCIDENT | Gripper brushed the green pen while placing the blue block beside it
+ep392 | CLEAN
+ep393 | CLEAN
+ep394 | CLEAN
+ep395 | CLEAN
+ep396 | INCIDENT | Gripper brushed the pink marker, its shaft running from the gripper tip, while placing the blue block beside it
+ep397 | CLEAN
+ep398 | INCIDENT | Gripper tip and arm brushed across the pink marker while placing the blue block beyond it
+ep399 | INCIDENT | Gripper brushed the pink marker's end while placing the blue block beside it

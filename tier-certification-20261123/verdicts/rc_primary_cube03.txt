@@ -1,0 +1,25 @@
+ep50 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view and through closed front
+ep51 | PASS | drawer closed at end, blue cube seen entering drawer and visible through closed front
+ep52 | PASS | drawer closed at end, blue cube carried into drawer and visible through closed front
+ep53 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep54 | PASS | drawer closed at end, blue cube seen in drawer in wrist view and through closed front
+ep55 | PASS | drawer closed at end, blue cube seen at drawer in wrist view and through closed front
+ep56 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view
+ep57 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep58 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep59 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view
+ep60 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep61 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep62 | PASS | drawer closed at end, blue cube seen entering drawer in front view and through closed front
+ep63 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view
+ep64 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view
+ep65 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep66 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep67 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep68 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep69 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep70 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep71 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep72 | PASS | drawer closed at end, blue cube seen at drawer mouth and visible through closed front
+ep73 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view
+ep74 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view

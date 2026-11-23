@@ -1,0 +1,25 @@
+ep415 | PASS | blue can furthest from the green pen is in the bowl, gripper released
+ep416 | PASS | red can furthest from the yellow pen is in the bowl, gripper released
+ep417 | PASS | blue can furthest from the airplane toy is in the bowl, gripper released
+ep418 | PASS | red can furthest from the airplane toy is in the bowl, gripper released
+ep419 | PASS | blue can furthest from the green pencil sharpener is in the bowl, gripper released
+ep420 | PASS | red can furthest from the red pencil sharpener is in the bowl, gripper released
+ep421 | PASS | blue can furthest from the green pen is in the bowl, gripper released
+ep422 | PASS | red can furthest from the yellow pen is in the bowl, gripper released
+ep423 | PASS | blue can furthest from the airplane toy is in the bowl, gripper released
+ep424 | PASS | red can furthest from the airplane toy is in the bowl, gripper released
+ep425 | PASS | blue can furthest from the green pencil sharpener is in the bowl, gripper released
+ep426 | PASS | red can furthest from the red pencil sharpener is in the bowl, gripper released
+ep427 | PASS | blue can furthest from the green pen is in the bowl, gripper released
+ep428 | PASS | red can furthest from the yellow pen is in the bowl, gripper released
+ep429 | PASS | blue can furthest from the airplane toy is in the bowl, gripper released
+ep430 | PASS | red can between the green sharpener and green pen is in the bowl, gripper released
+ep431 | PASS | red can between the airplane toy and green sharpener is in the bowl, gripper released
+ep432 | PASS | blue can between the airplane toy and green pen is in the bowl, gripper released
+ep433 | PASS | blue can between the green sharpener and yellow pen is in the bowl, gripper released
+ep434 | PASS | red can between the red sharpener and airplane toy is in the bowl, gripper released
+ep435 | PASS | blue can between the airplane toy and yellow pen is in the bowl, gripper released
+ep436 | PASS | red can between the green pen and red sharpener is in the bowl, gripper released
+ep437 | PASS | blue can between the red sharpener and airplane toy is in the bowl, gripper released
+ep438 | PASS | red can between the green pen and airplane toy is in the bowl, gripper released
+ep439 | PASS | blue can between the yellow pen and red sharpener is in the bowl, gripper released

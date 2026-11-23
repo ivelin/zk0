@@ -1,0 +1,25 @@
+ep325 | CLEAN
+ep326 | CLEAN
+ep327 | CLEAN
+ep328 | CLEAN
+ep329 | CLEAN
+ep330 | CLEAN
+ep331 | CLEAN
+ep332 | CLEAN
+ep333 | CLEAN
+ep334 | CLEAN
+ep335 | INCIDENT | gripper contacted the red block while placing the pink marker, rotating/tipping the red block, which stayed displaced on its side next to the marker
+ep336 | CLEAN
+ep337 | CLEAN
+ep338 | CLEAN
+ep339 | CLEAN
+ep340 | CLEAN
+ep341 | CLEAN
+ep342 | CLEAN
+ep343 | CLEAN
+ep344 | CLEAN
+ep345 | CLEAN
+ep346 | CLEAN
+ep347 | CLEAN
+ep348 | CLEAN
+ep349 | CLEAN

@@ -1,0 +1,25 @@
+ep510 | PASS | green pen closest to the airplane is in the bowl, gripper released
+ep511 | PASS | yellow pen closest to the airplane is in the bowl, gripper released
+ep512 | PASS | green pen closest to the green sharpener is in the bowl, gripper released
+ep513 | PASS | yellow pen closest to the red sharpener is in the bowl, gripper released
+ep514 | PASS | green pen closest to the Coke can is in the bowl, gripper released
+ep515 | PASS | yellow pen furthest from the Coke can is in the bowl, gripper released
+ep516 | PASS | green pen furthest from the Pepsi can is in the bowl, gripper released
+ep517 | PASS | yellow pen furthest from the airplane is in the bowl, gripper released
+ep518 | FAIL | green pen is in the bowl while the yellow pen furthest from the airplane remains on the table
+ep519 | PASS | yellow pen furthest from the green sharpener is in the bowl, gripper released
+ep520 | PASS | green pen furthest from the red sharpener is in the bowl, gripper released
+ep521 | PASS | yellow pen furthest from the Coke can is in the bowl, gripper released
+ep522 | PASS | green pen furthest from the Pepsi can is in the bowl, gripper released
+ep523 | PASS | yellow pen furthest from the airplane is in the bowl, gripper released
+ep524 | PASS | green pen furthest from the airplane is in the bowl, gripper released
+ep525 | PASS | yellow pen furthest from the green sharpener is in the bowl, gripper released
+ep526 | PASS | green pen furthest from the red sharpener is in the bowl, gripper released
+ep527 | PASS | yellow pen furthest from the Coke can is in the bowl, gripper released
+ep528 | PASS | green pen furthest from the Pepsi can is in the bowl, gripper released
+ep529 | PASS | yellow pen furthest from the airplane is in the bowl, gripper released
+ep530 | PASS | green pen between the airplane and green sharpener is in the bowl, gripper released
+ep531 | PASS | green pen between the Pepsi can and airplane is in the bowl, gripper released
+ep532 | PASS | yellow pen between the green sharpener and Coke can is in the bowl, gripper released
+ep533 | PASS | yellow pen between the airplane and green sharpener is in the bowl, gripper released
+ep534 | PASS | green pen between the airplane and Coke can is in the bowl, gripper released

@@ -1,0 +1,25 @@
+ep560 | PASS | referent airplane closest to the Coke can is in the bowl, other airplane remains on table
+ep561 | PASS | referent airplane nearest the Pepsi can is in the bowl, other airplane remains on table
+ep562 | PASS | referent airplane closest to the green pen is in the bowl, other airplane remains on table
+ep563 | PASS | referent airplane closest to the yellow pen is in the bowl, other airplane remains on table
+ep564 | PASS | airplane closest to the green pencil sharpener is in the bowl at end
+ep580 | PASS | airplane between the green pen and red sharpener is in the bowl, other remains
+ep581 | PASS | airplane between the yellow pen and Coke can is in the bowl, other remains
+ep582 | PASS | airplane between the Pepsi can and red sharpener is in the bowl, other remains
+ep583 | PASS | airplane between the green sharpener and yellow pen is in the bowl, other remains
+ep584 | PASS | airplane between the yellow pen and Pepsi can is in the bowl, other remains
+ep585 | PASS | airplane between the green pen and green sharpener is in the bowl, other remains
+ep586 | PASS | airplane between the Coke can and green pen is in the bowl, other remains
+ep587 | PASS | airplane between the Coke can and green sharpener is in the bowl, other remains
+ep588 | PASS | airplane between the green pen and red sharpener is in the bowl, other remains
+ep589 | PASS | airplane between the yellow pen and Coke can is in the bowl, other remains
+ep590 | PASS | airplane between the Pepsi can and red sharpener is in the bowl, other remains
+ep591 | PASS | airplane between the green sharpener and yellow pen is in the bowl, other remains
+ep592 | PASS | airplane between the yellow pen and Pepsi can is in the bowl, other remains
+ep593 | PASS | airplane between the green sharpener and Pepsi can is in the bowl, other remains
+ep594 | PASS | airplane between the red sharpener and yellow pen is in the bowl, other remains
+ep595 | PASS | airplane between the Pepsi can and green pen is in the bowl, other remains
+ep596 | PASS | airplane between the red sharpener and Coke can is in the bowl, other remains
+ep597 | PASS | airplane between the green pen and green sharpener is in the bowl, other remains
+ep598 | PASS | airplane between the Coke can and green pen is in the bowl, other remains
+ep599 | PASS | airplane between the Coke can and green sharpener is in the bowl, other remains

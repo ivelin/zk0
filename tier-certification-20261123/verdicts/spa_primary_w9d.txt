@@ -1,0 +1,25 @@
+ep465 | PASS | red sharpener, furthest from the green pen, rests in the bowl at the end
+ep466 | PASS | green sharpener, furthest from the yellow pen, rests in the bowl at the end
+ep467 | PASS | red sharpener, furthest from the airplane toy, rests in the bowl at the end
+ep468 | PASS | green sharpener, furthest from the airplane toy, rests in the bowl at the end
+ep469 | PASS | red sharpener, furthest from the Coke can, rests in the bowl at the end
+ep470 | PASS | red sharpener, furthest from the Pepsi can, rests in the bowl at the end
+ep471 | PASS | red sharpener, furthest from the green pen, rests in the bowl at the end
+ep472 | PASS | green sharpener, furthest from the yellow pen, rests in the bowl at the end
+ep473 | PASS | red sharpener, furthest from the airplane toy, rests in the bowl at the end
+ep474 | PASS | green sharpener, furthest from the airplane toy, rests in the bowl at the end
+ep475 | PASS | red sharpener, furthest from the Coke can, rests in the bowl at the end
+ep476 | PASS | green sharpener, furthest from the Pepsi can, rests in the bowl at the end
+ep477 | PASS | red sharpener, furthest from the green pen, rests in the bowl at the end
+ep478 | PASS | green sharpener, furthest from the yellow pen, rests in the bowl at the end
+ep479 | PASS | red sharpener, furthest from the airplane toy, rests in the bowl at the end
+ep500 | PASS | green pen, nearest the green sharpener, rests in the bowl at the end
+ep501 | PASS | yellow pen, closest to the red sharpener, rests in the bowl at the end
+ep502 | PASS | green pen, nearest the Coke can, rests in the bowl at the end
+ep503 | PASS | yellow pen, closest to the Pepsi can, rests in the bowl at the end
+ep504 | PASS | green pen, nearest the airplane toy, rests in the bowl at the end
+ep505 | PASS | yellow pen, closest to the airplane toy, rests in the bowl at the end
+ep506 | PASS | green pen, closest to the green sharpener, rests in the bowl at the end
+ep507 | PASS | yellow pen, closest to the red sharpener, rests in the bowl at the end
+ep508 | PASS | green pen, closest to the Coke can, rests in the bowl at the end
+ep509 | PASS | yellow pen, closest to the Pepsi can, rests in the bowl at the end

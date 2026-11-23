@@ -1,0 +1,25 @@
+ep25 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep26 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep27 | PASS | drawer closed at end, blue cube visible at gripper entering drawer in front view, no blue cube on table
+ep28 | PASS | drawer closed at end, blue cube seen at drawer in front view, only red and white cubes on table
+ep29 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep30 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep31 | PASS | drawer closed at end, blue cube visible at gripper entering drawer in front view, no blue cube on table
+ep32 | PASS | drawer closed at end, blue cube visible above gripper inside drawer area in front view, no blue cube on table
+ep33 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep34 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep35 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep36 | PASS | drawer closed at end, blue cube seen at drawer in front and wrist views, no blue cube on table
+ep37 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep38 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep39 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep40 | PASS | drawer closed at end, blue cube visible at gripper entering drawer in front view, no blue cube on table
+ep41 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep42 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep43 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep44 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep45 | PASS | drawer closed at end, blue cube visible at gripper entering drawer in front view, no blue cube on table
+ep46 | PASS | drawer closed at end, blue cube clearly inside drawer in wrist view, only red and white cubes on table
+ep47 | PASS | drawer closed at end, blue cube visible through closed drawer in wrist view, no blue cube on table
+ep48 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table
+ep49 | PASS | drawer closed at end, blue cube seen inside drawer in wrist view, only red and white cubes on table

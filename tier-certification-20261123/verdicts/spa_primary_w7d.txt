@@ -1,0 +1,40 @@
+ep1160 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1161 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1162 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1163 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1164 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1165 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1166 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1167 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1168 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1169 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1170 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1171 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1172 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1173 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1174 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1175 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1176 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1177 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1178 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1179 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1180 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1181 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1182 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1183 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1184 | PASS | largest object, the blue can, lies in the bowl at the end, gripper released
+ep1185 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1186 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1187 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1188 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1189 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1190 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1191 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1192 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1193 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1194 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1195 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1196 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1197 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1198 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table
+ep1199 | PASS | largest object, the blue can, rests in the bowl with gripper released, small green object still on table

@@ -1,0 +1,25 @@
+ep952 | PASS | final frames show exactly 1 small object inside the bowl, gripper released
+ep953 | PASS | final frames show exactly 1 small object inside the bowl, gripper released
+ep954 | PASS | final frames show exactly 1 small object inside the bowl, gripper released
+ep955 | PASS | final frames show exactly 1 small object inside the bowl, gripper released
+ep956 | PASS | final frames show exactly 1 object inside the bowl, gripper released
+ep957 | PASS | final frames show exactly 1 small object inside the bowl, gripper released
+ep958 | PASS | final frames show exactly 2 objects inside the bowl, the pen and a small object
+ep959 | PASS | final frames show exactly 2 objects inside the bowl, a yellow block and a small object
+ep960 | PASS | final frames show exactly 2 objects inside the bowl, a green block and a small object
+ep961 | PASS | final frames show exactly 2 objects inside the bowl, the pen and a small object
+ep962 | PASS | final frames show exactly 2 objects inside the bowl, a yellow block and a small object
+ep963 | PASS | final frames show exactly 2 objects inside the bowl, a green block and a small object
+ep964 | PASS | final frames show exactly 2 objects inside the bowl, a yellow block and a small object
+ep965 | PASS | final frames show exactly 2 objects inside the bowl, the pen and a small object
+ep975 | PASS | final frames show 0 objects, the bowl is empty
+ep976 | PASS | final frames show 0 objects, the bowl is empty with the removed object on the table
+ep977 | PASS | final frames show 0 objects, the bowl is empty with the removed object on the table
+ep978 | PASS | final frames show 0 objects, the bowl is empty with the removed object on the table
+ep979 | PASS | final frames show 0 objects, the bowl is empty with the removed object on the table
+ep980 | PASS | final frames show 0 objects, the bowl is empty with the removed object on the table
+ep981 | PASS | final frames show the removed object on the table, not held, with only the pen left in the bowl
+ep982 | PASS | final frames show the removed object on the table, not held, with only a yellow block left in the bowl
+ep983 | PASS | final frames show the removed object on the table, not held, with only a green block left in the bowl
+ep984 | PASS | final frames show the removed object on the table, not held, with only the pen left in the bowl
+ep985 | PASS | final frames show the removed object on the table, not held, with only a yellow block left in the bowl

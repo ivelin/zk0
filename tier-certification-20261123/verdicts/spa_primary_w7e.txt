@@ -1,0 +1,14 @@
+ep986 | PASS | final frames show the small airplane toy out of the bowl on the table, not held, with 1 green object remaining in the bowl
+ep987 | PASS | final frames show exactly 2 objects in the bowl, a yellow object and a pen/stick
+ep988 | PASS | final frames show exactly 2 objects in the bowl, a green object and a yellow object
+ep989 | PASS | final frames show exactly 2 objects in the bowl, a green object and a blue pen
+ep990 | PASS | final frames show exactly 2 objects in the bowl, a yellow object and a blue pen
+ep991 | PASS | final frames show exactly 2 objects in the bowl, a yellow object and a green object
+ep992 | PASS | final frames show exactly 2 objects in the bowl, a green object and a white stick
+ep993 | PASS | final frames show exactly 3 objects in the bowl, yellow, green/blue pen and white stick
+ep994 | PASS | final frames show exactly 3 objects in the bowl, yellow, green and white stick
+ep995 | PASS | final frames show exactly 3 objects in the bowl, yellow, green and blue pen
+ep996 | PASS | final frames show exactly 3 objects in the bowl, yellow, green and pen/stick
+ep997 | PASS | final frames show exactly 3 objects in the bowl, yellow, green and white stick
+ep998 | PASS | final frames show exactly 3 objects in the bowl, yellow, green/blue pen and white stick
+ep999 | PASS | final frames show exactly 3 objects in the bowl, yellow, green and blue pen

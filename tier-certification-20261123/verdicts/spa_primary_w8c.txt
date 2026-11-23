@@ -1,0 +1,25 @@
+ep859 | FAIL | final bowl contains 1 object, the yellow block only, green block remains on table
+ep860 | PASS | final bowl contains 2 objects, yellow block and blue pen
+ep861 | PASS | final bowl contains 2 objects, green block and yellow block
+ep862 | PASS | final bowl contains 2 objects, yellow block and small silver object
+ep863 | PASS | final bowl contains 2 objects, yellow block and blue pen
+ep864 | PASS | final bowl contains 2 objects, yellow block and small silver object
+ep865 | PASS | final bowl contains 2 objects, green block and yellow block
+ep875 | PASS | final bowl contains 0 objects, yellow block is on the table
+ep876 | PASS | final bowl contains 0 objects, yellow block is on the table
+ep877 | PASS | final bowl contains 0 objects, yellow block is on the table
+ep878 | PASS | final bowl contains 0 objects, orange block is on the table
+ep879 | PASS | final bowl contains 0 objects, yellow block is on the table
+ep880 | PASS | final bowl contains 0 objects, yellow block is on the table
+ep881 | PASS | yellow block is out of the bowl on the table, not held, green block remains in bowl
+ep882 | PASS | yellow block is out of the bowl on the table, not held
+ep883 | PASS | yellow block is out of the bowl on the table, not held, pen remains in bowl
+ep884 | PASS | yellow block is out of the bowl on the table, not held, green block remains in bowl
+ep885 | PASS | yellow block is out of the bowl on the table, not held
+ep886 | PASS | yellow block is out of the bowl on the table, not held, pen remains in bowl
+ep887 | PASS | final bowl contains 2 objects, green block and small silver object, yellow block on table
+ep888 | PASS | final bowl contains 2 objects, blue pen and small silver object, yellow block on table
+ep889 | PASS | final bowl contains 2 objects, green block and pen, yellow block on table
+ep890 | PASS | final bowl contains 2 objects, green block and small silver object, yellow block on table
+ep891 | FAIL | final bowl contains 1 object, the pen only, yellow block is on the table
+ep892 | PASS | final bowl contains 2 objects, green block and blue pen, yellow block on table
