@@ -1,0 +1,54 @@
+{
+ "episode": 1724,
+ "episode_key": "eye_drops_to_basket__ep1724",
+ "task": "eye_drops_to_basket",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "carton": {
+   "pose_xyz_yaw": [
+    0.2954,
+    0.0643,
+    0.1075,
+    -1.33
+   ],
+   "confidence": "high",
+   "method": "interior-blob segmentation on platform plate (detect4)",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 12
+  },
+  "carton_final": {
+   "pose_xyz_yaw": [
+    0.2698,
+    -0.1983,
+    0.03,
+    null
+   ],
+   "confidence": "medium",
+   "method": "visual grounding pick on top_final (carton inside basket)",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null
+  }
+ },
+ "fixtures": {
+  "platform": {
+   "pose_xyz_yaw": [
+    0.2973,
+    0.0664,
+    0.0,
+    null
+   ],
+   "top_z": 0.09,
+   "note": "hand read ep1609; top plate centre"
+  },
+  "basket": {
+   "pose_xyz_yaw": [
+    0.2258,
+    -0.1545,
+    0.0,
+    null
+   ],
+   "note": "hand read ep1609; centre of basket footprint"
+  }
+ },
+ "notes": []
+}

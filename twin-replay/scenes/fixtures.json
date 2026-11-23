@@ -1,0 +1,135 @@
+{
+ "eye_drops_to_basket": {
+  "platform": {
+   "pose_xyz_yaw": [
+    0.2973,
+    0.0664,
+    0.0,
+    null
+   ],
+   "top_z": 0.09,
+   "note": "hand read ep1609; top plate centre"
+  },
+  "basket": {
+   "pose_xyz_yaw": [
+    0.2258,
+    -0.1545,
+    0.0,
+    null
+   ],
+   "note": "hand read ep1609; centre of basket footprint"
+  }
+ },
+ "ring_insert": {
+  "board_varies_per_episode": true,
+  "peg_positions_px": {
+   "ring_insert__ep11": [
+    643.7,
+    310.1
+   ],
+   "ring_insert__ep160": [
+    561.1,
+    120.9
+   ],
+   "ring_insert__ep165": [
+    495.9,
+    211.5
+   ],
+   "ring_insert__ep167": [
+    549.1,
+    225.9
+   ],
+   "ring_insert__ep168": [
+    429.6,
+    177.6
+   ],
+   "ring_insert__ep177": [
+    638.4,
+    303.3
+   ],
+   "ring_insert__ep179": [
+    616.9,
+    259.0
+   ],
+   "ring_insert__ep188": [
+    689.9,
+    262.8
+   ],
+   "ring_insert__ep195": [
+    519.4,
+    229.5
+   ],
+   "ring_insert__ep198": [
+    523.7,
+    230.1
+   ],
+   "ring_insert__ep227": [
+    520.0,
+    221.3
+   ],
+   "ring_insert__ep240": [
+    531.2,
+    216.1
+   ],
+   "ring_insert__ep242": [
+    498.5,
+    207.1
+   ],
+   "ring_insert__ep253": [
+    643.7,
+    221.9
+   ],
+   "ring_insert__ep30": [
+    526.0,
+    211.1
+   ],
+   "ring_insert__ep31": [
+    539.3,
+    227.3
+   ],
+   "ring_insert__ep33": [
+    500.5,
+    210.4
+   ],
+   "ring_insert__ep48": [
+    496.1,
+    197.2
+   ],
+   "ring_insert__ep50": [
+    442.7,
+    179.4
+   ],
+   "ring_insert__ep7": [
+    631.1,
+    289.2
+   ]
+  },
+  "peg_px_spread_std": [
+   69.5,
+   43.1
+  ],
+  "note": "Board/peg are re-placed between episodes (spread std ~65x45 px). Per-episode board+peg poses are in each episode JSON under fixtures. Recess count = 6 (see pose-estimation.md correction)."
+ },
+ "tool_insert": {
+  "tray": {
+   "pose_xyz_yaw": [
+    0.2983,
+    0.1155,
+    0.0,
+    null
+   ],
+   "note": "median tray bbox centre across episodes"
+  },
+  "target_slot": {
+   "pose_xyz_yaw": [
+    0.2959,
+    -0.0076,
+    0.045,
+    null
+   ],
+   "note": "hand read ep622: red cross recess centre"
+  }
+ },
+ "block_stack": {},
+ "cable_clip": {}
+}

@@ -1,0 +1,36 @@
+{
+ "episode": 539,
+ "episode_key": "block_stack__ep539",
+ "task": "block_stack",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "cube_purple": {
+   "pose_xyz_yaw": [
+    0.2143,
+    0.2207,
+    0.015,
+    null
+   ],
+   "confidence": "medium",
+   "method": "manual pick from top_first (Builder B visual verification; auto detection failed/occluded)",
+   "role": "cube",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null
+  },
+  "cube_green": {
+   "pose_xyz_yaw": [
+    0.061,
+    0.1361,
+    0.015,
+    null
+   ],
+   "confidence": "medium",
+   "method": "manual pick from top_first (Builder B visual verification; auto detection failed/occluded)",
+   "role": "cube",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null
+  }
+ },
+ "fixtures": {},
+ "notes": []
+}

@@ -1,0 +1,95 @@
+{
+ "suite_version": "twin-suite-v1",
+ "seed": 20261122,
+ "param_hash": "5ef4c692a314e87b",
+ "task": "eye_drops_to_basket",
+ "episode": 1811,
+ "confidence": "high",
+ "variants": [
+  {
+   "k": 0,
+   "draws": {
+    "jitter": {},
+    "mass": {},
+    "friction_mult": {}
+   },
+   "scene": "eye_drops_to_basket__ep1811_v0.xml"
+  },
+  {
+   "k": 1,
+   "draws": {
+    "jitter": {
+     "carton": [
+      -0.04086,
+      0.01189,
+      -17.246
+     ]
+    },
+    "mass": {
+     "carton": 0.0232
+    },
+    "friction_mult": {
+     "carton": 0.8815
+    }
+   },
+   "scene": "eye_drops_to_basket__ep1811_v1.xml"
+  },
+  {
+   "k": 2,
+   "draws": {
+    "jitter": {
+     "carton": [
+      0.02234,
+      -0.02051,
+      0.562
+     ]
+    },
+    "mass": {
+     "carton": 0.03354
+    },
+    "friction_mult": {
+     "carton": 0.9282
+    }
+   },
+   "scene": "eye_drops_to_basket__ep1811_v2.xml"
+  },
+  {
+   "k": 3,
+   "draws": {
+    "jitter": {
+     "carton": [
+      -0.02301,
+      0.00859,
+      -19.131
+     ]
+    },
+    "mass": {
+     "carton": 0.02381
+    },
+    "friction_mult": {
+     "carton": 1.1247
+    }
+   },
+   "scene": "eye_drops_to_basket__ep1811_v3.xml"
+  },
+  {
+   "k": 4,
+   "draws": {
+    "jitter": {
+     "carton": [
+      -0.01506,
+      -0.04186,
+      -1.184
+     ]
+    },
+    "mass": {
+     "carton": 0.0302
+    },
+    "friction_mult": {
+     "carton": 1.0451
+    }
+   },
+   "scene": "eye_drops_to_basket__ep1811_v4.xml"
+  }
+ ]
+}

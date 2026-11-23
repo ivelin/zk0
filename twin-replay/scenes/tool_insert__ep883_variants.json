@@ -1,0 +1,95 @@
+{
+ "suite_version": "twin-suite-v1",
+ "seed": 20261122,
+ "param_hash": "5ef4c692a314e87b",
+ "task": "tool_insert",
+ "episode": 883,
+ "confidence": "medium",
+ "variants": [
+  {
+   "k": 0,
+   "draws": {
+    "jitter": {},
+    "mass": {},
+    "friction_mult": {}
+   },
+   "scene": "tool_insert__ep883_v0.xml"
+  },
+  {
+   "k": 1,
+   "draws": {
+    "jitter": {
+     "tool": [
+      0.00394,
+      -0.04935,
+      0.0
+     ]
+    },
+    "mass": {
+     "tool": 0.09065
+    },
+    "friction_mult": {
+     "tool": 1.0759
+    }
+   },
+   "scene": "tool_insert__ep883_v1.xml"
+  },
+  {
+   "k": 2,
+   "draws": {
+    "jitter": {
+     "tool": [
+      0.02111,
+      0.022,
+      0.0
+     ]
+    },
+    "mass": {
+     "tool": 0.08016
+    },
+    "friction_mult": {
+     "tool": 0.8331
+    }
+   },
+   "scene": "tool_insert__ep883_v2.xml"
+  },
+  {
+   "k": 3,
+   "draws": {
+    "jitter": {
+     "tool": [
+      0.02682,
+      -0.02099,
+      0.0
+     ]
+    },
+    "mass": {
+     "tool": 0.0582
+    },
+    "friction_mult": {
+     "tool": 0.8497
+    }
+   },
+   "scene": "tool_insert__ep883_v3.xml"
+  },
+  {
+   "k": 4,
+   "draws": {
+    "jitter": {
+     "tool": [
+      0.0224,
+      0.02773,
+      0.0
+     ]
+    },
+    "mass": {
+     "tool": 0.07195
+    },
+    "friction_mult": {
+     "tool": 0.8567
+    }
+   },
+   "scene": "tool_insert__ep883_v4.xml"
+  }
+ ]
+}

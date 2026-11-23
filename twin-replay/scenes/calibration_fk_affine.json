@@ -1,0 +1,22 @@
+{
+ "id": "fk-affine-v2",
+ "M": [
+  [
+   0.0004098756117510486,
+   -0.0005128537883443734
+  ],
+  [
+   -0.0006409511757531707,
+   -0.0003174866326201157
+  ],
+  [
+   0.19197327244725776,
+   0.3592956353118292
+  ]
+ ],
+ "fitted_on": "robust IRLS affine px->FK world, ring pick/place + block dwell pairs paired under v1 map <6cm",
+ "n_pairs": 93,
+ "resid_cm_median": 1.4,
+ "frac_under_3cm": 0.83,
+ "provenance": "Builder C calibration finding 2026-11-22: robust IRLS affine image-px -> FK world fitted on grasp/place dwell tie points (FK of recorded gt vs Builder B detection pixels). Applied as composite AffineFK o inv(H_B) to every Builder B world pose. See validation/param-changelog.md entry 1."
+}

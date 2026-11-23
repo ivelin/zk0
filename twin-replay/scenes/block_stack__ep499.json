@@ -1,0 +1,36 @@
+{
+ "episode": 499,
+ "episode_key": "block_stack__ep499",
+ "task": "block_stack",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "cube_purple": {
+   "pose_xyz_yaw": [
+    0.3233,
+    0.0244,
+    0.015,
+    -1.175
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation (detect3)",
+   "role": "cube",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 25
+  },
+  "cube_orange": {
+   "pose_xyz_yaw": [
+    0.1689,
+    0.1212,
+    0.015,
+    -2.988
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation (detect3)",
+   "role": "cube",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 25
+  }
+ },
+ "fixtures": {},
+ "notes": []
+}

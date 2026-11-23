@@ -1,0 +1,123 @@
+{
+ "suite_version": "twin-suite-v1",
+ "seed": 20261122,
+ "param_hash": "5ef4c692a314e87b",
+ "task": "block_stack",
+ "episode": 411,
+ "confidence": "medium",
+ "variants": [
+  {
+   "k": 0,
+   "draws": {
+    "jitter": {},
+    "mass": {},
+    "friction_mult": {}
+   },
+   "scene": "block_stack__ep411_v0.xml"
+  },
+  {
+   "k": 1,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      -0.0393,
+      0.00736,
+      -8.567
+     ],
+     "cube_b": [
+      -0.00703,
+      -0.01012,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.02936,
+     "cube_b": 0.02467
+    },
+    "friction_mult": {
+     "cube_a": 1.0569,
+     "cube_b": 0.952
+    }
+   },
+   "scene": "block_stack__ep411_v1.xml"
+  },
+  {
+   "k": 2,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      0.01067,
+      -0.04651,
+      -9.683
+     ],
+     "cube_b": [
+      -0.0354,
+      0.00569,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.01845,
+     "cube_b": 0.02656
+    },
+    "friction_mult": {
+     "cube_a": 0.8849,
+     "cube_b": 0.8908
+    }
+   },
+   "scene": "block_stack__ep411_v2.xml"
+  },
+  {
+   "k": 3,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      -0.04059,
+      -0.02097,
+      36.358
+     ],
+     "cube_b": [
+      -0.03667,
+      0.01314,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.01089,
+     "cube_b": 0.02883
+    },
+    "friction_mult": {
+     "cube_a": 1.1663,
+     "cube_b": 0.8203
+    }
+   },
+   "scene": "block_stack__ep411_v3.xml"
+  },
+  {
+   "k": 4,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      -0.01679,
+      0.01364,
+      -23.039
+     ],
+     "cube_b": [
+      0.00191,
+      -0.02612,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.01812,
+     "cube_b": 0.02975
+    },
+    "friction_mult": {
+     "cube_a": 1.1572,
+     "cube_b": 0.84
+    }
+   },
+   "scene": "block_stack__ep411_v4.xml"
+  }
+ ]
+}

@@ -1,0 +1,62 @@
+{
+ "episode": 479,
+ "episode_key": "block_stack__ep479",
+ "task": "block_stack",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "cube_purple": {
+   "pose_xyz_yaw": [
+    0.2083,
+    0.0678,
+    0.015,
+    2.624
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation (detect3)",
+   "role": "base",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 25
+  },
+  "cube_purple_final": {
+   "pose_xyz_yaw": [
+    0.2411,
+    0.0421,
+    0.015,
+    null
+   ],
+   "confidence": "medium",
+   "method": "base cube under stack in top_final (upper cube occludes it; position = stack location)",
+   "role": "base_final",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null
+  },
+  "cube_green": {
+   "pose_xyz_yaw": [
+    0.1224,
+    0.1984,
+    0.015,
+    -2.094
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation (detect3)",
+   "role": "manipulated",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 25
+  },
+  "cube_green_final": {
+   "pose_xyz_yaw": [
+    0.2411,
+    0.0421,
+    0.045,
+    null
+   ],
+   "confidence": "medium",
+   "method": "final stack location from top_final cube detection(s); this cube is the one that moved (initial position differs from stack)",
+   "role": "manipulated_final",
+   "sigma_xy_cm": 3.5,
+   "sigma_yaw_deg": null
+  }
+ },
+ "fixtures": {},
+ "notes": []
+}

@@ -1,0 +1,57 @@
+{
+ "episode": 7,
+ "episode_key": "ring_insert__ep7",
+ "task": "ring_insert",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "ring": {
+   "pose_xyz_yaw": [
+    0.2723,
+    0.0842,
+    0.021,
+    null
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation (detect3)",
+   "color": "yellow",
+   "start_recess": 0,
+   "start_recess_dist_px": 15.1,
+   "start_recess_note": "6 recesses (corrects scene-inventory count of 5; counted in ring_insert__ep33 frames); board rotation per episode not estimated, recess identity approximate",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": null
+  },
+  "ring_final": {
+   "pose_xyz_yaw": [
+    0.2449,
+    0.1538,
+    0.021,
+    null
+   ],
+   "confidence": "high",
+   "method": "colour+median-diff segmentation on top_final; ring seated on peg (recorded demo success); peg anchor for this episode",
+   "sigma_xy_cm": 2.0,
+   "sigma_yaw_deg": null
+  }
+ },
+ "fixtures": {
+  "board": {
+   "pose_xyz_yaw": [
+    0.2544,
+    0.1745,
+    0.0,
+    null
+   ],
+   "note": "PER-EPISODE board (board is re-placed between episodes; centre = final-ring peg position + median offset (+28,-7)px measured on ep7/ep33)"
+  },
+  "peg": {
+   "pose_xyz_yaw": [
+    0.2449,
+    0.1538,
+    0.015,
+    null
+   ],
+   "note": "peg position = ring final position (ring seated on peg in recorded final frame)"
+  }
+ },
+ "notes": []
+}

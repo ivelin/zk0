@@ -1,0 +1,44 @@
+{
+ "episode": 2068,
+ "episode_key": "cable_clip__ep2068",
+ "task": "cable_clip",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "clip_block": {
+   "pose_xyz_yaw": [
+    0.3625,
+    -0.1763,
+    0.0275,
+    null
+   ],
+   "confidence": "medium",
+   "method": "visual grounding pick on top_first (white-blob segmentation rejected: block highlights merge with mat border stripe and split by lighting; grounding cross-checked vs Builder B full-res read on ep1939: agreement <5px)",
+   "sigma_xy_cm": 4.0,
+   "sigma_yaw_deg": null
+  },
+  "cable": {
+   "pose_xyz_yaw": null,
+   "confidence": "low",
+   "method": "coarse descriptor only \u2014 full cable state not pinnable from a single top view (pre-registration: cable_clip scored on outcome class only)",
+   "coil_centre_xy": [
+    0.2236,
+    0.0331
+   ],
+   "extent_bbox_xy": [
+    [
+     0.3754,
+     -0.3106
+    ],
+    [
+     0.0589,
+     0.3487
+    ]
+   ],
+   "dark_pixel_area": 25492,
+   "sigma_xy_cm": 8.0,
+   "sigma_yaw_deg": null
+  }
+ },
+ "fixtures": {},
+ "notes": []
+}

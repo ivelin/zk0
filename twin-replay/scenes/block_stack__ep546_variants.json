@@ -1,0 +1,123 @@
+{
+ "suite_version": "twin-suite-v1",
+ "seed": 20261122,
+ "param_hash": "5ef4c692a314e87b",
+ "task": "block_stack",
+ "episode": 546,
+ "confidence": "medium",
+ "variants": [
+  {
+   "k": 0,
+   "draws": {
+    "jitter": {},
+    "mass": {},
+    "friction_mult": {}
+   },
+   "scene": "block_stack__ep546_v0.xml"
+  },
+  {
+   "k": 1,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      0.00538,
+      -0.01501,
+      18.84
+     ],
+     "cube_b": [
+      -0.04578,
+      0.03414,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.01005,
+     "cube_b": 0.03466
+    },
+    "friction_mult": {
+     "cube_a": 1.1076,
+     "cube_b": 0.9929
+    }
+   },
+   "scene": "block_stack__ep546_v1.xml"
+  },
+  {
+   "k": 2,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      -0.00472,
+      0.04076,
+      -2.659
+     ],
+     "cube_b": [
+      -0.02714,
+      -0.01302,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.0238,
+     "cube_b": 0.02791
+    },
+    "friction_mult": {
+     "cube_a": 0.9499,
+     "cube_b": 1.1594
+    }
+   },
+   "scene": "block_stack__ep546_v2.xml"
+  },
+  {
+   "k": 3,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      0.03643,
+      -0.00279,
+      -5.381
+     ],
+     "cube_b": [
+      -0.05031,
+      -0.03131,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.02472,
+     "cube_b": 0.01739
+    },
+    "friction_mult": {
+     "cube_a": 0.9881,
+     "cube_b": 0.9396
+    }
+   },
+   "scene": "block_stack__ep546_v3.xml"
+  },
+  {
+   "k": 4,
+   "draws": {
+    "jitter": {
+     "cube_a": [
+      -0.04097,
+      0.00309,
+      28.119
+     ],
+     "cube_b": [
+      -0.03458,
+      -0.04189,
+      0.0
+     ]
+    },
+    "mass": {
+     "cube_a": 0.01965,
+     "cube_b": 0.02865
+    },
+    "friction_mult": {
+     "cube_a": 0.9787,
+     "cube_b": 0.8234
+    }
+   },
+   "scene": "block_stack__ep546_v4.xml"
+  }
+ ]
+}

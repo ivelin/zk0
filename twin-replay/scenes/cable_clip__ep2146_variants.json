@@ -1,0 +1,119 @@
+{
+ "suite_version": "twin-suite-v1",
+ "seed": 20261122,
+ "param_hash": "5ef4c692a314e87b",
+ "task": "cable_clip",
+ "episode": 2146,
+ "confidence": "medium",
+ "variants": [
+  {
+   "k": 0,
+   "draws": {
+    "jitter": {},
+    "mass": {},
+    "friction_mult": {}
+   },
+   "scene": "cable_clip__ep2146_v0.xml"
+  },
+  {
+   "k": 1,
+   "draws": {
+    "jitter": {
+     "clip_block": [
+      -0.03875,
+      0.00974,
+      0.0
+     ],
+     "cable": [
+      -0.06611,
+      0.01439,
+      0.0
+     ]
+    },
+    "mass": {
+     "cable_total": 0.04072
+    },
+    "friction_mult": {
+     "clip_block": 1.0886,
+     "cable": 0.8435
+    }
+   },
+   "scene": "cable_clip__ep2146_v1.xml"
+  },
+  {
+   "k": 2,
+   "draws": {
+    "jitter": {
+     "clip_block": [
+      0.04065,
+      -0.02002,
+      0.0
+     ],
+     "cable": [
+      0.12083,
+      0.04039,
+      0.0
+     ]
+    },
+    "mass": {
+     "cable_total": 0.05804
+    },
+    "friction_mult": {
+     "clip_block": 0.9664,
+     "cable": 1.1116
+    }
+   },
+   "scene": "cable_clip__ep2146_v2.xml"
+  },
+  {
+   "k": 3,
+   "draws": {
+    "jitter": {
+     "clip_block": [
+      -0.07734,
+      -0.00891,
+      0.0
+     ],
+     "cable": [
+      -0.06445,
+      -0.03728,
+      0.0
+     ]
+    },
+    "mass": {
+     "cable_total": 0.04108
+    },
+    "friction_mult": {
+     "clip_block": 0.8822,
+     "cable": 1.0685
+    }
+   },
+   "scene": "cable_clip__ep2146_v3.xml"
+  },
+  {
+   "k": 4,
+   "draws": {
+    "jitter": {
+     "clip_block": [
+      0.04978,
+      0.00888,
+      0.0
+     ],
+     "cable": [
+      0.08249,
+      0.14763,
+      0.0
+     ]
+    },
+    "mass": {
+     "cable_total": 0.05646
+    },
+    "friction_mult": {
+     "clip_block": 1.0653,
+     "cable": 0.9515
+    }
+   },
+   "scene": "cable_clip__ep2146_v4.xml"
+  }
+ ]
+}

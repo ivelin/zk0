@@ -1,0 +1,48 @@
+{
+ "episode": 630,
+ "episode_key": "tool_insert__ep630",
+ "task": "tool_insert",
+ "calibration_id": "calib_v2_mat_homography",
+ "objects": {
+  "tool": {
+   "pose_xyz_yaw": null,
+   "confidence": "low",
+   "method": "loose tool occluded by arm/wrist plate in top_first; detection and grounding disagree or absent \u2014 not pinnable",
+   "sigma_xy_cm": null,
+   "sigma_yaw_deg": null
+  },
+  "tool_final": {
+   "pose_xyz_yaw": [
+    0.2959,
+    -0.0076,
+    0.045,
+    null
+   ],
+   "confidence": "medium",
+   "method": "target slot position (fixture): recorded demos all succeed; loose tool ends in the tray cross slot",
+   "sigma_xy_cm": 2.5,
+   "sigma_yaw_deg": 15
+  }
+ },
+ "fixtures": {
+  "tray": {
+   "pose_xyz_yaw": [
+    0.2983,
+    0.1155,
+    0.0,
+    null
+   ],
+   "note": "median tray bbox centre across episodes"
+  },
+  "target_slot": {
+   "pose_xyz_yaw": [
+    0.2959,
+    -0.0076,
+    0.045,
+    null
+   ],
+   "note": "hand read ep622: red cross recess centre"
+  }
+ },
+ "notes": []
+}

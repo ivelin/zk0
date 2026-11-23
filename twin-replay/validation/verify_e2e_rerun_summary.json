@@ -1,0 +1,3016 @@
+[
+ {
+  "task": "block_stack",
+  "episode": 411,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": -0.03,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.0086,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 116,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.955
+   },
+   {
+    "frame": 231,
+    "event": "release",
+    "object": "cube_a",
+    "closedness": 0.277
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.17858364719601266,
+    -0.025207765938569337,
+    0.014920493805337227
+   ],
+   "cube_b": [
+    0.0660589,
+    -0.0230551,
+    0.014920493808584467
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 411,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": 0.1494,
+   "within_inset_footprint": false,
+   "upper_off_mat": true
+  },
+  "planar_err_m": 0.3269,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 137,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0131,
+    "live_dist_m": 0.0131,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.935
+   },
+   {
+    "frame": 231,
+    "event": "release",
+    "object": "cube_a",
+    "closedness": 0.277
+   },
+   {
+    "frame": 261,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0107,
+    "live_dist_m": 0.0107,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.3983132361153011,
+    -0.016785923304313343,
+    0.1943537969548191
+   ],
+   "cube_b": [
+    0.0590289,
+    -0.0331751,
+    0.014920493808442188
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 411,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": -0.03,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.0336,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 231,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0324
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.249776,
+    -0.0169409,
+    0.014920493808602726
+   ],
+   "cube_b": [
+    0.040302300680367095,
+    -0.0173651,
+    0.01492049380863543
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 453,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": -0.03,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.0761,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 80,
+    "event": "attach",
+    "object": "cube_b",
+    "planned_dist_m": 0.0018,
+    "live_dist_m": 0.0018,
+    "snap_gap_m": 0.0037,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.913
+   },
+   {
+    "frame": 210,
+    "event": "release",
+    "object": "cube_b",
+    "closedness": 0.218
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.257056,
+    0.0484495,
+    0.01492049380851554
+   ],
+   "cube_b": [
+    0.1933058106868983,
+    -0.06536264480808875,
+    0.014920493805306814
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 453,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": -0.03,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.1278,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 81,
+    "event": "attach",
+    "object": "cube_b",
+    "planned_dist_m": 0.0082,
+    "live_dist_m": 0.0082,
+    "snap_gap_m": 0.0024,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.913
+   },
+   {
+    "frame": 210,
+    "event": "release",
+    "object": "cube_b",
+    "closedness": 0.218
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.222166,
+    0.0983695,
+    0.014920493808574112
+   ],
+   "cube_b": [
+    0.22238162005658513,
+    -0.044868184612856805,
+    0.014920493805315658
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 453,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": 0.1665,
+   "within_inset_footprint": false,
+   "upper_off_mat": true
+  },
+  "planar_err_m": 0.2006,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 79,
+    "event": "attach",
+    "object": "cube_b",
+    "planned_dist_m": 0.0093,
+    "live_dist_m": 0.0093,
+    "snap_gap_m": 0.0016,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.886
+   },
+   {
+    "frame": 210,
+    "event": "release",
+    "object": "cube_b",
+    "closedness": 0.218
+   },
+   {
+    "frame": 235,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0084,
+    "live_dist_m": 0.0084,
+    "snap_gap_m": 0.0053,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.986
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.4434150072553942,
+    0.01320049042683787,
+    0.21142373253064375
+   ],
+   "cube_b": [
+    0.1844297915211398,
+    -0.07835835888593061,
+    0.014920493805422598
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 527,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": -0.0272,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.0147,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 67,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.803
+   },
+   {
+    "frame": 192,
+    "event": "release",
+    "object": "cube_a",
+    "closedness": 0.277
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.1815023737407173,
+    -0.05948260670618928,
+    0.017728144696646575
+   ],
+   "cube_b": [
+    0.14853701709073142,
+    -0.040054744023224786,
+    0.014916325283486614
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 527,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": 0.155,
+   "within_inset_footprint": false,
+   "upper_off_mat": true
+  },
+  "planar_err_m": 0.2351,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 68,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0027,
+    "live_dist_m": 0.0027,
+    "snap_gap_m": 0.0005,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.884
+   },
+   {
+    "frame": 192,
+    "event": "release",
+    "object": "cube_a",
+    "closedness": 0.277
+   },
+   {
+    "frame": 213,
+    "event": "attach",
+    "object": "cube_b",
+    "planned_dist_m": 0.0046,
+    "live_dist_m": 0.0046,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.995
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.15966853968138903,
+    -0.05399262514931165,
+    0.014920493805342614
+   ],
+   "cube_b": [
+    0.3991526156624635,
+    0.021260164327604313,
+    0.19991098585967562
+   ]
+  }
+ },
+ {
+  "task": "block_stack",
+  "episode": 527,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "upper": "cube_a",
+   "face_gap_m": -0.0299,
+   "within_inset_footprint": false,
+   "upper_off_mat": false
+  },
+  "planar_err_m": 0.019,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 67,
+    "event": "attach",
+    "object": "cube_a",
+    "planned_dist_m": 0.0111,
+    "live_dist_m": 0.0111,
+    "snap_gap_m": 0.0007,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.803
+   },
+   {
+    "frame": 192,
+    "event": "release",
+    "object": "cube_a",
+    "closedness": 0.277
+   }
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.16518579767644498,
+    -0.07293006360034657,
+    0.015055020665530397
+   ],
+   "cube_b": [
+    0.17680683673458372,
+    -0.10793975315229798,
+    0.014919629731802135
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1757,
+  "variant": 0,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.0728,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0166,
+    "live_dist_m": 0.0166,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 101,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.195
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.1596220714375298,
+    0.14327762222720097,
+    0.020482927524668685
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1757,
+  "variant": 1,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.0783,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0189,
+    "live_dist_m": 0.0189,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 101,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.195
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.1343213484464755,
+    0.11278155312315724,
+    0.020477954577630277
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1757,
+  "variant": 2,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.0674,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0249,
+    "live_dist_m": 0.0249,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 101,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.195
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.1583989732666956,
+    0.1519568684113315,
+    0.02047982570527668
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1778,
+  "variant": 0,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.0925,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 55,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.875
+   },
+   {
+    "frame": 101,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.15
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.18354919736724093,
+    0.1475181927619487,
+    0.020482623601477738
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1778,
+  "variant": 1,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.09,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 55,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.875
+   },
+   {
+    "frame": 101,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.15
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.18026049772070307,
+    0.14617518325402054,
+    0.020486339555698386
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1778,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "centre_inside_basket": false,
+   "low_resting_z": true,
+   "carton_z": 0.0174
+  },
+  "planar_err_m": 0.3618,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 101,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0662
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.40398323408267406,
+    -0.00997565,
+    0.017420493806965445
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1810,
+  "variant": 0,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.1243,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.924
+   },
+   {
+    "frame": 94,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.17
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.18709266154196572,
+    0.13787847809454992,
+    0.020482927524668675
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1810,
+  "variant": 1,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.1323,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.924
+   },
+   {
+    "frame": 94,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.17
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.18801527643699847,
+    0.12171740411289401,
+    0.02048474029602878
+   ]
+  }
+ },
+ {
+  "task": "eye_drops_to_basket",
+  "episode": 1810,
+  "variant": 2,
+  "sim_success": true,
+  "checks": {
+   "centre_inside_basket": true,
+   "low_resting_z": true,
+   "carton_z": 0.0205
+  },
+  "planar_err_m": 0.1166,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 58,
+    "event": "attach",
+    "object": "carton",
+    "planned_dist_m": 0.0,
+    "live_dist_m": 0.0,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.924
+   },
+   {
+    "frame": 94,
+    "event": "release",
+    "object": "carton",
+    "closedness": 0.17
+   }
+  ],
+  "objects_final": {
+   "carton": [
+    0.1809386326531178,
+    0.14290608380464342,
+    0.020475890291204366
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 253,
+  "variant": 0,
+  "sim_success": true,
+  "checks": {
+   "planar_to_peg_m": 0.0024,
+   "engaged": true,
+   "bottom_above_board_m": -0.0003
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 174,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0105
+   },
+   {
+    "frame": 193,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0195
+   },
+   {
+    "frame": 199,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0214
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.3139615458169918,
+    -0.04365720189085497,
+    0.020747153601229903
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 253,
+  "variant": 1,
+  "sim_success": true,
+  "checks": {
+   "planar_to_peg_m": 0.0017,
+   "engaged": true,
+   "bottom_above_board_m": -0.0003
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 140,
+    "event": "attach",
+    "object": "ring",
+    "planned_dist_m": 0.0046,
+    "live_dist_m": 0.0046,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 174,
+    "event": "release",
+    "object": "ring",
+    "closedness": 0.0
+   },
+   {
+    "frame": 193,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": null
+   },
+   {
+    "frame": 199,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": null
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.2899833546422909,
+    -0.0364991409375368,
+    0.020746984920114012
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 253,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "planar_to_peg_m": 0.1434,
+   "engaged": false,
+   "bottom_above_board_m": 0.1819
+  },
+  "planar_err_m": 0.1557,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 142,
+    "event": "attach",
+    "object": "ring",
+    "planned_dist_m": 0.0069,
+    "live_dist_m": 0.0069,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.995
+   },
+   {
+    "frame": 174,
+    "event": "release",
+    "object": "ring",
+    "closedness": 0.0
+   },
+   {
+    "frame": 180,
+    "event": "attach",
+    "object": "ring",
+    "planned_dist_m": 0.0075,
+    "live_dist_m": 0.0075,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.871
+   },
+   {
+    "frame": 193,
+    "event": "release",
+    "object": "ring",
+    "closedness": 0.147
+   },
+   {
+    "frame": 199,
+    "event": "attach",
+    "object": "ring",
+    "planned_dist_m": 0.0074,
+    "live_dist_m": 0.0074,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.28
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.4531032318867598,
+    0.027892137534413143,
+    0.2029405441727853
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 179,
+  "variant": 0,
+  "sim_success": true,
+  "checks": {
+   "planar_to_peg_m": 0.0013,
+   "engaged": true,
+   "bottom_above_board_m": -0.0003
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 133,
+    "event": "attach",
+    "object": "ring",
+    "planned_dist_m": 0.0034,
+    "live_dist_m": 0.0034,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.984
+   },
+   {
+    "frame": 205,
+    "event": "release",
+    "object": "ring",
+    "closedness": 0.187
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.2774658069882146,
+    -0.03936864153806345,
+    0.020747153601681886
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 179,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "planar_to_peg_m": 0.0945,
+   "engaged": false,
+   "bottom_above_board_m": -0.0153
+  },
+  "planar_err_m": 0.0954,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 205,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0376
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.18438840522557534,
+    -0.05307743471317615,
+    0.005736648841574742
+   ]
+  }
+ },
+ {
+  "task": "ring_insert",
+  "episode": 179,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "planar_to_peg_m": 0.0939,
+   "engaged": false,
+   "bottom_above_board_m": -0.0121
+  },
+  "planar_err_m": 0.0749,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 205,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0188
+   }
+  ],
+  "objects_final": {
+   "ring": [
+    0.2041860927206364,
+    -0.04596580603247676,
+    0.008942961274857096
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 622,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 43.1,
+   "tool_z": 0.0236
+  },
+  "planar_err_m": 0.0803,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 97,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.025,
+    "live_dist_m": 0.025,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.998
+   },
+   {
+    "frame": 185,
+    "event": "release",
+    "object": "tool",
+    "closedness": 0.225
+   },
+   {
+    "frame": 324,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0279,
+    "live_dist_m": 0.0279,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.971
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.2579578312004104,
+    -0.018659639009340836,
+    0.023574042816184047
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 622,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 42.8,
+   "tool_z": 0.0388
+  },
+  "planar_err_m": 0.1909,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 185,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.047
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.055175645605314065,
+    -0.00839485,
+    0.038792215526598006
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 622,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 42.8,
+   "tool_z": 0.0388
+  },
+  "planar_err_m": 0.2306,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 185,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0325
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.05517564560531648,
+    -0.08737489999999988,
+    0.03879221552660336
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 859,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 77.1,
+   "tool_z": -0.001
+  },
+  "planar_err_m": 0.1713,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 82,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.025,
+    "live_dist_m": 0.025,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 165,
+    "event": "release",
+    "object": "tool",
+    "closedness": 0.205
+   },
+   {
+    "frame": 330,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0265,
+    "live_dist_m": 0.0265,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.939
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.09341202770375873,
+    -0.039660588258611205,
+    -0.0010173959613767496
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 859,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 27.7,
+   "tool_z": 0.0258
+  },
+  "planar_err_m": 0.1741,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 76,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0034,
+    "live_dist_m": 0.0034,
+    "snap_gap_m": 0.0006,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 165,
+    "event": "release",
+    "object": "tool",
+    "closedness": 0.205
+   },
+   {
+    "frame": 190,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0126,
+    "live_dist_m": 0.0126,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.843
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.3931127589205749,
+    -0.01306007761390387,
+    0.02583615863566327
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 859,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 47.3,
+   "tool_z": 0.0312
+  },
+  "planar_err_m": 0.1985,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 89,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0228,
+    "live_dist_m": 0.0228,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 165,
+    "event": "release",
+    "object": "tool",
+    "closedness": 0.205
+   },
+   {
+    "frame": 310,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0261,
+    "live_dist_m": 0.0261,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.826
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.3898277268036705,
+    -0.06513777707156351,
+    0.031180134706600637
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 683,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 42.0,
+   "tool_z": 0.2188
+  },
+  "planar_err_m": 0.1303,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 92,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0141,
+    "live_dist_m": 0.0141,
+    "snap_gap_m": 0.0016,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.777
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.31440915614272574,
+    -0.044644384291699764,
+    0.21884976531528136
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 683,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 42.0,
+   "tool_z": 0.2122
+  },
+  "planar_err_m": 0.129,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 92,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0208,
+    "live_dist_m": 0.0208,
+    "snap_gap_m": 0.0016,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.777
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.3133524666285216,
+    -0.04384417847212422,
+    0.21220125785555916
+   ]
+  }
+ },
+ {
+  "task": "tool_insert",
+  "episode": 683,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "centre_in_slot": false,
+   "axis_angle_deg": 41.9,
+   "tool_z": 0.2488
+  },
+  "planar_err_m": 0.1355,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 92,
+    "event": "attach",
+    "object": "tool",
+    "planned_dist_m": 0.0169,
+    "live_dist_m": 0.0169,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.777
+   }
+  ],
+  "objects_final": {
+   "tool": [
+    0.3175986154626558,
+    -0.0486635273380229,
+    0.24879124747946985
+   ]
+  }
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1905,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 2.3347
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 66,
+    "event": "attach",
+    "object": "cable_seg_20",
+    "planned_dist_m": 0.0295,
+    "live_dist_m": 0.0295,
+    "snap_gap_m": 0.005,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.987
+   },
+   {
+    "frame": 158,
+    "event": "release",
+    "object": "cable_seg_20",
+    "closedness": 0.279
+   },
+   {
+    "frame": 162,
+    "event": "attach",
+    "object": "cable_seg_9",
+    "planned_dist_m": 0.0265,
+    "live_dist_m": 0.0265,
+    "snap_gap_m": 0.0029,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.99
+   },
+   {
+    "frame": 178,
+    "event": "release",
+    "object": "cable_seg_9",
+    "closedness": 0.162
+   },
+   {
+    "frame": 264,
+    "event": "attach",
+    "object": "cable_seg_8",
+    "planned_dist_m": 0.0167,
+    "live_dist_m": 0.0167,
+    "snap_gap_m": 0.0045,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.972
+   },
+   {
+    "frame": 312,
+    "event": "release",
+    "object": "cable_seg_8",
+    "closedness": 0.238
+   },
+   {
+    "frame": 369,
+    "event": "attach",
+    "object": "cable_seg_7",
+    "planned_dist_m": 0.0098,
+    "live_dist_m": 0.0098,
+    "snap_gap_m": 0.0028,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.983
+   },
+   {
+    "frame": 423,
+    "event": "release",
+    "object": "cable_seg_7",
+    "closedness": 0.251
+   },
+   {
+    "frame": 533,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0106
+   },
+   {
+    "frame": 626,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.6607
+   },
+   {
+    "frame": 719,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 1.0592
+   },
+   {
+    "frame": 794,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 1.1022
+   },
+   {
+    "frame": 887,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 1.1744
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    -0.9756,
+    -2.0946,
+    0.01
+   ],
+   "seg_1": [
+    -1.0033,
+    -2.0968,
+    0.0037
+   ],
+   "seg_2": [
+    -1.0316,
+    -2.0942,
+    0.0013
+   ],
+   "seg_3": [
+    -1.0581,
+    -2.088,
+    0.0094
+   ],
+   "seg_4": [
+    -1.0572,
+    -2.0626,
+    0.0224
+   ],
+   "seg_5": [
+    -1.0312,
+    -2.0509,
+    0.0225
+   ],
+   "seg_6": [
+    -1.0049,
+    -2.0522,
+    0.0116
+   ],
+   "seg_7": [
+    -0.9822,
+    -2.0661,
+    0.0017
+   ],
+   "seg_8": [
+    -0.976,
+    -2.0939,
+    0.0014
+   ],
+   "seg_9": [
+    -0.9829,
+    -2.121,
+    0.0071
+   ],
+   "seg_10": [
+    -1.0007,
+    -2.1429,
+    0.0108
+   ],
+   "seg_11": [
+    -1.021,
+    -2.1624,
+    0.0064
+   ],
+   "seg_12": [
+    -1.0398,
+    -2.1833,
+    0.0021
+   ],
+   "seg_13": [
+    -1.0604,
+    -2.2029,
+    0.0013
+   ],
+   "seg_14": [
+    -1.0827,
+    -2.2207,
+    0.0014
+   ],
+   "seg_15": [
+    -1.1018,
+    -2.2415,
+    0.0045
+   ],
+   "seg_16": [
+    -1.1129,
+    -2.2676,
+    0.0068
+   ],
+   "seg_17": [
+    -1.1211,
+    -2.2948,
+    0.0038
+   ],
+   "seg_18": [
+    -1.1334,
+    -2.3203,
+    0.0014
+   ],
+   "seg_19": [
+    -1.1462,
+    -2.3457,
+    0.0026
+   ],
+   "seg_20": [
+    -1.1553,
+    -2.3727,
+    0.0014
+   ],
+   "seg_21": [
+    -1.164,
+    -2.3988,
+    0.0085
+   ],
+   "seg_22": [
+    -1.1664,
+    -2.4272,
+    0.0076
+   ],
+   "seg_23": [
+    -1.1661,
+    -2.4555,
+    0.0048
+   ]
+  },
+  "max_abs_xy_m": 2.455
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1905,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.1402
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 158,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0
+   },
+   {
+    "frame": 178,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0042
+   },
+   {
+    "frame": 312,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0171
+   },
+   {
+    "frame": 423,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.02
+   },
+   {
+    "frame": 533,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0004
+   },
+   {
+    "frame": 626,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0012
+   },
+   {
+    "frame": 719,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0138
+   },
+   {
+    "frame": 794,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0165
+   },
+   {
+    "frame": 887,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0182
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    0.2217,
+    0.1045,
+    0.0024
+   ],
+   "seg_1": [
+    0.2155,
+    0.1323,
+    0.0024
+   ],
+   "seg_2": [
+    0.1962,
+    0.1532,
+    0.0024
+   ],
+   "seg_3": [
+    0.1689,
+    0.1614,
+    0.0024
+   ],
+   "seg_4": [
+    0.1413,
+    0.1544,
+    0.0023
+   ],
+   "seg_5": [
+    0.1216,
+    0.1338,
+    0.0024
+   ],
+   "seg_6": [
+    0.1159,
+    0.1059,
+    0.0024
+   ],
+   "seg_7": [
+    0.1256,
+    0.0791,
+    0.0024
+   ],
+   "seg_8": [
+    0.1471,
+    0.0605,
+    0.0024
+   ],
+   "seg_9": [
+    0.1748,
+    0.0541,
+    0.0024
+   ],
+   "seg_10": [
+    0.2024,
+    0.0613,
+    0.0024
+   ],
+   "seg_11": [
+    0.2235,
+    0.0804,
+    0.0024
+   ],
+   "seg_12": [
+    0.233,
+    0.1073,
+    0.0023
+   ],
+   "seg_13": [
+    0.2283,
+    0.1353,
+    0.0023
+   ],
+   "seg_14": [
+    0.2106,
+    0.1576,
+    0.0024
+   ],
+   "seg_15": [
+    0.1842,
+    0.1682,
+    0.0038
+   ],
+   "seg_16": [
+    0.1562,
+    0.164,
+    0.0067
+   ],
+   "seg_17": [
+    0.134,
+    0.1462,
+    0.0073
+   ],
+   "seg_18": [
+    0.1237,
+    0.1198,
+    0.0046
+   ],
+   "seg_19": [
+    0.128,
+    0.0917,
+    0.0025
+   ],
+   "seg_20": [
+    0.1465,
+    0.0701,
+    0.0024
+   ],
+   "seg_21": [
+    0.1738,
+    0.0618,
+    0.0024
+   ],
+   "seg_22": [
+    0.2012,
+    0.0694,
+    0.0034
+   ],
+   "seg_23": [
+    0.2206,
+    0.09,
+    0.0062
+   ]
+  },
+  "max_abs_xy_m": 0.233
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1905,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.0836
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 66,
+    "event": "attach",
+    "object": "cable_seg_8",
+    "planned_dist_m": 0.0205,
+    "live_dist_m": 0.0205,
+    "snap_gap_m": 0.0093,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.987
+   },
+   {
+    "frame": 158,
+    "event": "release",
+    "object": "cable_seg_8",
+    "closedness": 0.279
+   },
+   {
+    "frame": 178,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0034
+   },
+   {
+    "frame": 312,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0001
+   },
+   {
+    "frame": 423,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0113
+   },
+   {
+    "frame": 533,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0001
+   },
+   {
+    "frame": 626,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0001
+   },
+   {
+    "frame": 719,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0083
+   },
+   {
+    "frame": 794,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0113
+   },
+   {
+    "frame": 887,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0134
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    0.2324,
+    0.095,
+    0.0024
+   ],
+   "seg_1": [
+    0.2084,
+    0.1103,
+    0.0022
+   ],
+   "seg_2": [
+    0.1802,
+    0.1066,
+    0.0024
+   ],
+   "seg_3": [
+    0.1598,
+    0.0867,
+    0.0024
+   ],
+   "seg_4": [
+    0.1532,
+    0.059,
+    0.0025
+   ],
+   "seg_5": [
+    0.1615,
+    0.0318,
+    0.0023
+   ],
+   "seg_6": [
+    0.182,
+    0.012,
+    0.0029
+   ],
+   "seg_7": [
+    0.2093,
+    0.0043,
+    0.0043
+   ],
+   "seg_8": [
+    0.2373,
+    0.0092,
+    0.0024
+   ],
+   "seg_9": [
+    0.2341,
+    0.0373,
+    0.0053
+   ],
+   "seg_10": [
+    0.223,
+    0.0635,
+    0.0048
+   ],
+   "seg_11": [
+    0.21,
+    0.0888,
+    0.0055
+   ],
+   "seg_12": [
+    0.1983,
+    0.1148,
+    0.0073
+   ],
+   "seg_13": [
+    0.1895,
+    0.1418,
+    0.008
+   ],
+   "seg_14": [
+    0.184,
+    0.1697,
+    0.0064
+   ],
+   "seg_15": [
+    0.1807,
+    0.1977,
+    0.0028
+   ],
+   "seg_16": [
+    0.1755,
+    0.2257,
+    0.0015
+   ],
+   "seg_17": [
+    0.1512,
+    0.2405,
+    0.0015
+   ],
+   "seg_18": [
+    0.1257,
+    0.2278,
+    0.0017
+   ],
+   "seg_19": [
+    0.1257,
+    0.1993,
+    0.0025
+   ],
+   "seg_20": [
+    0.1414,
+    0.1756,
+    0.0025
+   ],
+   "seg_21": [
+    0.1657,
+    0.1607,
+    0.0025
+   ],
+   "seg_22": [
+    0.1937,
+    0.1559,
+    0.0023
+   ],
+   "seg_23": [
+    0.2215,
+    0.1622,
+    0.0026
+   ]
+  },
+  "max_abs_xy_m": 0.24
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1939,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 13.2631
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 77,
+    "event": "attach",
+    "object": "cable_seg_12",
+    "planned_dist_m": 0.0265,
+    "live_dist_m": 0.0265,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.996
+   },
+   {
+    "frame": 194,
+    "event": "release",
+    "object": "cable_seg_12",
+    "closedness": 0.047
+   },
+   {
+    "frame": 299,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.1026
+   },
+   {
+    "frame": 395,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 8.4138
+   },
+   {
+    "frame": 397,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 8.5617
+   },
+   {
+    "frame": 449,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 8.538
+   },
+   {
+    "frame": 549,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 8.4575
+   },
+   {
+    "frame": 594,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 8.3864
+   },
+   {
+    "frame": 749,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 2.4776
+   },
+   {
+    "frame": 848,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0312
+   },
+   {
+    "frame": 949,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 4.1418
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    9.3911,
+    -9.7182,
+    0.0065
+   ],
+   "seg_1": [
+    9.3772,
+    -9.7357,
+    0.0241
+   ],
+   "seg_2": [
+    9.3886,
+    -9.755,
+    0.0066
+   ],
+   "seg_3": [
+    9.4135,
+    -9.7422,
+    0.0014
+   ],
+   "seg_4": [
+    9.4359,
+    -9.7371,
+    0.0183
+   ],
+   "seg_5": [
+    9.4588,
+    -9.7429,
+    0.0023
+   ],
+   "seg_6": [
+    9.4678,
+    -9.7159,
+    0.0014
+   ],
+   "seg_7": [
+    9.4921,
+    -9.7263,
+    0.0118
+   ],
+   "seg_8": [
+    9.4681,
+    -9.7378,
+    0.0016
+   ],
+   "seg_9": [
+    9.4596,
+    -9.7274,
+    0.0267
+   ],
+   "seg_10": [
+    9.4376,
+    -9.7421,
+    0.0371
+   ],
+   "seg_11": [
+    9.4371,
+    -9.7185,
+    0.0212
+   ],
+   "seg_12": [
+    9.4203,
+    -9.7315,
+    0.0022
+   ],
+   "seg_13": [
+    9.3996,
+    -9.7239,
+    0.0201
+   ],
+   "seg_14": [
+    9.4173,
+    -9.708,
+    0.0357
+   ],
+   "seg_15": [
+    9.4437,
+    -9.7081,
+    0.0251
+   ],
+   "seg_16": [
+    9.4613,
+    -9.7241,
+    0.0094
+   ],
+   "seg_17": [
+    9.4818,
+    -9.7438,
+    0.0078
+   ],
+   "seg_18": [
+    9.5036,
+    -9.7621,
+    0.0075
+   ],
+   "seg_19": [
+    9.5193,
+    -9.7854,
+    0.0027
+   ],
+   "seg_20": [
+    9.536,
+    -9.8084,
+    0.0014
+   ],
+   "seg_21": [
+    9.5497,
+    -9.8334,
+    0.0023
+   ],
+   "seg_22": [
+    9.5592,
+    -9.8602,
+    0.0031
+   ],
+   "seg_23": [
+    9.5663,
+    -9.8878,
+    0.0031
+   ]
+  },
+  "max_abs_xy_m": 9.888
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1939,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.1881
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 70,
+    "event": "attach",
+    "object": "cable_seg_14",
+    "planned_dist_m": 0.0296,
+    "live_dist_m": 0.0296,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 1.0
+   },
+   {
+    "frame": 194,
+    "event": "release",
+    "object": "cable_seg_14",
+    "closedness": 0.047
+   },
+   {
+    "frame": 212,
+    "event": "attach",
+    "object": "cable_seg_14",
+    "planned_dist_m": 0.013,
+    "live_dist_m": 0.013,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.953
+   },
+   {
+    "frame": 299,
+    "event": "release",
+    "object": "cable_seg_14",
+    "closedness": 0.145
+   },
+   {
+    "frame": 301,
+    "event": "attach",
+    "object": "cable_seg_15",
+    "planned_dist_m": 0.0133,
+    "live_dist_m": 0.0133,
+    "snap_gap_m": 0.0016,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.995
+   },
+   {
+    "frame": 395,
+    "event": "release",
+    "object": "cable_seg_15",
+    "closedness": 0.123
+   },
+   {
+    "frame": 397,
+    "event": "attach",
+    "object": "cable_seg_16",
+    "planned_dist_m": 0.0169,
+    "live_dist_m": 0.0169,
+    "snap_gap_m": 0.0126,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.028
+   },
+   {
+    "frame": 398,
+    "event": "release",
+    "object": "cable_seg_16",
+    "closedness": 0.0
+   },
+   {
+    "frame": 449,
+    "event": "attach",
+    "object": "cable_seg_13",
+    "planned_dist_m": 0.0276,
+    "live_dist_m": 0.0276,
+    "snap_gap_m": 0.0144,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.065
+   },
+   {
+    "frame": 549,
+    "event": "release",
+    "object": "cable_seg_13",
+    "closedness": 0.0
+   },
+   {
+    "frame": 552,
+    "event": "attach",
+    "object": "cable_seg_16",
+    "planned_dist_m": 0.0109,
+    "live_dist_m": 0.0109,
+    "snap_gap_m": 0.0058,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.994
+   },
+   {
+    "frame": 594,
+    "event": "release",
+    "object": "cable_seg_16",
+    "closedness": 0.246
+   },
+   {
+    "frame": 615,
+    "event": "attach",
+    "object": "cable_seg_15",
+    "planned_dist_m": 0.0082,
+    "live_dist_m": 0.0082,
+    "snap_gap_m": 0.0066,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.98
+   },
+   {
+    "frame": 749,
+    "event": "release",
+    "object": "cable_seg_15",
+    "closedness": 0.289
+   },
+   {
+    "frame": 752,
+    "event": "attach",
+    "object": "cable_seg_18",
+    "planned_dist_m": 0.0212,
+    "live_dist_m": 0.0212,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.992
+   },
+   {
+    "frame": 848,
+    "event": "release",
+    "object": "cable_seg_18",
+    "closedness": 0.201
+   },
+   {
+    "frame": 852,
+    "event": "attach",
+    "object": "cable_seg_10",
+    "planned_dist_m": 0.004,
+    "live_dist_m": 0.004,
+    "snap_gap_m": 0.0074,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.995
+   },
+   {
+    "frame": 949,
+    "event": "release",
+    "object": "cable_seg_10",
+    "closedness": 0.197
+   },
+   {
+    "frame": 952,
+    "event": "attach",
+    "object": "cable_seg_17",
+    "planned_dist_m": 0.0002,
+    "live_dist_m": 0.0002,
+    "snap_gap_m": 0.0,
+    "gate": "planar_shape_dwell",
+    "closedness": 0.988
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    0.3817,
+    0.0659,
+    0.0102
+   ],
+   "seg_1": [
+    0.3931,
+    0.0907,
+    0.0186
+   ],
+   "seg_2": [
+    0.3926,
+    0.1166,
+    0.0303
+   ],
+   "seg_3": [
+    0.379,
+    0.1384,
+    0.0425
+   ],
+   "seg_4": [
+    0.3536,
+    0.1506,
+    0.0462
+   ],
+   "seg_5": [
+    0.328,
+    0.1452,
+    0.0347
+   ],
+   "seg_6": [
+    0.3217,
+    0.1246,
+    0.0162
+   ],
+   "seg_7": [
+    0.3369,
+    0.1026,
+    0.0064
+   ],
+   "seg_8": [
+    0.3611,
+    0.0882,
+    0.0108
+   ],
+   "seg_9": [
+    0.3845,
+    0.0812,
+    0.0253
+   ],
+   "seg_10": [
+    0.4042,
+    0.0778,
+    0.0456
+   ],
+   "seg_11": [
+    0.4197,
+    0.0755,
+    0.0694
+   ],
+   "seg_12": [
+    0.4324,
+    0.0709,
+    0.0944
+   ],
+   "seg_13": [
+    0.442,
+    0.0598,
+    0.1189
+   ],
+   "seg_14": [
+    0.4511,
+    0.0486,
+    0.1434
+   ],
+   "seg_15": [
+    0.4555,
+    0.0412,
+    0.1705
+   ],
+   "seg_16": [
+    0.4539,
+    0.0414,
+    0.1989
+   ],
+   "seg_17": [
+    0.4443,
+    0.042,
+    0.2257
+   ],
+   "seg_18": [
+    0.4244,
+    0.0579,
+    0.2384
+   ],
+   "seg_19": [
+    0.4055,
+    0.0791,
+    0.2358
+   ],
+   "seg_20": [
+    0.3914,
+    0.0977,
+    0.2196
+   ],
+   "seg_21": [
+    0.388,
+    0.1067,
+    0.1928
+   ],
+   "seg_22": [
+    0.3985,
+    0.1025,
+    0.1667
+   ],
+   "seg_23": [
+    0.4188,
+    0.09,
+    0.1512
+   ]
+  },
+  "max_abs_xy_m": 0.456
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1939,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.1307
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [
+   {
+    "frame": 194,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0002
+   },
+   {
+    "frame": 299,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0093
+   },
+   {
+    "frame": 395,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.002
+   },
+   {
+    "frame": 397,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0106
+   },
+   {
+    "frame": 449,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0004
+   },
+   {
+    "frame": 549,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0003
+   },
+   {
+    "frame": 594,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0
+   },
+   {
+    "frame": 749,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0
+   },
+   {
+    "frame": 848,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0001
+   },
+   {
+    "frame": 949,
+    "event": "no_attach_in_excursion",
+    "min_dist_m": 0.0
+   }
+  ],
+  "objects_final": {
+   "seg_0": [
+    0.1293,
+    -0.0824,
+    0.0025
+   ],
+   "seg_1": [
+    0.127,
+    -0.0541,
+    0.0024
+   ],
+   "seg_2": [
+    0.1113,
+    -0.0303,
+    0.0024
+   ],
+   "seg_3": [
+    0.0857,
+    -0.018,
+    0.0024
+   ],
+   "seg_4": [
+    0.0574,
+    -0.0211,
+    0.0025
+   ],
+   "seg_5": [
+    0.0349,
+    -0.0385,
+    0.0033
+   ],
+   "seg_6": [
+    0.0232,
+    -0.0643,
+    0.0
+   ],
+   "seg_7": [
+    0.0294,
+    -0.0918,
+    0.0038
+   ],
+   "seg_8": [
+    0.0485,
+    -0.1129,
+    0.0033
+   ],
+   "seg_9": [
+    0.0753,
+    -0.1225,
+    0.0026
+   ],
+   "seg_10": [
+    0.1034,
+    -0.1182,
+    0.0023
+   ],
+   "seg_11": [
+    0.126,
+    -0.1008,
+    0.0023
+   ],
+   "seg_12": [
+    0.1383,
+    -0.0752,
+    0.0025
+   ],
+   "seg_13": [
+    0.1366,
+    -0.0467,
+    0.0024
+   ],
+   "seg_14": [
+    0.1206,
+    -0.0232,
+    0.0025
+   ],
+   "seg_15": [
+    0.0946,
+    -0.012,
+    0.0052
+   ],
+   "seg_16": [
+    0.0667,
+    -0.0169,
+    0.0075
+   ],
+   "seg_17": [
+    0.0456,
+    -0.0359,
+    0.0052
+   ],
+   "seg_18": [
+    0.0377,
+    -0.0631,
+    0.0025
+   ],
+   "seg_19": [
+    0.0453,
+    -0.0906,
+    0.0024
+   ],
+   "seg_20": [
+    0.0659,
+    -0.1102,
+    0.0037
+   ],
+   "seg_21": [
+    0.0934,
+    -0.117,
+    0.0066
+   ],
+   "seg_22": [
+    0.1211,
+    -0.1103,
+    0.0069
+   ],
+   "seg_23": [
+    0.1417,
+    -0.0908,
+    0.0043
+   ]
+  },
+  "max_abs_xy_m": 0.142
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1896,
+  "variant": 0,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.0199
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [],
+  "objects_final": {
+   "seg_0": [
+    0.2562,
+    0.0141,
+    0.0022
+   ],
+   "seg_1": [
+    0.249,
+    0.0417,
+    0.0022
+   ],
+   "seg_2": [
+    0.2286,
+    0.0616,
+    0.0028
+   ],
+   "seg_3": [
+    0.2009,
+    0.0678,
+    0.0009
+   ],
+   "seg_4": [
+    0.1742,
+    0.058,
+    0.0003
+   ],
+   "seg_5": [
+    0.1571,
+    0.0354,
+    0.0023
+   ],
+   "seg_6": [
+    0.1544,
+    0.007,
+    0.0033
+   ],
+   "seg_7": [
+    0.1663,
+    -0.0188,
+    0.0024
+   ],
+   "seg_8": [
+    0.1895,
+    -0.0353,
+    0.0022
+   ],
+   "seg_9": [
+    0.2179,
+    -0.0378,
+    0.0024
+   ],
+   "seg_10": [
+    0.2436,
+    -0.0256,
+    0.0024
+   ],
+   "seg_11": [
+    0.2599,
+    -0.0022,
+    0.0024
+   ],
+   "seg_12": [
+    0.2621,
+    0.0261,
+    0.0024
+   ],
+   "seg_13": [
+    0.2501,
+    0.0519,
+    0.0025
+   ],
+   "seg_14": [
+    0.2273,
+    0.069,
+    0.0027
+   ],
+   "seg_15": [
+    0.1993,
+    0.074,
+    0.0009
+   ],
+   "seg_16": [
+    0.1719,
+    0.0664,
+    0.0008
+   ],
+   "seg_17": [
+    0.1503,
+    0.0479,
+    0.0003
+   ],
+   "seg_18": [
+    0.1396,
+    0.0216,
+    0.0023
+   ],
+   "seg_19": [
+    0.1436,
+    -0.0066,
+    0.0038
+   ],
+   "seg_20": [
+    0.1621,
+    -0.0282,
+    0.0059
+   ],
+   "seg_21": [
+    0.1894,
+    -0.0362,
+    0.0071
+   ],
+   "seg_22": [
+    0.2167,
+    -0.0284,
+    0.0053
+   ],
+   "seg_23": [
+    0.2358,
+    -0.0073,
+    0.0047
+   ]
+  },
+  "max_abs_xy_m": 0.262
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1896,
+  "variant": 1,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.1008
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [],
+  "objects_final": {
+   "seg_0": [
+    0.2849,
+    -0.0633,
+    0.0024
+   ],
+   "seg_1": [
+    0.2788,
+    -0.0355,
+    0.0024
+   ],
+   "seg_2": [
+    0.2596,
+    -0.0144,
+    0.0024
+   ],
+   "seg_3": [
+    0.2324,
+    -0.0061,
+    0.0024
+   ],
+   "seg_4": [
+    0.2047,
+    -0.0129,
+    0.0023
+   ],
+   "seg_5": [
+    0.1849,
+    -0.0332,
+    0.0024
+   ],
+   "seg_6": [
+    0.1789,
+    -0.0611,
+    0.0024
+   ],
+   "seg_7": [
+    0.1884,
+    -0.0879,
+    0.0024
+   ],
+   "seg_8": [
+    0.2098,
+    -0.1067,
+    0.0024
+   ],
+   "seg_9": [
+    0.2375,
+    -0.1132,
+    0.0024
+   ],
+   "seg_10": [
+    0.265,
+    -0.1061,
+    0.0024
+   ],
+   "seg_11": [
+    0.286,
+    -0.0868,
+    0.0024
+   ],
+   "seg_12": [
+    0.2954,
+    -0.06,
+    0.0023
+   ],
+   "seg_13": [
+    0.2906,
+    -0.0319,
+    0.0023
+   ],
+   "seg_14": [
+    0.2728,
+    -0.0097,
+    0.0024
+   ],
+   "seg_15": [
+    0.2464,
+    0.0008,
+    0.0038
+   ],
+   "seg_16": [
+    0.2184,
+    -0.0037,
+    0.0068
+   ],
+   "seg_17": [
+    0.1966,
+    -0.0219,
+    0.0073
+   ],
+   "seg_18": [
+    0.1868,
+    -0.0485,
+    0.0045
+   ],
+   "seg_19": [
+    0.192,
+    -0.0764,
+    0.0024
+   ],
+   "seg_20": [
+    0.2113,
+    -0.0974,
+    0.0025
+   ],
+   "seg_21": [
+    0.2388,
+    -0.1048,
+    0.0024
+   ],
+   "seg_22": [
+    0.266,
+    -0.0966,
+    0.0029
+   ],
+   "seg_23": [
+    0.2851,
+    -0.0757,
+    0.0056
+   ]
+  },
+  "max_abs_xy_m": 0.295
+ },
+ {
+  "task": "cable_clip",
+  "episode": 1896,
+  "variant": 2,
+  "sim_success": false,
+  "checks": {
+   "cable_seated_in_clip": false,
+   "nearest_seg_to_block_xy_m": 0.0133
+  },
+  "planar_err_m": null,
+  "build_defect": null,
+  "grasp_events": [],
+  "objects_final": {
+   "seg_0": [
+    0.145,
+    0.0185,
+    0.0024
+   ],
+   "seg_1": [
+    0.1391,
+    0.0463,
+    0.0005
+   ],
+   "seg_2": [
+    0.1195,
+    0.0669,
+    0.0024
+   ],
+   "seg_3": [
+    0.0918,
+    0.0734,
+    0.0024
+   ],
+   "seg_4": [
+    0.0648,
+    0.0644,
+    0.0023
+   ],
+   "seg_5": [
+    0.0463,
+    0.0428,
+    0.0024
+   ],
+   "seg_6": [
+    0.0408,
+    0.0149,
+    0.0024
+   ],
+   "seg_7": [
+    0.049,
+    -0.0124,
+    0.0024
+   ],
+   "seg_8": [
+    0.0686,
+    -0.0331,
+    0.0024
+   ],
+   "seg_9": [
+    0.0955,
+    -0.0423,
+    0.0024
+   ],
+   "seg_10": [
+    0.1235,
+    -0.0374,
+    0.0038
+   ],
+   "seg_11": [
+    0.1448,
+    -0.0185,
+    0.0049
+   ],
+   "seg_12": [
+    0.1517,
+    0.0089,
+    0.0015
+   ],
+   "seg_13": [
+    0.1463,
+    0.0368,
+    0.0006
+   ],
+   "seg_14": [
+    0.1435,
+    0.0651,
+    0.0022
+   ],
+   "seg_15": [
+    0.1217,
+    0.0834,
+    0.0034
+   ],
+   "seg_16": [
+    0.0933,
+    0.0832,
+    0.0055
+   ],
+   "seg_17": [
+    0.0701,
+    0.0667,
+    0.0069
+   ],
+   "seg_18": [
+    0.0581,
+    0.041,
+    0.0044
+   ],
+   "seg_19": [
+    0.0591,
+    0.0126,
+    0.0025
+   ],
+   "seg_20": [
+    0.0731,
+    -0.0122,
+    0.0025
+   ],
+   "seg_21": [
+    0.0978,
+    -0.0262,
+    0.0025
+   ],
+   "seg_22": [
+    0.1261,
+    -0.0227,
+    0.002
+   ],
+   "seg_23": [
+    0.1448,
+    -0.0014,
+    -0.0003
+   ]
+  },
+  "max_abs_xy_m": 0.152
+ }
+]
