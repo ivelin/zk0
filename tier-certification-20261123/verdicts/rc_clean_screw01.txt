@@ -1,0 +1,25 @@
+ep0 | CLEAN
+ep1 | INCIDENT | box knocked and rotated from vertical to horizontal during extraction, staying displaced
+ep2 | CLEAN
+ep3 | INCIDENT | box knocked and rotated diagonally and displaced from its start position
+ep4 | INCIDENT | box rotated and displaced from its start orientation during extraction
+ep5 | INCIDENT | box displaced up the table and rotated ; screwdriver dropped/flung onto the table far from the box, with no re-grasp
+ep6 | INCIDENT | box knocked and rotated from vertical to horizontal, staying displaced
+ep7 | CLEAN
+ep8 | INCIDENT | box nudged and rotated into a diamond orientation, displaced from its start position
+ep9 | CLEAN
+ep10 | INCIDENT | box nudged, tilted and shifted from its start position mid-episode
+ep11 | CLEAN
+ep12 | CLEAN
+ep13 | CLEAN
+ep14 | CLEAN
+ep15 | CLEAN
+ep16 | CLEAN
+ep17 | CLEAN
+ep18 | CLEAN
+ep19 | RECOVERED | screwdriver dropped flat onto the table mid-carry, then re-grasped and placed on the table
+ep20 | CLEAN
+ep21 | CLEAN
+ep22 | CLEAN
+ep23 | CLEAN
+ep24 | CLEAN

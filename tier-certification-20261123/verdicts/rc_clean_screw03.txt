@@ -1,0 +1,25 @@
+ep50 | CLEAN
+ep51 | CLEAN
+ep52 | CLEAN
+ep53 | CLEAN
+ep54 | INCIDENT | box caught and tilted up against the arm during extraction, then settled back open on the table
+ep55 | CLEAN
+ep56 | INCIDENT | screwdriver placed beside the box at 92% but seen far up-table in the final frame, displaced with no recovery
+ep57 | CLEAN
+ep58 | INCIDENT | box tipped onto its side beside the arm during extraction, then settled back open on the table
+ep59 | INCIDENT | box tipped onto its side beside the arm during extraction, then settled back open on the table
+ep60 | CLEAN
+ep61 | CLEAN
+ep62 | CLEAN
+ep63 | CLEAN
+ep64 | INCIDENT | box tipped onto its side beside the arm during extraction, then settled back open on the table
+ep65 | CLEAN
+ep66 | CLEAN
+ep67 | INCIDENT | box tipped onto its side behind the arm during extraction, then settled back open on the table
+ep68 | CLEAN
+ep69 | INCIDENT | box tipped onto its side beside the arm during extraction, then settled back open on the table
+ep70 | INCIDENT | box tipped onto its side beside the arm during extraction, then settled back open on the table
+ep71 | INCIDENT | box lifted and tipped onto its side against the arm during extraction, then settled back open on the table
+ep72 | INCIDENT | box tipped onto its side during extraction and still on its side at 92%, then seen back open in the final frame
+ep73 | INCIDENT | box knocked into a diagonal, rotated position during extraction, then seen back horizontal in later frames
+ep74 | CLEAN
