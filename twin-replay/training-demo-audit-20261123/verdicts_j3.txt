@@ -1,0 +1,25 @@
+ep910 | PASS | final top frame shows the previously empty red cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep911 | PASS | final top frame shows the empty cross slot filled, the loose horizontal tool no longer on the table, gripper released
+ep912 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep913 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep914 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep915 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep916 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep917 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep918 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep919 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep920 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep921 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep922 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep923 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep924 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep925 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep926 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep927 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep928 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep929 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep930 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep931 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep932 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released
+ep933 | PASS | final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released
+ep934 | PASS | final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released

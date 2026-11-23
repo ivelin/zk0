@@ -1,0 +1,25 @@
+ep585 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep586 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep587 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep588 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep589 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep590 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep591 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep592 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep593 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep594 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep595 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep596 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep597 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep598 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep599 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep600 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep601 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep602 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep603 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep604 | FAIL | final frames show orange block alone on the mat, not stacked on the purple block
+ep605 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep606 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep607 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep608 | PASS | final frames show orange block stacked on purple block, standing, gripper released
+ep609 | PASS | final frames show orange block stacked on purple block, standing, gripper released

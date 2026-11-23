@@ -1,0 +1,251 @@
+episode_index,task,judged_verdict,judge_evidence,recorded_success,recorded_success_class,final_next_reward,sheet,verifier_verdict,verifier_evidence
+255,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep255.jpg,,
+256,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep256.jpg,,
+257,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep257.jpg,,
+258,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep258.jpg,,
+259,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep259.jpg,,
+260,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep260.jpg,PASS,"yellow ring encircles central peg at its base, gripper released"
+261,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep261.jpg,,
+262,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep262.jpg,,
+263,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep263.jpg,,
+264,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep264.jpg,,
+265,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep265.jpg,PASS,"yellow ring encircles central peg at its base, gripper released"
+266,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep266.jpg,PASS,"yellow ring encircles central peg at its base, gripper released"
+267,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep267.jpg,,
+268,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep268.jpg,,
+269,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep269.jpg,,
+270,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep270.jpg,,
+271,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep271.jpg,,
+272,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep272.jpg,,
+273,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep273.jpg,,
+274,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep274.jpg,,
+275,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep275.jpg,,
+276,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep276.jpg,,
+277,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep277.jpg,,
+278,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep278.jpg,,
+279,ring_insert,PASS,"yellow ring encircles central peg at base, gripper released in final frames",1,successful,1.0,frames/ring_insert__ep279.jpg,PASS,"yellow ring encircles central peg at its base, gripper released"
+280,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep280.jpg,,
+281,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep281.jpg,,
+282,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep282.jpg,,
+283,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep283.jpg,,
+284,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep284.jpg,,
+285,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep285.jpg,,
+286,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep286.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+287,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep287.jpg,,
+288,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep288.jpg,,
+289,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep289.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+290,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep290.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+291,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep291.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+292,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep292.jpg,,
+293,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep293.jpg,,
+294,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep294.jpg,,
+295,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep295.jpg,,
+296,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep296.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+297,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep297.jpg,,
+298,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep298.jpg,,
+299,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep299.jpg,,
+300,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep300.jpg,,
+301,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep301.jpg,,
+302,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep302.jpg,,
+303,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep303.jpg,PASS,"red ring encircles central peg at its base, gripper released"
+304,ring_insert,PASS,"red ring at base of central peg, released, in final front and top frames",1,successful,1.0,frames/ring_insert__ep304.jpg,,
+560,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep560.jpg,,
+561,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep561.jpg,,
+562,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep562.jpg,,
+563,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep563.jpg,,
+564,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep564.jpg,,
+565,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep565.jpg,,
+566,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep566.jpg,,
+567,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep567.jpg,PASS,"green block stacked on the purple block, standing, gripper released"
+568,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep568.jpg,,
+569,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep569.jpg,,
+570,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep570.jpg,,
+571,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep571.jpg,,
+572,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep572.jpg,,
+573,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep573.jpg,,
+574,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep574.jpg,,
+575,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep575.jpg,,
+576,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep576.jpg,,
+577,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep577.jpg,,
+578,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep578.jpg,,
+579,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep579.jpg,,
+580,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep580.jpg,PASS,"green block stacked on the purple block, standing, gripper released"
+581,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep581.jpg,,
+582,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep582.jpg,,
+583,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep583.jpg,PASS,"green block stacked on the purple block, standing at 92% and unchanged at end"
+584,block_stack,PASS,"green block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep584.jpg,,
+585,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep585.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+586,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep586.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+587,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep587.jpg,,
+588,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep588.jpg,,
+589,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep589.jpg,,
+590,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep590.jpg,,
+591,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep591.jpg,,
+592,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep592.jpg,,
+593,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep593.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+594,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep594.jpg,,
+595,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep595.jpg,,
+596,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep596.jpg,,
+597,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep597.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+598,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep598.jpg,,
+599,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep599.jpg,,
+600,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep600.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+601,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep601.jpg,,
+602,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep602.jpg,,
+603,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep603.jpg,,
+604,block_stack,FAIL,"final frames show orange block alone on the mat, not stacked on the purple block",1,successful,1.0,frames/block_stack__ep604.jpg,,
+605,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep605.jpg,PASS,"orange block stacked on the purple block, standing at 92% and unchanged at end"
+606,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep606.jpg,PASS,"orange block stacked on the purple block, standing, gripper released"
+607,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep607.jpg,,
+608,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep608.jpg,,
+609,block_stack,PASS,"final frames show orange block stacked on purple block, standing, gripper released",1,successful,1.0,frames/block_stack__ep609.jpg,,
+910,tool_insert,PASS,"final top frame shows the previously empty red cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep910.jpg,,
+911,tool_insert,PASS,"final top frame shows the empty cross slot filled, the loose horizontal tool no longer on the table, gripper released",1,successful,1.0,frames/tool_insert__ep911.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+912,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep912.jpg,,
+913,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep913.jpg,,
+914,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep914.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+915,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep915.jpg,,
+916,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep916.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+917,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep917.jpg,,
+918,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep918.jpg,,
+919,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep919.jpg,,
+920,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep920.jpg,,
+921,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep921.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+922,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep922.jpg,,
+923,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep923.jpg,,
+924,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep924.jpg,,
+925,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep925.jpg,,
+926,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep926.jpg,,
+927,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep927.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+928,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep928.jpg,,
+929,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep929.jpg,,
+930,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep930.jpg,,
+931,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep931.jpg,,
+932,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep932.jpg,,
+933,tool_insert,PASS,"final top frame shows the empty cross slot filled, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep933.jpg,,
+934,tool_insert,PASS,"final top frame shows the empty cross slot filled with the seated tool, loose tool gone from the table, gripper released",1,successful,1.0,frames/tool_insert__ep934.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+935,tool_insert,PASS,"final top view shows the T-tool seated in the centre slot that was empty red foam at start, gripper released",1,successful,1.0,frames/tool_insert__ep935.jpg,,
+936,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep936.jpg,,
+937,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep937.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+938,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep938.jpg,,
+939,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep939.jpg,,
+940,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep940.jpg,,
+941,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep941.jpg,,
+942,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep942.jpg,,
+943,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep943.jpg,,
+944,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep944.jpg,,
+945,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep945.jpg,,
+946,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep946.jpg,,
+947,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep947.jpg,,
+948,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep948.jpg,,
+949,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep949.jpg,,
+950,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep950.jpg,,
+951,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep951.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+952,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep952.jpg,,
+953,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep953.jpg,,
+954,tool_insert,PASS,"loose tool gone from the mat and final top view shows it seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep954.jpg,,
+955,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep955.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+956,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep956.jpg,,
+957,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep957.jpg,PASS,"missing tool seated in toolbox slot, loose tool gone from mat, gripper released"
+958,tool_insert,PASS,"final top view shows the tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep958.jpg,,
+959,tool_insert,PASS,"final top view shows the T-tool seated in the previously empty centre slot, gripper released",1,successful,1.0,frames/tool_insert__ep959.jpg,,
+1839,eye_drops_to_basket,PASS,"blue box resting inside the clear basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1839.jpg,,
+1840,eye_drops_to_basket,PASS,"blue box inside the basket in final frames, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1840.jpg,,
+1841,eye_drops_to_basket,PASS,"blue box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1841.jpg,,
+1842,eye_drops_to_basket,PASS,"blue box inside the basket in final front and top views, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1842.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1843,eye_drops_to_basket,PASS,"blue box resting inside the basket at its near end in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1843.jpg,,
+1844,eye_drops_to_basket,PASS,"blue box inside the basket in final frames, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1844.jpg,,
+1845,eye_drops_to_basket,PASS,"blue box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1845.jpg,,
+1846,eye_drops_to_basket,PASS,"blue box inside the basket at its near end in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1846.jpg,,
+1847,eye_drops_to_basket,PASS,"blue box inside the basket in final front and top views, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1847.jpg,,
+1848,eye_drops_to_basket,PASS,"blue box visible inside the basket in final front view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1848.jpg,,
+1849,eye_drops_to_basket,PASS,"blue box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1849.jpg,,
+1850,eye_drops_to_basket,PASS,"blue box inside the basket at its near end in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1850.jpg,,
+1851,eye_drops_to_basket,PASS,"blue box inside the basket in final front view and at basket edge in top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1851.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1852,eye_drops_to_basket,PASS,"blue box inside the basket in final front view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1852.jpg,,
+1853,eye_drops_to_basket,PASS,"blue box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1853.jpg,,
+1854,eye_drops_to_basket,PASS,"blue box inside the basket at its near end in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1854.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1855,eye_drops_to_basket,PASS,"box inside the basket in final front view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1855.jpg,,
+1856,eye_drops_to_basket,PASS,"white box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1856.jpg,PASS,"bottle rests inside the clear basket, gripper released"
+1857,eye_drops_to_basket,PASS,"box inside the basket in final front and top views, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1857.jpg,,
+1858,eye_drops_to_basket,PASS,"box inside the basket at its near end in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1858.jpg,,
+1859,eye_drops_to_basket,PASS,"white box inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1859.jpg,,
+1860,eye_drops_to_basket,PASS,"box inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1860.jpg,,
+1861,eye_drops_to_basket,PASS,"blue box lying inside the basket in final top view, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1861.jpg,,
+1862,eye_drops_to_basket,PASS,"blue box inside the basket at its near end in final top and front views, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1862.jpg,,
+1863,eye_drops_to_basket,PASS,"blue box inside the basket in final front and top views, gripper away",1,successful,1.0,frames/eye_drops_to_basket__ep1863.jpg,,
+1864,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1864.jpg,,
+1865,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1865.jpg,,
+1866,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1866.jpg,,
+1867,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1867.jpg,,
+1868,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1868.jpg,,
+1869,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1869.jpg,PASS,"bottle rests inside the clear basket, gripper released"
+1870,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1870.jpg,,
+1871,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1871.jpg,,
+1872,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1872.jpg,,
+1873,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1873.jpg,,
+1874,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1874.jpg,,
+1875,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1875.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1876,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1876.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1877,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1877.jpg,,
+1878,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1878.jpg,,
+1879,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1879.jpg,,
+1880,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1880.jpg,,
+1881,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1881.jpg,,
+1882,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1882.jpg,,
+1883,eye_drops_to_basket,PASS,"final top frame shows bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1883.jpg,,
+1884,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1884.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1885,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1885.jpg,,
+1886,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1886.jpg,,
+1887,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1887.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+1888,eye_drops_to_basket,PASS,"final top frame shows blue bottle resting inside the clear basket, gripper released",1,successful,1.0,frames/eye_drops_to_basket__ep1888.jpg,PASS,"blue bottle rests inside the clear basket, gripper released"
+2159,cable_clip,PASS,"final frames show cable running through the black clip on the white block, gripper released and away",1,successful,1.0,frames/cable_clip__ep2159.jpg,,
+2160,cable_clip,PASS,"final frames show cable seated through the clip on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2160.jpg,,
+2161,cable_clip,PASS,"final frames show cable retained in the clip on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2161.jpg,PASS,cable runs through holder on white block and is retained after gripper release
+2162,cable_clip,PASS,"final frames show cable running through the holder on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2162.jpg,PASS,cable runs through holder on white block and is retained after gripper release
+2163,cable_clip,PASS,"final frames show cable seated in the clip on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2163.jpg,,
+2164,cable_clip,PASS,"final frames show cable through the clip on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2164.jpg,,
+2165,cable_clip,PASS,"final frames show cable held in the black clip atop the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2165.jpg,,
+2166,cable_clip,PASS,"final frames show cable running through the holder on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2166.jpg,PASS,cable runs through holder on white block and is retained after gripper release
+2167,cable_clip,PASS,"final frames show cable seated through the clip on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2167.jpg,,
+2168,cable_clip,PASS,"final frames show cable retained in the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2168.jpg,,
+2169,cable_clip,PASS,"final frames show cable running through the clip on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2169.jpg,,
+2170,cable_clip,PASS,"final frames show cable seated in the holder on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2170.jpg,,
+2171,cable_clip,PASS,"final frames show cable through the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2171.jpg,,
+2172,cable_clip,PASS,"final frames show cable retained in the clip on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2172.jpg,,
+2173,cable_clip,PASS,"final frames show cable running through the black clip on the white block in both views, gripper released",1,successful,1.0,frames/cable_clip__ep2173.jpg,,
+2174,cable_clip,PASS,"final frames show cable seated through the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2174.jpg,,
+2175,cable_clip,PASS,"final frames show cable held in the clip on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2175.jpg,,
+2176,cable_clip,PASS,"final frames show cable running through the holder on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2176.jpg,,
+2177,cable_clip,PASS,"final frames show cable seated in the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2177.jpg,PASS,cable runs through holder on white block and is retained after gripper release
+2178,cable_clip,PASS,"final frames show cable through the clip on the white block, extending both sides, gripper off it",1,successful,1.0,frames/cable_clip__ep2178.jpg,,
+2179,cable_clip,PASS,"final frames show cable passing through the clip on the white block in both views, gripper released",1,successful,1.0,frames/cable_clip__ep2179.jpg,PASS,cable runs through holder on white block and is retained after gripper release
+2180,cable_clip,PASS,"final frames show cable retained in the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2180.jpg,PASS,"cable runs straight through the holder on the white block, gripper released"
+2181,cable_clip,PASS,"final frames show cable seated through the holder on the white block, gripper off it",1,successful,1.0,frames/cable_clip__ep2181.jpg,,
+2182,cable_clip,PASS,"final frames show cable running through the clip on the white block, gripper released",1,successful,1.0,frames/cable_clip__ep2182.jpg,,
+2183,cable_clip,PASS,"final frames show cable held in the clip on the white block, gripper away",1,successful,1.0,frames/cable_clip__ep2183.jpg,,
+2184,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2184.jpg,,
+2185,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2185.jpg,,
+2186,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2186.jpg,,
+2187,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2187.jpg,,
+2188,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2188.jpg,PASS,"cable seated straight in the holder on the white block, gripper released"
+2189,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2189.jpg,,
+2190,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2190.jpg,,
+2191,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2191.jpg,,
+2192,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2192.jpg,,
+2193,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2193.jpg,,
+2194,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2194.jpg,,
+2195,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2195.jpg,,
+2196,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2196.jpg,,
+2197,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2197.jpg,,
+2198,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2198.jpg,,
+2199,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2199.jpg,,
+2200,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2200.jpg,,
+2201,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2201.jpg,INDETERMINATE,cable drapes diagonally over the white block; seating in the holder not clearly visible in either view
+2202,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2202.jpg,PASS,"cable runs straight through the holder on the white block, gripper released"
+2203,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2203.jpg,,
+2204,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2204.jpg,,
+2205,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2205.jpg,PASS,"cable runs straight through the holder on the white block, gripper released"
+2206,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2206.jpg,,
+2207,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2207.jpg,,
+2208,cable_clip,PASS,"cable seated in black clip on white block in final front and top frames, gripper released",1,successful,1.0,frames/cable_clip__ep2208.jpg,,

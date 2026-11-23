@@ -1,0 +1,25 @@
+ep2159 | PASS | final frames show cable running through the black clip on the white block, gripper released and away
+ep2160 | PASS | final frames show cable seated through the clip on the white block, gripper off it
+ep2161 | PASS | final frames show cable retained in the clip on the white block, gripper released
+ep2162 | PASS | final frames show cable running through the holder on the white block, gripper away
+ep2163 | PASS | final frames show cable seated in the clip on the white block, gripper off it
+ep2164 | PASS | final frames show cable through the clip on the white block, gripper released
+ep2165 | PASS | final frames show cable held in the black clip atop the white block, gripper away
+ep2166 | PASS | final frames show cable running through the holder on the white block, gripper off it
+ep2167 | PASS | final frames show cable seated through the clip on the white block, gripper released
+ep2168 | PASS | final frames show cable retained in the clip on the white block, gripper away
+ep2169 | PASS | final frames show cable running through the clip on the white block, gripper off it
+ep2170 | PASS | final frames show cable seated in the holder on the white block, gripper released
+ep2171 | PASS | final frames show cable through the clip on the white block, gripper away
+ep2172 | PASS | final frames show cable retained in the clip on the white block, gripper off it
+ep2173 | PASS | final frames show cable running through the black clip on the white block in both views, gripper released
+ep2174 | PASS | final frames show cable seated through the clip on the white block, gripper away
+ep2175 | PASS | final frames show cable held in the clip on the white block, gripper off it
+ep2176 | PASS | final frames show cable running through the holder on the white block, gripper released
+ep2177 | PASS | final frames show cable seated in the clip on the white block, gripper away
+ep2178 | PASS | final frames show cable through the clip on the white block, extending both sides, gripper off it
+ep2179 | PASS | final frames show cable passing through the clip on the white block in both views, gripper released
+ep2180 | PASS | final frames show cable retained in the clip on the white block, gripper away
+ep2181 | PASS | final frames show cable seated through the holder on the white block, gripper off it
+ep2182 | PASS | final frames show cable running through the clip on the white block, gripper released
+ep2183 | PASS | final frames show cable held in the clip on the white block, gripper away

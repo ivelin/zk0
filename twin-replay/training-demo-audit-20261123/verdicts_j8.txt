@@ -1,0 +1,25 @@
+ep1864 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1865 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1866 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1867 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1868 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1869 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1870 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1871 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1872 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1873 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1874 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1875 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1876 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1877 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1878 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1879 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1880 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1881 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1882 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1883 | PASS | final top frame shows bottle resting inside the clear basket, gripper released
+ep1884 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1885 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1886 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1887 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released
+ep1888 | PASS | final top frame shows blue bottle resting inside the clear basket, gripper released

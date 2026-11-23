@@ -1,0 +1,25 @@
+ep935 | PASS | final top view shows the T-tool seated in the centre slot that was empty red foam at start, gripper released
+ep936 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep937 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep938 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep939 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep940 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep941 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep942 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep943 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep944 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep945 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep946 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep947 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep948 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep949 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep950 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep951 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep952 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep953 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep954 | PASS | loose tool gone from the mat and final top view shows it seated in the previously empty centre slot, gripper released
+ep955 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep956 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep957 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released
+ep958 | PASS | final top view shows the tool seated in the previously empty centre slot, gripper released
+ep959 | PASS | final top view shows the T-tool seated in the previously empty centre slot, gripper released

@@ -1,0 +1,25 @@
+ep260 | PASS | yellow ring encircles central peg at its base, gripper released
+ep265 | PASS | yellow ring encircles central peg at its base, gripper released
+ep266 | PASS | yellow ring encircles central peg at its base, gripper released
+ep279 | PASS | yellow ring encircles central peg at its base, gripper released
+ep286 | PASS | red ring encircles central peg at its base, gripper released
+ep289 | PASS | red ring encircles central peg at its base, gripper released
+ep290 | PASS | red ring encircles central peg at its base, gripper released
+ep291 | PASS | red ring encircles central peg at its base, gripper released
+ep296 | PASS | red ring encircles central peg at its base, gripper released
+ep303 | PASS | red ring encircles central peg at its base, gripper released
+ep911 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep914 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep916 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep921 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep927 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep934 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep937 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep951 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep955 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep957 | PASS | missing tool seated in toolbox slot, loose tool gone from mat, gripper released
+ep2161 | PASS | cable runs through holder on white block and is retained after gripper release
+ep2162 | PASS | cable runs through holder on white block and is retained after gripper release
+ep2166 | PASS | cable runs through holder on white block and is retained after gripper release
+ep2177 | PASS | cable runs through holder on white block and is retained after gripper release
+ep2179 | PASS | cable runs through holder on white block and is retained after gripper release

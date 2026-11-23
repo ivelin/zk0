@@ -1,0 +1,25 @@
+ep1839 | PASS | blue box resting inside the clear basket in final top view, gripper away
+ep1840 | PASS | blue box inside the basket in final frames, gripper released
+ep1841 | PASS | blue box lying inside the basket in final top view, gripper away
+ep1842 | PASS | blue box inside the basket in final front and top views, gripper away
+ep1843 | PASS | blue box resting inside the basket at its near end in final top view, gripper away
+ep1844 | PASS | blue box inside the basket in final frames, gripper released
+ep1845 | PASS | blue box lying inside the basket in final top view, gripper away
+ep1846 | PASS | blue box inside the basket at its near end in final top view, gripper away
+ep1847 | PASS | blue box inside the basket in final front and top views, gripper away
+ep1848 | PASS | blue box visible inside the basket in final front view, gripper away
+ep1849 | PASS | blue box lying inside the basket in final top view, gripper away
+ep1850 | PASS | blue box inside the basket at its near end in final top view, gripper away
+ep1851 | PASS | blue box inside the basket in final front view and at basket edge in top view, gripper away
+ep1852 | PASS | blue box inside the basket in final front view, gripper away
+ep1853 | PASS | blue box lying inside the basket in final top view, gripper away
+ep1854 | PASS | blue box inside the basket at its near end in final top view, gripper away
+ep1855 | PASS | box inside the basket in final front view, gripper away
+ep1856 | PASS | white box lying inside the basket in final top view, gripper away
+ep1857 | PASS | box inside the basket in final front and top views, gripper away
+ep1858 | PASS | box inside the basket at its near end in final top view, gripper away
+ep1859 | PASS | white box inside the basket in final top view, gripper away
+ep1860 | PASS | box inside the basket in final top view, gripper away
+ep1861 | PASS | blue box lying inside the basket in final top view, gripper away
+ep1862 | PASS | blue box inside the basket at its near end in final top and front views, gripper away
+ep1863 | PASS | blue box inside the basket in final front and top views, gripper away

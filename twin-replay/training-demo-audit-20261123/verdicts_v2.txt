@@ -1,0 +1,25 @@
+ep2180 | PASS | cable runs straight through the holder on the white block, gripper released
+ep2188 | PASS | cable seated straight in the holder on the white block, gripper released
+ep2201 | INDETERMINATE | cable drapes diagonally over the white block; seating in the holder not clearly visible in either view
+ep2202 | PASS | cable runs straight through the holder on the white block, gripper released
+ep2205 | PASS | cable runs straight through the holder on the white block, gripper released
+ep1842 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1851 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1854 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1856 | PASS | bottle rests inside the clear basket, gripper released
+ep1869 | PASS | bottle rests inside the clear basket, gripper released
+ep1875 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1876 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1884 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1887 | PASS | blue bottle rests inside the clear basket, gripper released
+ep1888 | PASS | blue bottle rests inside the clear basket, gripper released
+ep567 | PASS | green block stacked on the purple block, standing, gripper released
+ep580 | PASS | green block stacked on the purple block, standing, gripper released
+ep583 | PASS | green block stacked on the purple block, standing at 92% and unchanged at end
+ep585 | PASS | orange block stacked on the purple block, standing, gripper released
+ep586 | PASS | orange block stacked on the purple block, standing, gripper released
+ep593 | PASS | orange block stacked on the purple block, standing, gripper released
+ep597 | PASS | orange block stacked on the purple block, standing, gripper released
+ep600 | PASS | orange block stacked on the purple block, standing, gripper released
+ep605 | PASS | orange block stacked on the purple block, standing at 92% and unchanged at end
+ep606 | PASS | orange block stacked on the purple block, standing, gripper released
