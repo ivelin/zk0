@@ -164,6 +164,11 @@ class SmolVLAClient(NumPyClient):
             set_params(self.net, parameters)
 
     def fit(self, parameters, config) -> tuple[list, int, dict]:
+        import os as _qa_os
+        
+        _qa_state_root = _qa_os.environ.get("ZK0_OPT_STATE_ROOT", _qa_os.path.join(_qa_os.getcwd(), "optimizer_state"))
+        _qa_state_path = _qa_os.path.join(_qa_state_root, "client_" + str(self.client_id), "optimizer_state.pt")
+        _qa_os.makedirs(_qa_os.path.dirname(_qa_state_path), exist_ok=True)
         client_id_from_config = config.get("partition-id", self.client_id)
         if client_id_from_config != self.client_id:
             logger.error(
@@ -262,7 +267,7 @@ class SmolVLAClient(NumPyClient):
                 initial_lr=self.initial_lr,
                 partition_id=self.client_id,
                 round_num=self.round_num,
-            )
+             optimizer_state_path=_qa_state_path)
             logger.info(
                 f"Client {self.client_id}: train() returned successfully with metrics: {training_metrics}"
             )

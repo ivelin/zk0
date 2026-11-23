@@ -24,7 +24,7 @@ def train(
     initial_lr=None,
     partition_id=None,
     round_num=None,
-) -> dict[str, float]:
+ optimizer_state_path=None) -> dict[str, float]:
     """Train SmolVLA model using lerobot's training loop (reusing the provided model instance)."""
     logging.debug(
         f"Starting train for {epochs} epochs on device {device}, len(trainloader)={len(trainloader)}"
@@ -47,7 +47,7 @@ def train(
             device,
             initial_lr,
             partition_id,
-        )
+         optimizer_state_path=optimizer_state_path)
     )
 
     # CRITICAL FIX: Reset learning rate scheduler for federated learning rounds
@@ -105,4 +105,8 @@ def train(
     logging.info("End of client training")
     logging.debug(f"Completed train for {epochs} epochs, actual steps: {final_step}")
 
+    if optimizer_state_path is not None:
+        from src.training.training_setup import save_optimizer_state as _qa_save_state
+    
+        _qa_save_state(optimizer, optimizer_state_path)
     return final_metrics

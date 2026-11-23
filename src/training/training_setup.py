@@ -60,7 +60,7 @@ def setup_training_components(
     device,
     initial_lr,
     partition_id=None,
-):
+ optimizer_state_path=None):
     """Setup training components: optimizer, scheduler, metrics, and configuration.
 
     Used by client-side training to initialize components.
@@ -95,6 +95,8 @@ def setup_training_components(
 
     # Use lerobot's optimizer factory
     optimizer, lr_scheduler = make_optimizer_and_scheduler(cfg, policy)
+    if optimizer_state_path is not None:
+        load_optimizer_state(optimizer, optimizer_state_path)
 
     # Override to use linear scheduler for FL partial rounds
     if initial_lr is None:
@@ -283,3 +285,31 @@ def build_batch_preprocessor(policy, dataset):
         dataset_stats=rename_stats(dataset.meta.stats, {}),
     )
     return preprocessor
+def save_optimizer_state(optimizer, path):
+    """Q-A: atomically persist AdamW state (temp file + rename)."""
+    import os as _os
+    import torch as _torch
+
+    p = str(path)
+    d = _os.path.dirname(p)
+    if d:
+        _os.makedirs(d, exist_ok=True)
+    tmp = p + ".tmp"
+    _torch.save(optimizer.state_dict(), tmp)
+    _os.replace(tmp, p)
+
+
+def load_optimizer_state(optimizer, path):
+    """Q-A: load persisted AdamW state; re-apply the current (scheduled) LRs."""
+    import os as _os
+    import torch as _torch
+
+    p = str(path)
+    if not _os.path.exists(p):
+        return False
+    lrs = [g.get("lr") for g in optimizer.param_groups]
+    optimizer.load_state_dict(_torch.load(p, map_location="cpu", weights_only=False))
+    for g, lr in zip(optimizer.param_groups, lrs):
+        if lr is not None:
+            g["lr"] = lr
+    return True
