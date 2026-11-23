@@ -112,10 +112,14 @@ Objects (evidence: `ring_insert__ep7/top_first.png`, `__ep7/front_first.png`,
 `__ep30/top_final.png`, `__ep33/top_first.png`, `__ep48/top_first.png`):
 - **Board ×1 (fixture, fixed)**: flat circular cream/pale-wood disc,
   Ø ≈170 ±20 mm, ≈15 mm thick, resting on the mat right-of-centre.
-- **Recesses: 5** shallow circular recesses in the board top, arranged in a
-  ring around the centre. Counted directly in final frames where all are
-  empty: ep7 top_final and ep30 top_final each show exactly 5. (This
-  corrects the coordinator's scouting note of 6.)
+- **Recesses: 6** shallow circular recesses in the board top, arranged in a
+  ring around the centre. Counted directly in frames: ep7 top_final shows
+  six empty recesses, and ep33 first frames show five empty recesses plus
+  the ring seated in a sixth = 6 total. (Corrected 2026-11-22, twin-suite
+  v1.1, Builder 3: an earlier version of this section said 5 -- that count
+  was wrong. The count was settled at 6 by independent verification, see
+  docs/verification-objects-assets.md finding F1; the per-episode scene
+  JSONs and pose-estimation.md already carried 6.)
 - **Peg ×1 (fixed)**: light-wood cylindrical peg at board centre, rounded
   top, Ø ≈16 ±4 mm, standing ≈70 ±15 mm above the board top [front view
   ep7, height vs board Ø].
