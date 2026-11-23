@@ -483,3 +483,37 @@ certification unchanged, no v2 verdict. **Stage 1 certifies no
 precision task. No gate run on any non-control checkpoint is
 authorized.** All verdicts above are funnel verdicts — sim bar
 unanchored to real-arm delta (no calibration pairs yet) (§8).
+
+---
+
+## Errata — 2026-11-23
+
+This section is appended as a dated correction; no earlier text in this
+synthesis is changed.
+
+**F1 — Correction to §2.2 maximum-displacement figures.** Source:
+`verification-v2-stage1-synthesis.md`, Finding F1 (independent
+verification of this synthesis, verdict CERTIFIED-WITH-FINDINGS).
+Synthesis §2.2's "maximum object displacement per rollout" figures
+(base 8.6 cm, FL 9.0 cm, C-exp 9.8 cm) do not reproduce under the
+synthesis's own §9 definition (net displacement ‖a[−1] − a[0]‖ per
+`obj_*` array). The verifier's recomputed L1 block_stack max net
+displacements are: **base 8.9 cm, FL 11.3 cm, C-exp 15.7 cm**.
+Those corrected figures replace the §2.2 figures for any future
+quotation. **No verdict changes:** no count, bound, or ruling depends
+on these figures, and the correction strengthens, not weakens, the
+§2.2 point that the policies are not inert.
+
+**F2 / F3 — Acknowledged, no text changes.** Findings F2 and F3 in
+`verification-v2-stage1-synthesis.md` are documentation notes about
+extensions beyond the registered `analyze.py` — F2: the secondary
+cross-engine agreement 15/15 in §4.1 is an extension beyond
+`analyze.py` (which compares `sim_success` and `solver_failure`
+only), although §6's extension list does not name it explicitly;
+the figure itself is correct (verifier-recomputed 15/15). F3:
+`analyze.py`'s envelope `verdict_stable` compares per-corner verdicts
+computed on n = 4 (block) / n = 1 (eye) against the K=5-pooled
+nominal verdict, while the synthesis additionally performed the
+nominal-instance flip check (§5), which the verifier reproduced
+(0/120). Both findings are acknowledged here; neither changes any
+number, text, or ruling in the synthesis above.
