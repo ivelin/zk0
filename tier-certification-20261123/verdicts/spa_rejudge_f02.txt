@@ -1,0 +1,8 @@
+ep947 | PASS | final frames show three objects in the bowl, green object removed to the table
+ep950 | PASS | final frames show exactly one small silver object in the bowl
+ep955 | PASS | final frames show exactly one small silver object in the bowl, pen on the table
+ep958 | PASS | final frames show two objects in the bowl, the pen and a small silver object
+ep964 | PASS | final frames show two objects in the bowl, yellow block and small silver object, green on the table
+ep977 | PASS | final frames show an empty bowl, all objects on the table
+ep995 | PASS | final frames show three objects in the bowl, silver object removed to the table
+ep996 | PASS | final frames show three objects in the bowl, silver object removed to the table

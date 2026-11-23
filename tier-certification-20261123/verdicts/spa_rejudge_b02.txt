@@ -1,0 +1,10 @@
+ep349 | PASS | pink marker rests to the right of the red block in the above view, gripper released
+ep351 | PASS | blue block rests in front of the green pen in the above view, gripper released
+ep355 | PASS | blue block rests in front of and touching the red block in the above view, gripper released
+ep367 | PASS | blue block rests behind the red block in the above view, gripper released
+ep374 | PASS | blue block rests behind the pink marker in the above view, gripper released
+ep380 | PASS | blue block rests to the left of the red block in the above view, gripper released
+ep382 | PASS | blue block rests to the left of the red block, clear in the front view at the end, gripper released
+ep384 | PASS | blue block rests to the left of the pink marker in the above view, gripper released
+ep387 | PASS | blue block rests to the right of the green pen in the above view, gripper released
+ep394 | PASS | blue block rests to the right of the red block in the above view, gripper released

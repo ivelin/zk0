@@ -1,0 +1,25 @@
+ep124 | PASS | brown cup inside the bowl at end, gripper released
+ep126 | PASS | brown cup inside the bowl at end, gripper released
+ep131 | PASS | brown cup inside the bowl at end, gripper released
+ep144 | PASS | brown cup inside the bowl at end, gripper released
+ep151 | PASS | glass spice container inside the bowl at end, gripper released
+ep165 | PASS | glass spice container inside the bowl at end, gripper released
+ep169 | PASS | glass spice container inside the bowl at end, gripper released
+ep171 | PASS | glass spice container inside the bowl at end, gripper released
+ep181 | PASS | glass spice container inside the bowl at end, gripper released
+ep183 | PASS | glass spice container inside the bowl at end, gripper released
+ep186 | PASS | glass spice container inside the bowl at end, gripper released
+ep190 | PASS | glass spice container inside the bowl at end, gripper released
+ep193 | PASS | glass spice container inside the bowl at end, gripper released
+ep195 | PASS | glass spice container inside the bowl at end, gripper released
+ep401 | PASS | crushed Pepsi can inside the bowl at end, gripper released
+ep406 | PASS | crushed Coke can inside the bowl at end, gripper released
+ep412 | PASS | crushed Coke can inside the bowl at end, gripper released
+ep481 | PASS | red pencil sharpener inside the bowl at end, gripper released
+ep483 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep487 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep495 | PASS | green pencil sharpener inside the bowl at end, gripper released
+ep576 | PASS | airplane toy inside the bowl at end, gripper released
+ep577 | PASS | airplane toy inside the bowl at end, gripper released
+ep603 | PASS | airplane toy inside the bowl at end, gripper released
+ep612 | PASS | airplane toy inside the bowl at end, gripper released

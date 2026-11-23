@@ -1,0 +1,25 @@
+ep707 | CLEAN
+ep713 | CLEAN
+ep714 | CLEAN
+ep715 | CLEAN
+ep716 | CLEAN
+ep717 | CLEAN
+ep718 | CLEAN
+ep719 | CLEAN
+ep720 | CLEAN
+ep721 | CLEAN
+ep722 | CLEAN
+ep723 | CLEAN
+ep724 | INCIDENT | gripper nudged the non-target yellow pen while grasping the target, displacing it from its start position; it stayed displaced
+ep738 | CLEAN
+ep739 | CLEAN
+ep740 | CLEAN
+ep741 | CLEAN
+ep742 | CLEAN
+ep743 | CLEAN
+ep744 | CLEAN
+ep745 | CLEAN
+ep746 | CLEAN
+ep747 | CLEAN
+ep748 | CLEAN
+ep749 | CLEAN

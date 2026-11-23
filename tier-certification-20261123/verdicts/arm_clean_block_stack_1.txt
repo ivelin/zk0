@@ -1,0 +1,25 @@
+ep560 | CLEAN
+ep561 | CLEAN
+ep562 | CLEAN
+ep563 | CLEAN
+ep564 | CLEAN
+ep565 | CLEAN
+ep566 | CLEAN
+ep567 | CLEAN
+ep568 | CLEAN
+ep569 | CLEAN
+ep570 | RECOVERED | green target block dropped mid-carry and landed upright on the mat beside the purple block, then re-grasped and stacked on the purple block
+ep571 | CLEAN
+ep572 | CLEAN
+ep573 | CLEAN
+ep574 | CLEAN
+ep575 | CLEAN
+ep576 | CLEAN
+ep577 | CLEAN
+ep578 | CLEAN
+ep579 | CLEAN
+ep580 | CLEAN
+ep581 | CLEAN
+ep582 | CLEAN
+ep583 | CLEAN
+ep584 | CLEAN

@@ -1,0 +1,24 @@
+ep615 | PASS | final frames show the small metallic object, second from left in the above view, inside the bowl
+ep618 | PASS | final frames show the small metallic object, third from right in the above view, inside the bowl
+ep620 | PASS | final frames show the small metallic object, second from left in the above view, inside the bowl
+ep627 | PASS | final frames show the small metallic object, second from right in the above view, inside the bowl
+ep643 | PASS | final frames show the small metallic object, first from right in the above view, inside the bowl
+ep649 | PASS | final frames show the small metallic object, first from right in the above view, inside the bowl
+ep650 | PASS | final frames show the small blue object, fourth from right in the above view, inside the bowl
+ep658 | PASS | final frames show the small blue object, second from right in the above view, inside the bowl
+ep675 | PASS | final frames show the small blue object, second from right in the above view, inside the bowl
+ep676 | PASS | final frames show the small blue object, third from left in the above view, inside the bowl
+ep680 | PASS | final frames show the small blue object, third from left in the above view, inside the bowl
+ep682 | PASS | final frames show the small blue object, third from left in the above view, inside the bowl
+ep684 | PASS | final frames show the small blue object, third from left in the above view, inside the bowl
+ep689 | PASS | final frames show the small blue object, first from right in the above view, inside the bowl
+ep695 | PASS | final frames show the small blue object, first from right in the above view, inside the bowl
+ep700 | PASS | final frames show the green marker, first from left in the above view, inside the bowl
+ep719 | PASS | final frames show the green marker, second from left in the above view, inside the bowl
+ep721 | PASS | final frames show the green marker, second from left in the above view, inside the bowl
+ep724 | PASS | final frames show the green marker, second from left in the above view, inside the bowl
+ep739 | PASS | final frames show the green marker, first from right in the above view, inside the bowl
+ep741 | PASS | final frames show the green marker, first from right in the above view, inside the bowl
+ep752 | PASS | final frames show the yellow pen, fourth from right in the above view, inside the bowl
+ep781 | PASS | final frames show the yellow pen, first from right in the above view, inside the bowl
+ep783 | PASS | final frames show the yellow pen, first from right in the above view, inside the bowl

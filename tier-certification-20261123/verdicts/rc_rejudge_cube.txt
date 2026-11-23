@@ -1,0 +1,20 @@
+ep3 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube not outside
+ep9 | PASS | blue cube seen at drawer, final front view drawer closed with red and white cubes only on table
+ep11 | PASS | blue cube seen entering drawer, final front view drawer closed with blue cube not outside
+ep12 | PASS | blue cube visible inside closed drawer in final front frames, red and white cubes on table
+ep14 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube faintly inside
+ep20 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube faintly inside
+ep22 | PASS | blue cube seen entering drawer, final views show drawer closed and blue cube inside cabinet
+ep23 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube not outside
+ep34 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with red and white cubes only on table
+ep48 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube faintly inside
+ep49 | PASS | blue cube seen entering drawer, final front view drawer closed with blue cube faintly inside
+ep54 | PASS | blue cube seen entering drawer, final views show drawer closed and blue cube inside cabinet
+ep63 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube not outside
+ep69 | PASS | wrist view clearly shows blue cube inside open drawer, final front view drawer closed
+ep71 | PASS | blue cube seen entering drawer and faintly inside in frame five, final front view drawer closed
+ep73 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube not outside
+ep83 | PASS | wrist view shows blue cube in drawer, final views show drawer closed and blue cube inside cabinet
+ep93 | PASS | blue cube seen entering drawer and inside cabinet in later wrist views, final front view drawer closed
+ep94 | PASS | blue cube clearly seen entering drawer in front view, final front view drawer closed with blue cube not outside
+ep96 | PASS | wrist view shows blue cube inside drawer, final front view drawer closed with blue cube faintly inside

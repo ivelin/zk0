@@ -1,0 +1,9 @@
+ep554 | PASS | final frames show the airplane nearest the Coke can in the bowl, gripper released, the other airplane still on the table
+ep556 | PASS | final frames show the airplane closest to the green pen in the bowl, gripper released, the other airplane still on the table
+ep557 | PASS | final frames show the airplane nearest the yellow pen in the bowl, gripper released, the other airplane still on the table
+ep580 | PASS | final frames show the airplane between the green pen and red sharpener in the bowl, gripper released, the other airplane still on the table
+ep585 | PASS | final frames show the airplane between the green pen and green sharpener in the bowl, gripper released, the other airplane still on the table
+ep588 | PASS | final frames show the airplane between the green pen and red sharpener in the bowl, gripper released, the other airplane still on the table
+ep592 | PASS | final frames show the airplane between the yellow pen and crushed Pepsi can in the bowl, gripper released, the other airplane still on the table
+ep594 | PASS | final frames show the airplane between the red sharpener and yellow pen in the bowl, gripper released, the other airplane still on the table
+ep596 | PASS | final frames show the airplane between the red sharpener and crushed Coke can in the bowl, gripper released, the other airplane still on the table

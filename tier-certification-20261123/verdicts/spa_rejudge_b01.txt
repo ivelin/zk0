@@ -1,0 +1,25 @@
+ep203 | PASS | green pen rests on the table just below the red block, gripper released
+ep206 | PASS | green pen rests in front of (south of) the pink marker on the table
+ep226 | PASS | green pen rests beside the red block on the table
+ep232 | PASS | green pen rests to the left of the pink marker in the above view
+ep233 | PASS | green pen rests to the left of the blue block on the table
+ep242 | PASS | green pen rests to the right of the pink marker on the table
+ep243 | PASS | green pen rests to the right of the pink marker on the table
+ep244 | PASS | green pen rests to the right of the pink marker on the table
+ep251 | PASS | red block rests in front of (south of) the pink marker on the table
+ep258 | PASS | red block rests next to the green pen on the table
+ep259 | PASS | red block rests just beside the green pen on the table
+ep261 | PASS | red block rests next to the green pen on the table
+ep265 | PASS | red block rests behind (north of) the pink marker on the table
+ep278 | PASS | red block rests to the left of the pink marker on the table
+ep284 | PASS | red block rests near the green pen on the table
+ep299 | PASS | red block rests near the green pen on the table
+ep306 | PASS | pink marker rests in front of (south of) the green pen on the table
+ep313 | PASS | pink marker rests behind (north of) the blue block on the table
+ep317 | PASS | pink marker rests behind (north of) the green pen on the table
+ep324 | PASS | pink marker rests behind (north of) the red block on the table
+ep327 | PASS | pink marker rests to the left of the blue block on the table
+ep328 | PASS | pink marker rests to the left of the blue block on the table
+ep334 | PASS | pink marker rests to the left of the red block on the table
+ep338 | PASS | pink marker rests to the right of the blue block on the table
+ep345 | PASS | pink marker rests to the right of the green pen on the table

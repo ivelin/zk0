@@ -1,0 +1,1305 @@
+{
+ "note": "ArmnetBench 250 cleanliness pass (carried-in episodes), 2026-11-23",
+ "batches": [
+  {
+   "batch_id": "arm-clean-block_stack-1",
+   "episodes": [
+    {
+     "episode_index": 560,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep560.jpg"
+    },
+    {
+     "episode_index": 561,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep561.jpg"
+    },
+    {
+     "episode_index": 562,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep562.jpg"
+    },
+    {
+     "episode_index": 563,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep563.jpg"
+    },
+    {
+     "episode_index": 564,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep564.jpg"
+    },
+    {
+     "episode_index": 565,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep565.jpg"
+    },
+    {
+     "episode_index": 566,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep566.jpg"
+    },
+    {
+     "episode_index": 567,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep567.jpg"
+    },
+    {
+     "episode_index": 568,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep568.jpg"
+    },
+    {
+     "episode_index": 569,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep569.jpg"
+    },
+    {
+     "episode_index": 570,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep570.jpg"
+    },
+    {
+     "episode_index": 571,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep571.jpg"
+    },
+    {
+     "episode_index": 572,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep572.jpg"
+    },
+    {
+     "episode_index": 573,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep573.jpg"
+    },
+    {
+     "episode_index": 574,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep574.jpg"
+    },
+    {
+     "episode_index": 575,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep575.jpg"
+    },
+    {
+     "episode_index": 576,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep576.jpg"
+    },
+    {
+     "episode_index": 577,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep577.jpg"
+    },
+    {
+     "episode_index": 578,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep578.jpg"
+    },
+    {
+     "episode_index": 579,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep579.jpg"
+    },
+    {
+     "episode_index": 580,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep580.jpg"
+    },
+    {
+     "episode_index": 581,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep581.jpg"
+    },
+    {
+     "episode_index": 582,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep582.jpg"
+    },
+    {
+     "episode_index": 583,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep583.jpg"
+    },
+    {
+     "episode_index": 584,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep584.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-block_stack-2",
+   "episodes": [
+    {
+     "episode_index": 585,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep585.jpg"
+    },
+    {
+     "episode_index": 586,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep586.jpg"
+    },
+    {
+     "episode_index": 587,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep587.jpg"
+    },
+    {
+     "episode_index": 588,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep588.jpg"
+    },
+    {
+     "episode_index": 589,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep589.jpg"
+    },
+    {
+     "episode_index": 590,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep590.jpg"
+    },
+    {
+     "episode_index": 591,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep591.jpg"
+    },
+    {
+     "episode_index": 592,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep592.jpg"
+    },
+    {
+     "episode_index": 593,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep593.jpg"
+    },
+    {
+     "episode_index": 594,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep594.jpg"
+    },
+    {
+     "episode_index": 595,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep595.jpg"
+    },
+    {
+     "episode_index": 596,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep596.jpg"
+    },
+    {
+     "episode_index": 597,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep597.jpg"
+    },
+    {
+     "episode_index": 598,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep598.jpg"
+    },
+    {
+     "episode_index": 599,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep599.jpg"
+    },
+    {
+     "episode_index": 600,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep600.jpg"
+    },
+    {
+     "episode_index": 601,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep601.jpg"
+    },
+    {
+     "episode_index": 602,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep602.jpg"
+    },
+    {
+     "episode_index": 603,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep603.jpg"
+    },
+    {
+     "episode_index": 604,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep604.jpg"
+    },
+    {
+     "episode_index": 605,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep605.jpg"
+    },
+    {
+     "episode_index": 606,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep606.jpg"
+    },
+    {
+     "episode_index": 607,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep607.jpg"
+    },
+    {
+     "episode_index": 608,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep608.jpg"
+    },
+    {
+     "episode_index": 609,
+     "task": "block_stack",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/block_stack__ep609.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-cable_clip-1",
+   "episodes": [
+    {
+     "episode_index": 2159,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2159.jpg"
+    },
+    {
+     "episode_index": 2160,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2160.jpg"
+    },
+    {
+     "episode_index": 2161,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2161.jpg"
+    },
+    {
+     "episode_index": 2162,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2162.jpg"
+    },
+    {
+     "episode_index": 2163,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2163.jpg"
+    },
+    {
+     "episode_index": 2164,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2164.jpg"
+    },
+    {
+     "episode_index": 2165,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2165.jpg"
+    },
+    {
+     "episode_index": 2166,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2166.jpg"
+    },
+    {
+     "episode_index": 2167,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2167.jpg"
+    },
+    {
+     "episode_index": 2168,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2168.jpg"
+    },
+    {
+     "episode_index": 2169,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2169.jpg"
+    },
+    {
+     "episode_index": 2170,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2170.jpg"
+    },
+    {
+     "episode_index": 2171,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2171.jpg"
+    },
+    {
+     "episode_index": 2172,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2172.jpg"
+    },
+    {
+     "episode_index": 2173,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2173.jpg"
+    },
+    {
+     "episode_index": 2174,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2174.jpg"
+    },
+    {
+     "episode_index": 2175,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2175.jpg"
+    },
+    {
+     "episode_index": 2176,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2176.jpg"
+    },
+    {
+     "episode_index": 2177,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2177.jpg"
+    },
+    {
+     "episode_index": 2178,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2178.jpg"
+    },
+    {
+     "episode_index": 2179,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2179.jpg"
+    },
+    {
+     "episode_index": 2180,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2180.jpg"
+    },
+    {
+     "episode_index": 2181,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2181.jpg"
+    },
+    {
+     "episode_index": 2182,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2182.jpg"
+    },
+    {
+     "episode_index": 2183,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2183.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-cable_clip-2",
+   "episodes": [
+    {
+     "episode_index": 2184,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2184.jpg"
+    },
+    {
+     "episode_index": 2185,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2185.jpg"
+    },
+    {
+     "episode_index": 2186,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2186.jpg"
+    },
+    {
+     "episode_index": 2187,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2187.jpg"
+    },
+    {
+     "episode_index": 2188,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2188.jpg"
+    },
+    {
+     "episode_index": 2189,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2189.jpg"
+    },
+    {
+     "episode_index": 2190,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2190.jpg"
+    },
+    {
+     "episode_index": 2191,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2191.jpg"
+    },
+    {
+     "episode_index": 2192,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2192.jpg"
+    },
+    {
+     "episode_index": 2193,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2193.jpg"
+    },
+    {
+     "episode_index": 2194,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2194.jpg"
+    },
+    {
+     "episode_index": 2195,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2195.jpg"
+    },
+    {
+     "episode_index": 2196,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2196.jpg"
+    },
+    {
+     "episode_index": 2197,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2197.jpg"
+    },
+    {
+     "episode_index": 2198,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2198.jpg"
+    },
+    {
+     "episode_index": 2199,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2199.jpg"
+    },
+    {
+     "episode_index": 2200,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2200.jpg"
+    },
+    {
+     "episode_index": 2201,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2201.jpg"
+    },
+    {
+     "episode_index": 2202,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2202.jpg"
+    },
+    {
+     "episode_index": 2203,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2203.jpg"
+    },
+    {
+     "episode_index": 2204,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2204.jpg"
+    },
+    {
+     "episode_index": 2205,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2205.jpg"
+    },
+    {
+     "episode_index": 2206,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2206.jpg"
+    },
+    {
+     "episode_index": 2207,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2207.jpg"
+    },
+    {
+     "episode_index": 2208,
+     "task": "cable_clip",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/cable_clip__ep2208.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-eye_drops_to_basket-1",
+   "episodes": [
+    {
+     "episode_index": 1839,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1839.jpg"
+    },
+    {
+     "episode_index": 1840,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1840.jpg"
+    },
+    {
+     "episode_index": 1841,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1841.jpg"
+    },
+    {
+     "episode_index": 1842,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1842.jpg"
+    },
+    {
+     "episode_index": 1843,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1843.jpg"
+    },
+    {
+     "episode_index": 1844,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1844.jpg"
+    },
+    {
+     "episode_index": 1845,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1845.jpg"
+    },
+    {
+     "episode_index": 1846,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1846.jpg"
+    },
+    {
+     "episode_index": 1847,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1847.jpg"
+    },
+    {
+     "episode_index": 1848,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1848.jpg"
+    },
+    {
+     "episode_index": 1849,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1849.jpg"
+    },
+    {
+     "episode_index": 1850,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1850.jpg"
+    },
+    {
+     "episode_index": 1851,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1851.jpg"
+    },
+    {
+     "episode_index": 1852,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1852.jpg"
+    },
+    {
+     "episode_index": 1853,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1853.jpg"
+    },
+    {
+     "episode_index": 1854,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1854.jpg"
+    },
+    {
+     "episode_index": 1855,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1855.jpg"
+    },
+    {
+     "episode_index": 1856,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1856.jpg"
+    },
+    {
+     "episode_index": 1857,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1857.jpg"
+    },
+    {
+     "episode_index": 1858,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1858.jpg"
+    },
+    {
+     "episode_index": 1859,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1859.jpg"
+    },
+    {
+     "episode_index": 1860,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1860.jpg"
+    },
+    {
+     "episode_index": 1861,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1861.jpg"
+    },
+    {
+     "episode_index": 1862,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1862.jpg"
+    },
+    {
+     "episode_index": 1863,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1863.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-eye_drops_to_basket-2",
+   "episodes": [
+    {
+     "episode_index": 1864,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1864.jpg"
+    },
+    {
+     "episode_index": 1865,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1865.jpg"
+    },
+    {
+     "episode_index": 1866,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1866.jpg"
+    },
+    {
+     "episode_index": 1867,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1867.jpg"
+    },
+    {
+     "episode_index": 1868,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1868.jpg"
+    },
+    {
+     "episode_index": 1869,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1869.jpg"
+    },
+    {
+     "episode_index": 1870,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1870.jpg"
+    },
+    {
+     "episode_index": 1871,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1871.jpg"
+    },
+    {
+     "episode_index": 1872,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1872.jpg"
+    },
+    {
+     "episode_index": 1873,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1873.jpg"
+    },
+    {
+     "episode_index": 1874,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1874.jpg"
+    },
+    {
+     "episode_index": 1875,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1875.jpg"
+    },
+    {
+     "episode_index": 1876,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1876.jpg"
+    },
+    {
+     "episode_index": 1877,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1877.jpg"
+    },
+    {
+     "episode_index": 1878,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1878.jpg"
+    },
+    {
+     "episode_index": 1879,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1879.jpg"
+    },
+    {
+     "episode_index": 1880,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1880.jpg"
+    },
+    {
+     "episode_index": 1881,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1881.jpg"
+    },
+    {
+     "episode_index": 1882,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1882.jpg"
+    },
+    {
+     "episode_index": 1883,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1883.jpg"
+    },
+    {
+     "episode_index": 1884,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1884.jpg"
+    },
+    {
+     "episode_index": 1885,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1885.jpg"
+    },
+    {
+     "episode_index": 1886,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1886.jpg"
+    },
+    {
+     "episode_index": 1887,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1887.jpg"
+    },
+    {
+     "episode_index": 1888,
+     "task": "eye_drops_to_basket",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/eye_drops_to_basket__ep1888.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-ring_insert-1",
+   "episodes": [
+    {
+     "episode_index": 255,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep255.jpg"
+    },
+    {
+     "episode_index": 256,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep256.jpg"
+    },
+    {
+     "episode_index": 257,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep257.jpg"
+    },
+    {
+     "episode_index": 258,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep258.jpg"
+    },
+    {
+     "episode_index": 259,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep259.jpg"
+    },
+    {
+     "episode_index": 260,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep260.jpg"
+    },
+    {
+     "episode_index": 261,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep261.jpg"
+    },
+    {
+     "episode_index": 262,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep262.jpg"
+    },
+    {
+     "episode_index": 263,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep263.jpg"
+    },
+    {
+     "episode_index": 264,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep264.jpg"
+    },
+    {
+     "episode_index": 265,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep265.jpg"
+    },
+    {
+     "episode_index": 266,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep266.jpg"
+    },
+    {
+     "episode_index": 267,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep267.jpg"
+    },
+    {
+     "episode_index": 268,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep268.jpg"
+    },
+    {
+     "episode_index": 269,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep269.jpg"
+    },
+    {
+     "episode_index": 270,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep270.jpg"
+    },
+    {
+     "episode_index": 271,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep271.jpg"
+    },
+    {
+     "episode_index": 272,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep272.jpg"
+    },
+    {
+     "episode_index": 273,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep273.jpg"
+    },
+    {
+     "episode_index": 274,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep274.jpg"
+    },
+    {
+     "episode_index": 275,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep275.jpg"
+    },
+    {
+     "episode_index": 276,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep276.jpg"
+    },
+    {
+     "episode_index": 277,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep277.jpg"
+    },
+    {
+     "episode_index": 278,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep278.jpg"
+    },
+    {
+     "episode_index": 279,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep279.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-ring_insert-2",
+   "episodes": [
+    {
+     "episode_index": 280,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep280.jpg"
+    },
+    {
+     "episode_index": 281,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep281.jpg"
+    },
+    {
+     "episode_index": 282,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep282.jpg"
+    },
+    {
+     "episode_index": 283,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep283.jpg"
+    },
+    {
+     "episode_index": 284,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep284.jpg"
+    },
+    {
+     "episode_index": 285,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep285.jpg"
+    },
+    {
+     "episode_index": 286,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep286.jpg"
+    },
+    {
+     "episode_index": 287,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep287.jpg"
+    },
+    {
+     "episode_index": 288,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep288.jpg"
+    },
+    {
+     "episode_index": 289,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep289.jpg"
+    },
+    {
+     "episode_index": 290,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep290.jpg"
+    },
+    {
+     "episode_index": 291,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep291.jpg"
+    },
+    {
+     "episode_index": 292,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep292.jpg"
+    },
+    {
+     "episode_index": 293,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep293.jpg"
+    },
+    {
+     "episode_index": 294,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep294.jpg"
+    },
+    {
+     "episode_index": 295,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep295.jpg"
+    },
+    {
+     "episode_index": 296,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep296.jpg"
+    },
+    {
+     "episode_index": 297,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep297.jpg"
+    },
+    {
+     "episode_index": 298,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep298.jpg"
+    },
+    {
+     "episode_index": 299,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep299.jpg"
+    },
+    {
+     "episode_index": 300,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep300.jpg"
+    },
+    {
+     "episode_index": 301,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep301.jpg"
+    },
+    {
+     "episode_index": 302,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep302.jpg"
+    },
+    {
+     "episode_index": 303,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep303.jpg"
+    },
+    {
+     "episode_index": 304,
+     "task": "ring_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/ring_insert__ep304.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-tool_insert-1",
+   "episodes": [
+    {
+     "episode_index": 910,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep910.jpg"
+    },
+    {
+     "episode_index": 911,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep911.jpg"
+    },
+    {
+     "episode_index": 912,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep912.jpg"
+    },
+    {
+     "episode_index": 913,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep913.jpg"
+    },
+    {
+     "episode_index": 914,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep914.jpg"
+    },
+    {
+     "episode_index": 915,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep915.jpg"
+    },
+    {
+     "episode_index": 916,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep916.jpg"
+    },
+    {
+     "episode_index": 917,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep917.jpg"
+    },
+    {
+     "episode_index": 918,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep918.jpg"
+    },
+    {
+     "episode_index": 919,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep919.jpg"
+    },
+    {
+     "episode_index": 920,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep920.jpg"
+    },
+    {
+     "episode_index": 921,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep921.jpg"
+    },
+    {
+     "episode_index": 922,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep922.jpg"
+    },
+    {
+     "episode_index": 923,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep923.jpg"
+    },
+    {
+     "episode_index": 924,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep924.jpg"
+    },
+    {
+     "episode_index": 925,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep925.jpg"
+    },
+    {
+     "episode_index": 926,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep926.jpg"
+    },
+    {
+     "episode_index": 927,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep927.jpg"
+    },
+    {
+     "episode_index": 928,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep928.jpg"
+    },
+    {
+     "episode_index": 929,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep929.jpg"
+    },
+    {
+     "episode_index": 930,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep930.jpg"
+    },
+    {
+     "episode_index": 931,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep931.jpg"
+    },
+    {
+     "episode_index": 932,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep932.jpg"
+    },
+    {
+     "episode_index": 933,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep933.jpg"
+    },
+    {
+     "episode_index": 934,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep934.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-clean-tool_insert-2",
+   "episodes": [
+    {
+     "episode_index": 935,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep935.jpg"
+    },
+    {
+     "episode_index": 936,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep936.jpg"
+    },
+    {
+     "episode_index": 937,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep937.jpg"
+    },
+    {
+     "episode_index": 938,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep938.jpg"
+    },
+    {
+     "episode_index": 939,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep939.jpg"
+    },
+    {
+     "episode_index": 940,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep940.jpg"
+    },
+    {
+     "episode_index": 941,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep941.jpg"
+    },
+    {
+     "episode_index": 942,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep942.jpg"
+    },
+    {
+     "episode_index": 943,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep943.jpg"
+    },
+    {
+     "episode_index": 944,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep944.jpg"
+    },
+    {
+     "episode_index": 945,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep945.jpg"
+    },
+    {
+     "episode_index": 946,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep946.jpg"
+    },
+    {
+     "episode_index": 947,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep947.jpg"
+    },
+    {
+     "episode_index": 948,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep948.jpg"
+    },
+    {
+     "episode_index": 949,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep949.jpg"
+    },
+    {
+     "episode_index": 950,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep950.jpg"
+    },
+    {
+     "episode_index": 951,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep951.jpg"
+    },
+    {
+     "episode_index": 952,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep952.jpg"
+    },
+    {
+     "episode_index": 953,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep953.jpg"
+    },
+    {
+     "episode_index": 954,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep954.jpg"
+    },
+    {
+     "episode_index": 955,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep955.jpg"
+    },
+    {
+     "episode_index": 956,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep956.jpg"
+    },
+    {
+     "episode_index": 957,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep957.jpg"
+    },
+    {
+     "episode_index": 958,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep958.jpg"
+    },
+    {
+     "episode_index": 959,
+     "task": "tool_insert",
+     "sheet": "/home/hatch/workspace/research_notes/zk0-bench003-design-20261119/training-demo-audit-20261123/frames/tool_insert__ep959.jpg"
+    }
+   ]
+  }
+ ]
+}

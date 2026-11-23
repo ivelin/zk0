@@ -1,0 +1,25 @@
+ep804 | PASS | final frames show exactly one blue pen in the bowl
+ep805 | PASS | final frames show exactly one blue pen in the bowl
+ep808 | PASS | final frames show two objects, yellow block and blue pen, in the bowl
+ep810 | PASS | final frames show two objects, small object and blue pen, in the bowl
+ep811 | PASS | final frames show two objects, yellow block and blue pen, in the bowl
+ep825 | PASS | final frames show an empty bowl with the blue pen on the table
+ep827 | PASS | final frames show an empty bowl with the pen on the table
+ep828 | PASS | final frames show an empty bowl with the blue pen on the table
+ep833 | PASS | final frames show the blue pen on the table out of the bowl
+ep836 | PASS | final frames show the blue pen on the table out of the bowl
+ep839 | PASS | final frames show two objects, yellow block and small object, in the bowl
+ep846 | PASS | final frames show three objects, green, yellow and small silver, in the bowl
+ep848 | PASS | final frames show three objects, green, yellow and small silver, in the bowl
+ep857 | PASS | final frames show exactly one yellow block in the bowl
+ep858 | PASS | final frames show two objects, green and yellow, in the bowl
+ep859 | PASS | final frames show two objects, yellow block and small silver, in the bowl
+ep863 | PASS | final frames show two objects, yellow block and blue pen, in the bowl
+ep865 | PASS | final frames show two objects, green and yellow, in the bowl
+ep876 | PASS | final frames show an empty bowl with the yellow block on the table
+ep885 | PASS | final frames show the yellow block on the table out of the bowl
+ep887 | PASS | final frames show two objects, green and small object, in the bowl
+ep892 | PASS | final frames show two objects, green sharpener and blue item, in the bowl
+ep900 | PASS | final frames show exactly one green object in the bowl
+ep902 | PASS | final frames show exactly one green object in the bowl
+ep934 | PASS | final frames show the green pencil sharpener on the table out of the bowl

@@ -1,0 +1,25 @@
+ep7 | PASS | closed white cup lying in the bowl at end, gripper released
+ep30 | PASS | white cup lying in the bowl at end, gripper released
+ep36 | PASS | white cup lying in the bowl at end, gripper released
+ep44 | PASS | white cup lying in the bowl at end, gripper released
+ep46 | PASS | white cup lying in the bowl at end, gripper released
+ep51 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep56 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep60 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep64 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep67 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep70 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep71 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep89 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep90 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep91 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep92 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep96 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep97 | PASS | yellow-white striped cup lying in the bowl at end, gripper released
+ep103 | PASS | brown cup lying in the bowl at end, gripper released
+ep105 | PASS | brown cup lying in the bowl at end, gripper released
+ep108 | PASS | brown cup lying in the bowl at end, gripper released
+ep112 | PASS | brown cup lying in the bowl at end, gripper released
+ep113 | PASS | brown cup lying in the bowl at end, gripper released
+ep116 | PASS | brown cup lying in the bowl at end, gripper released
+ep123 | PASS | brown cup lying in the bowl at end, gripper released

@@ -1,0 +1,25 @@
+ep629 | PASS | airplane toy visible inside the bowl in final frames, gripper released
+ep631 | PASS | airplane toy visible inside the bowl in final frames, gripper released
+ep632 | PASS | airplane toy visible inside the bowl in final frames, gripper released
+ep662 | PASS | blue tape ball visible inside the bowl in final frames, gripper released
+ep663 | PASS | blue tape ball visible inside the bowl in final frames, gripper released
+ep665 | PASS | blue tape ball visible inside the bowl in final frames, gripper released
+ep669 | PASS | blue tape ball visible inside the bowl in final frames, gripper released
+ep674 | PASS | blue tape ball visible inside the bowl in final frames, gripper released
+ep725 | PASS | green highlighter lying inside the bowl in final frames, gripper released
+ep737 | PASS | green highlighter lying inside the bowl in final frames, gripper released
+ep757 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep772 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep773 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep791 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep792 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep794 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep795 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep798 | PASS | yellow pen lying in the bowl in final frames, gripper released
+ep823 | PASS | blue pen lying in the bowl in final frames, gripper released
+ep824 | PASS | blue pen lying in the bowl in final frames, gripper released
+ep869 | PASS | yellow block visible inside the bowl in final frames, gripper released
+ep916 | PASS | green pencil sharpener visible inside the bowl in final frames, gripper released
+ep917 | PASS | green pencil sharpener visible inside the bowl in final frames, gripper released
+ep919 | PASS | green pencil sharpener visible inside the bowl in final frames, gripper released
+ep1003 | PASS | red pencil sharpener visible inside the bowl in final frames, gripper released

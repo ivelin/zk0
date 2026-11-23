@@ -1,0 +1,25 @@
+ep560 | CLEAN
+ep561 | CLEAN
+ep562 | CLEAN
+ep563 | INCIDENT | gripper nudged the yellow pen while grasping the target beside it, pen displaced and stayed displaced
+ep564 | CLEAN
+ep580 | CLEAN
+ep581 | INCIDENT | gripper/arm brushed the yellow pen beside the bowl, pen displaced toward the bowl and stayed displaced
+ep582 | CLEAN
+ep583 | CLEAN
+ep584 | INCIDENT | arm/gripper contacted the crushed Pepsi can while grasping the target beside it, can displaced and stayed displaced
+ep585 | CLEAN
+ep586 | CLEAN
+ep587 | CLEAN
+ep588 | CLEAN
+ep589 | CLEAN
+ep590 | CLEAN
+ep591 | CLEAN
+ep592 | CLEAN
+ep593 | CLEAN
+ep594 | CLEAN
+ep595 | CLEAN
+ep596 | CLEAN
+ep597 | CLEAN
+ep598 | CLEAN
+ep599 | CLEAN

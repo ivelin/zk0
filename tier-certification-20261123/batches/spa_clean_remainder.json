@@ -1,0 +1,3030 @@
+{
+ "note": "Spa-Bench cleanliness remainder (refe/ordi/coun/size), drawn 2026-11-23 successor coordinator",
+ "batches": [
+  {
+   "batch_id": "spa-clean-rem-01",
+   "episodes": [
+    {
+     "episode_index": 415,
+     "task_string": "Pick up the crushed soda can furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep415.jpg"
+    },
+    {
+     "episode_index": 416,
+     "task_string": "Pick up the crushed soda can furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep416.jpg"
+    },
+    {
+     "episode_index": 417,
+     "task_string": "Pick up the crushed soda can furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep417.jpg"
+    },
+    {
+     "episode_index": 418,
+     "task_string": "Pick up the crushed soda can furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep418.jpg"
+    },
+    {
+     "episode_index": 419,
+     "task_string": "Pick up the crushed soda can furthest from the green pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep419.jpg"
+    },
+    {
+     "episode_index": 420,
+     "task_string": "Pick up the crushed soda can furthest from the red pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep420.jpg"
+    },
+    {
+     "episode_index": 421,
+     "task_string": "Pick up the crushed soda can furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep421.jpg"
+    },
+    {
+     "episode_index": 422,
+     "task_string": "Pick up the crushed soda can furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep422.jpg"
+    },
+    {
+     "episode_index": 423,
+     "task_string": "Pick up the crushed soda can furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep423.jpg"
+    },
+    {
+     "episode_index": 424,
+     "task_string": "Pick up the crushed soda can furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep424.jpg"
+    },
+    {
+     "episode_index": 425,
+     "task_string": "Pick up the crushed soda can furthest from the green pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep425.jpg"
+    },
+    {
+     "episode_index": 426,
+     "task_string": "Pick up the crushed soda can furthest from the red pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep426.jpg"
+    },
+    {
+     "episode_index": 427,
+     "task_string": "Pick up the crushed soda can furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep427.jpg"
+    },
+    {
+     "episode_index": 428,
+     "task_string": "Pick up the crushed soda can furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep428.jpg"
+    },
+    {
+     "episode_index": 429,
+     "task_string": "Pick up the crushed soda can furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep429.jpg"
+    },
+    {
+     "episode_index": 430,
+     "task_string": "Move the crushed soda can lying between the green pencil sharpener and the green pen into the bowl.",
+     "sheet": "sheets/spa__ep430.jpg"
+    },
+    {
+     "episode_index": 431,
+     "task_string": "Pick up the crushed soda can positioned between the airplane toy with propellers and the green pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep431.jpg"
+    },
+    {
+     "episode_index": 432,
+     "task_string": "Pick up the crushed soda can positioned between the airplane toy with propellers and the green pen, then place it in the bowl.",
+     "sheet": "sheets/spa__ep432.jpg"
+    },
+    {
+     "episode_index": 433,
+     "task_string": "Move the crushed soda can lying between the green pencil sharpener and the yellow pen into the bowl.",
+     "sheet": "sheets/spa__ep433.jpg"
+    },
+    {
+     "episode_index": 434,
+     "task_string": "Move the crushed soda can lying between the red pencil sharpener and the airplane toy with propellers into the bowl.",
+     "sheet": "sheets/spa__ep434.jpg"
+    },
+    {
+     "episode_index": 435,
+     "task_string": "Pick up the crushed soda can positioned between the airplane toy without propellers and the yellow pen, then place it in the bowl.",
+     "sheet": "sheets/spa__ep435.jpg"
+    },
+    {
+     "episode_index": 436,
+     "task_string": "Pick up the crushed soda can positioned between the green pen and the red pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep436.jpg"
+    },
+    {
+     "episode_index": 437,
+     "task_string": "Put the crushed soda can between the red pencil sharpener and the airplane toy without propellers in the bowl.",
+     "sheet": "sheets/spa__ep437.jpg"
+    },
+    {
+     "episode_index": 438,
+     "task_string": "Put the crushed soda can between the green pen and the airplane toy without propellers in the bowl.",
+     "sheet": "sheets/spa__ep438.jpg"
+    },
+    {
+     "episode_index": 439,
+     "task_string": "Move the crushed soda can lying between the yellow pen and the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep439.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-02",
+   "episodes": [
+    {
+     "episode_index": 440,
+     "task_string": "Put the crushed soda can between the airplane toy without propellers and the green pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep440.jpg"
+    },
+    {
+     "episode_index": 441,
+     "task_string": "Move the crushed soda can lying between the yellow pen and the airplane toy with propellers into the bowl.",
+     "sheet": "sheets/spa__ep441.jpg"
+    },
+    {
+     "episode_index": 442,
+     "task_string": "Pick up the crushed soda can positioned between the green pencil sharpener and the green pen, then place it in the bowl.",
+     "sheet": "sheets/spa__ep442.jpg"
+    },
+    {
+     "episode_index": 443,
+     "task_string": "Pick up the crushed soda can positioned between the airplane toy with propellers and the green pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep443.jpg"
+    },
+    {
+     "episode_index": 444,
+     "task_string": "Move the crushed soda can lying between the airplane toy with propellers and the green pen into the bowl.",
+     "sheet": "sheets/spa__ep444.jpg"
+    },
+    {
+     "episode_index": 445,
+     "task_string": "Move the crushed soda can lying between the green pencil sharpener and the yellow pen into the bowl.",
+     "sheet": "sheets/spa__ep445.jpg"
+    },
+    {
+     "episode_index": 446,
+     "task_string": "Pick up the crushed soda can positioned between the red pencil sharpener and the airplane toy with propellers, then place it in the bowl.",
+     "sheet": "sheets/spa__ep446.jpg"
+    },
+    {
+     "episode_index": 447,
+     "task_string": "Move the crushed soda can lying between the airplane toy without propellers and the yellow pen into the bowl.",
+     "sheet": "sheets/spa__ep447.jpg"
+    },
+    {
+     "episode_index": 448,
+     "task_string": "Put the crushed soda can between the green pen and the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep448.jpg"
+    },
+    {
+     "episode_index": 449,
+     "task_string": "Pick up the crushed soda can positioned between the red pencil sharpener and the airplane toy without propellers, then place it in the bowl.",
+     "sheet": "sheets/spa__ep449.jpg"
+    },
+    {
+     "episode_index": 450,
+     "task_string": "Pick up the pencil sharpener nearest to the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep450.jpg"
+    },
+    {
+     "episode_index": 451,
+     "task_string": "Move the pencil sharpener that is closest to the crushed Pepsi can into the bowl.",
+     "sheet": "sheets/spa__ep451.jpg"
+    },
+    {
+     "episode_index": 452,
+     "task_string": "Move the pencil sharpener that is closest to the green pen into the bowl.",
+     "sheet": "sheets/spa__ep452.jpg"
+    },
+    {
+     "episode_index": 453,
+     "task_string": "Put the pencil sharpener closest to the yellow pen in the bowl.",
+     "sheet": "sheets/spa__ep453.jpg"
+    },
+    {
+     "episode_index": 454,
+     "task_string": "Put the pencil sharpener closest to the airplane toy with propellers in the bowl.",
+     "sheet": "sheets/spa__ep454.jpg"
+    },
+    {
+     "episode_index": 455,
+     "task_string": "Move the pencil sharpener that is closest to the airplane toy without propellers into the bowl.",
+     "sheet": "sheets/spa__ep455.jpg"
+    },
+    {
+     "episode_index": 456,
+     "task_string": "Move the pencil sharpener that is closest to the crushed Coke can into the bowl.",
+     "sheet": "sheets/spa__ep456.jpg"
+    },
+    {
+     "episode_index": 457,
+     "task_string": "Put the pencil sharpener closest to the crushed Pepsi can in the bowl.",
+     "sheet": "sheets/spa__ep457.jpg"
+    },
+    {
+     "episode_index": 458,
+     "task_string": "Move the pencil sharpener that is closest to the green pen into the bowl.",
+     "sheet": "sheets/spa__ep458.jpg"
+    },
+    {
+     "episode_index": 459,
+     "task_string": "Put the pencil sharpener closest to the yellow pen in the bowl.",
+     "sheet": "sheets/spa__ep459.jpg"
+    },
+    {
+     "episode_index": 460,
+     "task_string": "Pick up the pencil sharpener nearest to the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep460.jpg"
+    },
+    {
+     "episode_index": 461,
+     "task_string": "Pick up the pencil sharpener nearest to the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep461.jpg"
+    },
+    {
+     "episode_index": 462,
+     "task_string": "Put the pencil sharpener closest to the crushed Coke can in the bowl.",
+     "sheet": "sheets/spa__ep462.jpg"
+    },
+    {
+     "episode_index": 463,
+     "task_string": "Pick up the pencil sharpener nearest to the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep463.jpg"
+    },
+    {
+     "episode_index": 464,
+     "task_string": "Move the pencil sharpener that is closest to the green pen into the bowl.",
+     "sheet": "sheets/spa__ep464.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-03",
+   "episodes": [
+    {
+     "episode_index": 465,
+     "task_string": "Pick up the pencil sharpener furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep465.jpg"
+    },
+    {
+     "episode_index": 466,
+     "task_string": "Pick up the pencil sharpener furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep466.jpg"
+    },
+    {
+     "episode_index": 467,
+     "task_string": "Pick up the pencil sharpener furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep467.jpg"
+    },
+    {
+     "episode_index": 468,
+     "task_string": "Pick up the pencil sharpener furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep468.jpg"
+    },
+    {
+     "episode_index": 469,
+     "task_string": "Pick up the pencil sharpener furthest from the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep469.jpg"
+    },
+    {
+     "episode_index": 470,
+     "task_string": "Pick up the pencil sharpener furthest from the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep470.jpg"
+    },
+    {
+     "episode_index": 471,
+     "task_string": "Pick up the pencil sharpener furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep471.jpg"
+    },
+    {
+     "episode_index": 472,
+     "task_string": "Pick up the pencil sharpener furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep472.jpg"
+    },
+    {
+     "episode_index": 473,
+     "task_string": "Pick up the pencil sharpener furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep473.jpg"
+    },
+    {
+     "episode_index": 474,
+     "task_string": "Pick up the pencil sharpener furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep474.jpg"
+    },
+    {
+     "episode_index": 475,
+     "task_string": "Pick up the pencil sharpener furthest from the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep475.jpg"
+    },
+    {
+     "episode_index": 476,
+     "task_string": "Pick up the pencil sharpener furthest from the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep476.jpg"
+    },
+    {
+     "episode_index": 477,
+     "task_string": "Pick up the pencil sharpener furthest from the green pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep477.jpg"
+    },
+    {
+     "episode_index": 478,
+     "task_string": "Pick up the pencil sharpener furthest from the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep478.jpg"
+    },
+    {
+     "episode_index": 479,
+     "task_string": "Pick up the pencil sharpener furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep479.jpg"
+    },
+    {
+     "episode_index": 500,
+     "task_string": "Pick up the pen nearest to the green pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep500.jpg"
+    },
+    {
+     "episode_index": 501,
+     "task_string": "Put the pen closest to the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep501.jpg"
+    },
+    {
+     "episode_index": 502,
+     "task_string": "Pick up the pen nearest to the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep502.jpg"
+    },
+    {
+     "episode_index": 503,
+     "task_string": "Put the pen closest to the crushed Pepsi can in the bowl.",
+     "sheet": "sheets/spa__ep503.jpg"
+    },
+    {
+     "episode_index": 504,
+     "task_string": "Pick up the pen nearest to the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep504.jpg"
+    },
+    {
+     "episode_index": 505,
+     "task_string": "Move the pen that is closest to the airplane toy without propellers into the bowl.",
+     "sheet": "sheets/spa__ep505.jpg"
+    },
+    {
+     "episode_index": 506,
+     "task_string": "Move the pen that is closest to the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep506.jpg"
+    },
+    {
+     "episode_index": 507,
+     "task_string": "Move the pen that is closest to the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep507.jpg"
+    },
+    {
+     "episode_index": 508,
+     "task_string": "Put the pen closest to the crushed Coke can in the bowl.",
+     "sheet": "sheets/spa__ep508.jpg"
+    },
+    {
+     "episode_index": 509,
+     "task_string": "Move the pen that is closest to the crushed Pepsi can into the bowl.",
+     "sheet": "sheets/spa__ep509.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-04",
+   "episodes": [
+    {
+     "episode_index": 510,
+     "task_string": "Put the pen closest to the airplane toy with propellers in the bowl.",
+     "sheet": "sheets/spa__ep510.jpg"
+    },
+    {
+     "episode_index": 511,
+     "task_string": "Put the pen closest to the airplane toy without propellers in the bowl.",
+     "sheet": "sheets/spa__ep511.jpg"
+    },
+    {
+     "episode_index": 512,
+     "task_string": "Move the pen that is closest to the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep512.jpg"
+    },
+    {
+     "episode_index": 513,
+     "task_string": "Put the pen closest to the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep513.jpg"
+    },
+    {
+     "episode_index": 514,
+     "task_string": "Put the pen closest to the crushed Coke can in the bowl.",
+     "sheet": "sheets/spa__ep514.jpg"
+    },
+    {
+     "episode_index": 515,
+     "task_string": "Pick up the pen furthest from the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep515.jpg"
+    },
+    {
+     "episode_index": 516,
+     "task_string": "Pick up the pen furthest from the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep516.jpg"
+    },
+    {
+     "episode_index": 517,
+     "task_string": "Pick up the pen furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep517.jpg"
+    },
+    {
+     "episode_index": 518,
+     "task_string": "Pick up the pen furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep518.jpg"
+    },
+    {
+     "episode_index": 519,
+     "task_string": "Pick up the pen furthest from the green pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep519.jpg"
+    },
+    {
+     "episode_index": 520,
+     "task_string": "Pick up the pen furthest from the red pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep520.jpg"
+    },
+    {
+     "episode_index": 521,
+     "task_string": "Pick up the pen furthest from the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep521.jpg"
+    },
+    {
+     "episode_index": 522,
+     "task_string": "Pick up the pen furthest from the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep522.jpg"
+    },
+    {
+     "episode_index": 523,
+     "task_string": "Pick up the pen furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep523.jpg"
+    },
+    {
+     "episode_index": 524,
+     "task_string": "Pick up the pen furthest from the airplane toy without propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep524.jpg"
+    },
+    {
+     "episode_index": 525,
+     "task_string": "Pick up the pen furthest from the green pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep525.jpg"
+    },
+    {
+     "episode_index": 526,
+     "task_string": "Pick up the pen furthest from the red pencil sharpener and place it in the bowl.",
+     "sheet": "sheets/spa__ep526.jpg"
+    },
+    {
+     "episode_index": 527,
+     "task_string": "Pick up the pen furthest from the crushed Coke can and place it in the bowl.",
+     "sheet": "sheets/spa__ep527.jpg"
+    },
+    {
+     "episode_index": 528,
+     "task_string": "Pick up the pen furthest from the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep528.jpg"
+    },
+    {
+     "episode_index": 529,
+     "task_string": "Pick up the pen furthest from the airplane toy with propellers and place it in the bowl.",
+     "sheet": "sheets/spa__ep529.jpg"
+    },
+    {
+     "episode_index": 530,
+     "task_string": "Pick up the pen positioned between the airplane toy without propellers and the green pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep530.jpg"
+    },
+    {
+     "episode_index": 531,
+     "task_string": "Move the pen lying between the crushed Pepsi can and the airplane toy with propellers into the bowl.",
+     "sheet": "sheets/spa__ep531.jpg"
+    },
+    {
+     "episode_index": 532,
+     "task_string": "Put the pen between the green pencil sharpener and the crushed Coke can in the bowl.",
+     "sheet": "sheets/spa__ep532.jpg"
+    },
+    {
+     "episode_index": 533,
+     "task_string": "Pick up the pen positioned between the airplane toy with propellers and the green pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep533.jpg"
+    },
+    {
+     "episode_index": 534,
+     "task_string": "Pick up the pen positioned between the airplane toy with propellers and the crushed Coke can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep534.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-05",
+   "episodes": [
+    {
+     "episode_index": 535,
+     "task_string": "Put the pen between the green pencil sharpener and the crushed Pepsi can in the bowl.",
+     "sheet": "sheets/spa__ep535.jpg"
+    },
+    {
+     "episode_index": 536,
+     "task_string": "Move the pen lying between the red pencil sharpener and the airplane toy with propellers into the bowl.",
+     "sheet": "sheets/spa__ep536.jpg"
+    },
+    {
+     "episode_index": 537,
+     "task_string": "Put the pen between the airplane toy without propellers and the crushed Pepsi can in the bowl.",
+     "sheet": "sheets/spa__ep537.jpg"
+    },
+    {
+     "episode_index": 538,
+     "task_string": "Move the pen lying between the crushed Coke can and the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep538.jpg"
+    },
+    {
+     "episode_index": 539,
+     "task_string": "Move the pen lying between the red pencil sharpener and the airplane toy without propellers into the bowl.",
+     "sheet": "sheets/spa__ep539.jpg"
+    },
+    {
+     "episode_index": 540,
+     "task_string": "Move the pen lying between the green pencil sharpener and the crushed Coke can into the bowl.",
+     "sheet": "sheets/spa__ep540.jpg"
+    },
+    {
+     "episode_index": 541,
+     "task_string": "Put the pen between the airplane toy with propellers and the green pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep541.jpg"
+    },
+    {
+     "episode_index": 542,
+     "task_string": "Move the pen lying between the airplane toy with propellers and the crushed Coke can into the bowl.",
+     "sheet": "sheets/spa__ep542.jpg"
+    },
+    {
+     "episode_index": 543,
+     "task_string": "Pick up the pen positioned between the green pencil sharpener and the crushed Pepsi can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep543.jpg"
+    },
+    {
+     "episode_index": 544,
+     "task_string": "Pick up the pen positioned between the red pencil sharpener and the airplane toy with propellers, then place it in the bowl.",
+     "sheet": "sheets/spa__ep544.jpg"
+    },
+    {
+     "episode_index": 545,
+     "task_string": "Move the pen lying between the airplane toy without propellers and the crushed Pepsi can into the bowl.",
+     "sheet": "sheets/spa__ep545.jpg"
+    },
+    {
+     "episode_index": 546,
+     "task_string": "Move the pen lying between the crushed Coke can and the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep546.jpg"
+    },
+    {
+     "episode_index": 547,
+     "task_string": "Pick up the pen positioned between the red pencil sharpener and the airplane toy without propellers, then place it in the bowl.",
+     "sheet": "sheets/spa__ep547.jpg"
+    },
+    {
+     "episode_index": 548,
+     "task_string": "Put the pen between the crushed Coke can and the airplane toy without propellers in the bowl.",
+     "sheet": "sheets/spa__ep548.jpg"
+    },
+    {
+     "episode_index": 549,
+     "task_string": "Put the pen between the crushed Pepsi can and the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep549.jpg"
+    },
+    {
+     "episode_index": 550,
+     "task_string": "Put the airplane toy closest to the green pen in the bowl.",
+     "sheet": "sheets/spa__ep550.jpg"
+    },
+    {
+     "episode_index": 551,
+     "task_string": "Pick up the airplane toy nearest to the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep551.jpg"
+    },
+    {
+     "episode_index": 552,
+     "task_string": "Put the airplane toy closest to the green pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep552.jpg"
+    },
+    {
+     "episode_index": 553,
+     "task_string": "Put the airplane toy closest to the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep553.jpg"
+    },
+    {
+     "episode_index": 554,
+     "task_string": "Move the airplane toy that is closest to the crushed Coke can into the bowl.",
+     "sheet": "sheets/spa__ep554.jpg"
+    },
+    {
+     "episode_index": 555,
+     "task_string": "Move the airplane toy that is closest to the crushed Pepsi can into the bowl.",
+     "sheet": "sheets/spa__ep555.jpg"
+    },
+    {
+     "episode_index": 556,
+     "task_string": "Move the airplane toy that is closest to the green pen into the bowl.",
+     "sheet": "sheets/spa__ep556.jpg"
+    },
+    {
+     "episode_index": 557,
+     "task_string": "Pick up the airplane toy nearest to the yellow pen and place it in the bowl.",
+     "sheet": "sheets/spa__ep557.jpg"
+    },
+    {
+     "episode_index": 558,
+     "task_string": "Move the airplane toy that is closest to the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep558.jpg"
+    },
+    {
+     "episode_index": 559,
+     "task_string": "Put the airplane toy closest to the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep559.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-06",
+   "episodes": [
+    {
+     "episode_index": 560,
+     "task_string": "Move the airplane toy that is closest to the crushed Coke can into the bowl.",
+     "sheet": "sheets/spa__ep560.jpg"
+    },
+    {
+     "episode_index": 561,
+     "task_string": "Pick up the airplane toy nearest to the crushed Pepsi can and place it in the bowl.",
+     "sheet": "sheets/spa__ep561.jpg"
+    },
+    {
+     "episode_index": 562,
+     "task_string": "Move the airplane toy that is closest to the green pen into the bowl.",
+     "sheet": "sheets/spa__ep562.jpg"
+    },
+    {
+     "episode_index": 563,
+     "task_string": "Move the airplane toy that is closest to the yellow pen into the bowl.",
+     "sheet": "sheets/spa__ep563.jpg"
+    },
+    {
+     "episode_index": 564,
+     "task_string": "Put the airplane toy closest to the green pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep564.jpg"
+    },
+    {
+     "episode_index": 580,
+     "task_string": "Pick up the airplane toy positioned between the green pen and the red pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep580.jpg"
+    },
+    {
+     "episode_index": 581,
+     "task_string": "Pick up the airplane toy positioned between the yellow pen and the crushed Coke can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep581.jpg"
+    },
+    {
+     "episode_index": 582,
+     "task_string": "Move the airplane toy lying between the crushed Pepsi can and the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep582.jpg"
+    },
+    {
+     "episode_index": 583,
+     "task_string": "Pick up the airplane toy positioned between the green pencil sharpener and the yellow pen, then place it in the bowl.",
+     "sheet": "sheets/spa__ep583.jpg"
+    },
+    {
+     "episode_index": 584,
+     "task_string": "Pick up the airplane toy positioned between the yellow pen and the crushed Pepsi can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep584.jpg"
+    },
+    {
+     "episode_index": 585,
+     "task_string": "Move the airplane toy lying between the green pen and the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep585.jpg"
+    },
+    {
+     "episode_index": 586,
+     "task_string": "Put the airplane toy between the crushed Coke can and the green pen in the bowl.",
+     "sheet": "sheets/spa__ep586.jpg"
+    },
+    {
+     "episode_index": 587,
+     "task_string": "Move the airplane toy lying between the crushed Coke can and the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep587.jpg"
+    },
+    {
+     "episode_index": 588,
+     "task_string": "Move the airplane toy lying between the green pen and the red pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep588.jpg"
+    },
+    {
+     "episode_index": 589,
+     "task_string": "Pick up the airplane toy positioned between the yellow pen and the crushed Coke can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep589.jpg"
+    },
+    {
+     "episode_index": 590,
+     "task_string": "Put the airplane toy between the crushed Pepsi can and the red pencil sharpener in the bowl.",
+     "sheet": "sheets/spa__ep590.jpg"
+    },
+    {
+     "episode_index": 591,
+     "task_string": "Put the airplane toy between the green pencil sharpener and the yellow pen in the bowl.",
+     "sheet": "sheets/spa__ep591.jpg"
+    },
+    {
+     "episode_index": 592,
+     "task_string": "Pick up the airplane toy positioned between the yellow pen and the crushed Pepsi can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep592.jpg"
+    },
+    {
+     "episode_index": 593,
+     "task_string": "Put the airplane toy between the green pencil sharpener and the crushed Pepsi can in the bowl.",
+     "sheet": "sheets/spa__ep593.jpg"
+    },
+    {
+     "episode_index": 594,
+     "task_string": "Move the airplane toy lying between the red pencil sharpener and the yellow pen into the bowl.",
+     "sheet": "sheets/spa__ep594.jpg"
+    },
+    {
+     "episode_index": 595,
+     "task_string": "Move the airplane toy lying between the crushed Pepsi can and the green pen into the bowl.",
+     "sheet": "sheets/spa__ep595.jpg"
+    },
+    {
+     "episode_index": 596,
+     "task_string": "Pick up the airplane toy positioned between the red pencil sharpener and the crushed Coke can, then place it in the bowl.",
+     "sheet": "sheets/spa__ep596.jpg"
+    },
+    {
+     "episode_index": 597,
+     "task_string": "Pick up the airplane toy positioned between the green pen and the green pencil sharpener, then place it in the bowl.",
+     "sheet": "sheets/spa__ep597.jpg"
+    },
+    {
+     "episode_index": 598,
+     "task_string": "Put the airplane toy between the crushed Coke can and the green pen in the bowl.",
+     "sheet": "sheets/spa__ep598.jpg"
+    },
+    {
+     "episode_index": 599,
+     "task_string": "Move the airplane toy lying between the crushed Coke can and the green pencil sharpener into the bowl.",
+     "sheet": "sheets/spa__ep599.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-07",
+   "episodes": [
+    {
+     "episode_index": 604,
+     "task_string": "Put the third object from the right in the bowl.",
+     "sheet": "sheets/spa__ep604.jpg"
+    },
+    {
+     "episode_index": 605,
+     "task_string": "Put the third object from the right in the bowl.",
+     "sheet": "sheets/spa__ep605.jpg"
+    },
+    {
+     "episode_index": 606,
+     "task_string": "Pick up the object that is third from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep606.jpg"
+    },
+    {
+     "episode_index": 607,
+     "task_string": "Move the first item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep607.jpg"
+    },
+    {
+     "episode_index": 613,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep613.jpg"
+    },
+    {
+     "episode_index": 614,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep614.jpg"
+    },
+    {
+     "episode_index": 615,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep615.jpg"
+    },
+    {
+     "episode_index": 616,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep616.jpg"
+    },
+    {
+     "episode_index": 617,
+     "task_string": "Pick up the object that is third from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep617.jpg"
+    },
+    {
+     "episode_index": 618,
+     "task_string": "Pick up the object that is third from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep618.jpg"
+    },
+    {
+     "episode_index": 619,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep619.jpg"
+    },
+    {
+     "episode_index": 620,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep620.jpg"
+    },
+    {
+     "episode_index": 621,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep621.jpg"
+    },
+    {
+     "episode_index": 622,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep622.jpg"
+    },
+    {
+     "episode_index": 623,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep623.jpg"
+    },
+    {
+     "episode_index": 624,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep624.jpg"
+    },
+    {
+     "episode_index": 625,
+     "task_string": "Put the object that is second from the right in the bowl.",
+     "sheet": "sheets/spa__ep625.jpg"
+    },
+    {
+     "episode_index": 626,
+     "task_string": "Pick up the object that is third from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep626.jpg"
+    },
+    {
+     "episode_index": 627,
+     "task_string": "Move the second from the right object into the bowl.",
+     "sheet": "sheets/spa__ep627.jpg"
+    },
+    {
+     "episode_index": 628,
+     "task_string": "Put the object that is third from the left in the bowl.",
+     "sheet": "sheets/spa__ep628.jpg"
+    },
+    {
+     "episode_index": 635,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep635.jpg"
+    },
+    {
+     "episode_index": 636,
+     "task_string": "Move the third from the left object into the bowl.",
+     "sheet": "sheets/spa__ep636.jpg"
+    },
+    {
+     "episode_index": 637,
+     "task_string": "Put the object that is second from the right in the bowl.",
+     "sheet": "sheets/spa__ep637.jpg"
+    },
+    {
+     "episode_index": 638,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep638.jpg"
+    },
+    {
+     "episode_index": 639,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep639.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-08",
+   "episodes": [
+    {
+     "episode_index": 640,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep640.jpg"
+    },
+    {
+     "episode_index": 641,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep641.jpg"
+    },
+    {
+     "episode_index": 642,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep642.jpg"
+    },
+    {
+     "episode_index": 643,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep643.jpg"
+    },
+    {
+     "episode_index": 644,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep644.jpg"
+    },
+    {
+     "episode_index": 645,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep645.jpg"
+    },
+    {
+     "episode_index": 646,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep646.jpg"
+    },
+    {
+     "episode_index": 647,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep647.jpg"
+    },
+    {
+     "episode_index": 648,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep648.jpg"
+    },
+    {
+     "episode_index": 649,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep649.jpg"
+    },
+    {
+     "episode_index": 650,
+     "task_string": "Move the fourth item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep650.jpg"
+    },
+    {
+     "episode_index": 651,
+     "task_string": "Pick up the object that is first from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep651.jpg"
+    },
+    {
+     "episode_index": 652,
+     "task_string": "Put the fourth object from the right in the bowl.",
+     "sheet": "sheets/spa__ep652.jpg"
+    },
+    {
+     "episode_index": 653,
+     "task_string": "Pick up the object that is first from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep653.jpg"
+    },
+    {
+     "episode_index": 658,
+     "task_string": "Put the second object from the right in the bowl.",
+     "sheet": "sheets/spa__ep658.jpg"
+    },
+    {
+     "episode_index": 659,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep659.jpg"
+    },
+    {
+     "episode_index": 660,
+     "task_string": "Put the second object from the right in the bowl.",
+     "sheet": "sheets/spa__ep660.jpg"
+    },
+    {
+     "episode_index": 661,
+     "task_string": "Put the first object from the left in the bowl.",
+     "sheet": "sheets/spa__ep661.jpg"
+    },
+    {
+     "episode_index": 675,
+     "task_string": "Move the second from the right object into the bowl.",
+     "sheet": "sheets/spa__ep675.jpg"
+    },
+    {
+     "episode_index": 676,
+     "task_string": "Put the object that is third from the left in the bowl.",
+     "sheet": "sheets/spa__ep676.jpg"
+    },
+    {
+     "episode_index": 677,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep677.jpg"
+    },
+    {
+     "episode_index": 678,
+     "task_string": "Move the third from the left object into the bowl.",
+     "sheet": "sheets/spa__ep678.jpg"
+    },
+    {
+     "episode_index": 679,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep679.jpg"
+    },
+    {
+     "episode_index": 680,
+     "task_string": "Pick up the object that is third from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep680.jpg"
+    },
+    {
+     "episode_index": 681,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep681.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-09",
+   "episodes": [
+    {
+     "episode_index": 682,
+     "task_string": "Put the object that is third from the left in the bowl.",
+     "sheet": "sheets/spa__ep682.jpg"
+    },
+    {
+     "episode_index": 683,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep683.jpg"
+    },
+    {
+     "episode_index": 684,
+     "task_string": "Move the third from the left object into the bowl.",
+     "sheet": "sheets/spa__ep684.jpg"
+    },
+    {
+     "episode_index": 685,
+     "task_string": "Put the object that is second from the right in the bowl.",
+     "sheet": "sheets/spa__ep685.jpg"
+    },
+    {
+     "episode_index": 686,
+     "task_string": "Pick up the object that is third from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep686.jpg"
+    },
+    {
+     "episode_index": 687,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep687.jpg"
+    },
+    {
+     "episode_index": 688,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep688.jpg"
+    },
+    {
+     "episode_index": 689,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep689.jpg"
+    },
+    {
+     "episode_index": 690,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep690.jpg"
+    },
+    {
+     "episode_index": 691,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep691.jpg"
+    },
+    {
+     "episode_index": 692,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep692.jpg"
+    },
+    {
+     "episode_index": 693,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep693.jpg"
+    },
+    {
+     "episode_index": 694,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep694.jpg"
+    },
+    {
+     "episode_index": 695,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep695.jpg"
+    },
+    {
+     "episode_index": 696,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep696.jpg"
+    },
+    {
+     "episode_index": 697,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep697.jpg"
+    },
+    {
+     "episode_index": 698,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep698.jpg"
+    },
+    {
+     "episode_index": 699,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep699.jpg"
+    },
+    {
+     "episode_index": 700,
+     "task_string": "Put the first object from the left in the bowl.",
+     "sheet": "sheets/spa__ep700.jpg"
+    },
+    {
+     "episode_index": 701,
+     "task_string": "Pick up the object that is fourth from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep701.jpg"
+    },
+    {
+     "episode_index": 702,
+     "task_string": "Pick up the object that is first from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep702.jpg"
+    },
+    {
+     "episode_index": 703,
+     "task_string": "Put the fourth object from the right in the bowl.",
+     "sheet": "sheets/spa__ep703.jpg"
+    },
+    {
+     "episode_index": 704,
+     "task_string": "Move the third item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep704.jpg"
+    },
+    {
+     "episode_index": 705,
+     "task_string": "Move the third item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep705.jpg"
+    },
+    {
+     "episode_index": 706,
+     "task_string": "Put the first object from the left in the bowl.",
+     "sheet": "sheets/spa__ep706.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-10",
+   "episodes": [
+    {
+     "episode_index": 707,
+     "task_string": "Pick up the object that is third from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep707.jpg"
+    },
+    {
+     "episode_index": 713,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep713.jpg"
+    },
+    {
+     "episode_index": 714,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep714.jpg"
+    },
+    {
+     "episode_index": 715,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep715.jpg"
+    },
+    {
+     "episode_index": 716,
+     "task_string": "Move the third item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep716.jpg"
+    },
+    {
+     "episode_index": 717,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep717.jpg"
+    },
+    {
+     "episode_index": 718,
+     "task_string": "Pick up the object that is third from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep718.jpg"
+    },
+    {
+     "episode_index": 719,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep719.jpg"
+    },
+    {
+     "episode_index": 720,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep720.jpg"
+    },
+    {
+     "episode_index": 721,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep721.jpg"
+    },
+    {
+     "episode_index": 722,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep722.jpg"
+    },
+    {
+     "episode_index": 723,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep723.jpg"
+    },
+    {
+     "episode_index": 724,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep724.jpg"
+    },
+    {
+     "episode_index": 738,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep738.jpg"
+    },
+    {
+     "episode_index": 739,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep739.jpg"
+    },
+    {
+     "episode_index": 740,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep740.jpg"
+    },
+    {
+     "episode_index": 741,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep741.jpg"
+    },
+    {
+     "episode_index": 742,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep742.jpg"
+    },
+    {
+     "episode_index": 743,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep743.jpg"
+    },
+    {
+     "episode_index": 744,
+     "task_string": "Move the fourth from the left object into the bowl.",
+     "sheet": "sheets/spa__ep744.jpg"
+    },
+    {
+     "episode_index": 745,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep745.jpg"
+    },
+    {
+     "episode_index": 746,
+     "task_string": "Pick up the object that is fourth from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep746.jpg"
+    },
+    {
+     "episode_index": 747,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep747.jpg"
+    },
+    {
+     "episode_index": 748,
+     "task_string": "Put the object that is fourth from the left in the bowl.",
+     "sheet": "sheets/spa__ep748.jpg"
+    },
+    {
+     "episode_index": 749,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep749.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-11",
+   "episodes": [
+    {
+     "episode_index": 750,
+     "task_string": "Move the first item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep750.jpg"
+    },
+    {
+     "episode_index": 751,
+     "task_string": "Move the fourth item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep751.jpg"
+    },
+    {
+     "episode_index": 752,
+     "task_string": "Put the fourth object from the right in the bowl.",
+     "sheet": "sheets/spa__ep752.jpg"
+    },
+    {
+     "episode_index": 753,
+     "task_string": "Move the first item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep753.jpg"
+    },
+    {
+     "episode_index": 758,
+     "task_string": "Move the second item counted from the right into the bowl.",
+     "sheet": "sheets/spa__ep758.jpg"
+    },
+    {
+     "episode_index": 759,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep759.jpg"
+    },
+    {
+     "episode_index": 760,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep760.jpg"
+    },
+    {
+     "episode_index": 761,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep761.jpg"
+    },
+    {
+     "episode_index": 762,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep762.jpg"
+    },
+    {
+     "episode_index": 763,
+     "task_string": "Move the second item counted from the left into the bowl.",
+     "sheet": "sheets/spa__ep763.jpg"
+    },
+    {
+     "episode_index": 764,
+     "task_string": "Put the second object from the left in the bowl.",
+     "sheet": "sheets/spa__ep764.jpg"
+    },
+    {
+     "episode_index": 765,
+     "task_string": "Pick up the object that is second from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep765.jpg"
+    },
+    {
+     "episode_index": 766,
+     "task_string": "Put the third object from the right in the bowl.",
+     "sheet": "sheets/spa__ep766.jpg"
+    },
+    {
+     "episode_index": 767,
+     "task_string": "Put the third object from the right in the bowl.",
+     "sheet": "sheets/spa__ep767.jpg"
+    },
+    {
+     "episode_index": 774,
+     "task_string": "Put the third object from the right in the bowl.",
+     "sheet": "sheets/spa__ep774.jpg"
+    },
+    {
+     "episode_index": 775,
+     "task_string": "Put the object that is second from the right in the bowl.",
+     "sheet": "sheets/spa__ep775.jpg"
+    },
+    {
+     "episode_index": 776,
+     "task_string": "Pick up the object that is third from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep776.jpg"
+    },
+    {
+     "episode_index": 777,
+     "task_string": "Move the second from the right object into the bowl.",
+     "sheet": "sheets/spa__ep777.jpg"
+    },
+    {
+     "episode_index": 778,
+     "task_string": "Put the object that is third from the left in the bowl.",
+     "sheet": "sheets/spa__ep778.jpg"
+    },
+    {
+     "episode_index": 779,
+     "task_string": "Pick up the object that is first from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep779.jpg"
+    },
+    {
+     "episode_index": 780,
+     "task_string": "Move the third from the left object into the bowl.",
+     "sheet": "sheets/spa__ep780.jpg"
+    },
+    {
+     "episode_index": 781,
+     "task_string": "Put the object that is first from the right in the bowl.",
+     "sheet": "sheets/spa__ep781.jpg"
+    },
+    {
+     "episode_index": 782,
+     "task_string": "Pick up the object that is third from the left and place it in the bowl.",
+     "sheet": "sheets/spa__ep782.jpg"
+    },
+    {
+     "episode_index": 783,
+     "task_string": "Move the first from the right object into the bowl.",
+     "sheet": "sheets/spa__ep783.jpg"
+    },
+    {
+     "episode_index": 784,
+     "task_string": "Put the object that is third from the left in the bowl.",
+     "sheet": "sheets/spa__ep784.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-12",
+   "episodes": [
+    {
+     "episode_index": 785,
+     "task_string": "Pick up the object that is second from the right and place it in the bowl.",
+     "sheet": "sheets/spa__ep785.jpg"
+    },
+    {
+     "episode_index": 786,
+     "task_string": "Move the third from the left object into the bowl.",
+     "sheet": "sheets/spa__ep786.jpg"
+    },
+    {
+     "episode_index": 800,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep800.jpg"
+    },
+    {
+     "episode_index": 801,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep801.jpg"
+    },
+    {
+     "episode_index": 802,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep802.jpg"
+    },
+    {
+     "episode_index": 803,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep803.jpg"
+    },
+    {
+     "episode_index": 804,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep804.jpg"
+    },
+    {
+     "episode_index": 805,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep805.jpg"
+    },
+    {
+     "episode_index": 806,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep806.jpg"
+    },
+    {
+     "episode_index": 807,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep807.jpg"
+    },
+    {
+     "episode_index": 808,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep808.jpg"
+    },
+    {
+     "episode_index": 809,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep809.jpg"
+    },
+    {
+     "episode_index": 810,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep810.jpg"
+    },
+    {
+     "episode_index": 811,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep811.jpg"
+    },
+    {
+     "episode_index": 812,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep812.jpg"
+    },
+    {
+     "episode_index": 813,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep813.jpg"
+    },
+    {
+     "episode_index": 814,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep814.jpg"
+    },
+    {
+     "episode_index": 815,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep815.jpg"
+    },
+    {
+     "episode_index": 825,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep825.jpg"
+    },
+    {
+     "episode_index": 826,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep826.jpg"
+    },
+    {
+     "episode_index": 827,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep827.jpg"
+    },
+    {
+     "episode_index": 828,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep828.jpg"
+    },
+    {
+     "episode_index": 829,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep829.jpg"
+    },
+    {
+     "episode_index": 830,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep830.jpg"
+    },
+    {
+     "episode_index": 831,
+     "task_string": "Remove the blue pen from the bowl.",
+     "sheet": "sheets/spa__ep831.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-13",
+   "episodes": [
+    {
+     "episode_index": 832,
+     "task_string": "Remove the blue pen from the bowl.",
+     "sheet": "sheets/spa__ep832.jpg"
+    },
+    {
+     "episode_index": 833,
+     "task_string": "Take the blue pen out of the bowl.",
+     "sheet": "sheets/spa__ep833.jpg"
+    },
+    {
+     "episode_index": 834,
+     "task_string": "Take the blue pen out of the bowl.",
+     "sheet": "sheets/spa__ep834.jpg"
+    },
+    {
+     "episode_index": 835,
+     "task_string": "Move the blue pen from the bowl to the table.",
+     "sheet": "sheets/spa__ep835.jpg"
+    },
+    {
+     "episode_index": 836,
+     "task_string": "Remove the blue pen from the bowl.",
+     "sheet": "sheets/spa__ep836.jpg"
+    },
+    {
+     "episode_index": 837,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep837.jpg"
+    },
+    {
+     "episode_index": 838,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep838.jpg"
+    },
+    {
+     "episode_index": 839,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep839.jpg"
+    },
+    {
+     "episode_index": 840,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep840.jpg"
+    },
+    {
+     "episode_index": 841,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep841.jpg"
+    },
+    {
+     "episode_index": 842,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep842.jpg"
+    },
+    {
+     "episode_index": 843,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep843.jpg"
+    },
+    {
+     "episode_index": 844,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep844.jpg"
+    },
+    {
+     "episode_index": 845,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep845.jpg"
+    },
+    {
+     "episode_index": 846,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep846.jpg"
+    },
+    {
+     "episode_index": 847,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep847.jpg"
+    },
+    {
+     "episode_index": 848,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep848.jpg"
+    },
+    {
+     "episode_index": 849,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep849.jpg"
+    },
+    {
+     "episode_index": 850,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep850.jpg"
+    },
+    {
+     "episode_index": 851,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep851.jpg"
+    },
+    {
+     "episode_index": 852,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep852.jpg"
+    },
+    {
+     "episode_index": 853,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep853.jpg"
+    },
+    {
+     "episode_index": 854,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep854.jpg"
+    },
+    {
+     "episode_index": 855,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep855.jpg"
+    },
+    {
+     "episode_index": 856,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep856.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-14",
+   "episodes": [
+    {
+     "episode_index": 857,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep857.jpg"
+    },
+    {
+     "episode_index": 858,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep858.jpg"
+    },
+    {
+     "episode_index": 859,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep859.jpg"
+    },
+    {
+     "episode_index": 860,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep860.jpg"
+    },
+    {
+     "episode_index": 861,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep861.jpg"
+    },
+    {
+     "episode_index": 862,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep862.jpg"
+    },
+    {
+     "episode_index": 863,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep863.jpg"
+    },
+    {
+     "episode_index": 864,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep864.jpg"
+    },
+    {
+     "episode_index": 865,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep865.jpg"
+    },
+    {
+     "episode_index": 875,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep875.jpg"
+    },
+    {
+     "episode_index": 876,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep876.jpg"
+    },
+    {
+     "episode_index": 877,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep877.jpg"
+    },
+    {
+     "episode_index": 878,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep878.jpg"
+    },
+    {
+     "episode_index": 879,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep879.jpg"
+    },
+    {
+     "episode_index": 880,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep880.jpg"
+    },
+    {
+     "episode_index": 881,
+     "task_string": "Remove the yellow block from the bowl.",
+     "sheet": "sheets/spa__ep881.jpg"
+    },
+    {
+     "episode_index": 882,
+     "task_string": "Move the yellow block from the bowl to the table.",
+     "sheet": "sheets/spa__ep882.jpg"
+    },
+    {
+     "episode_index": 883,
+     "task_string": "Take the yellow block out of the bowl.",
+     "sheet": "sheets/spa__ep883.jpg"
+    },
+    {
+     "episode_index": 884,
+     "task_string": "Move the yellow block from the bowl to the table.",
+     "sheet": "sheets/spa__ep884.jpg"
+    },
+    {
+     "episode_index": 885,
+     "task_string": "Move the yellow block from the bowl to the table.",
+     "sheet": "sheets/spa__ep885.jpg"
+    },
+    {
+     "episode_index": 886,
+     "task_string": "Take the yellow block out of the bowl.",
+     "sheet": "sheets/spa__ep886.jpg"
+    },
+    {
+     "episode_index": 887,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep887.jpg"
+    },
+    {
+     "episode_index": 888,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep888.jpg"
+    },
+    {
+     "episode_index": 889,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep889.jpg"
+    },
+    {
+     "episode_index": 890,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep890.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-15",
+   "episodes": [
+    {
+     "episode_index": 891,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep891.jpg"
+    },
+    {
+     "episode_index": 892,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep892.jpg"
+    },
+    {
+     "episode_index": 893,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep893.jpg"
+    },
+    {
+     "episode_index": 894,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep894.jpg"
+    },
+    {
+     "episode_index": 895,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep895.jpg"
+    },
+    {
+     "episode_index": 896,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep896.jpg"
+    },
+    {
+     "episode_index": 897,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep897.jpg"
+    },
+    {
+     "episode_index": 898,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep898.jpg"
+    },
+    {
+     "episode_index": 899,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep899.jpg"
+    },
+    {
+     "episode_index": 900,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep900.jpg"
+    },
+    {
+     "episode_index": 901,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep901.jpg"
+    },
+    {
+     "episode_index": 902,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep902.jpg"
+    },
+    {
+     "episode_index": 903,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep903.jpg"
+    },
+    {
+     "episode_index": 904,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep904.jpg"
+    },
+    {
+     "episode_index": 905,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep905.jpg"
+    },
+    {
+     "episode_index": 906,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep906.jpg"
+    },
+    {
+     "episode_index": 907,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep907.jpg"
+    },
+    {
+     "episode_index": 908,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep908.jpg"
+    },
+    {
+     "episode_index": 909,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep909.jpg"
+    },
+    {
+     "episode_index": 910,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep910.jpg"
+    },
+    {
+     "episode_index": 911,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep911.jpg"
+    },
+    {
+     "episode_index": 912,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep912.jpg"
+    },
+    {
+     "episode_index": 913,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep913.jpg"
+    },
+    {
+     "episode_index": 914,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep914.jpg"
+    },
+    {
+     "episode_index": 915,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep915.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-16",
+   "episodes": [
+    {
+     "episode_index": 925,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep925.jpg"
+    },
+    {
+     "episode_index": 926,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep926.jpg"
+    },
+    {
+     "episode_index": 927,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep927.jpg"
+    },
+    {
+     "episode_index": 928,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep928.jpg"
+    },
+    {
+     "episode_index": 929,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep929.jpg"
+    },
+    {
+     "episode_index": 930,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep930.jpg"
+    },
+    {
+     "episode_index": 931,
+     "task_string": "Remove the green pencil sharpener from the bowl.",
+     "sheet": "sheets/spa__ep931.jpg"
+    },
+    {
+     "episode_index": 932,
+     "task_string": "Move the green pencil sharpener from the bowl to the table.",
+     "sheet": "sheets/spa__ep932.jpg"
+    },
+    {
+     "episode_index": 933,
+     "task_string": "Move the green pencil sharpener from the bowl to the table.",
+     "sheet": "sheets/spa__ep933.jpg"
+    },
+    {
+     "episode_index": 934,
+     "task_string": "Remove the green pencil sharpener from the bowl.",
+     "sheet": "sheets/spa__ep934.jpg"
+    },
+    {
+     "episode_index": 935,
+     "task_string": "Move the green pencil sharpener from the bowl to the table.",
+     "sheet": "sheets/spa__ep935.jpg"
+    },
+    {
+     "episode_index": 936,
+     "task_string": "Take the green pencil sharpener out of the bowl.",
+     "sheet": "sheets/spa__ep936.jpg"
+    },
+    {
+     "episode_index": 937,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep937.jpg"
+    },
+    {
+     "episode_index": 938,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep938.jpg"
+    },
+    {
+     "episode_index": 939,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep939.jpg"
+    },
+    {
+     "episode_index": 940,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep940.jpg"
+    },
+    {
+     "episode_index": 941,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep941.jpg"
+    },
+    {
+     "episode_index": 942,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep942.jpg"
+    },
+    {
+     "episode_index": 943,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep943.jpg"
+    },
+    {
+     "episode_index": 944,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep944.jpg"
+    },
+    {
+     "episode_index": 945,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep945.jpg"
+    },
+    {
+     "episode_index": 946,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep946.jpg"
+    },
+    {
+     "episode_index": 947,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep947.jpg"
+    },
+    {
+     "episode_index": 948,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep948.jpg"
+    },
+    {
+     "episode_index": 949,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep949.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-17",
+   "episodes": [
+    {
+     "episode_index": 950,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep950.jpg"
+    },
+    {
+     "episode_index": 951,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep951.jpg"
+    },
+    {
+     "episode_index": 952,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep952.jpg"
+    },
+    {
+     "episode_index": 953,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep953.jpg"
+    },
+    {
+     "episode_index": 954,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep954.jpg"
+    },
+    {
+     "episode_index": 955,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep955.jpg"
+    },
+    {
+     "episode_index": 956,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep956.jpg"
+    },
+    {
+     "episode_index": 957,
+     "task_string": "Leave exactly one object in the bowl.",
+     "sheet": "sheets/spa__ep957.jpg"
+    },
+    {
+     "episode_index": 958,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep958.jpg"
+    },
+    {
+     "episode_index": 959,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep959.jpg"
+    },
+    {
+     "episode_index": 960,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep960.jpg"
+    },
+    {
+     "episode_index": 961,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep961.jpg"
+    },
+    {
+     "episode_index": 962,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep962.jpg"
+    },
+    {
+     "episode_index": 963,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep963.jpg"
+    },
+    {
+     "episode_index": 964,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep964.jpg"
+    },
+    {
+     "episode_index": 965,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep965.jpg"
+    },
+    {
+     "episode_index": 975,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep975.jpg"
+    },
+    {
+     "episode_index": 976,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep976.jpg"
+    },
+    {
+     "episode_index": 977,
+     "task_string": "Adjust the bowl so that it contains zero objects.",
+     "sheet": "sheets/spa__ep977.jpg"
+    },
+    {
+     "episode_index": 978,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep978.jpg"
+    },
+    {
+     "episode_index": 979,
+     "task_string": "Make the bowl contain exactly zero objects.",
+     "sheet": "sheets/spa__ep979.jpg"
+    },
+    {
+     "episode_index": 980,
+     "task_string": "Leave no objects in the bowl.",
+     "sheet": "sheets/spa__ep980.jpg"
+    },
+    {
+     "episode_index": 981,
+     "task_string": "Remove the airplane toy without propellers from the bowl.",
+     "sheet": "sheets/spa__ep981.jpg"
+    },
+    {
+     "episode_index": 982,
+     "task_string": "Take the airplane toy without propellers out of the bowl.",
+     "sheet": "sheets/spa__ep982.jpg"
+    },
+    {
+     "episode_index": 983,
+     "task_string": "Take the airplane toy without propellers out of the bowl.",
+     "sheet": "sheets/spa__ep983.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-18",
+   "episodes": [
+    {
+     "episode_index": 984,
+     "task_string": "Take the airplane toy without propellers out of the bowl.",
+     "sheet": "sheets/spa__ep984.jpg"
+    },
+    {
+     "episode_index": 985,
+     "task_string": "Move the airplane toy without propellers from the bowl to the table.",
+     "sheet": "sheets/spa__ep985.jpg"
+    },
+    {
+     "episode_index": 986,
+     "task_string": "Remove the airplane toy without propellers from the bowl.",
+     "sheet": "sheets/spa__ep986.jpg"
+    },
+    {
+     "episode_index": 987,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep987.jpg"
+    },
+    {
+     "episode_index": 988,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep988.jpg"
+    },
+    {
+     "episode_index": 989,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep989.jpg"
+    },
+    {
+     "episode_index": 990,
+     "task_string": "Make the bowl contain exactly two objects.",
+     "sheet": "sheets/spa__ep990.jpg"
+    },
+    {
+     "episode_index": 991,
+     "task_string": "Leave exactly two objects in the bowl.",
+     "sheet": "sheets/spa__ep991.jpg"
+    },
+    {
+     "episode_index": 992,
+     "task_string": "Adjust the bowl so that it contains two objects.",
+     "sheet": "sheets/spa__ep992.jpg"
+    },
+    {
+     "episode_index": 993,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep993.jpg"
+    },
+    {
+     "episode_index": 994,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep994.jpg"
+    },
+    {
+     "episode_index": 995,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep995.jpg"
+    },
+    {
+     "episode_index": 996,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep996.jpg"
+    },
+    {
+     "episode_index": 997,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep997.jpg"
+    },
+    {
+     "episode_index": 998,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep998.jpg"
+    },
+    {
+     "episode_index": 999,
+     "task_string": "Leave exactly three objects in the bowl.",
+     "sheet": "sheets/spa__ep999.jpg"
+    },
+    {
+     "episode_index": 1005,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1005.jpg"
+    },
+    {
+     "episode_index": 1006,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1006.jpg"
+    },
+    {
+     "episode_index": 1007,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1007.jpg"
+    },
+    {
+     "episode_index": 1008,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1008.jpg"
+    },
+    {
+     "episode_index": 1009,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1009.jpg"
+    },
+    {
+     "episode_index": 1010,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1010.jpg"
+    },
+    {
+     "episode_index": 1011,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1011.jpg"
+    },
+    {
+     "episode_index": 1012,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1012.jpg"
+    },
+    {
+     "episode_index": 1013,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1013.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-19",
+   "episodes": [
+    {
+     "episode_index": 1014,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1014.jpg"
+    },
+    {
+     "episode_index": 1015,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1015.jpg"
+    },
+    {
+     "episode_index": 1016,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1016.jpg"
+    },
+    {
+     "episode_index": 1017,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1017.jpg"
+    },
+    {
+     "episode_index": 1018,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1018.jpg"
+    },
+    {
+     "episode_index": 1019,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1019.jpg"
+    },
+    {
+     "episode_index": 1020,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1020.jpg"
+    },
+    {
+     "episode_index": 1021,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1021.jpg"
+    },
+    {
+     "episode_index": 1022,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1022.jpg"
+    },
+    {
+     "episode_index": 1023,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1023.jpg"
+    },
+    {
+     "episode_index": 1024,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1024.jpg"
+    },
+    {
+     "episode_index": 1025,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1025.jpg"
+    },
+    {
+     "episode_index": 1026,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1026.jpg"
+    },
+    {
+     "episode_index": 1027,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1027.jpg"
+    },
+    {
+     "episode_index": 1028,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1028.jpg"
+    },
+    {
+     "episode_index": 1029,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1029.jpg"
+    },
+    {
+     "episode_index": 1030,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1030.jpg"
+    },
+    {
+     "episode_index": 1031,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1031.jpg"
+    },
+    {
+     "episode_index": 1032,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1032.jpg"
+    },
+    {
+     "episode_index": 1033,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1033.jpg"
+    },
+    {
+     "episode_index": 1034,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1034.jpg"
+    },
+    {
+     "episode_index": 1035,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1035.jpg"
+    },
+    {
+     "episode_index": 1036,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1036.jpg"
+    },
+    {
+     "episode_index": 1037,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1037.jpg"
+    },
+    {
+     "episode_index": 1038,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1038.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-20",
+   "episodes": [
+    {
+     "episode_index": 1039,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1039.jpg"
+    },
+    {
+     "episode_index": 1040,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1040.jpg"
+    },
+    {
+     "episode_index": 1041,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1041.jpg"
+    },
+    {
+     "episode_index": 1042,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1042.jpg"
+    },
+    {
+     "episode_index": 1043,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1043.jpg"
+    },
+    {
+     "episode_index": 1044,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1044.jpg"
+    },
+    {
+     "episode_index": 1045,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1045.jpg"
+    },
+    {
+     "episode_index": 1046,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1046.jpg"
+    },
+    {
+     "episode_index": 1047,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1047.jpg"
+    },
+    {
+     "episode_index": 1048,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1048.jpg"
+    },
+    {
+     "episode_index": 1049,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1049.jpg"
+    },
+    {
+     "episode_index": 1050,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1050.jpg"
+    },
+    {
+     "episode_index": 1051,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1051.jpg"
+    },
+    {
+     "episode_index": 1052,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1052.jpg"
+    },
+    {
+     "episode_index": 1053,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1053.jpg"
+    },
+    {
+     "episode_index": 1054,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1054.jpg"
+    },
+    {
+     "episode_index": 1055,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1055.jpg"
+    },
+    {
+     "episode_index": 1056,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1056.jpg"
+    },
+    {
+     "episode_index": 1057,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1057.jpg"
+    },
+    {
+     "episode_index": 1058,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1058.jpg"
+    },
+    {
+     "episode_index": 1059,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1059.jpg"
+    },
+    {
+     "episode_index": 1060,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1060.jpg"
+    },
+    {
+     "episode_index": 1061,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1061.jpg"
+    },
+    {
+     "episode_index": 1062,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1062.jpg"
+    },
+    {
+     "episode_index": 1063,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1063.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-21",
+   "episodes": [
+    {
+     "episode_index": 1064,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1064.jpg"
+    },
+    {
+     "episode_index": 1065,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1065.jpg"
+    },
+    {
+     "episode_index": 1066,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1066.jpg"
+    },
+    {
+     "episode_index": 1067,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1067.jpg"
+    },
+    {
+     "episode_index": 1068,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1068.jpg"
+    },
+    {
+     "episode_index": 1069,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1069.jpg"
+    },
+    {
+     "episode_index": 1070,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1070.jpg"
+    },
+    {
+     "episode_index": 1071,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1071.jpg"
+    },
+    {
+     "episode_index": 1072,
+     "task_string": "Pick up the smallest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1072.jpg"
+    },
+    {
+     "episode_index": 1073,
+     "task_string": "Move the object that is smallest into the bowl.",
+     "sheet": "sheets/spa__ep1073.jpg"
+    },
+    {
+     "episode_index": 1074,
+     "task_string": "Put the smallest object in the bowl.",
+     "sheet": "sheets/spa__ep1074.jpg"
+    },
+    {
+     "episode_index": 1125,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1125.jpg"
+    },
+    {
+     "episode_index": 1126,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1126.jpg"
+    },
+    {
+     "episode_index": 1127,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1127.jpg"
+    },
+    {
+     "episode_index": 1128,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1128.jpg"
+    },
+    {
+     "episode_index": 1129,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1129.jpg"
+    },
+    {
+     "episode_index": 1130,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1130.jpg"
+    },
+    {
+     "episode_index": 1131,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1131.jpg"
+    },
+    {
+     "episode_index": 1132,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1132.jpg"
+    },
+    {
+     "episode_index": 1133,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1133.jpg"
+    },
+    {
+     "episode_index": 1134,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1134.jpg"
+    },
+    {
+     "episode_index": 1135,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1135.jpg"
+    },
+    {
+     "episode_index": 1136,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1136.jpg"
+    },
+    {
+     "episode_index": 1137,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1137.jpg"
+    },
+    {
+     "episode_index": 1138,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1138.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-22",
+   "episodes": [
+    {
+     "episode_index": 1139,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1139.jpg"
+    },
+    {
+     "episode_index": 1140,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1140.jpg"
+    },
+    {
+     "episode_index": 1141,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1141.jpg"
+    },
+    {
+     "episode_index": 1142,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1142.jpg"
+    },
+    {
+     "episode_index": 1143,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1143.jpg"
+    },
+    {
+     "episode_index": 1144,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1144.jpg"
+    },
+    {
+     "episode_index": 1145,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1145.jpg"
+    },
+    {
+     "episode_index": 1146,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1146.jpg"
+    },
+    {
+     "episode_index": 1147,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1147.jpg"
+    },
+    {
+     "episode_index": 1148,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1148.jpg"
+    },
+    {
+     "episode_index": 1149,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1149.jpg"
+    },
+    {
+     "episode_index": 1155,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1155.jpg"
+    },
+    {
+     "episode_index": 1156,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1156.jpg"
+    },
+    {
+     "episode_index": 1157,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1157.jpg"
+    },
+    {
+     "episode_index": 1158,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1158.jpg"
+    },
+    {
+     "episode_index": 1159,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1159.jpg"
+    },
+    {
+     "episode_index": 1160,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1160.jpg"
+    },
+    {
+     "episode_index": 1161,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1161.jpg"
+    },
+    {
+     "episode_index": 1162,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1162.jpg"
+    },
+    {
+     "episode_index": 1163,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1163.jpg"
+    },
+    {
+     "episode_index": 1164,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1164.jpg"
+    },
+    {
+     "episode_index": 1165,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1165.jpg"
+    },
+    {
+     "episode_index": 1166,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1166.jpg"
+    },
+    {
+     "episode_index": 1167,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1167.jpg"
+    },
+    {
+     "episode_index": 1168,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1168.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-23",
+   "episodes": [
+    {
+     "episode_index": 1169,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1169.jpg"
+    },
+    {
+     "episode_index": 1170,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1170.jpg"
+    },
+    {
+     "episode_index": 1171,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1171.jpg"
+    },
+    {
+     "episode_index": 1172,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1172.jpg"
+    },
+    {
+     "episode_index": 1173,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1173.jpg"
+    },
+    {
+     "episode_index": 1174,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1174.jpg"
+    },
+    {
+     "episode_index": 1175,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1175.jpg"
+    },
+    {
+     "episode_index": 1176,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1176.jpg"
+    },
+    {
+     "episode_index": 1177,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1177.jpg"
+    },
+    {
+     "episode_index": 1178,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1178.jpg"
+    },
+    {
+     "episode_index": 1179,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1179.jpg"
+    },
+    {
+     "episode_index": 1180,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1180.jpg"
+    },
+    {
+     "episode_index": 1181,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1181.jpg"
+    },
+    {
+     "episode_index": 1182,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1182.jpg"
+    },
+    {
+     "episode_index": 1183,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1183.jpg"
+    },
+    {
+     "episode_index": 1184,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1184.jpg"
+    },
+    {
+     "episode_index": 1185,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1185.jpg"
+    },
+    {
+     "episode_index": 1186,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1186.jpg"
+    },
+    {
+     "episode_index": 1187,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1187.jpg"
+    },
+    {
+     "episode_index": 1188,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1188.jpg"
+    },
+    {
+     "episode_index": 1189,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1189.jpg"
+    },
+    {
+     "episode_index": 1190,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1190.jpg"
+    },
+    {
+     "episode_index": 1191,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1191.jpg"
+    },
+    {
+     "episode_index": 1192,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1192.jpg"
+    },
+    {
+     "episode_index": 1193,
+     "task_string": "Pick up the largest item and place it in the bowl.",
+     "sheet": "sheets/spa__ep1193.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "spa-clean-rem-24",
+   "episodes": [
+    {
+     "episode_index": 1194,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1194.jpg"
+    },
+    {
+     "episode_index": 1195,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1195.jpg"
+    },
+    {
+     "episode_index": 1196,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1196.jpg"
+    },
+    {
+     "episode_index": 1197,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1197.jpg"
+    },
+    {
+     "episode_index": 1198,
+     "task_string": "Move the object that is largest into the bowl.",
+     "sheet": "sheets/spa__ep1198.jpg"
+    },
+    {
+     "episode_index": 1199,
+     "task_string": "Put the largest object in the bowl.",
+     "sheet": "sheets/spa__ep1199.jpg"
+    }
+   ]
+  }
+ ]
+}

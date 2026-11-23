@@ -1,0 +1,25 @@
+ep1008 | PASS | smallest red cube in bowl at end, gripper released
+ep1010 | PASS | smallest red cube in bowl at end, gripper released
+ep1011 | PASS | smallest red cube in bowl at end, gripper released
+ep1012 | PASS | smallest red cube in bowl at end, gripper released
+ep1016 | PASS | smallest red cube in bowl at end, gripper released
+ep1028 | PASS | smallest red cube in bowl at end, gripper released
+ep1030 | PASS | smallest red cube in bowl at end, gripper released
+ep1032 | PASS | smallest red cube in bowl at end, gripper released
+ep1035 | PASS | smallest red cube in bowl at end, gripper released
+ep1037 | PASS | smallest red cube in bowl at end, gripper released
+ep1049 | PASS | smallest red cube in bowl at end, gripper released
+ep1057 | PASS | smallest green cube in bowl at end, gripper released
+ep1061 | PASS | smallest green cube in bowl at end, gripper released
+ep1062 | PASS | smallest green cube in bowl at end, gripper released
+ep1074 | PASS | smallest green cube in bowl at end, gripper released
+ep1127 | PASS | largest ball in bowl at end, gripper released
+ep1132 | PASS | largest ball in bowl at end, gripper released
+ep1137 | PASS | largest ball in bowl at end, gripper released
+ep1145 | PASS | largest ball in bowl at end, gripper released
+ep1147 | PASS | largest ball in bowl at end, gripper released
+ep1156 | PASS | largest can in bowl at end, gripper released
+ep1157 | PASS | largest can in bowl at end, gripper released
+ep1159 | PASS | largest can in bowl at end, gripper released
+ep1164 | PASS | largest can in bowl at end, gripper released
+ep1168 | PASS | largest can in bowl at end, gripper released

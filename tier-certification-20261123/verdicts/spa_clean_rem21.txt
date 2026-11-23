@@ -1,0 +1,25 @@
+ep1064 | CLEAN
+ep1065 | CLEAN
+ep1066 | CLEAN
+ep1067 | CLEAN
+ep1068 | CLEAN
+ep1069 | CLEAN
+ep1070 | CLEAN
+ep1071 | CLEAN
+ep1072 | INCIDENT | gripper closed around the non-target can before picking up the small green cube; can left in place
+ep1073 | CLEAN
+ep1074 | CLEAN
+ep1125 | CLEAN
+ep1126 | CLEAN
+ep1127 | CLEAN
+ep1128 | CLEAN
+ep1129 | CLEAN
+ep1130 | CLEAN
+ep1131 | CLEAN
+ep1132 | CLEAN
+ep1133 | INCIDENT | gripper closed around the non-target green spiky ball before moving to the target ball; green ball left in place
+ep1134 | INCIDENT | gripper touched the non-target red die beside the bowl before picking up the target ball; die left in place
+ep1135 | CLEAN
+ep1136 | CLEAN
+ep1137 | CLEAN
+ep1138 | CLEAN

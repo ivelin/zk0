@@ -1,0 +1,25 @@
+ep415 | CLEAN
+ep416 | CLEAN
+ep417 | CLEAN
+ep418 | CLEAN
+ep419 | CLEAN
+ep420 | CLEAN
+ep421 | CLEAN
+ep422 | CLEAN
+ep423 | CLEAN
+ep424 | CLEAN
+ep425 | CLEAN
+ep426 | CLEAN
+ep427 | CLEAN
+ep428 | INCIDENT | gripper brushed the green pen while grasping the red can, displacing it, and it stayed displaced
+ep429 | CLEAN
+ep430 | CLEAN
+ep431 | CLEAN
+ep432 | CLEAN
+ep433 | INCIDENT | gripper caught and lifted the yellow pen with the blue can, the pen dangling below the can mid-carry before falling back to the table
+ep434 | CLEAN
+ep435 | INCIDENT | gripper brushed the yellow pen while grasping the blue can, displacing it, and it stayed displaced
+ep436 | CLEAN
+ep437 | CLEAN
+ep438 | CLEAN
+ep439 | INCIDENT | arm/gripper pushed the red pencil sharpener from its start position while grasping the blue can, and it stayed displaced

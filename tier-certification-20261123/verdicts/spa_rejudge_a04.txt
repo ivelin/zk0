@@ -1,0 +1,7 @@
+ep1082 | PASS | green block inside the bowl in final frames, gripper released
+ep1094 | PASS | green block inside the bowl in final frames, gripper released
+ep1100 | PASS | juggling ball inside the bowl in final frames, gripper released
+ep1104 | PASS | juggling ball inside the bowl in final frames, gripper released
+ep1106 | PASS | juggling ball inside the bowl in final frames, gripper released
+ep1113 | PASS | juggling ball inside the bowl in final frames, gripper released
+ep1116 | PASS | juggling ball inside the bowl in final frames, gripper released

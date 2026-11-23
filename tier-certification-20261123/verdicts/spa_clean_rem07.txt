@@ -1,0 +1,25 @@
+ep604 | CLEAN
+ep605 | CLEAN
+ep606 | CLEAN
+ep607 | INCIDENT | gripper brushed and displaced the non-target green pen during the grasp, and it stayed displaced
+ep613 | CLEAN
+ep614 | CLEAN
+ep615 | INCIDENT | gripper brushed and reoriented the non-target green marker during the grasp, and it stayed displaced
+ep616 | CLEAN
+ep617 | CLEAN
+ep618 | CLEAN
+ep619 | CLEAN
+ep620 | CLEAN
+ep621 | CLEAN
+ep622 | CLEAN
+ep623 | INCIDENT | gripper brushed and displaced the non-target green marker during the grasp, and it stayed displaced
+ep624 | CLEAN
+ep625 | CLEAN
+ep626 | CLEAN
+ep627 | CLEAN
+ep628 | CLEAN
+ep635 | CLEAN
+ep636 | CLEAN
+ep637 | INCIDENT | gripper brushed the non-target green marker during the grasp, shifting it in that frame
+ep638 | CLEAN
+ep639 | CLEAN
