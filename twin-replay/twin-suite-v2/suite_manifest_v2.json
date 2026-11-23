@@ -1,0 +1,170 @@
+{
+ "schema": "twin-suite-v2/suite-manifest/1",
+ "suite_version": "twin-suite-v2 (Stage 1 build, 2026-11-22/23)",
+ "built": "2026-11-23",
+ "preregistration": {
+  "commits": [
+   "bb11d20",
+   "a8a2729",
+   "b74c308"
+  ],
+  "amendment": "Amendment 1 A1.3 (suite manifest enumerating and hashing actual inputs)"
+ },
+ "aggregate_method": "aggregate_sha256 = sha256 over sorted lines '<relpath>  <file sha256 hex>' ; param_hash_v2 = sha256 over enumerated input hashes (keys sorted), truncated to 16 hex chars (v1.1 convention)",
+ "param_hash_v2": "311adc26fe06c3b5",
+ "inputs": {
+  "padded_scene_xmls_scenes_v2": {
+   "count": 43,
+   "aggregate_sha256": "ca9159d80bb9fc3bdc87389ca4456559dac753117ffa000f5d3552370331218f",
+   "note": "all XMLs under scenes-v2/ incl. variants and arm/ (arm pinned separately below)"
+  },
+  "corner_battery_scene_xmls": {
+   "count": 160,
+   "aggregate_sha256": "49c69bc160ae0c2c6c8cac2c74dc695a9cd82ab013164ad5251c356a9f441980",
+   "path": "controls_battery/scenes-battery/"
+  },
+  "padded_arm_xml": {
+   "path": "scenes-v2/arm/so101_new_calib_padded.xml",
+   "md5": "0c3f0d1535dc6ea50c6b8ef527a58cf3",
+   "sha256": "23db631ba86444ae8007faffd04e04f96a9c5ff9a9f7dde269d5dfd0c987688d"
+  },
+  "twin_params_py": {
+   "path": "zk0-study001-twin-20261122/code/twin_params.py (v1.1 suite code dir, shared)",
+   "sha256": "5ed1c4d125589f8302a963d66a1869b4acb60f02b0cfc6723ff7ec3fbc279ca2",
+   "md5": "ace18dcbaff857b909f1954b57b04517"
+  },
+  "mujoco_harness_code": {
+   "count": 18,
+   "aggregate_sha256": "d276173128a5b092f1848f7287d19cdb1fc282d47c104e96f87a2e6ecca713f7",
+   "files": [
+    "harness/README.md",
+    "harness/fingerpad_probes.py",
+    "harness/grasp_probe.py",
+    "harness/grasp_probe2.py",
+    "harness/grasp_probe2_padded.py",
+    "harness/grasp_probe3.py",
+    "harness/grasp_probe3_padded.py",
+    "harness/grasp_probe4_padded.py",
+    "harness/grasp_probe5_padded.py",
+    "harness/grasp_probe_padded.py",
+    "harness/policy_service.py",
+    "harness/run_smoke.sh",
+    "harness/run_smoke_final.sh",
+    "harness/run_smoke_padded.sh",
+    "harness/scripted_pass.py",
+    "harness/sim_runner.py",
+    "harness/sim_runner_battery.py",
+    "harness/sim_runner_padded.py"
+   ]
+  },
+  "drake_port_and_actuated_code": {
+   "count": 9,
+   "aggregate_sha256": "0c6870ec7897997c84f43cd57394879df08d5d40b98042b8e5413f1bcbc78c0a",
+   "files": [
+    "drake/compare.py",
+    "drake/drake_port.py",
+    "drake/drake_replay.py",
+    "drake/mujoco_baseline.py",
+    "drake_actuated/actuated_port.py",
+    "drake_actuated/grasp_probes_drake.py",
+    "drake_actuated/mujoco_padpos.py",
+    "drake_actuated/render_proof.py",
+    "drake_actuated/sim_runner_drake.py"
+   ],
+   "note": "port code hashing per Drake verifier F2: .py sources only"
+  },
+  "reference_controllers": {
+   "count": 40,
+   "aggregate_sha256": "166b3b7bff4c3edc777e22eeea2b4d561abac775b1c3b79fac909112063178ab",
+   "md5s": {
+    "probe1.py": "23f291e8ae8e7fef1d3bca88102c17e2",
+    "probe10.py": "0717b2605ecd413296b39b0d69937d05",
+    "probe11.py": "40c75cbe7dec067b073d4620099a267f",
+    "probe12.py": "84d4e7abc3b54621c1be61f131216d51",
+    "probe13.py": "8a262d4892f0e9d353e85c4f7796bcf6",
+    "probe14.py": "d755915b1ae625300bad9bd53e71f284",
+    "probe15.py": "548e7ac116e444005c0f6c1e2666e802",
+    "probe16.py": "ed94c15e4ff97437490ce8f2b3333588",
+    "probe17.py": "df9fe3ce68721662dc12df2f00ee722a",
+    "probe18.py": "225c16a64943afbe718e9ff328c93f0d",
+    "probe19.py": "84f5fb32ed371226e05e128225464ee5",
+    "probe2.py": "ad8b29826c0e2a5b2886af0c51fbbad1",
+    "probe20.py": "a3876ab693990b96a1f30c8a10c62a9f",
+    "probe21.py": "d7b7ffdfb5ba9942373f275a65f53a1a",
+    "probe22.py": "0f0fc40c3d062961d77c3f011e5e5e4b",
+    "probe24.py": "87a98e34e3d60955dde84ed37f5a9eec",
+    "probe25.py": "066c92e987fa463409790cc644023a0c",
+    "probe26.py": "7f0bf31d32e11aa36c4115c5e530a6a8",
+    "probe27.py": "459243168b0b81f74768586d40fada9d",
+    "probe28.py": "19732946ea7aca3a6ff777f1a6c30162",
+    "probe29.py": "870b5b2e38bd197c2543bb24fd9481ac",
+    "probe3.py": "a5868a94093624860f564c37ed024a72",
+    "probe30.py": "282b3705c010033b6f3aca28ff691b63",
+    "probe31.py": "c70e543ad8032b3b135afb6bc6265191",
+    "probe32.py": "c6430d62c673e5a4f2cad724b42aa858",
+    "probe33.py": "959603b54cb4f84b465127f6c83c7d5c",
+    "probe34.py": "9a6ee390c7ffefe90ab4778bb3fe305e",
+    "probe35.py": "83cfcbc6138c2c077e99c929972e95b6",
+    "probe36.py": "88a78f0a1f3896882d199b5f889329f8",
+    "probe4.py": "e73d16a0559f753f86a1f7de5a00a09c",
+    "probe5.py": "eab23313035fa04893dd9b118dbb7bd0",
+    "probe6.py": "c1eb0878ac7f56e71d23d64854987c88",
+    "probe7.py": "1f1fa25e71d460a227b280f5cbe869b0",
+    "probe8.py": "5e9fcdad34f56ea9f99852c7d028b745",
+    "probe9.py": "9ab61214e45dabae6875a426a6701e3a",
+    "refcore.py": "96aa928072e5487b1fe1f077be293132",
+    "refcore2.py": "ee9ea862d6f4b3f8b133da0f0ad43c33",
+    "run_reference.py": "a9d29bdb8f07c8b55181d10295f6d457",
+    "run_reference2.py": "24c8f7636da79e644adb9be89bda65d1",
+    "run_reference3.py": "22b4b758d67933ac05fc8ce892262485"
+   }
+  },
+  "spec_only_suite": {
+   "suite_manifest_sha256": "dfd6785801973d7e11d83b607affbe0b8aa705fe808b0eb170e61be15e0cee12",
+   "xml_count": 100,
+   "xml_aggregate_sha256_claimed": "5e3452e53883e0af54b09d3b738d3ccee2208617299d150a8c966fab0e3a240b",
+   "xml_aggregate_sha256_recomputed_sorted_relpath": "89781da6799f15de900e410c04bda03ba1dcfd3c576ab669b4cd826f731230a1",
+   "generator_and_specs_aggregate_sha256": "dfca3b4c92b119461d55bc5840f9705c2c95725fb840c36d6adc80279f9cbe32"
+  },
+  "envelope_corners_v2": {
+   "path": "controls_battery/envelope-corners-v2.json",
+   "sha256": "5306f609085cf0ba5a968a85e1d7350c2d1dcbbb013eee573286cd8766054ba8"
+  },
+  "controls_manifest": {
+   "path": "controls/controls-manifest.json",
+   "sha256": "61f5292021306e1594cf20e977a99c2c16a3afb1ce25ea538faa62e1bd47dde4"
+  },
+  "controls_battery_analysis": {
+   "path": "controls_battery/analysis.json",
+   "sha256": "9a1474bf32804269b29f489183ece5b106492a358000f5cee295fdaf9653791e"
+  },
+  "controls_battery_completion_manifest": {
+   "path": "controls_battery/completion-manifest.json",
+   "sha256": "1f50d33de14e3b89038133cec96abeb4e72f286df871b93d4a5add7c7fed7654"
+  },
+  "controls_battery_code": {
+   "count": 4,
+   "aggregate_sha256": "bb4f00679fb830b5a88877fa2c640be2cc829b2d5f23193b5b01251a52a2b93a"
+  }
+ },
+ "solvability_registers": {
+  "dev_union": "11/20 (block_stack 4/4, eye_drops_to_basket 3/4, ring_insert 0/4, tool_insert 1/4, cable_clip 3/4) \u2014 Amendment 2 A2.2 union register, solvability-v2.md",
+  "envelope_union": "9/20",
+  "combined_validated_denominators": {
+   "block_stack": 8,
+   "eye_drops_to_basket": 4,
+   "ring_insert": 0,
+   "tool_insert": 1,
+   "cable_clip": 7
+  }
+ },
+ "certification_status": "NOT CERTIFIED \u2014 \u00a73.4 known-ordering control FAIL (verified, verification-v2-controls-battery.md)",
+ "per_task_certification": {
+  "block_stack": "NOT CERTIFIED",
+  "eye_drops_to_basket": "NOT CERTIFIED",
+  "ring_insert": "NO GATE (0 validated scenes)",
+  "tool_insert": "NOT CERTIFIED (1 validated scene)",
+  "cable_clip": "NOT CERTIFIED under v2 (v1.1 Stage-0 scene certification stands separately)"
+ },
+ "publication": "NONE (certified-only rule; failures stay in the workdir record)"
+}

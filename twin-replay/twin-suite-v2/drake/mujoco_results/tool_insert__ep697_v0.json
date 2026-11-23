@@ -1,0 +1,47 @@
+{
+ "objects_final": {
+  "tool": [
+   0.06042416960506338,
+   0.125156,
+   0.004952705785887029
+  ]
+ },
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 0.0,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.005
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.1862,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "tool": [
+   0.9999999993699313,
+   2.3050813340930298e-18,
+   3.5498422556193166e-05,
+   3.277941362899872e-17
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 188,
+   "event": "no_attach_in_excursion",
+   "min_dist_m": 0.0487
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.96,
+  "closed_ref_deg": 20.27,
+  "has_excursion": true,
+  "still_attached_at_end": null
+ },
+ "episode": 697,
+ "task": "tool_insert",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

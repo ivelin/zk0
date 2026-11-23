@@ -1,0 +1,68 @@
+{
+ "objects_final": {
+  "tool": [
+   0.19064446465084067,
+   -0.014890044681073692,
+   0.027260750437511333
+  ]
+ },
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 74.1,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.0273
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.0849,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "tool": [
+   0.5959328721842654,
+   -0.08651834048079644,
+   -0.06683588174496373,
+   -0.7955573854361699
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 78,
+   "event": "attach",
+   "object": "tool",
+   "planned_dist_m": 0.0084,
+   "live_dist_m": 0.0084,
+   "snap_gap_m": 0.0009,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.927
+  },
+  {
+   "frame": 150,
+   "event": "release",
+   "object": "tool",
+   "closedness": 0.104
+  },
+  {
+   "frame": 183,
+   "event": "attach",
+   "object": "tool",
+   "planned_dist_m": 0.0265,
+   "live_dist_m": 0.0265,
+   "snap_gap_m": 0.0014,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.826
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.89,
+  "closed_ref_deg": 12.18,
+  "has_excursion": true,
+  "still_attached_at_end": "tool"
+ },
+ "episode": 883,
+ "task": "tool_insert",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

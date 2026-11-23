@@ -1,0 +1,70 @@
+{
+ "objects_final": {
+  "carton": [
+   0.3899066427840436,
+   0.028822925289370627,
+   0.227920077917408
+  ]
+ },
+ "checks": {
+  "centre_inside_basket": false,
+  "support_is_basket": false,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [],
+  "carton_z": 0.2279
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.3525,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "carton": [
+   0.6670985532268368,
+   -0.013200672429045822,
+   -0.6679723862523045,
+   0.3295726835380706
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 69,
+   "event": "attach",
+   "object": "carton",
+   "planned_dist_m": 0.0132,
+   "live_dist_m": 0.0132,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.991
+  },
+  {
+   "frame": 111,
+   "event": "release",
+   "object": "carton",
+   "closedness": 0.266
+  },
+  {
+   "frame": 121,
+   "event": "attach",
+   "object": "carton",
+   "planned_dist_m": 0.0049,
+   "live_dist_m": 0.0049,
+   "snap_gap_m": 0.0105,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.709
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.81,
+  "closed_ref_deg": 39.22,
+  "has_excursion": true,
+  "still_attached_at_end": "carton"
+ },
+ "episode": 1783,
+ "task": "eye_drops_to_basket",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

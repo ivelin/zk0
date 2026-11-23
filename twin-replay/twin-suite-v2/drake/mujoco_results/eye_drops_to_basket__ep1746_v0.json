@@ -1,0 +1,51 @@
+{
+ "objects_final": {
+  "carton": [
+   0.23070235589004834,
+   -0.054688163547812,
+   0.10748972660344022
+  ]
+ },
+ "checks": {
+  "centre_inside_basket": false,
+  "support_is_basket": false,
+  "contact_platform": true,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "platform"
+  ],
+  "carton_z": 0.1075
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.274,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "carton": [
+   0.3841013368533288,
+   -5.741056912645428e-05,
+   -9.789917715216808e-06,
+   0.9232909398643903
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 93,
+   "event": "no_attach_in_excursion",
+   "min_dist_m": 0.0432
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.73,
+  "closed_ref_deg": 38.07,
+  "has_excursion": true,
+  "still_attached_at_end": null
+ },
+ "episode": 1746,
+ "task": "eye_drops_to_basket",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

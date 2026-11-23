@@ -1,0 +1,43 @@
+{
+ "updated": "2026-11-23T09:07:04-0600",
+ "total_units": 435,
+ "completed_units": 435,
+ "by_layer_checkpoint": {
+  "L1/base": {
+   "completed": 100,
+   "total": 100
+  },
+  "L1/c_exp": {
+   "completed": 100,
+   "total": 100
+  },
+  "L1/fl_round_30_a5repair": {
+   "completed": 100,
+   "total": 100
+  },
+  "L2/base": {
+   "completed": 40,
+   "total": 40
+  },
+  "L2/c_exp": {
+   "completed": 40,
+   "total": 40
+  },
+  "L2/fl_round_30_a5repair": {
+   "completed": 40,
+   "total": 40
+  },
+  "L3/base": {
+   "completed": 5,
+   "total": 5
+  },
+  "L3/c_exp": {
+   "completed": 5,
+   "total": 5
+  },
+  "L3/fl_round_30_a5repair": {
+   "completed": 5,
+   "total": 5
+  }
+ }
+}

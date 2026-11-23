@@ -1,0 +1,3291 @@
+{
+ "schema": "twin-suite-v2/spec-only-suite/1",
+ "suite": "twin-suite-v2 spec-only demonstration set",
+ "tier": "C (spec only, Amendment 2 A2.1)",
+ "master_seed": 20261126,
+ "generator": "generate_spec_only.py",
+ "specs": "specs/specs.json + specs/*.md",
+ "episode_data_used": false,
+ "per_scene_seed_derivation": "per_scene_seed = master_seed + global_scene_index, where global_scene_index = task_order_index * 4 + scene_index (task order alphabetical as in TASKS; scene_index 0..3). Recorded identifier only; generation uses the single Random(master_seed) stream.",
+ "note": "Solvability validation (A2.2 executed pass) is NOT included: it belongs to the reference-controller workstream. Scenes are nominally generated and settle-checked only; validated denominators are therefore 0 until that workstream runs.",
+ "tasks": {
+  "block_stack": {
+   "denominator_nominal": 4,
+   "denominator_validated": 0,
+   "scenes": [
+    {
+     "scene_id": "block_stack__spec00",
+     "seed": 20261126,
+     "sampled_placement": {
+      "cube_a": {
+       "pos": [
+        0.292404,
+        -0.112396,
+        0.015
+       ],
+       "yaw_deg": 15.407
+      },
+      "cube_b": {
+       "pos": [
+        0.174307,
+        -0.050077,
+        0.015
+       ],
+       "yaw_deg": 12.544
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.block_stack",
+     "target_specification": {
+      "moved_cube": "cube_a",
+      "base_cube": "cube_b",
+      "goal": "cube_a resting on cube_b per registered criterion"
+     },
+     "ground_truth_initial_state": {
+      "cube_a": {
+       "pos": [
+        0.292404,
+        -0.112396,
+        0.015
+       ],
+       "yaw_deg": 15.407
+      },
+      "cube_b": {
+       "pos": [
+        0.174307,
+        -0.050077,
+        0.015
+       ],
+       "yaw_deg": 12.544
+      }
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "block_stack__spec00_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "5bb18b4025625221c3f364a3acc625b0f834f9e587266c64399f49c1a67a3959"
+      },
+      {
+       "k": 1,
+       "scene": "block_stack__spec00_v1.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.006613,
+          -0.01027
+         ],
+         "cube_b": [
+          0.014416,
+          0.001796
+         ]
+        },
+        "mass": {
+         "cube_a": 0.0202,
+         "cube_b": 0.03389
+        },
+        "friction_mult": {
+         "cube_a": 0.8986,
+         "cube_b": 1.1414
+        }
+       },
+       "sha256": "e5ea4cf58ff50f2b4dfa5a939be2b528547670c1bbcd3fff3a2675625739a7f6"
+      },
+      {
+       "k": 2,
+       "scene": "block_stack__spec00_v2.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.005312,
+          -0.00658
+         ],
+         "cube_b": [
+          -0.021252,
+          0.011316
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01928,
+         "cube_b": 0.0278
+        },
+        "friction_mult": {
+         "cube_a": 0.9973,
+         "cube_b": 1.1166
+        }
+       },
+       "sha256": "9220b2a40f3291572d7ffffbf4594692617ff12864f61f95ed0bd3f36a6fe171"
+      },
+      {
+       "k": 3,
+       "scene": "block_stack__spec00_v3.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.007414,
+          0.005116
+         ],
+         "cube_b": [
+          -0.011987,
+          -0.004176
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01995,
+         "cube_b": 0.0107
+        },
+        "friction_mult": {
+         "cube_a": 1.0103,
+         "cube_b": 0.9836
+        }
+       },
+       "sha256": "1d6fab7fdbe4ccfb2b3ca0f44b339c7a7f5fc8063e880e35700a1c73eff17cde"
+      },
+      {
+       "k": 4,
+       "scene": "block_stack__spec00_v4.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.015936,
+          -0.018227
+         ],
+         "cube_b": [
+          0.019407,
+          0.014002
+         ]
+        },
+        "mass": {
+         "cube_a": 0.03344,
+         "cube_b": 0.02551
+        },
+        "friction_mult": {
+         "cube_a": 0.9367,
+         "cube_b": 0.9353
+        }
+       },
+       "sha256": "6d18748a81333ecd066fb8069e4ff8faa793d6e1dc9eed3a0679782612c0983b"
+      }
+     ]
+    },
+    {
+     "scene_id": "block_stack__spec01",
+     "seed": 20261127,
+     "sampled_placement": {
+      "cube_a": {
+       "pos": [
+        0.17517,
+        0.034046,
+        0.015
+       ],
+       "yaw_deg": -19.903
+      },
+      "cube_b": {
+       "pos": [
+        0.327298,
+        0.0773,
+        0.015
+       ],
+       "yaw_deg": -34.562
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.block_stack",
+     "target_specification": {
+      "moved_cube": "cube_a",
+      "base_cube": "cube_b",
+      "goal": "cube_a resting on cube_b per registered criterion"
+     },
+     "ground_truth_initial_state": {
+      "cube_a": {
+       "pos": [
+        0.17517,
+        0.034046,
+        0.015
+       ],
+       "yaw_deg": -19.903
+      },
+      "cube_b": {
+       "pos": [
+        0.327298,
+        0.0773,
+        0.015
+       ],
+       "yaw_deg": -34.562
+      }
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "block_stack__spec01_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "dd9b7595bb424e4ba238a656d250f10c4c29cc99f993dd6c798f4cf9cbc24e5b"
+      },
+      {
+       "k": 1,
+       "scene": "block_stack__spec01_v1.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.008033,
+          0.00348
+         ],
+         "cube_b": [
+          0.011656,
+          -0.019831
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01995,
+         "cube_b": 0.01734
+        },
+        "friction_mult": {
+         "cube_a": 1.0254,
+         "cube_b": 0.8706
+        }
+       },
+       "sha256": "e82194b8656b1cc750bcc37a983f8d5e699d49c10b08af6bd4281af4d9b1792b"
+      },
+      {
+       "k": 2,
+       "scene": "block_stack__spec01_v2.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.014337,
+          -0.012374
+         ],
+         "cube_b": [
+          -0.016671,
+          0.02461
+         ]
+        },
+        "mass": {
+         "cube_a": 0.02453,
+         "cube_b": 0.01529
+        },
+        "friction_mult": {
+         "cube_a": 1.084,
+         "cube_b": 1.0471
+        }
+       },
+       "sha256": "18389af76815d8e2ebe8bfc4b2ed09c9eedf328d29ee3b410d55b7bd609fc059"
+      },
+      {
+       "k": 3,
+       "scene": "block_stack__spec01_v3.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.020627,
+          -0.005748
+         ],
+         "cube_b": [
+          -0.007045,
+          0.014948
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01062,
+         "cube_b": 0.02381
+        },
+        "friction_mult": {
+         "cube_a": 0.8612,
+         "cube_b": 0.9723
+        }
+       },
+       "sha256": "233889699f47817832f01a90f6aef2983f04dc172558b69fe15694a795539f66"
+      },
+      {
+       "k": 4,
+       "scene": "block_stack__spec01_v4.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.011245,
+          -0.019911
+         ],
+         "cube_b": [
+          0.0054,
+          0.013123
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01994,
+         "cube_b": 0.02536
+        },
+        "friction_mult": {
+         "cube_a": 1.1609,
+         "cube_b": 1.1806
+        }
+       },
+       "sha256": "3543d3b1f44568da3765abfe52b9b81c227cd04a4cfd99c1d9c7286d2c25378c"
+      }
+     ]
+    },
+    {
+     "scene_id": "block_stack__spec02",
+     "seed": 20261128,
+     "sampled_placement": {
+      "cube_a": {
+       "pos": [
+        0.305843,
+        -0.086806,
+        0.015
+       ],
+       "yaw_deg": -9.375
+      },
+      "cube_b": {
+       "pos": [
+        0.192973,
+        -0.011724,
+        0.015
+       ],
+       "yaw_deg": -36.749
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.block_stack",
+     "target_specification": {
+      "moved_cube": "cube_a",
+      "base_cube": "cube_b",
+      "goal": "cube_a resting on cube_b per registered criterion"
+     },
+     "ground_truth_initial_state": {
+      "cube_a": {
+       "pos": [
+        0.305843,
+        -0.086806,
+        0.015
+       ],
+       "yaw_deg": -9.375
+      },
+      "cube_b": {
+       "pos": [
+        0.192973,
+        -0.011724,
+        0.015
+       ],
+       "yaw_deg": -36.749
+      }
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "block_stack__spec02_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "acb9f3c861546230913fa37c316618f3124121a7c465935cacc4e01e7f3fc75e"
+      },
+      {
+       "k": 1,
+       "scene": "block_stack__spec02_v1.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.019839,
+          0.019116
+         ],
+         "cube_b": [
+          -0.02312,
+          0.006414
+         ]
+        },
+        "mass": {
+         "cube_a": 0.03005,
+         "cube_b": 0.03058
+        },
+        "friction_mult": {
+         "cube_a": 1.1322,
+         "cube_b": 0.9839
+        }
+       },
+       "sha256": "d057085111df667b7d8aba6a07bc721e9be7716faf470334805645e1b1c37987"
+      },
+      {
+       "k": 2,
+       "scene": "block_stack__spec02_v2.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.023457,
+          -0.024316
+         ],
+         "cube_b": [
+          -0.01585,
+          0.006811
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01152,
+         "cube_b": 0.02287
+        },
+        "friction_mult": {
+         "cube_a": 1.1229,
+         "cube_b": 1.0124
+        }
+       },
+       "sha256": "e83499f0bf7f60d83eb4c2ea92c9dce633917abb8793d1b3fc3d78aabbbb1fa5"
+      },
+      {
+       "k": 3,
+       "scene": "block_stack__spec02_v3.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.021675,
+          0.021797
+         ],
+         "cube_b": [
+          -0.023539,
+          -0.00737
+         ]
+        },
+        "mass": {
+         "cube_a": 0.01656,
+         "cube_b": 0.02318
+        },
+        "friction_mult": {
+         "cube_a": 0.9073,
+         "cube_b": 1.0169
+        }
+       },
+       "sha256": "6f1c120b4f919904c98e8248b0269523e32fdd10063f2b16a51a77823f3098e9"
+      },
+      {
+       "k": 4,
+       "scene": "block_stack__spec02_v4.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          -0.024109,
+          0.023369
+         ],
+         "cube_b": [
+          0.007571,
+          -0.021309
+         ]
+        },
+        "mass": {
+         "cube_a": 0.03418,
+         "cube_b": 0.02901
+        },
+        "friction_mult": {
+         "cube_a": 1.1105,
+         "cube_b": 0.9008
+        }
+       },
+       "sha256": "ff15b11e7ebd19f59340de651cd89d48fd5f0af7899c0541f46f92d445ee846e"
+      }
+     ]
+    },
+    {
+     "scene_id": "block_stack__spec03",
+     "seed": 20261129,
+     "sampled_placement": {
+      "cube_a": {
+       "pos": [
+        0.25598,
+        -0.025466,
+        0.015
+       ],
+       "yaw_deg": -30.736
+      },
+      "cube_b": {
+       "pos": [
+        0.247122,
+        0.076351,
+        0.015
+       ],
+       "yaw_deg": -1.511
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.block_stack",
+     "target_specification": {
+      "moved_cube": "cube_a",
+      "base_cube": "cube_b",
+      "goal": "cube_a resting on cube_b per registered criterion"
+     },
+     "ground_truth_initial_state": {
+      "cube_a": {
+       "pos": [
+        0.25598,
+        -0.025466,
+        0.015
+       ],
+       "yaw_deg": -30.736
+      },
+      "cube_b": {
+       "pos": [
+        0.247122,
+        0.076351,
+        0.015
+       ],
+       "yaw_deg": -1.511
+      }
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "block_stack__spec03_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "a57546aad014dc340a0662fe6ccb534ddfc0580aa263a3f2465a574ec3d32a10"
+      },
+      {
+       "k": 1,
+       "scene": "block_stack__spec03_v1.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.000276,
+          -0.015566
+         ],
+         "cube_b": [
+          0.001795,
+          -0.023725
+         ]
+        },
+        "mass": {
+         "cube_a": 0.02503,
+         "cube_b": 0.02571
+        },
+        "friction_mult": {
+         "cube_a": 0.8,
+         "cube_b": 1.0766
+        }
+       },
+       "sha256": "38ff743d3772da2e7aa90f01c7d85f070d06d15968d7709bc87b047ca9d2dd6b"
+      },
+      {
+       "k": 2,
+       "scene": "block_stack__spec03_v2.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.007302,
+          0.019328
+         ],
+         "cube_b": [
+          0.011897,
+          -0.012659
+         ]
+        },
+        "mass": {
+         "cube_a": 0.02373,
+         "cube_b": 0.01461
+        },
+        "friction_mult": {
+         "cube_a": 0.9676,
+         "cube_b": 0.9196
+        }
+       },
+       "sha256": "c6ed7f75699dbe55702788efd473a13ab81619fbab7ac3593120b7f259f897b6"
+      },
+      {
+       "k": 3,
+       "scene": "block_stack__spec03_v3.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.023682,
+          0.002834
+         ],
+         "cube_b": [
+          -0.005746,
+          -0.001803
+         ]
+        },
+        "mass": {
+         "cube_a": 0.03346,
+         "cube_b": 0.01484
+        },
+        "friction_mult": {
+         "cube_a": 0.92,
+         "cube_b": 1.016
+        }
+       },
+       "sha256": "f8619675461e703ff6198c864b8e899919739d6f161b94e7bbb23f32dce0c9e9"
+      },
+      {
+       "k": 4,
+       "scene": "block_stack__spec03_v4.xml",
+       "draws": {
+        "jitter": {
+         "cube_a": [
+          0.019814,
+          0.005338
+         ],
+         "cube_b": [
+          0.01855,
+          -0.016938
+         ]
+        },
+        "mass": {
+         "cube_a": 0.02518,
+         "cube_b": 0.03131
+        },
+        "friction_mult": {
+         "cube_a": 1.1524,
+         "cube_b": 1.1742
+        }
+       },
+       "sha256": "60f9dac26b29b029d200531de670515fa2fe98c3d4476501938834677598e5cf"
+      }
+     ]
+    }
+   ]
+  },
+  "cable_clip": {
+   "denominator_nominal": 4,
+   "denominator_validated": 0,
+   "scenes": [
+    {
+     "scene_id": "cable_clip__spec00",
+     "seed": 20261130,
+     "sampled_placement": {
+      "cable": {
+       "coil_centre_xy": [
+        0.27,
+        -0.07
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.cable_clip",
+     "target_specification": {
+      "goal": "a cable segment seated in the clip channel",
+      "clip_block_pos_xy": [
+       0.3,
+       0.05
+      ],
+      "clip_channel_centre": [
+       0.3,
+       0.05,
+       0.061
+      ],
+      "channel_width_m": 0.008
+     },
+     "ground_truth_initial_state": {
+      "clip_block": {
+       "pos": [
+        0.3,
+        0.05,
+        0.0
+       ],
+       "yaw_deg": 0.0
+      },
+      "cable_coil_centre_xy": [
+       0.27,
+       -0.07
+      ],
+      "cable_points": [
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ]
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "cable_clip__spec00_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "5f4685a9c9378d0b08266fb435a129bcbb8da5d0bb14c1298d6c661046162e67"
+      },
+      {
+       "k": 1,
+       "scene": "cable_clip__spec00_v1.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.002423,
+          0.0142
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05613
+        },
+        "friction_mult": {
+         "cable": 0.9258
+        }
+       },
+       "sha256": "a86f499d0588c6090419fd03a90baf98bc6958354ab8a0f19cfb9699fb58451a"
+      },
+      {
+       "k": 2,
+       "scene": "cable_clip__spec00_v2.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.017662,
+          0.006952
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05709
+        },
+        "friction_mult": {
+         "cable": 0.8884
+        }
+       },
+       "sha256": "1ff27a77c7f34f82b424038033822e1b5a32c0eb5498e5767056024e242cb917"
+      },
+      {
+       "k": 3,
+       "scene": "cable_clip__spec00_v3.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.006508,
+          -0.001411
+         ]
+        },
+        "mass": {
+         "cable_total": 0.04336
+        },
+        "friction_mult": {
+         "cable": 0.8644
+        }
+       },
+       "sha256": "921dc23dd9de23968e934ef1a320974f21f5fc169da5ab9e9c917c7aa6db5b60"
+      },
+      {
+       "k": 4,
+       "scene": "cable_clip__spec00_v4.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.016738,
+          -0.002508
+         ]
+        },
+        "mass": {
+         "cable_total": 0.04083
+        },
+        "friction_mult": {
+         "cable": 1.1967
+        }
+       },
+       "sha256": "cba20450725f6f3d99c15b58fc3f57bbbeba486a62531b225c05a9dbb84bb768"
+      }
+     ]
+    },
+    {
+     "scene_id": "cable_clip__spec01",
+     "seed": 20261131,
+     "sampled_placement": {
+      "cable": {
+       "coil_centre_xy": [
+        0.27,
+        -0.07
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.cable_clip",
+     "target_specification": {
+      "goal": "a cable segment seated in the clip channel",
+      "clip_block_pos_xy": [
+       0.3,
+       0.05
+      ],
+      "clip_channel_centre": [
+       0.3,
+       0.05,
+       0.061
+      ],
+      "channel_width_m": 0.008
+     },
+     "ground_truth_initial_state": {
+      "clip_block": {
+       "pos": [
+        0.3,
+        0.05,
+        0.0
+       ],
+       "yaw_deg": 0.0
+      },
+      "cable_coil_centre_xy": [
+       0.27,
+       -0.07
+      ],
+      "cable_points": [
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ]
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "cable_clip__spec01_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "5f4685a9c9378d0b08266fb435a129bcbb8da5d0bb14c1298d6c661046162e67"
+      },
+      {
+       "k": 1,
+       "scene": "cable_clip__spec01_v1.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.019941,
+          -0.000783
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05697
+        },
+        "friction_mult": {
+         "cable": 1.068
+        }
+       },
+       "sha256": "11c0d0c4ed8cb1b225ad0886763aef4bb086e14450fba3a63bf7b8f89d9550c7"
+      },
+      {
+       "k": 2,
+       "scene": "cable_clip__spec01_v2.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.017858,
+          -0.015387
+         ]
+        },
+        "mass": {
+         "cable_total": 0.04128
+        },
+        "friction_mult": {
+         "cable": 1.0932
+        }
+       },
+       "sha256": "84c7d23637b8328ce1bde944c8e668a9b8073d2ffe3b352a2b2c4ea730588d90"
+      },
+      {
+       "k": 3,
+       "scene": "cable_clip__spec01_v3.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.00584,
+          -0.003126
+         ]
+        },
+        "mass": {
+         "cable_total": 0.04317
+        },
+        "friction_mult": {
+         "cable": 1.0643
+        }
+       },
+       "sha256": "293db2d2b0045e2b58a47efda4d13bc96dc3ea2968b48924f1209952bff46fce"
+      },
+      {
+       "k": 4,
+       "scene": "cable_clip__spec01_v4.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.005302,
+          0.013992
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05801
+        },
+        "friction_mult": {
+         "cable": 0.8612
+        }
+       },
+       "sha256": "72df4920f4204c5e9dc559c859490862e33da50b5151725b9c2970575c240d7d"
+      }
+     ]
+    },
+    {
+     "scene_id": "cable_clip__spec02",
+     "seed": 20261132,
+     "sampled_placement": {
+      "cable": {
+       "coil_centre_xy": [
+        0.27,
+        -0.07
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.cable_clip",
+     "target_specification": {
+      "goal": "a cable segment seated in the clip channel",
+      "clip_block_pos_xy": [
+       0.3,
+       0.05
+      ],
+      "clip_channel_centre": [
+       0.3,
+       0.05,
+       0.061
+      ],
+      "channel_width_m": 0.008
+     },
+     "ground_truth_initial_state": {
+      "clip_block": {
+       "pos": [
+        0.3,
+        0.05,
+        0.0
+       ],
+       "yaw_deg": 0.0
+      },
+      "cable_coil_centre_xy": [
+       0.27,
+       -0.07
+      ],
+      "cable_points": [
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ]
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "cable_clip__spec02_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "5f4685a9c9378d0b08266fb435a129bcbb8da5d0bb14c1298d6c661046162e67"
+      },
+      {
+       "k": 1,
+       "scene": "cable_clip__spec02_v1.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.002139,
+          0.007255
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05455
+        },
+        "friction_mult": {
+         "cable": 0.8037
+        }
+       },
+       "sha256": "8eb383116a8f9528060da38ab01612927fa2bd0068ea6786b0e8867df531195c"
+      },
+      {
+       "k": 2,
+       "scene": "cable_clip__spec02_v2.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.019313,
+          0.016053
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05155
+        },
+        "friction_mult": {
+         "cable": 1.0884
+        }
+       },
+       "sha256": "0826d296481c96377f74b77e6b842ed9cd5a0d34f329e7bd19b03334a0bfe307"
+      },
+      {
+       "k": 3,
+       "scene": "cable_clip__spec02_v3.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.016876,
+          -0.005933
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05773
+        },
+        "friction_mult": {
+         "cable": 1.063
+        }
+       },
+       "sha256": "7831733a1462299d32410c85578ef5c25eb2e65d46fc0d7648effebd51897587"
+      },
+      {
+       "k": 4,
+       "scene": "cable_clip__spec02_v4.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.000415,
+          0.009556
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05208
+        },
+        "friction_mult": {
+         "cable": 1.1255
+        }
+       },
+       "sha256": "21941f69a7a5787d30bd1cf352345b050783a5dc4ff6ba30efde36720de96bcf"
+      }
+     ]
+    },
+    {
+     "scene_id": "cable_clip__spec03",
+     "seed": 20261133,
+     "sampled_placement": {
+      "cable": {
+       "coil_centre_xy": [
+        0.27,
+        -0.07
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.cable_clip",
+     "target_specification": {
+      "goal": "a cable segment seated in the clip channel",
+      "clip_block_pos_xy": [
+       0.3,
+       0.05
+      ],
+      "clip_channel_centre": [
+       0.3,
+       0.05,
+       0.061
+      ],
+      "channel_width_m": 0.008
+     },
+     "ground_truth_initial_state": {
+      "clip_block": {
+       "pos": [
+        0.3,
+        0.05,
+        0.0
+       ],
+       "yaw_deg": 0.0
+      },
+      "cable_coil_centre_xy": [
+       0.27,
+       -0.07
+      ],
+      "cable_points": [
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.015,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.022369,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0425,
+        0.0025
+       ],
+       [
+        0.215,
+        -0.07,
+        0.0025
+       ],
+       [
+        0.222369,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.2425,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.27,
+        -0.125,
+        0.0025
+       ],
+       [
+        0.2975,
+        -0.117631,
+        0.0025
+       ],
+       [
+        0.317631,
+        -0.0975,
+        0.0025
+       ],
+       [
+        0.325,
+        -0.07,
+        0.0025
+       ]
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "cable_clip__spec03_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "5f4685a9c9378d0b08266fb435a129bcbb8da5d0bb14c1298d6c661046162e67"
+      },
+      {
+       "k": 1,
+       "scene": "cable_clip__spec03_v1.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.019242,
+          0.010271
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05138
+        },
+        "friction_mult": {
+         "cable": 1.0227
+        }
+       },
+       "sha256": "70fb2ba3614bf7c636a42e58c76dce0f330b6cc3e5909a81c51e1b19aa35b85d"
+      },
+      {
+       "k": 2,
+       "scene": "cable_clip__spec03_v2.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.002464,
+          0.00967
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05345
+        },
+        "friction_mult": {
+         "cable": 0.9409
+        }
+       },
+       "sha256": "c8a763d11938fbac441b5b036cfc3a1363366790b6fda6b05c7d55c70e15f55e"
+      },
+      {
+       "k": 3,
+       "scene": "cable_clip__spec03_v3.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          -0.018359,
+          0.00765
+         ]
+        },
+        "mass": {
+         "cable_total": 0.04377
+        },
+        "friction_mult": {
+         "cable": 0.9214
+        }
+       },
+       "sha256": "70b39cd3ec4798b43a25a80af1da32ca6b4c412b8d030e2e09b7670aa9d56cb1"
+      },
+      {
+       "k": 4,
+       "scene": "cable_clip__spec03_v4.xml",
+       "draws": {
+        "jitter": {
+         "cable": [
+          0.012571,
+          -0.002061
+         ]
+        },
+        "mass": {
+         "cable_total": 0.05154
+        },
+        "friction_mult": {
+         "cable": 0.8526
+        }
+       },
+       "sha256": "b7095e10c957c16fd1fc44f9f63a3cc3aeea172cfec316f9f173412160bab0ce"
+      }
+     ]
+    }
+   ]
+  },
+  "eye_drops_to_basket": {
+   "denominator_nominal": 4,
+   "denominator_validated": 0,
+   "scenes": [
+    {
+     "scene_id": "eye_drops_to_basket__spec00",
+     "seed": 20261134,
+     "sampled_placement": {
+      "carton": {
+       "pos": [
+        0.336693,
+        -0.025524,
+        0.1075
+       ],
+       "yaw_deg": -2.292
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.eye_drops_to_basket",
+     "target_specification": {
+      "goal": "carton final resting support is the basket",
+      "basket_centre_xy": [
+       0.3,
+       0.15
+      ],
+      "basket_interior_m": [
+       0.254,
+       0.174
+      ]
+     },
+     "ground_truth_initial_state": {
+      "carton": {
+       "pos": [
+        0.336693,
+        -0.025524,
+        0.1075
+       ],
+       "yaw_deg": -2.292
+      },
+      "platform_pos_xy": [
+       0.32,
+       -0.06
+      ],
+      "basket_pos_xy": [
+       0.3,
+       0.15
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "eye_drops_to_basket__spec00_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "f60f5e26aef37144a981a2342bf37766c5e56fc608952eaa85a949aacbd5fcb0"
+      },
+      {
+       "k": 1,
+       "scene": "eye_drops_to_basket__spec00_v1.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.01257,
+          -0.019932
+         ]
+        },
+        "mass": {
+         "carton": 0.03832
+        },
+        "friction_mult": {
+         "carton": 0.9056
+        }
+       },
+       "sha256": "a65aeae010f260a5f43972f1395c718c6c9493176476b72391029d6a2bfaecbd"
+      },
+      {
+       "k": 2,
+       "scene": "eye_drops_to_basket__spec00_v2.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.013662,
+          0.03371
+         ]
+        },
+        "mass": {
+         "carton": 0.02489
+        },
+        "friction_mult": {
+         "carton": 1.0792
+        }
+       },
+       "sha256": "aa28d7dd682f8477d4e46732424b1c5c50afd705cabb068937659c056695b486"
+      },
+      {
+       "k": 3,
+       "scene": "eye_drops_to_basket__spec00_v3.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.032733,
+          -0.006742
+         ]
+        },
+        "mass": {
+         "carton": 0.04139
+        },
+        "friction_mult": {
+         "carton": 0.9396
+        }
+       },
+       "sha256": "a6753601ba32c7ec957e41c7898cb3c5d2209234564302e995237612b19846e1"
+      },
+      {
+       "k": 4,
+       "scene": "eye_drops_to_basket__spec00_v4.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          0.026224,
+          -0.014939
+         ]
+        },
+        "mass": {
+         "carton": 0.03339
+        },
+        "friction_mult": {
+         "carton": 1.1268
+        }
+       },
+       "sha256": "05fc207a956145e1fecac9ce60c3816b4000ad1083647e99cebc11b5c0887dbd"
+      }
+     ]
+    },
+    {
+     "scene_id": "eye_drops_to_basket__spec01",
+     "seed": 20261135,
+     "sampled_placement": {
+      "carton": {
+       "pos": [
+        0.319335,
+        -0.032078,
+        0.1075
+       ],
+       "yaw_deg": 6.929
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.eye_drops_to_basket",
+     "target_specification": {
+      "goal": "carton final resting support is the basket",
+      "basket_centre_xy": [
+       0.3,
+       0.15
+      ],
+      "basket_interior_m": [
+       0.254,
+       0.174
+      ]
+     },
+     "ground_truth_initial_state": {
+      "carton": {
+       "pos": [
+        0.319335,
+        -0.032078,
+        0.1075
+       ],
+       "yaw_deg": 6.929
+      },
+      "platform_pos_xy": [
+       0.32,
+       -0.06
+      ],
+      "basket_pos_xy": [
+       0.3,
+       0.15
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "eye_drops_to_basket__spec01_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "a21294528b7e3b7f1337c4f63d1a24abfbaeadfd1fef8a5ed00d7d845dfc360c"
+      },
+      {
+       "k": 1,
+       "scene": "eye_drops_to_basket__spec01_v1.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          0.027238,
+          -0.032992
+         ]
+        },
+        "mass": {
+         "carton": 0.03867
+        },
+        "friction_mult": {
+         "carton": 1.0071
+        }
+       },
+       "sha256": "9a8ad51ee4db7845bfcaa02a777e3332439d9715092ef11688c22280dc81109c"
+      },
+      {
+       "k": 2,
+       "scene": "eye_drops_to_basket__spec01_v2.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          0.009502,
+          0.02439
+         ]
+        },
+        "mass": {
+         "carton": 0.04003
+        },
+        "friction_mult": {
+         "carton": 0.9919
+        }
+       },
+       "sha256": "0d99c298a43e8d27b90ecab0f357175b322cdecec00910b2d5baf6872d9eb537"
+      },
+      {
+       "k": 3,
+       "scene": "eye_drops_to_basket__spec01_v3.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.023747,
+          0.02249
+         ]
+        },
+        "mass": {
+         "carton": 0.03559
+        },
+        "friction_mult": {
+         "carton": 1.1672
+        }
+       },
+       "sha256": "408848edde9a7ea46b44409f960f81199a4a9c2d204cde74d9fa01c56937c02a"
+      },
+      {
+       "k": 4,
+       "scene": "eye_drops_to_basket__spec01_v4.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.029215,
+          0.001327
+         ]
+        },
+        "mass": {
+         "carton": 0.04025
+        },
+        "friction_mult": {
+         "carton": 1.0054
+        }
+       },
+       "sha256": "9240ccb257b25b12b75e438aecf105da8d59545233849bda551ba3f8a2100c64"
+      }
+     ]
+    },
+    {
+     "scene_id": "eye_drops_to_basket__spec02",
+     "seed": 20261136,
+     "sampled_placement": {
+      "carton": {
+       "pos": [
+        0.293496,
+        -0.057176,
+        0.1075
+       ],
+       "yaw_deg": 11.688
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.eye_drops_to_basket",
+     "target_specification": {
+      "goal": "carton final resting support is the basket",
+      "basket_centre_xy": [
+       0.3,
+       0.15
+      ],
+      "basket_interior_m": [
+       0.254,
+       0.174
+      ]
+     },
+     "ground_truth_initial_state": {
+      "carton": {
+       "pos": [
+        0.293496,
+        -0.057176,
+        0.1075
+       ],
+       "yaw_deg": 11.688
+      },
+      "platform_pos_xy": [
+       0.32,
+       -0.06
+      ],
+      "basket_pos_xy": [
+       0.3,
+       0.15
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "eye_drops_to_basket__spec02_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "70638be5dcbde7a746242a014ec230278c906c19150c04a527c8bdba97e201b9"
+      },
+      {
+       "k": 1,
+       "scene": "eye_drops_to_basket__spec02_v1.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.015323,
+          0.001369
+         ]
+        },
+        "mass": {
+         "carton": 0.04412
+        },
+        "friction_mult": {
+         "carton": 1.1354
+        }
+       },
+       "sha256": "c94cecbf686061bc82763a5b6c6da356ae349872c3553972c9cba17ae628cb98"
+      },
+      {
+       "k": 2,
+       "scene": "eye_drops_to_basket__spec02_v2.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          0.032296,
+          -0.001054
+         ]
+        },
+        "mass": {
+         "carton": 0.02391
+        },
+        "friction_mult": {
+         "carton": 1.1663
+        }
+       },
+       "sha256": "eacf3bf2cbdb3af3c91c366fa5f70611e5a7af605bbedfa959642333fd268618"
+      },
+      {
+       "k": 3,
+       "scene": "eye_drops_to_basket__spec02_v3.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          0.007583,
+          -0.004418
+         ]
+        },
+        "mass": {
+         "carton": 0.03774
+        },
+        "friction_mult": {
+         "carton": 1.0423
+        }
+       },
+       "sha256": "207b0f934c6be65d65b6747aae6e7ba127b624b66f4ae823026556c0403e26b9"
+      },
+      {
+       "k": 4,
+       "scene": "eye_drops_to_basket__spec02_v4.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.02305,
+          -0.02696
+         ]
+        },
+        "mass": {
+         "carton": 0.0214
+        },
+        "friction_mult": {
+         "carton": 1.0847
+        }
+       },
+       "sha256": "d88de37a5df30985db86ca282d075a12a1251ad99836eef59e95b5f682f53062"
+      }
+     ]
+    },
+    {
+     "scene_id": "eye_drops_to_basket__spec03",
+     "seed": 20261137,
+     "sampled_placement": {
+      "carton": {
+       "pos": [
+        0.336371,
+        -0.052117,
+        0.1075
+       ],
+       "yaw_deg": 5.451
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.eye_drops_to_basket",
+     "target_specification": {
+      "goal": "carton final resting support is the basket",
+      "basket_centre_xy": [
+       0.3,
+       0.15
+      ],
+      "basket_interior_m": [
+       0.254,
+       0.174
+      ]
+     },
+     "ground_truth_initial_state": {
+      "carton": {
+       "pos": [
+        0.336371,
+        -0.052117,
+        0.1075
+       ],
+       "yaw_deg": 5.451
+      },
+      "platform_pos_xy": [
+       0.32,
+       -0.06
+      ],
+      "basket_pos_xy": [
+       0.3,
+       0.15
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "eye_drops_to_basket__spec03_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "47a1e5e0ea108b36ea9ce22eaa69651d5d0027682d77516d48ff685242f0d1bd"
+      },
+      {
+       "k": 1,
+       "scene": "eye_drops_to_basket__spec03_v1.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.000218,
+          -0.02531
+         ]
+        },
+        "mass": {
+         "carton": 0.02922
+        },
+        "friction_mult": {
+         "carton": 0.9327
+        }
+       },
+       "sha256": "841643c365178ffe9d306b70bfd090eff2648f9f48c4052cf76a59732955250d"
+      },
+      {
+       "k": 2,
+       "scene": "eye_drops_to_basket__spec03_v2.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.004786,
+          0.034797
+         ]
+        },
+        "mass": {
+         "carton": 0.03586
+        },
+        "friction_mult": {
+         "carton": 1.1315
+        }
+       },
+       "sha256": "e62c0043963449a175f3de71ad0bbbc7da25f79f75e05ae943900a19868ddb86"
+      },
+      {
+       "k": 3,
+       "scene": "eye_drops_to_basket__spec03_v3.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.009796,
+          -0.003606
+         ]
+        },
+        "mass": {
+         "carton": 0.0225
+        },
+        "friction_mult": {
+         "carton": 1.0777
+        }
+       },
+       "sha256": "5957f3233f7be5d66f1325d08006ceda9404f5eadad1dd48bd20c1dda043f660"
+      },
+      {
+       "k": 4,
+       "scene": "eye_drops_to_basket__spec03_v4.xml",
+       "draws": {
+        "jitter": {
+         "carton": [
+          -0.02756,
+          0.000134
+         ]
+        },
+        "mass": {
+         "carton": 0.03229
+        },
+        "friction_mult": {
+         "carton": 1.1764
+        }
+       },
+       "sha256": "11bf031410fe116abbe1fd1b04012ffab1f0790b5c75e8b6b99a93899d759741"
+      }
+     ]
+    }
+   ]
+  },
+  "ring_insert": {
+   "denominator_nominal": 4,
+   "denominator_validated": 0,
+   "scenes": [
+    {
+     "scene_id": "ring_insert__spec00",
+     "seed": 20261138,
+     "sampled_placement": {
+      "ring": {
+       "pos": [
+        0.188316,
+        0.060641,
+        0.006
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.ring_insert",
+     "target_specification": {
+      "goal": "ring seated on peg",
+      "peg_xy": [
+       0.3,
+       0.0
+      ],
+      "board_top_z": 0.015
+     },
+     "ground_truth_initial_state": {
+      "ring": {
+       "pos": [
+        0.188316,
+        0.060641,
+        0.006
+       ],
+       "quat": [
+        1,
+        0,
+        0,
+        0
+       ]
+      },
+      "board_pos_xy": [
+       0.3,
+       0.0
+      ],
+      "peg_xy": [
+       0.3,
+       0.0
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "ring_insert__spec00_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "427b8f25c54a53adab69a61182dae9426c0f22f2a25cd29252598023b8fc72e4"
+      },
+      {
+       "k": 1,
+       "scene": "ring_insert__spec00_v1.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          0.011647,
+          0.021701
+         ]
+        },
+        "mass": {
+         "ring": 0.01233
+        },
+        "friction_mult": {
+         "ring": 1.1484
+        }
+       },
+       "sha256": "f6a192b665f176ac25d6ff5d3b484ba8c0b33596978747c5f7fb30eb6562c385"
+      },
+      {
+       "k": 2,
+       "scene": "ring_insert__spec00_v2.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.00019,
+          -0.000401
+         ]
+        },
+        "mass": {
+         "ring": 0.00943
+        },
+        "friction_mult": {
+         "ring": 1.1711
+        }
+       },
+       "sha256": "df90ce7ba25d0416fbd00e34a51c444d4122ce76f00edc65c65c1de40b957872"
+      },
+      {
+       "k": 3,
+       "scene": "ring_insert__spec00_v3.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.002281,
+          0.024961
+         ]
+        },
+        "mass": {
+         "ring": 0.00404
+        },
+        "friction_mult": {
+         "ring": 0.9114
+        }
+       },
+       "sha256": "df25f7fa192baa35c5995d89e27360acdbe06373ba2486c1a9e4f9d7079bfb39"
+      },
+      {
+       "k": 4,
+       "scene": "ring_insert__spec00_v4.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          0.011256,
+          -0.020501
+         ]
+        },
+        "mass": {
+         "ring": 0.00791
+        },
+        "friction_mult": {
+         "ring": 1.1611
+        }
+       },
+       "sha256": "f8c1d20f1a89b1c3e48756ec915e5c7cb48c7a43f2807814f78a2a45009b0817"
+      }
+     ]
+    },
+    {
+     "scene_id": "ring_insert__spec01",
+     "seed": 20261139,
+     "sampled_placement": {
+      "ring": {
+       "pos": [
+        0.193565,
+        0.054461,
+        0.006
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.ring_insert",
+     "target_specification": {
+      "goal": "ring seated on peg",
+      "peg_xy": [
+       0.3,
+       0.0
+      ],
+      "board_top_z": 0.015
+     },
+     "ground_truth_initial_state": {
+      "ring": {
+       "pos": [
+        0.193565,
+        0.054461,
+        0.006
+       ],
+       "quat": [
+        1,
+        0,
+        0,
+        0
+       ]
+      },
+      "board_pos_xy": [
+       0.3,
+       0.0
+      ],
+      "peg_xy": [
+       0.3,
+       0.0
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "ring_insert__spec01_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "9bbfe4687f00ff00ef553bcfa64c2132bf53ccaf9c73a06bb27b1a200d773607"
+      },
+      {
+       "k": 1,
+       "scene": "ring_insert__spec01_v1.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.018358,
+          -0.015058
+         ]
+        },
+        "mass": {
+         "ring": 0.01253
+        },
+        "friction_mult": {
+         "ring": 1.0872
+        }
+       },
+       "sha256": "36f5237452c9d180410886146f2a4847336d3851941d7400dd417595a1c1ffab"
+      },
+      {
+       "k": 2,
+       "scene": "ring_insert__spec01_v2.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.003306,
+          -0.007984
+         ]
+        },
+        "mass": {
+         "ring": 0.01416
+        },
+        "friction_mult": {
+         "ring": 0.9956
+        }
+       },
+       "sha256": "f9620b5d59606ec5cf376ad454b67484e9864796e1cdc8171e7447790663962c"
+      },
+      {
+       "k": 3,
+       "scene": "ring_insert__spec01_v3.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          0.007753,
+          -0.01135
+         ]
+        },
+        "mass": {
+         "ring": 0.01075
+        },
+        "friction_mult": {
+         "ring": 1.1291
+        }
+       },
+       "sha256": "5e93379ce70a7549a2929ea7dca3984210cea654a52712adaa04aa2e7d0b2f75"
+      },
+      {
+       "k": 4,
+       "scene": "ring_insert__spec01_v4.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.005395,
+          0.022633
+         ]
+        },
+        "mass": {
+         "ring": 0.00415
+        },
+        "friction_mult": {
+         "ring": 0.8682
+        }
+       },
+       "sha256": "234888d5f2fe62e8c00959ea49b4beff7c271dc20a06000b996a04695b4ee90f"
+      }
+     ]
+    },
+    {
+     "scene_id": "ring_insert__spec02",
+     "seed": 20261140,
+     "sampled_placement": {
+      "ring": {
+       "pos": [
+        0.197449,
+        -0.128211,
+        0.006
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.ring_insert",
+     "target_specification": {
+      "goal": "ring seated on peg",
+      "peg_xy": [
+       0.3,
+       0.0
+      ],
+      "board_top_z": 0.015
+     },
+     "ground_truth_initial_state": {
+      "ring": {
+       "pos": [
+        0.197449,
+        -0.128211,
+        0.006
+       ],
+       "quat": [
+        1,
+        0,
+        0,
+        0
+       ]
+      },
+      "board_pos_xy": [
+       0.3,
+       0.0
+      ],
+      "peg_xy": [
+       0.3,
+       0.0
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "ring_insert__spec02_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "984448ad69c78b9ab903013c63dee94cc9d7430335769c0d6c4c9f35bfe3f860"
+      },
+      {
+       "k": 1,
+       "scene": "ring_insert__spec02_v1.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          0.005016,
+          0.021887
+         ]
+        },
+        "mass": {
+         "ring": 0.00967
+        },
+        "friction_mult": {
+         "ring": 1.1692
+        }
+       },
+       "sha256": "f630a9db11c3b1ead3c36cdd1179d88561e976f08fb31b5850a69756587de1c5"
+      },
+      {
+       "k": 2,
+       "scene": "ring_insert__spec02_v2.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.01969,
+          0.024628
+         ]
+        },
+        "mass": {
+         "ring": 0.0108
+        },
+        "friction_mult": {
+         "ring": 1.1961
+        }
+       },
+       "sha256": "bde45659ac4cdb7f676cac3fb583f5fc0ef142d583061253d2168525a7dbba36"
+      },
+      {
+       "k": 3,
+       "scene": "ring_insert__spec02_v3.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.004856,
+          0.005586
+         ]
+        },
+        "mass": {
+         "ring": 0.00979
+        },
+        "friction_mult": {
+         "ring": 1.1617
+        }
+       },
+       "sha256": "86aa202b2bdb37a240a2eb16c386372014d1f3acb7a3a4a99375e71e22826c57"
+      },
+      {
+       "k": 4,
+       "scene": "ring_insert__spec02_v4.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.015232,
+          0.008818
+         ]
+        },
+        "mass": {
+         "ring": 0.01413
+        },
+        "friction_mult": {
+         "ring": 0.8155
+        }
+       },
+       "sha256": "c291248644fa021a8ff625ecbf84249b8974325dd3cd85b6a659b63d7ad6b687"
+      }
+     ]
+    },
+    {
+     "scene_id": "ring_insert__spec03",
+     "seed": 20261141,
+     "sampled_placement": {
+      "ring": {
+       "pos": [
+        0.240281,
+        0.115129,
+        0.006
+       ]
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.ring_insert",
+     "target_specification": {
+      "goal": "ring seated on peg",
+      "peg_xy": [
+       0.3,
+       0.0
+      ],
+      "board_top_z": 0.015
+     },
+     "ground_truth_initial_state": {
+      "ring": {
+       "pos": [
+        0.240281,
+        0.115129,
+        0.006
+       ],
+       "quat": [
+        1,
+        0,
+        0,
+        0
+       ]
+      },
+      "board_pos_xy": [
+       0.3,
+       0.0
+      ],
+      "peg_xy": [
+       0.3,
+       0.0
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "ring_insert__spec03_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "32f8d956c3bd25366958ea5a672b63bc457e5d2a55a8e58f15c68724baf9f1e0"
+      },
+      {
+       "k": 1,
+       "scene": "ring_insert__spec03_v1.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.000124,
+          -0.011903
+         ]
+        },
+        "mass": {
+         "ring": 0.0115
+        },
+        "friction_mult": {
+         "ring": 0.8245
+        }
+       },
+       "sha256": "33292447f7fe1344553912374b46f1dccf4ed6e257bd93e8f19e3382e57dbd99"
+      },
+      {
+       "k": 2,
+       "scene": "ring_insert__spec03_v2.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.013438,
+          0.016677
+         ]
+        },
+        "mass": {
+         "ring": 0.01149
+        },
+        "friction_mult": {
+         "ring": 1.0863
+        }
+       },
+       "sha256": "6875e5c9a5f3396bc44ae782fd6282dd941fbf4cc604827017eb98a5fb0e717b"
+      },
+      {
+       "k": 3,
+       "scene": "ring_insert__spec03_v3.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          0.005311,
+          0.005947
+         ]
+        },
+        "mass": {
+         "ring": 0.00873
+        },
+        "friction_mult": {
+         "ring": 0.8837
+        }
+       },
+       "sha256": "0486437d3ec2b562341840193cc49bf98d3b19ccd0e50a71bf3e15aa92beee64"
+      },
+      {
+       "k": 4,
+       "scene": "ring_insert__spec03_v4.xml",
+       "draws": {
+        "jitter": {
+         "ring": [
+          -0.022836,
+          -0.011698
+         ]
+        },
+        "mass": {
+         "ring": 0.01145
+        },
+        "friction_mult": {
+         "ring": 0.8337
+        }
+       },
+       "sha256": "6218b9568e7529c327d47ba0ca73866aa544aba6086868f38bc5e334d71716e2"
+      }
+     ]
+    }
+   ]
+  },
+  "tool_insert": {
+   "denominator_nominal": 4,
+   "denominator_validated": 0,
+   "scenes": [
+    {
+     "scene_id": "tool_insert__spec00",
+     "seed": 20261142,
+     "sampled_placement": {
+      "tool": {
+       "pos": [
+        0.206701,
+        -0.058913,
+        0.005
+       ],
+       "yaw_deg": 98.127
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.tool_insert",
+     "target_specification": {
+      "goal": "tool centre within slot footprint, axis within 20 deg of slot axis, resting in tray",
+      "slot_centre_xy": [
+       0.35,
+       0.06
+      ],
+      "slot_size_m": [
+       0.11,
+       0.032
+      ],
+      "slot_yaw_deg": 0.0,
+      "slot_floor_top_z": 0.041
+     },
+     "ground_truth_initial_state": {
+      "tool": {
+       "pos": [
+        0.206701,
+        -0.058913,
+        0.005
+       ],
+       "yaw_deg": 98.127
+      },
+      "tray_pos_xy": [
+       0.4,
+       0.0
+      ],
+      "slot_pos_xy": [
+       0.35,
+       0.06
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "tool_insert__spec00_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "eab497458c77b6bffac6529831f48560db62ae23c4eda0df57d818a865f0068b"
+      },
+      {
+       "k": 1,
+       "scene": "tool_insert__spec00_v1.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -0.02723,
+          0.013662
+         ]
+        },
+        "mass": {
+         "tool": 0.09325
+        },
+        "friction_mult": {
+         "tool": 1.1694
+        }
+       },
+       "sha256": "b1ddf29f39610414d309863b80fc72258818aadcb481eb3da0e12d26a5381b7a"
+      },
+      {
+       "k": 2,
+       "scene": "tool_insert__spec00_v2.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -0.032612,
+          0.026357
+         ]
+        },
+        "mass": {
+         "tool": 0.08242
+        },
+        "friction_mult": {
+         "tool": 1.0381
+        }
+       },
+       "sha256": "083ec6a89af304d0e380c901331e59efbab232e4cd4c55c84723018cd5fd54b2"
+      },
+      {
+       "k": 3,
+       "scene": "tool_insert__spec00_v3.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -0.034763,
+          -0.019789
+         ]
+        },
+        "mass": {
+         "tool": 0.05247
+        },
+        "friction_mult": {
+         "tool": 1.1839
+        }
+       },
+       "sha256": "d4a7c23d7a2d35e2d34d1f169ba4c2ccbdae6333bd9f30ac31422c9bd5504d84"
+      },
+      {
+       "k": 4,
+       "scene": "tool_insert__spec00_v4.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.016189,
+          0.01068
+         ]
+        },
+        "mass": {
+         "tool": 0.06292
+        },
+        "friction_mult": {
+         "tool": 1.0222
+        }
+       },
+       "sha256": "47babbd1495b7866398dc4cc87c4c548357c8f26e418c638a61739f1a489465e"
+      }
+     ]
+    },
+    {
+     "scene_id": "tool_insert__spec01",
+     "seed": 20261143,
+     "sampled_placement": {
+      "tool": {
+       "pos": [
+        0.196759,
+        0.015318,
+        0.005
+       ],
+       "yaw_deg": 99.675
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.tool_insert",
+     "target_specification": {
+      "goal": "tool centre within slot footprint, axis within 20 deg of slot axis, resting in tray",
+      "slot_centre_xy": [
+       0.35,
+       0.06
+      ],
+      "slot_size_m": [
+       0.11,
+       0.032
+      ],
+      "slot_yaw_deg": 0.0,
+      "slot_floor_top_z": 0.041
+     },
+     "ground_truth_initial_state": {
+      "tool": {
+       "pos": [
+        0.196759,
+        0.015318,
+        0.005
+       ],
+       "yaw_deg": 99.675
+      },
+      "tray_pos_xy": [
+       0.4,
+       0.0
+      ],
+      "slot_pos_xy": [
+       0.35,
+       0.06
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "tool_insert__spec01_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "24fdb00259e2928bab5a54269b68f3bbb9ed50c04e895aa3f8509c353758ce2b"
+      },
+      {
+       "k": 1,
+       "scene": "tool_insert__spec01_v1.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.027886,
+          -0.015193
+         ]
+        },
+        "mass": {
+         "tool": 0.08491
+        },
+        "friction_mult": {
+         "tool": 0.9168
+        }
+       },
+       "sha256": "4dea267de3ef7d67f21121266f0de66b2b53f6b2aa0c868fe2096a832090d5b5"
+      },
+      {
+       "k": 2,
+       "scene": "tool_insert__spec01_v2.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.002597,
+          -0.026955
+         ]
+        },
+        "mass": {
+         "tool": 0.06568
+        },
+        "friction_mult": {
+         "tool": 1.1353
+        }
+       },
+       "sha256": "8fb4ac04f72123801a9b0a1f4c80c6c713ed06f6ced7141cfdfaf9010b323898"
+      },
+      {
+       "k": 3,
+       "scene": "tool_insert__spec01_v3.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -8.3e-05,
+          0.015154
+         ]
+        },
+        "mass": {
+         "tool": 0.06746
+        },
+        "friction_mult": {
+         "tool": 1.186
+        }
+       },
+       "sha256": "8397ce3a9ccc0ec71aef3604f249e3c3529263a9f77c5e0b027b8afa4c095e7d"
+      },
+      {
+       "k": 4,
+       "scene": "tool_insert__spec01_v4.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.005867,
+          0.028692
+         ]
+        },
+        "mass": {
+         "tool": 0.09344
+        },
+        "friction_mult": {
+         "tool": 1.1402
+        }
+       },
+       "sha256": "bef0877e49c5f35dc564a17ee0f0d089708e16a15abfb55572a7a04ee89a70f2"
+      }
+     ]
+    },
+    {
+     "scene_id": "tool_insert__spec02",
+     "seed": 20261144,
+     "sampled_placement": {
+      "tool": {
+       "pos": [
+        0.297645,
+        -0.137426,
+        0.005
+       ],
+       "yaw_deg": 176.33
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.tool_insert",
+     "target_specification": {
+      "goal": "tool centre within slot footprint, axis within 20 deg of slot axis, resting in tray",
+      "slot_centre_xy": [
+       0.35,
+       0.06
+      ],
+      "slot_size_m": [
+       0.11,
+       0.032
+      ],
+      "slot_yaw_deg": 0.0,
+      "slot_floor_top_z": 0.041
+     },
+     "ground_truth_initial_state": {
+      "tool": {
+       "pos": [
+        0.297645,
+        -0.137426,
+        0.005
+       ],
+       "yaw_deg": 176.33
+      },
+      "tray_pos_xy": [
+       0.4,
+       0.0
+      ],
+      "slot_pos_xy": [
+       0.35,
+       0.06
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "tool_insert__spec02_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "0ff2277420905af5734efb0728ec2a1cecfcfcd8dc7d8488a214eeb288bad0f9"
+      },
+      {
+       "k": 1,
+       "scene": "tool_insert__spec02_v1.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -0.013391,
+          -0.03348
+         ]
+        },
+        "mass": {
+         "tool": 0.06223
+        },
+        "friction_mult": {
+         "tool": 0.8033
+        }
+       },
+       "sha256": "70a651d523fbecbc55d815792995c58e838664f4f6154bc4561efebb984a9c98"
+      },
+      {
+       "k": 2,
+       "scene": "tool_insert__spec02_v2.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.001436,
+          0.024852
+         ]
+        },
+        "mass": {
+         "tool": 0.0997
+        },
+        "friction_mult": {
+         "tool": 1.0385
+        }
+       },
+       "sha256": "672fa441b33d5496aa0e34847b40ea4d4696403436f7514f57a9545b7612c8c8"
+      },
+      {
+       "k": 3,
+       "scene": "tool_insert__spec02_v3.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.007344,
+          -0.004627
+         ]
+        },
+        "mass": {
+         "tool": 0.0727
+        },
+        "friction_mult": {
+         "tool": 1.1934
+        }
+       },
+       "sha256": "6ed2e13528e443e8152ed3076d868cb335eec09295f020458f79a69cc4e00223"
+      },
+      {
+       "k": 4,
+       "scene": "tool_insert__spec02_v4.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          -0.019451,
+          -0.027296
+         ]
+        },
+        "mass": {
+         "tool": 0.09447
+        },
+        "friction_mult": {
+         "tool": 0.9459
+        }
+       },
+       "sha256": "13764b25d9b3db110d004a772d046f08d758ee648483cefcde7e45937059b0e6"
+      }
+     ]
+    },
+    {
+     "scene_id": "tool_insert__spec03",
+     "seed": 20261145,
+     "sampled_placement": {
+      "tool": {
+       "pos": [
+        0.193329,
+        -0.066486,
+        0.005
+       ],
+       "yaw_deg": 63.577
+      }
+     },
+     "parameter_labels": "see specs/specs.json tasks.tool_insert",
+     "target_specification": {
+      "goal": "tool centre within slot footprint, axis within 20 deg of slot axis, resting in tray",
+      "slot_centre_xy": [
+       0.35,
+       0.06
+      ],
+      "slot_size_m": [
+       0.11,
+       0.032
+      ],
+      "slot_yaw_deg": 0.0,
+      "slot_floor_top_z": 0.041
+     },
+     "ground_truth_initial_state": {
+      "tool": {
+       "pos": [
+        0.193329,
+        -0.066486,
+        0.005
+       ],
+       "yaw_deg": 63.577
+      },
+      "tray_pos_xy": [
+       0.4,
+       0.0
+      ],
+      "slot_pos_xy": [
+       0.35,
+       0.06
+      ]
+     },
+     "variants": [
+      {
+       "k": 0,
+       "scene": "tool_insert__spec03_v0.xml",
+       "draws": {
+        "jitter": {},
+        "mass": {},
+        "friction_mult": {}
+       },
+       "sha256": "995c37418ce5c0dfad7eaf9774433e0a9297ce663819e538fc1251ed11575c4d"
+      },
+      {
+       "k": 1,
+       "scene": "tool_insert__spec03_v1.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.025791,
+          0.025861
+         ]
+        },
+        "mass": {
+         "tool": 0.07928
+        },
+        "friction_mult": {
+         "tool": 1.0066
+        }
+       },
+       "sha256": "1013fa9fb2a7aa631945d01b7ed9d7f53fc0ba579a44d87ab7cd06cc14b2dd21"
+      },
+      {
+       "k": 2,
+       "scene": "tool_insert__spec03_v2.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.029725,
+          0.015183
+         ]
+        },
+        "mass": {
+         "tool": 0.08465
+        },
+        "friction_mult": {
+         "tool": 1.0802
+        }
+       },
+       "sha256": "0ce38f18f9350bbe3bf5a19f8998b9401c766e47fd3e5cea7f75a3abdc1f3460"
+      },
+      {
+       "k": 3,
+       "scene": "tool_insert__spec03_v3.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.019718,
+          0.027925
+         ]
+        },
+        "mass": {
+         "tool": 0.07768
+        },
+        "friction_mult": {
+         "tool": 1.1885
+        }
+       },
+       "sha256": "3db29f7a24c564fe2499927f71c5692264dd3cd8487d3820f34a14c5fb9159f8"
+      },
+      {
+       "k": 4,
+       "scene": "tool_insert__spec03_v4.xml",
+       "draws": {
+        "jitter": {
+         "tool": [
+          0.001672,
+          -0.00298
+         ]
+        },
+        "mass": {
+         "tool": 0.09449
+        },
+        "friction_mult": {
+         "tool": 1.1761
+        }
+       },
+       "sha256": "6f1365d03444e026e8cbd07ff9536c35095e78a4b0480629aa4990382e5aeede"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

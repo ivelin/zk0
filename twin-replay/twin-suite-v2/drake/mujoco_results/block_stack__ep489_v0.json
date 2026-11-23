@@ -1,0 +1,102 @@
+{
+ "objects_final": {
+  "cube_a": [
+   0.400825918206849,
+   -0.012169912162409985,
+   0.1952376461937169
+  ],
+  "cube_b": [
+   0.2364224367416793,
+   0.09109250247906703,
+   0.01492049380696536
+  ]
+ },
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": 0.1503,
+  "within_inset_footprint": false,
+  "contact_with_lower": false,
+  "no_other_support_contact": true,
+  "upper_contacts": []
+ },
+ "solver_failure": false,
+ "planar_err_m": null,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "cube_a": [
+   0.9022269975980762,
+   0.06903416929467773,
+   -0.41861239672601674,
+   0.07735883648462857
+  ],
+  "cube_b": [
+   0.9998264344221536,
+   -1.1595009175244102e-10,
+   1.8612660894812095e-10,
+   0.01863064761840633
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 77,
+   "event": "attach",
+   "object": "cube_b",
+   "planned_dist_m": 0.0,
+   "live_dist_m": 0.0,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.691
+  },
+  {
+   "frame": 102,
+   "event": "release",
+   "object": "cube_b",
+   "closedness": 0.288
+  },
+  {
+   "frame": 192,
+   "event": "no_attach_in_excursion",
+   "min_dist_m": 0.1488
+  },
+  {
+   "frame": 220,
+   "event": "attach",
+   "object": "cube_b",
+   "planned_dist_m": 0.0127,
+   "live_dist_m": 0.0127,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.901
+  },
+  {
+   "frame": 225,
+   "event": "release",
+   "object": "cube_b",
+   "closedness": 0.225
+  },
+  {
+   "frame": 361,
+   "event": "attach",
+   "object": "cube_a",
+   "planned_dist_m": 0.0037,
+   "live_dist_m": 0.0037,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.989
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.72,
+  "closed_ref_deg": 31.02,
+  "has_excursion": true,
+  "still_attached_at_end": "cube_a"
+ },
+ "episode": 489,
+ "task": "block_stack",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

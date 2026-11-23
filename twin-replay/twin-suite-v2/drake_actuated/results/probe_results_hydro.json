@@ -1,0 +1,185 @@
+{
+ "contact_model": "hydro",
+ "finger_geoms": [
+  "fixed_jaw_box1",
+  "fixed_jaw_box2",
+  "fixed_jaw_box3",
+  "fixed_jaw_box4",
+  "fixed_jaw_box5",
+  "fixed_jaw_box6",
+  "fixed_jaw_box7",
+  "finger_pad_fixed",
+  "moving_jaw_box1",
+  "moving_jaw_box2",
+  "moving_jaw_box3",
+  "finger_pad_moving"
+ ],
+ "mesh_failed": [
+  "fixed_jaw_mesh: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)",
+  "moving_jaw_mesh0: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)",
+  "moving_jaw_mesh1: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)"
+ ],
+ "probes": [
+  {
+   "height": 0.005,
+   "xoff": -0.02,
+   "shove_mm": 0.07944037472881381,
+   "grip_qpos": 0.050030603468362835,
+   "close_contacts": [
+    "gripper",
+    "moving_jaw_so101_v1",
+    "world"
+   ],
+   "lift_z": 0.014999672989306581,
+   "hold_z": 0.014999672989306581,
+   "hold_contacts": [
+    "world"
+   ],
+   "pass": false,
+   "pinch": {
+    "pad_fixed_world": [
+     0.22189416543501017,
+     0.030685679096092145,
+     0.0518659317224963
+    ],
+    "pad_moving_world": [
+     0.2451158672714506,
+     0.030598475524371654,
+     0.062331378919940394
+    ],
+    "site_world": [
+     0.2262063772970863,
+     0.030741215909152856,
+     0.0340667196037084
+    ],
+    "pinch_midpoint_world": [
+     0.2335050163532304,
+     0.0306420773102319,
+     0.05709865532121835
+    ],
+    "site_to_pinch_midpoint_mm": 24.160919341556085,
+    "pad_centre_distance_mm": 25.471172444274174
+   }
+  },
+  {
+   "height": 0.0,
+   "xoff": -0.02,
+   "shove_mm": 0.10349162303747445,
+   "grip_qpos": 0.05002071693961833,
+   "close_contacts": [
+    "gripper",
+    "world"
+   ],
+   "lift_z": 0.014999672989306581,
+   "hold_z": 0.014999672989306583,
+   "hold_contacts": [
+    "world"
+   ],
+   "pass": false,
+   "pinch": {
+    "pad_fixed_world": [
+     0.22465636401265074,
+     0.031106942265498278,
+     0.05226386119980851
+    ],
+    "pad_moving_world": [
+     0.24752012057914083,
+     0.030960555495398317,
+     0.0634882022274067
+    ],
+    "site_world": [
+     0.2295527437827559,
+     0.031255156344622004,
+     0.03461694347278617
+    ],
+    "pinch_midpoint_world": [
+     0.23608824229589578,
+     0.031033748880448297,
+     0.057876031713607605
+    ],
+    "site_to_pinch_midpoint_mm": 24.160855694175314,
+    "pad_centre_distance_mm": 25.47074056485211
+   }
+  },
+  {
+   "height": -0.005,
+   "xoff": -0.02,
+   "shove_mm": 0.10752948922864367,
+   "grip_qpos": 0.05002060429675945,
+   "close_contacts": [
+    "gripper",
+    "world"
+   ],
+   "lift_z": 0.014999672989306583,
+   "hold_z": 0.014999672989306585,
+   "hold_contacts": [
+    "world"
+   ],
+   "pass": false,
+   "pinch": {
+    "pad_fixed_world": [
+     0.22695629268559023,
+     0.03145964640889768,
+     0.05218467997639964
+    ],
+    "pad_moving_world": [
+     0.24944294236871475,
+     0.031251650175576184,
+     0.06414568736931725
+    ],
+    "site_world": [
+     0.23242395106167044,
+     0.03169852185843136,
+     0.03470732726116468
+    ],
+    "pinch_midpoint_world": [
+     0.2381996175271525,
+     0.03135564829223693,
+     0.058165183672858445
+    ],
+    "site_to_pinch_midpoint_mm": 24.16085496903061,
+    "pad_centre_distance_mm": 25.470735644226494
+   }
+  },
+  {
+   "height": 0.0,
+   "xoff": 0.0,
+   "shove_mm": 0.024308387847029485,
+   "grip_qpos": 0.05002079407253641,
+   "close_contacts": [
+    "gripper",
+    "world"
+   ],
+   "lift_z": 0.014999672989306583,
+   "hold_z": 0.014999672989306581,
+   "hold_contacts": [
+    "world"
+   ],
+   "pass": false,
+   "pinch": {
+    "pad_fixed_world": [
+     0.24375873497616724,
+     0.0308307080453365,
+     0.05245141375450921
+    ],
+    "pad_moving_world": [
+     0.26686500707606303,
+     0.030735750697809913,
+     0.06316822154944078
+    ],
+    "site_world": [
+     0.24826384351216751,
+     0.030886895925000695,
+     0.03470004627108199
+    ],
+    "pinch_midpoint_world": [
+     0.25531187102611513,
+     0.030783229371573205,
+     0.057809817651974994
+    ],
+    "site_to_pinch_midpoint_mm": 24.160856190723116,
+    "pad_centre_distance_mm": 25.470743934282293
+   }
+  }
+ ]
+}

@@ -1,0 +1,699 @@
+{
+ "invalid_drake_units": [],
+ "L1_nominal": {
+  "base": {
+   "block_stack": {
+    "success": 0,
+    "n": 40,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.08762453925039232
+    ],
+    "verdict": "FAIL"
+   },
+   "eye_drops_to_basket": {
+    "success": 0,
+    "n": 20,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.16113012549493322
+    ],
+    "verdict": "FAIL"
+   },
+   "tool_insert": {
+    "success": 0,
+    "n": 5,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.43449149475208104
+    ],
+    "verdict": "FAIL"
+   },
+   "cable_clip": {
+    "success": 0,
+    "n": 35,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.09890426758938868
+    ],
+    "verdict": "FAIL"
+   },
+   "ring_insert": {
+    "success": 0,
+    "n": 0,
+    "solver_failures": 0,
+    "rate": null,
+    "wilson": [
+     0.0,
+     1.0
+    ],
+    "verdict": "NO GATE (0 validated scenes)"
+   },
+   "POOLED": {
+    "success": 0,
+    "n": 100,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.03699480747600191
+    ],
+    "verdict": "FAIL"
+   }
+  },
+  "fl_round_30_a5repair": {
+   "block_stack": {
+    "success": 0,
+    "n": 40,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.08762453925039232
+    ],
+    "verdict": "FAIL"
+   },
+   "eye_drops_to_basket": {
+    "success": 0,
+    "n": 20,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.16113012549493322
+    ],
+    "verdict": "FAIL"
+   },
+   "tool_insert": {
+    "success": 0,
+    "n": 5,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.43449149475208104
+    ],
+    "verdict": "FAIL"
+   },
+   "cable_clip": {
+    "success": 0,
+    "n": 35,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.09890426758938868
+    ],
+    "verdict": "FAIL"
+   },
+   "ring_insert": {
+    "success": 0,
+    "n": 0,
+    "solver_failures": 0,
+    "rate": null,
+    "wilson": [
+     0.0,
+     1.0
+    ],
+    "verdict": "NO GATE (0 validated scenes)"
+   },
+   "POOLED": {
+    "success": 0,
+    "n": 100,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.03699480747600191
+    ],
+    "verdict": "FAIL"
+   }
+  },
+  "c_exp": {
+   "block_stack": {
+    "success": 0,
+    "n": 40,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.08762453925039232
+    ],
+    "verdict": "FAIL"
+   },
+   "eye_drops_to_basket": {
+    "success": 0,
+    "n": 20,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.16113012549493322
+    ],
+    "verdict": "FAIL"
+   },
+   "tool_insert": {
+    "success": 0,
+    "n": 5,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.43449149475208104
+    ],
+    "verdict": "FAIL"
+   },
+   "cable_clip": {
+    "success": 0,
+    "n": 35,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.09890426758938868
+    ],
+    "verdict": "FAIL"
+   },
+   "ring_insert": {
+    "success": 0,
+    "n": 0,
+    "solver_failures": 0,
+    "rate": null,
+    "wilson": [
+     0.0,
+     1.0
+    ],
+    "verdict": "NO GATE (0 validated scenes)"
+   },
+   "POOLED": {
+    "success": 0,
+    "n": 100,
+    "solver_failures": 0,
+    "rate": 0.0,
+    "wilson": [
+     0.0,
+     0.03699480747600191
+    ],
+    "verdict": "FAIL"
+   }
+  }
+ },
+ "ordering": {
+  "block_stack": {
+   "rates": {
+    "base": 0.0,
+    "fl_round_30_a5repair": 0.0,
+    "c_exp": 0.0
+   },
+   "base_fails": true,
+   "strict_order": false
+  },
+  "eye_drops_to_basket": {
+   "rates": {
+    "base": 0.0,
+    "fl_round_30_a5repair": 0.0,
+    "c_exp": 0.0
+   },
+   "base_fails": true,
+   "strict_order": false
+  },
+  "tool_insert": {
+   "rates": {
+    "base": 0.0,
+    "fl_round_30_a5repair": 0.0,
+    "c_exp": 0.0
+   },
+   "base_fails": true,
+   "strict_order": false
+  },
+  "cable_clip": {
+   "rates": {
+    "base": 0.0,
+    "fl_round_30_a5repair": 0.0,
+    "c_exp": 0.0
+   },
+   "base_fails": true,
+   "strict_order": false
+  },
+  "ring_insert": {
+   "rates": {
+    "base": null,
+    "fl_round_30_a5repair": null,
+    "c_exp": null
+   },
+   "base_fails": false,
+   "strict_order": false
+  },
+  "POOLED": {
+   "rates": {
+    "base": 0.0,
+    "fl_round_30_a5repair": 0.0,
+    "c_exp": 0.0
+   },
+   "base_fails": true,
+   "strict_order": false
+  }
+ },
+ "cross_engine": {
+  "paired": 15,
+  "agree": 15,
+  "disagreements": [],
+  "per_checkpoint": {
+   "base": {
+    "paired": 5,
+    "agree": 5
+   },
+   "fl_round_30_a5repair": {
+    "paired": 5,
+    "agree": 5
+   },
+   "c_exp": {
+    "paired": 5,
+    "agree": 5
+   }
+  }
+ },
+ "envelope": {
+  "base": {
+   "block_stack": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 20,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": true
+   },
+   "eye_drops_to_basket": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 5,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": false
+   }
+  },
+  "fl_round_30_a5repair": {
+   "block_stack": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 20,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": true
+   },
+   "eye_drops_to_basket": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 5,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": false
+   }
+  },
+  "c_exp": {
+   "block_stack": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 20,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 4,
+      "solver_failures": 0,
+      "verdict": "FAIL",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": true
+   },
+   "eye_drops_to_basket": {
+    "nominal_verdict": "FAIL",
+    "nominal_success": 0,
+    "nominal_n": 5,
+    "nominal_solver_failures": 0,
+    "corners": {
+     "pose_+x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-x": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_+y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "pose_-y": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "friction_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_low": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     },
+     "mass_high": {
+      "success": 0,
+      "n": 1,
+      "solver_failures": 0,
+      "verdict": "INDETERMINATE",
+      "outcome_flips_vs_nominal_instance": []
+     }
+    },
+    "verdict_stable": false
+   }
+  }
+ },
+ "totals": {
+  "L1": {
+   "records": 300,
+   "solver_failures": 0,
+   "mean_wall_s": 92.96236666666667
+  },
+  "L2": {
+   "records": 120,
+   "solver_failures": 0,
+   "mean_wall_s": 66.64858333333333
+  },
+  "L3": {
+   "records": 15,
+   "solver_failures": 0,
+   "mean_wall_s": 70.29733333333334
+  }
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "finger_geoms": [
+  "fixed_jaw_box1",
+  "fixed_jaw_box2",
+  "fixed_jaw_box3",
+  "fixed_jaw_box4",
+  "fixed_jaw_box5",
+  "fixed_jaw_box6",
+  "fixed_jaw_box7",
+  "finger_pad_fixed",
+  "moving_jaw_box1",
+  "moving_jaw_box2",
+  "moving_jaw_box3",
+  "finger_pad_moving"
+ ],
+ "mesh_failed": [
+  "fixed_jaw_mesh: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)",
+  "moving_jaw_mesh0: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)",
+  "moving_jaw_mesh1: excluded -- Mesh registration post-parse breaks Finalize collision filters in this Drake build (RuntimeError: collision filter declaration references unregistered geometry id)"
+ ],
+ "pad_fixed_world": [
+  0.22045917672934567,
+  0.03872922641534517,
+  0.025087934999966546
+ ],
+ "pad_moving_world": [
+  0.2421250073942685,
+  0.03488946834377952,
+  0.04634471628486548
+ ],
+ "site_world": [
+  0.23179219931954745,
+  0.04004289563954548,
+  0.010761488138654199
+ ],
+ "actuator_info": {
+  "gripper": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  },
+  "wrist_roll": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  },
+  "wrist_flex": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  },
+  "elbow_flex": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  },
+  "shoulder_lift": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  },
+  "shoulder_pan": {
+   "kp": 998.22,
+   "kv": 2.731,
+   "effort_limit_Nm": 3.35
+  }
+ }
+}

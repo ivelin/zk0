@@ -1,0 +1,59 @@
+{
+ "objects_final": {
+  "ring": [
+   0.29518049101052496,
+   0.05978280035277011,
+   0.02074715360200343
+  ]
+ },
+ "checks": {
+  "planar_to_peg_m": 0.0407,
+  "engaged": false,
+  "hole_clearance_m": 0.003,
+  "bottom_above_board_m": -0.0003
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.0407,
+ "ring_engaged": false,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.02,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "ring": [
+   0.9986959978206825,
+   1.876428712373796e-16,
+   -3.617860041287395e-16,
+   -0.051051972899681546
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 111,
+   "event": "attach",
+   "object": "ring",
+   "planned_dist_m": 0.0066,
+   "live_dist_m": 0.0066,
+   "snap_gap_m": 0.0008,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.966
+  },
+  {
+   "frame": 178,
+   "event": "release",
+   "object": "ring",
+   "closedness": 0.218
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.58,
+  "closed_ref_deg": 21.56,
+  "has_excursion": true,
+  "still_attached_at_end": null
+ },
+ "episode": 33,
+ "task": "ring_insert",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

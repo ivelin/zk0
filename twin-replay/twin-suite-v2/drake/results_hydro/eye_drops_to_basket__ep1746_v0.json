@@ -1,0 +1,175 @@
+{
+ "objects_final": {
+  "carton": [
+   0.23070526170217823,
+   -0.054689446418995535,
+   0.10749985874875201
+  ]
+ },
+ "objects_final_quat_wxyz": {
+  "carton": [
+   0.3841026836863281,
+   -8.017612183895084e-07,
+   -2.371434412371581e-07,
+   0.9232903813991898
+  ]
+ },
+ "checks": {
+  "centre_inside_basket": false,
+  "support_is_basket": false,
+  "contact_platform": true,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "platform"
+  ],
+  "carton_z": 0.1075
+ },
+ "solver_failure": false,
+ "planar_err_m": 0.274,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "grasp_events": [
+  {
+   "frame": 93,
+   "event": "no_attach_in_excursion",
+   "min_dist_m": 0.0428
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.73,
+  "closed_ref_deg": 38.07,
+  "has_excursion": true,
+  "still_attached_at_end": null
+ },
+ "z_trace": {
+  "carton": [
+   [
+    0,
+    0.1075
+   ],
+   [
+    5,
+    0.1075
+   ],
+   [
+    10,
+    0.1075
+   ],
+   [
+    15,
+    0.1075
+   ],
+   [
+    20,
+    0.1075
+   ],
+   [
+    25,
+    0.1075
+   ],
+   [
+    30,
+    0.1075
+   ],
+   [
+    35,
+    0.1075
+   ],
+   [
+    40,
+    0.1075
+   ],
+   [
+    45,
+    0.1075
+   ],
+   [
+    50,
+    0.1075
+   ],
+   [
+    55,
+    0.1075
+   ],
+   [
+    60,
+    0.1075
+   ],
+   [
+    65,
+    0.1075
+   ],
+   [
+    70,
+    0.1075
+   ],
+   [
+    75,
+    0.1075
+   ],
+   [
+    80,
+    0.1075
+   ],
+   [
+    85,
+    0.1075
+   ],
+   [
+    90,
+    0.1075
+   ],
+   [
+    95,
+    0.1075
+   ],
+   [
+    100,
+    0.1075
+   ],
+   [
+    105,
+    0.1075
+   ],
+   [
+    110,
+    0.1075
+   ],
+   [
+    115,
+    0.1075
+   ],
+   [
+    120,
+    0.1075
+   ],
+   [
+    125,
+    0.1075
+   ],
+   [
+    130,
+    0.1075
+   ],
+   [
+    135,
+    0.1075
+   ],
+   [
+    140,
+    0.1075
+   ],
+   [
+    145,
+    0.1075
+   ]
+  ]
+ },
+ "episode": 1746,
+ "task": "eye_drops_to_basket",
+ "variant": 0,
+ "engine": "drake",
+ "build_defect": null,
+ "wall_s": 2.3
+}

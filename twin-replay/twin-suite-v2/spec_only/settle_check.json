@@ -1,0 +1,1142 @@
+[
+ {
+  "scene": "block_stack__spec00_v0.xml",
+  "task": "block_stack",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec00_v1.xml",
+  "task": "block_stack",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec00_v2.xml",
+  "task": "block_stack",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec00_v3.xml",
+  "task": "block_stack",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec00_v4.xml",
+  "task": "block_stack",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec01_v0.xml",
+  "task": "block_stack",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec01_v1.xml",
+  "task": "block_stack",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec01_v2.xml",
+  "task": "block_stack",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec01_v3.xml",
+  "task": "block_stack",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec01_v4.xml",
+  "task": "block_stack",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec02_v0.xml",
+  "task": "block_stack",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec02_v1.xml",
+  "task": "block_stack",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec02_v2.xml",
+  "task": "block_stack",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec02_v3.xml",
+  "task": "block_stack",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec02_v4.xml",
+  "task": "block_stack",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec03_v0.xml",
+  "task": "block_stack",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec03_v1.xml",
+  "task": "block_stack",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec03_v2.xml",
+  "task": "block_stack",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec03_v3.xml",
+  "task": "block_stack",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "block_stack__spec03_v4.xml",
+  "task": "block_stack",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cube_a": 8e-05,
+   "cube_b": 8e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec00_v0.xml",
+  "task": "cable_clip",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00284,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec00_v1.xml",
+  "task": "cable_clip",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00056,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec00_v2.xml",
+  "task": "cable_clip",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00054,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec00_v3.xml",
+  "task": "cable_clip",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00054,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec00_v4.xml",
+  "task": "cable_clip",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.0049,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec01_v0.xml",
+  "task": "cable_clip",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00284,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec01_v1.xml",
+  "task": "cable_clip",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00273,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec01_v2.xml",
+  "task": "cable_clip",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00289,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec01_v3.xml",
+  "task": "cable_clip",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00284,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec01_v4.xml",
+  "task": "cable_clip",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00054,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec02_v0.xml",
+  "task": "cable_clip",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00284,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec02_v1.xml",
+  "task": "cable_clip",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00052,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec02_v2.xml",
+  "task": "cable_clip",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.0019,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec02_v3.xml",
+  "task": "cable_clip",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00272,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec02_v4.xml",
+  "task": "cable_clip",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00271,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec03_v0.xml",
+  "task": "cable_clip",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00284,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec03_v1.xml",
+  "task": "cable_clip",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00253,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec03_v2.xml",
+  "task": "cable_clip",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00055,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec03_v3.xml",
+  "task": "cable_clip",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00055,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "cable_clip__spec03_v4.xml",
+  "task": "cable_clip",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "cable_seg_0": 0.00053,
+   "clip_block": 0.0
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec00_v0.xml",
+  "task": "eye_drops_to_basket",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec00_v1.xml",
+  "task": "eye_drops_to_basket",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec00_v2.xml",
+  "task": "eye_drops_to_basket",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "carton": 2e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec00_v3.xml",
+  "task": "eye_drops_to_basket",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec00_v4.xml",
+  "task": "eye_drops_to_basket",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec01_v0.xml",
+  "task": "eye_drops_to_basket",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec01_v1.xml",
+  "task": "eye_drops_to_basket",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec01_v2.xml",
+  "task": "eye_drops_to_basket",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec01_v3.xml",
+  "task": "eye_drops_to_basket",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "carton": 2e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec01_v4.xml",
+  "task": "eye_drops_to_basket",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec02_v0.xml",
+  "task": "eye_drops_to_basket",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec02_v1.xml",
+  "task": "eye_drops_to_basket",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "carton": 2e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec02_v2.xml",
+  "task": "eye_drops_to_basket",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec02_v3.xml",
+  "task": "eye_drops_to_basket",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec02_v4.xml",
+  "task": "eye_drops_to_basket",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec03_v0.xml",
+  "task": "eye_drops_to_basket",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec03_v1.xml",
+  "task": "eye_drops_to_basket",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec03_v2.xml",
+  "task": "eye_drops_to_basket",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec03_v3.xml",
+  "task": "eye_drops_to_basket",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "eye_drops_to_basket__spec03_v4.xml",
+  "task": "eye_drops_to_basket",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "carton": 1e-05
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec00_v0.xml",
+  "task": "ring_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec00_v1.xml",
+  "task": "ring_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec00_v2.xml",
+  "task": "ring_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec00_v3.xml",
+  "task": "ring_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec00_v4.xml",
+  "task": "ring_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec01_v0.xml",
+  "task": "ring_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec01_v1.xml",
+  "task": "ring_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec01_v2.xml",
+  "task": "ring_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec01_v3.xml",
+  "task": "ring_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec01_v4.xml",
+  "task": "ring_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec02_v0.xml",
+  "task": "ring_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec02_v1.xml",
+  "task": "ring_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec02_v2.xml",
+  "task": "ring_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec02_v3.xml",
+  "task": "ring_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec02_v4.xml",
+  "task": "ring_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec03_v0.xml",
+  "task": "ring_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec03_v1.xml",
+  "task": "ring_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec03_v2.xml",
+  "task": "ring_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec03_v3.xml",
+  "task": "ring_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "ring_insert__spec03_v4.xml",
+  "task": "ring_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "ring": 0.00026
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec00_v0.xml",
+  "task": "tool_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.02053
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec00_v1.xml",
+  "task": "tool_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00016
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec00_v2.xml",
+  "task": "tool_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00016
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec00_v3.xml",
+  "task": "tool_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00016
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec00_v4.xml",
+  "task": "tool_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00329
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec01_v0.xml",
+  "task": "tool_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00143
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec01_v1.xml",
+  "task": "tool_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.0033
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec01_v2.xml",
+  "task": "tool_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00275
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec01_v3.xml",
+  "task": "tool_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00139
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec01_v4.xml",
+  "task": "tool_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00444
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec02_v0.xml",
+  "task": "tool_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00299
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec02_v1.xml",
+  "task": "tool_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00016
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec02_v2.xml",
+  "task": "tool_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00329
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec02_v3.xml",
+  "task": "tool_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00064
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec02_v4.xml",
+  "task": "tool_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.00016
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec03_v0.xml",
+  "task": "tool_insert",
+  "k": 0,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.01623
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec03_v1.xml",
+  "task": "tool_insert",
+  "k": 1,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.05952
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec03_v2.xml",
+  "task": "tool_insert",
+  "k": 2,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.06333
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec03_v3.xml",
+  "task": "tool_insert",
+  "k": 3,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.05318
+  },
+  "solver_failure": false,
+  "load": "ok"
+ },
+ {
+  "scene": "tool_insert__spec03_v4.xml",
+  "task": "tool_insert",
+  "k": 4,
+  "finite": true,
+  "drift_m": {
+   "tool": 0.01885
+  },
+  "solver_failure": false,
+  "load": "ok"
+ }
+]

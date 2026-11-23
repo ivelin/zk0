@@ -1,0 +1,1 @@
+twin-suite-v2 Stage 1 record. Generated scene XML bulk (scenes-v2 episode XMLs, controls_battery/scenes-battery, spec_only/scenes), rollout records, logs, and .npz/.npy trajectories are EXCLUDED from this commit; suite_manifest_v2.json pins their aggregate hashes and counts. Arm STL assets under scenes-v2/arm/assets are included.

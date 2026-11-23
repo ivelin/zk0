@@ -1,0 +1,1336 @@
+{
+ "dev_subset": {
+  "block_stack": [
+   411,
+   453,
+   489,
+   498
+  ],
+  "eye_drops_to_basket": [
+   1630,
+   1746,
+   1783,
+   1798
+  ],
+  "ring_insert": [
+   7,
+   33,
+   167,
+   195
+  ],
+  "tool_insert": [
+   683,
+   697,
+   852,
+   883
+  ]
+ },
+ "per_task": {
+  "block_stack": {
+   "n": 4,
+   "outcome_agree": 4,
+   "secondary_agree": 3,
+   "mj_successes": 0,
+   "dk_successes": 0,
+   "pos_delta_m": {
+    "median": 0.0051,
+    "max": 0.555,
+    "all": [
+     0.0015,
+     0.0001,
+     0.0001,
+     0.0032,
+     0.555,
+     0.007,
+     0.0283,
+     0.2137
+    ]
+   },
+   "ori_delta_deg": {
+    "median": 2.09,
+    "max": 129.66,
+    "all": [
+     1.34,
+     0.0,
+     0.0,
+     1.5,
+     129.66,
+     2.68,
+     15.6,
+     124.85
+    ]
+   }
+  },
+  "eye_drops_to_basket": {
+   "n": 4,
+   "outcome_agree": 4,
+   "secondary_agree": 4,
+   "mj_successes": 1,
+   "dk_successes": 1,
+   "pos_delta_m": {
+    "median": 0.1517,
+    "max": 0.3505,
+    "all": [
+     0.3505,
+     0.0,
+     0.2746,
+     0.0288
+    ]
+   },
+   "ori_delta_deg": {
+    "median": 112.96,
+    "max": 134.93,
+    "all": [
+     134.93,
+     0.01,
+     134.49,
+     91.43
+    ]
+   }
+  },
+  "ring_insert": {
+   "n": 4,
+   "outcome_agree": 4,
+   "secondary_agree": 4,
+   "mj_successes": 0,
+   "dk_successes": 0,
+   "pos_delta_m": {
+    "median": 0.0102,
+    "max": 0.5862,
+    "all": [
+     0.0107,
+     0.0019,
+     0.0097,
+     0.5862
+    ]
+   },
+   "ori_delta_deg": {
+    "median": 89.05,
+    "max": 178.57,
+    "all": [
+     1.49,
+     1.45,
+     178.57,
+     176.6
+    ]
+   }
+  },
+  "tool_insert": {
+   "n": 4,
+   "outcome_agree": 4,
+   "secondary_agree": 4,
+   "mj_successes": 0,
+   "dk_successes": 0,
+   "pos_delta_m": {
+    "median": 0.1614,
+    "max": 0.2311,
+    "all": [
+     0.2311,
+     0.0201,
+     0.2249,
+     0.0979
+    ]
+   },
+   "ori_delta_deg": {
+    "median": 44.8,
+    "max": 153.34,
+    "all": [
+     153.34,
+     30.09,
+     46.81,
+     42.8
+    ]
+   }
+  }
+ },
+ "episodes": [
+  {
+   "task": "block_stack",
+   "episode": 411,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": true,
+   "dk_secondary": false,
+   "secondary_agree": false,
+   "mj_events": [
+    [
+     "attach",
+     "cube_a",
+     116
+    ],
+    [
+     "release",
+     "cube_a",
+     231
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "cube_a",
+     116
+    ],
+    [
+     "release",
+     "cube_a",
+     231
+    ]
+   ],
+   "mj_checks": {
+    "upper": "cube_b",
+    "face_gap_m": -0.03,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "dk_checks": {
+    "upper": "cube_a",
+    "face_gap_m": -0.03,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "cube_a": {
+     "pos_delta_m": 0.0015,
+     "mj_pos": [
+      0.17874025131146706,
+      -0.025237227889248988,
+      0.01492049380696536
+     ],
+     "dk_pos": [
+      0.1802391916734412,
+      -0.024888632577677677,
+      0.01499967298930659
+     ],
+     "ori_delta_deg": 1.34
+    },
+    "cube_b": {
+     "pos_delta_m": 0.0001,
+     "mj_pos": [
+      0.0660589002064655,
+      -0.023055102452741522,
+      0.014920493806965389
+     ],
+     "dk_pos": [
+      0.0660589400023481,
+      -0.023055060733810282,
+      0.014999672989306588
+     ],
+     "ori_delta_deg": 0.0
+    }
+   }
+  },
+  {
+   "task": "block_stack",
+   "episode": 453,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "cube_b",
+     80
+    ],
+    [
+     "release",
+     "cube_b",
+     210
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "cube_b",
+     80
+    ],
+    [
+     "release",
+     "cube_b",
+     210
+    ]
+   ],
+   "mj_checks": {
+    "upper": "cube_a",
+    "face_gap_m": -0.03,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "dk_checks": {
+    "upper": "cube_a",
+    "face_gap_m": -0.03,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "cube_a": {
+     "pos_delta_m": 0.0001,
+     "mj_pos": [
+      0.2570560014808338,
+      0.048449498092270976,
+      0.014920493806965397
+     ],
+     "dk_pos": [
+      0.25705576233000627,
+      0.04844948299633228,
+      0.014999672989306588
+     ],
+     "ori_delta_deg": 0.0
+    },
+    "cube_b": {
+     "pos_delta_m": 0.0032,
+     "mj_pos": [
+      0.19352733917753387,
+      -0.06531226455473003,
+      0.01492049380696537
+     ],
+     "dk_pos": [
+      0.19085996438759564,
+      -0.0635659646123791,
+      0.014999672989306585
+     ],
+     "ori_delta_deg": 1.5
+    }
+   }
+  },
+  {
+   "task": "block_stack",
+   "episode": 489,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "cube_b",
+     77
+    ],
+    [
+     "release",
+     "cube_b",
+     102
+    ],
+    [
+     "attach",
+     "cube_b",
+     220
+    ],
+    [
+     "release",
+     "cube_b",
+     225
+    ],
+    [
+     "attach",
+     "cube_a",
+     361
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "cube_b",
+     77
+    ],
+    [
+     "release",
+     "cube_b",
+     102
+    ],
+    [
+     "attach",
+     "cube_b",
+     216
+    ],
+    [
+     "release",
+     "cube_b",
+     225
+    ],
+    [
+     "attach",
+     "cube_a",
+     361
+    ]
+   ],
+   "mj_checks": {
+    "upper": "cube_a",
+    "face_gap_m": 0.1503,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": true,
+    "upper_contacts": []
+   },
+   "dk_checks": {
+    "upper": "cube_b",
+    "face_gap_m": 0.1547,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": true,
+   "objects": {
+    "cube_a": {
+     "pos_delta_m": 0.555,
+     "mj_pos": [
+      0.400825918206849,
+      -0.012169912162409985,
+      0.1952376461937169
+     ],
+     "dk_pos": [
+      -0.01610462972251893,
+      0.019707655428120564,
+      -0.1696842556760304
+     ],
+     "ori_delta_deg": 129.66
+    },
+    "cube_b": {
+     "pos_delta_m": 0.007,
+     "mj_pos": [
+      0.2364224367416793,
+      0.09109250247906703,
+      0.01492049380696536
+     ],
+     "dk_pos": [
+      0.24033367125713773,
+      0.08527419792149513,
+      0.014999672989306588
+     ],
+     "ori_delta_deg": 2.68
+    }
+   }
+  },
+  {
+   "task": "block_stack",
+   "episode": 498,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "cube_b",
+     59
+    ],
+    [
+     "release",
+     "cube_b",
+     205
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "cube_b",
+     59
+    ],
+    [
+     "release",
+     "cube_b",
+     205
+    ],
+    [
+     "attach",
+     "cube_b",
+     232
+    ]
+   ],
+   "mj_checks": {
+    "upper": "cube_a",
+    "face_gap_m": -0.03,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "dk_checks": {
+    "upper": "cube_b",
+    "face_gap_m": -0.0231,
+    "within_inset_footprint": false,
+    "contact_with_lower": false,
+    "no_other_support_contact": false,
+    "upper_contacts": [
+     "world"
+    ]
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "cube_a": {
+     "pos_delta_m": 0.0283,
+     "mj_pos": [
+      0.20691149340138945,
+      0.10204234107992781,
+      0.014920493806965404
+     ],
+     "dk_pos": [
+      0.1932979801982466,
+      0.07728064054669233,
+      0.01499967298930659
+     ],
+     "ori_delta_deg": 15.6
+    },
+    "cube_b": {
+     "pos_delta_m": 0.2137,
+     "mj_pos": [
+      0.20834234940827803,
+      0.06836177980335396,
+      0.014920493806965378
+     ],
+     "dk_pos": [
+      0.4080036829636151,
+      -0.007543014885329814,
+      0.021931699661951045
+     ],
+     "ori_delta_deg": 124.85
+    }
+   }
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1630,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "carton",
+     53
+    ],
+    [
+     "release",
+     "carton",
+     98
+    ],
+    [
+     "attach",
+     "carton",
+     107
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "carton",
+     53
+    ],
+    [
+     "release",
+     "carton",
+     98
+    ],
+    [
+     "attach",
+     "carton",
+     107
+    ]
+   ],
+   "mj_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": false,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [],
+    "carton_z": 0.2039
+   },
+   "dk_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": false,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [],
+    "carton_z": -0.1336
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": true,
+   "objects": {
+    "carton": {
+     "pos_delta_m": 0.3505,
+     "mj_pos": [
+      0.3856999843163063,
+      0.03023251038122649,
+      0.20386413906708903
+     ],
+     "dk_pos": [
+      0.3591669948505648,
+      -0.06064002182763746,
+      -0.13358017480660864
+     ],
+     "ori_delta_deg": 134.93
+    }
+   }
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1746,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [],
+   "dk_events": [],
+   "mj_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": true,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [
+     "platform"
+    ],
+    "carton_z": 0.1075
+   },
+   "dk_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": true,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [
+     "platform"
+    ],
+    "carton_z": 0.1075
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "carton": {
+     "pos_delta_m": 0.0,
+     "mj_pos": [
+      0.23070235589004834,
+      -0.054688163547812,
+      0.10748972660344022
+     ],
+     "dk_pos": [
+      0.23070526170217823,
+      -0.054689446418995535,
+      0.10749985874875201
+     ],
+     "ori_delta_deg": 0.01
+    }
+   }
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1783,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "carton",
+     69
+    ],
+    [
+     "release",
+     "carton",
+     111
+    ],
+    [
+     "attach",
+     "carton",
+     121
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "carton",
+     69
+    ],
+    [
+     "release",
+     "carton",
+     111
+    ],
+    [
+     "attach",
+     "carton",
+     121
+    ]
+   ],
+   "mj_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": false,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [],
+    "carton_z": 0.2279
+   },
+   "dk_checks": {
+    "centre_inside_basket": false,
+    "support_is_basket": false,
+    "contact_platform": false,
+    "contact_mat_or_floor": true,
+    "carton_contacts": [
+     "world"
+    ],
+    "carton_z": -0.0419
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "carton": {
+     "pos_delta_m": 0.2746,
+     "mj_pos": [
+      0.3899066427840436,
+      0.028822925289370627,
+      0.227920077917408
+     ],
+     "dk_pos": [
+      0.4204631308281719,
+      -0.012374781700710014,
+      -0.04186150227051532
+     ],
+     "ori_delta_deg": 134.49
+    }
+   }
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1798,
+   "mj_success": true,
+   "dk_success": true,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "carton",
+     63
+    ],
+    [
+     "release",
+     "carton",
+     104
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "carton",
+     63
+    ],
+    [
+     "release",
+     "carton",
+     104
+    ]
+   ],
+   "mj_checks": {
+    "centre_inside_basket": true,
+    "support_is_basket": true,
+    "contact_platform": false,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [
+     "basket"
+    ],
+    "carton_z": 0.0205
+   },
+   "dk_checks": {
+    "centre_inside_basket": true,
+    "support_is_basket": true,
+    "contact_platform": false,
+    "contact_mat_or_floor": false,
+    "carton_contacts": [
+     "basket"
+    ],
+    "carton_z": 0.0205
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "carton": {
+     "pos_delta_m": 0.0288,
+     "mj_pos": [
+      0.17512590022295232,
+      0.12365281826470133,
+      0.02048292752466859
+     ],
+     "dk_pos": [
+      0.17803094883860757,
+      0.15225835071918928,
+      0.020499836498408777
+     ],
+     "ori_delta_deg": 91.43
+    }
+   }
+  },
+  {
+   "task": "ring_insert",
+   "episode": 7,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "ring",
+     128
+    ],
+    [
+     "release",
+     "ring",
+     129
+    ],
+    [
+     "attach",
+     "ring",
+     159
+    ],
+    [
+     "release",
+     "ring",
+     224
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "ring",
+     128
+    ],
+    [
+     "release",
+     "ring",
+     129
+    ],
+    [
+     "attach",
+     "ring",
+     158
+    ],
+    [
+     "release",
+     "ring",
+     224
+    ]
+   ],
+   "mj_checks": {
+    "planar_to_peg_m": 0.0394,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "dk_checks": {
+    "planar_to_peg_m": 0.0392,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "ring": {
+     "pos_delta_m": 0.0107,
+     "mj_pos": [
+      0.3042567663985243,
+      -0.05015065391025712,
+      0.02074715360133458
+     ],
+     "dk_pos": [
+      0.30425673054816316,
+      -0.06084163120597822,
+      0.02065340063929935
+     ],
+     "ori_delta_deg": 1.49
+    }
+   }
+  },
+  {
+   "task": "ring_insert",
+   "episode": 33,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "ring",
+     111
+    ],
+    [
+     "release",
+     "ring",
+     178
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "ring",
+     111
+    ],
+    [
+     "release",
+     "ring",
+     178
+    ]
+   ],
+   "mj_checks": {
+    "planar_to_peg_m": 0.0407,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "dk_checks": {
+    "planar_to_peg_m": 0.0425,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "ring": {
+     "pos_delta_m": 0.0019,
+     "mj_pos": [
+      0.29518049101052496,
+      0.05978280035277011,
+      0.02074715360200343
+     ],
+     "dk_pos": [
+      0.29697080069617526,
+      0.06041816009897973,
+      0.0206534446290783
+     ],
+     "ori_delta_deg": 1.45
+    }
+   }
+  },
+  {
+   "task": "ring_insert",
+   "episode": 167,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "ring",
+     94
+    ],
+    [
+     "release",
+     "ring",
+     169
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "ring",
+     94
+    ],
+    [
+     "release",
+     "ring",
+     169
+    ]
+   ],
+   "mj_checks": {
+    "planar_to_peg_m": 0.047,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "dk_checks": {
+    "planar_to_peg_m": 0.0505,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.0003
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "ring": {
+     "pos_delta_m": 0.0097,
+     "mj_pos": [
+      0.31926073191088394,
+      0.006707363663766599,
+      0.020747153601332485
+     ],
+     "dk_pos": [
+      0.3220215494314488,
+      -0.002617892151448142,
+      0.020653443969946866
+     ],
+     "ori_delta_deg": 178.57
+    }
+   }
+  },
+  {
+   "task": "ring_insert",
+   "episode": 195,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "ring",
+     83
+    ],
+    [
+     "release",
+     "ring",
+     96
+    ],
+    [
+     "attach",
+     "ring",
+     202
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "ring",
+     83
+    ],
+    [
+     "release",
+     "ring",
+     96
+    ],
+    [
+     "attach",
+     "ring",
+     202
+    ]
+   ],
+   "mj_checks": {
+    "planar_to_peg_m": 0.1756,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": 0.1409
+   },
+   "dk_checks": {
+    "planar_to_peg_m": 0.2693,
+    "engaged": false,
+    "hole_clearance_m": 0.003,
+    "bottom_above_board_m": -0.241
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": true,
+   "objects": {
+    "ring": {
+     "pos_delta_m": 0.5862,
+     "mj_pos": [
+      0.4328471953017617,
+      0.006483369000170551,
+      0.1618901515395525
+     ],
+     "dk_pos": [
+      -0.011527375832862306,
+      0.022760539298187714,
+      -0.22004243413743657
+     ],
+     "ori_delta_deg": 176.6
+    }
+   }
+  },
+  {
+   "task": "tool_insert",
+   "episode": 683,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "tool",
+     92
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "tool",
+     92
+    ]
+   ],
+   "mj_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 42.0,
+    "resting_in_tray_contact": false,
+    "tool_z": 0.2189
+   },
+   "dk_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 65.1,
+    "resting_in_tray_contact": false,
+    "tool_z": 0.0094
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "tool": {
+     "pos_delta_m": 0.2311,
+     "mj_pos": [
+      0.3144305236800914,
+      -0.04459106592618945,
+      0.21891873304691067
+     ],
+     "dk_pos": [
+      0.31576968941208083,
+      0.05296024031742278,
+      0.009377384496926608
+     ],
+     "ori_delta_deg": 153.34
+    }
+   }
+  },
+  {
+   "task": "tool_insert",
+   "episode": 697,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [],
+   "dk_events": [],
+   "mj_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 0.0,
+    "resting_in_tray_contact": false,
+    "tool_z": 0.005
+   },
+   "dk_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 0.8,
+    "resting_in_tray_contact": false,
+    "tool_z": 0.0043
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "tool": {
+     "pos_delta_m": 0.0201,
+     "mj_pos": [
+      0.06042416960506338,
+      0.125156,
+      0.004952705785887029
+     ],
+     "dk_pos": [
+      0.08032989192436345,
+      0.12263949787510159,
+      0.004329441781915739
+     ],
+     "ori_delta_deg": 30.09
+    }
+   }
+  },
+  {
+   "task": "tool_insert",
+   "episode": 852,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [],
+   "dk_events": [
+    [
+     "attach",
+     "tool",
+     77
+    ],
+    [
+     "release",
+     "tool",
+     161
+    ],
+    [
+     "attach",
+     "tool",
+     200
+    ]
+   ],
+   "mj_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 42.8,
+    "resting_in_tray_contact": true,
+    "tool_z": 0.0388
+   },
+   "dk_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 39.8,
+    "resting_in_tray_contact": false,
+    "tool_z": -0.1761
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": true,
+   "objects": {
+    "tool": {
+     "pos_delta_m": 0.2249,
+     "mj_pos": [
+      0.055175645605345235,
+      -0.0780007,
+      0.038792215526841985
+     ],
+     "dk_pos": [
+      0.11845135549310265,
+      -0.05774660574565586,
+      -0.17607063926816632
+     ],
+     "ori_delta_deg": 46.81
+    }
+   }
+  },
+  {
+   "task": "tool_insert",
+   "episode": 883,
+   "mj_success": false,
+   "dk_success": false,
+   "outcome_agree": true,
+   "mj_secondary": false,
+   "dk_secondary": false,
+   "secondary_agree": true,
+   "mj_events": [
+    [
+     "attach",
+     "tool",
+     78
+    ],
+    [
+     "release",
+     "tool",
+     150
+    ],
+    [
+     "attach",
+     "tool",
+     183
+    ]
+   ],
+   "dk_events": [
+    [
+     "attach",
+     "tool",
+     78
+    ],
+    [
+     "release",
+     "tool",
+     150
+    ],
+    [
+     "attach",
+     "tool",
+     224
+    ]
+   ],
+   "mj_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 74.1,
+    "resting_in_tray_contact": true,
+    "tool_z": 0.0273
+   },
+   "dk_checks": {
+    "centre_in_slot": false,
+    "axis_angle_deg": 73.2,
+    "resting_in_tray_contact": false,
+    "tool_z": -0.0212
+   },
+   "mj_build_defect": null,
+   "dk_build_defect": null,
+   "dk_solver_failure": false,
+   "objects": {
+    "tool": {
+     "pos_delta_m": 0.0979,
+     "mj_pos": [
+      0.19064446465084067,
+      -0.014890044681073692,
+      0.027260750437511333
+     ],
+     "dk_pos": [
+      0.1062217141730743,
+      -0.004425968227642544,
+      -0.02121478120646802
+     ],
+     "ori_delta_deg": 42.8
+    }
+   }
+  }
+ ],
+ "disagreements": []
+}

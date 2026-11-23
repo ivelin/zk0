@@ -1,0 +1,222 @@
+{
+ "arm_visual_obj_clones": 17,
+ "frames": {
+  "frame0": {
+   "front": {
+    "unique_colors": 1097,
+    "non_clear_frac": 0.7812,
+    "cube_a_green": {
+     "pixels": 46,
+     "centroid_xy": [
+      116.4,
+      130.8
+     ]
+    },
+    "cube_b_purple": {
+     "pixels": 0,
+     "centroid_xy": null
+    },
+    "arm_yellow": {
+     "pixels": 349,
+     "centroid_xy": [
+      72.8,
+      97.7
+     ]
+    },
+    "mat_dark": {
+     "pixels": 42486,
+     "centroid_xy": [
+      127.0,
+      158.2
+     ]
+    },
+    "wall_beige": {
+     "pixels": 22,
+     "centroid_xy": [
+      145.1,
+      59.6
+     ]
+    }
+   },
+   "top": {
+    "unique_colors": 858,
+    "non_clear_frac": 1.0,
+    "cube_a_green": {
+     "pixels": 98,
+     "centroid_xy": [
+      106.4,
+      117.5
+     ]
+    },
+    "cube_b_purple": {
+     "pixels": 32,
+     "centroid_xy": [
+      49.0,
+      137.7
+     ]
+    },
+    "arm_yellow": {
+     "pixels": 894,
+     "centroid_xy": [
+      29.7,
+      127.2
+     ]
+    },
+    "mat_dark": {
+     "pixels": 58182,
+     "centroid_xy": [
+      129.7,
+      127.6
+     ]
+    },
+    "wall_beige": {
+     "pixels": 2121,
+     "centroid_xy": [
+      131.6,
+      127.0
+     ]
+    }
+   },
+   "wrist": {
+    "unique_colors": 1286,
+    "non_clear_frac": 1.0,
+    "cube_a_green": {
+     "pixels": 974,
+     "centroid_xy": [
+      113.8,
+      20.5
+     ]
+    },
+    "cube_b_purple": {
+     "pixels": 0,
+     "centroid_xy": null
+    },
+    "arm_yellow": {
+     "pixels": 6143,
+     "centroid_xy": [
+      131.1,
+      144.2
+     ]
+    },
+    "mat_dark": {
+     "pixels": 51524,
+     "centroid_xy": [
+      127.7,
+      122.6
+     ]
+    },
+    "wall_beige": {
+     "pixels": 0,
+     "centroid_xy": null
+    }
+   }
+  },
+  "mid130": {
+   "front": {
+    "unique_colors": 1252,
+    "non_clear_frac": 0.7812,
+    "cube_a_green": {
+     "pixels": 49,
+     "centroid_xy": [
+      116.2,
+      130.6
+     ]
+    },
+    "cube_b_purple": {
+     "pixels": 0,
+     "centroid_xy": null
+    },
+    "arm_yellow": {
+     "pixels": 475,
+     "centroid_xy": [
+      80.1,
+      87.8
+     ]
+    },
+    "mat_dark": {
+     "pixels": 42053,
+     "centroid_xy": [
+      127.2,
+      159.2
+     ]
+    },
+    "wall_beige": {
+     "pixels": 22,
+     "centroid_xy": [
+      145.1,
+      59.6
+     ]
+    }
+   },
+   "top": {
+    "unique_colors": 1074,
+    "non_clear_frac": 1.0,
+    "cube_a_green": {
+     "pixels": 23,
+     "centroid_xy": [
+      108.5,
+      120.7
+     ]
+    },
+    "cube_b_purple": {
+     "pixels": 50,
+     "centroid_xy": [
+      49.2,
+      136.6
+     ]
+    },
+    "arm_yellow": {
+     "pixels": 469,
+     "centroid_xy": [
+      52.2,
+      122.8
+     ]
+    },
+    "mat_dark": {
+     "pixels": 57917,
+     "centroid_xy": [
+      129.6,
+      127.7
+     ]
+    },
+    "wall_beige": {
+     "pixels": 2106,
+     "centroid_xy": [
+      132.4,
+      127.1
+     ]
+    }
+   },
+   "wrist": {
+    "unique_colors": 1168,
+    "non_clear_frac": 1.0,
+    "cube_a_green": {
+     "pixels": 0,
+     "centroid_xy": null
+    },
+    "cube_b_purple": {
+     "pixels": 0,
+     "centroid_xy": null
+    },
+    "arm_yellow": {
+     "pixels": 5560,
+     "centroid_xy": [
+      127.5,
+      138.1
+     ]
+    },
+    "mat_dark": {
+     "pixels": 38788,
+     "centroid_xy": [
+      132.3,
+      83.6
+     ]
+    },
+    "wall_beige": {
+     "pixels": 0,
+     "centroid_xy": null
+    }
+   }
+  }
+ }
+}

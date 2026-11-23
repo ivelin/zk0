@@ -1,0 +1,73 @@
+{
+ "objects_final": {
+  "cube_a": [
+   0.20691149340138945,
+   0.10204234107992781,
+   0.014920493806965404
+  ],
+  "cube_b": [
+   0.20834234940827803,
+   0.06836177980335396,
+   0.014920493806965378
+  ]
+ },
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": -0.03,
+  "within_inset_footprint": false,
+  "contact_with_lower": false,
+  "no_other_support_contact": false,
+  "upper_contacts": [
+   "world"
+  ]
+ },
+ "solver_failure": false,
+ "planar_err_m": null,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "objects_final_quat_wxyz": {
+  "cube_a": [
+   0.9999953612546639,
+   1.5876092575360596e-10,
+   1.5126223622469728e-10,
+   0.0030458938187918443
+  ],
+  "cube_b": [
+   0.98941543788703,
+   -2.1768048126143227e-10,
+   3.6004981551309674e-12,
+   0.14511061736074338
+  ]
+ },
+ "engine": "mujoco-rerun",
+ "grasp_events": [
+  {
+   "frame": 59,
+   "event": "attach",
+   "object": "cube_b",
+   "planned_dist_m": 0.0,
+   "live_dist_m": 0.0,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.863
+  },
+  {
+   "frame": 205,
+   "event": "release",
+   "object": "cube_b",
+   "closedness": 0.287
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.72,
+  "closed_ref_deg": 35.97,
+  "has_excursion": true,
+  "still_attached_at_end": null
+ },
+ "episode": 498,
+ "task": "block_stack",
+ "variant": 0,
+ "suite_version": "twin-suite-v1.1",
+ "build_defect": null
+}

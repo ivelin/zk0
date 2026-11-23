@@ -1,0 +1,166 @@
+{
+ "objects_final": {
+  "carton": [
+   0.3591669948505648,
+   -0.06064002182763746,
+   -0.13358017480660864
+  ]
+ },
+ "objects_final_quat_wxyz": {
+  "carton": [
+   -0.10346576906505588,
+   0.8959919749450693,
+   -0.24146922490222517,
+   -0.35803048597979664
+  ]
+ },
+ "checks": {
+  "centre_inside_basket": false,
+  "support_is_basket": false,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [],
+  "carton_z": -0.1336
+ },
+ "solver_failure": true,
+ "planar_err_m": 0.4195,
+ "secondary_pass": false,
+ "secondary_threshold_m": 0.03,
+ "sim_success": false,
+ "grasp_events": [
+  {
+   "frame": 53,
+   "event": "attach",
+   "object": "carton",
+   "planned_dist_m": 0.0,
+   "live_dist_m": 0.0,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.963
+  },
+  {
+   "frame": 98,
+   "event": "release",
+   "object": "carton",
+   "closedness": 0.282
+  },
+  {
+   "frame": 107,
+   "event": "attach",
+   "object": "carton",
+   "planned_dist_m": 0.0198,
+   "live_dist_m": 0.0198,
+   "snap_gap_m": 0.0,
+   "gate": "planar_shape_dwell",
+   "closedness": 0.951
+  }
+ ],
+ "gripper_norm": {
+  "open_ref_deg": 0.21,
+  "closed_ref_deg": 42.14,
+  "has_excursion": true,
+  "still_attached_at_end": "carton"
+ },
+ "z_trace": {
+  "carton": [
+   [
+    0,
+    0.1075
+   ],
+   [
+    5,
+    0.1075
+   ],
+   [
+    10,
+    0.1075
+   ],
+   [
+    15,
+    0.1075
+   ],
+   [
+    20,
+    0.1075
+   ],
+   [
+    25,
+    0.1075
+   ],
+   [
+    30,
+    0.1075
+   ],
+   [
+    35,
+    0.1075
+   ],
+   [
+    40,
+    0.1075
+   ],
+   [
+    45,
+    0.1075
+   ],
+   [
+    50,
+    0.1075
+   ],
+   [
+    55,
+    0.1075
+   ],
+   [
+    60,
+    0.1299
+   ],
+   [
+    65,
+    0.2043
+   ],
+   [
+    70,
+    0.2352
+   ],
+   [
+    75,
+    0.1862
+   ],
+   [
+    80,
+    0.1337
+   ],
+   [
+    85,
+    0.0963
+   ],
+   [
+    90,
+    0.0826
+   ],
+   [
+    95,
+    0.0867
+   ],
+   [
+    100,
+    0.0842
+   ],
+   [
+    105,
+    0.0488
+   ],
+   [
+    110,
+    0.0896
+   ]
+  ]
+ },
+ "episode": 1630,
+ "task": "eye_drops_to_basket",
+ "variant": 0,
+ "engine": "drake",
+ "build_defect": null,
+ "wall_s": 1.6
+}
