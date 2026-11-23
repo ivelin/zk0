@@ -161,8 +161,19 @@ contested by the Grok leg (§4).
 ## 4. Verification legs and agreement
 
 **Blind verifiers (leg c): agreement with the primary verdicts on
-the seeded 20-episode sample: verifier 1 — 20/20 (100%);
-verifier 2 — 20/20 (100%).** No disagreements.
+the seeded 20-episode sample: verifier 1 — 19/20 (95%);
+verifier 2 — 20/20 (100%).** One disagreement: **cable_clip
+ep2042** — primary FAIL vs verifier 1 INDETERMINATE ("final top
+frame shows the cable running up to the side of the white box, but
+whether the connector is actually seated/clipped in cannot be
+clearly seen in either view"). Verifier 2 read the same sheet as
+FAIL, agreeing with the primary. ep2042 is therefore contested on
+two legs (this one and the Grok leg, §4 table) and is in the
+founder's review pack. (Correction, filed the same day: the first
+assembly of this report transcribed verifier 1's ep2042 verdict as
+FAIL and stated 20/20 for both verifiers; verifier 1's own final
+record says INDETERMINATE. The verdict files and master CSV have
+been corrected to verifier 1's record.)
 
 **Grok Build CLI (leg d): full-set verdicts — PASS 68, FAIL 30,
 INDETERMINATE 2. Agreement with the primary verdicts: 80/100
@@ -362,7 +373,7 @@ certification status is PENDING HUMAN APPROVAL.
 | 1969 | cable_clip | 0 | FAIL | — | — | FAIL |
 | 2020 | cable_clip | 0 | FAIL | — | — | PASS |
 | 2032 | cable_clip | 0 | FAIL | FAIL | FAIL | FAIL |
-| 2042 | cable_clip | 0 | FAIL | FAIL | FAIL | PASS |
+| 2042 | cable_clip | 0 | FAIL | INDETERMINATE | FAIL | PASS |
 | 2046 | cable_clip | 0 | FAIL | — | — | PASS |
 | 2059 | cable_clip | 0 | FAIL | — | — | FAIL |
 | 2068 | cable_clip | 0 | FAIL | — | — | FAIL |
@@ -376,7 +387,8 @@ certification status is PENDING HUMAN APPROVAL.
 ## 8. Plain statement — what this audit establishes
 
 Under the legs completed (primary judging of all 100, blind
-verification at 100% agreement on the seeded 20% sample, Grok
+verification at 95% (verifier 1) and 100% (verifier 2) agreement
+on the seeded 20% sample — one named disagreement, ep2042 — Grok
 full-set pass at 80% agreement with 20 named contested
 episodes), and subject to the two outstanding legs (Gemini,
 human eyes):
