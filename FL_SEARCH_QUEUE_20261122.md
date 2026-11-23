@@ -207,7 +207,7 @@ Lane: **Φ** = closes/explains the FL gap · **M** = measurement ·
 | S1 | **Optuna v5 record layer** (one study per item, SQLite, wrapper around guarded runs) | P/S | 2 | .90 | 0 | 4 | **45.0** | Cheapest permanent win: every queue result becomes a queryable public record from item #1 onward |
 | Q-NAT-A | **NAT VLA Slot A — as-released reference run** | G/A | 3 | .85 | 3 | 8 | **23.2** | ~3 DGX-h buys the only external reference point for the token-space lane; its number re-prices Q-NAT-B and Q-SPEC |
 | Q-CSD | **Chunk-switch discontinuity metric in the eval harness** | P/M | 2 | .90 | 0 | 8 | **22.5** | Zero GPU; quantifies FL's known tool_insert plunge signature, which the current table cannot express |
-| Q-STEPS | **FL +20% steps continuation** — 6 more rounds from the round-30 checkpoint (36 rounds, 18,000 steps) — *trigger-gated: activates only if the rounds 10/20 diagnostic shows judged completion still climbing r20→r30; score conditional on the trigger* | G/Φ | 3 | .50 | 3.7 | 4 | **19.5** | Cheapest test of "just train longer": median client loss was still falling at r30 (0.246→0.222), not plateaued; if judged scores are flat r20→r30 it drops to low priority — steps would not be the binding constraint (protocol §5) |
+| Q-STEPS | **FL +20% steps continuation** — 6 more rounds from the round-30 checkpoint (36 rounds, 18,000 steps) — *trigger-gated: activates only if the rounds 10/20 diagnostic shows judged completion still climbing r20→r30; score conditional on the trigger — **trigger evaluated at re-sort #1 (2026-11-23): NOT FIRED (r20→r30 = +4 pp, within the ±~5 pp noise floor, not a real margin); demoted to low priority — see §9 re-sort #1*** | G/Φ | 3 | .50 | 3.7 | 4 | **19.5** | Cheapest test of "just train longer": median client loss was still falling at r30 (0.246→0.222), not plateaued; if judged scores are flat r20→r30 it drops to low priority — steps would not be the binding constraint (protocol §5) |
 | Q-VLR | **Vision-encoder knobs: unfreeze check + differential vision LR** (specialist scale) | G/Φ | 3 | .60 | 4 | 6 | **18.0** | Published ablation says a frozen encoder cost PushT 57.8%→25%; one controlled check replaces an inherited default in every future fine-tune |
 | Q-PROXY | **Proxy-metric validation for future multi-fidelity** | P/M | 3 | .60 | 0 | 10 | **18.0** | Converts accumulated judged cells (rounds 10/20/30 + queue items) into a validated — or killed — early-stopping proxy; makes all later search cheaper |
 | Q-DW | **Dynamic-weighting offline audit** (did loss-based weighting help or hurt Study 001's FL?) | P/M | 2 | .50 | 0 | 8 | **12.5** | Free evidence from existing round logs; sets Q-WA's P and sharpens Q-D's interpretation |
@@ -229,10 +229,14 @@ Lane: **Φ** = closes/explains the FL gap · **M** = measurement ·
 | Q-NAT-B | **Slot B — home-grown NAT-style causal tokenizer on SmolVLM2** | G/A | 5 | .30 | 30+ | 120+ | **1.0** | The strategic moonshot: Impact 5 if token-space federates, but the federation-payload problem (no backbone/expert split) is unsolved and the build is 120+ eng-h |
 | Q-SPEC | **Speculative decoding for action tokens** — *gated: only if Q-NAT-B wins its slot* | G/I | 3 | — | — | — | **gated** | No tokens to speculate on in a flow-expert policy; priced in advance by the survey |
 
-**In flight, feeding the queue (not queue items):** the final eval
+**Landed, feeding the queue (not queue items):** the final eval
 batch — sequential-chain row, five expert-only specialist rows, and
-the **FL rounds 10/20 diagnostic + round-by-round loss curve**. Its
-readout is re-sort input #1 (§6).
+the **FL rounds 10/20 diagnostic + round-by-round loss curve**
+(`study001_fl_loss_curve_20261122.csv`). Diagnostic readout
+(2026-11-23, JUDGED completion, offline replay, frozen 100):
+fl_r10_3cam **13/100**, fl_r20_3cam **22/100**, fl_r30_3cam
+**26/100** (certified anchor). Its readout was re-sort input #1
+(§6, §9 — re-sort #1, 2026-11-23).
 
 ## 5. Per-item protocol notes
 
@@ -407,6 +411,26 @@ in its run manifest and gate-checked like any other config
 field. If Q-A (carry) ever becomes the standing recipe, Q-LR's
 design is revisited before it runs — the two are never combined
 in one run.
+
+**Re-sort #1 outcome (2026-11-23, diagnostic landed):** FL judged
+completion rose monotonically — 13/100 @r10 → 22/100 @r20 →
+26/100 @r30 — while the median client policy loss fell
+monotonically after the round-2 bump (0.322 @r10 → 0.246 @r20 →
+0.222 @r30; per-round server composite is not a usable curve —
+every round's `metrics.json` carries round 0's 0.5773 verbatim,
+gap G-10). **Branch: AMBIGUOUS.** PEAKED fails (max(r10,r20) −
+r30 = −4 pp, no late composite rise); WEAK-PEAK fails (no mid-run
+advantage); NEVER-TOOK-OFF fails on both prongs (r10 is 13 pp
+below r30, not within ±5 pp; no early loss plateau — loss and
+completion both kept moving). Default GPU order therefore
+applies: **Q-A → Q-B → Q-D**. **Q-STEPS trigger: NOT FIRED** —
+the r20→r30 climb is +4 pp, inside the ±~5 pp noise floor, not
+the "real margin" §5/§6 require; Q-STEPS drops to low priority
+and does not slot ahead of the structural three. Q-LR stays
+conditional behind the first structural readout. No §4 numeric
+scores change: no item's P is moved by evidence under the 10 pp
+claim threshold; the only re-rank is Q-STEPS' registered
+trigger demotion, logged in §9.
 
 After the structural three: Q-WA (post-audit), then Q-HPO unlocks.
 Cheap GPU probes (Q-NAT-A, Q-VLR, Q-PSW) slot into short windows
@@ -616,6 +640,39 @@ see `study001-gap-closure-20261122.md`.
   workstream — the standard is documented now, first used on
   the next queue run after S0 lands; nothing is implemented by
   this entry.
+
+- **2026-11-23 07:26 CT — Re-sort #1 (diagnostic landed).**
+  Final eval batch verified on the DGX
+  (`run/eval-traj-20261122/`): 100 FINAL judgments each for
+  fl_r10_3cam and fl_r20_3cam; updated completion table
+  (16 checkpoints) gives FL **13/100 @r10, 22/100 @r20,
+  26/100 @r30** (JUDGED completion, offline replay); the
+  step4-remainder verification recomputed all 1,600 FINAL
+  judgments and matched the table, blind sample 24/24 agree.
+  Loss curve (`study001_fl_loss_curve_20261122.csv`): median
+  client policy loss 0.391 @r1 → 0.322 @r10 → 0.246 @r20 →
+  0.222 @r30, monotonic after the round-2 bump; eye_drops
+  client diverging from round 21 (0.330 → 0.422) as registered.
+  §6 conditional applied exactly: **AMBIGUOUS branch** (no
+  peak, no weak peak, not never-took-off — see §6 re-sort #1
+  outcome for the prong-by-prong test) → GPU order
+  **Q-A → Q-B → Q-D** (the prepped default). **Q-STEPS
+  trigger NOT FIRED** (+4 pp r20→r30 < real margin; inside
+  noise) — demoted to low priority per its registered rule,
+  the sole §4 re-rank in this re-sort, reason logged here.
+  Q-A launch-package readiness (prepared, NOT launched):
+  §7 prep package stands; missing before launch — (1) the
+  AdamW-carry code change (training_setup.py / train.py /
+  client_core.py) as its own commit, (2) a Q-A gate manifest
+  derived from `study_prep/fl_rerun_study_manifest.json`
+  with the optimizer-state policy field set to `carry`
+  (the manifest on file still registers `reset_per_round`),
+  (3) the S0 / gap-closure merge into this branch, and
+  (4) the §7 full-path miniature smoke incl. kill-and-resume.
+  Launch shape when ready: `launch_dgx_job.sh` study mode,
+  guard + mirror + breaker logonly, thermal monitor armed,
+  expected ≈10.7 h training + ≈1.5 h judged eval. **No
+  training was launched by this re-sort.**
 
 ---
 
