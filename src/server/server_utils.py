@@ -22,6 +22,44 @@ from src.common.utils import get_tool_config, load_env_safe
 
 
 
+def load_template_dataset_meta():
+    """Load the dataset metadata that defines the policy's input features.
+
+    The metadata comes from the TRAINING data - the first client's
+    dataset (DatasetConfig.template_client) - never from a server
+    evaluation dataset. The template built from this metadata
+    declares the input_features written into every saved checkpoint;
+    Study 001 Incident 1 was exactly this: the template was built
+    from a leftover two-camera server-eval dataset while the clients
+    trained on three cameras, so every checkpoint declared two.
+    Server evaluation datasets are evaluation-only: they are used
+    solely by the server evaluation path, and only when configured.
+    """
+    from src.common.utils import load_lerobot_dataset
+    from src.configs import DatasetConfig
+
+    dataset_config = DatasetConfig.load()
+    client = dataset_config.template_client()
+    if client is not None:
+        dataset = load_lerobot_dataset(client.name, root=client.root)
+        logger.info(
+            f"Template metadata source: client {client.client_id} "
+            f"dataset {client.name} (root={client.root})"
+        )
+        return dataset.meta
+    if dataset_config.server:
+        server_config = dataset_config.server[0]
+        dataset = load_lerobot_dataset(server_config.name)
+        logger.info(
+            f"Template metadata source: server dataset {server_config.name} "
+            "(no clients configured)"
+        )
+        return dataset.meta
+    raise ValueError(
+        "No client or server dataset configured - cannot load template metadata"
+    )
+
+
 def create_model_template():
     """Create a reusable model template for parameter operations using real dataset meta.
 
@@ -32,22 +70,13 @@ def create_model_template():
         torch.nn.Module: SmolVLA model template with correct parameter shapes
     """
     try:
-        # Try to load real dataset meta (same as server initialization)
-        from src.core.utils import load_lerobot_dataset
-        from src.configs import DatasetConfig
+        # Load the template metadata from the training data (never a
+        # server evaluation dataset - Study 001 Incident 1).
         from src.training.model_utils import get_model
 
-        dataset_config = DatasetConfig.load()
-        if dataset_config.server:
-            server_config = dataset_config.server[0]
-            dataset = load_lerobot_dataset(server_config.name)
-            dataset_meta = dataset.meta
-            logger.info(
-                f"✅ Created model template using real dataset: {server_config.name}"
-            )
-            return get_model(dataset_meta=dataset_meta)
-        else:
-            raise ValueError("No server datasets configured")
+        dataset_meta = load_template_dataset_meta()
+        logger.info("✅ Created model template using template dataset metadata")
+        return get_model(dataset_meta=dataset_meta)
     except Exception as e:
         logger.warning(
             f"Failed to load real dataset for template: {e} - falling back to SO-100 meta"
@@ -199,6 +228,17 @@ def save_config_snapshot(context, save_path, current_time, project_version):
             "models_dir": str(save_path / "models"),
         },
     }
+    # Study 001 gap G-13: record the client->task assignment in the
+    # run's config snapshot, so it lives in a run artifact and not
+    # only in client construction log lines.
+    try:
+        from src.configs import DatasetConfig
+
+        config_snapshot["client_task_map"] = DatasetConfig.load().client_task_map()
+    except Exception as e:
+        logger.warning(f"Could not record client_task_map in config snapshot: {e}")
+        config_snapshot["client_task_map"] = None
+
     with open(save_path / "config.json", "w") as f:
         json.dump(config_snapshot, f, indent=2, default=str)
 
@@ -221,30 +261,16 @@ def initialize_global_model(initial_model_path=None):
     from src.common.utils import load_lerobot_dataset
     from src.configs import DatasetConfig
 
-    # Load a minimal dataset to get metadata for SmolVLA initialization
-    logger.debug("Loading DatasetConfig")
+    # Load the metadata that defines the policy's input features:
+    # the training data's metadata (first client dataset), never a
+    # server evaluation dataset (Study 001 Incident 1). A server
+    # evaluation dataset is NOT required to initialize the model -
+    # server eval is optional and off unless configured.
     try:
-        dataset_config = DatasetConfig.load()
-        logger.debug("DatasetConfig loaded")
+        dataset_meta = load_template_dataset_meta()
     except Exception as e:
-        logger.debug(f"DatasetConfig.load failed: {e}")
+        logger.debug(f"load_template_dataset_meta failed: {e}")
         raise
-
-    if not dataset_config.server:
-        logger.debug("No server datasets configured - aborting")
-        raise ValueError("No server evaluation dataset configured")
-
-    server_config = dataset_config.server[0]  # Use server dataset for consistent initialization
-    logger.debug(f"Loading server dataset: {server_config.name}")
-
-    try:
-        dataset = load_lerobot_dataset(server_config.name)
-        logger.debug("Dataset loaded successfully")
-    except Exception as e:
-        logger.debug(f"load_lerobot_dataset failed for {server_config.name}: {e}")
-        raise
-
-    dataset_meta = dataset.meta
     logger.debug("Getting initial model params")
 
     try:
@@ -352,12 +378,30 @@ def prepare_server_eval_metrics(strategy, server_round):
     Returns:
         dict: Structured metrics dict for JSON serialization
     """
-    # Get the latest server composite eval loss (average policy loss across all server evaluation datasets)
-    server_composite_policy_loss = (
-        strategy.server_eval_losses[-1]
-        if hasattr(strategy, "server_eval_losses") and strategy.server_eval_losses
-        else "N/A"
+    # Round-faithful server eval reporting (Study 001 gap G-10): a
+    # composite loss may only be reported for the round in which it
+    # was measured. process_evaluation_metrics records the round of
+    # every server evaluation in strategy.server_eval_rounds; if the
+    # latest evaluation is not from THIS round (e.g. server evals are
+    # off after the substrate round-0 evaluation, D-11), the field is
+    # null - never a stale value carried into this round's artifacts.
+    # (Before this fix, every round checkpoint's metrics.json carried
+    # the round-0 value 0.5773 verbatim.)
+    def _as_list(value):
+        # A strategy object that does not carry real lists (legacy
+        # callers, partial mocks) is treated as "nothing attributable"
+        # rather than raising - a checkpoint save must never crash
+        # over metrics bookkeeping (the 2026-11-18 FT-base lesson).
+        return list(value) if isinstance(value, (list, tuple)) else []
+
+    eval_losses = _as_list(getattr(strategy, "server_eval_losses", None))
+    eval_rounds = _as_list(getattr(strategy, "server_eval_rounds", None))
+    measured_this_round = bool(
+        eval_losses
+        and len(eval_rounds) == len(eval_losses)
+        and eval_rounds[-1] == server_round
     )
+    server_composite_policy_loss = eval_losses[-1] if measured_this_round else None
 
     # DEBUG: Log server composite policy loss value
     logger.info(
@@ -378,10 +422,17 @@ def prepare_server_eval_metrics(strategy, server_round):
         else []
     )
 
-    # Get per-dataset server evaluation results (detailed policy losses per server eval dataset)
+    # Get per-dataset server evaluation results (detailed policy
+    # losses per server eval dataset) - only when they were measured
+    # in THIS round (gap G-10, same rule as the composite above);
+    # strategy.last_per_dataset_results_round is set where the
+    # results are stored.
+    per_dataset_round = getattr(strategy, "last_per_dataset_results_round", None)
     server_per_dataset_eval_results = (
         strategy.last_per_dataset_results
-        if hasattr(strategy, "last_per_dataset_results") and strategy.last_per_dataset_results
+        if per_dataset_round == server_round
+        and hasattr(strategy, "last_per_dataset_results")
+        and strategy.last_per_dataset_results
         else []
     )
 

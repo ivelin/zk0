@@ -153,8 +153,20 @@ clients = [
     {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 3 - tool_insert (P0 subset, 50 teleop demos, 20806 frames)", client_id = 3, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/tool_insert/episodes.json"},
     {name = "armnet/armnetbench_v01_lerobot_so101", description = "Study 001 node 4 - cable_clip (P0 subset, 50 teleop demos, 27647 frames)", client_id = 4, root = "/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101", episodes_file = "/home/openclaw/muse-work/zk0-study001-20261119/subsets/cable_clip/episodes.json"},
 ]
+# Study 001 gap G-5 / queue item S0 (2026-11-22): NO server
+# evaluation dataset is configured by default. The previous active
+# entry (Hupy440/Two_Cubes_and_Two_Buckets_v2, a leftover two-camera
+# dataset from the baseline this substrate was forked from) built the
+# server template model - and with it every saved checkpoint's
+# declared input features (Incident 1) - and sat armed as an eval
+# landmine, inert only because server eval was disabled. The
+# template now derives from the first client's dataset
+# (load_template_dataset_meta in src/server/server_utils.py). Server
+# eval is opt-in: add an entry here AND set eval-frequency so it
+# runs, knowing it evaluates on that dataset and nothing else uses
+# it. The historical entries stay commented below.
 server = [
-    {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
+#    {name = "Hupy440/Two_Cubes_and_Two_Buckets_v2", description = "Pick up a cube. Is the cube red, put it in the white bucket. Is the cube white, put it in the red bucket. - VALIDATED CLEAN", evaldata_id=0},
 #    {name = "dll-hackathon-102025/oct_19_440pm", description = "Put orange slice in glass. - VALIDATED CLEAN", evaldata_id=1},
 #    {name = "shuohsuan/grasp1", description = "grasp the red cube and put it into the bin. - VALIDATED CLEAN", evaldata_id=2},    
 #    {name = "yinxinyuchen/p_p_2", description = "Grab the green cube and put the cube in the green box. - VALIDATED CLEAN", evaldata_id=3},    

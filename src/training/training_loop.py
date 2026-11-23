@@ -8,6 +8,26 @@ from contextlib import nullcontext
 from loguru import logger
 
 
+def batch_image_shapes(batch):
+    """Map of image-feature key -> shape for the keys actually present
+    in a training batch (Study 001 gap G-4).
+
+    Keys are the post-collate observation.images.* entries (front/top/
+    wrist renamed to camera1/camera2/camera3 on the study substrate,
+    or the dataset-native names when no rename ran). Returns the
+    string 'N/A' only when the batch carries no image tensor at all -
+    a real, checkable condition, not a wrong-key artifact.
+    """
+    shapes = {}
+    for key in sorted(batch):
+        if key.startswith("observation.images."):
+            value = batch[key]
+            shape = getattr(value, "shape", None)
+            if shape is not None:
+                shapes[key] = tuple(shape)
+    return shapes if shapes else "N/A"
+
+
 def run_training_step(
     step,
     policy,
@@ -43,9 +63,14 @@ def run_training_step(
 
     policy.train()
 
-    # Diagnostic log pre-forward (OOM debug)
+    # Diagnostic log pre-forward (OOM debug). Study 001 gap G-4: the
+    # batch diagnostic must enumerate the image keys ACTUALLY in the
+    # batch (observation.images.* after the rename collate) - the old
+    # code read a singular 'observation.image' key that never exists,
+    # so it logged batch_img=N/A for all 15,000 steps of Study 001
+    # and the run has no per-step batch evidence.
     pid = os.getpid()
-    batch_img_shape = getattr(batch.get('observation.image'), 'shape', 'N/A') if 'observation.image' in batch else 'N/A'
+    batch_img_shape = batch_image_shapes(batch)
     amp_enabled = cfg.policy.use_amp
     if torch.cuda.is_available():
         alloc_gb = torch.cuda.memory_allocated() / 1e9

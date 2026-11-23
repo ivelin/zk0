@@ -3,6 +3,8 @@
 import sys
 from dataclasses import dataclass
 from typing import List, Optional
+from pathlib import Path
+
 from loguru import logger
 
 if sys.version_info >= (3, 11):
@@ -42,6 +44,49 @@ class DatasetConfig:
 
     clients: List[ClientConfig]
     server: List[ServerConfig]
+
+    def client_task_map(self) -> list:
+        """Client->task assignment as a run-artifact table.
+
+        Study 001 gap G-13 (rounds 10/20 prep): the FL aggregation
+        records key losses by client_id only, and which client held
+        which task existed only in client construction log lines.
+        This table is written into the run's config snapshot (see
+        save_config_snapshot) so every run artifact carries it.
+
+        The task name is taken from the P0 subset path
+        (subsets/<task>/episodes.json) when an episodes_file is set,
+        else None - never guessed from prose.
+        """
+        rows = []
+        for c in sorted(self.clients, key=lambda c: c.client_id):
+            task = None
+            if c.episodes_file:
+                parts = Path(c.episodes_file).parts
+                if len(parts) >= 2:
+                    task = parts[-2]
+            rows.append(
+                {
+                    "client_id": c.client_id,
+                    "dataset_name": c.name,
+                    "root": c.root,
+                    "episodes_file": c.episodes_file,
+                    "task": task,
+                }
+            )
+        return rows
+
+    def template_client(self) -> Optional[ClientConfig]:
+        """The client whose dataset metadata defines the policy's
+        input features (see load_template_dataset_meta in
+        src/server/server_utils.py). The first client by client_id:
+        every client's model is constructed from the same base
+        config, and the server template must declare exactly what
+        the clients train on - never what a server evaluation
+        dataset happens to declare (Study 001 Incident 1)."""
+        if not self.clients:
+            return None
+        return sorted(self.clients, key=lambda c: c.client_id)[0]
 
     @classmethod
     def load(cls) -> "DatasetConfig":

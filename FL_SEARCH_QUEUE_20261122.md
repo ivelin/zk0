@@ -481,21 +481,49 @@ prep (a config-only variant of this package) goes first instead.
 ## 8. Gap & regression-test register
 
 Standing rule (§1.3): every verifier gap becomes a permanent test.
-Status checked against the 2026-11-22 gatefix re-audit.
+Status checked against the 2026-11-22 gatefix re-audit; G-4/G-5/G-6
+closed and G-10–G-14 added by the 2026-11-22 gap-closure pass
+(founder directive 16:41 CT), independently verified CERTIFY —
+see `study001-gap-closure-20261122.md`.
 
 | ID | Gap (source) | Regression closure | Status |
 |---|---|---|---|
 | G-1 | Server template declared 2 cameras vs 3-camera design (postmortem Incident 1) | P1 config-equivalence checker incl. server template + saved-checkpoint config; drilled FAIL on the original config | **CLOSED** — re-audited PASS 2026-11-22 |
 | G-2 | Packaged checkpoint failed the standard load (defect A5) | P2 standard-load test in the fast tier, on the miniature, before any full run | **CLOSED** — in gate; artifact repaired + verified |
 | G-3 | Eval judged arms through unequal declared inputs (postmortem D9) | `eval_gate_check.py`: identical declared inputs across a comparison set, enforced in the harness (refuses, exit 3); drill FAILs a set containing the original two-view FL checkpoint | **CLOSED** — re-audited PASS 2026-11-22 |
-| G-4 | Training loop's batch diagnostic read a nonexistent key (`batch_img=N/A`, all 15,000 steps) — no per-step batch evidence exists for Study 001 | Fix the diagnostic + a unit test asserting batch keys are logged on a miniature fit | **OPEN** — owned by S0 |
-| G-5 | Server-eval landmine: server eval wired to the leftover two-camera dataset, inert only because it was disabled (sweep D2) | Manifest eval-OFF assertion (S0) + a checker field asserting the server dataset identity in every queue-run manifest | **OPEN** — owned by S0; fail-closed until then (no queue run may enable server eval) |
-| G-6 | Stale two-view FL records still sit in the eval active set (gatefix re-audit residual) | Move stale records out of the active set before the final eval batch judges; eval gate fails closed meanwhile | **OPEN** — owned by the final-eval-batch work; queue evals inherit the cleaned set |
+| G-4 | Training loop's batch diagnostic read a nonexistent key (`batch_img=N/A`, all 15,000 steps) — no per-step batch evidence exists for Study 001 | `batch_image_shapes()` in `training_loop.py` reads the real `observation.images.*` keys (N/A only when a batch truly has no image tensor); tests `test_g4_*` (3) in `tests/unit/test_gap_closure_20261122.py` | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
+| G-5 | Server-eval landmine: server eval wired to the leftover two-camera dataset, inert only because it was disabled (sweep D2) | Leftover entry removed from `pyproject.toml` (kept as commented history); server template + initial model built from the FIRST CLIENT's dataset metadata (`load_template_dataset_meta`); `initialize_global_model` works with `server=[]`; `_server_evaluate` no-ops gracefully with no server datasets; checker treats an absent server entry as identity-PASS; tests `test_g5_*` (3) | **CLOSED** — gap-closure pass 2026-11-22, independently verified. (The fail-closed rule for queue runs stands as protocol: no queue run may enable server eval without a manifest-registered server dataset.) |
+| G-6 | Stale two-view FL records still sit in the eval active set (gatefix re-audit residual) | Records confirmed moved to `superseded_20261122/fl_r30_2view/` (active set: 808 files, zero `fl_r30__*`); the eval gate now records an `eval.active_records_hygiene` check (`stale_active_records()` handles both `<ckpt>__<task>__ep*.npz` and `summary__<ckpt>.json`); gate drill PASS; tests `test_g6_*` (2) | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
 | G-7 | Launcher gate was opt-in and armed nowhere (pipeline audit F1) | Wrapper detects study launches itself; refusal drilled with nothing set | **CLOSED** — re-audited PASS 2026-11-22 |
 | G-8 | Gate covered the FL arm only (pipeline audit F3) | Checker diffs resolved configs for every arm; negative control (corrupted LR) failed by name | **CLOSED** — re-audited PASS 2026-11-22 |
 | G-9 | One-off 3-camera judging copy is ungated (gatefix re-audit residual) | None — it will not be reused; its results were blind-verified 24/24. Queue judging uses only the gated harness | **CLOSED by non-reuse** — recorded so the exception is explicit, not forgotten |
+| G-10 | Every round checkpoint's `metrics.json` carried round 0's `server_composite_eval_loss` (0.5773) verbatim, masquerading as a per-round value (rounds 10/20 prep G1 — the founder's "server loss" gap) | Round-faithful reporting: `process_evaluation_metrics` records `server_eval_rounds`; `prepare_server_eval_metrics` reports a composite (and per-dataset rows) ONLY for the round they were measured in, else null — never a stale value, never the string "N/A" in data (the model card renders null as "N/A (no server evaluation measured this round)"); defect reproduced on pre-fix code (rounds 1/10/30 all claiming 0.5773); tests `test_g10_*` (4) + updated contract tests in `test_prepare_server_eval_metrics.py` / `test_metrics_preparation.py` / `test_evaluation.py` | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
+| G-11 | No canonical eval gate report existed before the rounds 10/20 prep (prep G2) | Canonical report exists at `run/eval-traj-20261122/eval_gate_report.json` (PASS, 10 checkpoints, config hashes recorded); `assert_gate_report_covers()` gives harness consumers a tested coverage assertion (verdict + membership + config_sha256); test `test_g11_*` | **CLOSED** — gap-closure pass 2026-11-22, independently verified. Note: the canonical file predates the G-6/G-12 gate checks (37 checks); the final-eval batch's mandated gate re-run refreshes it (drill report with the current code: 48/48 PASS) |
+| G-12 | The eval gate's preprocessor check was existence-only — an unpackaged-but-config-correct checkpoint would pass the gate and fail at load (prep G3; defect A5's class) | `standard_load_proof()` in `eval_gate_check.py`, recorded per checkpoint as `eval.ckpt.<name>.standard_load`: fresh CPU-only subprocess, temp copy with the device step rewritten to CPU, processors constructed via `make_pre_post_processors`, a dummy batch keyed by the checkpoint's OWN declared image features run through under the eval harness's contract (incl. its A5 rename filter); drills — raw round-10 FAIL (normalizer state file absent), packaged round-30 PASS, base snapshot PASS, full gate drill 48/48 PASS; tests `test_g12_*` | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
+| G-13 | Client→task assignment existed only in client construction log lines, not in any run artifact (prep G4) | `DatasetConfig.client_task_map()` (task parsed from the `subsets/<task>/episodes.json` path, else null — never guessed) embedded in every run's config snapshot by `save_config_snapshot`; tests `test_g13_*` (2) | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
+| G-14 | `package_final_checkpoint.py` could not verify when CUDA was unavailable (prep G5) | `--verify-only` / `--cpu-verify` flags (CPU auto-selected when CUDA is unavailable): verification runs on a temp copy (symlinks + device step rewritten to CPU), the pooled-stats assertions unchanged, the artifact of record untouched; drill on `checkpoint_round_30_3cam` with `CUDA_VISIBLE_DEVICES=""` → PACKAGING PASS; tests `test_g14_*` | **CLOSED** — gap-closure pass 2026-11-22, independently verified |
 
 ## 9. Changelog
+
+- **2026-11-22 ~17:36 CT — Gap-closure pass (founder directive
+  16:41 CT).** Register reconciled: prep-report gaps G1–G5 merged
+  as G-10–G-14 (G1 = the "server loss" gap). G-4, G-5, G-6 and
+  G-10–G-14 all CLOSED at the source with regression tests in
+  `tests/unit/test_gap_closure_20261122.py` (19 tests) plus updated
+  contract tests; both-directions drills recorded in
+  `study001-gap-closure-20261122.md` (defect reproduced on pre-fix
+  code; gate drill 48/48 PASS; packaging CPU drill PASS). Full fast
+  tier: 169 passed, 1 skipped, 1 failure pre-existing on HEAD
+  (`test_get_flwr_app_config_from_real_pyproject`, stale
+  num-server-rounds expectation — unrelated, flagged in the closure
+  report). Independent verifier: **CERTIFY**. Code + tests +
+  register committed on branch `study001/gap-closure-20261122`;
+  merge into `study001/fl-substrate-20261121` staged for the safe
+  boundary (after the expert-only specialists complete, before the
+  next queue launch). The gate machinery files
+  (`study_prep/eval_gate_check.py`, `config_equivalence_check.py`,
+  the rerun manifest, and their tests) are committed in the same
+  pass — they were previously untracked.
 
 - **2026-11-22 15:43–16:00 CT — Queue system built (this document).**
   Inventory folded in: architecture/recipe backlog note +

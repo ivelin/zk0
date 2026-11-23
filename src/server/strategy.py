@@ -199,13 +199,14 @@ class AggregateEvaluationStrategy(FedProx):
         self.evaluate_fn = self._server_evaluate
 
         # Create reusable model template for parameter name extraction (server is stateful, no race conditions)
+        # The template's metadata comes from the TRAINING data (first
+        # client dataset), never from a server evaluation dataset:
+        # the template declares the input_features written into every
+        # saved checkpoint (Study 001 Incident 1).
         try:
-            from src.configs import DatasetConfig
+            from src.server.server_utils import load_template_dataset_meta
 
-            dataset_config = DatasetConfig.load()
-            server_config = dataset_config.server[0]
-            dataset = load_lerobot_dataset(server_config.name)
-            dataset_meta = dataset.meta
+            dataset_meta = load_template_dataset_meta()
             self.template_model = get_model(dataset_meta=dataset_meta)
             logger.info(
                 "✅ Server: Created reusable model template for parameter operations"
@@ -262,7 +263,17 @@ class AggregateEvaluationStrategy(FedProx):
             # Load dataset config for evaluation
             dataset_config = DatasetConfig.load()
             if not dataset_config.server:
-                raise ValueError("No server evaluation dataset configured")
+                # Server evaluation is optional and off unless a
+                # server dataset is configured (Study 001 gap G-5:
+                # the substrate must run cleanly with NO server
+                # entry - a leftover entry here was Incident 1's
+                # root cause, so absence is the safe default).
+                logger.info(
+                    "Server: no server evaluation dataset configured - "
+                    "skipping server evaluation for round "
+                    f"{server_round}"
+                )
+                return None
 
             # Perform composite evaluation across all server datasets
             eval_batches = self.context.run_config.get("eval_batches", 0)
@@ -293,8 +304,12 @@ class AggregateEvaluationStrategy(FedProx):
                 self.last_client_metrics,
             )
 
-            # Store per-dataset results for checkpoint metadata
+            # Store per-dataset results for checkpoint metadata,
+            # stamped with the round they were measured in (gap
+            # G-10: prepare_server_eval_metrics reports them only
+            # for that round, never carried into later rounds).
             self.last_per_dataset_results = per_dataset_results
+            self.last_per_dataset_results_round = server_round
 
             # Log to WandB
             log_evaluation_to_wandb(
@@ -324,7 +339,17 @@ class AggregateEvaluationStrategy(FedProx):
                     # Use in-memory data instead of reading JSON files
                     policy_loss_history = {}
                     if hasattr(self, "server_eval_losses") and self.server_eval_losses:
-                        for round_idx, loss in enumerate(self.server_eval_losses):
+                        # Label each loss with the round it was
+                        # MEASURED in (gap G-10); enumerating the
+                        # list mislabels rounds whenever evaluations
+                        # are sparse or off.
+                        eval_rounds = getattr(self, "server_eval_rounds", None)
+                        for idx, loss in enumerate(self.server_eval_losses):
+                            round_idx = (
+                                eval_rounds[idx]
+                                if eval_rounds and len(eval_rounds) == len(self.server_eval_losses)
+                                else idx
+                            )
                             policy_loss_history[round_idx] = {
                                 "server_policy_loss": float(loss),
                                 "action_dim": 7,  # Default
