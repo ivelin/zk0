@@ -254,3 +254,69 @@ wall inside the outer cup, rims nested), gripper released, at episode
 end. FAIL = cups still separate, inner cup left beside/on top without
 nesting, or the static cup was the one moved. INDETERMINATE if the
 nesting cannot be confirmed from either view.
+
+## Amendment 3 — contested-episode narration fields (founder, 2026-11-23 21:50 CT)
+
+For any episode whose reads CONTEST (primary vs re-judge vs Grok vs
+Gemini disagreement, or an INDETERMINATE in any leg), the judge read
+must include, beyond the verdict:
+(a) a chronological trajectory walkthrough — what the arm/object do,
+in order, across the episode; and
+(b) anomalies/insights observed — anything unusual, ambiguous, or
+diagnostic noticed during the episode.
+Purpose (founder): these fields let the founder verify the judges
+actually perceive the videos. Applies to all NEW contested-episode
+judging from this date (Wave 1+ sources and any later Wave-0 judging);
+verdicts already delivered are not re-opened. A separate narration
+pass over the held-out contested set runs from
+~/workspace/founder-tiebreak-20261123/narrations/ (outside this
+program's register work).
+
+## Amendment 4 — GROK TRUST SUSPENDED (founder ruling, 2026-11-23 21:53 CT)
+
+Founder, verbatim: "We can no longer trust Grok until it gets a major
+AI model upgrade. Let's check back next month." Trigger: Grok's lone
+PASS reads on the contested held-out cable episodes described the
+cable as seated when the full videos show it loose on the mat; the
+founder overruled Grok on ep2020/2042/2046/2092 from the full videos.
+Effective immediately:
+1. Grok is NO LONGER a certifying leg. Existing Grok reads stay in the
+   register, flagged DISTRUSTED in the row notes; the data is not
+   deleted.
+2. No new Grok judging runs. Certification proof rests on Muse +
+   Gemini + the founder's eyes.
+3. Contested-episode resolution must not cite Grok agreement as
+   support. Where Grok was the lone dissent and the other legs agree,
+   the episode is not treated as open on Grok's account; its note reads
+   "Grok dissent — distrusted per founder ruling 2026-11-23" (applied
+   2026-11-23: 99 register rows cleared of contested on this basis;
+   contested 123 → 24). Founder adjudication still governs the
+   held-out cable five.
+4. Trust re-check scheduled 2026-12-23; restoration only on the
+   founder's yes.
+Consequence: the pending Grok legs for rc-stack-cubes / bb-push-green
+/ bb-flip-left are CANCELLED (not merely blocked by the exhausted
+balance); those sources certify on Muse + Gemini + founder, and
+their review packs no longer wait on Grok.
+
+## Amendment 5 — GRIPPER-RELEASE STANDARD (founder, 2026-11-23 22:05 CT)
+
+A certified PASS requires the gripper VISIBLY OPEN / released at
+episode end. An episode ending with the gripper still closed on the
+object is INDETERMINATE, not pass, regardless of how the object sits.
+Origin: the founder's revision of his held-out ep489 ruling — "Gemini
+was correct. The gripper was still closed at the end. I suppose we can
+say we don't know if it passed for sure... We need to see grippers
+open ideally."
+Application: (1) all NEW judging from this date, including the agy
+round-robin leg (clause appended to every un-run agy prompt; the one
+in-flight run at the change, gemini_spa-14, kept its original prompt
+and is covered by the retroactive scan); (2) retroactive flagging —
+original verdicts are NEVER overwritten; flagged rows carry
+release_standard_flag = "INDETERMINATE-under-release-standard" in a
+separate column and form a founder-review queue
+(release-standard-queue-20261123.md). Scan method: PASS rows whose
+judging evidence text matches release-risk patterns (gripper
+still/closed/clamped/holding/touching, not/no release, borderline
+flags) — a starting set, per the founder; text-silent cases are not
+caught by the scan.

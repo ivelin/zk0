@@ -39,3 +39,10 @@ ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames s
 
 Judge only from the sheets. Do not open any other file, do not look
 for other verdicts, do not speculate about frames you cannot see.
+
+## PROTOCOL — contested episodes (founder, 2026-11-23 21:50 CT)
+If any episode you judge becomes contested (your read disagrees with
+another leg, or you return INDETERMINATE), your handoff for that
+episode must include, beyond the verdict: (a) a chronological
+trajectory walkthrough of the episode, and (b) anomalies/insights
+observed. See criteria-frozen.md Amendment 3.
