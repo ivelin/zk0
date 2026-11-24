@@ -205,3 +205,29 @@ commit `65f0c39` on `study001/fl-substrate-20261121`, repo path
   prompts ready: gemini_train250-*, sheets still to ship + PNG),
   4 (Spa+RC) and 5 (new sources) resume after the reset. #bot-hub
   note owed re: this week's Gemini consumption.
+
+## Coordinator #3 close-out (2026-11-23 ~20:10 CT)
+
+- Grok leg COMPLETE: Spa+RC 58/58 runs rc=0, 1,400 verdicts merged
+  (agreement: Spa 97.2%, RC cube-drawer 90%, RC screwdriver 100%);
+  ArmnetBench held-out 6/6 runs, 150 verdicts merged (96.7%).
+  Register Grok coverage 1,800/1,800, grok_model attributed.
+  44 + 4 new contested (register total 51). The 4 remainder batches
+  (14/19/2/15 eps) were re-run once under a mistaken truncation
+  assumption; attempt 1 is canonical, attempt 2 archived on the DGX;
+  spa ep786 differs across attempts (FAIL stands). See report.md.
+- Review packs built: review-pack/{spa-bench, rc-cube-drawer,
+  rc-screwdriver, armnetbench-heldout}/ (146 sheets + READMEs).
+- Gemini leg: stages 1-2 complete and merged; leg stopped at 32%
+  weekly quota (reset 2026-11-30T21:41:45Z). Stage 3 prompts ready
+  (gemini_train250-*); sheets-train250 still to ship + PNG-convert.
+  #bot-hub note owed re: Gemini consumption + the stop.
+- Downloads: stack-cubes (208M) + upright-bottle (217M) in flight at
+  close; BusyBox x2, Cup Nesting, DF sorting unlanded; DF test-tube
+  partial (§8 frozen). ~742 rows remain for a successor: pipeline
+  each landed source exactly like the completed ones (criteria
+  freeze in writing first — DF sorting strings still unread).
+- FINAL COMMIT: c557605 on study001/fl-substrate-20261121 via the
+  output-minimized route (fresh worktree, on-box logs, 143 files
+  changed, zero security notices). Supersedes checkpoint 65f0c39.
+- Everything remains PENDING HUMAN APPROVAL.
