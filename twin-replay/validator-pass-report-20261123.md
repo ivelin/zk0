@@ -12,7 +12,7 @@ cleanliness grade under the founder's good-solution spec (smooth,
 failure-free, relatively optimal, minimal hesitation/corrections), and
 (d) validation by at least TWO frontier models from families different
 than the generator (generator family for all scenes/controllers here:
-Claude).
+Muse (Muse Wonder)).
 
 Working notes: `validator-pass-notes-20261123.md` (same folder).
 Scene/solution records: desktop `~/muse-work/zk0-spec-only-20261123/`
@@ -220,7 +220,7 @@ Grok balance restored, Muse sign-in} lands.
 
 ## Model attribution (rotation record)
 
-- Generator (scenes + reference controllers): Claude-family agents
+- Generator (scenes + reference controllers): Muse (Muse Wonder) agents
   (spec-only program + this pass's supplementary attempts).
 - Certifier (independent re-execution): this pass, separate context —
   21/21 exact reproductions.

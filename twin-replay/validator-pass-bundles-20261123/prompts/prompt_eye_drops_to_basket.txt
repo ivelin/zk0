@@ -1,0 +1,191 @@
+You are an independent solution-quality validator for the zk0 twin-suite v2
+program, from a DIFFERENT model family than the builders (the scenes and
+reference controllers were built by Muse (Muse Wonder) agents). You are given
+execution records of solution trajectories for simulated scenes of one
+robotics task. The generator's claim for each scene is: an executed PASS
+whose trajectory is a GOOD solution - smooth, failure-free, relatively
+optimal/efficient, with minimal hesitation or corrections.
+
+For EACH scene record below, return exactly one line:
+<scene>: GRADE=<CLEAN|RECOVERED|INCIDENT|NO-SOLUTION> GOOD=<YES|NO> - <one-line reason>
+
+Rubric:
+- CLEAN: no visible failure events in the trajectory: no failed grasp that
+  loses or retries the object, no drop, no re-place, no non-target object
+  displaced, final checks all true with margin.
+- RECOVERED: a visible problem occurred (failed grasp attempt, drop,
+  misplacement) and the executor visibly recovered and completed the task.
+- INCIDENT: completed with glitches (brushes, knocks, displacement of
+  non-target objects) without a distinct recovery event.
+- A GOOD solution (founder spec) must grade CLEAN. RECOVERED or INCIDENT
+  means GOOD=NO.
+- Controller internals: an IK solver fallback entry (solved=false on a
+  sub-move) that never loses the object, and the post-release retreat move
+  failing after the task is already complete, appear in many records. Judge
+  whether they are visible trajectory defects or controller internals, and
+  state in your reason which way you counted them when it decides a grade.
+- Cable scenes are executed with a documented weld device (the gripper
+  pads cannot pinch a 5 mm cable); judge the record on its own events.
+
+Records:
+[
+ {
+  "scene": "anchor-ep1609",
+  "role": "anchor twin (replica of a held-out episode; certified solution on record)",
+  "controller": null,
+  "variant": null,
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket",
+    "moving_jaw_so101_v1"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.186",
+  "log_entries": 22,
+  "grasp_entries": 5,
+  "failed_moves": [
+   "grasp-retry:retreat",
+   "grasp-retry:retreat",
+   "grasp-retry:retreat",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.08489545221613669,
+    0.1521400688188199,
+    0.020476350748298
+   ]
+  }
+ },
+ {
+  "scene": "spec16",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=4",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.189",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3006101557453983,
+    0.15834586045312038,
+    0.02047852732256455
+   ]
+  }
+ },
+ {
+  "scene": "spec00",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=1",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.187",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3022809053934475,
+    0.15841706499072342,
+    0.020480882306967985
+   ]
+  }
+ },
+ {
+  "scene": "spec01",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=2",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.188",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3064488328775191,
+    0.16054465482827937,
+    0.02048382776933449
+   ]
+  }
+ },
+ {
+  "scene": "spec17",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=1",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.188",
+  "log_entries": 21,
+  "grasp_entries": 3,
+  "failed_moves": [
+   "grasp-retry:retreat",
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.31403731594242057,
+    0.1488792811462882,
+    0.02047373556461503
+   ]
+  }
+ }
+]

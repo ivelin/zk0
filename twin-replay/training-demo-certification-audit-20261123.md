@@ -484,3 +484,9 @@ and had never been independently confirmed for any training demo
   PASS / 1 FAIL (ep604). Still owed: the agy (Gemini) leg, and
   the founder's human-eyes approval of the set as a whole — the
   final leg of the certified-data gate before any training use.
+
+## Addendum — founder spot-check (2026-11-23 22:11 CT)
+- cable_clip ep2159: FOUNDER SPOT-CHECK PASS — human approved. Random draw from the unanimous-PASS training episodes; the founder reviewed the full episode video (632/632 frames verified) and concurs with the judges. Recorded in the tier register (human_status) and the tie-break log.
+- cable_clip ep2179: FOUNDER SPOT-CHECK PASS — human approved (2026-11-23 22:13 CT). Random draw from the unanimous-PASS training episodes; full video reviewed (927/927 frames verified); founder concurs. Recorded in the tier register (human_status) and the tie-break log.
+- cable_clip ep2189: FOUNDER SPOT-CHECK PASS — human approved (2026-11-23 22:14 CT); founder concurs with the unanimous judge PASS. Recorded in the tier register (human_status) and the tie-break log.
+- cable_clip ep2206: FOUNDER SPOT-CHECK PASS — human approved (2026-11-23 22:14 CT); founder concurs with the unanimous judge PASS. Recorded in the tier register (human_status) and the tie-break log. This closes the founder's cable spot-checks: 4/4 training cable passes he viewed (2159, 2179, 2189, 2206) confirmed by his own eyes.

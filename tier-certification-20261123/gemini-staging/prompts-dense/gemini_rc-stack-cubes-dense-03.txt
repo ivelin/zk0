@@ -1,0 +1,88 @@
+# Judging brief — RoboColosseum stack tasks (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet PNG: two rows (row 1 = front camera, row 2 = wrist camera — this
+dataset has no top view), six frames each, left→right in time (0%,
+35%, 60%, 80%, 92%, ~100%). Judge the END STATE — what the final
+frames show — not how elegant the motion was. Use the wrist view to
+confirm what the gripper holds or released when the front view is
+ambiguous.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the batch's dataset criterion below, with the gripper no longer
+  holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Dataset criteria (your batch names ONE dataset; apply its rule)
+
+- **stack-bowls** ("Pick up the white plastic bowl on the right and
+  stack it on top of the white plastic bowl on the left"): PASS =
+  the right bowl rests stacked on/nested in the left bowl as one
+  stack at end, gripper released. FAIL = bowls still side by side,
+  or the moved bowl left elsewhere.
+- **stack-cubes** ("Stack the blue cube on the red cube, then stack
+  the white cube on the blue cube"): PASS = one vertical stack
+  red-bottom, blue-middle, white-top, standing at end, gripper
+  released. FAIL = any other arrangement (wrong order, cubes
+  unstacked, stack fallen).
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+BINDING INPUT + STANDARD NOTES (supersede any sheet description above):
+- Each sheet is a DENSE 16-frame sheet (PNG): FOUR rows of 8 frames.
+  Rows 1-2 are camera 1 (row 1 = frames 1-8, row 2 = frames 9-16);
+  rows 3-4 are camera 2 in the same arrangement. Frames run
+  left-to-right in time at 0%, 2%, 5%, 12%, 25%, 40%, 55%, 68%, 78%,
+  85%, 90%, 94%, 96.5%, 98.2%, 99.3%, ~100% of the episode — a few
+  start frames (scene setup), rising density toward the end, and the
+  final frames are always included. Judge the END STATE.
+- RELEASE STANDARD (binding): a PASS requires the gripper VISIBLY
+  OPEN / released at episode end. If the episode ends with the
+  gripper still closed on / holding the object (no release shown),
+  return INDETERMINATE regardless of how the object sits. State the
+  final gripper state in your one-line evidence.
+
+
+Judge exactly these 25 episodes. For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep50 — gemini/sheets-dense/rc-stack-cubes__ep50.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep51 — gemini/sheets-dense/rc-stack-cubes__ep51.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep52 — gemini/sheets-dense/rc-stack-cubes__ep52.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep53 — gemini/sheets-dense/rc-stack-cubes__ep53.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep54 — gemini/sheets-dense/rc-stack-cubes__ep54.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep55 — gemini/sheets-dense/rc-stack-cubes__ep55.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep56 — gemini/sheets-dense/rc-stack-cubes__ep56.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep57 — gemini/sheets-dense/rc-stack-cubes__ep57.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep58 — gemini/sheets-dense/rc-stack-cubes__ep58.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep59 — gemini/sheets-dense/rc-stack-cubes__ep59.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep60 — gemini/sheets-dense/rc-stack-cubes__ep60.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep61 — gemini/sheets-dense/rc-stack-cubes__ep61.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep62 — gemini/sheets-dense/rc-stack-cubes__ep62.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep63 — gemini/sheets-dense/rc-stack-cubes__ep63.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep64 — gemini/sheets-dense/rc-stack-cubes__ep64.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep65 — gemini/sheets-dense/rc-stack-cubes__ep65.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep66 — gemini/sheets-dense/rc-stack-cubes__ep66.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep67 — gemini/sheets-dense/rc-stack-cubes__ep67.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep68 — gemini/sheets-dense/rc-stack-cubes__ep68.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep69 — gemini/sheets-dense/rc-stack-cubes__ep69.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep70 — gemini/sheets-dense/rc-stack-cubes__ep70.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep71 — gemini/sheets-dense/rc-stack-cubes__ep71.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep72 — gemini/sheets-dense/rc-stack-cubes__ep72.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep73 — gemini/sheets-dense/rc-stack-cubes__ep73.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep74 — gemini/sheets-dense/rc-stack-cubes__ep74.png — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

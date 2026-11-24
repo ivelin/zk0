@@ -95,7 +95,7 @@ commit `65f0c39` on `study001/fl-substrate-20261121`, repo path
   pins `--model gemini-3.8-flash-high` — the strongest Gemini
   selectable on this account (models: gemini-3.8-flash-{high,medium,
   low}, claude-sonnet-4-6, claude-opus-4-6-thinking, gpt-oss-120b).
-  The leg must be a non-Claude read; the Claude/GPT group is never
+  The leg must be a non-Muse read; the Claude/GPT group is never
   used. VERIFIED from session records: the print-mode log lines for
   the test run and the contested-cable run both show
   model="gemini-3.8-flash-high" as the only model string. No explicit

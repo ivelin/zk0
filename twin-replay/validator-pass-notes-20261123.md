@@ -143,7 +143,7 @@ controller per program rule 5):
   queued to confirm); **agy: argument-order error** (`-p` consumed
   `--model`), fixed by ordering `--model` before `-p`. Runner 2: Gemini
   leg (5 tasks, gemini-3.8-flash-high) + Grok retry + a Muse probe
-  (Meta family — a valid second non-Claude family under the rotation
+  (Meta family — a valid second non-Muse family under the rotation
   rule if its DGX sign-in is live).
 
 ## Work plan (gaps only)

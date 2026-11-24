@@ -1,0 +1,98 @@
+# Judging brief — training-demo certification audit (2026-11-23)
+
+You are judging whether recorded human-teleoperated demonstration episodes
+actually completed their task. Each episode has ONE contact-sheet PNG:
+two rows (FRONT camera, TOP camera), six frames each, left→right in time
+(0%, 35%, 60%, 80%, 92%, ~100% of the episode). Judge the END STATE —
+what the final frames show — not how elegant the motion was.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the task's completion end-state
+  (definitions below), with the gripper no longer holding the object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state (object never placed, placed wrong, dropped, stack
+  not standing, etc.). A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous seating,
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Per-task completion definitions (Study 001 frozen criteria, 2026-11-20)
+
+- block_stack ("Stack the colouful blocks on top of each other"):
+  every block in the scene is part of one vertical stack — each block
+  resting on another block or on the base block — gripper released,
+  stack standing at episode end.
+- eye_drops_to_basket ("Put the eye drops into the basket"): the
+  eye-drops bottle is inside the basket — resting within the basket's
+  walls, no longer held by the gripper — at episode end.
+- ring_insert ("Insert the colourful ring into the central wooden
+  peg"): the ring encircles the shaft of the central wooden peg —
+  threaded onto the peg, released by the gripper — at episode end. A
+  ring resting on top of the peg's tip without encircling the shaft is
+  NOT a completion. A ring on any other peg is FAIL.
+- tool_insert ("Insert the missing tool into the empty slot on the
+  toolbox"): the tool that was missing from the toolbox at episode
+  start is inserted into the empty slot, seated in its place, and
+  released by the gripper at episode end. A wrong tool in the slot is
+  FAIL.
+- cable_clip ("Push the Displayport cable into the cable holder on the
+  white block"): the DisplayPort cable is pushed into the cable holder
+  on the white block and retained by the holder — the cable stays in
+  the clip after the gripper releases — at episode end. Judge whether
+  the cable is visibly seated/held in the clip in the final frames,
+  not merely touching or lying next to the holder.
+
+## Output format (one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheet. Do not speculate about frames you cannot
+see. Do not consult any other file or verdict.
+
+BINDING INPUT + STANDARD NOTES (supersede any sheet description above):
+- Each sheet is a DENSE 16-frame sheet (PNG): FOUR rows of 8 frames.
+  Rows 1-2 are the FRONT camera (row 1 = frames 1-8, row 2 = frames
+  9-16); rows 3-4 are the TOP camera in the same arrangement. Frames
+  run left-to-right in time at 0%, 2%, 5%, 12%, 25%, 40%, 55%, 68%,
+  78%, 85%, 90%, 94%, 96.5%, 98.2%, 99.3%, ~100% of the episode — a
+  few start frames (scene setup), rising density toward the end, and
+  the final frames are always included. Judge the END STATE.
+- RELEASE STANDARD (binding): a PASS requires the gripper VISIBLY
+  OPEN / released at episode end. If the episode ends with the
+  gripper still closed on / holding the object (no release shown),
+  return INDETERMINATE regardless of how the object sits. State the
+  final gripper state in your one-line evidence.
+
+
+Judge exactly these 25 episodes. For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep1864 — gemini/sheets-dense-arm/armnet__ep1864.png — task: ""
+- ep1865 — gemini/sheets-dense-arm/armnet__ep1865.png — task: ""
+- ep1866 — gemini/sheets-dense-arm/armnet__ep1866.png — task: ""
+- ep1867 — gemini/sheets-dense-arm/armnet__ep1867.png — task: ""
+- ep1868 — gemini/sheets-dense-arm/armnet__ep1868.png — task: ""
+- ep1869 — gemini/sheets-dense-arm/armnet__ep1869.png — task: ""
+- ep1870 — gemini/sheets-dense-arm/armnet__ep1870.png — task: ""
+- ep1871 — gemini/sheets-dense-arm/armnet__ep1871.png — task: ""
+- ep1872 — gemini/sheets-dense-arm/armnet__ep1872.png — task: ""
+- ep1873 — gemini/sheets-dense-arm/armnet__ep1873.png — task: ""
+- ep1874 — gemini/sheets-dense-arm/armnet__ep1874.png — task: ""
+- ep1875 — gemini/sheets-dense-arm/armnet__ep1875.png — task: ""
+- ep1876 — gemini/sheets-dense-arm/armnet__ep1876.png — task: ""
+- ep1877 — gemini/sheets-dense-arm/armnet__ep1877.png — task: ""
+- ep1878 — gemini/sheets-dense-arm/armnet__ep1878.png — task: ""
+- ep1879 — gemini/sheets-dense-arm/armnet__ep1879.png — task: ""
+- ep1880 — gemini/sheets-dense-arm/armnet__ep1880.png — task: ""
+- ep1881 — gemini/sheets-dense-arm/armnet__ep1881.png — task: ""
+- ep1882 — gemini/sheets-dense-arm/armnet__ep1882.png — task: ""
+- ep1883 — gemini/sheets-dense-arm/armnet__ep1883.png — task: ""
+- ep1884 — gemini/sheets-dense-arm/armnet__ep1884.png — task: ""
+- ep1885 — gemini/sheets-dense-arm/armnet__ep1885.png — task: ""
+- ep1886 — gemini/sheets-dense-arm/armnet__ep1886.png — task: ""
+- ep1887 — gemini/sheets-dense-arm/armnet__ep1887.png — task: ""
+- ep1888 — gemini/sheets-dense-arm/armnet__ep1888.png — task: ""
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

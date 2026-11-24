@@ -462,7 +462,7 @@ the first per-episode independent judging of the set.
 Method: Google Antigravity CLI (agy v1.5.15) on the DGX, one-shot print
 mode, model PINNED per invocation to **gemini-3.8-flash-high** (the
 strongest Gemini selectable on the account; the leg is an independent
-non-Claude read — the Claude/GPT model group was never used). Model
+non-Muse read — the Claude/GPT model group was never used). Model
 verified from the agy session records (print-mode log lines show
 model="gemini-3.8-flash-high" as the only model string). Blind: same
 contact sheets, same frozen criteria brief, no prior verdicts in the

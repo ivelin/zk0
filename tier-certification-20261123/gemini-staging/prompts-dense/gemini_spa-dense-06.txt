@@ -1,0 +1,111 @@
+# Judging brief — Spa-Bench certification (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet PNG: two rows (row 1 = front-equivalent camera, row 2 =
+above/top camera), six frames each, left→right in time (0%, 35%, 60%,
+80%, 92%, ~100% of the episode). Judge the END STATE — what the final
+frames show — not how elegant the motion was.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the episode's task string under the rule below, with the gripper no
+  longer holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Rules (the batch you receive uses ONE rule; it is named in your task)
+
+- **Rule A — named object into the bowl:** PASS = the named object is
+  inside the bowl at episode end, gripper released. Adjectives
+  (closed/open/upright/upside-down, colours) identify WHICH object when
+  several of a type are present; they do not impose an end orientation
+  inside the bowl. FAIL = the named object is not in the bowl (or a
+  different object of the same type was put in when the string picks
+  out a specific distinguishable one).
+- **Rule B — relational placement:** PASS = the named object rests on
+  the table in the stated relation (front/back/left/right/next-to/
+  beside/near) to the named reference object at end, gripper released.
+  Judge the relation in the table plane from the above camera;
+  "near/beside/next to" = adjacent, touching not required. FAIL =
+  object in a clearly different relation, never moved, or put in the
+  bowl instead of on the table.
+- **Rule C — referential object into the bowl:** the referent is
+  identified from the FIRST frames (relative positions at episode
+  start: closest/nearest/furthest-from X, or positioned between X and
+  Y). PASS = that object is in the bowl at end, gripper released.
+  FAIL = a different object is in the bowl, or the referent never
+  reached the bowl. If the referent cannot be identified from the
+  first frames, INDETERMINATE.
+- **Rule D — ordinal object into the bowl:** ordering is read from the
+  FIRST frames, in the above camera's view, left/right as seen in that
+  view. PASS = the object at that ordinal position (first/second/
+  third/fourth from left/right) is in the bowl at end. FAIL = a
+  different object is in the bowl or none is. If the row of objects
+  cannot be ordered from the first frames, INDETERMINATE.
+- **Rule E — size referent into the bowl:** referent by apparent size
+  in the first frames (smallest/largest). PASS = that object in the
+  bowl at end. FAIL = a clearly different-sized object in the bowl.
+- **Rule F — bowl count / removal:** "Make/leave/adjust the bowl
+  contain exactly N objects" → PASS = exactly N objects inside the
+  bowl at end. "Remove/Take X out of the bowl / move X from the bowl
+  to the table" → PASS = X is out of the bowl (on the table) at end
+  and not held. FAIL = the count or X's location is clearly otherwise.
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+BINDING INPUT + STANDARD NOTES (supersede any sheet description above):
+- Each sheet is a DENSE 16-frame sheet (PNG): FOUR rows of 8 frames.
+  Rows 1-2 are camera 1 (row 1 = frames 1-8, row 2 = frames 9-16);
+  rows 3-4 are camera 2 in the same arrangement. Frames run
+  left-to-right in time at 0%, 2%, 5%, 12%, 25%, 40%, 55%, 68%, 78%,
+  85%, 90%, 94%, 96.5%, 98.2%, 99.3%, ~100% of the episode — a few
+  start frames (scene setup), rising density toward the end, and the
+  final frames are always included. Judge the END STATE.
+- RELEASE STANDARD (binding): a PASS requires the gripper VISIBLY
+  OPEN / released at episode end. If the episode ends with the
+  gripper still closed on / holding the object (no release shown),
+  return INDETERMINATE regardless of how the object sits. State the
+  final gripper state in your one-line evidence.
+
+
+Judge exactly these 25 episodes. For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep726 — gemini/sheets-dense/spa-bench__ep726.png — task: "Pick up the green highlighter and place it in the bowl."
+- ep727 — gemini/sheets-dense/spa-bench__ep727.png — task: "Move the green highlighter into the bowl."
+- ep728 — gemini/sheets-dense/spa-bench__ep728.png — task: "Put the green highlighter in the bowl."
+- ep729 — gemini/sheets-dense/spa-bench__ep729.png — task: "Put the green highlighter in the bowl."
+- ep730 — gemini/sheets-dense/spa-bench__ep730.png — task: "Pick up the green highlighter and place it in the bowl."
+- ep731 — gemini/sheets-dense/spa-bench__ep731.png — task: "Move the green highlighter into the bowl."
+- ep732 — gemini/sheets-dense/spa-bench__ep732.png — task: "Pick up the green highlighter and place it in the bowl."
+- ep733 — gemini/sheets-dense/spa-bench__ep733.png — task: "Put the green highlighter in the bowl."
+- ep734 — gemini/sheets-dense/spa-bench__ep734.png — task: "Move the green highlighter into the bowl."
+- ep735 — gemini/sheets-dense/spa-bench__ep735.png — task: "Pick up the green highlighter and place it in the bowl."
+- ep736 — gemini/sheets-dense/spa-bench__ep736.png — task: "Move the green highlighter into the bowl."
+- ep737 — gemini/sheets-dense/spa-bench__ep737.png — task: "Put the green highlighter in the bowl."
+- ep738 — gemini/sheets-dense/spa-bench__ep738.png — task: "Move the fourth from the left object into the bowl."
+- ep739 — gemini/sheets-dense/spa-bench__ep739.png — task: "Put the object that is first from the right in the bowl."
+- ep740 — gemini/sheets-dense/spa-bench__ep740.png — task: "Pick up the object that is fourth from the left and place it in the bowl."
+- ep741 — gemini/sheets-dense/spa-bench__ep741.png — task: "Move the first from the right object into the bowl."
+- ep742 — gemini/sheets-dense/spa-bench__ep742.png — task: "Put the object that is fourth from the left in the bowl."
+- ep743 — gemini/sheets-dense/spa-bench__ep743.png — task: "Pick up the object that is first from the right and place it in the bowl."
+- ep744 — gemini/sheets-dense/spa-bench__ep744.png — task: "Move the fourth from the left object into the bowl."
+- ep745 — gemini/sheets-dense/spa-bench__ep745.png — task: "Put the object that is first from the right in the bowl."
+- ep746 — gemini/sheets-dense/spa-bench__ep746.png — task: "Pick up the object that is fourth from the left and place it in the bowl."
+- ep747 — gemini/sheets-dense/spa-bench__ep747.png — task: "Move the first from the right object into the bowl."
+- ep748 — gemini/sheets-dense/spa-bench__ep748.png — task: "Put the object that is fourth from the left in the bowl."
+- ep749 — gemini/sheets-dense/spa-bench__ep749.png — task: "Pick up the object that is first from the right and place it in the bowl."
+- ep750 — gemini/sheets-dense/spa-bench__ep750.png — task: "Move the first item counted from the left into the bowl."
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

@@ -1,0 +1,38 @@
+You are an independent solution-quality validator for the zk0 twin-suite v2
+program, from a DIFFERENT model family than the builders (the scenes and
+reference controllers were built by Muse (Muse Wonder) agents). You are given
+execution records of solution trajectories for simulated scenes of one
+robotics task. The generator's claim for each scene is: an executed PASS
+whose trajectory is a GOOD solution - smooth, failure-free, relatively
+optimal/efficient, with minimal hesitation or corrections.
+
+For EACH scene record below, return exactly one line:
+<scene>: GRADE=<CLEAN|RECOVERED|INCIDENT|NO-SOLUTION> GOOD=<YES|NO> - <one-line reason>
+
+Rubric:
+- CLEAN: no visible failure events in the trajectory: no failed grasp that
+  loses or retries the object, no drop, no re-place, no non-target object
+  displaced, final checks all true with margin.
+- RECOVERED: a visible problem occurred (failed grasp attempt, drop,
+  misplacement) and the executor visibly recovered and completed the task.
+- INCIDENT: completed with glitches (brushes, knocks, displacement of
+  non-target objects) without a distinct recovery event.
+- A GOOD solution (founder spec) must grade CLEAN. RECOVERED or INCIDENT
+  means GOOD=NO.
+- Controller internals: an IK solver fallback entry (solved=false on a
+  sub-move) that never loses the object, and the post-release retreat move
+  failing after the task is already complete, appear in many records. Judge
+  whether they are visible trajectory defects or controller internals, and
+  state in your reason which way you counted them when it decides a grade.
+- Cable scenes are executed with a documented weld device (the gripper
+  pads cannot pinch a 5 mm cable); judge the record on its own events.
+
+Records:
+[
+ {
+  "scene": "ring_insert (all 5 scenes)",
+  "role": "anchor ep7 + validator spec00-spec03",
+  "verdict": "NO EXECUTED PASS ON RECORD for any ring scene: anchor ep7 has no certified solution; validator scenes spec00-spec03 have FAIL records under two controller generations and a third generation's escalation was still in flight at bundle time. Additionally the frozen pass criterion carries a known parameter defect (parametric ring bottom 12.0 mm vs modelled tube 11.5 mm) under which a perfectly flat seat scores FAIL; a founder decision on the criterion is pending."
+ }
+]
+For ring_insert, answer one line: ring_insert: GRADE=NO-SOLUTION GOOD=NO - <one-line reason, including whether excluding ring from the validated denominator is the correct disposition>

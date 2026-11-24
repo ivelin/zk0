@@ -375,3 +375,16 @@ Gemini-family Neon/Carbon count as the second judge; Opus 5.5 reads
 are recorded as third reads until the founder rules on whether Opus
 counts as an independent second judge (factually it is a different
 family from Muse Wonder — the question is open, not decided here).
+
+## Amendment 9 — JUDGE NAMING TAXONOMY, FINAL FORM (founder, 2026-11-23 22:54 CT)
+
+Three families, always distinguished in records:
+(1) "Muse (Muse Wonder)" — Meta's model: the coordinator, all subagent
+judges/verifiers/builders (the primary leg).
+(2) "Gemini (Google)" + exact model (Neon / Carbon / Flash) — the
+Google leg via agy.
+(3) "Claude (Anthropic)" + exact model (Opus 5.5 / Sonnet 5.5) — ONLY
+where an Anthropic model served via agy actually produced a read.
+Register status strings updated to the full forms at the 2026-11-23
+overnight commits; new model stamps use the taxonomy (e.g. "Gemini
+(Google) gemini-4-neon-xhigh (agy 1.5.15, full-video)").
