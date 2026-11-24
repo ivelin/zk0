@@ -388,3 +388,83 @@ where an Anthropic model served via agy actually produced a read.
 Register status strings updated to the full forms at the 2026-11-23
 overnight commits; new model stamps use the taxonomy (e.g. "Gemini
 (Google) gemini-4-neon-xhigh (agy 1.5.15, full-video)").
+
+## Amendment 10 — OPUS 5.5 COUNTS AS AN INDEPENDENT SECOND JUDGE (founder ruling, 2026-11-24 06:26 CT)
+
+Approved judge families under the two-judge unanimity rule are now
+THREE: Muse (Muse Wonder), Gemini (Google), and Claude (Anthropic)
+Opus 5.5 via agy. Unanimous agreement between ANY two different-family
+judges certifies an episode — Muse+Opus and Gemini+Opus included, not
+only Muse+Gemini. Episodes whose only second reads are Opus 5.5 reads
+are NOT short of a second judge. Register application: agy reads carry
+their family by model stamp; Opus reads merge into a dedicated
+anthropic_* column set (added at the Spa merge), Gemini (Google) reads
+into gemini_*, and certified-by-agreement recomputes count all
+qualifying cross-family pairs. Cost guidance (founder): Opus is
+expensive — prefer it for dispute-grade and deciding reads, not bulk
+first passes; the bulk rotations stay Gemini (Google) Neon/Carbon.
+
+## Amendment 11 — PROVENANCE GRADES (founder ruling, 2026-11-24 06:37 CT)
+
+Two provenance grades: CONFIRMED (contamination confirmed at source)
+and NAMED-LIST (on the vetted named list, not individually confirmed).
+NAMED-LIST grade is ACCEPTED FOR CLEARING: Wave 1's 2,489 named-list
+episodes may enter the judging pipeline and be certified. TRAINING
+stays CONFIRMED-grade ONLY: a certified named-list episode is
+clearing-grade and must NOT be counted into any training-eligible
+pool unless its provenance is later confirmed at source. Every
+register row carries provenance_grade; the completion reporting
+splits pools by grade. Pool arithmetic (2026-11-23 re-measurement):
+CONFIRMED 16.11 h; CONFIRMED + NAMED-LIST clearable = 34.28 h. The
+other four 100h decisions (CC-BY-NC commercial use, unstated-license
+policy, v2.x conversion funding, new collection) remain OPEN — no
+action on them.
+
+## Amendment 12 — DECISIONFACTS LICENSE BAR (founder ruling, 2026-11-24 06:41 CT)
+
+DecisionFacts datasets (CC-BY-NC-4.0; 6.76 h inside the named-list
+pool): CLEARING YES — clearing-eligible under the named-list ruling
+(Amendment 11); COMMERCIAL TRAINING NO — permanently barred from any
+commercial training pool on license grounds, INDEPENDENT of
+provenance grade (the bar survives any later provenance confirmation).
+Register mechanism: the training_pool_bar column; DecisionFacts rows
+carry "BARRED — CC-BY-NC-4.0, no commercial training (founder ruling
+2026-11-24)" from the moment they are appended (df-testtube rows
+enter with provenance_grade NAMED-LIST + this bar). No DecisionFacts
+rows are in the register yet (df-testtube judging is pending its
+download remainder). Remaining open 100h decisions: unstated-license
+policy, v2.x conversion funding, new collection.
+
+## Amendment 13 — UNSTATED-LICENSE SETS EXCLUDED (founder ruling, 2026-11-24 06:41 CT)
+
+A dataset whose license is unstated is EXCLUDED ENTIRELY — no
+clearing, no training, no wave — until its license is confirmed at
+the source. If a license is later confirmed, the set re-enters at
+its provenance grade: permissive → normal rules; CC-BY-NC → the
+DecisionFacts rule (Amendment 12: clearing yes, commercial training
+barred). Register state: no current register source is
+unstated-license (all Wave-0 sources were license-vetted into the
+CONFIRMED pool), so no rows change; the rule binds all future wave
+intake — an unstated-license candidate is not appended to the
+register at all while unstated. Remaining open 100h decisions:
+v2.x conversion funding, new collection.
+
+## Amendment 14 — V2.X CONVERSION DEFERRED (founder ruling, 2026-11-24 06:42 CT)
+
+The v2.x fragment conversion program is DEFERRED until clearing
+proves the need — i.e., until the admissible pool size becomes the
+binding constraint in practice. No conversion work starts. The
+fragments stay catalogued in the 100h re-measurement record
+(2026-11-23) as the ceiling component (absolute ceiling 97.36 h
+incl. fragments). One 100h decision remains open: new collection.
+
+## Amendment 15 — NEW COLLECTION DEFERRED (founder ruling, 2026-11-24 06:42 CT)
+
+New dataset collection is DEFERRED — clearing first. With this, all
+five 100h decisions from the 2026-11-23 re-measurement are CLOSED:
+(1) named-list accepted for clearing, CONFIRMED-only for training
+(Amendment 11); (2) DecisionFacts CC-BY-NC: clearing yes, commercial
+training no (Amendment 12); (3) unstated-license excluded until
+confirmed at source (Amendment 13); (4) v2.x conversion deferred
+until pool size binds (Amendment 14); (5) new collection deferred,
+clearing first (this amendment).

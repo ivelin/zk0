@@ -241,3 +241,21 @@ NAMING (founder, 2026-11-23 22:46 CT): the primary leg is Muse (Muse Wonder), no
 
 ## JUDGE STAMP RECONCILIATION (2026-11-24 05:57 CT)
 The register's primary_model column carried the pre-taxonomy runtime display name "Muse Spark (judge subagent)" on all 2,059 rows, while verdicts_master.csv used the founder's taxonomy form "Muse (Muse Wonder)". Both denote the same thing: the primary judging was done entirely by subagent instances of this environment's Muse model — no judging ran on any other model. Per the founder's taxonomy (Amendment 9), the register stamp is corrected at the source to "Muse (Muse Wonder) (judge subagent)" on all 2,059 rows (labels only; no verdicts touched), so every record now names the primary leg identically.
+
+## PROVENANCE GRADES (founder ruling, 2026-11-24 06:37 CT)
+NAMED-LIST grade is accepted for CLEARING (Wave 1, 2,489 episodes, may enter the judging pipeline); TRAINING remains CONFIRMED-grade only — certified named-list episodes are clearing-grade and are never counted into a training-eligible pool unless later confirmed at source. The register now carries provenance_grade on every row (all 2,059 current Wave-0 rows are CONFIRMED). Clearable pool with the ruling: 34.28 h (CONFIRMED 16.11 h + named-list). The other four 100h decisions remain open.
+
+## DECISIONFACTS LICENSE BAR (founder ruling, 2026-11-24 06:41 CT)
+DecisionFacts (CC-BY-NC-4.0, 6.76 h in the named-list pool): clearing YES under the named-list ruling; commercial training NO — permanently barred from any commercial training pool on license grounds, independent of provenance grade. The register carries a training_pool_bar column; DecisionFacts rows will be stamped with the bar when appended (none are in the register yet — df-testtube judging awaits its download remainder). Remaining open 100h decisions: unstated-license policy, v2.x conversion funding, new collection.
+
+## UNSTATED-LICENSE SETS EXCLUDED (founder ruling, 2026-11-24 06:41 CT)
+Unstated-license datasets are excluded entirely (no clearing, no training) until the license is confirmed at source; on confirmation a set re-enters at its provenance grade (permissive → normal rules; NC → the DecisionFacts bar). No current register source is unstated-license, so no rows change; the rule binds future wave intake. Remaining open 100h decisions: v2.x conversion funding, new collection.
+
+## V2.X CONVERSION DEFERRED (founder ruling, 2026-11-24 06:42 CT)
+No conversion work starts; deferred until clearing proves the need (pool size becomes the binding constraint). The v2.x fragments stay catalogued in the 2026-11-23 re-measurement record. One 100h decision remains open: new collection.
+
+## 100H DECISIONS — ALL FIVE CLOSED (founder rulings, 2026-11-24 06:37–06:42 CT)
+(1) Named-list grade ACCEPTED for clearing (Wave 1's 2,489 episodes may enter the pipeline); training stays CONFIRMED-grade only. Clearable pool: 34.28 h (confirmed 16.11 h). (2) DecisionFacts (CC-BY-NC-4.0): clearing yes, commercial training permanently barred (register training_pool_bar). (3) Unstated-license sets excluded entirely until confirmed at source; re-entry at grade (NC → the DecisionFacts bar). (4) v2.x conversion DEFERRED until clearing proves pool size is the binding constraint; fragments stay catalogued in the re-measurement record. (5) New collection DEFERRED — clearing first. No 100h decision remains open.
+
+## ADVANCED VIDEO RE-JUDGE — HELD-OUT 100 (merged 2026-11-24)
+Full-video reads by Gemini (Google) Neon-XHigh / Carbon-High (alternating) are merged into verdicts_master.csv (gemini_adv_* columns; Flash reads preserved). Agreement with the Muse (Muse Wonder) primary: 95/98. Flash flipped on 7 episodes — and on all six founder-adjudicated flips the advanced read matches the founder's ruling (489/499 INDETERMINATE; 557/784/824 PASS; 2020 FAIL). One NEW dispute opened: eye ep1618 (primary FAIL, advanced PASS) — it is the founder's only open held-out item, and it is also in his prepared FAIL spot-check draw. Two first-pass video calls (ep1643, ep1760) timed out at 600 s with empty output; one re-run each is in flight (both episodes are founder-final PASS, so no status waits on them).
