@@ -1,0 +1,96 @@
+# Judging brief — Spa-Bench certification (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet PNG: two rows (row 1 = front-equivalent camera, row 2 =
+above/top camera), six frames each, left→right in time (0%, 35%, 60%,
+80%, 92%, ~100% of the episode). Judge the END STATE — what the final
+frames show — not how elegant the motion was.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the episode's task string under the rule below, with the gripper no
+  longer holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Rules (the batch you receive uses ONE rule; it is named in your task)
+
+- **Rule A — named object into the bowl:** PASS = the named object is
+  inside the bowl at episode end, gripper released. Adjectives
+  (closed/open/upright/upside-down, colours) identify WHICH object when
+  several of a type are present; they do not impose an end orientation
+  inside the bowl. FAIL = the named object is not in the bowl (or a
+  different object of the same type was put in when the string picks
+  out a specific distinguishable one).
+- **Rule B — relational placement:** PASS = the named object rests on
+  the table in the stated relation (front/back/left/right/next-to/
+  beside/near) to the named reference object at end, gripper released.
+  Judge the relation in the table plane from the above camera;
+  "near/beside/next to" = adjacent, touching not required. FAIL =
+  object in a clearly different relation, never moved, or put in the
+  bowl instead of on the table.
+- **Rule C — referential object into the bowl:** the referent is
+  identified from the FIRST frames (relative positions at episode
+  start: closest/nearest/furthest-from X, or positioned between X and
+  Y). PASS = that object is in the bowl at end, gripper released.
+  FAIL = a different object is in the bowl, or the referent never
+  reached the bowl. If the referent cannot be identified from the
+  first frames, INDETERMINATE.
+- **Rule D — ordinal object into the bowl:** ordering is read from the
+  FIRST frames, in the above camera's view, left/right as seen in that
+  view. PASS = the object at that ordinal position (first/second/
+  third/fourth from left/right) is in the bowl at end. FAIL = a
+  different object is in the bowl or none is. If the row of objects
+  cannot be ordered from the first frames, INDETERMINATE.
+- **Rule E — size referent into the bowl:** referent by apparent size
+  in the first frames (smallest/largest). PASS = that object in the
+  bowl at end. FAIL = a clearly different-sized object in the bowl.
+- **Rule F — bowl count / removal:** "Make/leave/adjust the bowl
+  contain exactly N objects" → PASS = exactly N objects inside the
+  bowl at end. "Remove/Take X out of the bowl / move X from the bowl
+  to the table" → PASS = X is out of the bowl (on the table) at end
+  and not held. FAIL = the count or X's location is clearly otherwise.
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+
+Judge exactly these 24 episodes. For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep1176 — gemini/sheets-spa/spa__ep1176.png — task: "Pick up the largest item and place it in the bowl."
+- ep1177 — gemini/sheets-spa/spa__ep1177.png — task: "Put the largest object in the bowl."
+- ep1178 — gemini/sheets-spa/spa__ep1178.png — task: "Pick up the largest item and place it in the bowl."
+- ep1179 — gemini/sheets-spa/spa__ep1179.png — task: "Pick up the largest item and place it in the bowl."
+- ep1180 — gemini/sheets-spa/spa__ep1180.png — task: "Move the object that is largest into the bowl."
+- ep1181 — gemini/sheets-spa/spa__ep1181.png — task: "Move the object that is largest into the bowl."
+- ep1182 — gemini/sheets-spa/spa__ep1182.png — task: "Move the object that is largest into the bowl."
+- ep1183 — gemini/sheets-spa/spa__ep1183.png — task: "Put the largest object in the bowl."
+- ep1184 — gemini/sheets-spa/spa__ep1184.png — task: "Put the largest object in the bowl."
+- ep1185 — gemini/sheets-spa/spa__ep1185.png — task: "Put the largest object in the bowl."
+- ep1186 — gemini/sheets-spa/spa__ep1186.png — task: "Pick up the largest item and place it in the bowl."
+- ep1187 — gemini/sheets-spa/spa__ep1187.png — task: "Pick up the largest item and place it in the bowl."
+- ep1188 — gemini/sheets-spa/spa__ep1188.png — task: "Move the object that is largest into the bowl."
+- ep1189 — gemini/sheets-spa/spa__ep1189.png — task: "Put the largest object in the bowl."
+- ep1190 — gemini/sheets-spa/spa__ep1190.png — task: "Pick up the largest item and place it in the bowl."
+- ep1191 — gemini/sheets-spa/spa__ep1191.png — task: "Pick up the largest item and place it in the bowl."
+- ep1192 — gemini/sheets-spa/spa__ep1192.png — task: "Move the object that is largest into the bowl."
+- ep1193 — gemini/sheets-spa/spa__ep1193.png — task: "Pick up the largest item and place it in the bowl."
+- ep1194 — gemini/sheets-spa/spa__ep1194.png — task: "Move the object that is largest into the bowl."
+- ep1195 — gemini/sheets-spa/spa__ep1195.png — task: "Move the object that is largest into the bowl."
+- ep1196 — gemini/sheets-spa/spa__ep1196.png — task: "Move the object that is largest into the bowl."
+- ep1197 — gemini/sheets-spa/spa__ep1197.png — task: "Move the object that is largest into the bowl."
+- ep1198 — gemini/sheets-spa/spa__ep1198.png — task: "Move the object that is largest into the bowl."
+- ep1199 — gemini/sheets-spa/spa__ep1199.png — task: "Put the largest object in the bowl."
+
+Output ONLY the 24 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

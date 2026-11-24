@@ -1,0 +1,25 @@
+gemini/out/gemini_train250-block_stack-2.raw:ep585 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep586 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep587 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep588 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep589 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep590 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep591 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep592 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep593 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep594 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep595 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep596 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep597 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep598 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep599 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep600 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep601 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep602 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep603 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep604 | FAIL | orange block resting directly on mat not stacked on purple block
+gemini/out/gemini_train250-block_stack-2.raw:ep605 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep606 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep607 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep608 | PASS | orange block stacked on purple block with gripper retracted
+gemini/out/gemini_train250-block_stack-2.raw:ep609 | PASS | orange block stacked on purple block with gripper retracted

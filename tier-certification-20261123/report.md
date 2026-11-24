@@ -101,6 +101,32 @@ armnetbench-heldout (4 FAIL, 5 contested, samples). Seed 20261123,
 cap 12 per subset. The ArmnetBench training-250 pack derives from
 the 1h program's records.
 
+## Gemini leg — stages run early on founder order (2026-11-23 ~20:05 CT)
+
+The founder ordered the remaining Gemini stages run immediately
+instead of waiting for the Nov 30 quota reset (live check: Gemini
+group ~32-33% remaining). Coordinator #5 ran the leg in stage
+order. **Stage 3 is PARTIALLY complete; the leg stopped on the
+10%-remaining quota floor** (/usage read 5% after three runs;
+~9.3% of the weekly group per 25-episode PNG run; reset
+2026-11-30T21:41:45Z):
+
+- Stage 3 (1h training 250): 3/10 runs done (block_stack 50 +
+  cable_clip 25 = 75 episodes merged, model-attributed). Gemini:
+  74 PASS / 1 FAIL (ep604 — concurring with primary and Grok).
+  Agreement vs primary 75/75; vs Grok 74/75 (ep573: Gemini PASS,
+  with primary + founder over Grok's FAIL). Remaining: 7 runs /
+  175 episodes (cable_clip-2, eye ×2, ring ×2, tool ×2) — prompts
+  and PNG sheets already on the DGX.
+- Stage 4 (Spa-Bench 1,200 + RoboColosseum 200): NOT started.
+  Prompts generated (gen_gemini_stage45.py); sheets not yet shipped.
+- Stage 5 (rc2 sources, 259 episodes): NOT started. Prompts
+  generated; sheets not yet shipped.
+- The Nov 30 scheduled run remains the fallback for everything
+  above; coordinator5-notes.md carries the exact resume point.
+  Register Gemini coverage: 76/2,059. Nothing about the contested
+  flags changed — Gemini overrules nobody.
+
 ## Update — coordinator #5 (2026-11-23 evening)
 
 Register: 2,059 rows, all PENDING HUMAN APPROVAL. Grok coverage

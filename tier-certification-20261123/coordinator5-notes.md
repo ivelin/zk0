@@ -111,3 +111,62 @@ merging and building the review packs.")
   .incomplete, both hf processes alive (HF backoff; monitor only).
   BusyBox multitask + Cup Nesting queue behind it in both download
   scripts.
+- CHECKPOINT COMMITTED: a7fb537 on study001/fl-substrate-20261121
+  via tiercert_commit5.sh (output-minimized; 66 files changed;
+  staging refreshed to commit-staging/program5/ on the DGX; repo-vs-
+  staging diff checked first: 0 deletions, 61 new files).
+- GEMINI STAGES RUN (founder order 2026-11-23 ~20:05 CT superseded
+  the Nov 30 wait; coordinator #5 executed): /usage at leg start =
+  Gemini group 33% remaining. Stage 3 sheets (250 audit JPGs)
+  shipped in per-task chunks and PNG-converted on the DGX
+  (gemini/sheets-train250/, 250 PNGs, size-verified vs the JPGs);
+  train250 prompts were already on the DGX (md5-verified vs local).
+  Driver ran chunk A under guard rundir-gemini-train250a.
+  **RESULT: 3/10 stage-3 runs completed, all rc=0** —
+  gemini_train250-block_stack-1, block_stack-2, cable_clip-1 =
+  75 episodes merged into the register (merge_gemini.py,
+  key-explicit; backup register.csv.bak-pre-gemini-stage3).
+  Gemini verdicts: 74 PASS / 1 FAIL — the FAIL is ep604, concurring
+  with primary + Grok. Agreement: vs primary 75/75; vs Grok 74/75
+  (ep573: Gemini PASS, siding with primary + the founder's
+  adjudication over Grok's FAIL). Register Gemini coverage now
+  76/2,059. Note: block_stack-1's raw re-emitted verdict lines for
+  ep580-584 (both emissions PASS; the merge took the last, per
+  parse order).
+  **LEG STOPPED ON THE QUOTA FLOOR**: after the 3 runs /usage read
+  5% remaining — under the 10% floor in the run order (~9.3% of the
+  weekly group per 25-PNG run). No further Gemini calls were made.
+  Quota resets 2026-11-30T21:41:45Z.
+  **EXACT RESUME POINT for the Nov 30 fallback run** (do not redo
+  completed runs — the driver skips .done runs anyway):
+  - Stage 3 remaining (7 runs, 175 eps): gemini_train250-cable_clip-2,
+    eye_drops_to_basket-1, eye_drops_to_basket-2, ring_insert-1,
+    ring_insert-2, tool_insert-1, tool_insert-2. Prompts + PNG
+    sheets are already on the DGX.
+  - Stage 4 NOT started (Spa 1,200 + RC 200): prompts generated
+    locally by gen_gemini_stage45.py (gemini-staging/prompts/
+    gemini_spa-01..48, gemini_rc-cube-drawer-01..04,
+    gemini_rc-screwdriver-01..04; run lists in gemini-staging/
+    runs-gemini_*.txt). Sheets still to ship: local sheets/spa__*.jpg
+    → DGX gemini/sheets-spa/ (PNG), sheets/rc-cube-drawer__*.jpg +
+    rc-screwdriver__*.jpg → gemini/sheets-rc/ (PNG).
+  - Stage 5 NOT started (rc2 sources, 259 eps): prompts generated
+    (gemini_rc-stack-bowls-01..04, gemini_rc-stack-cubes-01..04,
+    gemini_bb-push-green-01..02, gemini_bb-flip-left-01). Sheets
+    still to ship → gemini/sheets-rc2/ (PNG).
+  - At the observed burn rate (~9.3%/run), the full remaining leg
+    (7 + 56 + 11 = 74 runs) needs ~7 weekly quota cycles — the
+    Nov 30 run should expect to complete only part of stage 3/4
+    unless the quota accounting changes; sequence strictly in the
+    stage order above and re-check /usage between chunks.
+- FLIP CLEANLINESS CLOSED (third attempt): a fresh separate-context
+  grader with a hardened brief (pass/fail explicitly out of scope)
+  returned grades in format: 20/20 CLEAN (verdicts/bb_clean_flip01.txt,
+  written verbatim from the delivered handoff; counts recomputed
+  before the register edit). Register updated in place (backup
+  register.csv.bak-pre-flip-clean): flip rows now cleanliness CLEAN
+  ×20, subset imitation core (derived from primary PASS per program
+  rule), notes amended; all 20 remain contested on the pass/fail
+  dispute. Flip is no longer the register's only ungraded source.
+  This register change postdates checkpoint a7fb537 — it goes into
+  the next checkpoint commit.
