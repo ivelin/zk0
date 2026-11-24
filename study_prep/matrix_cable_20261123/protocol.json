@@ -1,0 +1,196 @@
+{
+ "job": "full closed-loop matrix: 16 checkpoints x 5 tasks (founder directive 2026-11-23 09:45 CT)",
+ "workdir": "/home/openclaw/muse-work/zk0-study001-matrix-20261123",
+ "scene_sets": {
+  "cable_clip": {
+   "status": "CERTIFIED twin-suite v1.1 (param_hash a4eb3f8c3611894d)",
+   "episodes": [
+    1896,
+    1903,
+    1905,
+    1939,
+    1959,
+    1960,
+    1968,
+    1969,
+    2020,
+    2032,
+    2042,
+    2046,
+    2059,
+    2068,
+    2085,
+    2092,
+    2101,
+    2125,
+    2130,
+    2146
+   ],
+   "variants": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "harness": "Phase 6 frozen worker (zk0-study001-phase6-20261123/code/phase6_worker.py), unmodified"
+  },
+  "block_stack": {
+   "status": "v2 solvability-validated scenes (instrument NOT certified)",
+   "episodes": [
+    411,
+    453,
+    489,
+    498,
+    499,
+    527,
+    546,
+    549
+   ],
+   "variants": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "harness": "v2 battery harness sim_runner_battery.py, frozen"
+  },
+  "eye_drops_to_basket": {
+   "status": "v2 solvability-validated scenes (instrument NOT certified)",
+   "episodes": [
+    1609,
+    1630,
+    1746,
+    1798
+   ],
+   "variants": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "harness": "v2 battery harness, frozen"
+  },
+  "tool_insert": {
+   "status": "v2 solvability-validated scenes (instrument NOT certified)",
+   "episodes": [
+    683
+   ],
+   "variants": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "harness": "v2 battery harness, frozen"
+  },
+  "ring_insert": {
+   "status": "PENDING executor-revision outcome; fallback: 8 attempted scenes labeled SOLVABILITY-UNVALIDATED",
+   "episodes_attempted": [
+    30,
+    50,
+    179,
+    198,
+    "dev4-TBD"
+   ],
+   "harness": "v2 battery harness, frozen"
+  }
+ },
+ "ingestion": {
+  "cable_clip": "base, fl_r30_3cam, cexp, spec_cable_clip, spec_exp_cable_clip, sequential <- Phase 6 (zk0-study001-phase6-20261123/out) when complete; remaining 10 checkpoints <- this workdir cable/out",
+  "precision": "base, fl_round_30_a5repair(=fl_r30_3cam weights), c_exp <- Part B L1 records (controls_battery/out/L1); remaining 13 checkpoints <- this workdir precision/out"
+ },
+ "sequencing": "cable first (certified instrument); precision bulk RELEASED by probe verdict (ghost negative) 2026-11-23; ring last",
+ "blinding": "cable videos under neutral codes (p6-* Phase 6, mx-* matrix) with sealed keys per workdir; precision records carry checkpoint_id as in Part B (internal records; judging surface is the state logs)",
+ "labels": "closed-loop twin results - instrument not certified for precision tasks; sim bar unanchored to real-arm delta. Cable cells carry the v1.1 certification note.",
+ "probe_verdict": {
+  "step1": "MEASURED step-0 image effect: median first-chunk divergence C-exp 12.21 deg, FL 9.10 deg (twin renders vs recorded frames); noise floor exactly 0",
+  "step2_ghost": "NEGATIVE: with recorded images fed at every chunk, C-exp still diverged (52.9/55.1 deg mean joint error vs 21.0/24.2 offline) and failed both criteria on both episodes",
+  "conclusion": "observation contract is a real contributor but NOT the cause of the closed-loop failure; state channel and dynamics/contact are co-leads",
+  "ruling": "PROCEED with the precision-task bulk (parent ruling 2026-11-23): the failure persists with perfect images, so the matrix remains meaningful policy evidence under the labeled uncertified instrument. Founder informed in parallel; a later pause order will be honored at the next rollout boundary."
+ },
+ "corrections": [
+  {
+   "date_ct": "2026-11-23 11:40",
+   "type": "aggregator source-mixing fix",
+   "defect": "matrix_aggregate.py v1 added the v2 Part B L1 battery's cable_clip rollouts (35 per checkpoint for base/cexp/fl_r30_3cam, from controls_battery/out/L1/*/rollouts.jsonl) into the Phase 6/matrix cable_clip denominators. The L1 battery used a different harness and a validated-subset scene set, so its cable cells must never share a denominator with Phase 6/matrix cable cells. The v1 aggregate.json snapshot (2026-11-23 10:32 CT) also predated the first Phase 6 pass records.",
+   "correct_phase6_only_counts_at_independent_recount": {
+    "base": "0/62",
+    "cexp": "1/63",
+    "fl_r30_3cam": "0/84",
+    "spec_cable_clip": "1/63",
+    "note": "both passes are ep2020_v2, verified against the frozen v1.1 evaluator's recorded checks; denominators grow as Phase 6 production continues (recount by successor at 11:39 CT: base 0/63, fl_r30_3cam 0/85, others unchanged)"
+   },
+   "fix": "matrix_aggregate.py v2 (original preserved as matrix_aggregate.py.orig-20261123): counts tracked per source; only same-family sources combine (cable: phase6+matrix headline; partB-L1 reported separately, never merged); every aggregate carries generated_at_utc/generated_at_ct snapshot timestamps; judging worklist refs remain source-tagged. Verified: v2 output reproduces the independent Phase 6 recount exactly and shows partB-L1 cable as separate 0/35 cells."
+  },
+  {
+   "date_ct": "2026-11-23 12:27 CT",
+   "type": "stand_down_order",
+   "order": "Precision production stood down per founder order 2026-11-23 12:27 CT. Replica path closed 2026-11-22 21:44 CT; precision checkpoint evals await spec-only scenes.",
+   "action": "Matrix precision retry wrapper (guard-precision2-*, PID 234086) terminated 2026-11-23 ~12:28 CT; last launch attempt #19 at 12:26:41 CT (PREFLIGHT_FAIL). No further precision launch attempts will be made by this wrapper.",
+   "wrapper_state_left": "precision wrapper DOWN (terminated and verified); cable wrapper (guard-cable2-*, PID 234084) left ALIVE and untouched; Phase 6 and Q-A training untouched"
+  },
+  {
+   "date_ct": "2026-11-23 13:05 CT",
+   "type": "cancelled_by_rule",
+   "rule": "Founder rule (2026-11-23 13:05 CT): pass/fail checks are allowed ONLY on scenes with a proven, certified solution trajectory. Cable twin-suite v1.1 qualifies (20/20 demo-replay certified, param_hash a4eb3f8c3611894d).",
+   "action": "All ring_insert and precision-task (block_stack, eye_drops_to_basket, tool_insert) pass/fail treatment on scenes without a certified solution trajectory is CANCELLED under this rule. This supersedes the protocol sequencing note (precision bulk released by probe verdict; ring last with SOLVABILITY-UNVALIDATED fallback): the ring fallback of running the 8 attempted scenes labeled SOLVABILITY-UNVALIDATED is cancelled, not pending, and the precision wrapper stood down 2026-11-23 12:27 CT is not to be revived. Precision/ring checkpoint evals may resume only on scenes that gain a proven, certified solution trajectory (e.g. spec-only scenes validated by the separate spec-only program).",
+   "scope_unaffected": "Cable completion legs proceed unchanged: Phase 6's 6 checkpoints plus the matrix cable wrapper's 10 checkpoints, all in the certified cable v1.1 twins."
+  },
+  {
+   "date_ct": "2026-11-23 15:41 CT",
+   "type": "phase6_permanent_stop",
+   "order": "Phase 6 permanently stopped by founder order (card tap 2026-11-23 14:18 CT): 'Stop Phase 6 - its scenes lack certified solutions, which my rule forbids for pass/fail testing.' NOT resumable. No Phase 6 resume is authorized; any reappearing Phase 6 worker is an anomaly.",
+   "frozen_partial_set": {
+    "label": "stopped by founder rule, partial",
+    "total_records": 416,
+    "per_checkpoint": {
+     "fl_r30_3cam": "100/100 records, 0 passes (complete cell)",
+     "cexp": "97 records, 1 pass",
+     "spec_cable_clip": "97 records, 1 pass",
+     "base": "96 records, 0 passes",
+     "spec_exp_cable_clip": "26 records, 0 passes",
+     "sequential": "0 records - never started"
+    }
+   },
+   "scope_note": "Matrix shepherd ingestion of Phase 6 is limited to this frozen partial set. The matrix cable wrapper (10 remaining checkpoints) is unaffected by this entry and continues under its own orders."
+  },
+  {
+   "date_ct": "2026-11-23 21:53 CT (reaffirmed 21:57 CT)",
+   "type": "grok_removed_from_judging",
+   "order": "Founder ruling: 'Remove Grok judge. Cannot be trusted.' Grok repeatedly misread held-out cable episodes and was overruled by the founder on all five from the full videos. Grok is REMOVED from the frontier judging layer for all matrix/Phase 6 records: no Grok reads may be run or cited for rollout judging or verification. Judging composition going forward: Muse + Gemini (agy CLI, round-robin across its latest-generation models, per the 2026-11-23 21:54 CT rule). Re-test scheduled 2026-12-23; restoration only on the founder's yes.",
+   "existing_grok_reads_audit": "Searched 2026-11-23 ~21:59 CT: ZERO Grok reads exist in the matrix workdir (protocol, aggregate, judging worklist, cable records) or in the Phase 6 record set (records carry no judge fields at all - the frontier judging layer was never executed on them). Nothing to flag DISTRUSTED in these records; had any existed they would be flagged, never deleted."
+  },
+  {
+   "date_ct": "2026-11-24 06:31 CT",
+   "type": "cable_wrapper_stand_down",
+   "order": "Founder ruling 2026-11-24 06:31 CT: STAND DOWN the matrix cable wrapper (guard-cable2). Cable evaluation moves to the eval plan (real held-out + validator sets).",
+   "action": "Executed 2026-11-24 ~06:32-06:34 CT by the matrix shepherd. Terminated, in order: retry wrapper (PID 234084), matrix_cable_driver.py (4093198), phase6_worker processes for spec_exp_block_stack (1760038) and spec_exp_eye_drops (1760355), their policy servers (1760039, 1760356), and the job_guard for guard-cable2-a57 (4093174). The shepherd's own read-only sentinel was also stopped. VERIFIED zero cable-matrix production processes in two consecutive process sweeps after a settle wait; retry log shows no attempt after attempt 57 (2026-11-23 14:20:43 CT). No new cable rollouts will be produced.",
+   "final_production_tally": {
+    "matrix_cable_total": 701,
+    "invalid_json_records": 0,
+    "complete_cells_100": [
+     "fl_r10_3cam 0 passes",
+     "fl_r20_3cam 0 passes",
+     "spec_block_stack 0 passes",
+     "spec_eye_drops 0 passes",
+     "spec_ring_insert 0 passes",
+     "spec_tool_insert 0 passes"
+    ],
+    "partial_cells": [
+     "spec_exp_block_stack 50 records, 0 passes",
+     "spec_exp_eye_drops 51 records, 0 passes"
+    ],
+    "never_started": [
+     "spec_exp_ring_insert",
+     "spec_exp_tool_insert"
+    ],
+    "phase6_frozen_partial": "416 records, 2 passes (stopped by founder rule, partial)"
+   },
+   "report_label": "matrix cable production stood down by founder ruling 2026-11-24; cable evaluation moves to the eval plan (real held-out + validator sets)"
+  }
+ ]
+}

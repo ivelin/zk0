@@ -1,0 +1,387 @@
+{
+ "generated_at_utc": "2026-11-24T12:32:27.502536+00:00",
+ "generated_at_ct": "2026-11-24T06:32:27.502536-06:00",
+ "source_policy": "Per-source cells. Only same-family sources combine (cable: phase6+matrix, same frozen harness/scene set). Part B L1 cable records are reported separately and never share a denominator with Phase 6/matrix cable cells.",
+ "cells": {
+  "block_stack": {
+   "base": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 40,
+      "excluded": 0,
+      "secondary": 3
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 40,
+     "excluded": 0,
+     "secondary": 3
+    }
+   },
+   "cexp": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 40,
+      "excluded": 0,
+      "secondary": 7
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 40,
+     "excluded": 0,
+     "secondary": 7
+    }
+   },
+   "fl_r30_3cam": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 40,
+      "excluded": 0,
+      "secondary": 5
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 40,
+     "excluded": 0,
+     "secondary": 5
+    }
+   }
+  },
+  "eye_drops_to_basket": {
+   "base": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 20,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 20,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "cexp": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 20,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 20,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "fl_r30_3cam": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 20,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 20,
+     "excluded": 0,
+     "secondary": 0
+    }
+   }
+  },
+  "ring_insert": {},
+  "tool_insert": {
+   "base": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 5,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 5,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "cexp": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 5,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 5,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "fl_r30_3cam": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 5,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined": {
+     "pass": 0,
+     "total": 5,
+     "excluded": 0,
+     "secondary": 0
+    }
+   }
+  },
+  "cable_clip": {
+   "base": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 35,
+      "excluded": 0,
+      "secondary": 0
+     },
+     "phase6": {
+      "pass": 0,
+      "total": 96,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 96,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "cexp": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 35,
+      "excluded": 0,
+      "secondary": 0
+     },
+     "phase6": {
+      "pass": 1,
+      "total": 97,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 1,
+     "total": 97,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "fl_r30_3cam": {
+    "sources": {
+     "partB-L1": {
+      "pass": 0,
+      "total": 35,
+      "excluded": 0,
+      "secondary": 0
+     },
+     "phase6": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "fl_r20_3cam": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "fl_r10_3cam": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_block_stack": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_eye_drops": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 99,
+      "excluded": 1,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 99,
+     "excluded": 1,
+     "secondary": 0
+    }
+   },
+   "spec_ring_insert": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_tool_insert": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 100,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 100,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_cable_clip": {
+    "sources": {
+     "phase6": {
+      "pass": 1,
+      "total": 97,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 1,
+     "total": 97,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_exp_block_stack": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 50,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 50,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_exp_eye_drops": {
+    "sources": {
+     "matrix": {
+      "pass": 0,
+      "total": 51,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 51,
+     "excluded": 0,
+     "secondary": 0
+    }
+   },
+   "spec_exp_cable_clip": {
+    "sources": {
+     "phase6": {
+      "pass": 0,
+      "total": 26,
+      "excluded": 0,
+      "secondary": 0
+     }
+    },
+    "combined_phase6_matrix": {
+     "pass": 0,
+     "total": 26,
+     "excluded": 0,
+     "secondary": 0
+    }
+   }
+  }
+ },
+ "nearmiss_count": 15
+}
