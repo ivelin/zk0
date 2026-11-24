@@ -1,0 +1,137 @@
+{
+ "task": "block_stack",
+ "episode": 476,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_b",
+  "face_gap_m": -0.0,
+  "within_inset_footprint": true,
+  "contact_with_lower": true,
+  "no_other_support_contact": true,
+  "upper_contacts": [
+   "cube_a"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.30215810948789323,
+   0.029148296826101122,
+   0.01484470704522733
+  ],
+  "cube_b": [
+   0.29992002698668824,
+   0.03284103013490337,
+   0.04480611910335544
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "moving=cube_b at [ 0.108 -0.09   0.015], target=cube_a at [0.299 0.015 0.015]; pinch-lift ok, cube_b z 0.015->0.086, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [0.297 0.013 0.051]",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1082,
+    -0.0905,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0237,
+     0.002,
+     0.0261
+    ],
+    "grip_stall_rad": 0.096,
+    "hold_grip_rad": 0.066
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1009,
+    -0.1024,
+    0.0988
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1005,
+    -0.1019,
+    0.0975
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "pinch_target": [
+    0.2991,
+    0.0015,
+    0.0584
+   ],
+   "wrist_flex_deg": 90.5,
+   "pos_err_mm": 1.49
+  },
+  {
+   "carry": "block place",
+   "obj_target": [
+    0.2995,
+    0.0151,
+    0.0479
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2969,
+    0.0006,
+    0.0784
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2973,
+    0.0006,
+    0.0767
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.3013,
+    0.0019,
+    0.0734
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3014,
+    0.0019,
+    0.0717
+   ]
+  },
+  {
+   "servo": "cube_b",
+   "final_err_mm": 13.2,
+   "ok": false
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3233,
+    -0.002,
+    0.1478
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "nominal",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/block_stack__ep476.xml"
+}

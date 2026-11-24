@@ -1,0 +1,177 @@
+{
+ "task": "block_stack",
+ "episode": 498,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": -0.0012,
+  "within_inset_footprint": false,
+  "contact_with_lower": true,
+  "no_other_support_contact": true,
+  "upper_contacts": [
+   "cube_b"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.26374203458409395,
+   -0.039497627440948126,
+   0.04487360128396267
+  ],
+  "cube_b": [
+   0.2767713415593829,
+   -0.045678451015686454,
+   0.01603610535669846
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "moving=cube_a at [0.229 0.078 0.015], target=cube_b at [ 0.254 -0.037  0.015]; pinch-lift ok, cube_a z 0.015->0.096, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_a at [ 0.255 -0.036  0.059]",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.229,
+    0.0776,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 7.9
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0231,
+     -0.0005,
+     0.0267
+    ],
+    "grip_stall_rad": 0.106,
+    "hold_grip_rad": 0.066
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2189,
+    0.0793,
+    0.0639
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2173,
+    0.0788,
+    0.0631
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.2189,
+    0.0793,
+    0.0989
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2174,
+    0.0788,
+    0.098
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "pinch_target": [
+    0.2538,
+    -0.0371,
+    0.0465
+   ],
+   "wrist_flex_deg": 72.4,
+   "pos_err_mm": 1.28
+  },
+  {
+   "carry": "block place",
+   "obj_target": [
+    0.2538,
+    -0.0367,
+    0.0449
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2552,
+    -0.037,
+    0.073
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.254,
+    -0.0368,
+    0.0723
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2619,
+    -0.0386,
+    0.0725
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2607,
+    -0.0384,
+    0.0718
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2636,
+    -0.0387,
+    0.0726
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2622,
+    -0.0384,
+    0.0718
+   ]
+  },
+  {
+   "servo": "cube_a",
+   "final_err_mm": 22.7,
+   "ok": false
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.2788,
+    -0.0371,
+    0.1324
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "rev2.1",
+ "variant": "v1",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/block_stack__ep498_v1.xml"
+}

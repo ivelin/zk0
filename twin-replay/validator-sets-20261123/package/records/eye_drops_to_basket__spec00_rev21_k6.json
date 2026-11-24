@@ -1,0 +1,250 @@
+{
+ "task": "eye_drops_to_basket",
+ "episode": "eye_drops_to_basket__spec00",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_inside_basket": true,
+  "support_is_basket": true,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "basket"
+  ],
+  "carton_z": 0.0205
+ },
+ "objects_final": {
+  "carton": [
+   0.31333957865480816,
+   0.14533414279364534,
+   0.02048292752466855
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, carton z 0.107->0.191",
+ "log": [
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2179,
+    -0.0014,
+    0.2228
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2736,
+    -0.0863,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 2.3
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 4.8
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0027,
+     0.0052,
+     0.0348
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2877,
+    -0.092,
+    0.2357
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.287,
+    -0.0916,
+    0.2345
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2718,
+    -0.0795,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 2.1
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0175,
+     0.0031,
+     0.0305
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2604,
+    -0.0787,
+    0.2288
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2604,
+    -0.0787,
+    0.2488
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2466,
+    -0.0822,
+    0.1867
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 7.8
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 10.9
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0023,
+     -0.024,
+     0.0258
+    ],
+    "grip_stall_rad": 0.196,
+    "hold_grip_rad": 0.156
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2493,
+    -0.0714,
+    0.1453
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.2493,
+    -0.0714,
+    0.1987
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "place_scan": "eye place",
+   "branch": "free-orientation",
+   "pinch_target": [
+    0.2878,
+    0.1403,
+    0.0502
+   ],
+   "wrist_flex_deg": 54.8,
+   "pos_err_mm": 2.75,
+   "Rt": [
+    [
+     0.74,
+     0.598,
+     -0.31
+    ],
+    [
+     -0.662,
+     0.73,
+     -0.172
+    ],
+    [
+     0.123,
+     0.332,
+     0.935
+    ]
+   ]
+  },
+  {
+   "carry": "eye place",
+   "obj_target": [
+    0.3,
+    0.15,
+    0.04
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3009,
+    0.1223,
+    0.1533
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3005,
+    0.1202,
+    0.1511
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "eye_drops_to_basket__spec00",
+ "scene_index": 0,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "ef0b7018ab32d2850a31f42fa0f9668e38f1058ec3a9a7e7e8765cf34291d52b",
+ "scene_variant": "k=6",
+ "variant_kind": "corner:pose_-x",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

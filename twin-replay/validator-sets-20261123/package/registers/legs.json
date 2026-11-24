@@ -1,0 +1,898 @@
+{
+ "generated_at": "2026-11-23T23:32:45-0600",
+ "generator_family": "Muse (Muse Wonder)",
+ "solutions": {
+  "block_stack:anchor-ep411": {
+   "task": "block_stack",
+   "scene": "anchor-ep411",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "No visible failures; internal IK retries did not lose the object.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_block_stack.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec01": {
+   "task": "block_stack",
+   "scene": "spec01",
+   "variant": null,
+   "legs": [
+    {
+     "model": "gemini-4-carbon-high",
+     "verdict_good": "NO",
+     "grade": "INCIDENT",
+     "pass_concur": "YES",
+     "reason": "Counted failed sub-move lift as a benign controller internal (pinch-lift held cube_b to z=0.087 m and reached place pose [0.418, -0.027, 0.05]), but counted failed release:retreat as a visible trajectory glitch because release/retreat dragged cube_b 8.5 mm in -y, nudged cube_a 4.8 mm, and left cube_b cocked at z=0.0509 m with face_gap_m=0.0061 m rather than settled flush (~0.045 m) with margin.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-sets-20261123/validation/raw/gem_spec_block_stack_spec01_single.txt",
+     "timestamp": "2026-11-23T23:06:13-0600",
+     "family": "Gemini (Google)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec02": {
+   "task": "block_stack",
+   "scene": "spec02",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "Execution smooth, only post\u2011task retreat fallback failed, which is an internal detail.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_block_stack.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec03": {
+   "task": "block_stack",
+   "scene": "spec03",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec07": {
+   "task": "block_stack",
+   "scene": "spec07",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec08": {
+   "task": "block_stack",
+   "scene": "spec08",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "No observable errors; the reported lift and retreat failures are controller internals.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_block_stack.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec09": {
+   "task": "block_stack",
+   "scene": "spec09",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec10": {
+   "task": "block_stack",
+   "scene": "spec10",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "Task completed without glitches; retreat failure occurs after completion and is non\u2011visible.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_block_stack.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec11": {
+   "task": "block_stack",
+   "scene": "spec11",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec13": {
+   "task": "block_stack",
+   "scene": "spec13",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "Straightforward execution; only the retreat move failed internally, no visible defect.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_block_stack.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "block_stack:spec14": {
+   "task": "block_stack",
+   "scene": "spec14",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec16": {
+   "task": "block_stack",
+   "scene": "spec16",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec17": {
+   "task": "block_stack",
+   "scene": "spec17",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:spec18": {
+   "task": "block_stack",
+   "scene": "spec18",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep453": {
+   "task": "block_stack",
+   "scene": "twin-ep453",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep489": {
+   "task": "block_stack",
+   "scene": "twin-ep489",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep498": {
+   "task": "block_stack",
+   "scene": "twin-ep498",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep499": {
+   "task": "block_stack",
+   "scene": "twin-ep499",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep527": {
+   "task": "block_stack",
+   "scene": "twin-ep527",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep546": {
+   "task": "block_stack",
+   "scene": "twin-ep546",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "block_stack:twin-ep549": {
+   "task": "block_stack",
+   "scene": "twin-ep549",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:anchor-ep2020": {
+   "task": "cable_clip",
+   "scene": "anchor-ep2020",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "No visible failure; failed moves are internal IK/retreat attempts after task completion.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_cable_clip.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "cable_clip:spec00": {
+   "task": "cable_clip",
+   "scene": "spec00",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "Final cable seated, no drops; failed moves are internal controller steps.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_cable_clip.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "cable_clip:spec01": {
+   "task": "cable_clip",
+   "scene": "spec01",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "Trajectory ends correctly, internal move failures do not affect outcome.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_cable_clip.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "cable_clip:spec02": {
+   "task": "cable_clip",
+   "scene": "spec02",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "All checks pass, internal move failures are not visible defects.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_cable_clip.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "cable_clip:spec03": {
+   "task": "cable_clip",
+   "scene": "spec03",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "No observable errors; listed failed moves are controller internals.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_cable_clip.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "cable_clip:spec04": {
+   "task": "cable_clip",
+   "scene": "spec04",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec05": {
+   "task": "cable_clip",
+   "scene": "spec05",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec06": {
+   "task": "cable_clip",
+   "scene": "spec06",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec07": {
+   "task": "cable_clip",
+   "scene": "spec07",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec08": {
+   "task": "cable_clip",
+   "scene": "spec08",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec09": {
+   "task": "cable_clip",
+   "scene": "spec09",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec10": {
+   "task": "cable_clip",
+   "scene": "spec10",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec11": {
+   "task": "cable_clip",
+   "scene": "spec11",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec12": {
+   "task": "cable_clip",
+   "scene": "spec12",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec13": {
+   "task": "cable_clip",
+   "scene": "spec13",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec14": {
+   "task": "cable_clip",
+   "scene": "spec14",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec15": {
+   "task": "cable_clip",
+   "scene": "spec15",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec16": {
+   "task": "cable_clip",
+   "scene": "spec16",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec17": {
+   "task": "cable_clip",
+   "scene": "spec17",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec18": {
+   "task": "cable_clip",
+   "scene": "spec18",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:spec19": {
+   "task": "cable_clip",
+   "scene": "spec19",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep1905": {
+   "task": "cable_clip",
+   "scene": "twin-ep1905",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep1969": {
+   "task": "cable_clip",
+   "scene": "twin-ep1969",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep2046": {
+   "task": "cable_clip",
+   "scene": "twin-ep2046",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep2068": {
+   "task": "cable_clip",
+   "scene": "twin-ep2068",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep2085": {
+   "task": "cable_clip",
+   "scene": "twin-ep2085",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "cable_clip:twin-ep2130": {
+   "task": "cable_clip",
+   "scene": "twin-ep2130",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:anchor-ep1609": {
+   "task": "eye_drops_to_basket",
+   "scene": "anchor-ep1609",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "NO",
+     "grade": "RECOVERED",
+     "pass_concur": "YES",
+     "reason": "grasp\u2011retry retreats indicate a visible failed grasp that was later recovered.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_eye_drops_to_basket.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "eye_drops_to_basket:spec00": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec00",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "same internal fallback moves, no visible defects.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_eye_drops_to_basket.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "eye_drops_to_basket:spec01": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec01",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "same internal fallback moves, no visible defects.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_eye_drops_to_basket.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "eye_drops_to_basket:spec02": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec02",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec03": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec03",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec06": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec06",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec07": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec07",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec08": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec08",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec09": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec09",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec11": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec11",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec14": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec14",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec15": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec15",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:spec16": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec16",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "only internal fallback moves (lift step1, release retreat) with no visible failure.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_eye_drops_to_basket.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "eye_drops_to_basket:spec17": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec17",
+   "variant": null,
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "NO",
+     "grade": "RECOVERED",
+     "pass_concur": "YES",
+     "reason": "contains a grasp\u2011retry retreat (failed grasp) that was recovered before completion.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_eye_drops_to_basket.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "eye_drops_to_basket:spec19": {
+   "task": "eye_drops_to_basket",
+   "scene": "spec19",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:twin-ep1630": {
+   "task": "eye_drops_to_basket",
+   "scene": "twin-ep1630",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:twin-ep1746": {
+   "task": "eye_drops_to_basket",
+   "scene": "twin-ep1746",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "eye_drops_to_basket:twin-ep1798": {
+   "task": "eye_drops_to_basket",
+   "scene": "twin-ep1798",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "ring_insert:anchor-ep7": {
+   "task": "ring_insert",
+   "scene": "anchor-ep7",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "family": "GPT-OSS (OpenAI)",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "Task-level GPT-OSS concurrence: no executed PASS exists; ring scenes correctly excluded from validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)"
+    }
+   ],
+   "status": "partial"
+  },
+  "ring_insert:ring_insert": {
+   "task": "ring_insert",
+   "scene": "ring_insert",
+   "variant": null,
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "No executed PASS exists; anchor ep7 lacks a certified solution and validator scenes contain FAIL records, with a known parameter defect, so the ring scenes are correctly excluded from the validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "ring_insert:spec00": {
+   "task": "ring_insert",
+   "scene": "spec00",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "family": "GPT-OSS (OpenAI)",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "Task-level GPT-OSS concurrence: no executed PASS exists; ring scenes correctly excluded from validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)"
+    }
+   ],
+   "status": "partial"
+  },
+  "ring_insert:spec01": {
+   "task": "ring_insert",
+   "scene": "spec01",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "family": "GPT-OSS (OpenAI)",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "Task-level GPT-OSS concurrence: no executed PASS exists; ring scenes correctly excluded from validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)"
+    }
+   ],
+   "status": "partial"
+  },
+  "ring_insert:spec02": {
+   "task": "ring_insert",
+   "scene": "spec02",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "family": "GPT-OSS (OpenAI)",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "Task-level GPT-OSS concurrence: no executed PASS exists; ring scenes correctly excluded from validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)"
+    }
+   ],
+   "status": "partial"
+  },
+  "ring_insert:spec03": {
+   "task": "ring_insert",
+   "scene": "spec03",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "family": "GPT-OSS (OpenAI)",
+     "verdict_good": "NO",
+     "grade": "NO-SOLUTION",
+     "pass_concur": "NO",
+     "reason": "Task-level GPT-OSS concurrence: no executed PASS exists; ring scenes correctly excluded from validated denominator.",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_ring_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)"
+    }
+   ],
+   "status": "partial"
+  },
+  "tool_insert:anchor-ep683": {
+   "task": "tool_insert",
+   "scene": "anchor-ep683",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "NO",
+     "grade": "RECOVERED",
+     "pass_concur": "YES",
+     "reason": "visible grasp retries and failed lifts occurred, but the task was completed after recovery",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_tool_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "tool_insert:spec00": {
+   "task": "tool_insert",
+   "scene": "spec00",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "no failed moves or interruptions; trajectory smooth and final checks passed",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_tool_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "tool_insert:spec06": {
+   "task": "tool_insert",
+   "scene": "spec06",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "only a post\u2011release retreat failure (internal IK fallback) after the task was already complete, not a visible defect",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_tool_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "tool_insert:spec08": {
+   "task": "tool_insert",
+   "scene": "spec08",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "tool_insert:spec09": {
+   "task": "tool_insert",
+   "scene": "spec09",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "only a post\u2011release retreat failure (internal) after completion, no visible issue",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_tool_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  },
+  "tool_insert:spec12": {
+   "task": "tool_insert",
+   "scene": "spec12",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "tool_insert:spec16": {
+   "task": "tool_insert",
+   "scene": "spec16",
+   "variant": null,
+   "legs": [],
+   "status": "pending"
+  },
+  "tool_insert:spec19": {
+   "task": "tool_insert",
+   "scene": "spec19",
+   "variant": "precedent-bundle",
+   "legs": [
+    {
+     "model": "gpt-oss-120b",
+     "verdict_good": "YES",
+     "grade": "CLEAN",
+     "pass_concur": "YES",
+     "reason": "only a post\u2011release retreat failure (internal) after task finish, trajectory otherwise clean",
+     "raw_output_path": "/home/openclaw/muse-work/zk0-validator-bundles-20261123/out_gptoss_tool_insert.txt",
+     "timestamp": "2026-11-23 (validator pass)",
+     "family": "GPT-OSS (OpenAI)"
+    }
+   ],
+   "status": "partial"
+  }
+ },
+ "notes": [
+  {
+   "type": "void_leg",
+   "subject": "Muse",
+   "note": "Muse is Meta, same family as generator Muse (Muse Wonder); never a validation leg in this program. Validator-pass Muse probes failed on missing credentials (MUSE_PROBE_NOT_OK), produced no verdicts; nothing credited."
+  },
+  {
+   "type": "void_scene",
+   "subject": "eye_drops_to_basket:spec12",
+   "note": "EXCLUDED by spec-only program V3 (failed_verification); removed from worklist per 2026-11-23 23:28 CT update. No leg spent on it in this program."
+  },
+  {
+   "type": "not_a_good_leg",
+   "subject": "V3 external agy leg (agy-verdict.json)",
+   "note": "Record-audit + spot re-execution confirmation, model unrecorded; does NOT satisfy either GOOD leg. Not entered as a leg."
+  },
+  {
+   "type": "ignored",
+   "subject": "grok-verdict.json",
+   "note": "Grok suspended by founder; ignored completely."
+  },
+  {
+   "type": "quota_log",
+   "note": "2026-11-23 evening: agy individual quotas exhausted on all groups after initial probes (Gemini carbon/neon/argon/hydrogen reset ~01:53 CT 2026-11-24; Claude opus/sonnet reset ~03:10 CT; GPT-OSS reset ~03:15 CT). One Gemini leg completed before exhaustion: block_stack spec01 via gemini-4-carbon-high (INCIDENT/GOOD=NO/PASS_CONCUR=YES). Claude Opus 5.5 is Leg-A substitute only if GPT-OSS still blocked after its reset."
+  },
+  {
+   "type": "pass_concur_note",
+   "note": "Precedent GPT-OSS outputs (2026-11-23 validator pass) predate the PASS_CONCUR token; pass_concur=YES recorded where GPT-OSS graded an executed PASS record (all but ring NO-SOLUTION scenes)."
+  }
+ ],
+ "summary": {
+  "fully_validated": 0,
+  "disputed": [],
+  "total_solutions": 80
+ }
+}

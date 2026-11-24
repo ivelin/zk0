@@ -1,0 +1,140 @@
+{
+ "task": "tool_insert",
+ "episode": 885,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 76.2,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.0512
+ },
+ "objects_final": {
+  "tool": [
+   0.07985830258196515,
+   0.013589421385573112,
+   0.05122780578597526
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "pinch-lift ok, tool z 0.002->0.036, grip stall -0.158 rad, slot at [0.234 0.058 0.045] yaw 0",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.147,
+    -0.0393,
+    0.0824
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0004,
+     0.0248,
+     0.0252
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.188
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.057,
+    -0.0591,
+    0.1111
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.057,
+    -0.0591,
+    0.1111
+   ],
+   "solved": true,
+   "via": "direct-pos-only"
+  },
+  {
+   "place_scan": "tool place",
+   "pinch_target": [
+    0.231,
+    0.0607,
+    0.0339
+   ],
+   "wrist_flex_deg": 64.8,
+   "pos_err_mm": 0.9
+  },
+  {
+   "carry": "tool place",
+   "obj_target": [
+    0.2341,
+    0.058,
+    0.048
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.044,
+    0.0033,
+    0.0411
+   ],
+   "solved": false
+  },
+  {
+   "move": "servo:lift-pos",
+   "target": [
+    0.044,
+    0.0033,
+    0.0411
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.0481,
+    0.0097,
+    0.0419
+   ],
+   "solved": false
+  },
+  {
+   "move": "servo:lift-pos",
+   "target": [
+    0.0481,
+    0.0097,
+    0.0419
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "servo": "tool",
+   "final_err_mm": 150.9,
+   "ok": false
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.0569,
+    0.031,
+    0.136
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v4",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/tool_insert__ep885_v4.xml"
+}

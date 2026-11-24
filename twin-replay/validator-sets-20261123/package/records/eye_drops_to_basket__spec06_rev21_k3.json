@@ -1,0 +1,372 @@
+{
+ "task": "eye_drops_to_basket",
+ "episode": "eye_drops_to_basket__spec06",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_inside_basket": true,
+  "support_is_basket": true,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "basket"
+  ],
+  "carton_z": 0.0205
+ },
+ "objects_final": {
+  "carton": [
+   0.3000372675239244,
+   0.16644143790751112,
+   0.020477391017456405
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, carton z 0.107->0.183",
+ "log": [
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2179,
+    -0.0014,
+    0.2228
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2811,
+    -0.0889,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.6
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 3.2
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0025,
+     0.0053,
+     0.0348
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2896,
+    -0.0923,
+    0.2369
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2889,
+    -0.092,
+    0.2356
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2803,
+    -0.0858,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.5
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 1.1
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0161,
+     0.0036,
+     0.0312
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2856,
+    -0.0846,
+    0.2306
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2856,
+    -0.0845,
+    0.2506
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2807,
+    -0.081,
+    0.1871
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.3
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.6
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0084,
+     -0.0225,
+     0.0259
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2781,
+    -0.089,
+    0.2242
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2781,
+    -0.089,
+    0.2442
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2889,
+    -0.0699,
+    0.187
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.2
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.3
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0085,
+     0.0207,
+     0.0273
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2921,
+    -0.0628,
+    0.2261
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2921,
+    -0.0628,
+    0.2462
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2802,
+    -0.0912,
+    0.1871
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 11.3
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 17.3
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0049,
+     0.0237,
+     0.0257
+    ],
+    "grip_stall_rad": 0.206,
+    "hold_grip_rad": 0.166
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2719,
+    -0.1084,
+    0.1471
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.271,
+    -0.1079,
+    0.146
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.2719,
+    -0.1084,
+    0.1738
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2711,
+    -0.108,
+    0.1726
+   ]
+  },
+  {
+   "move": "lift:step3",
+   "target": [
+    0.2719,
+    -0.1084,
+    0.2004
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2728,
+    -0.1088,
+    0.1981
+   ]
+  },
+  {
+   "place_scan": "eye place",
+   "branch": "free-orientation",
+   "pinch_target": [
+    0.3014,
+    0.1473,
+    0.0559
+   ],
+   "wrist_flex_deg": 60.1,
+   "pos_err_mm": 1.43,
+   "Rt": [
+    [
+     -0.218,
+     -0.921,
+     -0.324
+    ],
+    [
+     0.97,
+     -0.17,
+     -0.172
+    ],
+    [
+     0.103,
+     -0.352,
+     0.93
+    ]
+   ]
+  },
+  {
+   "carry": "eye place",
+   "obj_target": [
+    0.3,
+    0.15,
+    0.04
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3042,
+    0.1335,
+    0.1371
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "eye_drops_to_basket__spec06",
+ "scene_index": 6,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "f322c064e300ccffcb569bb87cc555c4956b07e299bec1a598d894b462e41e71",
+ "scene_variant": "k=3",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

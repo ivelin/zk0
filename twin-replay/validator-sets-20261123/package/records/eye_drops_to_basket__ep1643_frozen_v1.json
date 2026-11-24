@@ -1,0 +1,112 @@
+{
+ "task": "eye_drops_to_basket",
+ "episode": 1643,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "centre_inside_basket": true,
+  "support_is_basket": true,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "basket",
+   "moving_jaw_so101_v1"
+  ],
+  "carton_z": 0.0205
+ },
+ "objects_final": {
+  "carton": [
+   0.09052147516920786,
+   0.15303566656327303,
+   0.020483208458285072
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, carton z 0.107->0.182",
+ "log": [
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.218,
+    -0.0014,
+    0.2231
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2544,
+    -0.0974,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.004,
+     0.0269,
+     0.0225
+    ],
+    "grip_stall_rad": 0.196,
+    "hold_grip_rad": 0.166
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2576,
+    -0.1195,
+    0.2011
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.2576,
+    -0.1195,
+    0.2011
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "place_scan": "eye place",
+   "pinch_target": [
+    0.1043,
+    0.1564,
+    0.0558
+   ],
+   "wrist_flex_deg": 70.6,
+   "pos_err_mm": 1.07
+  },
+  {
+   "carry": "eye place",
+   "obj_target": [
+    0.0935,
+    0.1578,
+    0.04
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.0953,
+    0.1339,
+    0.1261
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v1",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/eye_drops_to_basket__ep1643_v1.xml"
+}

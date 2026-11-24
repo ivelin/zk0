@@ -1,0 +1,2926 @@
+{
+ "generated_by": "Muse (Muse Wonder)",
+ "scenes": [
+  {
+   "task": "block_stack",
+   "episode": 411,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "rev21",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 453,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 489,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 498,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "rev21",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 499,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 527,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 546,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 549,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 476,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "nominal",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 1
+  },
+  {
+   "task": "block_stack",
+   "episode": 479,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "nominal",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 1
+  },
+  {
+   "task": "block_stack",
+   "episode": 513,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev21",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "rev21",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: displacement 6.7mm",
+   "attempts_total": 3
+  },
+  {
+   "task": "block_stack",
+   "episode": 514,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "nominal",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 1
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1609,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1630,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1746,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1760,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1778,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v3",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 5
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1783,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1798,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1821,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "pose_-x",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "attempts_total": 8
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1618,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "nominal",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 1
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1639,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "attempts_total": 3
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1643,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 3
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1724,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v4",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 6
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1741,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "nominal",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "attempts_total": 1
+  },
+  {
+   "task": "tool_insert",
+   "episode": 683,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "tool_insert",
+   "episode": 684,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 697,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "attempts_total": 4
+  },
+  {
+   "task": "tool_insert",
+   "episode": 830,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 852,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 883,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 885,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 3
+  },
+  {
+   "task": "tool_insert",
+   "episode": 888,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 622,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v2",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 4
+  },
+  {
+   "task": "tool_insert",
+   "episode": 629,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "ERROR"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 630,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 779,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 784,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 824,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "ERROR"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "tool_insert",
+   "episode": 859,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "frozen",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 10
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1905,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1969,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2020,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2046,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2068,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2085,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "frozen",
+   "attempts_total": 2,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2125,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v1",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 4
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2130,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [],
+   "certified_pre": true,
+   "pass_controller_pre": "rev21",
+   "attempts_total": 3,
+   "certified": true,
+   "pre_certified": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1896,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v2",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 4
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1903,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "frozen",
+   "variant": "v3",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 5
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1939,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "frozen",
+     "variant": "v4",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 6
+  },
+  {
+   "task": "ring_insert",
+   "episode": 7,
+   "source": "existing scenes-v2",
+   "prior_attempts": 4,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1,
+    "rev3": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 30,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 33,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 50,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 167,
+   "source": "existing scenes-v2",
+   "prior_attempts": 4,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1,
+    "rev3": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 179,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 195,
+   "source": "existing scenes-v2",
+   "prior_attempts": 3,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1,
+    "rev2": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 198,
+   "source": "existing scenes-v2",
+   "prior_attempts": 2,
+   "prior_by_controller": {
+    "frozen": 1,
+    "rev21": 1
+   },
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 11,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 31,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 48,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "PASS"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": true,
+   "controller": "rev3",
+   "variant": "v2",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "attempts_total": 5
+  },
+  {
+   "task": "ring_insert",
+   "episode": 160,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  },
+  {
+   "task": "ring_insert",
+   "episode": 165,
+   "source": "converted from v1 twin scene (arm-include swap)",
+   "prior_attempts": 0,
+   "prior_by_controller": {},
+   "attempts_tonight": [
+    {
+     "route": "A",
+     "controller": "frozen",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev21",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "A",
+     "controller": "rev3",
+     "variant": "nominal",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v1",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v2",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v3",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "B",
+     "controller": "rev3",
+     "variant": "v4",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-x",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_+y",
+     "verdict": "FAIL"
+    },
+    {
+     "route": "C",
+     "controller": "rev3",
+     "variant": "pose_-y",
+     "verdict": "FAIL"
+    }
+   ],
+   "certified_pre": false,
+   "pass_controller_pre": null,
+   "certified": false,
+   "status": "UNPROVEN",
+   "attempts_total": 11
+  }
+ ],
+ "variant_episodes": [
+  {
+   "task": "block_stack",
+   "episode": 489,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "block_stack",
+   "episode": 499,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1609,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1746,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "eye_drops_to_basket",
+   "episode": 1798,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "tool_insert",
+   "episode": 697,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "tool_insert",
+   "episode": 885,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "tool_insert",
+   "episode": 622,
+   "variant": "v2",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "tool_insert",
+   "episode": 697,
+   "variant": "v4",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "RECOVERED",
+   "cleanliness_basis": "recovered events in record: retry",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1905,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 1969,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2020,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "cable_clip",
+   "episode": 2046,
+   "variant": "v1",
+   "controller": "frozen",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "distinct_variant_episode": true
+  },
+  {
+   "task": "ring_insert",
+   "episode": 48,
+   "variant": "v2",
+   "controller": "rev3",
+   "certification": "max final-position delta 0.00 mm",
+   "cleanliness": "CLEAN",
+   "cleanliness_basis": "no retry/failed-grasp/displacement markers in execution record",
+   "note": "DUPLICATE of canonical solution (ep48 canonical solution is itself rev3/v2); this was a re-execution of the canonical variant, NOT a distinct variant episode. Excluded from distinct variant-episode count.",
+   "distinct_variant_episode": false
+  }
+ ],
+ "a_material": {
+  "block_stack": 14,
+  "eye_drops_to_basket": 14,
+  "tool_insert": 8,
+  "cable_clip": 14,
+  "ring_insert": 2
+ },
+ "a_material_corrected": {
+  "block_stack": 14,
+  "eye_drops_to_basket": 14,
+  "tool_insert": 8,
+  "cable_clip": 14,
+  "ring_insert": 1
+ }
+}

@@ -1,0 +1,1381 @@
+{
+ "generated": "2026-11-24 morning assembly",
+ "generator_family": "Muse (Muse Wonder)",
+ "cable_collapse_note": "suite1 cable: 19 nominal canonicals dropped as byte-identical duplicates of spec00 k0 (md5 e6d0a75e); suite2 cable: 19 nominal canonicals dropped as byte-identical duplicates (md5 8562a1cd)",
+ "cable_harvest_episodes_merged": 0,
+ "summary": {
+  "block_stack": {
+   "A_pool_distinct": 14,
+   "A_set": 10,
+   "spec_pool_distinct": 30,
+   "spec_nominal_in_pool": 11,
+   "B": 8,
+   "C": 8,
+   "D": 7,
+   "E": 7,
+   "spec_total_in_sets": 30
+  },
+  "eye_drops_to_basket": {
+   "A_pool_distinct": 14,
+   "A_set": 10,
+   "spec_pool_distinct": 29,
+   "spec_nominal_in_pool": 2,
+   "B": 8,
+   "C": 7,
+   "D": 7,
+   "E": 7,
+   "spec_total_in_sets": 29
+  },
+  "ring_insert": {
+   "A_pool_distinct": 1,
+   "A_set": 1,
+   "spec_pool_distinct": 0,
+   "spec_nominal_in_pool": 0,
+   "B": 0,
+   "C": 0,
+   "D": 0,
+   "E": 0,
+   "spec_total_in_sets": 0
+  },
+  "tool_insert": {
+   "A_pool_distinct": 5,
+   "A_set": 5,
+   "spec_pool_distinct": 14,
+   "spec_nominal_in_pool": 3,
+   "B": 4,
+   "C": 4,
+   "D": 3,
+   "E": 3,
+   "spec_total_in_sets": 14
+  },
+  "cable_clip": {
+   "A_pool_distinct": 14,
+   "A_set": 10,
+   "spec_pool_distinct": 5,
+   "spec_nominal_in_pool": 2,
+   "B": 2,
+   "C": 1,
+   "D": 1,
+   "E": 1,
+   "spec_total_in_sets": 5
+  }
+ },
+ "sets": {
+  "block_stack": {
+   "A": [
+    {
+     "id": "twin ep453 k0",
+     "scene": "block_stack__ep453",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep476 nominal",
+     "scene": "block_stack__ep476",
+     "variant": "nominal",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep479 nominal",
+     "scene": "block_stack__ep479",
+     "variant": "nominal",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep489 k0",
+     "scene": "block_stack__ep489",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep498 k0",
+     "scene": "block_stack__ep498",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1 (\u00a713 union register; PASS record also in results2-canonical/rev2)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep499 k0",
+     "scene": "block_stack__ep499",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (PASS records in results-env-frozen and results-env-rev21)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep514 nominal",
+     "scene": "block_stack__ep514",
+     "variant": "nominal",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep527 k0",
+     "scene": "block_stack__ep527",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep546 k0",
+     "scene": "block_stack__ep546",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep549 k0",
+     "scene": "block_stack__ep549",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (PASS records in both env batches)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    }
+   ],
+   "B": [
+    {
+     "id": "s1 spec02 k0",
+     "scene": "block_stack__spec02",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec13 k0",
+     "scene": "block_stack__spec13",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec08 k0",
+     "scene": "block_stack__spec08",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec07 k2",
+     "scene": "block_stack__spec07",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec17 k4",
+     "scene": "block_stack__spec17",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec06 k2",
+     "scene": "block_stack__spec06",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec14 k1",
+     "scene": "block_stack__spec14",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec19 k3",
+     "scene": "block_stack__spec19",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "C": [
+    {
+     "id": "s1 spec03 k0",
+     "scene": "block_stack__spec03",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec02 k0",
+     "scene": "block_stack__spec02",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec16 k0",
+     "scene": "block_stack__spec16",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec11 k1",
+     "scene": "block_stack__spec11",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec18 k1",
+     "scene": "block_stack__spec18",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec07 k2",
+     "scene": "block_stack__spec07",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec15 k1",
+     "scene": "block_stack__spec15",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec09 k3",
+     "scene": "block_stack__spec09",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    }
+   ],
+   "D": [
+    {
+     "id": "s1 spec08 k0",
+     "scene": "block_stack__spec08",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec03 k0",
+     "scene": "block_stack__spec03",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec12 k0",
+     "scene": "block_stack__spec12",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec14 k1",
+     "scene": "block_stack__spec14",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec01 k1",
+     "scene": "block_stack__spec01",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec09 k4",
+     "scene": "block_stack__spec09",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec17 k2",
+     "scene": "block_stack__spec17",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "E": [
+    {
+     "id": "s1 spec10 k0",
+     "scene": "block_stack__spec10",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec05 k0",
+     "scene": "block_stack__spec05",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec01 k7",
+     "scene": "block_stack__spec01",
+     "variant": "k7",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gemini-4-carbon-high",
+       "good": "NO",
+       "grade": "INCIDENT"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec16 k1",
+     "scene": "block_stack__spec16",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec04 k1",
+     "scene": "block_stack__spec04",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec10 k4",
+     "scene": "block_stack__spec10",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec18 k2",
+     "scene": "block_stack__spec18",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ]
+  },
+  "eye_drops_to_basket": {
+   "A": [
+    {
+     "id": "twin ep1618 nominal",
+     "scene": "eye_drops_to_basket__ep1618",
+     "variant": "nominal",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1630 k0",
+     "scene": "eye_drops_to_basket__ep1630",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1746 k0",
+     "scene": "eye_drops_to_basket__ep1746",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1609 k0",
+     "scene": "eye_drops_to_basket__ep1609",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+     "cleanliness": "RECOVERED",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "NO",
+       "grade": "RECOVERED"
+      }
+     ],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1741 nominal",
+     "scene": "eye_drops_to_basket__ep1741",
+     "variant": "nominal",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1798 k0",
+     "scene": "eye_drops_to_basket__ep1798",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1643 v1",
+     "scene": "eye_drops_to_basket__ep1643",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1724 v4",
+     "scene": "eye_drops_to_basket__ep1724",
+     "variant": "v4",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1746 v1",
+     "scene": "eye_drops_to_basket__ep1746",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight variant harvest"
+    },
+    {
+     "id": "twin ep1778 v3",
+     "scene": "eye_drops_to_basket__ep1778",
+     "variant": "v3",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    }
+   ],
+   "B": [
+    {
+     "id": "s1 spec16 k0",
+     "scene": "eye_drops_to_basket__spec16",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec08 k6",
+     "scene": "eye_drops_to_basket__spec08",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec13 k6",
+     "scene": "eye_drops_to_basket__spec13",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec02 k1",
+     "scene": "eye_drops_to_basket__spec02",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec09 k4",
+     "scene": "eye_drops_to_basket__spec09",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec17 k1",
+     "scene": "eye_drops_to_basket__spec17",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "NO",
+       "grade": "RECOVERED"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec07 k6",
+     "scene": "eye_drops_to_basket__spec07",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec15 k3",
+     "scene": "eye_drops_to_basket__spec15",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "C": [
+    {
+     "id": "s2 spec09 k0",
+     "scene": "eye_drops_to_basket__spec09",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec02 k6",
+     "scene": "eye_drops_to_basket__spec02",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec14 k6",
+     "scene": "eye_drops_to_basket__spec14",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec03 k3",
+     "scene": "eye_drops_to_basket__spec03",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec11 k3",
+     "scene": "eye_drops_to_basket__spec11",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec19 k2",
+     "scene": "eye_drops_to_basket__spec19",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec08 k2",
+     "scene": "eye_drops_to_basket__spec08",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "D": [
+    {
+     "id": "s1 spec00 k1",
+     "scene": "eye_drops_to_basket__spec00",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec04 k2",
+     "scene": "eye_drops_to_basket__spec04",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec16 k1",
+     "scene": "eye_drops_to_basket__spec16",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec06 k3",
+     "scene": "eye_drops_to_basket__spec06",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec14 k4",
+     "scene": "eye_drops_to_basket__spec14",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec00 k6",
+     "scene": "eye_drops_to_basket__spec00",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec11 k2",
+     "scene": "eye_drops_to_basket__spec11",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "E": [
+    {
+     "id": "s1 spec01 k1",
+     "scene": "eye_drops_to_basket__spec01",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec10 k6",
+     "scene": "eye_drops_to_basket__spec10",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec19 k6",
+     "scene": "eye_drops_to_basket__spec19",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec07 k4",
+     "scene": "eye_drops_to_basket__spec07",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec15 k3",
+     "scene": "eye_drops_to_basket__spec15",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec03 k4",
+     "scene": "eye_drops_to_basket__spec03",
+     "variant": "k4",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec12 k1",
+     "scene": "eye_drops_to_basket__spec12",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ]
+  },
+  "ring_insert": {
+   "A": [
+    {
+     "id": "twin ep48 v2",
+     "scene": "ring_insert__ep48",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev3",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    }
+   ],
+   "B": [],
+   "C": [],
+   "D": [],
+   "E": []
+  },
+  "tool_insert": {
+   "A": [
+    {
+     "id": "twin ep683 k0",
+     "scene": "tool_insert__ep683",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (\u00a713 union register: tool 683 frozen set, refcore.py + run_reference.py)",
+     "cleanliness": "RECOVERED",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "NO",
+       "grade": "RECOVERED"
+      }
+     ],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep622 v2",
+     "scene": "tool_insert__ep622",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep885 v1",
+     "scene": "tool_insert__ep885",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep697 v1",
+     "scene": "tool_insert__ep697",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep697 v4",
+     "scene": "tool_insert__ep697",
+     "variant": "v4",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "tonight variant harvest"
+    }
+   ],
+   "B": [
+    {
+     "id": "s1 spec00 k0",
+     "scene": "tool_insert__spec00",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec19 k3",
+     "scene": "tool_insert__spec19",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec08 k2",
+     "scene": "tool_insert__spec08",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec12 k2",
+     "scene": "tool_insert__spec12",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    }
+   ],
+   "C": [
+    {
+     "id": "s1 spec06 k0",
+     "scene": "tool_insert__spec06",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec03 k6",
+     "scene": "tool_insert__spec03",
+     "variant": "k6",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec15 k2",
+     "scene": "tool_insert__spec15",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec16 k7",
+     "scene": "tool_insert__spec16",
+     "variant": "k7",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    }
+   ],
+   "D": [
+    {
+     "id": "s2 spec11 k0",
+     "scene": "tool_insert__spec11",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec06 k8",
+     "scene": "tool_insert__spec06",
+     "variant": "k8",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s2 spec19 k1",
+     "scene": "tool_insert__spec19",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "E": [
+    {
+     "id": "s1 spec09 k3",
+     "scene": "tool_insert__spec09",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s2 spec07 k7",
+     "scene": "tool_insert__spec07",
+     "variant": "k7",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    },
+    {
+     "id": "s1 spec08 k8",
+     "scene": "tool_insert__spec08",
+     "variant": "k8",
+     "nominal": false,
+     "controller": "rev2.1",
+     "cleanliness": "RECOVERED",
+     "legs": [],
+     "origin": "suite1 seed20261127"
+    }
+   ]
+  },
+  "cable_clip": {
+   "A": [
+    {
+     "id": "twin ep1905 k0",
+     "scene": "cable_clip__ep1905",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1969 k0",
+     "scene": "cable_clip__ep1969",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep2020 k0",
+     "scene": "cable_clip__ep2020",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (both versions, \u00a713)",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep2046 k0",
+     "scene": "cable_clip__ep2046",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep2068 k0",
+     "scene": "cable_clip__ep2068",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (PASS records in both env batches)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep2085 k0",
+     "scene": "cable_clip__ep2085",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "frozen + rev2.1 (PASS records in both env batches)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep2130 k0",
+     "scene": "cable_clip__ep2130",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1 (\u00a713 union register; PASS record also in results2-canonical/rev2)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "pre-2026-11-23 certified"
+    },
+    {
+     "id": "twin ep1896 v2",
+     "scene": "cable_clip__ep1896",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1903 v3",
+     "scene": "cable_clip__ep1903",
+     "variant": "v3",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight (converted v1 twin)"
+    },
+    {
+     "id": "twin ep1905 v1",
+     "scene": "cable_clip__ep1905",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "tonight variant harvest"
+    }
+   ],
+   "B": [
+    {
+     "id": "s1 spec00 k0",
+     "scene": "cable_clip__spec00",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 seed20261127"
+    },
+    {
+     "id": "s1 spec03 k3 (validator-pass draw)",
+     "scene": "cable_clip__spec03",
+     "variant": "k3",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 validator-pass distinct draw"
+    }
+   ],
+   "C": [
+    {
+     "id": "s2 spec00 k0",
+     "scene": "cable_clip__spec00",
+     "variant": "k0",
+     "nominal": true,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "suite2 seed20261128"
+    }
+   ],
+   "D": [
+    {
+     "id": "s1 spec01 k1 (validator-pass draw)",
+     "scene": "cable_clip__spec01",
+     "variant": "k1",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 validator-pass distinct draw"
+    }
+   ],
+   "E": [
+    {
+     "id": "s1 spec02 k2 (validator-pass draw)",
+     "scene": "cable_clip__spec02",
+     "variant": "k2",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 validator-pass distinct draw"
+    }
+   ]
+  }
+ }
+}

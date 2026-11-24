@@ -1,0 +1,495 @@
+{
+ "task": "tool_insert",
+ "episode": 622,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 45.1,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.0375
+ },
+ "objects_final": {
+  "tool": [
+   0.05655263273917282,
+   -0.05389997130660191,
+   0.037516291014673527
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "grasp of tool infeasible in all yaw branches",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0891,
+    -0.0692,
+    0.0816
+   ],
+   "solved": true,
+   "via": "direct-pos-only"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0052,
+     0.0333,
+     0.0107
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.19
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.131,
+    -0.132,
+    0.1307
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1306,
+    -0.1312,
+    0.1297
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0692,
+    0.1188
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0242,
+     -0.0055,
+     0.0252
+    ],
+    "grip_stall_rad": -0.023,
+    "hold_grip_rad": -0.053
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.0404,
+    -0.0683,
+    0.1057
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.0404,
+    -0.0683,
+    0.1257
+   ],
+   "solved": true,
+   "via": "direct-pos-only"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0557,
+    -0.0552,
+    0.1183
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0557,
+    -0.0552,
+    0.0883
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0557,
+    -0.0552,
+    0.0683
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.0339,
+    -0.0877,
+    0.1187
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0562,
+    -0.0547,
+    0.1179
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0562,
+    -0.0547,
+    0.0879
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0562,
+    -0.0547,
+    0.0679
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.1175
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0875
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0566,
+    -0.0539,
+    0.0675
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v3",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/tool_insert__ep622_v3.xml"
+}

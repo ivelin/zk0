@@ -1,0 +1,190 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec07",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": true,
+  "axis_angle_deg": 12.3,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.048
+ },
+ "objects_final": {
+  "tool": [
+   0.3593132403368029,
+   0.06049767240200839,
+   0.04801604507421441
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, tool z 0.004->0.086, grip stall -0.151 rad, slot at [0.35  0.06  0.041] yaw 0",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1874,
+    0.0374,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0031,
+     -0.0059,
+     0.0347
+    ],
+    "grip_stall_rad": 0.563,
+    "hold_grip_rad": 0.533
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2088,
+    0.0551,
+    0.1136
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2096,
+    0.0539,
+    0.1134
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1791,
+    0.0446,
+    0.0838
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0068,
+     0.0239,
+     0.0251
+    ],
+    "grip_stall_rad": -0.151,
+    "hold_grip_rad": -0.181
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.193,
+    0.0358,
+    0.0992
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1922,
+    0.0356,
+    0.0982
+   ]
+  },
+  {
+   "place_scan": "tool place",
+   "branch": "free-orientation",
+   "pinch_target": [
+    0.346,
+    0.0605,
+    0.0603
+   ],
+   "wrist_flex_deg": 37.9,
+   "pos_err_mm": 3.27,
+   "Rt": [
+    [
+     -0.253,
+     -0.786,
+     -0.564
+    ],
+    [
+     0.966,
+     -0.233,
+     -0.109
+    ],
+    [
+     -0.046,
+     -0.572,
+     0.819
+    ]
+   ]
+  },
+  {
+   "carry": "tool place",
+   "obj_target": [
+    0.35,
+    0.06,
+    0.048
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.3482,
+    0.0576,
+    0.089
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3476,
+    0.0562,
+    0.0884
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.3653,
+    0.0605,
+    0.0886
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3644,
+    0.0594,
+    0.0878
+   ]
+  },
+  {
+   "servo": "tool",
+   "final_err_mm": 24.1,
+   "ok": true
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3556,
+    0.0877,
+    0.165
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec07",
+ "scene_index": 7,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "e1349dd603b26364f1fc86a0d4d6d327093b987e56c6903809d3ea4a2122bfb8",
+ "scene_variant": "k=7",
+ "variant_kind": "corner:pose_+y",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

@@ -1,0 +1,202 @@
+{
+ "task": "tool_insert",
+ "episode": 697,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": true,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": true,
+  "axis_angle_deg": 5.5,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.048
+ },
+ "objects_final": {
+  "tool": [
+   0.24336235558513697,
+   0.06094350452271868,
+   0.0480324957262869
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, tool z 0.005->0.090, grip stall -0.157 rad, slot at [0.234 0.058 0.045] yaw 0",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.08,
+    0.1498,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0022,
+     0.0185,
+     0.03
+    ],
+    "grip_stall_rad": 0.042,
+    "hold_grip_rad": 0.012
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.0913,
+    0.1951,
+    0.1055
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.0914,
+    0.1957,
+    0.1049
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0799,
+    0.1432,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.024,
+     -0.0044,
+     0.0255
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.0921,
+    0.1648,
+    0.1001
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.0921,
+    0.1639,
+    0.0991
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0799,
+    0.1432,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0016,
+     -0.0274,
+     0.0222
+    ],
+    "grip_stall_rad": -0.157,
+    "hold_grip_rad": -0.187
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.0806,
+    0.1602,
+    0.0993
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.0804,
+    0.1592,
+    0.0983
+   ]
+  },
+  {
+   "place_scan": "tool place",
+   "pinch_target": [
+    0.2339,
+    0.0572,
+    0.0567
+   ],
+   "wrist_flex_deg": 72.8,
+   "pos_err_mm": 0.88
+  },
+  {
+   "carry": "tool place",
+   "obj_target": [
+    0.2341,
+    0.058,
+    0.048
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2359,
+    0.0588,
+    0.0904
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2357,
+    0.0594,
+    0.0903
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.2436,
+    0.0619,
+    0.0901
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2434,
+    0.0624,
+    0.09
+   ]
+  },
+  {
+   "servo": "tool",
+   "final_err_mm": 33.0,
+   "ok": false
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.2434,
+    0.0497,
+    0.1728
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v1",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/tool_insert__ep697_v1.xml"
+}

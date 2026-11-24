@@ -1,0 +1,2630 @@
+{
+ "program": "zk0 validator-set program \u2014 certified-solution harvest (2026-11-23 overnight)",
+ "generator_family": "Muse (Muse Wonder)",
+ "valid_leg_families": [
+  "Gemini (Google) via agy",
+  "GPT-OSS 120B via agy",
+  "Claude (Anthropic) via agy"
+ ],
+ "grok_legs_counted": 0,
+ "grading_rule": "CLEAN = no failed grasp attempts/retries and no failed moves before task completion in the canonical record log (IK pos-only fallbacks while holding the object and post-completion retreat IK failures are disclosed in evidence and do not dirty the grade, per validator-pass precedent on block spec02/spec08); RECOVERED = failed grasp attempts/retries occurred but the task completed; INCIDENT = completed with glitches lacking a distinct recovery. Validator-pass grades kept where they exist.",
+ "totals_by_task": {
+  "block_stack": {
+   "certified": 21,
+   "CLEAN": 19,
+   "RECOVERED": 2,
+   "INCIDENT": 0,
+   "fully_validated_2_of_2_legs": 0,
+   "legs_owed_total": 37
+  },
+  "cable_clip": {
+   "certified": 27,
+   "CLEAN": 27,
+   "RECOVERED": 0,
+   "INCIDENT": 0,
+   "fully_validated_2_of_2_legs": 0,
+   "legs_owed_total": 49
+  },
+  "eye_drops_to_basket": {
+   "certified": 19,
+   "CLEAN": 6,
+   "RECOVERED": 13,
+   "INCIDENT": 0,
+   "fully_validated_2_of_2_legs": 0,
+   "legs_owed_total": 33
+  },
+  "tool_insert": {
+   "certified": 8,
+   "CLEAN": 4,
+   "RECOVERED": 4,
+   "INCIDENT": 0,
+   "fully_validated_2_of_2_legs": 0,
+   "legs_owed_total": 11
+  }
+ },
+ "grand_totals": {
+  "certified": 75,
+  "CLEAN": 56,
+  "RECOVERED": 19,
+  "INCIDENT": 0,
+  "fully_validated": 0,
+  "legs_owed_total": 130
+ },
+ "inconsistencies": [
+  "eye spec01: register canonical_solution = rev2.1 k1 (record eye_drops_to_basket__spec01_rev21_k1.json), whose log carries grasp retries (mechanical grade RECOVERED). The validator-pass report's canonical is rev2.1 k2 (single grasp, CLEAN), certified in ~/muse-work/zk0-validator-pass-20261123/results/cert2/. The FULL-suite register was never updated to the superseding canonical. Inventory grades the scene CLEAN per the validator-pass report and lists both records.",
+  "eye spec16: register canonical_solution = rev2.1 k0 nominal (record carries grasp retries; mechanical grade RECOVERED). Validator-pass canonical is rev2.1 k4 (single grasp, CLEAN), certified in the validator-pass workdir. Register not updated. Inventory grades CLEAN per validator-pass report.",
+  "cable spec00-spec03: register canonical for ALL 20 cable scenes is rev2.1 k0 nominal, and all 20 nominal scene files are byte-identical (validator-pass identity finding, register gap G-C1). The validator-pass GPT-OSS leg graded DISTINCT variant draws executed in the validator-pass workdir (spec00 k0 / spec01 k1 / spec02 k2 / spec03 k3, frozen controller) \u2014 not the register canonical executions. The 16 non-graded cable register canonicals inherit CLEAN-by-record grading only; their nominal scenes are the same identical file.",
+  "tool spec06: validator-pass grade CLEAN (kept) conflicts with the canonical record log, which contains 2 grasp-retry:retreat moves (2 failed grasp attempts before the successful grasp) plus servo final_err ok=False. Under the harvest's mechanical rule this record grades RECOVERED. Flagged, not silently resolved.",
+  "Twins passing under ONE controller version only (contrary to the brief's 'others both versions' for non-\u00a713 scenes): block ep527, block ep546, eye ep1609, cable ep1905, cable ep2046 \u2014 PASS records exist only in results-env-frozen; the corresponding rev2.1 env records are not PASS. Canonical version for these five is frozen only.",
+  "block ep411 / ep498 and cable ep2130: \u00a713 assigns rev2.1 as the union-register canonical version, but PASS records also exist in results2-canonical (rev2). Inventory follows \u00a713 for the canonical version and records the rev2 PASS as an additional passing version.",
+  "eye spec12: canonical record phase_notes state 'grasp of carton infeasible in all yaw branches' yet the record verdict is PASS and the scene is certified in the register. Graded RECOVERED from its log (grasp retries present, task completed). The phase-note/verdict tension is flagged, not resolved.",
+  "No certified scene was found with a missing canonical builder record: all 55 spec-only canonical record files exist on the desktop, and all 20 twin canonical records exist on the DGX. Ring: 0 certified solutions in either source (register: 20/20 UNPROVEN) \u2014 no ring rows exist to inventory."
+ ],
+ "solutions": [
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec01",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 7,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec01_frozen_k7.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec01_frozen_k7_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec01_frozen_k7_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec02",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec02_frozen.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/block_stack__spec02_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/block_stack__spec02_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN (one IK lift fallback while holding cube, disclosed); GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec03",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec03_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/block_stack__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/block_stack__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 6.7
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec07",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 2,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec07_frozen_k2.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec07_frozen_k2_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec07_frozen_k2_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec08",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec08_frozen.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/block_stack__spec08_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/block_stack__spec08_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN (IK lift fallback disclosed); GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec09",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec09_frozen_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec09_frozen_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec09_frozen_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 2,
+    "grasp_retry_moves": 1,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec10",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec10_frozen.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/block_stack__spec10_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/block_stack__spec10_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN; GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec11",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec11_frozen_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec11_frozen_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec11_frozen_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "servo:lift",
+     "servo:lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec13",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec13_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/block_stack__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/block_stack__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 1.7
+   },
+   "grade_note": "validator-pass graded CLEAN; GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec14",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec14_frozen_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec14_frozen_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec14_frozen_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec16",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec16_frozen_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec16_frozen_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec16_frozen_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec17",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 4,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec17_frozen_k4.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec17_frozen_k4_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec17_frozen_k4_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "block_stack",
+   "scene_id": "block_stack__spec18",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/block_stack__spec18_frozen_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "block_stack__spec18_frozen_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "block_stack__spec18_frozen_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec00",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec00_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec00_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec00_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN-by-record on the k0 distinct draw (frozen controller, validator-pass workdir); GPT-OSS CLEAN/GOOD=YES. Register canonical is rev2.1 k0 \u2014 a different execution of the identical nominal scene file. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec01",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec01_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec01_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec01_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN-by-record on the k1 distinct draw (frozen controller, validator-pass workdir); GPT-OSS CLEAN/GOOD=YES. Register canonical is rev2.1 k0 nominal. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec02",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec02_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec02_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec02_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN-by-record on the k2 distinct draw (frozen controller, validator-pass workdir); GPT-OSS CLEAN/GOOD=YES. Register canonical is rev2.1 k0 nominal. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec03",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec03_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN-by-record on the k3 distinct draw (frozen controller, validator-pass workdir); GPT-OSS CLEAN/GOOD=YES. Register canonical is rev2.1 k0 nominal. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec04",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec04_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec04_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec04_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec05",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec05_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec05_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec05_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec06",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec06_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec07",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec07_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec07_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec07_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec08",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec08_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec08_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec08_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec09",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec09_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec09_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec09_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec10",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec10_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec10_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec10_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec11",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec11_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec11_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec11_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec12",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec12_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec12_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec12_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec13",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec13_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec14",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec14_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec14_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec14_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec15",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec15_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec15_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec15_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec16",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec16_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec17",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec17_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec17_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec17_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec18",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec18_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec18_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec18_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__spec19",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/cable_clip__spec19_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/cable_clip__spec19_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/cable_clip__spec19_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "CLEAN-by-record (validator-pass cable convention): weld-device execution, one cable:over-channel IK pos-only fallback, post-completion cable:retreat IK failure \u2014 neither dirties the grade. Weld-device caveat applies (not a natural manipulation trajectory).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec00",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec00_rev21_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec00_rev21_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec00_rev21_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 6.5
+   },
+   "grade_note": "validator-pass graded CLEAN (canonical rev2.1 k1, single grasp); GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec01",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec01_rev21_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec01_rev21_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec01_rev21_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 4,
+    "grasp_retry_moves": 3,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 20.1
+   },
+   "grade_note": "validator-pass graded CLEAN on SUPERSEDING canonical rev2.1 k2 (single grasp), certified in validator-pass cert2/ \u2014 register canonical k1 record itself carries grasp retries (would grade RECOVERED); GPT-OSS CLEAN/GOOD=YES. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec02",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec02_rev21_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec02_rev21_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec02_rev21_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 6.5
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec03",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec03_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec03_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec03_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 4,
+    "grasp_retry_moves": 3,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 10.6
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec06",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec06_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec06_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec06_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 17.3
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec07",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 4,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec07_rev21_k4.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec07_rev21_k4_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec07_rev21_k4_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 16.1
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec08",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 6,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec08_rev21_k6.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec08_rev21_k6_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec08_rev21_k6_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 15.5
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec09",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 4,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec09_rev21_k4.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec09_rev21_k4_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec09_rev21_k4_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "lift:step3"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 10.3
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec11",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec11_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec11_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec11_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "lift:step3"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 15.6
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec12",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 6,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec12_rev21_k6.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec12_rev21_k6_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec12_rev21_k6_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 19,
+    "grasp_retry_moves": 19,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat"
+    ],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 36.9
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec14",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 4,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec14_rev21_k4.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec14_rev21_k4_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec14_rev21_k4_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 4.0
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec15",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec15_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec15_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec15_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 16,
+    "grasp_retry_moves": 15,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "lift:step3"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 13.3
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec16",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec16_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/eye_drops_to_basket__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/eye_drops_to_basket__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 4,
+    "grasp_retry_moves": 3,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 9.0
+   },
+   "grade_note": "validator-pass graded CLEAN on SUPERSEDING canonical rev2.1 k4 (single grasp), certified in validator-pass cert2/ \u2014 register canonical k0 record itself carries grasp retries (would grade RECOVERED); GPT-OSS CLEAN/GOOD=YES. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec17",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 1,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec17_rev21_k1.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec17_rev21_k1_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec17_rev21_k1_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "lift:step1"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 12.1
+   },
+   "grade_note": "validator-pass graded RECOVERED (only pass rev2.1 k1 carries grasp retries; 10 attempts, budget exhausted for a clean solution); GPT-OSS concurs GOOD=NO",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__spec19",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 2,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/eye_drops_to_basket__spec19_rev21_k2.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "eye_drops_to_basket__spec19_rev21_k2_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "eye_drops_to_basket__spec19_rev21_k2_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 18,
+    "grasp_retry_moves": 17,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "grasp-retry:retreat"
+    ],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 21.5
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec00",
+   "canonical_controller": "frozen",
+   "controller_str": "frozen (refcore.py + run_reference.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec00_frozen.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/tool_insert__spec00_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/tool_insert__spec00_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": null
+   },
+   "grade_note": "validator-pass graded CLEAN (flawless record: no failed moves); GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec06",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": false,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec06_rev21.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "zk0-verify-v2-20261123/results/tool_insert__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record",
+    "certification_merged": {
+     "certified": true,
+     "record": "zk0-verify-v2-20261123/results/tool_insert__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 5.5
+   },
+   "grade_note": "validator-pass graded CLEAN; GPT-OSS CLEAN/GOOD=YES. NOTE: the canonical record log contains 2 grasp-retry:retreat moves \u2014 under the mechanical harvest rule this would grade RECOVERED; validator-pass grade kept per brief. See inconsistencies.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec08",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 8,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec08_rev21_k8.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "tool_insert__spec08_rev21_k8_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "tool_insert__spec08_rev21_k8_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_pre_completion": [
+     "grasp-retry:retreat",
+     "grasp-retry:retreat",
+     "lift:step2"
+    ],
+    "failed_moves_post_completion": [],
+    "max_grasp_close_displacement_mm": 2.1
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec09",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec09_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "tool_insert__spec09_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "tool_insert__spec09_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 0.0
+   },
+   "grade_note": "validator-pass graded CLEAN; GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec12",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 2,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec12_rev21_k2.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "tool_insert__spec12_rev21_k2_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "tool_insert__spec12_rev21_k2_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 2,
+    "grasp_retry_moves": 1,
+    "failed_moves_pre_completion": [
+     "lift:step2",
+     "servo:lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 9.4
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec16",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 7,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec16_rev21_k7.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "tool_insert__spec16_rev21_k7_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "tool_insert__spec16_rev21_k7_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 6.1
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "spec-only",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__spec19",
+   "canonical_controller": "rev2.1",
+   "controller_str": "rev2.1 (refcore2.py + run_reference3.py)",
+   "variant_k": 3,
+   "proven_nominal": false,
+   "solution_within_envelope": true,
+   "builder_record": "~/muse-work/zk0-spec-only-20261123/results/tool_insert__spec19_rev21_k3.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "register_certification": "tool_insert__spec19_rev21_k3_verify.json",
+    "certification_merged": {
+     "certified": true,
+     "record": "tool_insert__spec19_rev21_k3_verify.json"
+    },
+    "register": "~/muse-work/zk0-spec-only-20261123/work/spec_only_full/register.json + certification-merged.json (desktop)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ],
+    "max_grasp_close_displacement_mm": 8.7
+   },
+   "grade_note": "validator-pass graded CLEAN; GPT-OSS CLEAN/GOOD=YES",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep411",
+   "canonical_controller": "rev2.1 (\u00a713 union register; PASS record also in results2-canonical/rev2)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/block_stack__ep411.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 2,
+    "grasp_retry_moves": 1,
+    "failed_moves_pre_completion": [
+     "grasp:above x3",
+     "lift:step2",
+     "lift:pos-only"
+    ],
+    "max_grasp_close_displacement_mm": 28.2
+   },
+   "grade_note": "validator-pass anchor grade RECOVERED (three failed grasp-approach moves before successful grasp); GPT-OSS 120B graded CLEAN \u2014 DISAGREEMENT ON RECORD; GPT-OSS leg counted as done per brief (it graded the scene), grade kept is the report's RECOVERED",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep453",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/block_stack__ep453.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep489",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/block_stack__ep489.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep498",
+   "canonical_controller": "rev2.1 (\u00a713 union register; PASS record also in results2-canonical/rev2)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/block_stack__ep498.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves": []
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep499",
+   "canonical_controller": "frozen + rev2.1 (PASS records in results-env-frozen and results-env-rev21)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-rev21/block_stack__ep499.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep527",
+   "canonical_controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-frozen/block_stack__ep527.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "Single-version pass \u2014 see inconsistencies (brief expected 'both versions' for non-\u00a713 scenes).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep546",
+   "canonical_controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-frozen/block_stack__ep546.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "Single-version pass \u2014 see inconsistencies.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "block_stack",
+   "scene_id": "block_stack__ep549",
+   "canonical_controller": "frozen + rev2.1 (PASS records in both env batches)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-rev21/block_stack__ep549.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__ep1609",
+   "canonical_controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-frozen/eye_drops_to_basket__ep1609.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 5,
+    "grasp_retry_moves": 4,
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "validator-pass anchor grade RECOVERED (report: three grasp-retry retreats); GPT-OSS concurs GOOD=NO",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "twin",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__ep1630",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/eye_drops_to_basket__ep1630.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift:step1 IK fallback to pos-only"
+    ],
+    "max_grasp_close_displacement_mm": 18.5
+   },
+   "grade_note": "IK lift fallback while holding carton \u2014 does not dirty grade (validator-pass precedent).",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__ep1746",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/eye_drops_to_basket__ep1746.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 1,
+    "grasp_retry_moves": 0,
+    "failed_moves_pre_completion": [
+     "lift:step1 IK fallback to pos-only"
+    ],
+    "max_grasp_close_displacement_mm": 9.1
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "eye_drops_to_basket",
+   "scene_id": "eye_drops_to_basket__ep1798",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/eye_drops_to_basket__ep1798.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 2,
+    "grasp_retry_moves": 1,
+    "failed_moves_pre_completion": [
+     "lift:step1 IK fallback to pos-only"
+    ],
+    "max_grasp_close_displacement_mm": 8.8
+   },
+   "grade_note": "",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "tool_insert",
+   "scene_id": "tool_insert__ep683",
+   "canonical_controller": "frozen (\u00a713 union register: tool 683 frozen set, refcore.py + run_reference.py)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results/tool_insert__ep683.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "RECOVERED",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 3,
+    "grasp_retry_moves": 2,
+    "failed_moves_pre_completion": [
+     "grasp:above x2",
+     "lift",
+     "servo:lift"
+    ],
+    "failed_moves_post_completion": [
+     "release:retreat"
+    ]
+   },
+   "grade_note": "validator-pass anchor grade RECOVERED (two grasp retries, failed approaches, failed lift); GPT-OSS concurs GOOD=NO",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep1905",
+   "canonical_controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-frozen/cable_clip__ep1905.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record, weld-device caveat. Single-version pass \u2014 see inconsistencies.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep1969",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/cable_clip__ep1969.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record, weld-device caveat.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep2020",
+   "canonical_controller": "frozen + rev2.1 (both versions, \u00a713)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/cable_clip__ep2020.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "validator-pass report 2026-11-23",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback",
+     "cable:seat x1 failed attempt before successful seat"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "validator-pass anchor grade CLEAN-by-record; GPT-OSS concurs GOOD=YES. Weld-device caveat.",
+   "legs_done": [
+    "GPT-OSS 120B via agy"
+   ],
+   "legs_owed": 1
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep2046",
+   "canonical_controller": "frozen ONLY (rev2.1 env record is not a PASS)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-frozen/cable_clip__ep2046.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record, weld-device caveat. Single-version pass \u2014 see inconsistencies.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep2068",
+   "canonical_controller": "frozen + rev2.1 (PASS records in both env batches)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-rev21/cable_clip__ep2068.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record, weld-device caveat.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep2085",
+   "canonical_controller": "frozen + rev2.1 (PASS records in both env batches)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results-env-rev21/cable_clip__ep2085.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback",
+     "cable:seat x1 failed attempt before successful seat"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record (same cable:seat pattern as validator-graded ep2020), weld-device caveat.",
+   "legs_done": [],
+   "legs_owed": 2
+  },
+  {
+   "source": "twin",
+   "task": "cable_clip",
+   "scene_id": "cable_clip__ep2130",
+   "canonical_controller": "rev2.1 (\u00a713 union register; PASS record also in results2-canonical/rev2)",
+   "variant_k": 0,
+   "proven_nominal": true,
+   "solution_within_envelope": null,
+   "builder_record": "/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/reference/results3-canonical/cable_clip__ep2130.json",
+   "builder_record_exists": true,
+   "certification_evidence": {
+    "union_register": "twin-suite-v2-docs/solvability-v2.md \u00a713 (union register, DGX zk0-solutions-commit-20261123)",
+    "archive": "HF zk0bot/sim-scene-solutions @ e57de85a; video pack reproduced 20/20 exactly (program record 2026-11-23)"
+   },
+   "cleanliness_grade": "CLEAN",
+   "grade_source": "harvest (mechanical grade from canonical record log)",
+   "grade_evidence": {
+    "grasp_events": 0,
+    "failed_moves_pre_completion": [
+     "cable:over-channel IK pos-only fallback"
+    ],
+    "failed_moves_post_completion": [
+     "cable:retreat"
+    ]
+   },
+   "grade_note": "CLEAN-by-record, weld-device caveat.",
+   "legs_done": [],
+   "legs_owed": 2
+  }
+ ]
+}

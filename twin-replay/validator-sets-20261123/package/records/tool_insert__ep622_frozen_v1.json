@@ -1,0 +1,480 @@
+{
+ "task": "tool_insert",
+ "episode": 622,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 42.8,
+  "resting_in_tray_contact": true,
+  "tool_z": 0.0388
+ },
+ "objects_final": {
+  "tool": [
+   0.05517564560535736,
+   -0.0255349,
+   0.03879221552685635
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "grasp of tool infeasible in all yaw branches",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0891,
+    -0.0255,
+    0.0816
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0891,
+    -0.0255,
+    0.0516
+   ],
+   "solved": true,
+   "via": "direct-pos-only"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0075,
+     0.0309,
+     0.0154
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.1339,
+    -0.0545,
+    0.1336
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1336,
+    -0.0541,
+    0.1326
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.1188
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0888
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.0552,
+    -0.0255,
+    0.0688
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v1",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/tool_insert__ep622_v1.xml"
+}

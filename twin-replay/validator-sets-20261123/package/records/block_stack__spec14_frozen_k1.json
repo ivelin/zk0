@@ -1,0 +1,113 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec14",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": -0.0,
+  "within_inset_footprint": true,
+  "contact_with_lower": true,
+  "no_other_support_contact": true,
+  "upper_contacts": [
+   "cube_b"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.30315705786036184,
+   0.048881667130808555,
+   0.04480639846949873
+  ],
+  "cube_b": [
+   0.30048424097207627,
+   0.05070793906506317,
+   0.014850899087740649
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "moving=cube_a at [ 0.173 -0.026  0.015], target=cube_b at [0.3   0.051 0.015]; pinch-lift ok, cube_a z 0.015->0.087, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_a at [0.299 0.05  0.048]",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1728,
+    -0.0261,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0245,
+     -0.0015,
+     0.0254
+    ],
+    "grip_stall_rad": 0.124,
+    "hold_grip_rad": 0.094
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1955,
+    -0.006,
+    0.0989
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1947,
+    -0.006,
+    0.0979
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "pinch_target": [
+    0.2998,
+    0.0394,
+    0.0592
+   ],
+   "wrist_flex_deg": 92.8,
+   "pos_err_mm": 1.5
+  },
+  {
+   "carry": "block place",
+   "obj_target": [
+    0.3005,
+    0.0507,
+    0.0479
+   ]
+  },
+  {
+   "servo": "cube_a",
+   "converged_iter": 0
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3205,
+    0.0391,
+    0.16
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec14",
+ "scene_index": 14,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "8fea4b62fd35ec55ee87b4904046c325b999e9b3e6224d3e4a920642a155060b",
+ "scene_variant": "k=1",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

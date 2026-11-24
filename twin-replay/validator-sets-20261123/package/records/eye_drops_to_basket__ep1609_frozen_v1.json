@@ -1,0 +1,190 @@
+{
+ "task": "eye_drops_to_basket",
+ "episode": 1609,
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": false,
+ "solver_failure": false,
+ "checks": {
+  "centre_inside_basket": true,
+  "support_is_basket": true,
+  "contact_platform": false,
+  "contact_mat_or_floor": false,
+  "carton_contacts": [
+   "basket",
+   "moving_jaw_so101_v1"
+  ],
+  "carton_z": 0.0205
+ },
+ "objects_final": {
+  "carton": [
+   0.0844398823416358,
+   0.15108637948855927,
+   0.020480902617551894
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "pinch-lift ok, carton z 0.107->0.193",
+ "log": [
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.218,
+    -0.0014,
+    0.2231
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2378,
+    -0.1284,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0054,
+     0.0084,
+     0.0339
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2563,
+    -0.1415,
+    0.2347
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2557,
+    -0.141,
+    0.2335
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2486,
+    -0.1364,
+    0.1875
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0178,
+     0.0051,
+     0.0301
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2505,
+    -0.1304,
+    0.2289
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2505,
+    -0.1304,
+    0.2489
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2429,
+    -0.1291,
+    0.1869
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0031,
+     -0.0229,
+     0.0267
+    ],
+    "grip_stall_rad": 0.201,
+    "hold_grip_rad": 0.171
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2464,
+    -0.1195,
+    0.1992
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.2464,
+    -0.1195,
+    0.1992
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "place_scan": "eye place",
+   "pinch_target": [
+    0.0968,
+    0.1569,
+    0.049
+   ],
+   "wrist_flex_deg": 67.7,
+   "pos_err_mm": 1.11
+  },
+  {
+   "carry": "eye place",
+   "obj_target": [
+    0.0935,
+    0.1578,
+    0.04
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.0873,
+    0.1361,
+    0.1234
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "controller_version": "frozen",
+ "variant": "v1",
+ "scene_file": "/home/openclaw/muse-work/zk0-validator-sets-20261123/twins/eye_drops_to_basket__ep1609_v1.xml"
+}
