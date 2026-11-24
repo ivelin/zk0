@@ -1,0 +1,74 @@
+# Judging brief — RoboColosseum stack tasks (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet JPG: two rows (row 1 = front camera, row 2 = wrist camera — this
+dataset has no top view), six frames each, left→right in time (0%,
+35%, 60%, 80%, 92%, ~100%). Judge the END STATE — what the final
+frames show — not how elegant the motion was. Use the wrist view to
+confirm what the gripper holds or released when the front view is
+ambiguous.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the batch's dataset criterion below, with the gripper no longer
+  holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Dataset criteria (your batch names ONE dataset; apply its rule)
+
+- **stack-bowls** ("Pick up the white plastic bowl on the right and
+  stack it on top of the white plastic bowl on the left"): PASS =
+  the right bowl rests stacked on/nested in the left bowl as one
+  stack at end, gripper released. FAIL = bowls still side by side,
+  or the moved bowl left elsewhere.
+- **stack-cubes** ("Stack the blue cube on the red cube, then stack
+  the white cube on the blue cube"): PASS = one vertical stack
+  red-bottom, blue-middle, white-top, standing at end, gripper
+  released. FAIL = any other arrangement (wrong order, cubes
+  unstacked, stack fallen).
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+
+Judge exactly these 25 episodes of RoboColosseum so101-stack-cubes (group: rc-stack-cubes). For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only, against that episode's own task string. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep50 — sheets/rc-stack-cubes__ep50.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep51 — sheets/rc-stack-cubes__ep51.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep52 — sheets/rc-stack-cubes__ep52.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep53 — sheets/rc-stack-cubes__ep53.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep54 — sheets/rc-stack-cubes__ep54.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep55 — sheets/rc-stack-cubes__ep55.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep56 — sheets/rc-stack-cubes__ep56.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep57 — sheets/rc-stack-cubes__ep57.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep58 — sheets/rc-stack-cubes__ep58.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep59 — sheets/rc-stack-cubes__ep59.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep60 — sheets/rc-stack-cubes__ep60.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep61 — sheets/rc-stack-cubes__ep61.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep62 — sheets/rc-stack-cubes__ep62.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep63 — sheets/rc-stack-cubes__ep63.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep64 — sheets/rc-stack-cubes__ep64.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep65 — sheets/rc-stack-cubes__ep65.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep66 — sheets/rc-stack-cubes__ep66.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep67 — sheets/rc-stack-cubes__ep67.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep68 — sheets/rc-stack-cubes__ep68.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep69 — sheets/rc-stack-cubes__ep69.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep70 — sheets/rc-stack-cubes__ep70.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep71 — sheets/rc-stack-cubes__ep71.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep72 — sheets/rc-stack-cubes__ep72.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep73 — sheets/rc-stack-cubes__ep73.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+- ep74 — sheets/rc-stack-cubes__ep74.jpg — task: "Stack the blue cube on the red cube, then stack the white cube on the blue cube."
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

@@ -1,0 +1,20 @@
+ep5 | PASS | Final frame: aligned red/blue/white tower in one footprint, black separate
+ep6 | PASS | Aligned 3-layer tower, layers square to each other, no tilt visible
+ep7 | PASS | Tower stands, white top offset and blue protrudes to the left
+ep14 | PASS | Blue/white top visibly tilted diagonally on the red base
+ep25 | PASS | Tower stands, blue layer tilted and red base rotated/peeking out
+ep30 | PASS | White on blue in an aligned tower near the robot (lower layers partly obscured, no tilt seen)
+ep34 | PASS | Blue layer protrudes/tilts up beside the white top; red offset to the left
+ep36 | PASS | Aligned white/blue/red tower, no visible tilt or knock
+ep41 | PASS | White top cube over the blue/red layers (partly hidden by the robot base); no tilt visible
+ep43 | PASS | Tower stands, white top offset and blue shows as a narrow protruding strip
+ep59 | PASS | Blue middle tilted ~45 deg between red and white; white top overhangs to the left, tower leaning
+ep60 | PASS | Tower stands, white top overhangs to the left of the blue/red layers
+ep61 | PASS | White top aligned over the lower layers (partly obscured by the robot), no tilt seen
+ep72 | PASS | Top final shows an aligned grey/blue/red tower; the wrist final's row is camera roll, not a fallen stack
+ep75 | PASS | White top offset, blue protruding in an L shape to the right of the tower
+ep84 | PASS | Offset white top, blue protruding from the tower's side
+ep86 | PASS | White top squarely on the blue/red layers, no visible tilt
+ep92 | PASS | White top offset to the right, blue protruding to the left — misaligned tower
+ep96 | PASS | Aligned tower: white/grey, blue, red layers square and centred
+ep97 | PASS | Tower stands, red base rotated ~45 deg (diamond) and the blue layer thin/tilted — leaning stack

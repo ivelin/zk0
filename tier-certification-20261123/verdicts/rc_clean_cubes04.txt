@@ -1,0 +1,25 @@
+ep75 | CLEAN
+ep76 | CLEAN
+ep77 | CLEAN
+ep78 | CLEAN
+ep79 | CLEAN
+ep80 | CLEAN | a hand enters the final frame after the stack was already complete in frame 5 (post-completion; graded CLEAN by the cleanliness judge)
+ep81 | CLEAN
+ep82 | CLEAN
+ep83 | CLEAN
+ep84 | CLEAN
+ep85 | INCIDENT | stack stands, but the blue cube is tilted/leaning against the white cube in the final wrist view, not sitting flat
+ep86 | CLEAN
+ep87 | CLEAN
+ep88 | INCIDENT | stack stands, but the blue cube protrudes/offset to the left of the red/white column in the final overhead view
+ep89 | CLEAN
+ep90 | INCIDENT | stack stands, but the white top cube is offset left and the blue cube is tilted under it in the frame-5 wrist view
+ep91 | CLEAN
+ep92 | INCIDENT | stack stands, but the blue cube protrudes/offset to the left of the column in the final overhead view
+ep93 | INCIDENT | stack stands, but the white top cube appears tipped/leaning (chevron-shaped) in the final overhead view, not flat
+ep94 | CLEAN
+ep95 | INCIDENT | stack stands, but the blue cube protrudes left and the white cube is offset in the final overhead view
+ep96 | CLEAN
+ep97 | INCIDENT | stack stands, but the red base is rotated diamond-wise and the blue/white are offset on it in the final views
+ep98 | CLEAN
+ep99 | CLEAN

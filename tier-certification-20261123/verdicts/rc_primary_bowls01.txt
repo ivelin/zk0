@@ -1,0 +1,25 @@
+ep0 | PASS | 2 bowls to right bowl carried in wrist view to final single stacked bowl, centred, no drop/knock
+ep1 | PASS | Right bowl grasped and placed over left; final 1 bowl only, upright
+ep2 | PASS | Clean pick-carry-place; final single bowl at left/centre, no second bowl visible
+ep3 | PASS | Right bowl nested into left; final single upright bowl, no incident in frames
+ep4 | PASS | Smooth carry in wrist view; final 1 stacked bowl, centred
+ep5 | PASS | Right bowl placed into left; final single bowl, no drop
+ep6 | PASS | Clean stack; final single bowl, upright and centred
+ep7 | PASS | Right bowl nested; final single low-profile stacked bowl, no knock/drop
+ep8 | PASS | Clean pick and place; final 1 bowl only, centred
+ep9 | PASS | Right bowl carried and nested; final single upright bowl
+ep10 | PASS | Clean stack; final single bowl at centre-left, no second bowl
+ep11 | PASS | Right bowl placed into left; final single bowl, upright
+ep12 | PASS | Clean carry/place; final single stacked bowl, no incident
+ep13 | PASS | Right bowl nested; final 1 bowl only, centred
+ep14 | PASS | Smooth wrist-view carry; final single upright stacked bowl
+ep15 | PASS | Clean stack; final single bowl, no drop or displacement
+ep16 | PASS | Right bowl placed over left; final single bowl, centred
+ep17 | PASS | Clean pick-carry-place; final 1 stacked bowl only
+ep18 | PASS | Right bowl nested into left; final single upright bowl
+ep19 | PASS | Clean stack; final single low-profile bowl, no incident
+ep20 | PASS | Right bowl carried in wrist view and nested; final single bowl
+ep21 | PASS | Clean place; final 1 bowl only, upright/centred
+ep22 | PASS | Right bowl stacked; final single bowl, no knock/drop in frames
+ep23 | PASS | Clean carry and release; final single stacked bowl
+ep24 | PASS | Right bowl nested into left; final single bowl, centred

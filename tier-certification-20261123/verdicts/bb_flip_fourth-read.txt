@@ -1,0 +1,29 @@
+# Fourth independent read of bb-flip-left, delivered by the flip
+# cleanliness re-run worker (agent 408cfd05, 2026-11-24T01:40Z),
+# again briefed cleanliness-only; it returned FAIL for all 20
+# episodes and no cleanliness grades. Preserved as delivered.
+# Flip cleanliness remains UNGRADED after two attempts; register
+# rows carry cleanliness blank with a notes annotation. Read tally
+# for flip: primary PASS 20/20; re-judge FAIL 4/4 sampled; third
+# read FAIL 20/20; fourth read FAIL 20/20. All 20 episodes flagged
+# contested for the founder.
+ep0 | FAIL
+ep1 | FAIL
+ep2 | FAIL
+ep3 | FAIL
+ep4 | FAIL
+ep5 | FAIL
+ep6 | FAIL
+ep7 | FAIL
+ep8 | FAIL
+ep9 | FAIL
+ep10 | FAIL
+ep11 | FAIL
+ep12 | FAIL
+ep13 | FAIL
+ep14 | FAIL
+ep15 | FAIL
+ep16 | FAIL
+ep17 | FAIL
+ep18 | FAIL
+ep19 | FAIL

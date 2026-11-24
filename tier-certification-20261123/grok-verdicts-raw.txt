@@ -1548,3 +1548,103 @@ grok_arm-heldout-unclip-02.raw:ep2495 | PASS | barrel plug free on the mat, hold
 grok_arm-heldout-unclip-02.raw:ep2496 | PASS | barrel plug free on the mat, holder clip empty, gripper open
 grok_arm-heldout-unclip-02.raw:ep2497 | PASS | barrel plug free on the mat, holder clip empty, gripper open
 grok_arm-heldout-unclip-02.raw:ep2498 | PASS | barrel plug on the mat in front of the empty holder, gripper open
+grok_rc-stack-bowls-01.raw:ep0 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep1 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep2 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep3 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep4 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep5 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep6 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep7 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep8 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep9 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep10 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep11 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep12 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep13 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep14 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep15 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep16 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep17 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep18 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep19 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep20 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep21 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep22 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep23 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-01.raw:ep24 | PASS | right bowl nested on the left bowl, gripper released
+grok_rc-stack-bowls-02.raw:ep25 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep26 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep27 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep28 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep29 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep30 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep31 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep32 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep33 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep34 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep35 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep36 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep37 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep38 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep39 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep40 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep41 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep42 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep43 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep44 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep45 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep46 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep47 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep48 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-02.raw:ep49 | PASS | right bowl nested on the left bowl as one stack, gripper released
+grok_rc-stack-bowls-03.raw:ep50 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep51 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep52 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep53 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep54 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep55 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep56 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep57 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep58 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep59 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep60 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep61 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep62 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep63 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep64 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep65 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep66 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep67 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep68 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep69 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep70 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep71 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep72 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep73 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-03.raw:ep74 | FAIL | one empty bowl remains and the gripper is clear
+grok_rc-stack-bowls-04.raw:ep75 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep76 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep77 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep78 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep79 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep80 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep81 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep82 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep83 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep84 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep85 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep86 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep87 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep88 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep89 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep90 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep91 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep92 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep93 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep94 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep95 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep96 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep97 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep98 | FAIL | one bowl left alone on the table, gripper empty
+grok_rc-stack-bowls-04.raw:ep99 | FAIL | one bowl left alone on the table, gripper empty

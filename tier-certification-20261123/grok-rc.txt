@@ -62,3 +62,14 @@ grok_arm-heldout-toolrem-01 0
 grok_arm-heldout-toolrem-02 0
 grok_arm-heldout-unclip-01 0
 grok_arm-heldout-unclip-02 0
+grok_rc-stack-bowls-01 0
+grok_rc-stack-bowls-02 0
+grok_rc-stack-bowls-03 0
+grok_rc-stack-bowls-04 0
+grok_rc-stack-cubes-01 1
+grok_rc-stack-cubes-02 1
+grok_rc-stack-cubes-03 1
+grok_rc-stack-cubes-04 1
+grok_bb-push-green-01 1
+grok_bb-push-green-02 1
+grok_bb-flip-left-01 1

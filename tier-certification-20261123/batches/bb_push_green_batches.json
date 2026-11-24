@@ -1,0 +1,209 @@
+[
+ {
+  "batch_id": "bb-push-green-01",
+  "dataset": "bb-push-green",
+  "episodes": [
+   {
+    "episode_index": 0,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep0.jpg"
+   },
+   {
+    "episode_index": 1,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep1.jpg"
+   },
+   {
+    "episode_index": 2,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep2.jpg"
+   },
+   {
+    "episode_index": 3,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep3.jpg"
+   },
+   {
+    "episode_index": 4,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep4.jpg"
+   },
+   {
+    "episode_index": 5,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep5.jpg"
+   },
+   {
+    "episode_index": 6,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep6.jpg"
+   },
+   {
+    "episode_index": 7,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep7.jpg"
+   },
+   {
+    "episode_index": 8,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep8.jpg"
+   },
+   {
+    "episode_index": 9,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep9.jpg"
+   },
+   {
+    "episode_index": 10,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep10.jpg"
+   },
+   {
+    "episode_index": 11,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep11.jpg"
+   },
+   {
+    "episode_index": 12,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep12.jpg"
+   },
+   {
+    "episode_index": 13,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep13.jpg"
+   },
+   {
+    "episode_index": 14,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep14.jpg"
+   },
+   {
+    "episode_index": 15,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep15.jpg"
+   },
+   {
+    "episode_index": 16,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep16.jpg"
+   },
+   {
+    "episode_index": 17,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep17.jpg"
+   },
+   {
+    "episode_index": 18,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep18.jpg"
+   },
+   {
+    "episode_index": 19,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep19.jpg"
+   },
+   {
+    "episode_index": 20,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep20.jpg"
+   },
+   {
+    "episode_index": 21,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep21.jpg"
+   },
+   {
+    "episode_index": 22,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep22.jpg"
+   },
+   {
+    "episode_index": 23,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep23.jpg"
+   },
+   {
+    "episode_index": 24,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep24.jpg"
+   }
+  ]
+ },
+ {
+  "batch_id": "bb-push-green-02",
+  "dataset": "bb-push-green",
+  "episodes": [
+   {
+    "episode_index": 25,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep25.jpg"
+   },
+   {
+    "episode_index": 26,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep26.jpg"
+   },
+   {
+    "episode_index": 27,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep27.jpg"
+   },
+   {
+    "episode_index": 28,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep28.jpg"
+   },
+   {
+    "episode_index": 29,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep29.jpg"
+   },
+   {
+    "episode_index": 30,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep30.jpg"
+   },
+   {
+    "episode_index": 31,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep31.jpg"
+   },
+   {
+    "episode_index": 32,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep32.jpg"
+   },
+   {
+    "episode_index": 33,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep33.jpg"
+   },
+   {
+    "episode_index": 34,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep34.jpg"
+   },
+   {
+    "episode_index": 35,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep35.jpg"
+   },
+   {
+    "episode_index": 36,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep36.jpg"
+   },
+   {
+    "episode_index": 37,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep37.jpg"
+   },
+   {
+    "episode_index": 38,
+    "task_string": "push the green button",
+    "sheet": "sheets/bb-push-green__ep38.jpg"
+   }
+  ]
+ }
+]

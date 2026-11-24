@@ -1,0 +1,25 @@
+ep50 | PASS | Final overhead and wrist frames show white on blue on red in one stack, black cube separate
+ep51 | PASS | Final frames show white/blue/red stack at the robot, black cube separate and untouched
+ep52 | PASS | Final wrist frame shows red, blue and white aligned in one stack, black cube separate
+ep53 | PASS | Final stack holds at the robot but the red/blue cubes are tipped and leaning in the wrist view
+ep54 | PASS | Final overhead shows a clear white-on-blue-on-red stack at lower left, black cube separate
+ep55 | PASS | Final overhead shows white on blue on red in a compact stack, black cube separate
+ep56 | PASS | Final overhead shows white on blue with red below at left of the robot, black cube separate
+ep57 | PASS | Final overhead shows white/blue/red stack partly behind the robot mount, black cube separate
+ep58 | PASS | Final stack holds but the blue cube protrudes diagonally, leaning in both final views
+ep59 | PASS | Final stack holds but the blue cube is tipped up at an angle between white and red
+ep60 | PASS | Final overhead shows white on blue on red in one stack, black cube separate
+ep61 | PASS | Penultimate wrist frame shows red/blue/white stack bands and final overhead shows the stack at the robot
+ep62 | PASS | Final stack holds but the blue cube is on its side, star-shaped in the overhead view
+ep63 | PASS | Final overhead shows white on blue on red in one stack, black cube separate
+ep64 | PASS | Final overhead shows white with the blue cube as a thin on-edge sliver in the stack at the robot
+ep65 | PASS | Final overhead shows white on blue on red in one stack, black cube separate
+ep66 | PASS | Final overhead shows white on blue on red in one stack, black cube separate
+ep67 | PASS | Final wrist frame shows white on blue with red behind in one stack, black cube separate
+ep68 | PASS | Final wrist frame shows red, blue and white aligned in one stack, black cube separate
+ep69 | PASS | Final wrist frame shows red, blue and white aligned in one stack, black cube separate
+ep70 | PASS | Final wrist frame shows red, blue and white aligned in one stack, black cube separate
+ep71 | PASS | Final stack holds but the blue cube stands as a tall vertical slab, tipped on its side
+ep72 | PASS | Final wrist frame shows red, blue and white in one aligned stack, black cube separate
+ep73 | PASS | Final wrist frame shows red, blue and white in one aligned stack, black cube separate
+ep74 | PASS | Final wrist frame shows white on blue in a stack at the robot, with the blue cube leaning on-edge

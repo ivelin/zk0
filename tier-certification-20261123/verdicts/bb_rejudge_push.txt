@@ -1,0 +1,8 @@
+ep3 | PASS | Gripper descends to the button cluster and the green button changes from dull teal to bright glowing green in the final frames, with no panel displacement or other-button contact
+ep20 | PASS | Gripper reaches the panel in the side view and the green button is bright glowing green in the last two frames, panel undisturbed
+ep23 | PASS | Overhead frames show the gripper directly on the green button in frames 5-6, with the button bright green under/after contact and no collateral contact
+ep25 | PASS | Gripper contacts the green button in frames 4-5, green button brightens to glowing green, then gripper withdraws cleanly in the final frame
+ep26 | PASS | Gripper moves directly onto the green button in frames 3-5 and the button is bright glowing green in the final frames, no panel movement
+ep33 | PASS | Gripper is visibly pressing the green button in the final two frames, button bright green under the gripper, no other buttons disturbed
+ep36 | PASS | Gripper presses the green button in frames 5-6, button bright glowing green while in contact, panel stable throughout
+ep37 | PASS | Gripper presses the green button in the final two frames, button bright green under contact, with no displacement or incidental incidents visible

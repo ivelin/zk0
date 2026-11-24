@@ -1,0 +1,20 @@
+ep0 | PASS | final front frame shows the left toggle lever tilted down/off after the gripper worked it, right toggle unchanged
+ep1 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep2 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep3 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep4 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep5 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep6 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep7 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep8 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep9 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep10 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep11 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep12 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep13 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep14 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep15 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep16 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep17 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged
+ep18 | PASS | final front frame shows the left toggle lever tilted down/off, right toggle unchanged and gripper not holding it
+ep19 | PASS | final frames show the left toggle lever tilted down/off with the arm retreated clear, right toggle unchanged

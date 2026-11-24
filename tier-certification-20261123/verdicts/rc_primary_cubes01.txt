@@ -1,0 +1,25 @@
+ep0 | PASS | Final overhead largely occluded by the arm, but the wrist final and preceding frame show red, blue and white aligned as a completed stack, black cube separate
+ep1 | PASS | Final overhead shows a compact red-bottom / blue-middle / grey-top stack at lower-left, black cube separate; wrist final confirms the three cubes together
+ep2 | PASS | Final overhead shows red / blue / grey stacked in one footprint, black cube separate
+ep3 | PASS | Final overhead shows red / blue / grey stack at lower-left (blue slightly offset in top view, confirmed stacked in wrist views), black cube separate
+ep4 | PASS | Final overhead shows red / blue / grey stack, wrist final shows red, blue and white side-by-side in stack order, black cube untouched
+ep5 | PASS | Final overhead shows a clear red / blue / grey 3-stack, black cube separate; smooth blue-on-red then white-on-blue placement
+ep6 | PASS | Final overhead shows red / blue / grey stack at lower-left, black cube separate
+ep7 | PASS | Final overhead shows red / blue / grey stack, black cube separate; wrist views confirm white placed on blue on red
+ep8 | PASS | Final overhead shows grey / blue stack with red confirmed in the wrist final (red, blue, white together), black cube separate
+ep9 | PASS | Final overhead shows white on blue at the arm, wrist final shows red, blue and white as the stack, black cube separate
+ep10 | PASS | Final overhead occluded by the arm, but the wrist final clearly shows red, blue and white stacked together, black cube separate
+ep11 | PASS | Final overhead shows a clear red / blue / grey 3-stack, black cube separate
+ep12 | PASS | Final overhead shows red / blue / grey stack at lower-left, black cube separate; clean placement sequence
+ep13 | PASS | Final overhead shows red / blue / grey stack, black cube separate; wrist final confirms the three cubes together
+ep14 | PASS | Final overhead shows red / blue / grey stack, black cube separate
+ep15 | PASS | Final overhead shows red / blue / grey stack, black cube separate; final stack settled
+ep16 | PASS | Final overhead shows red / blue / grey stack at lower-left, black cube separate
+ep17 | PASS | Final overhead shows blue / grey stack with red at its base in the wrist view, black cube separate; stack completed
+ep18 | PASS | Final overhead clearly shows white on blue on red, black cube separate; clean finish
+ep19 | PASS | Final overhead shows red / blue / grey stack, black cube separate
+ep20 | PASS | Final overhead shows red / blue / grey stack at lower-left, black cube separate; clean placement
+ep21 | PASS | Final overhead shows red / blue / grey stack, black cube separate; wrist views confirm white on blue on red
+ep22 | PASS | Final overhead shows the red / blue / grey cubes together in one stack footprint (blue edge-on in top view), black cube separate
+ep23 | PASS | Final overhead shows red / blue / grey stack at the arm, black cube separate
+ep24 | PASS | Final overhead shows a clear horizontal red / blue / grey layered stack, black cube separate; clean finish

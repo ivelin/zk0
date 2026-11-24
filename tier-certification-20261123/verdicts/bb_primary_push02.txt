@@ -1,0 +1,14 @@
+ep25 | PASS | gripper descends onto the green/teal button at left in the final frames and the button brightens/depresses under the finger, with no contact with the red, white or yellow buttons
+ep26 | PASS | final frames show the finger centred on the green button, green visibly lit/depressed versus the dull teal at start, no other button touched
+ep27 | PASS | gripper moves in from above, presses the green button in frames 5-6 with the button turning bright green, and no wrong-button contact is seen
+ep28 | PASS | finger is on the green button in the last frames, green button bright/depressed, red/white/yellow buttons untouched throughout
+ep29 | PASS | despite a low approach past the front of the board, the final frames show a direct press on the green button with it brightly lit, and the red button remains unpressed/unlit
+ep30 | PASS | gripper reaches the green button from above in frames 5-6, button turns bright green under the finger, no other button is pressed
+ep31 | PASS | finger contacts the green button and holds it in the final frames with the button bright/depressed, no contact with neighbouring buttons
+ep32 | PASS | final frames show the finger on the green button, green lit/depressed compared with start, red/white/yellow untouched
+ep33 | PASS | gripper presses the green button in frames 5-6, button bright green under the finger, with a clean approach and no wrong-button press
+ep34 | PASS | last frames show the finger centred on the green button with the button bright/depressed, no other button contacted
+ep35 | PASS | gripper comes in from the upper left and presses the green button in the final frames, green visibly lit, neighbouring buttons untouched
+ep36 | PASS | finger is on the green button in frames 5-6, button turns bright green/depressed, and no red, white or yellow press occurs
+ep37 | PASS | final frames show a direct, centred press on the green button with it brightly lit, no glitch or wrong-button contact visible
+ep38 | PASS | gripper presses the green button in frame 5 with the button bright green, then releases by the final frame leaving the green button still lit, no other button touched

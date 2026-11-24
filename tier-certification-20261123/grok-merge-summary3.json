@@ -1,0 +1,619 @@
+{
+ "runs_total": 75,
+ "runs_with_rc": 75,
+ "verdicts_merged": 1650,
+ "dupes": [],
+ "defective_runs": [
+  {
+   "run": "grok_bb-flip-left-01",
+   "rc": 1,
+   "episodes": 20,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_bb-push-green-01",
+   "rc": 1,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_bb-push-green-02",
+   "rc": 1,
+   "episodes": 14,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_rc-stack-cubes-01",
+   "rc": 1,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_rc-stack-cubes-02",
+   "rc": 1,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_rc-stack-cubes-03",
+   "rc": 1,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_rc-stack-cubes-04",
+   "rc": 1,
+   "episodes": 25,
+   "verdicts": 0
+  }
+ ],
+ "missing_register_rows": [],
+ "agreement": {
+  "armnetbench": {
+   "agree": 145,
+   "total": 150
+  },
+  "rc-cube-drawer": {
+   "agree": 90,
+   "total": 100
+  },
+  "rc-screwdriver": {
+   "agree": 100,
+   "total": 100
+  },
+  "rc-stack-bowls": {
+   "agree": 50,
+   "total": 100
+  },
+  "spa-bench": {
+   "agree": 1166,
+   "total": 1200
+  }
+ },
+ "new_contested": [
+  {
+   "key": "rc-cube-drawer:21",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:52",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:60",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:62",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:65",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:66",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:68",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:70",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:71",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "rc-cube-drawer:72",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:862",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:864",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:943",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:944",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:0",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:76",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:80",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:83",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:85",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:89",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:91",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:97",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:127",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:184",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:186",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:190",
+   "primary": "PASS",
+   "grok": "INDETERMINATE",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:974",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:786",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:204",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:205",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:206",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:207",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:208",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:209",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:210",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:211",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:217",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:218",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:219",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:220",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:221",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:222",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:223",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "spa-bench:224",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "armnetbench:1205",
+   "primary": "FAIL",
+   "grok": "PASS",
+   "already_contested": true
+  },
+  {
+   "key": "armnetbench:2465",
+   "primary": "PASS",
+   "grok": "FAIL",
+   "already_contested": true
+  },
+  {
+   "key": "armnetbench:2479",
+   "primary": "FAIL",
+   "grok": "PASS",
+   "already_contested": true
+  },
+  {
+   "key": "armnetbench:2486",
+   "primary": "FAIL",
+   "grok": "PASS",
+   "already_contested": true
+  },
+  {
+   "key": "armnetbench:2498",
+   "primary": "FAIL",
+   "grok": "PASS",
+   "already_contested": true
+  },
+  {
+   "key": "rc-stack-bowls:50",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:51",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:52",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:53",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:54",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:55",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:56",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:57",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:58",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:59",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:60",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:61",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:62",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:63",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:64",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:65",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:66",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:67",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:68",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:69",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:70",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:71",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:72",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:73",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:74",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:75",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:76",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:77",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:78",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:79",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:80",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:81",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:82",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:83",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:84",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:85",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:86",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:87",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:88",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:89",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:90",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:91",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:92",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:93",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:94",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:95",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:96",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:97",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:98",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "rc-stack-bowls:99",
+   "primary": "PASS",
+   "grok": "FAIL"
+  }
+ ]
+}

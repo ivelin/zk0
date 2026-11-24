@@ -1,0 +1,25 @@
+ep50 | CLEAN
+ep51 | CLEAN
+ep52 | CLEAN
+ep53 | INCIDENT | tower completed, but wrist final shows red bottom cube tipped/flat on its side
+ep54 | CLEAN
+ep55 | CLEAN
+ep56 | CLEAN
+ep57 | CLEAN
+ep58 | INCIDENT | tower completed, blue middle cube visibly tilted/diagonal under white in final overhead
+ep59 | INCIDENT | tower completed, blue middle cube tipped to a wedge/point under white in final overhead
+ep60 | CLEAN
+ep61 | CLEAN
+ep62 | INCIDENT | tower present but messy: blue cube star-tipped/rotated, white offset off-square
+ep63 | CLEAN
+ep64 | INCIDENT | tower present, blue appears as a thin vertical sliver — blue on edge in final overhead
+ep65 | CLEAN
+ep66 | CLEAN
+ep67 | CLEAN
+ep68 | CLEAN
+ep69 | CLEAN
+ep70 | CLEAN
+ep71 | RECOVERED | frame-5 wrist: white cube tipped in a messy pile; final frame: tower re-aligned red-blue-white
+ep72 | CLEAN
+ep73 | INCIDENT | tower completed, blue middle cube tilted diagonally against red in wrist view
+ep74 | CLEAN

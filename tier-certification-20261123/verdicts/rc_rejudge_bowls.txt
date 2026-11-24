@@ -1,0 +1,20 @@
+ep3 | PASS | Right bowl picked and placed into left bowl; final frame shows a single stacked bowl
+ep9 | PASS | Right bowl lifted in wrist view and stacked into left bowl; final frame shows one bowl
+ep11 | PASS | Right bowl grasped, carried, and nested into left bowl; final frame shows a single stack
+ep12 | PASS | Right bowl picked and placed into left bowl; final frame shows one stacked bowl
+ep14 | PASS | Right bowl lifted and nested into left bowl; final frame shows a single bowl
+ep20 | PASS | Right bowl grasped and stacked into left bowl; final frame shows one bowl
+ep22 | PASS | Right bowl picked, carried, and placed into left bowl; final frame shows a single stack
+ep23 | PASS | Right bowl lifted in wrist view and nested into left bowl; final frame shows one bowl
+ep34 | PASS | Right bowl grasped and stacked into left bowl; final frame shows a single stacked bowl
+ep48 | PASS | Right bowl picked and placed into left bowl; final frame shows one bowl
+ep49 | PASS | Right bowl lifted and nested into left bowl; final frame shows a single stack
+ep54 | PASS | Right bowl grasped, carried, and stacked into left bowl; final frame shows one bowl
+ep63 | PASS | Right bowl picked and placed into left bowl; final frame shows a single stacked bowl
+ep69 | PASS | Right bowl lifted in wrist view and nested into left bowl; final frame shows one bowl
+ep71 | PASS | Right bowl grasped and stacked into left bowl; final frame shows a single bowl
+ep73 | PASS | Right bowl picked, carried, and placed into left bowl; final frame shows one stacked bowl
+ep83 | PASS | Right bowl lifted and nested into left bowl; final frame shows a single stack
+ep93 | PASS | Right bowl grasped and stacked into left bowl; final frame shows one bowl
+ep94 | PASS | Right bowl picked and placed into left bowl; final frame shows a single stacked bowl
+ep96 | PASS | Right bowl lifted in wrist view and nested into left bowl; final frame shows one bowl

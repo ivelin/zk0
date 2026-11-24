@@ -1,0 +1,33 @@
+# Unsolicited primary-style read delivered by the cubes cleanliness
+# batch-03 worker (agent 10f83d14, 2026-11-24T01:33Z), which was
+# briefed cleanliness-only but returned PASS/FAIL verdicts instead.
+# Preserved verbatim-in-substance as an additional independent read.
+# It DISAGREES with the primary pass on ep72 and ep73 (primary PASS).
+# Those two episodes are flagged contested in the register; the read
+# does not override the primary verdict. Cleanliness for ep50-74 was
+# NOT graded by this worker and was re-run as its own batch.
+ep50 | PASS | Final top shows white top cube only, no red/blue separate anywhere; wrist final shows red/blue/white staircase cluster
+ep51 | PASS | White top cube at base, red sliver underneath, no loose coloured cubes; wrist shows layered cluster
+ep52 | PASS | Wrist final shows red-blue-white layered in one cluster; top final has white at base, black alone
+ep53 | PASS | Top final shows white with red/blue slivers in one cluster at the base; no coloured cube separate on the table
+ep54 | PASS | Top final clearly shows nested white-on-blue-on-red offset stack at lower left of the robot
+ep55 | PASS | Top final shows clean layered stack: white top, blue stripe, red base stripe, left of the robot
+ep56 | PASS | Top final shows white-on-blue layered cluster at the base; no loose coloured cubes
+ep57 | PASS | Top final shows white top with grey/blue/red layers beneath it in one cluster
+ep58 | PASS | White/blue/red in one cluster at the base; blue protrudes with an offset, but no cube is separate on the table
+ep59 | PASS | White top with blue (yaw-rotated) and red beneath in one cluster; no loose coloured cubes
+ep60 | PASS | Clean layered white/blue/red stack visible in top final, left of the robot
+ep61 | PASS | Top final cluster at base; wrist mid-final shows a perfect red/blue/white layered stack
+ep62 | PASS | White top with blue and red in one cluster at the base; blue yaw-rotated but still in the stack, nothing separate
+ep63 | PASS | Top final shows white top, blue stripe and red sliver in one layered cluster
+ep64 | PASS | White top cube at base with blue edge visible beneath it; no red/blue separate on the table (layers partly occluded by the robot)
+ep65 | PASS | Clean white-on-blue-on-red layered cluster in top final
+ep66 | PASS | Clean white/blue/red layered stack clearly visible in top final, left of the robot
+ep67 | PASS | White top at base; wrist final shows white with blue behind it in a staircase cluster, no loose coloured cubes
+ep68 | PASS | White top with red sliver at base; wrist final shows red/blue/white staircase cluster
+ep69 | PASS | White top at base; wrist final shows red/blue/white staircase cluster
+ep70 | PASS | Wrist final shows flat red/blue/white staircase stack; top final cluster at base, black alone
+ep71 | PASS | Top final shows layered blue/red cluster at base; wrist final shows red/blue/white staircase (white offset but on the stack)
+ep72 | FAIL | Wrist final shows red, blue and white as three full cubes in a row on the table at the same height, and white is missing as the top cube in the top view — stack collapsed/unstacked
+ep73 | FAIL | Wrist final shows red, blue (tilted) and white side-by-side on the table in a row, not a vertical stack; top final cluster is disordered with no clear white top cube
+ep74 | PASS | White top cube at base with blue beneath it in wrist final; no coloured cube separate on the table (layers partly occluded)

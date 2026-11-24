@@ -1,0 +1,25 @@
+ep25 | PASS | Final overhead frame shows a compact layered cluster at the robot — blue resting on red, white on top; direct picks/placements
+ep26 | PASS | Final overhead frame shows white on blue on red in a single cluster beside the gripper; wrist view confirms the layered stack, black cube separate
+ep27 | PASS | Final overhead frame shows the white/blue/red cluster stacked at the robot base; no cube left separate on the table except the black distractor
+ep28 | PASS | Final overhead frame shows white resting on the blue/red stack; wrist final shows red/blue/white layered together at the top edge
+ep29 | PASS | Final overhead frame shows white on blue (red underneath) in one cluster at the gripper; black untouched
+ep30 | PASS | Wrist final frame is decisive: red, blue, and white form a clear diagonal layered stack; overhead final agrees (white on blue)
+ep31 | PASS | Final overhead frame shows a neat vertical stack — white top, blue band, red base — left of the retracted gripper
+ep32 | PASS | Final overhead frame shows white/blue/red layered in one cluster; wrist final shows the same three cubes stacked at the frame edge
+ep33 | PASS | Final overhead frame shows white/grey over blue over red in a single small cluster at the robot; black cube alone on the table
+ep34 | PASS | Final overhead frame shows the red/blue/white cubes in one stacked cluster beside the gripper; no separated coloured cube remains
+ep35 | PASS | Final overhead frame shows white on blue with red at the base of the cluster next to the robot
+ep36 | PASS | Final overhead frame shows white over blue over red in a compact stack at the gripper; black distractor unmoved
+ep37 | PASS | Final overhead frame shows white squarely on blue, red beneath, in one cluster; wrist frame 5 shows the same layered stack
+ep38 | PASS | Final overhead frame shows white/grey/blue/red layered in a single cluster at the robot base; no coloured cube left separate
+ep39 | PASS | Final overhead frame shows white resting on the red/blue stack (layers offset but supported, not leaning on the table); stack stands in the final frame
+ep40 | PASS | Final overhead frame shows white on blue at the gripper; wrist final shows red/blue/white layered together at the top edge
+ep41 | PASS | Final overhead frame shows white on blue in one cluster beside the retracted gripper; red contained in the same stack footprint
+ep42 | PASS | Final overhead frame shows white over blue over red in a single cluster; wrist final confirms the layered stack at the frame edge
+ep43 | PASS | Final overhead frame shows white on blue (blue edge visible) in one cluster at the robot; black cube remains in its original spot, untouched
+ep44 | PASS | Final overhead frame shows the white cube resting on blue in a single cluster left of the gripper; no coloured cube separate on the table
+ep45 | PASS | Frame 5 overhead shows white on red/blue clearly; final frame retains the same stacked cluster, partly behind the gripper
+ep46 | PASS | Final overhead frame shows white squarely on blue, red at the base, in one compact cluster; wrist final shows red/blue/white layered
+ep47 | PASS | Final overhead frame shows white over blue over red in a single stack left of the gripper; black distractor separate and unmoved
+ep48 | PASS | Final overhead frame shows white on blue with red protruding at the base of the same cluster — a supported stack, not adjacent table cubes
+ep49 | PASS | Final overhead frame shows white resting on blue in one cluster at the robot base; no coloured cube left unstacked

@@ -1,0 +1,25 @@
+ep25 | PASS | final frames show single stacked bowl; wrist frame shows nested double rim, no incident
+ep26 | PASS | final frames show single stacked bowl; wrist frame shows bowls nesting cleanly
+ep27 | PASS | final frames show single stacked bowl; wrist frame shows double rim at placement, no knock/drop
+ep28 | PASS | final frames show single stacked bowl; clean pick, carry and nest, no incident
+ep29 | PASS | final frames show single stacked bowl; wrist frame shows bowl seated into the other
+ep30 | PASS | final frames show single stacked bowl; wrist frame shows nested bowls, no displacement
+ep31 | PASS | final frames show single stacked bowl; clean placement, no incident visible
+ep32 | PASS | final frames show single stacked bowl; wrist frame shows double rim, no drop
+ep33 | PASS | final frames show single stacked bowl; clean nesting, target bowl undisturbed
+ep34 | PASS | final frames show single stacked bowl; wrist frame shows bowls nested at release
+ep35 | PASS | final frames show single stacked bowl; clean carry and placement, no incident
+ep36 | PASS | final frames show single stacked bowl; wrist frame shows nested double rim
+ep37 | PASS | final frames show single stacked bowl; no knock, tip or drop in any frame
+ep38 | PASS | final frames show single stacked bowl; wrist frame shows bowl entering the other, no incident
+ep39 | PASS | final frames show single stacked bowl; clean placement, no displacement
+ep40 | PASS | final frames show single stacked bowl; wrist frame shows nested rims at placement
+ep41 | PASS | final frames show single stacked bowl; clean pick-and-stack, no incident
+ep42 | PASS | final frames show single stacked bowl; wrist frame clearly shows double rim nesting
+ep43 | PASS | final frames show single stacked bowl; no second bowl separate, no drop
+ep44 | PASS | final frames show single stacked bowl; wrist frame shows bowl seated into target
+ep45 | PASS | final frames show single stacked bowl; clean placement, no incident
+ep46 | PASS | final frames show single stacked bowl; wrist frame shows nested double rim
+ep47 | PASS | final frames show single stacked bowl; clean carry and release, target undisturbed
+ep48 | PASS | final frames show single stacked bowl; wrist frame shows bowls nesting, no knock
+ep49 | PASS | final frames show single stacked bowl; clean stack completed, no incident visible

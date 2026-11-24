@@ -101,6 +101,47 @@ armnetbench-heldout (4 FAIL, 5 contested, samples). Seed 20261123,
 cap 12 per subset. The ArmnetBench training-250 pack derives from
 the 1h program's records.
 
+## Update — coordinator #5 (2026-11-23 evening)
+
+Register: 2,059 rows, all PENDING HUMAN APPROVAL. Grok coverage
+1,900/2,059. Register-wide contested: 123 (none resolved).
+
+- **RoboColosseum stack-bowls 100**: primary 100 PASS; cleanliness
+  100 CLEAN; re-judge 20/20 (100%). Grok leg merged: agreement
+  50/100 — runs 01/02 read PASS on ep0-49; runs 03/04 read FAIL on
+  ALL of ep50-99, with evidence describing the same end state the
+  PASS runs called a completed nested stack. Flagged for the
+  founder as a probable batch-level Grok artifact (same pattern as
+  the Spa ep204-224 block); the reads stand as recorded and all 50
+  episodes are contested. Review pack built (review-pack/
+  rc-stack-bowls/: 50 contested, 12 seeded PASS+CLEAN samples).
+- **RoboColosseum stack-cubes 100**: primary 100 PASS; cleanliness
+  86 C / 13 I / 1 R; re-judge 20/20 (100%); 2 contested (third
+  independent read FAIL vs primary PASS on ep72/73). Grok leg
+  BLOCKED (below); review pack pending its Grok leg.
+- **BusyBox push-green 39**: primary 39 PASS; 39 CLEAN; re-judge
+  8/8 (100%). Grok leg BLOCKED; pack pending.
+- **BusyBox flip-left 20**: primary PASS 20/20, but blind re-judge
+  FAIL 4/4 sampled and two further independent reads FAIL 20/20 —
+  all 20 contested for the founder (primary stands). Cleanliness
+  UNGRADED after two attempts (both graders returned pass/fail
+  reads instead of grades; reads preserved in verdicts/). Grok leg
+  BLOCKED; pack pending.
+- **Grok leg blocker**: the 7 remaining rc2 runs (stack-cubes ×4,
+  push-green ×2, flip-left ×1) failed twice — the original run and
+  the one authorized re-run — with HTTP 402 "Grok Build usage
+  balance exhausted". No further retries were made. The Grok legs
+  (159 episodes) and the three review packs resume when the Grok
+  Build balance is restored.
+- **Downloads**: rc-upright-bottle still in flight under HF
+  rate-limit backoff (316 MB, 12 partial files; monitor only).
+  BusyBox multitask (132) and Cup Nesting (200) queue behind it.
+  DF test-tube: verified 7 video files still missing (6 cam_front +
+  1 cam_top) against its episodes manifest; its remainder fetch and
+  DF sorting's single queued retry run sequentially once crawler
+  load drops. DF test-tube §8 criteria are FROZEN (above); DF
+  sorting §8 freeze still waits on its task strings.
+
 ### Blocked sources (~742 rows) — downloads
 
 HF rate-limit backoff stalled the crawlers for most of 2026-11-23

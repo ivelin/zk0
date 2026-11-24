@@ -1,0 +1,25 @@
+ep0 | PASS | gripper tip reaches the green button in top-view frame 5 and the button glows bright green in frames 5-6, board unmoved
+ep1 | PASS | gripper over the green button in frame 4, button bright green in frames 4-6, no contact with other buttons
+ep2 | PASS | gripper contacts the green button in frame 4 and it glows bright green in frames 5-6, board stationary
+ep3 | PASS | gripper over the green button in frame 4, button bright green in frames 5-6, clean single press
+ep4 | PASS | gripper reaches the green button in frames 4-5 and it glows bright green in frames 5-6, no displacement
+ep5 | PASS | gripper over the green button in frame 4, button bright green in frames 5-6, red/yellow buttons untouched
+ep6 | PASS | gripper descends onto the green button in frames 4-5 and it glows bright green in frames 5-6
+ep7 | PASS | gripper on the green button in frame 5 with the button bright green in frames 5-6, board unmoved
+ep8 | PASS | gripper reaches the green button by frame 5 and it glows bright green in frames 5-6, clean press
+ep9 | PASS | gripper on the green button in frame 5, button bright green in frames 5-6, no other button affected
+ep10 | PASS | gripper over the green button in frame 4, button bright green in frames 5-6, board stationary
+ep11 | PASS | gripper contacts the green button in frames 4-5 and it glows bright green in frames 5-6
+ep12 | PASS | gripper over the green button in frame 4, button bright green in frames 5-6, clean single press
+ep13 | PASS | gripper reaches the green button in frames 4-5 and it glows bright green in frames 5-6, no displacement
+ep14 | PASS | gripper on the green button in frame 5, button bright green in frames 5-6, other buttons untouched
+ep15 | PASS | gripper on the green button in frame 5, button bright green in frames 5-6, board unmoved
+ep16 | PASS | gripper contacts the green button in frames 4-5 and it glows bright green in frames 5-6
+ep17 | PASS | gripper over the green button in frame 4, button bright green in frames 5-6, clean press
+ep18 | PASS | gripper over the green button in frame 4 and it glows bright green in frames 4-6, board stationary
+ep19 | PASS | gripper reaches the green button in frame 5 and it glows bright green in frames 5-6, no other button affected
+ep20 | PASS | in the closer top view the gripper presses the green button in frame 4 and it glows bright green in frames 5-6
+ep21 | PASS | gripper visibly presses the green button in frames 4-5 and it glows bright green in frames 5-6
+ep22 | PASS | gripper presses the green button in frame 4 and it glows bright green in frames 5-6, board unmoved
+ep23 | PASS | gripper presses the green button in frame 4 and it glows bright green in frames 5-6, clean single press
+ep24 | PASS | gripper presses the green button in frame 4 and it glows bright green in frames 4-6, no displacement

@@ -1,0 +1,108 @@
+[
+ {
+  "batch_id": "bb-flip-left-01",
+  "dataset": "bb-flip-left",
+  "episodes": [
+   {
+    "episode_index": 0,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep0.jpg"
+   },
+   {
+    "episode_index": 1,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep1.jpg"
+   },
+   {
+    "episode_index": 2,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep2.jpg"
+   },
+   {
+    "episode_index": 3,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep3.jpg"
+   },
+   {
+    "episode_index": 4,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep4.jpg"
+   },
+   {
+    "episode_index": 5,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep5.jpg"
+   },
+   {
+    "episode_index": 6,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep6.jpg"
+   },
+   {
+    "episode_index": 7,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep7.jpg"
+   },
+   {
+    "episode_index": 8,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep8.jpg"
+   },
+   {
+    "episode_index": 9,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep9.jpg"
+   },
+   {
+    "episode_index": 10,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep10.jpg"
+   },
+   {
+    "episode_index": 11,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep11.jpg"
+   },
+   {
+    "episode_index": 12,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep12.jpg"
+   },
+   {
+    "episode_index": 13,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep13.jpg"
+   },
+   {
+    "episode_index": 14,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep14.jpg"
+   },
+   {
+    "episode_index": 15,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep15.jpg"
+   },
+   {
+    "episode_index": 16,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep16.jpg"
+   },
+   {
+    "episode_index": 17,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep17.jpg"
+   },
+   {
+    "episode_index": 18,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep18.jpg"
+   },
+   {
+    "episode_index": 19,
+    "task_string": "flip the left switch off",
+    "sheet": "sheets/bb-flip-left__ep19.jpg"
+   }
+  ]
+ }
+]

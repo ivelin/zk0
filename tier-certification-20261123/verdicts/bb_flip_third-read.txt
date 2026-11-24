@@ -1,0 +1,29 @@
+# Third independent read of bb-flip-left, delivered by the flip
+# cleanliness-batch worker (agent 3ebbfc52, 2026-11-24T01:38Z), which
+# was briefed cleanliness-only but returned PASS/FAIL verdicts instead
+# of cleanliness grades. It reads FAIL on ALL 20 episodes, agreeing
+# with the blind re-judge (FAIL on its 4 sampled episodes) and
+# disagreeing with the primary pass (PASS 20/20). Preserved as
+# delivered; it does not override the primary verdict. All 20 flip
+# episodes are flagged contested in the register. Cleanliness for
+# flip was re-run as its own batch.
+ep0 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep1 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep2 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep3 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep4 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep5 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep6 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep7 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep8 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep9 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep10 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep11 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep12 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep13 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep14 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep15 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep16 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep17 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep18 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position
+ep19 | FAIL | final frames show the left toggle lever still pointing up, unchanged from its start position

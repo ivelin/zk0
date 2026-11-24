@@ -1,0 +1,4 @@
+ep8 | FAIL | final front frames show the left toggle still pointing up, unchanged from the start frames
+ep16 | FAIL | final front frames show the left toggle still pointing up, unchanged from the start frames
+ep17 | FAIL | final front frames show the left toggle still pointing up, unchanged from the start frames
+ep18 | FAIL | final front frames show the left toggle still pointing up, unchanged from the start frames

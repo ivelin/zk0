@@ -1,0 +1,25 @@
+ep50 | PASS | Final top view shows a single bowl, the second fully nested inside it; no displacement, brush, or re-grasp visible
+ep51 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean pick and placement throughout
+ep52 | PASS | Final top view shows a single bowl, the second fully nested inside it; no incident visible in any frame
+ep53 | PASS | Final top view shows a single bowl, the second fully nested inside it; smooth, uninterrupted stacking
+ep54 | PASS | Final top view shows a single bowl, the second fully nested inside it; no knock, drop, or correction visible
+ep55 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean placement, target bowl undisturbed
+ep56 | PASS | Final top view shows a single bowl, the second fully nested inside it; no incident visible
+ep57 | PASS | Final top view shows a single bowl, the second fully nested inside it; wrist view shows the two rims nested together mid-placement
+ep58 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean pick and placement throughout
+ep59 | PASS | Final top view shows a single bowl, the second fully nested inside it; no displacement or re-grasp visible
+ep60 | PASS | Final top view shows a single bowl, the second fully nested inside it; smooth, uninterrupted stacking
+ep61 | PASS | Final top view shows a single bowl, the second fully nested inside it; no incident visible in any frame
+ep62 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean placement, target bowl undisturbed
+ep63 | PASS | Final top view shows a single bowl, the second fully nested inside it; wrist view shows the bowls nested together before release
+ep64 | PASS | Final top view shows a single bowl, the second fully nested inside it; no knock, drop, or correction visible
+ep65 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean pick and placement throughout
+ep66 | PASS | Final top view shows a single bowl, the second fully nested inside it; no displacement or re-grasp visible
+ep67 | PASS | Final top view shows a single bowl, the second fully nested inside it; smooth, uninterrupted stacking
+ep68 | PASS | Final top view shows a single bowl, the second fully nested inside it; no incident visible
+ep69 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean placement, target bowl undisturbed
+ep70 | PASS | Final top view shows a single bowl, the second fully nested inside it; no brush, drop, or correction visible
+ep71 | PASS | Final top view shows a single bowl, the second fully nested inside it; clean pick and placement throughout
+ep72 | PASS | Final top view shows a single bowl, the second fully nested inside it; wrist view shows the two bowls nested together mid-placement
+ep73 | PASS | Final top view shows a single bowl, the second fully nested inside it; no incident visible in any frame
+ep74 | PASS | Final top view shows a single bowl, the second fully nested inside it; smooth, uninterrupted stacking with the target bowl undisturbed

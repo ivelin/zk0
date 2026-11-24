@@ -28,6 +28,10 @@ SHEET2KEY = [
     (re.compile(r"^rc-cube-drawer__ep(\d+)\.jpg$"), "rc-cube-drawer"),
     (re.compile(r"^rc-screwdriver__ep(\d+)\.jpg$"), "rc-screwdriver"),
     (re.compile(r"^armnetbench-heldout__ep(\d+)\.jpg$"), "armnetbench"),
+    (re.compile(r"^rc-stack-bowls__ep(\d+)\.jpg$"), "rc-stack-bowls"),
+    (re.compile(r"^rc-stack-cubes__ep(\d+)\.jpg$"), "rc-stack-cubes"),
+    (re.compile(r"^bb-push-green__ep(\d+)\.jpg$"), "bb-push-green"),
+    (re.compile(r"^bb-flip-left__ep(\d+)\.jpg$"), "bb-flip-left"),
 ]
 
 def key_for(sheet, ep):
