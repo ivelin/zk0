@@ -2,7 +2,7 @@
  "generated": "2026-11-24 morning assembly",
  "generator_family": "Muse (Muse Wonder)",
  "cable_collapse_note": "suite1 cable: 19 nominal canonicals dropped as byte-identical duplicates of spec00 k0 (md5 e6d0a75e); suite2 cable: 19 nominal canonicals dropped as byte-identical duplicates (md5 8562a1cd)",
- "cable_harvest_episodes_merged": 0,
+ "cable_harvest_episodes_merged": 35,
  "summary": {
   "block_stack": {
    "A_pool_distinct": 14,
@@ -51,13 +51,13 @@
   "cable_clip": {
    "A_pool_distinct": 14,
    "A_set": 10,
-   "spec_pool_distinct": 5,
+   "spec_pool_distinct": 40,
    "spec_nominal_in_pool": 2,
-   "B": 2,
-   "C": 1,
-   "D": 1,
-   "E": 1,
-   "spec_total_in_sets": 5
+   "B": 10,
+   "C": 10,
+   "D": 10,
+   "E": 10,
+   "spec_total_in_sets": 40
   }
  },
  "sets": {
@@ -1312,20 +1312,94 @@
      "origin": "suite1 seed20261127"
     },
     {
-     "id": "s1 spec03 k3 (validator-pass draw)",
-     "scene": "cable_clip__spec03",
-     "variant": "k3",
+     "id": "harvest spec01 v1",
+     "scene": "cable_clip__spec01",
+     "variant": "v1",
      "nominal": false,
-     "controller": "frozen",
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
      "cleanliness": "CLEAN",
-     "legs": [
-      {
-       "model": "gpt-oss-120b",
-       "good": "YES",
-       "grade": "CLEAN"
-      }
-     ],
-     "origin": "suite1 validator-pass distinct draw"
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec03 v1",
+     "scene": "cable_clip__spec03",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec05 v1",
+     "scene": "cable_clip__spec05",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec07 v1",
+     "scene": "cable_clip__spec07",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec09 v1",
+     "scene": "cable_clip__spec09",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec11 v1",
+     "scene": "cable_clip__spec11",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec13 v1",
+     "scene": "cable_clip__spec13",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec15 v1",
+     "scene": "cable_clip__spec15",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec19 v1",
+     "scene": "cable_clip__spec19",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
     }
    ],
    "C": [
@@ -1338,9 +1412,87 @@
      "cleanliness": "CLEAN",
      "legs": [],
      "origin": "suite2 seed20261128"
-    }
-   ],
-   "D": [
+    },
+    {
+     "id": "harvest spec01 v2",
+     "scene": "cable_clip__spec01",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec03 v2",
+     "scene": "cable_clip__spec03",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec05 v2",
+     "scene": "cable_clip__spec05",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec07 v2",
+     "scene": "cable_clip__spec07",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec09 v2",
+     "scene": "cable_clip__spec09",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec11 v2",
+     "scene": "cable_clip__spec11",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec13 v2",
+     "scene": "cable_clip__spec13",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec16 v1",
+     "scene": "cable_clip__spec16",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
     {
      "id": "s1 spec01 k1 (validator-pass draw)",
      "scene": "cable_clip__spec01",
@@ -1358,11 +1510,209 @@
      "origin": "suite1 validator-pass distinct draw"
     }
    ],
-   "E": [
+   "D": [
+    {
+     "id": "harvest spec00 v1",
+     "scene": "cable_clip__spec00",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec02 v1",
+     "scene": "cable_clip__spec02",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec04 v1",
+     "scene": "cable_clip__spec04",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec06 v1",
+     "scene": "cable_clip__spec06",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec08 v1",
+     "scene": "cable_clip__spec08",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec10 v1",
+     "scene": "cable_clip__spec10",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec12 v1",
+     "scene": "cable_clip__spec12",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec14 v1",
+     "scene": "cable_clip__spec14",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec17 v1",
+     "scene": "cable_clip__spec17",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
     {
      "id": "s1 spec02 k2 (validator-pass draw)",
      "scene": "cable_clip__spec02",
      "variant": "k2",
+     "nominal": false,
+     "controller": "frozen",
+     "cleanliness": "CLEAN",
+     "legs": [
+      {
+       "model": "gpt-oss-120b",
+       "good": "YES",
+       "grade": "CLEAN"
+      }
+     ],
+     "origin": "suite1 validator-pass distinct draw"
+    }
+   ],
+   "E": [
+    {
+     "id": "harvest spec00 v2",
+     "scene": "cable_clip__spec00",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec02 v2",
+     "scene": "cable_clip__spec02",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec04 v2",
+     "scene": "cable_clip__spec04",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec06 v2",
+     "scene": "cable_clip__spec06",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec08 v2",
+     "scene": "cable_clip__spec08",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec10 v2",
+     "scene": "cable_clip__spec10",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec12 v2",
+     "scene": "cable_clip__spec12",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "frozen (refcore.py + run_reference.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec14 v2",
+     "scene": "cable_clip__spec14",
+     "variant": "v2",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "harvest spec18 v1",
+     "scene": "cable_clip__spec18",
+     "variant": "v1",
+     "nominal": false,
+     "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+     "cleanliness": "CLEAN",
+     "legs": [],
+     "origin": "cable-harvest seed20261128"
+    },
+    {
+     "id": "s1 spec03 k3 (validator-pass draw)",
+     "scene": "cable_clip__spec03",
+     "variant": "k3",
      "nominal": false,
      "controller": "frozen",
      "cleanliness": "CLEAN",

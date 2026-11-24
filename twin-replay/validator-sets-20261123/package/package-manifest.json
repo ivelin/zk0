@@ -5,7 +5,7 @@
  "generated": "2026-11-24 morning assembly (overnight run 2026-11-23)",
  "generator_family": "Muse (Muse Wonder)",
  "sets_file": "docs/sets.json",
- "file_count": 245,
+ "file_count": 314,
  "files": [
   {
    "path": "scenes/block_stack__ep453.xml",
@@ -243,19 +243,184 @@
    "bytes": 15185
   },
   {
+   "path": "scenes/cable_clip__spec00_v1.xml",
+   "sha256": "154f1e07a0ed59ef7e891b5e4fb82a0a0f694ddb6a5c9e1a7fbc903085fcd207",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec00_v2.xml",
+   "sha256": "c2a24a8d03479d964c0d540101a97114b38bbdaf383220b78c0e4f459ad506c0",
+   "bytes": 15312
+  },
+  {
    "path": "scenes/cable_clip__spec01_v1.xml",
-   "sha256": "ca5bd2483126b6d4a5168d4719c6b8d6045d740e28d1d41abb2896fb2c784e22",
-   "bytes": 15289
+   "sha256": "501d1ee60192f5f8263a08c8d1a9385617711721ce6205cb06709609ef85605f",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec01_v2.xml",
+   "sha256": "a7729118cec263c2be6826f5b6525cd10c7c0bec5be04f52b694dd06226d342c",
+   "bytes": 15241
+  },
+  {
+   "path": "scenes/cable_clip__spec02_v1.xml",
+   "sha256": "215921a6ea4a73cad63b2d54f9412b680b9ec7cd6d880d11598d55d98a5a9fdf",
+   "bytes": 15312
   },
   {
    "path": "scenes/cable_clip__spec02_v2.xml",
-   "sha256": "99d340ad7f4131e47f213f4e672eb7e6431bc929aed5c95e3191deb3d979d681",
+   "sha256": "f393347815388f76efb9a2a176e012aacb25a8d1e9ab71da4246a1d12a9b02aa",
+   "bytes": 15241
+  },
+  {
+   "path": "scenes/cable_clip__spec03_v1.xml",
+   "sha256": "1d06acee90c2c6a79909ad5193ec9864fa01cbecfdcaf179102a81ef213d3b94",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec03_v2.xml",
+   "sha256": "535c88c04814f395ee01ed30aabcfc97436d5eac6da5ce6509a3d1412f593f27",
    "bytes": 15288
   },
   {
    "path": "scenes/cable_clip__spec03_v3.xml",
    "sha256": "59d59c0f47383fa44a984d72464d64d0b726b8897e3b73c80a39ddb6e1d9b0ca",
    "bytes": 15310
+  },
+  {
+   "path": "scenes/cable_clip__spec04_v1.xml",
+   "sha256": "4e1c77107071e2a5b99375cca566afc01323f60b545b4820c4b0dca423226fbc",
+   "bytes": 15288
+  },
+  {
+   "path": "scenes/cable_clip__spec04_v2.xml",
+   "sha256": "6fa5bddc241f0423b0731b8bca1e1b6d9db4f3a02412227e8dc15572e09ef4f4",
+   "bytes": 15289
+  },
+  {
+   "path": "scenes/cable_clip__spec05_v1.xml",
+   "sha256": "cfedced862032feae138a058a5e6e9705651d8086af6eda79a88bcf8fefbc579",
+   "bytes": 15313
+  },
+  {
+   "path": "scenes/cable_clip__spec05_v2.xml",
+   "sha256": "96a19b1ea17714d1e9e58202fd40dd34e5520cfddbb3af6c5c24763bd8afaefd",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec06_v1.xml",
+   "sha256": "7bb550240aac0096892c344fe38be42cb6e5d731fccbf4cad91dee7fda060004",
+   "bytes": 15313
+  },
+  {
+   "path": "scenes/cable_clip__spec06_v2.xml",
+   "sha256": "c03ade1f0f95a8a3f76b2be2b7cec6ee08681be40dd1ac9c864a983ccc7f0ac2",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec07_v1.xml",
+   "sha256": "72198dbaf38f11c2022cf7c9fc644af5d8662245ae82d395c5048bf4fcec7dd1",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec07_v2.xml",
+   "sha256": "dc540a7b5d87f9b18cffbbbe36423497c0b3ff2e54a73ac3b87e14c5f34e2e18",
+   "bytes": 15307
+  },
+  {
+   "path": "scenes/cable_clip__spec08_v1.xml",
+   "sha256": "ed3b5ca6ceea95ce4b92923d710972decda5545b5b4b0b5796b82e879f7e7eb5",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec08_v2.xml",
+   "sha256": "588f3662bf5c92a69457b1bcae00379c4b0b36cccce5759c872c64b38fa9d10d",
+   "bytes": 15311
+  },
+  {
+   "path": "scenes/cable_clip__spec09_v1.xml",
+   "sha256": "a56be363d301b7eca9502d422d2487416774d7e3727d778519afd5cc49b38ec0",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec09_v2.xml",
+   "sha256": "fe5e8d6e90d92fc10af6044cd1cc4835ea1b250a3fbf61fc0e41f0c9d9ad3612",
+   "bytes": 15238
+  },
+  {
+   "path": "scenes/cable_clip__spec10_v1.xml",
+   "sha256": "7a5aba66095e60edfd8e7a3e70284fdd2c1c6443c47bf595356aaf5ded6ddd66",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec10_v2.xml",
+   "sha256": "b97f64f5bd9abac4d341fe0b7e44967885c5fe5c84231f45fb68b5f1d2d5c7b1",
+   "bytes": 15310
+  },
+  {
+   "path": "scenes/cable_clip__spec11_v1.xml",
+   "sha256": "0ee97d815c81998e27d230c4b670e06da525fe58c76e1ee2eb67372d07fb647d",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec11_v2.xml",
+   "sha256": "dbc0b6761f9e0e47eb0dc824ee4bc363be1405d2c76989f8c3302bc871b68c83",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec12_v1.xml",
+   "sha256": "55be4c47dd689f2d2670cffb2a4448f1bf40a68b0ca91aec1e9606efe1bd0e22",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec12_v2.xml",
+   "sha256": "affe8fe94cad812c54e168bad6aa0a8a7f798048c88b4749f853a2a095e81b01",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec13_v1.xml",
+   "sha256": "8c9cdd2f9d5f7a2645f3302d408c0fc088126cbf6085534d52a3ed18fb052fb4",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec13_v2.xml",
+   "sha256": "10a953d93979a85ea5a78ef64f46bb7e4d73a2a87faaad1c6110a6a95d974ca0",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec14_v1.xml",
+   "sha256": "29f4217d1dcf50afcac0445f3590ac28ef6b3fc938d7d580c74d02c6ad5d5f53",
+   "bytes": 15264
+  },
+  {
+   "path": "scenes/cable_clip__spec14_v2.xml",
+   "sha256": "acbd42d9e4e4b41e730a79e1e6b7b9a6f2db769fc76e77c1106a4ad24d7160ad",
+   "bytes": 15313
+  },
+  {
+   "path": "scenes/cable_clip__spec15_v1.xml",
+   "sha256": "3df41eba3c5018289bcac6cfbae794c7aab0a682f401aa2a2d6f5bacfea490d8",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec16_v1.xml",
+   "sha256": "5ddda19cf58a8f23ce232ab4d1f3327e4b1050d7e6aa59ffd147fc58f7e6d15d",
+   "bytes": 15288
+  },
+  {
+   "path": "scenes/cable_clip__spec17_v1.xml",
+   "sha256": "ac59d84691a8a9a906cfad2129d84433eea2e4417a0745af2cd7629fa1767178",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec18_v1.xml",
+   "sha256": "60b23ad5b1277269de8cefb5db08b984a01733ec188b0b4e521dcf3f124eb493",
+   "bytes": 15312
+  },
+  {
+   "path": "scenes/cable_clip__spec19_v1.xml",
+   "sha256": "236bc89e39202385102bf663809c0c9131da0d21cce04edfa8a54dd974837dcc",
+   "bytes": 15291
   },
   {
    "path": "scenes/eye_drops_to_basket__ep1609.xml",
@@ -1028,6 +1193,181 @@
    "bytes": 35516
   },
   {
+   "path": "records/s2_cable_clip__spec00_v1_rev21.json",
+   "sha256": "186918fd2533ed00945a062954aabab8cce1d9ca2f67cb35bee97928411ab318",
+   "bytes": 3579
+  },
+  {
+   "path": "records/s2_cable_clip__spec00_v2_rev21.json",
+   "sha256": "666f5d5f93bb6c0970c7b002c968f74c16d69eaf5f48ec135e13700a0f4c9616",
+   "bytes": 3582
+  },
+  {
+   "path": "records/s2_cable_clip__spec01_v1_rev21.json",
+   "sha256": "28c324d513b7abe34279d46dd019cfbcb582d3862de85c6292b3fcd7c63087b9",
+   "bytes": 3583
+  },
+  {
+   "path": "records/s2_cable_clip__spec01_v2_rev21.json",
+   "sha256": "6438524e57e46e6b094e7b94406daccae43a959dd6487fc445ee385def2d7c42",
+   "bytes": 3592
+  },
+  {
+   "path": "records/s2_cable_clip__spec02_v1_rev21.json",
+   "sha256": "57b333d4d7195d7250685002ba04998d9800a22e247f9ae8e3779f3e3731602d",
+   "bytes": 3597
+  },
+  {
+   "path": "records/s2_cable_clip__spec02_v2_rev21.json",
+   "sha256": "acf4a47d0704d9f0bdb823e0304af00c2be4016082e54065495ed9f48bb20cec",
+   "bytes": 3595
+  },
+  {
+   "path": "records/s2_cable_clip__spec03_v1_rev21.json",
+   "sha256": "7d7d9637ef9d9f1aef3ed754ad2d974d6ef5a8fc30f119f9a8bebc0dc98b7368",
+   "bytes": 3647
+  },
+  {
+   "path": "records/s2_cable_clip__spec03_v2_rev21.json",
+   "sha256": "547ef7852f58a494ec6c42ef2dc978abc8d72f4c82d09a510b27537daec9362c",
+   "bytes": 3592
+  },
+  {
+   "path": "records/s2_cable_clip__spec04_v1_rev21.json",
+   "sha256": "707c441c285079b32609f9a0681f3224c3cfd5ab5fd68fe5eef2965ead2d75c7",
+   "bytes": 3593
+  },
+  {
+   "path": "records/s2_cable_clip__spec04_v2_rev21.json",
+   "sha256": "7db5c825836e909de6570beecc878e28aa5e9ba2b0b27c5c1316e927f75da30b",
+   "bytes": 3589
+  },
+  {
+   "path": "records/s2_cable_clip__spec05_v1_rev21.json",
+   "sha256": "e43ca7f660601cfd62acb36925121da40609a3e70d5ef58901d78de765ac2cfe",
+   "bytes": 3585
+  },
+  {
+   "path": "records/s2_cable_clip__spec05_v2_frozen.json",
+   "sha256": "e2e6f46573ee8d42812d0631e5145a82caf44855112a52a116b319d1f3529459",
+   "bytes": 3648
+  },
+  {
+   "path": "records/s2_cable_clip__spec06_v1_rev21.json",
+   "sha256": "6c4d9e6beb03e22d878320f3302393c96c7b0f86bd6c734294549aa154b3ef7a",
+   "bytes": 3649
+  },
+  {
+   "path": "records/s2_cable_clip__spec06_v2_rev21.json",
+   "sha256": "95a3a8082b4e70fac4f21c9b3e722f32bc76591a7c62f4143b5a95f52b17be8e",
+   "bytes": 3588
+  },
+  {
+   "path": "records/s2_cable_clip__spec07_v1_rev21.json",
+   "sha256": "7e498460f5a24dcbd6302dd7d8b9f70b99a3f510344eb0fe3a9d4159332aad39",
+   "bytes": 3636
+  },
+  {
+   "path": "records/s2_cable_clip__spec07_v2_rev21.json",
+   "sha256": "dea8dc1e7af5ecd8e4d40a48caef2fb4f04a139aa0dbf297f05bab88b226be0b",
+   "bytes": 3571
+  },
+  {
+   "path": "records/s2_cable_clip__spec08_v1_rev21.json",
+   "sha256": "7ee79ec3a450671b0cac08c7fd352524026df841782c4abb8ea561dc6a035d1b",
+   "bytes": 3577
+  },
+  {
+   "path": "records/s2_cable_clip__spec08_v2_rev21.json",
+   "sha256": "b493c8c3e7d56a8fca4341830c3bd132bb6fca51d1a086c2848dc54ec6759363",
+   "bytes": 3588
+  },
+  {
+   "path": "records/s2_cable_clip__spec09_v1_rev21.json",
+   "sha256": "0de91e67f59b74e6bbe8ce83744177dd6ac94ce83244a0237c94500acd133d45",
+   "bytes": 3592
+  },
+  {
+   "path": "records/s2_cable_clip__spec09_v2_rev21.json",
+   "sha256": "3ff6c21494726b5410fabe31005f64bdb598ca7f06c31171e19e6a01699d5cda",
+   "bytes": 3597
+  },
+  {
+   "path": "records/s2_cable_clip__spec10_v1_rev21.json",
+   "sha256": "23699d7d1561427398f3acb9b75b2b2bd3c045ded29e313387becb1de436eb67",
+   "bytes": 3580
+  },
+  {
+   "path": "records/s2_cable_clip__spec10_v2_rev21.json",
+   "sha256": "e65cb3415ede693e375d096d897a69fb6ea9c39db88e3c314e738997366ed77f",
+   "bytes": 3581
+  },
+  {
+   "path": "records/s2_cable_clip__spec11_v1_rev21.json",
+   "sha256": "1009d5953a512343b90aca5271c5b963fe3fb22a9ab0095e37e8c0160f9f46ac",
+   "bytes": 3643
+  },
+  {
+   "path": "records/s2_cable_clip__spec11_v2_rev21.json",
+   "sha256": "72922b918dfee4555aa580ecf00d8e732a1ad17a1eecb868aa98fb539a4551f8",
+   "bytes": 3586
+  },
+  {
+   "path": "records/s2_cable_clip__spec12_v1_rev21.json",
+   "sha256": "57221696eb0ab99739c7404c27295f39f892a2183ba5788351cf1a66cd772f52",
+   "bytes": 3582
+  },
+  {
+   "path": "records/s2_cable_clip__spec12_v2_frozen.json",
+   "sha256": "b6eced343c31237364b2e70deca8251e09b449c74df7f7fa5684e2239e769e27",
+   "bytes": 3644
+  },
+  {
+   "path": "records/s2_cable_clip__spec13_v1_rev21.json",
+   "sha256": "203c5a336b1a9b9f336126f4f9ddde2ac4f1ec3f1fae3c2f3cad74a5bb8b6723",
+   "bytes": 3638
+  },
+  {
+   "path": "records/s2_cable_clip__spec13_v2_rev21.json",
+   "sha256": "0a0bd274eb909ed935d55cff102dad9babcbd90b4c283103f4ba6c9ab627a25d",
+   "bytes": 3587
+  },
+  {
+   "path": "records/s2_cable_clip__spec14_v1_rev21.json",
+   "sha256": "64a256ae95384e15d5b52467beb1e29e5019174574c0b630eb168fa90c212774",
+   "bytes": 3643
+  },
+  {
+   "path": "records/s2_cable_clip__spec14_v2_rev21.json",
+   "sha256": "9ff1973d5f3fef7d75075da6a458893c8647dc09147cb5f439cdfee4cf8e5a3e",
+   "bytes": 3590
+  },
+  {
+   "path": "records/s2_cable_clip__spec15_v1_rev21.json",
+   "sha256": "cef1358f66581690e439bede5f1691ec3d40e265ee5cc89735cc9d172922c678",
+   "bytes": 3640
+  },
+  {
+   "path": "records/s2_cable_clip__spec16_v1_rev21.json",
+   "sha256": "a43adb2e971aefea065dd4606e48b5fcc65c035dd9b149378309ff296ec52e1b",
+   "bytes": 3642
+  },
+  {
+   "path": "records/s2_cable_clip__spec17_v1_rev21.json",
+   "sha256": "ddd8cdf859a58544f881e261fd3649ee587fb0f3eb90f6e83a3811942bbc5a34",
+   "bytes": 3590
+  },
+  {
+   "path": "records/s2_cable_clip__spec18_v1_rev21.json",
+   "sha256": "c21c5974ab6183d5428699ba3993ebf0d340136e8aee68799bd8283b59ce63ec",
+   "bytes": 3649
+  },
+  {
+   "path": "records/s2_cable_clip__spec19_v1_rev21.json",
+   "sha256": "ba790014e7ca49c525065b7cc60c3c4e26797606409210f867bfa8d42b33ee4f",
+   "bytes": 3651
+  },
+  {
    "path": "records/tool_insert__ep622_frozen_v1.json",
    "sha256": "b3895850ca80ca1384acdd62d3cdf7701ce69565561c0c4c449b43e1c6b4bfac",
    "bytes": 6310
@@ -1178,6 +1518,11 @@
    "bytes": 3045
   },
   {
+   "path": "registers/cable-harvest-register.json",
+   "sha256": "09bbd16ea672859758ca367c1132d3d589d23024fd644fd5b9d537ad4ce94b4f",
+   "bytes": 125758
+  },
+  {
    "path": "registers/legs.json",
    "sha256": "1723c348a4ec51717a6723cb49f8cbf19fc9d649a6585fcc5d9eac0ee84bebc1",
    "bytes": 25499
@@ -1224,13 +1569,13 @@
   },
   {
    "path": "docs/sets.json",
-   "sha256": "d3d3eb43dd32e615a45d0f8f94b9b386a2a7032c3923eedf9f6b63238af5eb5a",
-   "bytes": 33504
+   "sha256": "23666c5c7a56cc9e6b8aca1f9eb5bc656d3530c7ee2fe938ba8e3a8ce71fbef3",
+   "bytes": 43272
   },
   {
    "path": "docs/validator-sets-report-20261123.md",
-   "sha256": "b3871ead59d0b72fddcefded997a7a6d56d0ac5a7ff961ba59d22fb11d94a977",
-   "bytes": 10091
+   "sha256": "6ff6964c5d464593575f7bde8265ae7e555b034981da4a65a40d7dfe01a6f2e0",
+   "bytes": 10384
   }
  ],
  "episodes_referencing_external_backup": [
@@ -1381,6 +1726,6 @@
  ],
  "notes": [
   "Pre-certified twin episodes (20) reference their existing backup at HF zk0bot/sim-scene-solutions @ e57de85aaed0b6dc91e224fc3972bc5d5a6fb1a1.",
-  "Cable harvest episodes append to this package when the harvest lands (addendum)."
+  "Cable harvest (35 episodes) merged 2026-11-24; final sets total 149/250."
  ]
 }

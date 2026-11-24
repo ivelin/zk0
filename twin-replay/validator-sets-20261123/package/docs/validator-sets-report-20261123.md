@@ -5,9 +5,11 @@ sim PASS episodes = 50 certified pass episodes per task (250 total).
 Validator A = twins of real-world held-out eval episodes; validators
 B–E = task-description-only (spec-only) scenes.
 
-**Headline: 114 of 250 set episodes are filled with certified pass
-episodes this morning (36/50 twin episodes; 78/200 spec-only
-episodes), plus a cable variant harvest still landing (see cable).**
+**Headline: 149 of 250 set episodes are filled with certified pass
+episodes this morning (36/50 twin episodes; 113/200 spec-only
+episodes). Cable_clip reaches the full 50/50.** (Final figures —
+this revision supersedes the provisional cable numbers in the first
+committed version of this report.)
 Every filled episode is a scene + an executed solution trajectory
 that passed the frozen task criteria and was **certified by
 independent re-execution** (fresh process, raw scene files, PASS
@@ -21,13 +23,10 @@ folder.
 |---|---|---|---|---|---|---|
 | block_stack | **10** | 8 | 8 | 7 | 7 | 40 |
 | eye_drops_to_basket | **10** | 8 | 7 | 7 | 7 | 39 |
-| cable_clip | **10** | 2* | 1* | 1* | 1* | 15* (+ harvest) |
+| cable_clip | **10** | **10** | **10** | **10** | **10** | **50** |
 | tool_insert | 5 | 4 | 4 | 3 | 3 | 19 |
 | ring_insert | 1 | 0 | 0 | 0 | 0 | 1 |
-| **Total** | **36/50** | | | | | **114/250** |
-
-\* cable spec-only counts are pre-harvest; a dedicated harvest of
-distinct cable variant episodes is in flight (see Cable).
+| **Total** | **36/50** | | | | | **149/250** |
 
 ## How certification and validation stand (two different layers)
 
@@ -77,10 +76,15 @@ Spec-only: the cable generator emits ONE nominal coil geometry —
 `8562a1cd…`). The 40 "nominal certified solutions" are therefore
 executions in 2 distinct geometries, not 40 episodes. Distinct
 certified cable episodes in hand: 5 (suite-1 nominal + 3
-validator-pass distinct variant draws + suite-2 nominal). A harvest
-certifying distinct variant files (all hash-distinct) is running to
-close this gap; final cable numbers land in an addendum to this
-report. Cable solutions use the documented v1.1 weld device
+validator-pass distinct variant draws + suite-2 nominal) — **plus a
+completed harvest of 35 further distinct variant episodes** (all
+20 suite-2 scenes × v1, plus spec00–14 × v2; every file
+hash-distinct; 33 via rev2.1, 2 via the frozen retry after a rev2.1
+FAIL; all re-execution-certified at 0.00 mm; all CLEAN). Cable
+spec-only therefore fills B–E completely: 40/40. All 160 candidate
+variant files across both suites were verified hash-distinct, so
+the suite-1 variant pool remains available if more cable episodes
+are ever needed. Cable solutions use the documented v1.1 weld device
 (gripper cannot pinch a 5 mm cable) — a solvability proof under that
 registered device, stated in every cable bundle.
 
@@ -110,8 +114,9 @@ started). Ring stays NO GATE.
 ## Nominal vs variant (reported both ways, never blended)
 
 Episodes in the sets that rest on NOMINAL solutions, per task —
-spec-only: block 11 of 30, eye 2 of 29, tool 3 of 14, cable 2 of 5
-(+0 harvest, all variant), ring 0. Twin A-sets are nominal-first:
+spec-only: block 11 of 30, eye 2 of 29, tool 3 of 14, cable 2 of 40
+(the other 38 cable episodes are distinct variant files), ring 0.
+Twin A-sets are nominal-first:
 block 10/10 nominal, eye 6/10, cable 7/10, tool 1/5, ring 0/1
 (several of tonight's new twin canonicals are themselves variant
 passes — e.g. cable 2125 v1, 1896 v2, 1903 v3; eye 1639/1643 v1,
@@ -189,4 +194,3 @@ founder's go.
    grow block/eye/tool spec sets without new scene generation).
 3. Founder decisions: ring criterion parameter; ring human-in-sim;
    nominal-vs-variant operationalization; HF backup go.
-4. Cable harvest final numbers (addendum to this report).

@@ -1,0 +1,239 @@
+{
+ "task": "cable_clip",
+ "episode": "cable_clip__spec05",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "cable_seated_in_clip_closed": true,
+  "solver_failure": false,
+  "max_seg_radial_m": 0.363,
+  "nearest_seg_to_block_xy_m": 0.0036
+ },
+ "objects_final": {
+  "seg_0": [
+   0.3631,
+   -0.0011,
+   0.0567
+  ],
+  "seg_1": [
+   0.353,
+   0.0255,
+   0.0575
+  ],
+  "seg_2": [
+   0.331,
+   0.0436,
+   0.0576
+  ],
+  "seg_3": [
+   0.3028,
+   0.0477,
+   0.0574
+  ],
+  "seg_4": [
+   0.2755,
+   0.0399,
+   0.0582
+  ],
+  "seg_5": [
+   0.2546,
+   0.0205,
+   0.0569
+  ],
+  "seg_6": [
+   0.2433,
+   -0.005,
+   0.0513
+  ],
+  "seg_7": [
+   0.244,
+   -0.0317,
+   0.0416
+  ],
+  "seg_8": [
+   0.2565,
+   -0.0547,
+   0.0302
+  ],
+  "seg_9": [
+   0.2791,
+   -0.0686,
+   0.02
+  ],
+  "seg_10": [
+   0.3071,
+   -0.0694,
+   0.0148
+  ],
+  "seg_11": [
+   0.3322,
+   -0.0561,
+   0.0166
+  ],
+  "seg_12": [
+   0.3457,
+   -0.0331,
+   0.0264
+  ],
+  "seg_13": [
+   0.3424,
+   -0.008,
+   0.0396
+  ],
+  "seg_14": [
+   0.3237,
+   0.0103,
+   0.0509
+  ],
+  "seg_15": [
+   0.2968,
+   0.0168,
+   0.0572
+  ],
+  "seg_16": [
+   0.2691,
+   0.01,
+   0.0578
+  ],
+  "seg_17": [
+   0.2482,
+   -0.0087,
+   0.053
+  ],
+  "seg_18": [
+   0.2385,
+   -0.0328,
+   0.0415
+  ],
+  "seg_19": [
+   0.241,
+   -0.0576,
+   0.0277
+  ],
+  "seg_20": [
+   0.2556,
+   -0.0789,
+   0.0156
+  ],
+  "seg_21": [
+   0.2797,
+   -0.0923,
+   0.0086
+  ],
+  "seg_22": [
+   0.3082,
+   -0.0939,
+   0.0082
+  ],
+  "seg_23": [
+   0.3338,
+   -0.0823,
+   0.0126
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "executor: v1.1 weld device (pad pinch impossible: min face gap ~8mm > cable 5mm); target segment cable_seg_3, starts 69 mm from clip block at [ 0.285 -0.017  0.003]; segment at [0.3   0.05  0.057], channel at [0.3   0.05  0.061]",
+ "log": [
+  {
+   "move": "cable:above-seg",
+   "target": [
+    0.2851,
+    -0.0171,
+    0.0827
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2752,
+    -0.017,
+    0.0736
+   ]
+  },
+  {
+   "move": "cable:at-seg",
+   "target": [
+    0.2851,
+    -0.0171,
+    0.0127
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2936,
+    -0.0177,
+    0.0334
+   ]
+  },
+  {
+   "move": "cable:lift",
+   "target": [
+    0.2941,
+    -0.0177,
+    0.0835
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2928,
+    -0.0176,
+    0.0827
+   ]
+  },
+  {
+   "move": "cable:over-channel",
+   "target": [
+    0.303,
+    0.0457,
+    0.1419
+   ],
+   "solved": false
+  },
+  {
+   "move": "cable:over-channel-pos",
+   "target": [
+    0.303,
+    0.0457,
+    0.1419
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "cable:seat",
+   "target": [
+    0.303,
+    0.0457,
+    0.0899
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3039,
+    0.0457,
+    0.0882
+   ]
+  },
+  {
+   "move": "cable:retreat",
+   "target": [
+    0.3039,
+    0.0458,
+    0.1681
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "v1.1-weld-device",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "cable_clip__spec05",
+ "scene_index": 5,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "cfedced862032feae138a058a5e6e9705651d8086af6eda79a88bcf8fefbc579",
+ "scene_variant": "k=1",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

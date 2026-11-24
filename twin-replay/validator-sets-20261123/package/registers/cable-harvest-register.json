@@ -1,0 +1,3266 @@
+{
+ "schema": "cable-harvest-register/1",
+ "task": "cable_clip",
+ "generated_at": "2026-11-24T04:50:02-0600",
+ "target": 35,
+ "candidate_stats": {
+  "total_variant_files": 160,
+  "distinct_files": 160,
+  "per_suite_counts": {
+   "s2": {
+    "files": 80,
+    "distinct": 80
+   },
+   "s1": {
+    "files": 80,
+    "distinct": 80
+   }
+  }
+ },
+ "certified_count": 35,
+ "certified_by_suite": {
+  "s2": 35,
+  "s1": 0
+ },
+ "attempted_count": 35,
+ "failed_count": 0,
+ "episodes": [
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec00",
+   "scene_index": 0,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec00_v1.xml",
+   "scene_file_md5": "c84169afb64aea379b7f345ca29c7368",
+   "scene_sha256": "154f1e07a0ed59ef7e891b5e4fb82a0a0f694ddb6a5c9e1a7fbc903085fcd207",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.365,
+    "nearest_seg_to_block_xy_m": 0.0054
+   },
+   "builder_record": "results/s2_cable_clip__spec00_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec00_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec00_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec00_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec01",
+   "scene_index": 1,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec01_v1.xml",
+   "scene_file_md5": "1d7cc5b5a5de5e7fb4557bf350c89d6e",
+   "scene_sha256": "501d1ee60192f5f8263a08c8d1a9385617711721ce6205cb06709609ef85605f",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.364,
+    "nearest_seg_to_block_xy_m": 0.0045
+   },
+   "builder_record": "results/s2_cable_clip__spec01_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec01_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec01_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec01_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec02",
+   "scene_index": 2,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec02_v1.xml",
+   "scene_file_md5": "9d80b0a068ca448bf1e74553057f24f0",
+   "scene_sha256": "215921a6ea4a73cad63b2d54f9412b680b9ec7cd6d880d11598d55d98a5a9fdf",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.366,
+    "nearest_seg_to_block_xy_m": 0.0064
+   },
+   "builder_record": "results/s2_cable_clip__spec02_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec02_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec02_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec02_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec03",
+   "scene_index": 3,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec03_v1.xml",
+   "scene_file_md5": "d2edc70842bfc56adf46242b317c093e",
+   "scene_sha256": "1d06acee90c2c6a79909ad5193ec9864fa01cbecfdcaf179102a81ef213d3b94",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.349,
+    "nearest_seg_to_block_xy_m": 0.0027
+   },
+   "builder_record": "results/s2_cable_clip__spec03_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec03_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec03_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec03_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec04",
+   "scene_index": 4,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec04_v1.xml",
+   "scene_file_md5": "fb707e45007d98cea7449d53aa0c477b",
+   "scene_sha256": "4e1c77107071e2a5b99375cca566afc01323f60b545b4820c4b0dca423226fbc",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.362,
+    "nearest_seg_to_block_xy_m": 0.0036
+   },
+   "builder_record": "results/s2_cable_clip__spec04_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec04_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec04_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec04_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec05",
+   "scene_index": 5,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec05_v1.xml",
+   "scene_file_md5": "1592b73a4a56d218bf1ffb084bf817d8",
+   "scene_sha256": "cfedced862032feae138a058a5e6e9705651d8086af6eda79a88bcf8fefbc579",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.363,
+    "nearest_seg_to_block_xy_m": 0.0036
+   },
+   "builder_record": "results/s2_cable_clip__spec05_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec05_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec05_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec05_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec06",
+   "scene_index": 6,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec06_v1.xml",
+   "scene_file_md5": "2dba868ece9a539696ae2a18abd54acc",
+   "scene_sha256": "7bb550240aac0096892c344fe38be42cb6e5d731fccbf4cad91dee7fda060004",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.0031
+   },
+   "builder_record": "results/s2_cable_clip__spec06_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec06_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec06_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec06_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec07",
+   "scene_index": 7,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec07_v1.xml",
+   "scene_file_md5": "96bef6d4157c278230830bb733636858",
+   "scene_sha256": "72198dbaf38f11c2022cf7c9fc644af5d8662245ae82d395c5048bf4fcec7dd1",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.331,
+    "nearest_seg_to_block_xy_m": 0.002
+   },
+   "builder_record": "results/s2_cable_clip__spec07_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec07_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec07_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec07_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec08",
+   "scene_index": 8,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec08_v1.xml",
+   "scene_file_md5": "931ba3de73a9999320c5f0ef6a789603",
+   "scene_sha256": "ed3b5ca6ceea95ce4b92923d710972decda5545b5b4b0b5796b82e879f7e7eb5",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.351,
+    "nearest_seg_to_block_xy_m": 0.0025
+   },
+   "builder_record": "results/s2_cable_clip__spec08_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec08_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec08_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec08_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec09",
+   "scene_index": 9,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec09_v1.xml",
+   "scene_file_md5": "2d11f3ccf6b87d6236450503ce340fad",
+   "scene_sha256": "a56be363d301b7eca9502d422d2487416774d7e3727d778519afd5cc49b38ec0",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.0028
+   },
+   "builder_record": "results/s2_cable_clip__spec09_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec09_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec09_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec09_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec10",
+   "scene_index": 10,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec10_v1.xml",
+   "scene_file_md5": "f430fd1addb815b0e2d4071ea0bb4b8c",
+   "scene_sha256": "7a5aba66095e60edfd8e7a3e70284fdd2c1c6443c47bf595356aaf5ded6ddd66",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.321,
+    "nearest_seg_to_block_xy_m": 0.0038
+   },
+   "builder_record": "results/s2_cable_clip__spec10_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec10_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec10_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec10_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec11",
+   "scene_index": 11,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec11_v1.xml",
+   "scene_file_md5": "fd3a2fed263fec75e649bb0b792b2432",
+   "scene_sha256": "0ee97d815c81998e27d230c4b670e06da525fe58c76e1ee2eb67372d07fb647d",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.322,
+    "nearest_seg_to_block_xy_m": 0.003
+   },
+   "builder_record": "results/s2_cable_clip__spec11_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec11_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec11_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec11_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec12",
+   "scene_index": 12,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec12_v1.xml",
+   "scene_file_md5": "8f61c491e94860087d4e42b67b96a9ef",
+   "scene_sha256": "55be4c47dd689f2d2670cffb2a4448f1bf40a68b0ca91aec1e9606efe1bd0e22",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.324,
+    "nearest_seg_to_block_xy_m": 0.0041
+   },
+   "builder_record": "results/s2_cable_clip__spec12_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec12_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec12_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec12_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec13",
+   "scene_index": 13,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec13_v1.xml",
+   "scene_file_md5": "df9204a640df7f4f353187843def6afd",
+   "scene_sha256": "8c9cdd2f9d5f7a2645f3302d408c0fc088126cbf6085534d52a3ed18fb052fb4",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.357,
+    "nearest_seg_to_block_xy_m": 0.0029
+   },
+   "builder_record": "results/s2_cable_clip__spec13_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec13_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec13_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec13_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec14",
+   "scene_index": 14,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec14_v1.xml",
+   "scene_file_md5": "2c24c135c43730adb867b5f0ed47cb96",
+   "scene_sha256": "29f4217d1dcf50afcac0445f3590ac28ef6b3fc938d7d580c74d02c6ad5d5f53",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.329,
+    "nearest_seg_to_block_xy_m": 0.0019
+   },
+   "builder_record": "results/s2_cable_clip__spec14_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec14_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec14_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec14_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec15",
+   "scene_index": 15,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec15_v1.xml",
+   "scene_file_md5": "a7bfc2b78b04834006beae5142a35e45",
+   "scene_sha256": "3df41eba3c5018289bcac6cfbae794c7aab0a682f401aa2a2d6f5bacfea490d8",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.331,
+    "nearest_seg_to_block_xy_m": 0.0024
+   },
+   "builder_record": "results/s2_cable_clip__spec15_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec15_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec15_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec15_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec16",
+   "scene_index": 16,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec16_v1.xml",
+   "scene_file_md5": "9ccacf302ef266761dfeed70c7d6e9d1",
+   "scene_sha256": "5ddda19cf58a8f23ce232ab4d1f3327e4b1050d7e6aa59ffd147fc58f7e6d15d",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.003
+   },
+   "builder_record": "results/s2_cable_clip__spec16_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec16_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec16_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec16_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec17",
+   "scene_index": 17,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec17_v1.xml",
+   "scene_file_md5": "09b85315841ee205458510f43cffb0a3",
+   "scene_sha256": "ac59d84691a8a9a906cfad2129d84433eea2e4417a0745af2cd7629fa1767178",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.003
+   },
+   "builder_record": "results/s2_cable_clip__spec17_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec17_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec17_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec17_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec18",
+   "scene_index": 18,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec18_v1.xml",
+   "scene_file_md5": "464cc3c0c824aa354e2af62da3f0889f",
+   "scene_sha256": "60b23ad5b1277269de8cefb5db08b984a01733ec188b0b4e521dcf3f124eb493",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.364,
+    "nearest_seg_to_block_xy_m": 0.0061
+   },
+   "builder_record": "results/s2_cable_clip__spec18_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec18_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec18_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec18_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec19",
+   "scene_index": 19,
+   "variant_k": 1,
+   "variant": "v1",
+   "scene_file": "cable_clip__spec19_v1.xml",
+   "scene_file_md5": "41dd2f5b434d23385c74ee40d8e1139d",
+   "scene_sha256": "236bc89e39202385102bf663809c0c9131da0d21cce04edfa8a54dd974837dcc",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.359,
+    "nearest_seg_to_block_xy_m": 0.0028
+   },
+   "builder_record": "results/s2_cable_clip__spec19_v1_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec19_v1_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec19_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec19_v1_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec00",
+   "scene_index": 0,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec00_v2.xml",
+   "scene_file_md5": "528fba7ccc20424db5e913dcd9948c49",
+   "scene_sha256": "c2a24a8d03479d964c0d540101a97114b38bbdaf383220b78c0e4f459ad506c0",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.327,
+    "nearest_seg_to_block_xy_m": 0.0021
+   },
+   "builder_record": "results/s2_cable_clip__spec00_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec00_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec00_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec00_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec01",
+   "scene_index": 1,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec01_v2.xml",
+   "scene_file_md5": "2831b88f673bc700828fd56d5945b46b",
+   "scene_sha256": "a7729118cec263c2be6826f5b6525cd10c7c0bec5be04f52b694dd06226d342c",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.365,
+    "nearest_seg_to_block_xy_m": 0.0063
+   },
+   "builder_record": "results/s2_cable_clip__spec01_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec01_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec01_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec01_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec02",
+   "scene_index": 2,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec02_v2.xml",
+   "scene_file_md5": "a3981cd4499985d4c42ac038c7c2b684",
+   "scene_sha256": "f393347815388f76efb9a2a176e012aacb25a8d1e9ab71da4246a1d12a9b02aa",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.361,
+    "nearest_seg_to_block_xy_m": 0.0038
+   },
+   "builder_record": "results/s2_cable_clip__spec02_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec02_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec02_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec02_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec03",
+   "scene_index": 3,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec03_v2.xml",
+   "scene_file_md5": "086fbe2146ebed404b8e0ded406afdc1",
+   "scene_sha256": "535c88c04814f395ee01ed30aabcfc97436d5eac6da5ce6509a3d1412f593f27",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.364,
+    "nearest_seg_to_block_xy_m": 0.0058
+   },
+   "builder_record": "results/s2_cable_clip__spec03_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec03_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec03_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec03_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec04",
+   "scene_index": 4,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec04_v2.xml",
+   "scene_file_md5": "1ed5a0081c2052056cba8f60b83b55af",
+   "scene_sha256": "6fa5bddc241f0423b0731b8bca1e1b6d9db4f3a02412227e8dc15572e09ef4f4",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.357,
+    "nearest_seg_to_block_xy_m": 0.0023
+   },
+   "builder_record": "results/s2_cable_clip__spec04_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec04_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec04_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec04_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec05",
+   "scene_index": 5,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec05_v2.xml",
+   "scene_file_md5": "5b98db7bd02df65900e571a08e15ff21",
+   "scene_sha256": "96a19b1ea17714d1e9e58202fd40dd34e5520cfddbb3af6c5c24763bd8afaefd",
+   "controller": "frozen (refcore.py + run_reference.py)",
+   "controller_version": "frozen",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.366,
+    "nearest_seg_to_block_xy_m": 0.0089
+   },
+   "builder_record": "results/s2_cable_clip__spec05_v2_frozen.json",
+   "cert_record": "cert_results/s2_cable_clip__spec05_v2_frozen.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec05_v2_frozen.json on Pop!_OS desktop: fresh-process re-execution of frozen k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec05_v2_frozen.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec06",
+   "scene_index": 6,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec06_v2.xml",
+   "scene_file_md5": "6a5abf532854fca44f64d40a0a84469e",
+   "scene_sha256": "c03ade1f0f95a8a3f76b2be2b7cec6ee08681be40dd1ac9c864a983ccc7f0ac2",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.0028
+   },
+   "builder_record": "results/s2_cable_clip__spec06_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec06_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec06_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec06_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec07",
+   "scene_index": 7,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec07_v2.xml",
+   "scene_file_md5": "3c9e2fdff656dfbb3ef3078c340ac9f8",
+   "scene_sha256": "dc540a7b5d87f9b18cffbbbe36423497c0b3ff2e54a73ac3b87e14c5f34e2e18",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.36,
+    "nearest_seg_to_block_xy_m": 0.0032
+   },
+   "builder_record": "results/s2_cable_clip__spec07_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec07_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec07_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec07_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec08",
+   "scene_index": 8,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec08_v2.xml",
+   "scene_file_md5": "f536a0e87a575b9862bd40c3eaa4dff7",
+   "scene_sha256": "588f3662bf5c92a69457b1bcae00379c4b0b36cccce5759c872c64b38fa9d10d",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.33,
+    "nearest_seg_to_block_xy_m": 0.0023
+   },
+   "builder_record": "results/s2_cable_clip__spec08_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec08_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec08_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec08_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec09",
+   "scene_index": 9,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec09_v2.xml",
+   "scene_file_md5": "1640af9e64ba655191a0305f494d69d2",
+   "scene_sha256": "fe5e8d6e90d92fc10af6044cd1cc4835ea1b250a3fbf61fc0e41f0c9d9ad3612",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.368,
+    "nearest_seg_to_block_xy_m": 0.0071
+   },
+   "builder_record": "results/s2_cable_clip__spec09_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec09_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec09_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec09_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec10",
+   "scene_index": 10,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec10_v2.xml",
+   "scene_file_md5": "62d236b8735ae3aeefe8c61bc26fa78f",
+   "scene_sha256": "b97f64f5bd9abac4d341fe0b7e44967885c5fe5c84231f45fb68b5f1d2d5c7b1",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.36,
+    "nearest_seg_to_block_xy_m": 0.0028
+   },
+   "builder_record": "results/s2_cable_clip__spec10_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec10_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec10_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec10_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec11",
+   "scene_index": 11,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec11_v2.xml",
+   "scene_file_md5": "019f4e0fa965217d5fdc03d25f745dc0",
+   "scene_sha256": "dbc0b6761f9e0e47eb0dc824ee4bc363be1405d2c76989f8c3302bc871b68c83",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.363,
+    "nearest_seg_to_block_xy_m": 0.0037
+   },
+   "builder_record": "results/s2_cable_clip__spec11_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec11_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec11_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec11_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec12",
+   "scene_index": 12,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec12_v2.xml",
+   "scene_file_md5": "ddaaed6218880cfc81634d6df53dd18a",
+   "scene_sha256": "affe8fe94cad812c54e168bad6aa0a8a7f798048c88b4749f853a2a095e81b01",
+   "controller": "frozen (refcore.py + run_reference.py)",
+   "controller_version": "frozen",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.326,
+    "nearest_seg_to_block_xy_m": 0.0032
+   },
+   "builder_record": "results/s2_cable_clip__spec12_v2_frozen.json",
+   "cert_record": "cert_results/s2_cable_clip__spec12_v2_frozen.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec12_v2_frozen.json on Pop!_OS desktop: fresh-process re-execution of frozen k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec12_v2_frozen.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec13",
+   "scene_index": 13,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec13_v2.xml",
+   "scene_file_md5": "0d2d1cc621c57b998914b9d5079b9779",
+   "scene_sha256": "10a953d93979a85ea5a78ef64f46bb7e4d73a2a87faaad1c6110a6a95d974ca0",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.366,
+    "nearest_seg_to_block_xy_m": 0.007
+   },
+   "builder_record": "results/s2_cable_clip__spec13_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec13_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec13_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec13_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  },
+  {
+   "suite_tag": "s2",
+   "suite_seed": 20261128,
+   "scene_id": "cable_clip__spec14",
+   "scene_index": 14,
+   "variant_k": 2,
+   "variant": "v2",
+   "scene_file": "cable_clip__spec14_v2.xml",
+   "scene_file_md5": "b99c6a3f61b831464405d0faecc187f0",
+   "scene_sha256": "acbd42d9e4e4b41e730a79e1e6b7b9a6f2db769fc76e77c1106a4ad24d7160ad",
+   "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+   "controller_version": "rev21",
+   "executor": "v1.1-weld-device",
+   "verdict": "PASS",
+   "sim_success": true,
+   "checks": {
+    "cable_seated_in_clip_closed": true,
+    "solver_failure": false,
+    "max_seg_radial_m": 0.323,
+    "nearest_seg_to_block_xy_m": 0.003
+   },
+   "builder_record": "results/s2_cable_clip__spec14_v2_rev21.json",
+   "cert_record": "cert_results/s2_cable_clip__spec14_v2_rev21.json",
+   "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec14_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec14_v2_rev21.json",
+   "cleanliness": "CLEAN",
+   "cleanliness_signals": {
+    "failed_ik_moves": 2,
+    "grasp_records": 0,
+    "max_close_displacement_mm": 0,
+    "solver_failure": false,
+    "retry_marker": false
+   }
+  }
+ ],
+ "attempts_log": [
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec00",
+    "scene_index": 0,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec00_v1.xml",
+    "scene_md5": "c84169afb64aea379b7f345ca29c7368",
+    "scene_sha256": "154f1e07a0ed59ef7e891b5e4fb82a0a0f694ddb6a5c9e1a7fbc903085fcd207",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec00_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec00_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec00",
+    "scene_index": 0,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec00_v1.xml",
+    "scene_file_md5": "c84169afb64aea379b7f345ca29c7368",
+    "scene_sha256": "154f1e07a0ed59ef7e891b5e4fb82a0a0f694ddb6a5c9e1a7fbc903085fcd207",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.365,
+     "nearest_seg_to_block_xy_m": 0.0054
+    },
+    "builder_record": "results/s2_cable_clip__spec00_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec00_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec00_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec00_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec01",
+    "scene_index": 1,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec01_v1.xml",
+    "scene_md5": "1d7cc5b5a5de5e7fb4557bf350c89d6e",
+    "scene_sha256": "501d1ee60192f5f8263a08c8d1a9385617711721ce6205cb06709609ef85605f",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec01_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec01_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec01",
+    "scene_index": 1,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec01_v1.xml",
+    "scene_file_md5": "1d7cc5b5a5de5e7fb4557bf350c89d6e",
+    "scene_sha256": "501d1ee60192f5f8263a08c8d1a9385617711721ce6205cb06709609ef85605f",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.364,
+     "nearest_seg_to_block_xy_m": 0.0045
+    },
+    "builder_record": "results/s2_cable_clip__spec01_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec01_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec01_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec01_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec02",
+    "scene_index": 2,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec02_v1.xml",
+    "scene_md5": "9d80b0a068ca448bf1e74553057f24f0",
+    "scene_sha256": "215921a6ea4a73cad63b2d54f9412b680b9ec7cd6d880d11598d55d98a5a9fdf",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec02_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec02_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec02",
+    "scene_index": 2,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec02_v1.xml",
+    "scene_file_md5": "9d80b0a068ca448bf1e74553057f24f0",
+    "scene_sha256": "215921a6ea4a73cad63b2d54f9412b680b9ec7cd6d880d11598d55d98a5a9fdf",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.366,
+     "nearest_seg_to_block_xy_m": 0.0064
+    },
+    "builder_record": "results/s2_cable_clip__spec02_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec02_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec02_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec02_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec03",
+    "scene_index": 3,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec03_v1.xml",
+    "scene_md5": "d2edc70842bfc56adf46242b317c093e",
+    "scene_sha256": "1d06acee90c2c6a79909ad5193ec9864fa01cbecfdcaf179102a81ef213d3b94",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec03_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec03_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec03",
+    "scene_index": 3,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec03_v1.xml",
+    "scene_file_md5": "d2edc70842bfc56adf46242b317c093e",
+    "scene_sha256": "1d06acee90c2c6a79909ad5193ec9864fa01cbecfdcaf179102a81ef213d3b94",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.349,
+     "nearest_seg_to_block_xy_m": 0.0027
+    },
+    "builder_record": "results/s2_cable_clip__spec03_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec03_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec03_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec03_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec04",
+    "scene_index": 4,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec04_v1.xml",
+    "scene_md5": "fb707e45007d98cea7449d53aa0c477b",
+    "scene_sha256": "4e1c77107071e2a5b99375cca566afc01323f60b545b4820c4b0dca423226fbc",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec04_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec04_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec04",
+    "scene_index": 4,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec04_v1.xml",
+    "scene_file_md5": "fb707e45007d98cea7449d53aa0c477b",
+    "scene_sha256": "4e1c77107071e2a5b99375cca566afc01323f60b545b4820c4b0dca423226fbc",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.362,
+     "nearest_seg_to_block_xy_m": 0.0036
+    },
+    "builder_record": "results/s2_cable_clip__spec04_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec04_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec04_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec04_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec05",
+    "scene_index": 5,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec05_v1.xml",
+    "scene_md5": "1592b73a4a56d218bf1ffb084bf817d8",
+    "scene_sha256": "cfedced862032feae138a058a5e6e9705651d8086af6eda79a88bcf8fefbc579",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec05_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec05_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec05",
+    "scene_index": 5,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec05_v1.xml",
+    "scene_file_md5": "1592b73a4a56d218bf1ffb084bf817d8",
+    "scene_sha256": "cfedced862032feae138a058a5e6e9705651d8086af6eda79a88bcf8fefbc579",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.363,
+     "nearest_seg_to_block_xy_m": 0.0036
+    },
+    "builder_record": "results/s2_cable_clip__spec05_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec05_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec05_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec05_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec06",
+    "scene_index": 6,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec06_v1.xml",
+    "scene_md5": "2dba868ece9a539696ae2a18abd54acc",
+    "scene_sha256": "7bb550240aac0096892c344fe38be42cb6e5d731fccbf4cad91dee7fda060004",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec06_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec06_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec06",
+    "scene_index": 6,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec06_v1.xml",
+    "scene_file_md5": "2dba868ece9a539696ae2a18abd54acc",
+    "scene_sha256": "7bb550240aac0096892c344fe38be42cb6e5d731fccbf4cad91dee7fda060004",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.0031
+    },
+    "builder_record": "results/s2_cable_clip__spec06_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec06_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec06_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec06_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec07",
+    "scene_index": 7,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec07_v1.xml",
+    "scene_md5": "96bef6d4157c278230830bb733636858",
+    "scene_sha256": "72198dbaf38f11c2022cf7c9fc644af5d8662245ae82d395c5048bf4fcec7dd1",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec07_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec07_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec07",
+    "scene_index": 7,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec07_v1.xml",
+    "scene_file_md5": "96bef6d4157c278230830bb733636858",
+    "scene_sha256": "72198dbaf38f11c2022cf7c9fc644af5d8662245ae82d395c5048bf4fcec7dd1",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.331,
+     "nearest_seg_to_block_xy_m": 0.002
+    },
+    "builder_record": "results/s2_cable_clip__spec07_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec07_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec07_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec07_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec08",
+    "scene_index": 8,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec08_v1.xml",
+    "scene_md5": "931ba3de73a9999320c5f0ef6a789603",
+    "scene_sha256": "ed3b5ca6ceea95ce4b92923d710972decda5545b5b4b0b5796b82e879f7e7eb5",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec08_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec08_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec08",
+    "scene_index": 8,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec08_v1.xml",
+    "scene_file_md5": "931ba3de73a9999320c5f0ef6a789603",
+    "scene_sha256": "ed3b5ca6ceea95ce4b92923d710972decda5545b5b4b0b5796b82e879f7e7eb5",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.351,
+     "nearest_seg_to_block_xy_m": 0.0025
+    },
+    "builder_record": "results/s2_cable_clip__spec08_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec08_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec08_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec08_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec09",
+    "scene_index": 9,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec09_v1.xml",
+    "scene_md5": "2d11f3ccf6b87d6236450503ce340fad",
+    "scene_sha256": "a56be363d301b7eca9502d422d2487416774d7e3727d778519afd5cc49b38ec0",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec09_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec09_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec09",
+    "scene_index": 9,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec09_v1.xml",
+    "scene_file_md5": "2d11f3ccf6b87d6236450503ce340fad",
+    "scene_sha256": "a56be363d301b7eca9502d422d2487416774d7e3727d778519afd5cc49b38ec0",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.0028
+    },
+    "builder_record": "results/s2_cable_clip__spec09_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec09_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec09_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec09_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec10",
+    "scene_index": 10,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec10_v1.xml",
+    "scene_md5": "f430fd1addb815b0e2d4071ea0bb4b8c",
+    "scene_sha256": "7a5aba66095e60edfd8e7a3e70284fdd2c1c6443c47bf595356aaf5ded6ddd66",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec10_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec10_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec10",
+    "scene_index": 10,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec10_v1.xml",
+    "scene_file_md5": "f430fd1addb815b0e2d4071ea0bb4b8c",
+    "scene_sha256": "7a5aba66095e60edfd8e7a3e70284fdd2c1c6443c47bf595356aaf5ded6ddd66",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.321,
+     "nearest_seg_to_block_xy_m": 0.0038
+    },
+    "builder_record": "results/s2_cable_clip__spec10_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec10_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec10_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec10_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec11",
+    "scene_index": 11,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec11_v1.xml",
+    "scene_md5": "fd3a2fed263fec75e649bb0b792b2432",
+    "scene_sha256": "0ee97d815c81998e27d230c4b670e06da525fe58c76e1ee2eb67372d07fb647d",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec11_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec11_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec11",
+    "scene_index": 11,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec11_v1.xml",
+    "scene_file_md5": "fd3a2fed263fec75e649bb0b792b2432",
+    "scene_sha256": "0ee97d815c81998e27d230c4b670e06da525fe58c76e1ee2eb67372d07fb647d",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.322,
+     "nearest_seg_to_block_xy_m": 0.003
+    },
+    "builder_record": "results/s2_cable_clip__spec11_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec11_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec11_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec11_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec12",
+    "scene_index": 12,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec12_v1.xml",
+    "scene_md5": "8f61c491e94860087d4e42b67b96a9ef",
+    "scene_sha256": "55be4c47dd689f2d2670cffb2a4448f1bf40a68b0ca91aec1e9606efe1bd0e22",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec12_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec12_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec12",
+    "scene_index": 12,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec12_v1.xml",
+    "scene_file_md5": "8f61c491e94860087d4e42b67b96a9ef",
+    "scene_sha256": "55be4c47dd689f2d2670cffb2a4448f1bf40a68b0ca91aec1e9606efe1bd0e22",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.324,
+     "nearest_seg_to_block_xy_m": 0.0041
+    },
+    "builder_record": "results/s2_cable_clip__spec12_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec12_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec12_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec12_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec13",
+    "scene_index": 13,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec13_v1.xml",
+    "scene_md5": "df9204a640df7f4f353187843def6afd",
+    "scene_sha256": "8c9cdd2f9d5f7a2645f3302d408c0fc088126cbf6085534d52a3ed18fb052fb4",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec13_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec13_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec13",
+    "scene_index": 13,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec13_v1.xml",
+    "scene_file_md5": "df9204a640df7f4f353187843def6afd",
+    "scene_sha256": "8c9cdd2f9d5f7a2645f3302d408c0fc088126cbf6085534d52a3ed18fb052fb4",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.357,
+     "nearest_seg_to_block_xy_m": 0.0029
+    },
+    "builder_record": "results/s2_cable_clip__spec13_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec13_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec13_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec13_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec14",
+    "scene_index": 14,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec14_v1.xml",
+    "scene_md5": "2c24c135c43730adb867b5f0ed47cb96",
+    "scene_sha256": "29f4217d1dcf50afcac0445f3590ac28ef6b3fc938d7d580c74d02c6ad5d5f53",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec14_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec14_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec14",
+    "scene_index": 14,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec14_v1.xml",
+    "scene_file_md5": "2c24c135c43730adb867b5f0ed47cb96",
+    "scene_sha256": "29f4217d1dcf50afcac0445f3590ac28ef6b3fc938d7d580c74d02c6ad5d5f53",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.329,
+     "nearest_seg_to_block_xy_m": 0.0019
+    },
+    "builder_record": "results/s2_cable_clip__spec14_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec14_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec14_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec14_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec15",
+    "scene_index": 15,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec15_v1.xml",
+    "scene_md5": "a7bfc2b78b04834006beae5142a35e45",
+    "scene_sha256": "3df41eba3c5018289bcac6cfbae794c7aab0a682f401aa2a2d6f5bacfea490d8",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec15_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec15_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec15",
+    "scene_index": 15,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec15_v1.xml",
+    "scene_file_md5": "a7bfc2b78b04834006beae5142a35e45",
+    "scene_sha256": "3df41eba3c5018289bcac6cfbae794c7aab0a682f401aa2a2d6f5bacfea490d8",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.331,
+     "nearest_seg_to_block_xy_m": 0.0024
+    },
+    "builder_record": "results/s2_cable_clip__spec15_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec15_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec15_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec15_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec16",
+    "scene_index": 16,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec16_v1.xml",
+    "scene_md5": "9ccacf302ef266761dfeed70c7d6e9d1",
+    "scene_sha256": "5ddda19cf58a8f23ce232ab4d1f3327e4b1050d7e6aa59ffd147fc58f7e6d15d",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec16_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec16_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec16",
+    "scene_index": 16,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec16_v1.xml",
+    "scene_file_md5": "9ccacf302ef266761dfeed70c7d6e9d1",
+    "scene_sha256": "5ddda19cf58a8f23ce232ab4d1f3327e4b1050d7e6aa59ffd147fc58f7e6d15d",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.003
+    },
+    "builder_record": "results/s2_cable_clip__spec16_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec16_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec16_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec16_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec17",
+    "scene_index": 17,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec17_v1.xml",
+    "scene_md5": "09b85315841ee205458510f43cffb0a3",
+    "scene_sha256": "ac59d84691a8a9a906cfad2129d84433eea2e4417a0745af2cd7629fa1767178",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec17_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec17_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec17",
+    "scene_index": 17,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec17_v1.xml",
+    "scene_file_md5": "09b85315841ee205458510f43cffb0a3",
+    "scene_sha256": "ac59d84691a8a9a906cfad2129d84433eea2e4417a0745af2cd7629fa1767178",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.003
+    },
+    "builder_record": "results/s2_cable_clip__spec17_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec17_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec17_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec17_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec18",
+    "scene_index": 18,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec18_v1.xml",
+    "scene_md5": "464cc3c0c824aa354e2af62da3f0889f",
+    "scene_sha256": "60b23ad5b1277269de8cefb5db08b984a01733ec188b0b4e521dcf3f124eb493",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec18_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec18_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec18",
+    "scene_index": 18,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec18_v1.xml",
+    "scene_file_md5": "464cc3c0c824aa354e2af62da3f0889f",
+    "scene_sha256": "60b23ad5b1277269de8cefb5db08b984a01733ec188b0b4e521dcf3f124eb493",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.364,
+     "nearest_seg_to_block_xy_m": 0.0061
+    },
+    "builder_record": "results/s2_cable_clip__spec18_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec18_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec18_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec18_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec19",
+    "scene_index": 19,
+    "variant_k": 1,
+    "scene_file": "cable_clip__spec19_v1.xml",
+    "scene_md5": "41dd2f5b434d23385c74ee40d8e1139d",
+    "scene_sha256": "236bc89e39202385102bf663809c0c9131da0d21cce04edfa8a54dd974837dcc",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec19_v1_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec19_v1_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec19",
+    "scene_index": 19,
+    "variant_k": 1,
+    "variant": "v1",
+    "scene_file": "cable_clip__spec19_v1.xml",
+    "scene_file_md5": "41dd2f5b434d23385c74ee40d8e1139d",
+    "scene_sha256": "236bc89e39202385102bf663809c0c9131da0d21cce04edfa8a54dd974837dcc",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.359,
+     "nearest_seg_to_block_xy_m": 0.0028
+    },
+    "builder_record": "results/s2_cable_clip__spec19_v1_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec19_v1_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec19_v1_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=1 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec19_v1_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec00",
+    "scene_index": 0,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec00_v2.xml",
+    "scene_md5": "528fba7ccc20424db5e913dcd9948c49",
+    "scene_sha256": "c2a24a8d03479d964c0d540101a97114b38bbdaf383220b78c0e4f459ad506c0",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec00_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec00_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec00",
+    "scene_index": 0,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec00_v2.xml",
+    "scene_file_md5": "528fba7ccc20424db5e913dcd9948c49",
+    "scene_sha256": "c2a24a8d03479d964c0d540101a97114b38bbdaf383220b78c0e4f459ad506c0",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.327,
+     "nearest_seg_to_block_xy_m": 0.0021
+    },
+    "builder_record": "results/s2_cable_clip__spec00_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec00_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec00_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec00_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec01",
+    "scene_index": 1,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec01_v2.xml",
+    "scene_md5": "2831b88f673bc700828fd56d5945b46b",
+    "scene_sha256": "a7729118cec263c2be6826f5b6525cd10c7c0bec5be04f52b694dd06226d342c",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec01_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec01_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec01",
+    "scene_index": 1,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec01_v2.xml",
+    "scene_file_md5": "2831b88f673bc700828fd56d5945b46b",
+    "scene_sha256": "a7729118cec263c2be6826f5b6525cd10c7c0bec5be04f52b694dd06226d342c",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.365,
+     "nearest_seg_to_block_xy_m": 0.0063
+    },
+    "builder_record": "results/s2_cable_clip__spec01_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec01_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec01_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec01_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec02",
+    "scene_index": 2,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec02_v2.xml",
+    "scene_md5": "a3981cd4499985d4c42ac038c7c2b684",
+    "scene_sha256": "f393347815388f76efb9a2a176e012aacb25a8d1e9ab71da4246a1d12a9b02aa",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec02_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec02_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec02",
+    "scene_index": 2,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec02_v2.xml",
+    "scene_file_md5": "a3981cd4499985d4c42ac038c7c2b684",
+    "scene_sha256": "f393347815388f76efb9a2a176e012aacb25a8d1e9ab71da4246a1d12a9b02aa",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.361,
+     "nearest_seg_to_block_xy_m": 0.0038
+    },
+    "builder_record": "results/s2_cable_clip__spec02_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec02_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec02_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec02_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec03",
+    "scene_index": 3,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec03_v2.xml",
+    "scene_md5": "086fbe2146ebed404b8e0ded406afdc1",
+    "scene_sha256": "535c88c04814f395ee01ed30aabcfc97436d5eac6da5ce6509a3d1412f593f27",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec03_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec03_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec03",
+    "scene_index": 3,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec03_v2.xml",
+    "scene_file_md5": "086fbe2146ebed404b8e0ded406afdc1",
+    "scene_sha256": "535c88c04814f395ee01ed30aabcfc97436d5eac6da5ce6509a3d1412f593f27",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.364,
+     "nearest_seg_to_block_xy_m": 0.0058
+    },
+    "builder_record": "results/s2_cable_clip__spec03_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec03_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec03_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec03_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec04",
+    "scene_index": 4,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec04_v2.xml",
+    "scene_md5": "1ed5a0081c2052056cba8f60b83b55af",
+    "scene_sha256": "6fa5bddc241f0423b0731b8bca1e1b6d9db4f3a02412227e8dc15572e09ef4f4",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec04_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec04_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec04",
+    "scene_index": 4,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec04_v2.xml",
+    "scene_file_md5": "1ed5a0081c2052056cba8f60b83b55af",
+    "scene_sha256": "6fa5bddc241f0423b0731b8bca1e1b6d9db4f3a02412227e8dc15572e09ef4f4",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.357,
+     "nearest_seg_to_block_xy_m": 0.0023
+    },
+    "builder_record": "results/s2_cable_clip__spec04_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec04_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec04_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec04_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec05",
+    "scene_index": 5,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec05_v2.xml",
+    "scene_md5": "5b98db7bd02df65900e571a08e15ff21",
+    "scene_sha256": "96a19b1ea17714d1e9e58202fd40dd34e5520cfddbb3af6c5c24763bd8afaefd",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "FAIL",
+     "sim_success": false,
+     "file": "results/s2_cable_clip__spec05_v2_rev21.json"
+    },
+    {
+     "controller_version": "frozen",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec05_v2_frozen.json",
+     "cert_file": "cert_results/s2_cable_clip__spec05_v2_frozen.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec05",
+    "scene_index": 5,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec05_v2.xml",
+    "scene_file_md5": "5b98db7bd02df65900e571a08e15ff21",
+    "scene_sha256": "96a19b1ea17714d1e9e58202fd40dd34e5520cfddbb3af6c5c24763bd8afaefd",
+    "controller": "frozen (refcore.py + run_reference.py)",
+    "controller_version": "frozen",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.366,
+     "nearest_seg_to_block_xy_m": 0.0089
+    },
+    "builder_record": "results/s2_cable_clip__spec05_v2_frozen.json",
+    "cert_record": "cert_results/s2_cable_clip__spec05_v2_frozen.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec05_v2_frozen.json on Pop!_OS desktop: fresh-process re-execution of frozen k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec05_v2_frozen.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec06",
+    "scene_index": 6,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec06_v2.xml",
+    "scene_md5": "6a5abf532854fca44f64d40a0a84469e",
+    "scene_sha256": "c03ade1f0f95a8a3f76b2be2b7cec6ee08681be40dd1ac9c864a983ccc7f0ac2",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec06_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec06_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec06",
+    "scene_index": 6,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec06_v2.xml",
+    "scene_file_md5": "6a5abf532854fca44f64d40a0a84469e",
+    "scene_sha256": "c03ade1f0f95a8a3f76b2be2b7cec6ee08681be40dd1ac9c864a983ccc7f0ac2",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.0028
+    },
+    "builder_record": "results/s2_cable_clip__spec06_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec06_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec06_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec06_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec07",
+    "scene_index": 7,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec07_v2.xml",
+    "scene_md5": "3c9e2fdff656dfbb3ef3078c340ac9f8",
+    "scene_sha256": "dc540a7b5d87f9b18cffbbbe36423497c0b3ff2e54a73ac3b87e14c5f34e2e18",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec07_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec07_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec07",
+    "scene_index": 7,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec07_v2.xml",
+    "scene_file_md5": "3c9e2fdff656dfbb3ef3078c340ac9f8",
+    "scene_sha256": "dc540a7b5d87f9b18cffbbbe36423497c0b3ff2e54a73ac3b87e14c5f34e2e18",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.36,
+     "nearest_seg_to_block_xy_m": 0.0032
+    },
+    "builder_record": "results/s2_cable_clip__spec07_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec07_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec07_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec07_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec08",
+    "scene_index": 8,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec08_v2.xml",
+    "scene_md5": "f536a0e87a575b9862bd40c3eaa4dff7",
+    "scene_sha256": "588f3662bf5c92a69457b1bcae00379c4b0b36cccce5759c872c64b38fa9d10d",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec08_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec08_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec08",
+    "scene_index": 8,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec08_v2.xml",
+    "scene_file_md5": "f536a0e87a575b9862bd40c3eaa4dff7",
+    "scene_sha256": "588f3662bf5c92a69457b1bcae00379c4b0b36cccce5759c872c64b38fa9d10d",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.33,
+     "nearest_seg_to_block_xy_m": 0.0023
+    },
+    "builder_record": "results/s2_cable_clip__spec08_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec08_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec08_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec08_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec09",
+    "scene_index": 9,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec09_v2.xml",
+    "scene_md5": "1640af9e64ba655191a0305f494d69d2",
+    "scene_sha256": "fe5e8d6e90d92fc10af6044cd1cc4835ea1b250a3fbf61fc0e41f0c9d9ad3612",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec09_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec09_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec09",
+    "scene_index": 9,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec09_v2.xml",
+    "scene_file_md5": "1640af9e64ba655191a0305f494d69d2",
+    "scene_sha256": "fe5e8d6e90d92fc10af6044cd1cc4835ea1b250a3fbf61fc0e41f0c9d9ad3612",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.368,
+     "nearest_seg_to_block_xy_m": 0.0071
+    },
+    "builder_record": "results/s2_cable_clip__spec09_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec09_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec09_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec09_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec10",
+    "scene_index": 10,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec10_v2.xml",
+    "scene_md5": "62d236b8735ae3aeefe8c61bc26fa78f",
+    "scene_sha256": "b97f64f5bd9abac4d341fe0b7e44967885c5fe5c84231f45fb68b5f1d2d5c7b1",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec10_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec10_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec10",
+    "scene_index": 10,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec10_v2.xml",
+    "scene_file_md5": "62d236b8735ae3aeefe8c61bc26fa78f",
+    "scene_sha256": "b97f64f5bd9abac4d341fe0b7e44967885c5fe5c84231f45fb68b5f1d2d5c7b1",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.36,
+     "nearest_seg_to_block_xy_m": 0.0028
+    },
+    "builder_record": "results/s2_cable_clip__spec10_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec10_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec10_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec10_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec11",
+    "scene_index": 11,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec11_v2.xml",
+    "scene_md5": "019f4e0fa965217d5fdc03d25f745dc0",
+    "scene_sha256": "dbc0b6761f9e0e47eb0dc824ee4bc363be1405d2c76989f8c3302bc871b68c83",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec11_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec11_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec11",
+    "scene_index": 11,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec11_v2.xml",
+    "scene_file_md5": "019f4e0fa965217d5fdc03d25f745dc0",
+    "scene_sha256": "dbc0b6761f9e0e47eb0dc824ee4bc363be1405d2c76989f8c3302bc871b68c83",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.363,
+     "nearest_seg_to_block_xy_m": 0.0037
+    },
+    "builder_record": "results/s2_cable_clip__spec11_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec11_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec11_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec11_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec12",
+    "scene_index": 12,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec12_v2.xml",
+    "scene_md5": "ddaaed6218880cfc81634d6df53dd18a",
+    "scene_sha256": "affe8fe94cad812c54e168bad6aa0a8a7f798048c88b4749f853a2a095e81b01",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "FAIL",
+     "sim_success": false,
+     "file": "results/s2_cable_clip__spec12_v2_rev21.json"
+    },
+    {
+     "controller_version": "frozen",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec12_v2_frozen.json",
+     "cert_file": "cert_results/s2_cable_clip__spec12_v2_frozen.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec12",
+    "scene_index": 12,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec12_v2.xml",
+    "scene_file_md5": "ddaaed6218880cfc81634d6df53dd18a",
+    "scene_sha256": "affe8fe94cad812c54e168bad6aa0a8a7f798048c88b4749f853a2a095e81b01",
+    "controller": "frozen (refcore.py + run_reference.py)",
+    "controller_version": "frozen",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.326,
+     "nearest_seg_to_block_xy_m": 0.0032
+    },
+    "builder_record": "results/s2_cable_clip__spec12_v2_frozen.json",
+    "cert_record": "cert_results/s2_cable_clip__spec12_v2_frozen.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec12_v2_frozen.json on Pop!_OS desktop: fresh-process re-execution of frozen k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec12_v2_frozen.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec13",
+    "scene_index": 13,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec13_v2.xml",
+    "scene_md5": "0d2d1cc621c57b998914b9d5079b9779",
+    "scene_sha256": "10a953d93979a85ea5a78ef64f46bb7e4d73a2a87faaad1c6110a6a95d974ca0",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec13_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec13_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec13",
+    "scene_index": 13,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec13_v2.xml",
+    "scene_file_md5": "0d2d1cc621c57b998914b9d5079b9779",
+    "scene_sha256": "10a953d93979a85ea5a78ef64f46bb7e4d73a2a87faaad1c6110a6a95d974ca0",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.366,
+     "nearest_seg_to_block_xy_m": 0.007
+    },
+    "builder_record": "results/s2_cable_clip__spec13_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec13_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec13_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec13_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  },
+  {
+   "candidate": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec14",
+    "scene_index": 14,
+    "variant_k": 2,
+    "scene_file": "cable_clip__spec14_v2.xml",
+    "scene_md5": "b99c6a3f61b831464405d0faecc187f0",
+    "scene_sha256": "acbd42d9e4e4b41e730a79e1e6b7b9a6f2db769fc76e77c1106a4ad24d7160ad",
+    "distinct": true
+   },
+   "attempts": [
+    {
+     "controller_version": "rev21",
+     "rc": 0,
+     "verdict": "PASS",
+     "sim_success": true,
+     "file": "results/s2_cable_clip__spec14_v2_rev21.json",
+     "cert_file": "cert_results/s2_cable_clip__spec14_v2_rev21.json",
+     "cert_max_diff_mm": 0.0,
+     "cert_objects": 24
+    }
+   ],
+   "certified": true,
+   "episode": {
+    "suite_tag": "s2",
+    "suite_seed": 20261128,
+    "scene_id": "cable_clip__spec14",
+    "scene_index": 14,
+    "variant_k": 2,
+    "variant": "v2",
+    "scene_file": "cable_clip__spec14_v2.xml",
+    "scene_file_md5": "b99c6a3f61b831464405d0faecc187f0",
+    "scene_sha256": "acbd42d9e4e4b41e730a79e1e6b7b9a6f2db769fc76e77c1106a4ad24d7160ad",
+    "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+    "controller_version": "rev21",
+    "executor": "v1.1-weld-device",
+    "verdict": "PASS",
+    "sim_success": true,
+    "checks": {
+     "cable_seated_in_clip_closed": true,
+     "solver_failure": false,
+     "max_seg_radial_m": 0.323,
+     "nearest_seg_to_block_xy_m": 0.003
+    },
+    "builder_record": "results/s2_cable_clip__spec14_v2_rev21.json",
+    "cert_record": "cert_results/s2_cable_clip__spec14_v2_rev21.json",
+    "certification_evidence": "cable-harvest/cert_results/s2_cable_clip__spec14_v2_rev21.json on Pop!_OS desktop: fresh-process re-execution of rev21 k=2 from raw scene files; builder record reproduced (verdict=PASS, sim_success=True, checks identical); max final-position diff 0.00 mm over 24 objects; builder record cable-harvest/results/s2_cable_clip__spec14_v2_rev21.json",
+    "cleanliness": "CLEAN",
+    "cleanliness_signals": {
+     "failed_ik_moves": 2,
+     "grasp_records": 0,
+     "max_close_displacement_mm": 0,
+     "solver_failure": false,
+     "retry_marker": false
+    }
+   }
+  }
+ ],
+ "cleanliness_note": "cleanliness re-graded 2026-11-24 to the exact suite-2 mechanical rule: retry/displacement markers are grasp-phase signals (grasp_records, max_close_displacement_mm, grasp retry_marker); the cable weld-device executor produces none, and its -pos continuation moves + solved:false IK entries also occur in the nominal records suite-2 graded CLEAN (register2 cable spec00: failed_ik_moves=2, retry_marker=false, CLEAN)."
+}
