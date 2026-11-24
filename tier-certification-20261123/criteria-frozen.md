@@ -320,3 +320,58 @@ judging evidence text matches release-risk patterns (gripper
 still/closed/clamped/holding/touching, not/no release, borderline
 flags) — a starting set, per the founder; text-silent cases are not
 caught by the scan.
+
+## Amendment 6 — UNANIMOUS-TRUST RULE (founder, 2026-11-23 22:22 CT)
+
+The approved judges are Muse and Gemini (Grok is set aside until
+the December re-check). When Muse and Gemini agree unanimously, the
+PASS or FAIL is TRUSTED — certified without founder review. The
+founder sees ONLY: (a) Muse≠Gemini disputes (including INDETERMINATE
+on either side), and (b) gripper-release-standard flags.
+Applied 2026-11-23: held-out 100 — 92 unanimous-trusted (78 marked
+CERTIFIED by unanimous agreement; 8 already founder spot-check
+approved; 4 already founder-adjudicated FAIL; the 2 release-flagged
+unanimous passes, block 453/514, held in the founder queue under (b));
+8 disputes, of which 489 (INDETERMINATE) and 2020 (FAIL, removed) are
+closed — OPEN founder queue: block 499, block 557, tool 784, tool 824,
+eye 1643, eye 1760 + release-flagged block 453, block 514.
+Training 250 — 244 CERTIFIED by unanimous agreement (incl. ep604 as a
+certified FAIL); 4 founder spot-check approvals stand; 2 pending:
+ep573 (release flag) and ep2201 (verifier INDETERMINATE / qualified
+PASS). Register sources get the same split as their Gemini coverage
+lands (standing merge duty).
+
+## Amendment 7 — JUDGING-INPUT STANDARD (founder, 2026-11-23 22:39–22:40 CT)
+
+For the held-out re-judge and ALL future judging in this program:
+(1) if the advanced agy models can watch full video, judge from FULL
+VIDEO; (2) otherwise judge from DENSE contact sheets with this
+recipe: a few frames from the START of the episode (scene setup) +
+rising sampling density toward the END + the final frames always
+included (~16 timepoints; no more uniform 6-frame sheets anywhere).
+The input mode of every judging batch is recorded per episode
+alongside the model stamp.
+Application note (coordinator, 2026-11-23): the video test (ep824,
+neon-xhigh) PASSED — agy accepted the full mp4 and read it correctly.
+Video is therefore the standard for the dispute tier and the held-out
+re-judge tier. Bulk register legs (hundreds of episodes per source)
+use the dense-sheet recipe — full video at ~2.5 min/episode/call
+cannot cover ~1,800 episodes in the available windows; this scoping
+is stated in the morning report for the founder's countermand.
+Input-mode stamps: register/audit records carry the mode per episode
+("full-video" or "dense-sheet-16") next to the model.
+
+## Amendment 8 — JUDGE NAMING CORRECTION + independence restated (founder, 2026-11-23 22:46 CT)
+
+The primary judge leg in this program is Muse (Muse Wonder, Meta) —
+the coordinator's subagent instances — NOT Anthropic Claude. Anthropic
+Claude enters this system ONLY via the agy menu (Opus 5.5 / Sonnet
+5.5). Judge-leg labels in the register and program files are corrected
+from "Claude" to "Muse (Muse Wonder)" at the 2026-11-23 commit so the
+record stays unambiguous (historical verbatim quotes are unchanged).
+Independence, restated: the two certifying judges must be different
+model families from MUSE WONDER (the primary). Per the founder's rule,
+Gemini-family Neon/Carbon count as the second judge; Opus 5.5 reads
+are recorded as third reads until the founder rules on whether Opus
+counts as an independent second judge (factually it is a different
+family from Muse Wonder — the question is open, not decided here).

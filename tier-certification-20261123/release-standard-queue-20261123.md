@@ -13,6 +13,6 @@ Standard: a certified PASS requires the gripper VISIBLY OPEN / released at episo
 - armnetbench-heldout-eval:489 (block_stack) — FOUNDER-RULED INDETERMINATE 2026-11-23 22:05 CT (revision of his 22:03 PASS)
 - armnetbench-heldout-eval:453 (block_stack) — matched: "borderline"
 - armnetbench-heldout-eval:499 (block_stack) — matched: "borderline"
-- armnetbench-heldout-eval:514 (block_stack) — matched: "borderline"
-- armnetbench-heldout-eval:557 (block_stack) — matched: "gripper still"
-- armnetbench-heldout-eval:784 (tool_insert) — matched: "gripper still"
+- armnetbench-heldout-eval:514 (block_stack) — matched: "borderline" — RESOLVED 2026-11-23 22:25 CT: founder PASS, confirmed clean ("Clean pass. Gripper open at the end."); flag was a FALSE POSITIVE, cleared in the audit record.
+- armnetbench-heldout-eval:557 (block_stack) — matched: "gripper still" — RESOLVED 2026-11-23 22:31 CT: founder PASS; flag FALSE POSITIVE #3, cleared; Gemini's final-position FAIL rationale was wrong on the video (primary read stands).
+- armnetbench-heldout-eval:784 (tool_insert) — matched: "gripper still" — RESOLVED 2026-11-23 22:27 CT: founder PASS ("Clean pass."); flag FALSE POSITIVE, cleared; Gemini's gripper-state FAIL rationale was wrong on the video (primary read stands).
