@@ -20,6 +20,7 @@ Open-source federated learning platform for SmolVLA models on SO-100 datasets us
 | What | Where |
 | --- | --- |
 | 📦 **Simulation assets** | [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets) — free, open-licensed, verified |
+| 🗂️ **Public asset homes** | Code and config live in this GitHub repo; simulation assets in the [zk0 Simulation Assets collection](https://huggingface.co/collections/zk0bot/zk0-simulation-assets); certified scenes and solutions in [zk0bot/sim-scene-solutions](https://huggingface.co/datasets/zk0bot/sim-scene-solutions); episode annotations in [zk0bot/certification-annotations](https://huggingface.co/datasets/zk0bot/certification-annotations); significant checkpoints in zk0bot model repositories; and the shipped model at [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) |
 | 🤖 **Model checkpoint** | [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl) |
 | 🗺️ **Roadmap** | [zk0.bot/docs/ROADMAP.html](https://zk0.bot/docs/ROADMAP.html) |
 | 💬 **Community** | [Discord](https://discord.gg/dhMnEne7RP) · [GitHub Discussions](https://github.com/ivelin/zk0/discussions) |
