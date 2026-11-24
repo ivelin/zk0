@@ -1,0 +1,8 @@
+RC=0
+anchor-ep1609: GRADE=RECOVERED GOOD=NO – grasp‑retry retreats indicate a visible failed grasp that was later recovered.  
+spec16: GRADE=CLEAN GOOD=YES – only internal fallback moves (lift step1, release retreat) with no visible failure.  
+spec00: GRADE=CLEAN GOOD=YES – same internal fallback moves, no visible defects.  
+spec01: GRADE=CLEAN GOOD=YES – same internal fallback moves, no visible defects.  
+spec17: GRADE=RECOVERED GOOD=NO – contains a grasp‑retry retreat (failed grasp) that was recovered before completion.
+
+---STDERR---

@@ -1,0 +1,4 @@
+RC=0
+ring_insert: GRADE=NO-SOLUTION GOOD=NO - No executed PASS exists; anchor ep7 lacks a certified solution and validator scenes contain FAIL records, with a known parameter defect, so the ring scenes are correctly excluded from the validated denominator.
+
+---STDERR---

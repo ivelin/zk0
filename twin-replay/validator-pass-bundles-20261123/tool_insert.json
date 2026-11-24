@@ -1,0 +1,104 @@
+[
+ {
+  "scene": "spec00",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "frozen (refcore.py + run_reference.py)",
+  "variant": "k=0 (nominal)",
+  "verdict": "PASS",
+  "checks": {
+   "centre_in_slot": true,
+   "axis_angle_deg": 9.9,
+   "resting_in_tray_contact": true,
+   "tool_z": 0.0459
+  },
+  "phase_notes": "pinch-lift ok, tool z 0.000->0.080, grip stall -0.143 rad, slot at [0.35  0.06  0.041] yaw 0",
+  "log_entries": 9,
+  "grasp_entries": 1,
+  "failed_moves": [],
+  "objects_final": {
+   "tool": [
+    0.35019806062527886,
+    0.05750099561173415,
+    0.04594667126173797
+   ]
+  }
+ },
+ {
+  "scene": "spec06",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=0 (nominal)",
+  "verdict": "PASS",
+  "checks": {
+   "centre_in_slot": true,
+   "axis_angle_deg": 17.3,
+   "resting_in_tray_contact": true,
+   "tool_z": 0.0483
+  },
+  "phase_notes": "pinch-lift ok, tool z 0.005->0.080, grip stall -0.156 rad, slot at [0.35  0.06  0.041] yaw 0",
+  "log_entries": 23,
+  "grasp_entries": 3,
+  "failed_moves": [
+   "release:retreat"
+  ],
+  "objects_final": {
+   "tool": [
+    0.3445474560314511,
+    0.05520643953766367,
+    0.04825120325226757
+   ]
+  }
+ },
+ {
+  "scene": "spec09",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=3",
+  "verdict": "PASS",
+  "checks": {
+   "centre_in_slot": true,
+   "axis_angle_deg": 15.8,
+   "resting_in_tray_contact": true,
+   "tool_z": 0.048
+  },
+  "phase_notes": "pinch-lift ok, tool z 0.005->0.096, grip stall -0.126 rad, slot at [0.35  0.06  0.041] yaw 0",
+  "log_entries": 12,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "release:retreat"
+  ],
+  "objects_final": {
+   "tool": [
+    0.34882083800604063,
+    0.06301701143742022,
+    0.04801457559829573
+   ]
+  }
+ },
+ {
+  "scene": "spec19",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=3",
+  "verdict": "PASS",
+  "checks": {
+   "centre_in_slot": true,
+   "axis_angle_deg": 11.2,
+   "resting_in_tray_contact": true,
+   "tool_z": 0.0481
+  },
+  "phase_notes": "pinch-lift ok, tool z 0.005->0.088, grip stall -0.158 rad, slot at [0.35  0.06  0.041] yaw 0",
+  "log_entries": 12,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "release:retreat"
+  ],
+  "objects_final": {
+   "tool": [
+    0.3616198335219321,
+    0.05992819850062901,
+    0.048071706232024655
+   ]
+  }
+ }
+]

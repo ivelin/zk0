@@ -1,0 +1,8 @@
+RC=0
+anchor-ep411: GRADE=CLEAN GOOD=YES - No visible failures; internal IK retries did not lose the object.  
+spec02: GRADE=CLEAN GOOD=YES - Execution smooth, only post‑task retreat fallback failed, which is an internal detail.  
+spec08: GRADE=CLEAN GOOD=YES - No observable errors; the reported lift and retreat failures are controller internals.  
+spec10: GRADE=CLEAN GOOD=YES - Task completed without glitches; retreat failure occurs after completion and is non‑visible.  
+spec13: GRADE=CLEAN GOOD=YES - Straightforward execution; only the retreat move failed internally, no visible defect.
+
+---STDERR---

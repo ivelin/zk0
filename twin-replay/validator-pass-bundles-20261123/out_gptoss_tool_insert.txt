@@ -1,0 +1,8 @@
+RC=0
+anchor-ep683: GRADE=RECOVERED GOOD=NO - visible grasp retries and failed lifts occurred, but the task was completed after recovery  
+spec00: GRADE=CLEAN GOOD=YES - no failed moves or interruptions; trajectory smooth and final checks passed  
+spec06: GRADE=CLEAN GOOD=YES - only a post‑release retreat failure (internal IK fallback) after the task was already complete, not a visible defect  
+spec09: GRADE=CLEAN GOOD=YES - only a post‑release retreat failure (internal) after completion, no visible issue  
+spec19: GRADE=CLEAN GOOD=YES - only a post‑release retreat failure (internal) after task finish, trajectory otherwise clean
+
+---STDERR---

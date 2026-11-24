@@ -1,0 +1,4 @@
+RC=1
+
+---STDERR---
+missing meta credentials: run `muse login` or set META_API_KEY, or save credentials at /home/openclaw/.config/muse/auth.json

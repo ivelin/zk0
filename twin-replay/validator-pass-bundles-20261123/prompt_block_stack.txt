@@ -1,0 +1,213 @@
+You are an independent solution-quality validator for the zk0 twin-suite v2
+program, from a DIFFERENT model family than the builders (the scenes and
+reference controllers were built by Claude-family agents). You are given
+execution records of solution trajectories for simulated scenes of one
+robotics task. The generator's claim for each scene is: an executed PASS
+whose trajectory is a GOOD solution - smooth, failure-free, relatively
+optimal/efficient, with minimal hesitation or corrections.
+
+For EACH scene record below, return exactly one line:
+<scene>: GRADE=<CLEAN|RECOVERED|INCIDENT|NO-SOLUTION> GOOD=<YES|NO> - <one-line reason>
+
+Rubric:
+- CLEAN: no visible failure events in the trajectory: no failed grasp that
+  loses or retries the object, no drop, no re-place, no non-target object
+  displaced, final checks all true with margin.
+- RECOVERED: a visible problem occurred (failed grasp attempt, drop,
+  misplacement) and the executor visibly recovered and completed the task.
+- INCIDENT: completed with glitches (brushes, knocks, displacement of
+  non-target objects) without a distinct recovery event.
+- A GOOD solution (founder spec) must grade CLEAN. RECOVERED or INCIDENT
+  means GOOD=NO.
+- Controller internals: an IK solver fallback entry (solved=false on a
+  sub-move) that never loses the object, and the post-release retreat move
+  failing after the task is already complete, appear in many records. Judge
+  whether they are visible trajectory defects or controller internals, and
+  state in your reason which way you counted them when it decides a grade.
+- Cable scenes are executed with a documented weld device (the gripper
+  pads cannot pinch a 5 mm cable); judge the record on its own events.
+
+Records:
+[
+ {
+  "scene": "anchor-ep411",
+  "role": "anchor twin (replica of a held-out episode; certified solution on record)",
+  "controller": null,
+  "variant": null,
+  "verdict": "PASS",
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": -0.0001,
+   "within_inset_footprint": true,
+   "contact_with_lower": true,
+   "no_other_support_contact": true,
+   "upper_contacts": [
+    "cube_a"
+   ]
+  },
+  "phase_notes": "moving=cube_b at [ 0.066 -0.023  0.015], target=cube_a at [0.239 0.03  0.015]; pinch-lift ok, cube_b z 0.015->0.055, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [0.238 0.028 0.071]",
+  "log_entries": 22,
+  "grasp_entries": 2,
+  "failed_moves": [
+   "grasp:above",
+   "grasp:above",
+   "grasp:above",
+   "lift:step2",
+   "lift:pos-only"
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.2584885784198875,
+    0.03941716939505722,
+    0.014846210268827353
+   ],
+   "cube_b": [
+    0.2536407867573789,
+    0.028797748638687337,
+    0.04473161096258838
+   ]
+  }
+ },
+ {
+  "scene": "spec02",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "frozen (refcore.py + run_reference.py)",
+  "variant": "nominal k=0",
+  "verdict": "PASS",
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": 0.0001,
+   "within_inset_footprint": true,
+   "contact_with_lower": true,
+   "no_other_support_contact": true,
+   "upper_contacts": [
+    "cube_a"
+   ]
+  },
+  "phase_notes": "moving=cube_b at [ 0.322 -0.056  0.015], target=cube_a at [0.347 0.057 0.015]; pinch-lift ok, cube_b z 0.015->0.089, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [0.348 0.055 0.05 ]",
+  "log_entries": 8,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.34865781794626044,
+    0.061580046313025626,
+    0.0141307894818712
+   ],
+   "cube_b": [
+    0.3597447863738918,
+    0.05737722404528559,
+    0.044219671095620014
+   ]
+  }
+ },
+ {
+  "scene": "spec08",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "frozen (refcore.py + run_reference.py)",
+  "variant": "nominal k=0",
+  "verdict": "PASS",
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": 0.0054,
+   "within_inset_footprint": true,
+   "contact_with_lower": true,
+   "no_other_support_contact": true,
+   "upper_contacts": [
+    "cube_a"
+   ]
+  },
+  "phase_notes": "moving=cube_b at [0.32  0.007 0.015], target=cube_a at [0.393 0.088 0.015]; pinch-lift ok, cube_b z 0.015->0.089, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [0.394 0.088 0.05 ]",
+  "log_entries": 8,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.3948372901244955,
+    0.09987884461004828,
+    0.01409962480691479
+   ],
+   "cube_b": [
+    0.4008340580053359,
+    0.09469426320401295,
+    0.04947143353616833
+   ]
+  }
+ },
+ {
+  "scene": "spec10",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "frozen (refcore.py + run_reference.py)",
+  "variant": "nominal k=0",
+  "verdict": "PASS",
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": 0.0009,
+   "within_inset_footprint": true,
+   "contact_with_lower": true,
+   "no_other_support_contact": true,
+   "upper_contacts": [
+    "cube_a"
+   ]
+  },
+  "phase_notes": "moving=cube_b at [ 0.192 -0.01   0.015], target=cube_a at [ 0.285 -0.04   0.015]; pinch-lift ok, cube_b z 0.015->0.088, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [ 0.283 -0.039  0.056]",
+  "log_entries": 9,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "release:retreat"
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.2962601166402738,
+    -0.0396814831413574,
+    0.01302007213024337
+   ],
+   "cube_b": [
+    0.3067754850505841,
+    -0.04159057294294,
+    0.043884067087859156
+   ]
+  }
+ },
+ {
+  "scene": "spec13",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "frozen (refcore.py + run_reference.py)",
+  "variant": "nominal k=0",
+  "verdict": "PASS",
+  "checks": {
+   "upper": "cube_b",
+   "face_gap_m": -0.0008,
+   "within_inset_footprint": true,
+   "contact_with_lower": true,
+   "no_other_support_contact": true,
+   "upper_contacts": [
+    "cube_a"
+   ]
+  },
+  "phase_notes": "moving=cube_b at [ 0.184 -0.013  0.015], target=cube_a at [0.276 0.023 0.015]; pinch-lift ok, cube_b z 0.015->0.088, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [0.274 0.022 0.056]",
+  "log_entries": 9,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "release:retreat"
+  ],
+  "objects_final": {
+   "cube_a": [
+    0.300966612206597,
+    0.026190858054498983,
+    0.02081767527203005
+   ],
+   "cube_b": [
+    0.2905569779704734,
+    0.017977044263177727,
+    0.04997553758494959
+   ]
+  }
+ }
+]

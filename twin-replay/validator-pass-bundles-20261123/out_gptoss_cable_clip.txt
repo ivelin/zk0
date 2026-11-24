@@ -1,0 +1,8 @@
+RC=0
+anchor-ep2020: GRADE=CLEAN GOOD=YES - No visible failure; failed moves are internal IK/retreat attempts after task completion.  
+spec00: GRADE=CLEAN GOOD=YES - Final cable seated, no drops; failed moves are internal controller steps.  
+spec01: GRADE=CLEAN GOOD=YES - Trajectory ends correctly, internal move failures do not affect outcome.  
+spec02: GRADE=CLEAN GOOD=YES - All checks pass, internal move failures are not visible defects.  
+spec03: GRADE=CLEAN GOOD=YES - No observable errors; listed failed moves are controller internals.
+
+---STDERR---

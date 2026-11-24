@@ -1,0 +1,127 @@
+[
+ {
+  "scene": "spec16",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=4",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.189",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3006101557453983,
+    0.15834586045312038,
+    0.02047852732256455
+   ]
+  }
+ },
+ {
+  "scene": "spec00",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=1",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.187",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3022809053934475,
+    0.15841706499072342,
+    0.020480882306967985
+   ]
+  }
+ },
+ {
+  "scene": "spec01",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=2",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.188",
+  "log_entries": 10,
+  "grasp_entries": 1,
+  "failed_moves": [
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.3064488328775191,
+    0.16054465482827937,
+    0.02048382776933449
+   ]
+  }
+ },
+ {
+  "scene": "spec17",
+  "role": "validator (spec-only, blind-built)",
+  "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+  "variant": "k=1",
+  "verdict": "PASS",
+  "checks": {
+   "centre_inside_basket": true,
+   "support_is_basket": true,
+   "contact_platform": false,
+   "contact_mat_or_floor": false,
+   "carton_contacts": [
+    "basket"
+   ],
+   "carton_z": 0.0205
+  },
+  "phase_notes": "pinch-lift ok, carton z 0.107->0.188",
+  "log_entries": 21,
+  "grasp_entries": 3,
+  "failed_moves": [
+   "grasp-retry:retreat",
+   "lift:step1",
+   "release:retreat"
+  ],
+  "objects_final": {
+   "carton": [
+    0.31403731594242057,
+    0.1488792811462882,
+    0.02047373556461503
+   ]
+  }
+ }
+]
