@@ -1,0 +1,281 @@
+{
+ "runs_total": 64,
+ "runs_with_rc": 58,
+ "verdicts_merged": 1400,
+ "dupes": [],
+ "defective_runs": [
+  {
+   "run": "grok_arm-heldout-shelf-01",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_arm-heldout-shelf-02",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_arm-heldout-toolrem-01",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_arm-heldout-toolrem-02",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_arm-heldout-unclip-01",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  },
+  {
+   "run": "grok_arm-heldout-unclip-02",
+   "rc": null,
+   "episodes": 25,
+   "verdicts": 0
+  }
+ ],
+ "missing_register_rows": [],
+ "agreement": {
+  "rc-cube-drawer": {
+   "agree": 90,
+   "total": 100
+  },
+  "rc-screwdriver": {
+   "agree": 100,
+   "total": 100
+  },
+  "spa-bench": {
+   "agree": 1166,
+   "total": 1200
+  }
+ },
+ "new_contested": [
+  {
+   "key": "rc-cube-drawer:21",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:52",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:60",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:62",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:65",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:66",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:68",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:70",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:71",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "rc-cube-drawer:72",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "spa-bench:862",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:864",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:943",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:944",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:0",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:76",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:80",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:83",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:85",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:89",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:91",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:97",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:127",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:184",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "spa-bench:186",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "spa-bench:190",
+   "primary": "PASS",
+   "grok": "INDETERMINATE"
+  },
+  {
+   "key": "spa-bench:974",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:786",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:204",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:205",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:206",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:207",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:208",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:209",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:210",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:211",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:217",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:218",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:219",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:220",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:221",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:222",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:223",
+   "primary": "PASS",
+   "grok": "FAIL"
+  },
+  {
+   "key": "spa-bench:224",
+   "primary": "PASS",
+   "grok": "FAIL"
+  }
+ ]
+}

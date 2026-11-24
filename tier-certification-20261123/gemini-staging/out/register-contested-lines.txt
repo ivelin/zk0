@@ -1,0 +1,2 @@
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_register-contested.raw:ep859 | PASS | bowl contains two objects with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_register-contested.raw:ep573 | PASS | blocks form a vertical stack with gripper released

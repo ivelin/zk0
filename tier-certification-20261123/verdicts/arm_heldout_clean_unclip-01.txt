@@ -1,0 +1,25 @@
+ep2449 | INCIDENT | black charger unit tipped and rotated mid-episode and stayed displaced
+ep2450 | INCIDENT | black charger unit tipped onto its side mid-episode and stayed rotated
+ep2451 | CLEAN
+ep2452 | INCIDENT | black charger unit was pulled/rotated toward the white block and stayed displaced
+ep2453 | CLEAN
+ep2454 | INCIDENT | arm/gripper brushed the black charger unit, moving it closer to the white block
+ep2455 | INCIDENT | gripper contacted and tipped the black charger unit during handling
+ep2456 | CLEAN
+ep2457 | CLEAN
+ep2458 | CLEAN
+ep2459 | CLEAN
+ep2460 | CLEAN
+ep2461 | CLEAN
+ep2462 | CLEAN
+ep2463 | INCIDENT | white fixture block was shifted across the mat during handling and stayed displaced
+ep2464 | CLEAN
+ep2465 | CLEAN
+ep2466 | CLEAN
+ep2467 | CLEAN
+ep2468 | INCIDENT | black charger unit tipped and rolled when the cable was pulled, staying displaced
+ep2469 | CLEAN
+ep2470 | CLEAN
+ep2471 | CLEAN
+ep2472 | CLEAN
+ep2473 | CLEAN

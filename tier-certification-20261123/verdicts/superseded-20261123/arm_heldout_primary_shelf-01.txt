@@ -1,0 +1,25 @@
+ep1549 | PASS | blue box rests on the shelf, gripper released
+ep1550 | PASS | blue box rests on the shelf, gripper released
+ep1551 | PASS | blue box rests on the shelf, gripper released
+ep1552 | PASS | white box rests on the shelf, gripper released
+ep1553 | PASS | silver box rests on the shelf, gripper released
+ep1554 | PASS | white box rests on the shelf, gripper released
+ep1555 | PASS | box rests on the shelf, gripper released
+ep1556 | PASS | box rests on the shelf, gripper released
+ep1557 | PASS | white box rests on the shelf, gripper released
+ep1558 | PASS | white box rests on the shelf, gripper released
+ep1559 | PASS | blue box rests on the shelf, gripper released
+ep1560 | PASS | white box rests on the shelf, gripper released
+ep1561 | PASS | white box rests on the shelf, gripper released
+ep1562 | PASS | blue box rests on the shelf, gripper released
+ep1563 | PASS | blue box rests on the shelf, gripper released
+ep1564 | PASS | white box rests on the shelf, gripper released
+ep1565 | PASS | blue box rests on the shelf, gripper released
+ep1566 | PASS | blue box rests on the shelf, gripper released
+ep1567 | PASS | blue box rests on the shelf, gripper released
+ep1568 | PASS | white box rests on the shelf, gripper released
+ep1569 | PASS | blue box rests on the shelf, gripper released
+ep1570 | PASS | blue box rests on the shelf, gripper released
+ep1571 | PASS | blue box rests on the shelf, gripper released
+ep1572 | PASS | white box rests on the shelf, gripper released
+ep1573 | PASS | white box rests on the shelf, gripper released

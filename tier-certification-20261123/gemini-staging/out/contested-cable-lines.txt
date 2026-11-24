@@ -1,0 +1,5 @@
+gemini_heldout-contested-cable.raw:ep2020 | PASS | cable is seated in the holder and gripper released
+gemini_heldout-contested-cable.raw:ep2042 | FAIL | cable lies on the mat and the clip is empty
+gemini_heldout-contested-cable.raw:ep2046 | FAIL | cable rests on the mat with the clip empty
+gemini_heldout-contested-cable.raw:ep2092 | FAIL | cable missed the holder and rests outside the clip
+gemini_heldout-contested-cable.raw:ep2101 | FAIL | cable lies on the mat and is not seated in the holder

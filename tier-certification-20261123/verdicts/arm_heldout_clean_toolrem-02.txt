@@ -1,0 +1,25 @@
+ep1225 | CLEAN
+ep1226 | CLEAN
+ep1227 | CLEAN
+ep1228 | CLEAN
+ep1229 | CLEAN
+ep1230 | INCIDENT | target tool slipped/fell from the gripper mid-carry and tumbled onto the mat, and was not re-grasped
+ep1231 | CLEAN
+ep1232 | CLEAN
+ep1233 | CLEAN
+ep1234 | CLEAN
+ep1235 | CLEAN
+ep1236 | CLEAN
+ep1237 | CLEAN
+ep1238 | CLEAN
+ep1239 | CLEAN
+ep1240 | CLEAN
+ep1241 | CLEAN
+ep1242 | CLEAN
+ep1243 | CLEAN
+ep1244 | CLEAN
+ep1245 | CLEAN
+ep1246 | CLEAN
+ep1247 | CLEAN
+ep1248 | CLEAN
+ep1249 | CLEAN

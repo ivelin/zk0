@@ -1,0 +1,25 @@
+ep1574 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1575 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1576 | PASS | eye-drops box rests on the shelf edge, gripper released
+ep1577 | PASS | eye-drops box lies on the shelf, gripper released
+ep1578 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1579 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1580 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1581 | PASS | eye-drops box rests on the shelf, gripper released
+ep1582 | PASS | blue eye-drops box lies on the shelf, gripper released
+ep1583 | PASS | eye-drops box rests on the shelf edge, gripper released
+ep1584 | PASS | eye-drops box rests on the shelf, gripper released
+ep1585 | PASS | eye-drops box lies on the shelf, gripper released
+ep1586 | PASS | eye-drops box rests on the shelf, gripper released
+ep1587 | PASS | eye-drops box rests on the shelf, gripper released
+ep1588 | PASS | eye-drops box rests on the shelf, gripper released
+ep1589 | PASS | eye-drops box rests on the shelf, gripper released
+ep1590 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1591 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1592 | PASS | eye-drops box rests on the shelf, gripper released
+ep1593 | PASS | eye-drops box rests on the shelf, gripper released
+ep1594 | PASS | blue eye-drops box rests on the shelf, gripper released
+ep1595 | PASS | eye-drops box rests on the shelf, gripper released
+ep1596 | PASS | eye-drops box lies on the shelf, gripper released
+ep1597 | PASS | eye-drops box rests on the shelf, gripper released
+ep1598 | PASS | blue eye-drops box rests on the shelf, gripper released

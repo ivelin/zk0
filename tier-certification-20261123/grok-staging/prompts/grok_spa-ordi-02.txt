@@ -1,0 +1,97 @@
+# Judging brief — Spa-Bench certification (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet JPG: two rows (row 1 = front-equivalent camera, row 2 =
+above/top camera), six frames each, left→right in time (0%, 35%, 60%,
+80%, 92%, ~100% of the episode). Judge the END STATE — what the final
+frames show — not how elegant the motion was.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the episode's task string under the rule below, with the gripper no
+  longer holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Rules (the batch you receive uses ONE rule; it is named in your task)
+
+- **Rule A — named object into the bowl:** PASS = the named object is
+  inside the bowl at episode end, gripper released. Adjectives
+  (closed/open/upright/upside-down, colours) identify WHICH object when
+  several of a type are present; they do not impose an end orientation
+  inside the bowl. FAIL = the named object is not in the bowl (or a
+  different object of the same type was put in when the string picks
+  out a specific distinguishable one).
+- **Rule B — relational placement:** PASS = the named object rests on
+  the table in the stated relation (front/back/left/right/next-to/
+  beside/near) to the named reference object at end, gripper released.
+  Judge the relation in the table plane from the above camera;
+  "near/beside/next to" = adjacent, touching not required. FAIL =
+  object in a clearly different relation, never moved, or put in the
+  bowl instead of on the table.
+- **Rule C — referential object into the bowl:** the referent is
+  identified from the FIRST frames (relative positions at episode
+  start: closest/nearest/furthest-from X, or positioned between X and
+  Y). PASS = that object is in the bowl at end, gripper released.
+  FAIL = a different object is in the bowl, or the referent never
+  reached the bowl. If the referent cannot be identified from the
+  first frames, INDETERMINATE.
+- **Rule D — ordinal object into the bowl:** ordering is read from the
+  FIRST frames, in the above camera's view, left/right as seen in that
+  view. PASS = the object at that ordinal position (first/second/
+  third/fourth from left/right) is in the bowl at end. FAIL = a
+  different object is in the bowl or none is. If the row of objects
+  cannot be ordered from the first frames, INDETERMINATE.
+- **Rule E — size referent into the bowl:** referent by apparent size
+  in the first frames (smallest/largest). PASS = that object in the
+  bowl at end. FAIL = a clearly different-sized object in the bowl.
+- **Rule F — bowl count / removal:** "Make/leave/adjust the bowl
+  contain exactly N objects" → PASS = exactly N objects inside the
+  bowl at end. "Remove/Take X out of the bowl / move X from the bowl
+  to the table" → PASS = X is out of the bowl (on the table) at end
+  and not held. FAIL = the count or X's location is clearly otherwise.
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+
+Judge exactly these 25 episodes. Every episode in this run uses Rule D (Ordinal Position). For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only, against that episode's own task string. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep640 — sheets/spa__ep640.jpg — task: "Put the object that is fourth from the left in the bowl."
+- ep641 — sheets/spa__ep641.jpg — task: "Pick up the object that is first from the right and place it in the bowl."
+- ep642 — sheets/spa__ep642.jpg — task: "Move the fourth from the left object into the bowl."
+- ep643 — sheets/spa__ep643.jpg — task: "Put the object that is first from the right in the bowl."
+- ep644 — sheets/spa__ep644.jpg — task: "Pick up the object that is fourth from the left and place it in the bowl."
+- ep645 — sheets/spa__ep645.jpg — task: "Move the first from the right object into the bowl."
+- ep646 — sheets/spa__ep646.jpg — task: "Put the object that is fourth from the left in the bowl."
+- ep647 — sheets/spa__ep647.jpg — task: "Pick up the object that is first from the right and place it in the bowl."
+- ep648 — sheets/spa__ep648.jpg — task: "Move the fourth from the left object into the bowl."
+- ep649 — sheets/spa__ep649.jpg — task: "Put the object that is first from the right in the bowl."
+- ep650 — sheets/spa__ep650.jpg — task: "Move the fourth item counted from the right into the bowl."
+- ep651 — sheets/spa__ep651.jpg — task: "Pick up the object that is first from the left and place it in the bowl."
+- ep652 — sheets/spa__ep652.jpg — task: "Put the fourth object from the right in the bowl."
+- ep653 — sheets/spa__ep653.jpg — task: "Pick up the object that is first from the left and place it in the bowl."
+- ep658 — sheets/spa__ep658.jpg — task: "Put the second object from the right in the bowl."
+- ep659 — sheets/spa__ep659.jpg — task: "Pick up the object that is second from the right and place it in the bowl."
+- ep660 — sheets/spa__ep660.jpg — task: "Put the second object from the right in the bowl."
+- ep661 — sheets/spa__ep661.jpg — task: "Put the first object from the left in the bowl."
+- ep675 — sheets/spa__ep675.jpg — task: "Move the second from the right object into the bowl."
+- ep676 — sheets/spa__ep676.jpg — task: "Put the object that is third from the left in the bowl."
+- ep677 — sheets/spa__ep677.jpg — task: "Pick up the object that is second from the right and place it in the bowl."
+- ep678 — sheets/spa__ep678.jpg — task: "Move the third from the left object into the bowl."
+- ep679 — sheets/spa__ep679.jpg — task: "Put the object that is first from the right in the bowl."
+- ep680 — sheets/spa__ep680.jpg — task: "Pick up the object that is third from the left and place it in the bowl."
+- ep681 — sheets/spa__ep681.jpg — task: "Move the first from the right object into the bowl."
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

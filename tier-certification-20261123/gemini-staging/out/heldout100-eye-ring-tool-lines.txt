@@ -1,0 +1,60 @@
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1609 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1618 | FAIL | basket is empty and bottle was dropped outside
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1630 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1639 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1643 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1724 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1741 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1746 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1747 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1757 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1760 | FAIL | basket is empty and bottle was dropped outside
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1778 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1780 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1783 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1798 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1808 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1810 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1811 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1814 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-eye_drops_to_basket.raw:ep1821 | PASS | bottle resting inside basket with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep7 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep11 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep30 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep31 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep33 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep48 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep50 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep160 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep165 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep167 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep168 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep177 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep179 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep188 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep195 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep198 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep227 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep240 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep242 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-ring_insert.raw:ep253 | PASS | ring encircles central wooden peg and gripper is released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep622 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep629 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep630 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep683 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep684 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep697 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep779 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep784 | FAIL | gripper still holding tool in slot without releasing
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep824 | FAIL | tool dropped on toolbox surface leaving empty slot unfilled
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep830 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep852 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep859 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep871 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep876 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep883 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep885 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep888 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep892 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep902 | PASS | tool seated in empty slot and gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-tool_insert.raw:ep903 | PASS | tool seated in empty slot and gripper released

@@ -1,0 +1,25 @@
+ep2474 | CLEAN
+ep2475 | CLEAN
+ep2476 | CLEAN
+ep2477 | INCIDENT | black adapter tipped upright by the cable pull and stayed displaced
+ep2478 | CLEAN
+ep2479 | CLEAN
+ep2480 | INCIDENT | black adapter dragged/slid to the right edge of the mat by the cable pull and stayed displaced
+ep2481 | INCIDENT | black adapter rolled/tipped by the cable pull and stayed reoriented
+ep2482 | CLEAN
+ep2483 | INCIDENT | black adapter tipped/rolled toward the camera during the pull and stayed displaced
+ep2484 | CLEAN
+ep2485 | CLEAN
+ep2486 | CLEAN
+ep2487 | CLEAN
+ep2488 | INCIDENT | black adapter nudged/shifted right during the pull and stayed displaced
+ep2489 | INCIDENT | gripper pressed/nudged the black adapter, shifting it from its start position
+ep2490 | CLEAN
+ep2491 | INCIDENT | black adapter dragged across the mat and then pushed further by the gripper, staying displaced
+ep2492 | INCIDENT | black adapter tipped upright by the cable pull and stayed upright/displaced
+ep2493 | INCIDENT | black adapter knocked/rolled by the gripper and cable pull and stayed displaced
+ep2494 | INCIDENT | black adapter slid right/down from its start position during the pull and stayed displaced
+ep2495 | INCIDENT | black adapter rolled toward the camera and was pushed further by the gripper, staying displaced
+ep2496 | INCIDENT | black adapter shifted right from its start position during the pull and stayed displaced
+ep2497 | CLEAN
+ep2498 | INCIDENT | black adapter tipped/rolled by the gripper contact and stayed displaced

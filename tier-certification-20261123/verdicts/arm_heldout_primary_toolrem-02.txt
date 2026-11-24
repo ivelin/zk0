@@ -1,0 +1,25 @@
+ep1225 | PASS | small tool stands on the table to the right of the toolbox, gripper released
+ep1226 | PASS | small tool lies on the table in front of the toolbox, gripper released
+ep1227 | PASS | front view shows the small tool lying on the table in front of the toolbox, gripper released
+ep1228 | PASS | small tool lies on the table to the right of the toolbox, gripper released
+ep1229 | PASS | small tool lies on the table in front of the toolbox, gripper released
+ep1230 | PASS | small tool rests at the right edge of the table, gripper released
+ep1231 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1232 | PASS | small tool lies diagonally on the table in front of the toolbox, gripper released
+ep1233 | PASS | small tool stands on the table in front of the toolbox, gripper released
+ep1234 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1235 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1236 | PASS | small tool lies on the table in front of the toolbox, gripper released
+ep1237 | PASS | small tool stands on the table in front of the toolbox, gripper released
+ep1238 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1239 | PASS | small tool lies diagonally on the table in front of the toolbox, gripper released
+ep1240 | PASS | small tool stands on the table at the left front of the toolbox, gripper released
+ep1241 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1242 | PASS | small tool lies on the table in front of the toolbox, gripper released
+ep1243 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1244 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1245 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1246 | PASS | small tool lies diagonally on the table in front of the toolbox, gripper released
+ep1247 | PASS | small tool lies on the table at the left front of the toolbox, gripper released
+ep1248 | PASS | small tool lies on the table in front of the toolbox, gripper released
+ep1249 | PASS | small tool lies on the table at the left front of the toolbox, gripper released

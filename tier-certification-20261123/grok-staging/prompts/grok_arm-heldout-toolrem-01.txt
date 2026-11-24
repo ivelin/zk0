@@ -1,0 +1,76 @@
+# Judging brief — ArmnetBench held-out tasks certification (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet JPG: two rows (row 1 = front camera, row 2 = top camera), six
+frames each, left→right in time (0%, 35%, 60%, 80%, 92%, ~100%).
+Judge the END STATE — what the final frames show — not how elegant
+the motion was.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the episode's task criterion below, with the gripper no longer
+  holding the target object.
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Task criteria (criteria-frozen.md §6; your batch names ONE task)
+
+- **eye_drops_to_shelf** ("Put the eye drops on the shelf."): PASS =
+  the eye-drops bottle rests on the shelf surface, gripper released,
+  at episode end. FAIL = bottle anywhere else (table, basket, floor)
+  or still held.
+- **tool_removal** ("Remove the small middle tool (3/8 Extension Bar
+  75mm) from the toolbox."): PASS = that tool (the small middle one)
+  is out of the toolbox, lying on the table, gripper released, at
+  end. FAIL = the tool still sits in its toolbox slot, or a different
+  tool was removed instead.
+- **cable_unclip** ("Remove the power cable from cable holder."):
+  PASS = the cable is fully out of the holder — no longer retained
+  by the clip — gripper released, at episode end. FAIL = cable still
+  seated in the holder, or only partially pulled with the clip still
+  holding it.
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+
+Judge exactly these 25 episodes of the ArmnetBench held-out tasks (group: toolrem). For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only, against that episode's own task string. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep1200 — sheets/armnetbench-heldout__ep1200.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1201 — sheets/armnetbench-heldout__ep1201.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1202 — sheets/armnetbench-heldout__ep1202.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1203 — sheets/armnetbench-heldout__ep1203.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1204 — sheets/armnetbench-heldout__ep1204.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1205 — sheets/armnetbench-heldout__ep1205.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1206 — sheets/armnetbench-heldout__ep1206.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1207 — sheets/armnetbench-heldout__ep1207.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1208 — sheets/armnetbench-heldout__ep1208.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1209 — sheets/armnetbench-heldout__ep1209.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1210 — sheets/armnetbench-heldout__ep1210.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1211 — sheets/armnetbench-heldout__ep1211.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1212 — sheets/armnetbench-heldout__ep1212.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1213 — sheets/armnetbench-heldout__ep1213.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1214 — sheets/armnetbench-heldout__ep1214.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1215 — sheets/armnetbench-heldout__ep1215.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1216 — sheets/armnetbench-heldout__ep1216.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1217 — sheets/armnetbench-heldout__ep1217.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1218 — sheets/armnetbench-heldout__ep1218.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1219 — sheets/armnetbench-heldout__ep1219.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1220 — sheets/armnetbench-heldout__ep1220.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1221 — sheets/armnetbench-heldout__ep1221.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1222 — sheets/armnetbench-heldout__ep1222.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1223 — sheets/armnetbench-heldout__ep1223.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+- ep1224 — sheets/armnetbench-heldout__ep1224.jpg — task: "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox"
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

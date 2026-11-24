@@ -1,0 +1,74 @@
+# Judging brief — RoboColosseum certification (blind primary judging)
+
+You are judging whether recorded human-teleoperated demonstration
+episodes actually completed their task. Each episode has ONE contact
+sheet JPG: two rows (row 1 = front camera, row 2 = wrist camera — this
+dataset has no top view), six frames each, left→right in time (0%,
+35%, 60%, 80%, 92%, ~100%). Judge the END STATE — what the final
+frames show — not how elegant the motion was. Use the wrist view to
+confirm what the gripper holds or released when the front view is
+ambiguous.
+
+## Verdicts (exactly one per episode)
+
+- PASS — the final frames clearly show the completion end-state for
+  the batch's dataset criterion below, with the gripper no longer
+  holding the target object (unless the criterion says otherwise).
+- FAIL — the final frames clearly show the end-state is NOT the
+  completion state. A success achieved mid-episode but undone by the
+  end is FAIL — end state only.
+- INDETERMINATE — the final frames do not let you determine the end
+  state (object occluded in both views at the end, ambiguous, or
+  unreadable frames). Use sparingly; if one camera shows it clearly,
+  judge from that.
+
+## Dataset criteria (your batch names ONE dataset; apply its rule)
+
+- **cube-drawer** ("put the cube in the drawer and close it"): PASS =
+  the cube is inside the drawer AND the drawer is closed at episode
+  end. If the drawer is closed at the end but the cube's location
+  cannot be confirmed (never seen entering), INDETERMINATE. FAIL =
+  drawer open with the cube outside, or the cube visibly outside a
+  closed drawer.
+- **remove-screwdriver** ("remove the screwdriver from the box"):
+  PASS = the screwdriver is out of the box and resting on the table
+  at episode end, gripper released. FAIL = the screwdriver is still
+  in the box, or still held at the end.
+
+## Output format (your final report: one line per episode, nothing else)
+
+ep<index> | PASS|FAIL|INDETERMINATE | <one short clause: what the final frames show>
+
+Judge only from the sheets. Do not open any other file, do not look
+for other verdicts, do not speculate about frames you cannot see.
+
+
+Judge exactly these 25 episodes of the RoboColosseum dataset "remove-screwdriver". For each one, open the contact-sheet image with your image/file reading tool and judge from the sheet only. Working directory: /home/openclaw/muse-work/zk0-tier10h-cert-20261123
+
+- ep50 — sheets/rc-screwdriver__ep50.jpg
+- ep51 — sheets/rc-screwdriver__ep51.jpg
+- ep52 — sheets/rc-screwdriver__ep52.jpg
+- ep53 — sheets/rc-screwdriver__ep53.jpg
+- ep54 — sheets/rc-screwdriver__ep54.jpg
+- ep55 — sheets/rc-screwdriver__ep55.jpg
+- ep56 — sheets/rc-screwdriver__ep56.jpg
+- ep57 — sheets/rc-screwdriver__ep57.jpg
+- ep58 — sheets/rc-screwdriver__ep58.jpg
+- ep59 — sheets/rc-screwdriver__ep59.jpg
+- ep60 — sheets/rc-screwdriver__ep60.jpg
+- ep61 — sheets/rc-screwdriver__ep61.jpg
+- ep62 — sheets/rc-screwdriver__ep62.jpg
+- ep63 — sheets/rc-screwdriver__ep63.jpg
+- ep64 — sheets/rc-screwdriver__ep64.jpg
+- ep65 — sheets/rc-screwdriver__ep65.jpg
+- ep66 — sheets/rc-screwdriver__ep66.jpg
+- ep67 — sheets/rc-screwdriver__ep67.jpg
+- ep68 — sheets/rc-screwdriver__ep68.jpg
+- ep69 — sheets/rc-screwdriver__ep69.jpg
+- ep70 — sheets/rc-screwdriver__ep70.jpg
+- ep71 — sheets/rc-screwdriver__ep71.jpg
+- ep72 — sheets/rc-screwdriver__ep72.jpg
+- ep73 — sheets/rc-screwdriver__ep73.jpg
+- ep74 — sheets/rc-screwdriver__ep74.jpg
+
+Output ONLY the 25 verdict lines in the format specified above, one per episode, in the order listed. No preamble, no summary, no other text.

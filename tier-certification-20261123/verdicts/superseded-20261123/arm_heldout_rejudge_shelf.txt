@@ -1,0 +1,10 @@
+ep1550 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1553 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1555 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1560 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1566 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1573 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1576 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1590 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1594 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released
+ep1596 | PASS | bottle rests on the shelf surface in final frames, gripper clear and released

@@ -1,0 +1,25 @@
+ep1200 | PASS | tool lying on table in front of toolbox, gripper released
+ep1201 | PASS | tool standing on table in front of toolbox, gripper released
+ep1202 | PASS | tool lying on table in front of toolbox, gripper released
+ep1203 | PASS | tool lying on table in front of toolbox, gripper released
+ep1204 | PASS | tool lying on table in front of toolbox, gripper released
+ep1205 | FAIL | no tool on table and toolbox slots still filled at end
+ep1206 | PASS | tool lying diagonally on table in front of toolbox, gripper released
+ep1207 | PASS | tool lying on table in front of toolbox, gripper released
+ep1208 | PASS | tool lying on table in front of toolbox, gripper released
+ep1209 | PASS | tool lying on table in front of toolbox, gripper released
+ep1210 | PASS | tool lying on table in front of toolbox, gripper released
+ep1211 | PASS | tool standing on table in front of toolbox, gripper released
+ep1212 | PASS | tool lying on table in front of toolbox, gripper released
+ep1213 | PASS | tool lying on table in front of toolbox, gripper released
+ep1214 | PASS | tool lying on table in front of toolbox, gripper released
+ep1215 | PASS | tool lying on table in front of toolbox, gripper released
+ep1216 | PASS | tool standing on table in front of toolbox, gripper released
+ep1217 | PASS | tool lying on table in front of toolbox, gripper released
+ep1218 | PASS | tool lying on table in front of toolbox, gripper released
+ep1219 | PASS | tool lying on table in front of toolbox, gripper released
+ep1220 | PASS | tool lying on table beside toolbox, gripper released
+ep1221 | PASS | tool lying on table in front of toolbox, gripper released
+ep1222 | PASS | tool standing on table in front of toolbox, gripper released
+ep1223 | PASS | tool lying diagonally on table in front of toolbox, gripper released
+ep1224 | PASS | tool standing on table in front of toolbox, gripper released

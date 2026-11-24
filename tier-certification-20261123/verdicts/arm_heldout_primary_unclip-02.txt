@@ -1,0 +1,25 @@
+ep2474 | PASS | cable lies free on the mat in front of the holder, plug end clear of the clip
+ep2475 | PASS | cable end rests free on the mat left of the holder, holder empty
+ep2476 | PASS | cable lies across the mat with its end free on the right, holder empty
+ep2477 | PASS | cable end lies free on the mat away from the holder, gripper released
+ep2478 | PASS | cable end lies free on the mat, holder standing empty
+ep2479 | FAIL | cable still runs into the holder and drapes over it, still retained
+ep2480 | PASS | plug end lies free on the mat left of the holder, holder empty
+ep2481 | PASS | plug end lies free on the mat left of the holder, cable out of the clip
+ep2482 | PASS | cable end lies free on the mat in front, holder empty
+ep2483 | PASS | plug end lies free on the mat left of the holder, holder empty
+ep2484 | PASS | cable end lies free on the mat to the right, holder empty
+ep2485 | PASS | cable end lies free on the mat in front of the holder, gripper released
+ep2486 | FAIL | cable still links the holder to the coil beside it, no free end on the mat
+ep2487 | PASS | cable end lies free on the mat away from the holder, holder empty
+ep2488 | PASS | cable end lies free on the mat to the right, holder empty
+ep2489 | PASS | cable end lies free on the mat below the holder, holder empty
+ep2490 | PASS | cable end lies free on the mat, holder standing empty
+ep2491 | PASS | cable end lies free on the mat to the right, holder empty
+ep2492 | PASS | cable end lies free on the mat short of the holder, holder empty
+ep2493 | PASS | cable end lies free on the mat below the holder, gripper released
+ep2494 | PASS | cable end lies free on the mat to the right, holder empty
+ep2495 | PASS | cable end lies free on the mat to the right of the coil, holder empty
+ep2496 | PASS | cable end lies free on the mat in front, holder empty
+ep2497 | PASS | cable end lies free on the mat beside the power brick, holder empty
+ep2498 | FAIL | cable runs straight into the holder's face, plug still seated in the clip

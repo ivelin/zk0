@@ -1,0 +1,16 @@
+gemini_heldout-contested-rest.raw:ep11 | PASS | ring encircles the central wooden peg shaft and gripper is released
+gemini_heldout-contested-rest.raw:ep489 | FAIL | gripper remains clamped on the orange block without releasing it
+gemini_heldout-contested-rest.raw:ep499 | FAIL | gripper remains clamped on the purple block without releasing it
+gemini_heldout-contested-rest.raw:ep514 | PASS | green block is stacked on purple block with gripper released and stack standing
+gemini_heldout-contested-rest.raw:ep531 | PASS | green block is stacked on purple block with gripper released and stack standing
+gemini_heldout-contested-rest.raw:ep539 | PASS | green block is stacked on purple block with gripper released and stack standing
+gemini_heldout-contested-rest.raw:ep557 | FAIL | orange block slipped off and rests on the table beside the purple block
+gemini_heldout-contested-rest.raw:ep629 | PASS | missing tool is seated in the empty toolbox slot and gripper is released
+gemini_heldout-contested-rest.raw:ep784 | FAIL | gripper remains holding the tool in the toolbox slot without releasing it
+gemini_heldout-contested-rest.raw:ep1630 | PASS | eye-drops bottle rests inside the basket walls and gripper is released
+gemini_heldout-contested-rest.raw:ep1639 | PASS | eye-drops bottle rests inside the basket walls and gripper is released
+gemini_heldout-contested-rest.raw:ep1757 | PASS | eye-drops bottle rests inside the basket walls and gripper is released
+gemini_heldout-contested-rest.raw:ep1760 | FAIL | basket is empty and bottle was dropped outside the basket
+gemini_heldout-contested-rest.raw:ep1808 | PASS | eye-drops bottle rests inside the basket walls and gripper is released
+gemini_heldout-contested-rest.raw:ep1811 | PASS | eye-drops bottle rests inside the basket walls and gripper is released
+register rc=pending

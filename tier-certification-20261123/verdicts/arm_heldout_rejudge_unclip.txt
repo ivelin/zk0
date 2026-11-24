@@ -1,0 +1,10 @@
+ep2451 | PASS | cable connector lies free on the table beside the gripper, white holder clips empty
+ep2452 | PASS | cable connector lies free at the left of the mat, white holder clips empty
+ep2456 | PASS | cable connector lies free on the table left of the power brick, white holder clips empty
+ep2467 | PASS | cable connector lies free on the table left of the gripper, white holder clips empty
+ep2469 | PASS | cable connector lies free on the table in front of the white holder, clips empty
+ep2470 | PASS | cable connector lies free on the table to the right of the white holder, clips empty
+ep2478 | PASS | cable connector lies free on the table to the right, white holder clip empty
+ep2491 | PASS | cable connector lies free on the table to the right, white holder clip empty
+ep2492 | PASS | cable connector lies free on the table at the lower right, white holder clips empty
+ep2495 | PASS | cable connector lies free on the table to the right of the power brick, white holder clips empty

@@ -1,0 +1,25 @@
+ep2449 | PASS | cable lies loose on the mat in front of the holder, clip empty, gripper released
+ep2450 | PASS | cable lies loose on the mat below the holder, clip empty, gripper released
+ep2451 | PASS | cable lies loose on the mat in front of the holder, clip empty, gripper released
+ep2452 | PASS | cable lies loose on the mat in front of the holder, clip empty, gripper released
+ep2453 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2454 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2455 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2456 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2457 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2458 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2459 | PASS | cable lies loose on the mat in front of the holder, clip empty, gripper released
+ep2460 | PASS | cable connector lies loose on the mat left of the gripper, holder clip empty
+ep2461 | PASS | cable lies low on the mat in front of the holder, clip empty on top, gripper released
+ep2462 | PASS | cable connector lies loose on the mat in front of the holder, clip empty, gripper released
+ep2463 | PASS | cable connector lies loose on the mat in front of the holder, clip empty, gripper released
+ep2464 | PASS | cable lies loose behind the holder, clip empty on top, gripper released
+ep2465 | PASS | cable lies loose behind the holder, clip empty on top, gripper released
+ep2466 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2467 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2468 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released
+ep2469 | PASS | cable connector lies loose on the mat in front of the holder, clip empty, gripper released
+ep2470 | PASS | cable connector lies loose far on the mat in front of the holder, clip empty, gripper released
+ep2471 | PASS | cable lies low on the mat in front of the holder, clip empty on top, gripper released
+ep2472 | PASS | cable lies loose on the mat in front of the holder, clip empty on top, gripper released
+ep2473 | PASS | cable connector lies loose on the mat left of the holder, clip empty, gripper released

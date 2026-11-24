@@ -1,0 +1,174 @@
+{
+ "seed": 20261123,
+ "method": "random.Random(20261123).sample per task over sorted indices, 10 of 50 per task",
+ "batches": [
+  {
+   "batch_id": "arm-heldout-rejudge-toolrem",
+   "dataset": "rejudge",
+   "episodes": [
+    {
+     "episode_index": 1205,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1205.jpg"
+    },
+    {
+     "episode_index": 1210,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1210.jpg"
+    },
+    {
+     "episode_index": 1211,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1211.jpg"
+    },
+    {
+     "episode_index": 1224,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1224.jpg"
+    },
+    {
+     "episode_index": 1231,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1231.jpg"
+    },
+    {
+     "episode_index": 1234,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1234.jpg"
+    },
+    {
+     "episode_index": 1235,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1235.jpg"
+    },
+    {
+     "episode_index": 1236,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1236.jpg"
+    },
+    {
+     "episode_index": 1241,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1241.jpg"
+    },
+    {
+     "episode_index": 1248,
+     "task_string": "Remove the small middle tool (3/8 Extension Bar 75mm) from the toolbox",
+     "sheet": "sheets/armnetbench-heldout__ep1248.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-heldout-rejudge-shelf",
+   "dataset": "rejudge",
+   "episodes": [
+    {
+     "episode_index": 1550,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1550.jpg"
+    },
+    {
+     "episode_index": 1553,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1553.jpg"
+    },
+    {
+     "episode_index": 1555,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1555.jpg"
+    },
+    {
+     "episode_index": 1560,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1560.jpg"
+    },
+    {
+     "episode_index": 1566,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1566.jpg"
+    },
+    {
+     "episode_index": 1573,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1573.jpg"
+    },
+    {
+     "episode_index": 1576,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1576.jpg"
+    },
+    {
+     "episode_index": 1590,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1590.jpg"
+    },
+    {
+     "episode_index": 1594,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1594.jpg"
+    },
+    {
+     "episode_index": 1596,
+     "task_string": "Put the eye drops on the shelf",
+     "sheet": "sheets/armnetbench-heldout__ep1596.jpg"
+    }
+   ]
+  },
+  {
+   "batch_id": "arm-heldout-rejudge-unclip",
+   "dataset": "rejudge",
+   "episodes": [
+    {
+     "episode_index": 2451,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2451.jpg"
+    },
+    {
+     "episode_index": 2452,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2452.jpg"
+    },
+    {
+     "episode_index": 2456,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2456.jpg"
+    },
+    {
+     "episode_index": 2467,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2467.jpg"
+    },
+    {
+     "episode_index": 2469,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2469.jpg"
+    },
+    {
+     "episode_index": 2470,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2470.jpg"
+    },
+    {
+     "episode_index": 2478,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2478.jpg"
+    },
+    {
+     "episode_index": 2491,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2491.jpg"
+    },
+    {
+     "episode_index": 2492,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2492.jpg"
+    },
+    {
+     "episode_index": 2495,
+     "task_string": "Remove the power cable from cable holder",
+     "sheet": "sheets/armnetbench-heldout__ep2495.jpg"
+    }
+   ]
+  }
+ ]
+}

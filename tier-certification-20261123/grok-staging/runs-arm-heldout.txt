@@ -1,0 +1,6 @@
+grok_arm-heldout-shelf-01
+grok_arm-heldout-shelf-02
+grok_arm-heldout-toolrem-01
+grok_arm-heldout-toolrem-02
+grok_arm-heldout-unclip-01
+grok_arm-heldout-unclip-02

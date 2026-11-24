@@ -1,0 +1,10 @@
+ep1550 | PASS | blue box rests on shelf surface in final frames, gripper released below
+ep1553 | PASS | silver box rests on shelf surface in final frames, gripper released below
+ep1555 | PASS | box rests on shelf surface in final frames, gripper released below
+ep1560 | PASS | box rests on shelf surface in final frames, gripper released below
+ep1566 | PASS | blue box rests upright on shelf surface in final frames, gripper released below
+ep1573 | PASS | box rests on shelf surface in final frames, gripper released below
+ep1576 | PASS | blue box rests on shelf surface in final frames, gripper released below
+ep1590 | PASS | blue box rests on shelf surface in final frames, gripper released below
+ep1594 | PASS | blue box rests on shelf surface in final frames, gripper released below
+ep1596 | PASS | silver box rests on shelf surface in final frames, gripper released below

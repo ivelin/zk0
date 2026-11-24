@@ -456,3 +456,50 @@ the first per-episode independent judging of the set.
   study workdir `heldout-audit-20261123/`).
 - Founder review pack: `~/workspace/heldout-certification-review-20261123/`
   (see §6).
+
+## Gemini leg addendum (2026-11-23, tier-certification coordinator #3)
+
+Method: Google Antigravity CLI (agy v1.5.15) on the DGX, one-shot print
+mode, model PINNED per invocation to **gemini-3.8-flash-high** (the
+strongest Gemini selectable on the account; the leg is an independent
+non-Claude read — the Claude/GPT model group was never used). Model
+verified from the agy session records (print-mode log lines show
+model="gemini-3.8-flash-high" as the only model string). Blind: same
+contact sheets, same frozen criteria brief, no prior verdicts in the
+prompts. JPG sheets are rejected by agy's media path (HTTP 400), so all
+judging used PNG conversions of the same sheets. Per-episode Gemini
+verdicts + evidence + model are in verdicts_master.csv
+(gemini_verdict / gemini_evidence / gemini_model).
+
+Stage 1 — the 20 Grok-contested episodes (tie-break reads): cable
+ep2020 PASS / ep2042 FAIL / ep2046 FAIL / ep2092 FAIL / ep2101 FAIL;
+ring ep11 PASS; block ep489 FAIL / ep499 FAIL / ep514 PASS / ep531
+PASS / ep539 PASS / ep557 FAIL; tool ep629 PASS / ep784 FAIL; eye
+ep1630 PASS / ep1639 PASS / ep1757 PASS / ep1760 FAIL / ep1808 PASS /
+ep1811 PASS. All 20 remain contested for the founder — Gemini is a
+third read, not a resolver.
+
+ep2020 carries THREE Gemini reads, recorded in full: a single-image
+micro-test read the sheet as cable-not-seated (FAIL-equivalent prose);
+the contested batch read PASS ("cable is seated in the holder and
+gripper released"); the full-set batch read FAIL. Gemini is not
+self-consistent on this borderline episode; the founder's adjudication
+is the deciding read.
+
+Stage 2 — the full held-out 100 (5 runs x 20, all rc=0): Gemini
+73 PASS / 27 FAIL. Agreement: Gemini vs primary 93/100; Gemini vs
+Grok 82/100. Gemini disagrees with primary on 7 episodes: block
+489/499/557 (FAIL, with Grok), tool 784 (FAIL; Grok INDETERMINATE),
+tool 824 (FAIL vs primary+Grok PASS — NEW contested), eye 1643 (PASS
+vs primary+Grok FAIL — NEW contested), eye 1760 (FAIL; primary
+INDETERMINATE, Grok FAIL). Held-out contested after all three model
+families: 22 episodes (the original 20 + ep824 + ep1643), all for the
+founder with every read attached.
+
+Quota stop: the Gemini weekly group (starter tier, SHARED with Cos's
+machine) stood at 32% remaining after stage 2 (reset
+2026-11-30T21:41:45Z). Per the program's quota discipline the leg
+stops here: stage 3 (1h training set, 250), stage 4 (Spa-Bench +
+RoboColosseum registers) and stage 5 (new sources) resume after the
+reset. Note for a #bot-hub post: the week's Gemini usage was consumed
+by this leg's contested + held-out-100 stages.

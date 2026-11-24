@@ -1,0 +1,40 @@
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1896 | FAIL | cable rests on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1903 | FAIL | gripper presses white block, cable remains on mat
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1905 | FAIL | cable rests on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1939 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1959 | FAIL | cable rests on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1960 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1968 | FAIL | gripper grasps white block, cable remains on mat
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep1969 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2020 | FAIL | cable rests on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2032 | FAIL | gripper grasps white block, cable remains on mat
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2042 | FAIL | cable lies behind white block, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2046 | FAIL | cable lies behind white block, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2059 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2068 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2085 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2092 | FAIL | cable dropped on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2101 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2125 | FAIL | cable rests on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2130 | FAIL | cable rests on mat, arm hovers above
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-cable_clip.raw:ep2146 | FAIL | cable lies behind block on mat, holder empty
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep411 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep453 | PASS | purple block stacked on green block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep476 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep479 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep489 | FAIL | gripper still holding orange block on purple block
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep498 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep499 | FAIL | gripper still holding purple block at episode end
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep513 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep514 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep525 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep526 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep527 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep530 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep531 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep539 | PASS | green block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep545 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep546 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep548 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep549 | PASS | orange block stacked on purple block with gripper released
+/home/openclaw/muse-work/zk0-tier10h-cert-20261123/gemini/out/gemini_heldout100-block_stack.raw:ep557 | FAIL | orange block toppled off base block onto table surface

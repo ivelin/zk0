@@ -1,0 +1,10 @@
+ep1205 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1210 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1211 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1224 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1231 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1234 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1235 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1236 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1241 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released
+ep1248 | PASS | small middle tool is out of the toolbox and lying on the table in final frames, gripper released

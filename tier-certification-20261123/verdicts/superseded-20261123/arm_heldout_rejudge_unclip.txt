@@ -1,0 +1,10 @@
+ep2451 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2452 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2456 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2467 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2469 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2470 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2478 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2491 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2492 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
+ep2495 | PASS | cable is fully out of the holder and no longer retained by the clip in final frames, gripper released
