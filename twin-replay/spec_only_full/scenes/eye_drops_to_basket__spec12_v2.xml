@@ -1,0 +1,41 @@
+<!-- twin-suite-v2 SPEC-ONLY (Tier C, Amendment 2 A2.1) task=eye_drops_to_basket master_seed=20261127 - generated from task spec + audited parameter table; NO episode data -->
+<mujoco model="spec_eye_drops_to_basket">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <option timestep="0.0005" gravity="0 0 -9.81"/>
+  <visual><headlight diffuse="0.7 0.7 0.7" ambient="0.35 0.35 0.35" specular="0.1 0.1 0.1"/>
+    <global azimuth="145" elevation="-22"/></visual>
+  <include file="/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/scenes-v2/arm/so101_new_calib_padded.xml"/>
+  <worldbody>
+    <light pos="0.3 -0.3 0.9" dir="-0.2 0.2 -1" diffuse="0.85 0.85 0.85"/>
+    
+    <geom name="floor" type="plane" size="0 0 0.05" pos="0 0 -0.001"
+      friction="0.8 0.005 0.0001" rgba="0.35 0.30 0.25 1"/>
+    <geom name="mat" type="box" pos="0.3 0.0 -0.0015" size="0.275 0.2 0.0015"
+      friction="0.9 0.005 0.0001" rgba="0.16 0.19 0.24 1"/>
+    <geom name="wall_back" type="box" pos="0.3 0.20500000000000002 0.03" size="0.275 0.005 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_front" type="box" pos="0.3 -0.20500000000000002 0.03" size="0.275 0.005 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_left" type="box" pos="0.019999999999999966 0.0 0.03" size="0.005 0.2 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_right" type="box" pos="0.58 0.0 0.03" size="0.005 0.2 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <camera name="topcam" pos="0.3 0.0 0.85" quat="1 0 0 0" fovy="50"/>
+    <camera name="frontcam" pos="0.75 -0.55 0.35" xyaxes="0.66 -0.75 0 0.28 0.24 -0.92" fovy="55"/>
+
+    
+    <body name="platform" pos="0.32 -0.06 0">
+      <geom name="platform_top" type="box" pos="0 0 0.088" size="0.1 0.08 0.002" friction="0.4 0.005 0.0001" rgba="0.92 0.92 0.92 1"/>
+      <geom name="platform_web" type="box" pos="0 0 0.045" size="0.01 0.04 0.045" friction="0.4 0.005 0.0001" rgba="0.92 0.92 0.92 1"/>
+      <geom name="platform_base" type="box" pos="0 0 0.002" size="0.1 0.08 0.002" friction="0.4 0.005 0.0001" rgba="0.92 0.92 0.92 1"/>
+    </body>
+    <body name="basket" pos="0.3 0.15 0">
+      <geom name="basket_floor" type="box" pos="0 0 0.0015" size="0.13 0.09 0.0015" friction="0.4 0.005 0.0001" rgba="0.85 0.90 0.95 0.5"/>
+      <geom name="basket_w1" type="box" pos="0 0.0885 0.035" size="0.13 0.0015 0.035" friction="0.4 0.005 0.0001" rgba="0.85 0.90 0.95 0.5"/>
+      <geom name="basket_w2" type="box" pos="0 -0.0885 0.035" size="0.13 0.0015 0.035" friction="0.4 0.005 0.0001" rgba="0.85 0.90 0.95 0.5"/>
+      <geom name="basket_w3" type="box" pos="0.1285 0 0.035" size="0.0015 0.09 0.035" friction="0.4 0.005 0.0001" rgba="0.85 0.90 0.95 0.5"/>
+      <geom name="basket_w4" type="box" pos="-0.1285 0 0.035" size="0.0015 0.09 0.035" friction="0.4 0.005 0.0001" rgba="0.85 0.90 0.95 0.5"/>
+    </body><body name="carton" pos="0.352987 0.001066 0.1075" quat="0.985746 0 0 0.16824"><joint name="carton_free" type="free" damping="0.01"/><geom name="carton_geom" type="box" size="0.045 0.0175 0.0175" mass="0.02201" friction="0.5395 0.005 0.0001" rgba="0.25 0.45 0.85 1"/></body>
+  </worldbody>
+  <equality><weld name="weld_carton_0" body1="gripper" body2="carton" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_carton_1" body1="gripper" body2="carton" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_carton_2" body1="gripper" body2="carton" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_carton_3" body1="gripper" body2="carton" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/></equality>
+</mujoco>

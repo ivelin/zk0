@@ -1,0 +1,222 @@
+{
+ "block_stack__spec01": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "block_stack__spec02": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "block_stack__spec03": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec07": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec08": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec09": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec10": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec11": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec13": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "block_stack__spec14": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec16": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec17": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "block_stack__spec18": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec00": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "cable_clip__spec01": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec02": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec03": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec04": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec05": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec06": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec07": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec08": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec09": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec10": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "cable_clip__spec11": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec12": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec13": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec14": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec15": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec16": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec17": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec18": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds on the recorded checks and final pose; not re-executed"
+ },
+ "cable_clip__spec19": {
+  "verdict": "CONFIRMED",
+  "note": "sha256 matches the scene file; register controller, variant_k and checks agree; frozen success predicate holds; re-exec sim_success true with identical checks"
+ },
+ "eye_drops_to_basket__spec00": {
+  "verdict": "DISPUTED",
+  "note": "re-exec sim_success false: frozen v1replay.evaluate sets centre_inside_basket false against fixtures.json basket [0.0935, 0.1578] while the carton rests in the scene basket at 0.30, 0.15 (carton_z matched the record); record claims centre_inside_basket true"
+ },
+ "eye_drops_to_basket__spec01": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec02": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec03": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec06": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec07": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec08": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec09": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec11": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec12": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec14": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec15": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec16": {
+  "verdict": "DISPUTED",
+  "note": "re-exec sim_success false: frozen v1replay.evaluate sets centre_inside_basket false against fixtures.json basket [0.0935, 0.1578] while the carton rests in the scene basket at 0.30, 0.15 (carton_z matched the record); record claims centre_inside_basket true"
+ },
+ "eye_drops_to_basket__spec17": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "eye_drops_to_basket__spec19": {
+  "verdict": "DISPUTED",
+  "note": "centre_inside_basket true does not satisfy frozen evaluate: objects_final carton xy is outside fixtures.json basket [0.0935, 0.1578] and inside the scene basket at 0.30, 0.15; same failure re-executed on spec00 and spec16"
+ },
+ "tool_insert__spec00": {
+  "verdict": "DISPUTED",
+  "note": "re-exec checks do not match: frozen controller targeted fixtures.json slot [0.234, 0.058, 0.045] and returned axis 12.2 / tool_z 0.0499, while the record (axis 9.9 / tool_z 0.0459) places the tool in the scene slot near [0.35, 0.06], which fails the frozen slot test"
+ },
+ "tool_insert__spec06": {
+  "verdict": "DISPUTED",
+  "note": "centre_in_slot true does not satisfy frozen evaluate: objects_final tool xy is outside fixtures.json slot [0.234, 0.058] and inside the scene slot; re-exec of spec00 and spec08 did not reproduce the recorded checks"
+ },
+ "tool_insert__spec08": {
+  "verdict": "DISPUTED",
+  "note": "re-exec sim_success false with centre_in_slot false, axis_angle_deg 21.9, resting_in_tray_contact false, tool_z 0.0044; frozen controller targeted fixtures.json slot [0.234, 0.058] and did not reproduce the record"
+ },
+ "tool_insert__spec09": {
+  "verdict": "DISPUTED",
+  "note": "centre_in_slot true does not satisfy frozen evaluate: objects_final tool xy is outside fixtures.json slot [0.234, 0.058] and inside the scene slot; re-exec of spec00 and spec08 did not reproduce the recorded checks"
+ },
+ "tool_insert__spec12": {
+  "verdict": "DISPUTED",
+  "note": "centre_in_slot true does not satisfy frozen evaluate: objects_final tool xy is outside fixtures.json slot [0.234, 0.058] and inside the scene slot; re-exec of spec00 and spec08 did not reproduce the recorded checks"
+ },
+ "tool_insert__spec16": {
+  "verdict": "DISPUTED",
+  "note": "centre_in_slot true does not satisfy frozen evaluate: objects_final tool xy is outside fixtures.json slot [0.234, 0.058] and inside the scene slot; re-exec of spec00 and spec08 did not reproduce the recorded checks"
+ },
+ "tool_insert__spec19": {
+  "verdict": "DISPUTED",
+  "note": "centre_in_slot true does not satisfy frozen evaluate: objects_final tool xy is outside fixtures.json slot [0.234, 0.058] and inside the scene slot; re-exec of spec00 and spec08 did not reproduce the recorded checks"
+ }
+}

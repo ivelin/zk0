@@ -1,0 +1,114 @@
+{
+ "block_stack__spec02": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/block_stack__spec02_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "block_stack__spec03": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/block_stack__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "block_stack__spec08": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/block_stack__spec08_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "block_stack__spec10": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/block_stack__spec10_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "block_stack__spec13": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/block_stack__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec00": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec00_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec01": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec01_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec02": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec02_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec03": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec03_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec04": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec04_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec05": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec05_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec06": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec07": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec07_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec08": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec08_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec09": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec09_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec10": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec10_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec11": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec11_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec12": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec12_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec13": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec13_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec14": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec14_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec15": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec15_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec16": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec17": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec17_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec18": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec18_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "cable_clip__spec19": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/cable_clip__spec19_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "eye_drops_to_basket__spec16": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/eye_drops_to_basket__spec16_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "tool_insert__spec00": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/tool_insert__spec00_frozen.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed frozen controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ },
+ "tool_insert__spec06": {
+  "certified": true,
+  "record": "zk0-verify-v2-20261123/results/tool_insert__spec06_rev21.json on Pop!_OS desktop (ivelin@100.73.62.79): re-executed rev21 controller, verdict PASS, sim_success=true, checks dict identical to builder record"
+ }
+}

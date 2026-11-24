@@ -1,0 +1,73 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec07",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 14.5,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.1505427421220553,
+   -0.11574783142789966,
+   0.004844465047457757
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1788,
+    -0.0979,
+    0.0816
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0089,
+     0.0265,
+     0.0216
+    ],
+    "grip_stall_rad": -0.151,
+    "hold_grip_rad": -0.181
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1612,
+    -0.1188,
+    0.0987
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1606,
+    -0.1185,
+    0.0979
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec07",
+ "scene_index": 7,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "7fd862ff83617f02a66d7a2c1ceeb03eb10eec3b304e46980312721d688958fe",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

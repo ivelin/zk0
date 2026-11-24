@@ -1,0 +1,77 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec15",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 68.1,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0298
+ },
+ "objects_final": {
+  "tool": [
+   0.19615152251639784,
+   -0.13097765077166046,
+   0.029830891296134008
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.030 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1949,
+    -0.1295,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0122,
+     -0.0213,
+     0.0254
+    ],
+    "grip_stall_rad": -0.143,
+    "hold_grip_rad": -0.173
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1782,
+    -0.0948,
+    0.0996
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.1782,
+    -0.0948,
+    0.0996
+   ],
+   "solved": true,
+   "via": "continuation"
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec15",
+ "scene_index": 15,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "64b4cb7f0bf38580fbcb401f1d9bdb2671b6586c7aec4d61283ac8de7af4a0e9",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

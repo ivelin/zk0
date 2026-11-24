@@ -1,0 +1,119 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec09",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_b",
+  "face_gap_m": -0.03,
+  "within_inset_footprint": false,
+  "contact_with_lower": false,
+  "no_other_support_contact": false,
+  "upper_contacts": [
+   "world"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.11745359111528107,
+   -0.03859657256744748,
+   0.014920493806965248
+  ],
+  "cube_b": [
+   0.42899400175661395,
+   -0.09382900501938246,
+   0.014920493806965411
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: cube_a z 0.015 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1356,
+    -0.0454,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0233,
+     0.0008,
+     0.0266
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.1702,
+    -0.0427,
+    0.1015
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1699,
+    -0.0425,
+    0.1006
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1402,
+    -0.0164,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.002,
+     0.0253,
+     0.0245
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1518,
+    -0.0408,
+    0.0994
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1512,
+    -0.0406,
+    0.098
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec09",
+ "scene_index": 9,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "0b73bb9e5d6b4cf6a62759b6cc1382745bd143e7a53d184a93b79dffa13cb575",
+ "scene_variant": "k=1",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

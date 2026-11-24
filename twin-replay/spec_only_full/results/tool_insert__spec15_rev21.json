@@ -1,0 +1,102 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec15",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 62.5,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.20519137463730183,
+   -0.1449266376185841,
+   0.00484446504514946
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1949,
+    -0.1295,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0126,
+     -0.0211,
+     0.0254
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.198
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.1787,
+    -0.0946,
+    0.0648
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1777,
+    -0.0939,
+    0.0641
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.1787,
+    -0.0946,
+    0.0998
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.1777,
+    -0.0939,
+    0.0998
+   ],
+   "solved": true,
+   "via": "continuation"
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec15",
+ "scene_index": 15,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "64b4cb7f0bf38580fbcb401f1d9bdb2671b6586c7aec4d61283ac8de7af4a0e9",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

@@ -1,0 +1,110 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec13",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 52.7,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.18276522305776835,
+   -0.14867401112082312,
+   0.0048444650451675425
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1618,
+    -0.1249,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0118,
+     0.0093,
+     0.032
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.1825,
+    -0.15,
+    0.112
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1826,
+    -0.15,
+    0.1107
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1863,
+    -0.1476,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0186,
+     0.0161,
+     0.0253
+    ],
+    "grip_stall_rad": -0.15,
+    "hold_grip_rad": -0.18
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.1846,
+    -0.1657,
+    0.0994
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1834,
+    -0.165,
+    0.0986
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec13",
+ "scene_index": 13,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "8c774744adf1389339ca600502ba21e092be0b39128e345ebb49f41422077b20",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

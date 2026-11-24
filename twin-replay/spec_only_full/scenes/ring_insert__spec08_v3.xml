@@ -1,0 +1,35 @@
+<!-- twin-suite-v2 SPEC-ONLY (Tier C, Amendment 2 A2.1) task=ring_insert master_seed=20261127 - generated from task spec + audited parameter table; NO episode data -->
+<mujoco model="spec_ring_insert">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <option timestep="0.0005" gravity="0 0 -9.81"/>
+  <visual><headlight diffuse="0.7 0.7 0.7" ambient="0.35 0.35 0.35" specular="0.1 0.1 0.1"/>
+    <global azimuth="145" elevation="-22"/></visual>
+  <include file="/home/openclaw/muse-work/zk0-study001-twin-v2-20261122/scenes-v2/arm/so101_new_calib_padded.xml"/>
+  <worldbody>
+    <light pos="0.3 -0.3 0.9" dir="-0.2 0.2 -1" diffuse="0.85 0.85 0.85"/>
+    
+    <geom name="floor" type="plane" size="0 0 0.05" pos="0 0 -0.001"
+      friction="0.8 0.005 0.0001" rgba="0.35 0.30 0.25 1"/>
+    <geom name="mat" type="box" pos="0.3 0.0 -0.0015" size="0.275 0.2 0.0015"
+      friction="0.9 0.005 0.0001" rgba="0.16 0.19 0.24 1"/>
+    <geom name="wall_back" type="box" pos="0.3 0.20500000000000002 0.03" size="0.275 0.005 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_front" type="box" pos="0.3 -0.20500000000000002 0.03" size="0.275 0.005 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_left" type="box" pos="0.019999999999999966 0.0 0.03" size="0.005 0.2 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <geom name="wall_right" type="box" pos="0.58 0.0 0.03" size="0.005 0.2 0.03"
+      friction="0.5 0.005 0.0001" rgba="0.76 0.66 0.50 1"/>
+    <camera name="topcam" pos="0.3 0.0 0.85" quat="1 0 0 0" fovy="50"/>
+    <camera name="frontcam" pos="0.75 -0.55 0.35" xyaxes="0.66 -0.75 0 0.28 0.24 -0.92" fovy="55"/>
+
+    
+    <body name="board" pos="0.3 0.0 0">
+      <geom name="board_geom" type="cylinder" pos="0 0 0.0075" size="0.085 0.0075" friction="0.5 0.005 0.0001" rgba="0.92 0.87 0.72 1"/>
+    </body>
+    <body name="peg" pos="0.3 0.0 0">
+      <geom name="peg_geom" type="cylinder" pos="0 0 0.05" size="0.008 0.035" friction="0.4 0.005 0.0001" rgba="0.80 0.65 0.42 1"/>
+    </body><body name="ring" pos="0.205193 -0.093809 0.006" quat="1 0 0 0"><joint name="ring_free" type="free" damping="0.01"/><geom type="capsule" fromto="0.01675 0 0 0.0145059 0.008375 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="0.0145059 0.008375 0 0.008375 0.0145059 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="0.008375 0.0145059 0 1.02564e-18 0.01675 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="1.02564e-18 0.01675 0 -0.008375 0.0145059 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-0.008375 0.0145059 0 -0.0145059 0.008375 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-0.0145059 0.008375 0 -0.01675 2.05128e-18 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-0.01675 2.05128e-18 0 -0.0145059 -0.008375 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-0.0145059 -0.008375 0 -0.008375 -0.0145059 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-0.008375 -0.0145059 0 -3.07693e-18 -0.01675 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="-3.07693e-18 -0.01675 0 0.008375 -0.0145059 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="0.008375 -0.0145059 0 0.0145059 -0.008375 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/><geom type="capsule" fromto="0.0145059 -0.008375 0 0.01675 -4.10257e-18 0" size="0.00575" mass="0.0005575" friction="0.5555 0.005 0.0001" rgba="0.95 0.80 0.15 1"/></body>
+  </worldbody>
+  <equality><weld name="weld_ring_0" body1="gripper" body2="ring" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_ring_1" body1="gripper" body2="ring" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_ring_2" body1="gripper" body2="ring" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/><weld name="weld_ring_3" body1="gripper" body2="ring" active="false" solref="0.005 1" solimp="0.95 0.99 0.001"/></equality>
+</mujoco>

@@ -1,0 +1,389 @@
+{
+ "task": "ring_insert",
+ "episode": "ring_insert__spec02",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "planar_to_peg_m": 0.0862,
+  "engaged": false,
+  "hole_clearance_m": 0.003,
+  "bottom_above_board_m": -0.0003
+ },
+ "objects_final": {
+  "ring": [
+   0.21537047350202085,
+   -0.01612435873578874,
+   0.020655525875461347
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "over-peg pose unreachable",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1803,
+    -0.0029,
+    0.0857
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.3
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 8.4
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0305,
+     0.0004,
+     0.0363
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.199
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.182,
+    -0.0088,
+    0.065
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1815,
+    -0.0087,
+    0.0635
+   ]
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.1815,
+    -0.0087,
+    0.0885
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1808,
+    -0.0087,
+    0.0872
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.1815,
+    -0.0087,
+    0.1135
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1806,
+    -0.0087,
+    0.1124
+   ]
+  },
+  {
+   "move": "ring:regrasp-setdown",
+   "target": [
+    0.1705,
+    -0.0027,
+    0.0077
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.178,
+    -0.0038,
+    0.03
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.1868,
+    -0.0039,
+    0.09
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2053,
+    -0.0046,
+    0.1025
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2565,
+    -0.0097,
+    0.1007
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.8
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.7
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.028,
+     0.0008,
+     0.0383
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.198
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2603,
+    -0.0201,
+    0.0753
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2589,
+    -0.02,
+    0.0745
+   ]
+  },
+  {
+   "ring_regrasp": 0,
+   "tilt_deg": 23.2,
+   "ring_z": 0.0666
+  },
+  {
+   "move": "ring:regrasp-setdown",
+   "target": [
+    0.167,
+    -0.0032,
+    0.0136
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1917,
+    -0.0079,
+    0.0303
+   ]
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.1879,
+    -0.0075,
+    0.0905
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2073,
+    -0.0093,
+    0.1051
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2564,
+    -0.0032,
+    0.1007
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 16.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.005,
+     0.0341,
+     0.0325
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.199
+   }
+  },
+  {
+   "ring_regrasp": 1,
+   "formed": false
+  },
+  {
+   "move": "ring:regrasp-retreat",
+   "target": [
+    0.2667,
+    -0.019,
+    0.1036
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "ring:regrasp-setdown",
+   "target": [
+    0.2033,
+    0.003,
+    0.0882
+   ],
+   "solved": false
+  },
+  {
+   "move": "ring:regrasp-setdown-pos",
+   "target": [
+    0.2033,
+    0.003,
+    0.0882
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.2036,
+    0.0029,
+    0.1481
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.2036,
+    0.0029,
+    0.1681
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2435,
+    -0.0248,
+    0.1007
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 7.8
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0212,
+     0.0244,
+     0.0347
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.199
+   }
+  },
+  {
+   "ring_regrasp": 2,
+   "formed": false
+  },
+  {
+   "move": "ring:regrasp-retreat",
+   "target": [
+    0.2447,
+    -0.0252,
+    0.0876
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2446,
+    -0.0251,
+    0.1123
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2174,
+    -0.0247,
+    0.098
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.2446,
+    -0.0251,
+    0.1373
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2464,
+    -0.0238,
+    0.1362
+   ]
+  },
+  {
+   "place_scan": "ring over-peg",
+   "all_candidates_infeasible": true
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "ring_insert__spec02",
+ "scene_index": 2,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "a1766b4e3262787ac8aeecb4bb8a65ebef14894930081566cfcd769156e1b7d2",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

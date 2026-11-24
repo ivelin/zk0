@@ -1,0 +1,111 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec05",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_b",
+  "face_gap_m": 0.0431,
+  "within_inset_footprint": false,
+  "contact_with_lower": false,
+  "no_other_support_contact": false,
+  "upper_contacts": [
+   "gripper",
+   "moving_jaw_so101_v1"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.4482000011766268,
+   -0.09762699740550665,
+   0.014920493806965435
+  ],
+  "cube_b": [
+   0.21794187997071748,
+   -0.091207104419624,
+   0.08805248705787977
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "place unreachable in all orientation branches (yaw + tilt + free)",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2289,
+    -0.1013,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 2.4
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 12.6
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0233,
+     0.0011,
+     0.0265
+    ],
+    "grip_stall_rad": 0.092,
+    "hold_grip_rad": 0.052
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.218,
+    -0.1032,
+    0.0639
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2169,
+    -0.1026,
+    0.0631
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.218,
+    -0.1032,
+    0.0989
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.217,
+    -0.1026,
+    0.098
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "all_candidates_infeasible": true
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec05",
+ "scene_index": 5,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "cd038523eb244eaed841be5cb367114dbcad65928ba0dc3d99bd8810ae302c25",
+ "scene_variant": "nominal k=0",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

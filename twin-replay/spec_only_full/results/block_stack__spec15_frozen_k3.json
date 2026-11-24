@@ -1,0 +1,87 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec15",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": 0.0405,
+  "within_inset_footprint": false,
+  "contact_with_lower": false,
+  "no_other_support_contact": false,
+  "upper_contacts": [
+   "gripper",
+   "moving_jaw_so101_v1"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.30552897228458564,
+   0.03456268885462755,
+   0.08544173664732832
+  ],
+  "cube_b": [
+   0.45210800149055935,
+   0.07420900045287374,
+   0.01492049380696552
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "place unreachable in all orientation branches (yaw + tilt + free)",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3136,
+    0.0365,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0235,
+     0.0001,
+     0.0264
+    ],
+    "grip_stall_rad": 0.121,
+    "hold_grip_rad": 0.091
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.3033,
+    0.037,
+    0.0989
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3038,
+    0.0371,
+    0.095
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "all_candidates_infeasible": true
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec15",
+ "scene_index": 15,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "06491b7295d0bfd88f75c08b3d92d77aee3454aa9d08202ed34b47594b2f0b3f",
+ "scene_variant": "k=3",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

@@ -1,0 +1,239 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec02",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 83.2,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.19528371720309345,
+   -0.0036695119395281127,
+   0.0048444650451494745
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1695,
+    -0.0217,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0191,
+     -0.0051,
+     0.0293
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.199
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.1961,
+    -0.0265,
+    0.1052
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1973,
+    -0.0267,
+    0.1056
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1701,
+    -0.0216,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0037,
+     0.026,
+     0.0236
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.1931,
+    -0.0219,
+    0.0973
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1927,
+    -0.0207,
+    0.0967
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1701,
+    -0.0216,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0166,
+     0.0009,
+     0.0312
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.198
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2021,
+    -0.0261,
+    0.1058
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2035,
+    -0.0265,
+    0.1062
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1574,
+    -0.0202,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.8
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 6.2
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0249,
+     -0.019,
+     0.0194
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.199
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.1864,
+    -0.0085,
+    0.06
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1856,
+    -0.0085,
+    0.057
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.1864,
+    -0.0085,
+    0.095
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1866,
+    -0.0085,
+    0.0937
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec02",
+ "scene_index": 2,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "4f6067b7e76282e7fb84f72414cb95818aa2daa174a339ea6fd32e8186128dc3",
+ "scene_variant": "k=6",
+ "variant_kind": "corner:pose_-x",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

@@ -1,0 +1,134 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec15",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_a",
+  "face_gap_m": 0.0285,
+  "within_inset_footprint": true,
+  "contact_with_lower": false,
+  "no_other_support_contact": false,
+  "upper_contacts": [
+   "gripper",
+   "moving_jaw_so101_v1"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.4302853752174915,
+   0.03713920269030778,
+   0.07344497145076267
+  ],
+  "cube_b": [
+   0.43943585731483104,
+   0.03861746740547231,
+   0.01492049380697076
+  ]
+ },
+ "verdict": "ERROR",
+ "phase_notes": "UFuncTypeError: ufunc 'matmul' did not contain a loop with signature matching types (dtype('<U1'), dtype('float64')) -> None",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3002,
+    -0.0131,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0238,
+     0.0003,
+     0.0261
+    ],
+    "grip_stall_rad": 0.093,
+    "hold_grip_rad": 0.063
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2952,
+    -0.0125,
+    0.099
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2959,
+    -0.0126,
+    0.0962
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "branch": "free-orientation",
+   "pinch_target": [
+    0.4354,
+    0.0391,
+    0.05
+   ],
+   "wrist_flex_deg": 5.3,
+   "pos_err_mm": 1.49,
+   "Rt": [
+    [
+     0.399,
+     -0.096,
+     -0.912
+    ],
+    [
+     0.034,
+     0.995,
+     -0.09
+    ],
+    [
+     0.916,
+     0.005,
+     0.4
+    ]
+   ]
+  },
+  {
+   "carry": "block place",
+   "obj_target": [
+    0.441,
+    0.0387,
+    0.0479
+   ]
+  },
+  {
+   "move": "servo:lift",
+   "target": [
+    0.4392,
+    0.0394,
+    0.0712
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.4392,
+    0.0394,
+    0.0696
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec15",
+ "scene_index": 15,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "3802b1eec535a5b584e6a37cddb59cc82c03c258037f66ed4f11e7f3ab2fc6e3",
+ "scene_variant": "k=8",
+ "variant_kind": "corner:pose_-y",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

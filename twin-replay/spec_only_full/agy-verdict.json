@@ -1,0 +1,222 @@
+{
+  "block_stack__spec01": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (frozen, k=7) reproduced sim_success=true with exact matching checks; note cube_b tilted 41.2 deg (face_gap_m=0.0061, diagnostic only)."
+  },
+  "block_stack__spec02": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (frozen, k=0) reproduced sim_success=true with exact matching checks."
+  },
+  "block_stack__spec03": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=0) reproduced sim_success=true with exact matching checks."
+  },
+  "block_stack__spec07": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=2), sim_success=true, solver_failure=false; note elevated face_gap_m=0.0056 (diagnostic only)."
+  },
+  "block_stack__spec08": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=0), sim_success=true, solver_failure=false; note elevated face_gap_m=0.0054 (diagnostic only)."
+  },
+  "block_stack__spec09": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=3), sim_success=true, solver_failure=false; note elevated face_gap_m=0.006 (diagnostic only)."
+  },
+  "block_stack__spec10": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=0), sim_success=true, solver_failure=false."
+  },
+  "block_stack__spec11": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (frozen, k=1) reproduced sim_success=true with exact matching checks."
+  },
+  "block_stack__spec13": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false."
+  },
+  "block_stack__spec14": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=1), sim_success=true, solver_failure=false."
+  },
+  "block_stack__spec16": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=1), sim_success=true, solver_failure=false."
+  },
+  "block_stack__spec17": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=4), sim_success=true, solver_failure=false."
+  },
+  "block_stack__spec18": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (frozen, k=1), sim_success=true, solver_failure=false; note elevated face_gap_m=0.0057 (diagnostic only)."
+  },
+  "cable_clip__spec00": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=0) reproduced sim_success=true with exact matching checks; note all 20 nominal cable_clip XMLs are byte-identical (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec01": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec02": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec03": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec04": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec05": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec06": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec07": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec08": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec09": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec10": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec11": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec12": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec13": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec14": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec15": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec16": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec17": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec18": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=0), sim_success=true, solver_failure=false; note all 20 nominal cable_clip XMLs share identical sha256 (systemic generator lack of placement diversity)."
+  },
+  "cable_clip__spec19": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=0) reproduced sim_success=true with exact matching checks; note all 20 nominal cable_clip XMLs are byte-identical (systemic generator lack of placement diversity)."
+  },
+  "eye_drops_to_basket__spec00": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=1) reproduced sim_success=true with exact matching checks."
+  },
+  "eye_drops_to_basket__spec01": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=1), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec02": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=1), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec03": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec06": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec07": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=4), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec08": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=6), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec09": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=4), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec11": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec12": {
+    "verdict": "DISPUTED",
+    "note": "Record and register attempt have verdict='FAIL' (grasp failed; carton knocked into basket during retries) and early return skipped required 1.0s settle before evaluate(), though re-execution reproduced sim_success=true (and held after extra 1.0s settle)."
+  },
+  "eye_drops_to_basket__spec14": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=4), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec15": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec16": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=0) reproduced sim_success=true with exact matching checks."
+  },
+  "eye_drops_to_basket__spec17": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=1), sim_success=true, solver_failure=false."
+  },
+  "eye_drops_to_basket__spec19": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=2), sim_success=true, solver_failure=false."
+  },
+  "tool_insert__spec00": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (frozen, k=0) reproduced sim_success=true with exact matching checks."
+  },
+  "tool_insert__spec06": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=0) reproduced sim_success=true with exact matching checks; note release:retreat failed leaving gripper+tray contact (allowed by frozen criterion)."
+  },
+  "tool_insert__spec08": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=8), sim_success=true, solver_failure=false."
+  },
+  "tool_insert__spec09": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  },
+  "tool_insert__spec12": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed (sha256, frozen criteria, register match) and guarded re-execution (rev2.1, k=2) reproduced sim_success=true with exact matching checks; note borderline axis_angle_deg=19.5 and tool_z=0.0500 on tray rim (allowed by frozen criterion)."
+  },
+  "tool_insert__spec16": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=7), sim_success=true, solver_failure=false; note borderline axis_angle_deg=19.5 and tool_z=0.0500 on tray rim (allowed by frozen criterion)."
+  },
+  "tool_insert__spec19": {
+    "verdict": "CONFIRMED",
+    "note": "Audit passed: sha256 matches scene_files, checks satisfy frozen v1replay.evaluate criteria, register agrees (rev2.1, k=3), sim_success=true, solver_failure=false."
+  }
+}

@@ -1,0 +1,217 @@
+{
+ "task": "ring_insert",
+ "episode": "ring_insert__spec10",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "planar_to_peg_m": 0.0543,
+  "engaged": false,
+  "hole_clearance_m": 0.003,
+  "bottom_above_board_m": 0.0679
+ },
+ "objects_final": {
+  "ring": [
+   0.3357094614089591,
+   0.0408949409698643,
+   0.08886609871902702
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "pinch-lift ok, ring z 0.006->0.113, grip stall -0.157 rad; seated pose reached, ring at [0.302 0.022 0.083], peg xy [0.3 0. ]",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2339,
+    0.1374,
+    0.0857
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0306,
+     -0.0021,
+     0.0361
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.188
+   }
+  },
+  {
+   "move": "ring-grasp:retreat",
+   "target": [
+    0.24,
+    0.1424,
+    0.0922
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2292,
+    0.1151,
+    0.0887
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0035,
+     0.032,
+     0.0348
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.188
+   }
+  },
+  {
+   "move": "ring-grasp:retreat",
+   "target": [
+    0.2378,
+    0.1177,
+    0.0907
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2123,
+    0.1011,
+    0.0857
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0195,
+     0.0216,
+     0.0374
+    ],
+    "grip_stall_rad": -0.157,
+    "hold_grip_rad": -0.187
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2056,
+    0.091,
+    0.0652
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2046,
+    0.0905,
+    0.0644
+   ]
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2046,
+    0.0905,
+    0.1144
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2037,
+    0.09,
+    0.1134
+   ]
+  },
+  {
+   "place_scan": "ring over-peg",
+   "pinch_target": [
+    0.2896,
+    -0.0002,
+    0.0951
+   ],
+   "wrist_flex_deg": 84.6,
+   "pos_err_mm": 1.49
+  },
+  {
+   "carry": "ring over-peg",
+   "obj_target": [
+    0.3,
+    0.0,
+    0.095
+   ]
+  },
+  {
+   "ring_staging_err_mm": 14.9
+  },
+  {
+   "ring_staging_err_mm": 14.4
+  },
+  {
+   "ring_staging_err_mm": 14.5
+  },
+  {
+   "ring_staging_err_mm": 14.5
+  },
+  {
+   "ring_staging_err_mm": 14.6
+  },
+  {
+   "ring_staging_err_mm": 14.6
+  },
+  {
+   "ring_staging_err_mm": 14.6
+  },
+  {
+   "ring_staging_err_mm": 15.0
+  },
+  {
+   "ring_staging_err_mm": 15.1
+  },
+  {
+   "ring_staging_err_mm": 15.2
+  },
+  {
+   "ring_tilt_deg": 31.6
+  },
+  {
+   "ring_seated": false,
+   "ring_final_err_mm": 22.2,
+   "ring_z": 0.0834
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3119,
+    0.0286,
+    0.1493
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "ring_insert__spec10",
+ "scene_index": 10,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "acae8acf3f49d07bcc4947f8b5fc6764ee7ba26f99e2369d1c65b9f0c20cb21a",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

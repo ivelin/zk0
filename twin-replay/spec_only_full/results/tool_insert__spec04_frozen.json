@@ -1,0 +1,151 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec04",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 31.4,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.1980099855031736,
+   -0.16897986541445512,
+   0.004844465045149434
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2237,
+    -0.1513,
+    0.0819
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0275,
+     0.0183,
+     0.0124
+    ],
+    "grip_stall_rad": -0.159,
+    "hold_grip_rad": -0.189
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.232,
+    -0.2436,
+    0.1125
+   ],
+   "solved": false
+  },
+  {
+   "move": "grasp:raise",
+   "target": [
+    0.232,
+    -0.2436,
+    0.1325
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.213,
+    -0.1677,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0187,
+     -0.0076,
+     0.0291
+    ],
+    "grip_stall_rad": 0.345,
+    "hold_grip_rad": 0.315
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.2378,
+    -0.1954,
+    0.1151
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2358,
+    -0.1973,
+    0.1149
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2126,
+    -0.1676,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0174,
+     -0.0044,
+     0.0304
+    ],
+    "grip_stall_rad": -0.157,
+    "hold_grip_rad": -0.187
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2011,
+    -0.1667,
+    0.1004
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2002,
+    -0.1658,
+    0.0995
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec04",
+ "scene_index": 4,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "b4d79c24db4bc1a6e1f04f86734748a84968909a6cb24e496e1ddb6010655930",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

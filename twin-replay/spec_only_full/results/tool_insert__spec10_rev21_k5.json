@@ -1,0 +1,98 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec10",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 8.7,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.15246838753447392,
+   -0.14952761137487677,
+   0.004844465045147359
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: tool z 0.005 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.1856,
+    -0.1239,
+    0.0816
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 22.2
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.006,
+     0.0274,
+     0.0214
+    ],
+    "grip_stall_rad": -0.156,
+    "hold_grip_rad": -0.196
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.1629,
+    -0.1497,
+    0.0634
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1623,
+    -0.1492,
+    0.0627
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.1629,
+    -0.1497,
+    0.0984
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.1623,
+    -0.149,
+    0.0975
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec10",
+ "scene_index": 10,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "6d4d2ebdb3f270cf06fb4e4b2a0a2b98c9ddf1b3f6adaaf8cb4bf5903708dd84",
+ "scene_variant": "k=5",
+ "variant_kind": "corner:pose_+x",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

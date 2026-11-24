@@ -1,0 +1,1413 @@
+{
+ "task": "ring_insert",
+ "episode": "ring_insert__spec17",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "planar_to_peg_m": 0.0369,
+  "engaged": false,
+  "hole_clearance_m": 0.003,
+  "bottom_above_board_m": 0.2361
+ },
+ "objects_final": {
+  "ring": [
+   0.3296363223868387,
+   0.021972668204009824,
+   0.2571280506240707
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "pinch-lift ok, ring z 0.006->0.061, tilt after lift 7.6 deg; seat servo end: ring z 0.115, tilt 4.1 deg, planar err 18.2 mm; pre-release: ring z 0.115, tilt 4.1 deg, planar err 18.2 mm; post-settle: ring at [0.33  0.022 0.257], tilt 85.9 deg, checks {'planar_to_peg_m': 0.0369, 'engaged': False, 'hole_clearance_m': 0.003, 'bottom_above_board_m': 0.2361}",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2443,
+    0.1245,
+    0.0857
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0304,
+     -0.0019,
+     0.0363
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.188
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2224,
+    0.1297,
+    0.0651
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2214,
+    0.129,
+    0.0644
+   ]
+  },
+  {
+   "ring_grasp_candidate": 0,
+   "held": true,
+   "tilt_after_lift_deg": 7.6
+  },
+  {
+   "transport_level_tilt_deg": 7.6
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2214,
+    0.129,
+    0.1144
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2205,
+    0.1283,
+    0.1135
+   ]
+  },
+  {
+   "ring_stage_orientation": "found",
+   "headroom_deg": 30.5
+  },
+  {
+   "seatservo": 0,
+   "z": 0.1174,
+   "tilt_deg": 20.7,
+   "planar_mm": 144.2,
+   "wrist_flex_deg": 93.1,
+   "pinch": [
+    0.2205,
+    0.1283,
+    0.1135
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2219,
+    0.1257,
+    0.1115
+   ]
+  },
+  {
+   "seatservo": 1,
+   "z": 0.1186,
+   "tilt_deg": 34.6,
+   "planar_mm": 142.1,
+   "wrist_flex_deg": 92.6,
+   "pinch": [
+    0.2221,
+    0.1265,
+    0.112
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2235,
+    0.1239,
+    0.11
+   ]
+  },
+  {
+   "seatservo": 2,
+   "z": 0.1172,
+   "tilt_deg": 34.9,
+   "planar_mm": 139.6,
+   "wrist_flex_deg": 92.1,
+   "pinch": [
+    0.2237,
+    0.1247,
+    0.1105
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2251,
+    0.122,
+    0.1085
+   ]
+  },
+  {
+   "seatservo": 3,
+   "z": 0.1155,
+   "tilt_deg": 35.1,
+   "planar_mm": 137.3,
+   "wrist_flex_deg": 91.5,
+   "pinch": [
+    0.2253,
+    0.1228,
+    0.109
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2267,
+    0.1201,
+    0.1084
+   ]
+  },
+  {
+   "seatservo": 4,
+   "z": 0.1152,
+   "tilt_deg": 35.7,
+   "planar_mm": 135.5,
+   "wrist_flex_deg": 91.4,
+   "pinch": [
+    0.2263,
+    0.1212,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2277,
+    0.1186,
+    0.1084
+   ]
+  },
+  {
+   "seatservo": 5,
+   "z": 0.1148,
+   "tilt_deg": 35.7,
+   "planar_mm": 133.6,
+   "wrist_flex_deg": 91.4,
+   "pinch": [
+    0.2272,
+    0.1196,
+    0.1084
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2286,
+    0.1169,
+    0.1086
+   ]
+  },
+  {
+   "seatservo": 6,
+   "z": 0.1146,
+   "tilt_deg": 36.1,
+   "planar_mm": 131.8,
+   "wrist_flex_deg": 91.4,
+   "pinch": [
+    0.228,
+    0.1179,
+    0.1084
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2294,
+    0.1152,
+    0.1089
+   ]
+  },
+  {
+   "seatservo": 7,
+   "z": 0.1146,
+   "tilt_deg": 36.2,
+   "planar_mm": 129.9,
+   "wrist_flex_deg": 91.5,
+   "pinch": [
+    0.2288,
+    0.1162,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2302,
+    0.1135,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 8,
+   "z": 0.1147,
+   "tilt_deg": 36.0,
+   "planar_mm": 128.0,
+   "wrist_flex_deg": 91.6,
+   "pinch": [
+    0.2296,
+    0.1145,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2309,
+    0.1118,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 9,
+   "z": 0.1147,
+   "tilt_deg": 36.0,
+   "planar_mm": 126.2,
+   "wrist_flex_deg": 91.7,
+   "pinch": [
+    0.2304,
+    0.1128,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2317,
+    0.1101,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 10,
+   "z": 0.1148,
+   "tilt_deg": 36.0,
+   "planar_mm": 124.3,
+   "wrist_flex_deg": 91.8,
+   "pinch": [
+    0.2312,
+    0.111,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2325,
+    0.1084,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 11,
+   "z": 0.1148,
+   "tilt_deg": 36.0,
+   "planar_mm": 122.4,
+   "wrist_flex_deg": 91.8,
+   "pinch": [
+    0.232,
+    0.1093,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2333,
+    0.1066,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 12,
+   "z": 0.1148,
+   "tilt_deg": 36.1,
+   "planar_mm": 120.5,
+   "wrist_flex_deg": 91.9,
+   "pinch": [
+    0.2328,
+    0.1076,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2341,
+    0.1049,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 13,
+   "z": 0.1148,
+   "tilt_deg": 36.1,
+   "planar_mm": 118.6,
+   "wrist_flex_deg": 91.9,
+   "pinch": [
+    0.2335,
+    0.1059,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2349,
+    0.1032,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 14,
+   "z": 0.1148,
+   "tilt_deg": 36.1,
+   "planar_mm": 116.7,
+   "wrist_flex_deg": 92.0,
+   "pinch": [
+    0.2343,
+    0.1041,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2357,
+    0.1015,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 15,
+   "z": 0.1147,
+   "tilt_deg": 36.1,
+   "planar_mm": 114.8,
+   "wrist_flex_deg": 92.0,
+   "pinch": [
+    0.2351,
+    0.1024,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2365,
+    0.0997,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 16,
+   "z": 0.1147,
+   "tilt_deg": 36.1,
+   "planar_mm": 112.9,
+   "wrist_flex_deg": 92.1,
+   "pinch": [
+    0.2359,
+    0.1006,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2372,
+    0.098,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 17,
+   "z": 0.1147,
+   "tilt_deg": 36.2,
+   "planar_mm": 111.0,
+   "wrist_flex_deg": 92.1,
+   "pinch": [
+    0.2366,
+    0.0989,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.238,
+    0.0962,
+    0.109
+   ]
+  },
+  {
+   "seatservo": 18,
+   "z": 0.1147,
+   "tilt_deg": 36.2,
+   "planar_mm": 109.1,
+   "wrist_flex_deg": 92.2,
+   "pinch": [
+    0.2374,
+    0.0971,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2388,
+    0.0945,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 19,
+   "z": 0.1147,
+   "tilt_deg": 36.2,
+   "planar_mm": 107.2,
+   "wrist_flex_deg": 92.2,
+   "pinch": [
+    0.2381,
+    0.0954,
+    0.1088
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2395,
+    0.0927,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 20,
+   "z": 0.1147,
+   "tilt_deg": 36.2,
+   "planar_mm": 105.3,
+   "wrist_flex_deg": 92.3,
+   "pinch": [
+    0.2389,
+    0.0936,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2403,
+    0.0909,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 21,
+   "z": 0.1147,
+   "tilt_deg": 36.3,
+   "planar_mm": 103.3,
+   "wrist_flex_deg": 92.3,
+   "pinch": [
+    0.2396,
+    0.0918,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.241,
+    0.0891,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 22,
+   "z": 0.1147,
+   "tilt_deg": 36.3,
+   "planar_mm": 101.4,
+   "wrist_flex_deg": 92.4,
+   "pinch": [
+    0.2403,
+    0.09,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2417,
+    0.0874,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 23,
+   "z": 0.1146,
+   "tilt_deg": 36.3,
+   "planar_mm": 99.5,
+   "wrist_flex_deg": 92.5,
+   "pinch": [
+    0.241,
+    0.0882,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2425,
+    0.0856,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 24,
+   "z": 0.1146,
+   "tilt_deg": 36.3,
+   "planar_mm": 97.6,
+   "wrist_flex_deg": 92.5,
+   "pinch": [
+    0.2418,
+    0.0864,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2432,
+    0.0838,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 25,
+   "z": 0.1146,
+   "tilt_deg": 36.4,
+   "planar_mm": 95.7,
+   "wrist_flex_deg": 92.6,
+   "pinch": [
+    0.2425,
+    0.0847,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2439,
+    0.082,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 26,
+   "z": 0.1146,
+   "tilt_deg": 36.4,
+   "planar_mm": 93.8,
+   "wrist_flex_deg": 92.6,
+   "pinch": [
+    0.2432,
+    0.0829,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2446,
+    0.0802,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 27,
+   "z": 0.1146,
+   "tilt_deg": 36.4,
+   "planar_mm": 91.9,
+   "wrist_flex_deg": 92.7,
+   "pinch": [
+    0.2438,
+    0.0811,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2453,
+    0.0784,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 28,
+   "z": 0.1146,
+   "tilt_deg": 36.4,
+   "planar_mm": 90.0,
+   "wrist_flex_deg": 92.8,
+   "pinch": [
+    0.2445,
+    0.0792,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.246,
+    0.0766,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 29,
+   "z": 0.1146,
+   "tilt_deg": 36.5,
+   "planar_mm": 88.1,
+   "wrist_flex_deg": 92.8,
+   "pinch": [
+    0.2452,
+    0.0774,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2466,
+    0.0748,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 30,
+   "z": 0.1145,
+   "tilt_deg": 36.5,
+   "planar_mm": 86.2,
+   "wrist_flex_deg": 92.9,
+   "pinch": [
+    0.2459,
+    0.0756,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2473,
+    0.073,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 31,
+   "z": 0.1145,
+   "tilt_deg": 36.5,
+   "planar_mm": 84.3,
+   "wrist_flex_deg": 93.0,
+   "pinch": [
+    0.2465,
+    0.0738,
+    0.1087
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.248,
+    0.0712,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 32,
+   "z": 0.1145,
+   "tilt_deg": 36.5,
+   "planar_mm": 82.4,
+   "wrist_flex_deg": 93.1,
+   "pinch": [
+    0.2472,
+    0.072,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2486,
+    0.0694,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 33,
+   "z": 0.1145,
+   "tilt_deg": 36.6,
+   "planar_mm": 80.5,
+   "wrist_flex_deg": 93.1,
+   "pinch": [
+    0.2478,
+    0.0702,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2493,
+    0.0676,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 34,
+   "z": 0.1145,
+   "tilt_deg": 36.6,
+   "planar_mm": 78.6,
+   "wrist_flex_deg": 93.2,
+   "pinch": [
+    0.2484,
+    0.0684,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2499,
+    0.0658,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 35,
+   "z": 0.1145,
+   "tilt_deg": 36.6,
+   "planar_mm": 76.7,
+   "wrist_flex_deg": 93.3,
+   "pinch": [
+    0.2491,
+    0.0665,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2506,
+    0.0639,
+    0.1091
+   ]
+  },
+  {
+   "seatservo": 36,
+   "z": 0.1144,
+   "tilt_deg": 36.7,
+   "planar_mm": 74.8,
+   "wrist_flex_deg": 93.4,
+   "pinch": [
+    0.2497,
+    0.0647,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2512,
+    0.0621,
+    0.1092
+   ]
+  },
+  {
+   "seatservo": 37,
+   "z": 0.1144,
+   "tilt_deg": 36.7,
+   "planar_mm": 72.9,
+   "wrist_flex_deg": 93.4,
+   "pinch": [
+    0.2503,
+    0.0629,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2518,
+    0.0603,
+    0.1092
+   ]
+  },
+  {
+   "seatservo": 38,
+   "z": 0.1144,
+   "tilt_deg": 36.7,
+   "planar_mm": 71.0,
+   "wrist_flex_deg": 93.5,
+   "pinch": [
+    0.2509,
+    0.0611,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2524,
+    0.0585,
+    0.1092
+   ]
+  },
+  {
+   "seatservo": 39,
+   "z": 0.1144,
+   "tilt_deg": 36.8,
+   "planar_mm": 69.2,
+   "wrist_flex_deg": 93.6,
+   "pinch": [
+    0.2515,
+    0.0593,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.253,
+    0.0567,
+    0.1092
+   ]
+  },
+  {
+   "seatservo": 40,
+   "z": 0.1144,
+   "tilt_deg": 36.8,
+   "planar_mm": 67.3,
+   "wrist_flex_deg": 93.7,
+   "pinch": [
+    0.2521,
+    0.0574,
+    0.1086
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2557,
+    0.0523,
+    0.1083
+   ]
+  },
+  {
+   "seatservo": 41,
+   "z": 0.1147,
+   "tilt_deg": 33.3,
+   "planar_mm": 57.6,
+   "wrist_flex_deg": 88.0,
+   "pinch": [
+    0.2565,
+    0.0485,
+    0.1082
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2603,
+    0.0435,
+    0.1077
+   ]
+  },
+  {
+   "seatservo": 42,
+   "z": 0.1148,
+   "tilt_deg": 29.6,
+   "planar_mm": 48.2,
+   "wrist_flex_deg": 82.2,
+   "pinch": [
+    0.2609,
+    0.0398,
+    0.1076
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2649,
+    0.0348,
+    0.107
+   ]
+  },
+  {
+   "seatservo": 43,
+   "z": 0.1148,
+   "tilt_deg": 25.7,
+   "planar_mm": 39.6,
+   "wrist_flex_deg": 76.4,
+   "pinch": [
+    0.2653,
+    0.032,
+    0.1069
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2694,
+    0.0272,
+    0.1063
+   ]
+  },
+  {
+   "seatservo": 44,
+   "z": 0.1148,
+   "tilt_deg": 21.8,
+   "planar_mm": 32.1,
+   "wrist_flex_deg": 70.5,
+   "pinch": [
+    0.2696,
+    0.0254,
+    0.1062
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2739,
+    0.0207,
+    0.1056
+   ]
+  },
+  {
+   "seatservo": 45,
+   "z": 0.1154,
+   "tilt_deg": 17.9,
+   "planar_mm": 25.1,
+   "wrist_flex_deg": 64.9,
+   "pinch": [
+    0.2747,
+    0.02,
+    0.106
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2791,
+    0.0152,
+    0.105
+   ]
+  },
+  {
+   "seatservo": 46,
+   "z": 0.1155,
+   "tilt_deg": 14.1,
+   "planar_mm": 18.7,
+   "wrist_flex_deg": 59.1,
+   "pinch": [
+    0.28,
+    0.0154,
+    0.1055
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2841,
+    0.0105,
+    0.1044
+   ]
+  },
+  {
+   "seatservo": 47,
+   "z": 0.1138,
+   "tilt_deg": 10.8,
+   "planar_mm": 16.0,
+   "wrist_flex_deg": 53.3,
+   "pinch": [
+    0.2836,
+    0.014,
+    0.1032
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2873,
+    0.0087,
+    0.1039
+   ]
+  },
+  {
+   "seatservo": 48,
+   "z": 0.1148,
+   "tilt_deg": 7.0,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 47.7,
+   "pinch": [
+    0.2868,
+    0.0166,
+    0.1037
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2894,
+    0.0108,
+    0.1034
+   ]
+  },
+  {
+   "seatservo": 49,
+   "z": 0.1148,
+   "tilt_deg": 3.3,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 41.5,
+   "pinch": [
+    0.2889,
+    0.0169,
+    0.1032
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2896,
+    0.0139,
+    0.1034
+   ]
+  },
+  {
+   "seatservo": 50,
+   "z": 0.115,
+   "tilt_deg": 3.0,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 41.6,
+   "pinch": [
+    0.2893,
+    0.0169,
+    0.1032
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2899,
+    0.014,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 51,
+   "z": 0.1149,
+   "tilt_deg": 3.0,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 41.6,
+   "pinch": [
+    0.2897,
+    0.017,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2902,
+    0.014,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 52,
+   "z": 0.1148,
+   "tilt_deg": 3.0,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 41.7,
+   "pinch": [
+    0.29,
+    0.017,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2905,
+    0.014,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 53,
+   "z": 0.1148,
+   "tilt_deg": 3.1,
+   "planar_mm": 17.6,
+   "wrist_flex_deg": 41.8,
+   "pinch": [
+    0.2902,
+    0.017,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2906,
+    0.0141,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 54,
+   "z": 0.1148,
+   "tilt_deg": 3.1,
+   "planar_mm": 17.7,
+   "wrist_flex_deg": 41.9,
+   "pinch": [
+    0.2904,
+    0.0171,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2908,
+    0.0141,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 55,
+   "z": 0.1148,
+   "tilt_deg": 3.2,
+   "planar_mm": 17.7,
+   "wrist_flex_deg": 42.0,
+   "pinch": [
+    0.2905,
+    0.0171,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2909,
+    0.0141,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 56,
+   "z": 0.1148,
+   "tilt_deg": 3.3,
+   "planar_mm": 17.7,
+   "wrist_flex_deg": 42.1,
+   "pinch": [
+    0.2907,
+    0.0171,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.291,
+    0.0141,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 57,
+   "z": 0.1148,
+   "tilt_deg": 3.3,
+   "planar_mm": 17.8,
+   "wrist_flex_deg": 42.2,
+   "pinch": [
+    0.2908,
+    0.0171,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2911,
+    0.0141,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 58,
+   "z": 0.1148,
+   "tilt_deg": 3.4,
+   "planar_mm": 17.8,
+   "wrist_flex_deg": 42.3,
+   "pinch": [
+    0.2908,
+    0.0171,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2912,
+    0.0142,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 59,
+   "z": 0.1148,
+   "tilt_deg": 3.5,
+   "planar_mm": 17.9,
+   "wrist_flex_deg": 42.4,
+   "pinch": [
+    0.2909,
+    0.0172,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2912,
+    0.0142,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 60,
+   "z": 0.1148,
+   "tilt_deg": 3.6,
+   "planar_mm": 17.9,
+   "wrist_flex_deg": 42.5,
+   "pinch": [
+    0.291,
+    0.0172,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0142,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 61,
+   "z": 0.1148,
+   "tilt_deg": 3.6,
+   "planar_mm": 17.9,
+   "wrist_flex_deg": 42.6,
+   "pinch": [
+    0.291,
+    0.0172,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0142,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 62,
+   "z": 0.1148,
+   "tilt_deg": 3.7,
+   "planar_mm": 18.0,
+   "wrist_flex_deg": 42.7,
+   "pinch": [
+    0.291,
+    0.0172,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0142,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 63,
+   "z": 0.1148,
+   "tilt_deg": 3.8,
+   "planar_mm": 18.0,
+   "wrist_flex_deg": 42.8,
+   "pinch": [
+    0.291,
+    0.0172,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0143,
+    0.1032
+   ]
+  },
+  {
+   "seatservo": 64,
+   "z": 0.1148,
+   "tilt_deg": 3.9,
+   "planar_mm": 18.1,
+   "wrist_flex_deg": 42.9,
+   "pinch": [
+    0.291,
+    0.0173,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0143,
+    0.1033
+   ]
+  },
+  {
+   "seatservo": 65,
+   "z": 0.1148,
+   "tilt_deg": 4.0,
+   "planar_mm": 18.1,
+   "wrist_flex_deg": 43.0,
+   "pinch": [
+    0.2911,
+    0.0173,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0143,
+    0.1033
+   ]
+  },
+  {
+   "seatservo": 66,
+   "z": 0.1148,
+   "tilt_deg": 4.1,
+   "planar_mm": 18.2,
+   "wrist_flex_deg": 43.1,
+   "pinch": [
+    0.2911,
+    0.0173,
+    0.103
+   ]
+  },
+  {
+   "seatservo_cmd": [
+    0.2913,
+    0.0143,
+    0.1033
+   ]
+  },
+  {
+   "seatservo": 67,
+   "z": 0.1148,
+   "tilt_deg": 4.1,
+   "planar_mm": 18.2,
+   "wrist_flex_deg": 43.2,
+   "pinch": [
+    0.2911,
+    0.0173,
+    0.103
+   ]
+  },
+  {
+   "seatservo": "stagnated"
+  },
+  {
+   "ring_prop_axis": "skipped (seat servo did not reach engagement band)"
+  },
+  {
+   "ring_pre_release": {
+    "z": 0.1148,
+    "tilt_deg": 4.1,
+    "planar_mm": 18.2
+   }
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3085,
+    0.0193,
+    0.2184
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3076,
+    0.0193,
+    0.2173
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "ring_insert__spec17",
+ "scene_index": 17,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev3 (refcore.py + run_reference4.py, rotation-constraining seat)",
+ "scene_sha256": "e023de08a999030e29e388bbc182357ff7b7c1639900fd2de480f60f6bc79bc8",
+ "scene_variant": "k=2",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

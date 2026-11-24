@@ -1,0 +1,131 @@
+{
+ "task": "block_stack",
+ "episode": "block_stack__spec14",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": true,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "upper": "cube_b",
+  "face_gap_m": 0.0001,
+  "within_inset_footprint": true,
+  "contact_with_lower": true,
+  "no_other_support_contact": true,
+  "upper_contacts": [
+   "cube_a"
+  ]
+ },
+ "objects_final": {
+  "cube_a": [
+   0.31148537559481504,
+   -0.07762050522763043,
+   0.014044672613526285
+  ],
+  "cube_b": [
+   0.3218076091764754,
+   -0.08014846218061736,
+   0.04418110959221924
+  ]
+ },
+ "verdict": "PASS",
+ "phase_notes": "moving=cube_b at [0.289 0.046 0.015], target=cube_a at [ 0.311 -0.077  0.015]; pinch-lift ok, cube_b z 0.015->0.087, contacts ['gripper', 'moving_jaw_so101_v1']; place pose reached, cube_b at [ 0.312 -0.077  0.05 ]",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2885,
+    0.0458,
+    0.0949
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0237,
+     0.0001,
+     0.0261
+    ],
+    "grip_stall_rad": 0.123,
+    "hold_grip_rad": 0.093
+   }
+  },
+  {
+   "move": "lift",
+   "target": [
+    0.2854,
+    0.0472,
+    0.0989
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2864,
+    0.0474,
+    0.0971
+   ]
+  },
+  {
+   "place_scan": "block place",
+   "branch": "free-orientation",
+   "pinch_target": [
+    0.3097,
+    -0.0715,
+    0.0579
+   ],
+   "wrist_flex_deg": 63.5,
+   "pos_err_mm": 0.89,
+   "Rt": [
+    [
+     0.854,
+     0.438,
+     -0.281
+    ],
+    [
+     -0.435,
+     0.897,
+     0.074
+    ],
+    [
+     0.284,
+     0.059,
+     0.957
+    ]
+   ]
+  },
+  {
+   "carry": "block place",
+   "obj_target": [
+    0.3108,
+    -0.0768,
+    0.0479
+   ]
+  },
+  {
+   "servo": "cube_b",
+   "converged_iter": 0
+  },
+  {
+   "move": "release:retreat",
+   "target": [
+    0.3269,
+    -0.0808,
+    0.1659
+   ],
+   "solved": false
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "block_stack__spec14",
+ "scene_index": 14,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "frozen (refcore.py + run_reference.py)",
+ "scene_sha256": "ffad08d981d180faf615f2538aa591ca4be647bf7d819f426c346f12cc89d3d7",
+ "scene_variant": "k=1",
+ "variant_kind": "sampled",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

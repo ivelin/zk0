@@ -1,0 +1,117 @@
+{
+ "task": "ring_insert",
+ "episode": "ring_insert__spec00",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "planar_to_peg_m": 0.1077,
+  "engaged": false,
+  "hole_clearance_m": 0.003,
+  "bottom_above_board_m": 0.0013
+ },
+ "objects_final": {
+  "ring": [
+   0.26879652579407437,
+   0.10305895699671126,
+   0.022327032803826644
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "lift failed: ring z 0.022 contacts=['world']",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2893,
+    0.1222,
+    0.0857
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 5.8
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0308,
+     -0.0012,
+     0.036
+    ],
+    "grip_stall_rad": -0.158,
+    "hold_grip_rad": -0.198
+   }
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2701,
+    0.1252,
+    0.0651
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2688,
+    0.1246,
+    0.0644
+   ]
+  },
+  {
+   "move": "lift:step1",
+   "target": [
+    0.2688,
+    0.1246,
+    0.0894
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.2681,
+    0.1242,
+    0.0879
+   ]
+  },
+  {
+   "move": "lift:step2",
+   "target": [
+    0.2688,
+    0.1246,
+    0.1144
+   ],
+   "solved": false
+  },
+  {
+   "move": "lift:pos-only",
+   "target": [
+    0.2681,
+    0.1242,
+    0.1144
+   ],
+   "solved": true,
+   "via": "continuation"
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "ring_insert__spec00",
+ "scene_index": 0,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "e95de92c360c607180873b12f008abf062f0a45608f69adbb0c7367b4169943c",
+ "scene_variant": "k=0 (nominal)",
+ "variant_kind": "nominal",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}

@@ -1,0 +1,788 @@
+{
+ "task": "tool_insert",
+ "episode": "tool_insert__spec11",
+ "generation": "ORACLE-GUIDED",
+ "sim_success": false,
+ "secondary_pass": null,
+ "solver_failure": false,
+ "checks": {
+  "centre_in_slot": false,
+  "axis_angle_deg": 15.7,
+  "resting_in_tray_contact": false,
+  "tool_z": 0.0048
+ },
+ "objects_final": {
+  "tool": [
+   0.32798175092838344,
+   -0.15358121761783394,
+   0.0048444650451494676
+  ]
+ },
+ "verdict": "FAIL",
+ "phase_notes": "grasp of tool infeasible in all yaw branches",
+ "log": [
+  {
+   "move": "grasp:above",
+   "target": [
+    0.2997,
+    -0.1248,
+    0.0816
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0,
+     0.0089,
+     0.0342
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3196,
+    -0.136,
+    0.1503
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3185,
+    -0.1355,
+    0.1494
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.309,
+    -0.1678,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.2
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.2
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     0.0009,
+     0.0108,
+     0.0336
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3203,
+    -0.1749,
+    0.1141
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3192,
+    -0.1742,
+    0.1132
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3105,
+    -0.1667,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.4
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.4
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0012,
+     0.0121,
+     0.0331
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.322,
+    -0.1732,
+    0.1136
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3212,
+    -0.1726,
+    0.1127
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3123,
+    -0.1658,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.1
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 1.1
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.004,
+     0.0139,
+     0.0322
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3238,
+    -0.1717,
+    0.1127
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3233,
+    -0.1713,
+    0.1115
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3136,
+    -0.1645,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.1
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0064,
+     0.0153,
+     0.0312
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3249,
+    -0.1709,
+    0.1133
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3247,
+    -0.1706,
+    0.1122
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3137,
+    -0.164,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0095,
+     0.0172,
+     0.0294
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3303,
+    -0.1672,
+    0.1296
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3301,
+    -0.167,
+    0.1285
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3137,
+    -0.164,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0132,
+     0.0195,
+     0.0263
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3339,
+    -0.1636,
+    0.1403
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.334,
+    -0.1636,
+    0.1388
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3137,
+    -0.164,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0182,
+     0.0226,
+     0.0201
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3347,
+    -0.1637,
+    0.1498
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3353,
+    -0.164,
+    0.1489
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3137,
+    -0.164,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0212,
+     0.0244,
+     0.0143
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3348,
+    -0.1625,
+    0.1469
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3358,
+    -0.1631,
+    0.1464
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3137,
+    -0.164,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 2.5
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 2.6
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0231,
+     0.0255,
+     0.0082
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3347,
+    -0.1625,
+    0.1487
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3356,
+    -0.163,
+    0.1481
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3216,
+    -0.1608,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0257,
+     0.0134,
+     0.0202
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.334,
+    -0.1754,
+    0.153
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3348,
+    -0.1758,
+    0.1518
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.3222,
+    -0.1603,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 1.9
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 3.6
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0291,
+     0.015,
+     0.0133
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3351,
+    -0.1716,
+    0.1439
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3359,
+    -0.1721,
+    0.1434
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.328,
+    -0.1536,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0324,
+     0.0028,
+     0.0139
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3453,
+    -0.1607,
+    0.1776
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3457,
+    -0.161,
+    0.1769
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.328,
+    -0.1536,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0351,
+     0.0026,
+     0.0031
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.344,
+    -0.1619,
+    0.1842
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3452,
+    -0.1625,
+    0.1837
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.328,
+    -0.1536,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0339,
+     -0.008,
+     0.0058
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3453,
+    -0.1602,
+    0.162
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.346,
+    -0.1605,
+    0.1612
+   ]
+  },
+  {
+   "move": "grasp:above",
+   "target": [
+    0.328,
+    -0.1536,
+    0.0848
+   ],
+   "solved": true,
+   "via": "continuation"
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.3,
+   "displacement_mm": 0.0
+  },
+  {
+   "close_checkpoint": "grasp",
+   "at_frac": 0.65,
+   "displacement_mm": 0.0
+  },
+  {
+   "grasp": {
+    "label": "grasp",
+    "pinch_offset_from_site_m": [
+     -0.0343,
+     -0.0081,
+     -0.0021
+    ],
+    "grip_stall_rad": -0.16,
+    "hold_grip_rad": -0.2
+   }
+  },
+  {
+   "move": "grasp-retry:retreat",
+   "target": [
+    0.3448,
+    -0.161,
+    0.1708
+   ],
+   "solved": true,
+   "via": "path",
+   "pinch_actual": [
+    0.3458,
+    -0.1615,
+    0.1704
+   ]
+  }
+ ],
+ "executor": "padded-arm scripted (pinch-centre)",
+ "secondary_note": "episode-suite-only criterion (A2.1); not applicable to spec-only scenes",
+ "scene_id": "tool_insert__spec11",
+ "scene_index": 11,
+ "suite": "twin-suite-v2 spec-only FULL gate suite (Amendment 3, 2026-11-23)",
+ "tier": "C (spec only)",
+ "controller": "rev2.1 (refcore2.py + run_reference3.py)",
+ "scene_sha256": "7b7ae1e9376ebbd03a78cbe228d579691a7da795ec19222b303076b5c82624fc",
+ "scene_variant": "k=7",
+ "variant_kind": "corner:pose_+y",
+ "staged_include_note": "staged copy: ONLY the arm-include path differs from the canonical scene file (machine-local arm copy)"
+}
