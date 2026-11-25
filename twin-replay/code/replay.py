@@ -4,7 +4,10 @@ Executes the RECORDED gt trajectory kinematically in a per-episode twin
 scene: arm qpos set from gt (degrees->radians, identical joint names) with
 linear interpolation at physics substeps (2000 Hz), objects fully dynamic,
 grasp via the declared weld device (docs/physics-parameters.md section 7 +
-normalisation in twin_params.py). After the trajectory, 1.0 s settle.
+normalisation in twin_params.py). After the trajectory, the scene settles
+until the physics engine reports rest (every dynamic object body's speed
+below |g| * dt read from the model; founder ruling 2026-11-25, replacing
+the former fixed 1.0 s settle wait).
 No checkpoint inference of any kind is performed here.
 
 Outcome classes implement docs/twin-replay-preregistration-20261122.md
@@ -129,9 +132,12 @@ def run_episode(task, epi, render=False, out_dir=None, variant=0):
     #    site-to-centre distance is dominated by the inherent vertical gap
     #    of a top grasp; and for the carton/tool the physical grasp point
     #    sits at the object's half-extent, ~4.5 / ~5+ cm from its centre).
-    #    The 3.0 cm gate is therefore evaluated on the PLANAR distance
-    #    from the gripperframe site to the object's MATERIAL (point-to-
-    #    shape: box footprint / annulus / capsule axis), not its centre.
+    #    The gate is therefore evaluated on the PLANAR distance from the
+    #    gripperframe site to the object's MATERIAL (point-to-shape: box
+    #    footprint / annulus / capsule axis), not its centre. Since
+    #    2026-11-25 (founder ruling) the gate is a CONTACT read, not the
+    #    former 3.0 cm proximity band: attach requires the site to reach
+    #    the object's material (see contact_dist below).
     #  * Attach happens at the excursion's dwell (arg-min of the shape
     #    distance), using a SNAPSHOT relpose from that frame, once the
     #    distance turns up >= 3 mm, plateaus, or the excursion ends. The
@@ -190,16 +196,32 @@ def run_episode(task, epi, render=False, out_dir=None, variant=0):
     # e.g. ring ep7: site reaches 3.8 cm between release and re-grasp)
     # stay eligible.
     ineligible = set()
-    # Per-object centre-distance bound at the grasp snapshot: Builder A's
-    # 3.0 cm gate applies to compact objects (cubes, ring); elongated
-    # objects are grasped off-centre, so their bound is their physical
-    # grasp extent (carton half-length + margin, tool half-length +
-    # margin, cable segment half-length + gate).
+    # Pad-object CONTACT read (founder ruling 2026-11-25, replacing the
+    # former GRASP_DIST_M 3.0 cm proximity gate): the planar distance at
+    # which the gripper site touches the object's material. shape_dist()
+    # measures to the material itself for the footprint objects (cube,
+    # carton, ring), so contact is 0; for the axis-measured objects
+    # (tool, cable segments) it measures to the centreline, so contact
+    # is the object's own radius. No chosen tolerance anywhere: contact
+    # is the object's geometry, read at the dwell.
+    def contact_dist(nm):
+        if nm == "tool": return P.TOOL_R
+        if nm.startswith("cable_seg"): return P.CABLE_R
+        return 0.0
+    # Per-object centre-distance bound at the grasp snapshot: compact
+    # objects (cubes, ring) are bounded by their own footprint extent --
+    # a site in contact with the material is necessarily within it --
+    # computed from the built geometry (converted 2026-11-25 from the
+    # former flat 3.0 cm gate value). Elongated objects are grasped
+    # off-centre, so their bound is their physical grasp extent (carton
+    # half-length + margin, tool half-length + margin, cable segment
+    # half-length + gate; pre-existing values, unchanged).
     def centre_bound(nm):
         if nm == "carton": return 0.060
         if nm == "tool": return 0.075
         if nm.startswith("cable_seg"): return 0.045
-        return P.GRASP_DIST_M
+        if nm == "ring": return P.RING_R_OUT
+        return P.CUBE_EDGE * math.sqrt(2.0) / 2   # cube footprint half-diagonal
     steps_per_frame = max(1, int(round((1.0 / P.FPS) / P.TIMESTEP)))
     prev_c = float(closed[0])
 
@@ -259,7 +281,7 @@ def run_episode(task, epi, render=False, out_dir=None, variant=0):
                 tr["min_centre"] = min(tr["min_centre"], d_centre)
                 turned = d_shape >= tr["min_shape"] + 0.003
                 plateau = d_shape <= tr["min_shape"] + 0.001 and fr - tr["fr0"] >= 2
-                if (tr["min_shape"] <= P.GRASP_DIST_M and tr["min_centre"] <= centre_bound(nm)
+                if (tr["min_shape"] <= contact_dist(nm) and tr["min_centre"] <= centre_bound(nm)
                         and used[nm] < len(weld_slots[nm]) and (turned or plateau or ending)):
                     do_attach(fr, c, tr["snap"])
                     fired = True
@@ -284,14 +306,79 @@ def run_episode(task, epi, render=False, out_dir=None, variant=0):
             mujoco.mj_step(model, data)
     return _finish(model, data, task, epi, events, g_lo, g_hi, has_excursion,
                    attached, render, out_dir, mujoco, variant=variant,
-                   build_defect=build_defect)
+                   build_defect=build_defect,
+                   max_settle_steps=T * steps_per_frame)
 
-def _finish(model, data, task, epi, events, g_lo, g_hi, has_excursion, attached, render, out_dir, mujoco, variant=0, build_defect=None):
-    # settle 1.0 s with arm held at final pose
-    for _ in range(int(P.SETTLE_S / P.TIMESTEP)):
+def _body_rbound(model, bid):
+    """Bounding radius of a body from the model's own geometry: the
+    farthest geom surface point from the body origin (geom centre offset
+    plus the geom's own bounding radius)."""
+    r = 0.0
+    for gid in range(model.ngeom):
+        if int(model.geom_bodyid[gid]) == bid:
+            r = max(r, float(np.linalg.norm(model.geom_pos[gid])) + float(model.geom_rbound[gid]))
+    return r
+
+def _body_at_rest(model, data, mujoco, bid):
+    """One body's rest read, at the engine's own time resolution: linear
+    speed and rim speed (angular speed x the body's bounding radius,
+    from the model's own geometry) both below one integration step of
+    gravitational velocity gain, |g| * dt, with g and dt read from the
+    model. A body in free fall for one step reaches exactly |g| * dt; a
+    settled body sits orders of magnitude below it. (The ring seat
+    test's SETTLED clause, generalised to any body.) Returns
+    (at_rest, lin_speed, rim_speed)."""
+    vel6 = np.array(data.cvel[bid])
+    mujoco.mj_objectVelocity(model, data, mujoco.mjtObj.mjOBJ_BODY, bid, vel6, 0)
+    lin_speed = float(np.linalg.norm(vel6[3:]))
+    rim_speed = float(np.linalg.norm(vel6[:3])) * _body_rbound(model, bid)
+    rest_bound = float(np.linalg.norm(model.opt.gravity) * model.opt.timestep)
+    return (lin_speed < rest_bound and rim_speed < rest_bound), lin_speed, rim_speed
+
+def _dynamic_object_bodies(model, mujoco):
+    """Bodies whose rest state the settle waits on: every jointed body
+    that is not part of the arm (fixtures are jointless and static; the
+    arm is kinematic in this harness -- its pose is the recorded
+    trajectory, not a physics outcome)."""
+    out = []
+    for bid in range(model.nbody):
+        nm = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_BODY, bid)
+        if nm in ARM_BODIES:
+            continue
+        jadr = int(model.body_jntadr[bid])
+        if jadr < 0:
+            continue
+        if int(model.jnt_type[jadr]) in (mujoco.mjtJoint.mjJNT_FREE, mujoco.mjtJoint.mjJNT_BALL):
+            out.append(bid)
+    return out
+
+def _bodies_at_rest(model, data, mujoco):
+    """Engine rest read for the whole scene: every dynamic object body
+    at rest per _body_at_rest. Vacuously true when a scene has no
+    dynamic object bodies."""
+    return all(_body_at_rest(model, data, mujoco, bid)[0]
+               for bid in _dynamic_object_bodies(model, mujoco))
+
+def _finish(model, data, task, epi, events, g_lo, g_hi, has_excursion, attached, render, out_dir, mujoco, variant=0, build_defect=None, max_settle_steps=None):
+    # Settle until the physics engine reports rest (founder ruling
+    # 2026-11-25; replaces the former fixed SETTLE_S = 1.0 s wait, whose
+    # read could land mid-transient or long after rest). The step cap is
+    # a termination safeguard only -- run_episode passes the episode's
+    # own trajectory length in steps -- and the verdict never reads
+    # elapsed settle time: evaluate() reads the state the engine
+    # resolved, and settle_at_rest records whether rest was reached.
+    if max_settle_steps is None:
+        raise ValueError("max_settle_steps is required (the episode's own "
+                         "trajectory length in steps; see run_episode)")
+    mujoco.mj_forward(model, data)
+    settle_steps = 0
+    while settle_steps < max_settle_steps and not _bodies_at_rest(model, data, mujoco):
         mujoco.mj_step(model, data)
+        settle_steps += 1
     mujoco.mj_forward(model, data)
     result = evaluate(model, data, task, epi, mujoco)
+    result["settle_steps"] = settle_steps
+    result["settle_at_rest"] = bool(_bodies_at_rest(model, data, mujoco))
     result["grasp_events"] = events
     result["gripper_norm"] = {"open_ref_deg": round(g_lo, 2), "closed_ref_deg": round(g_hi, 2),
                               "has_excursion": bool(has_excursion),
@@ -322,10 +409,15 @@ def evaluate(model, data, task, epi, mujoco):
     and recorded, but only as REPORTED diagnostics / the secondary criterion.)
 
     Per-task PRIMARY criterion (registered text -> mechanism):
-    - block_stack: SUCCESS iff upper cube in CONTACT with lower cube's top
-      (contact pair upper<->lower present at settle), upper centre within
-      lower top footprint inset by 25%, and NO OTHER support contact for the
-      upper cube (its contact set is exactly {lower cube}).
+    - block_stack: SUCCESS iff the upper cube is in CONTACT with the lower
+      cube, SUPPORTED by it alone (contact pair upper<->lower present at
+      settle end and the upper cube's contact set is exactly {lower
+      cube}), and SETTLED (not device-held; at rest at the engine's own
+      time resolution -- the ring seat test's settled clause applied to
+      the upper cube). Scored as a physical state since 2026-11-25
+      (founder ruling), replacing the former centre-within-footprint
+      inset band (inset by 25%): the planar centre offset is still
+      computed and recorded as a diagnostic only.
     - eye_drops_to_basket: SUCCESS iff carton centre inside the basket
       interior footprint AND the carton's resting support is the basket:
       contact with the basket body present, and NO contact with the platform
@@ -346,16 +438,19 @@ def evaluate(model, data, task, epi, mujoco):
       resolution. bottom_above_board_m is still computed and recorded as
       a diagnostic only; it no longer gates.
     - tool_insert: SUCCESS iff tool centre within the slot footprint
-      (evaluated in the SLOT frame, yaw applied), tool axis within 20 deg of
-      the slot axis, and the tool is resting in the tray (contact with the
-      tray body at settle).
+      (evaluated in the SLOT frame, yaw applied), tool axis within 6 deg of
+      the slot axis (the measured end-wall lean cap of the real channel:
+      a ~78 mm bar in the ~81 mm channel cannot tilt past ~6 deg, and
+      seated rest angles measured on held-out episodes are <= 5.5 deg;
+      the former 20 deg was an underived convention), and the tool is
+      resting in the tray (contact with the tray body at settle).
     - cable_clip: SUCCESS iff a cable segment is seated in the clip with the
       clip CLOSED over it. Closure mechanism (documented modelling device):
       the clip is a fixed-geometry sprung clip -- two static jaw geoms
       (clip_jaw_a/b on the clip_block body) whose gap IS the channel; the
       jaws cannot articulate in this model, so closure is registered
-      mechanically as RETENTION: at settle (after the 1.0 s settle, gripper
-      released or not) a segment lies inside the channel volume between the
+      mechanically as RETENTION: at settle end (the engine's rest state,
+      gripper released or not) a segment lies inside the channel volume between the
       jaws AND is in contact with the clip_block body -- i.e. the clip, not
       the gripper or the mat, is what holds that segment in the channel.
       A segment merely passing over the block, or resting on the mat beside
@@ -396,16 +491,36 @@ def evaluate(model, data, task, epi, mujoco):
         lname = "cube_b" if uname == "cube_a" else "cube_a"
         e = P.CUBE_EDGE
         dz = (upper[2] - e / 2) - (lower[2] + e / 2)   # diagnostic only
-        inset = (e / 2) * 0.75                          # footprint inset by 25%
-        within = abs(upper[0] - lower[0]) <= inset and abs(upper[1] - lower[1]) <= inset
+        # PRIMARY (founder ruling 2026-11-25): the stack is scored as a
+        # physical state, mirroring the ring seat test -- CONTACT with
+        # the lower cube, SUPPORT from it alone, and SETTLED (not
+        # device-held, at rest at the engine's own time resolution).
+        # The former footprint inset band (centre within the lower top
+        # footprint inset by 25%) is abolished: a physically stacked
+        # cube whose centre overhangs the inset but rests on the lower
+        # cube alone is a stack, and a mid-transient contact is not.
+        # The planar centre offset is recorded as a diagnostic only.
         ucontacts = contacts_with(uname)
         contact_lower = lname in ucontacts
         no_other_support = ucontacts <= {lname}
-        success = bool(within and contact_lower and no_other_support)
+        held = bool(ucontacts & set(ARM_BODIES))
+        for eq in range(model.neq):
+            eq_name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_EQUALITY, eq)
+            if eq_name and eq_name.startswith(f"weld_{uname}") and data.eq_active[eq]:
+                held = True
+        uid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, uname)
+        at_rest, lin_speed, rim_speed = _body_at_rest(model, data, mujoco, uid)
+        settled = bool(not held and at_rest)
+        success = bool(contact_lower and no_other_support and settled)
         res["checks"] = {"upper": uname, "face_gap_m": round(float(dz), 4),
-                         "within_inset_footprint": bool(within),
+                         "centre_offset_xy_m": [round(float(upper[0] - lower[0]), 4),
+                                                round(float(upper[1] - lower[1]), 4)],
                          "contact_with_lower": bool(contact_lower),
                          "no_other_support_contact": bool(no_other_support),
+                         "held_by_device": held,
+                         "settled": settled,
+                         "upper_speed_m_s": round(lin_speed, 6),
+                         "upper_rim_speed_m_s": round(rim_speed, 6),
                          "upper_contacts": sorted(str(x) for x in ucontacts)}
         res["objects_final"] = {"cube_a": pa.tolist(), "cube_b": pb.tolist()}
         res["planar_err_m"] = planar_err(uname, "cube_a", "cube_b")
@@ -507,7 +622,7 @@ def evaluate(model, data, task, epi, mujoco):
         ly = math.sin(-syaw) * d[0] + math.cos(-syaw) * d[1]
         within = abs(lx) <= P.SLOT_SIZE[0] / 2 and abs(ly) <= P.SLOT_SIZE[1] / 2
         resting_in_tray = "tray" in contacts_with("tool")
-        success = bool(within and ang <= 20.0 and resting_in_tray)
+        success = bool(within and ang <= 6.0 and resting_in_tray)
         res["checks"] = {"centre_in_slot": bool(within), "axis_angle_deg": round(ang, 1),
                          "resting_in_tray_contact": bool(resting_in_tray),
                          "tool_z": round(float(pt[2]), 4)}

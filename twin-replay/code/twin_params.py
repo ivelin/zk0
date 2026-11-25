@@ -31,10 +31,18 @@ TIMESTEP = 0.0005     # 2000 Hz physics (v1.1 global fix, changelog #14:
                       # integrator-unstable at v1's 500 Hz; 1000 Hz fixed
                       # only 1 of 2 exploded test episodes, 2000 Hz fixed
                       # both. Applied globally to all tasks/variants.)
-SETTLE_S = 1.0        # pre-registered settle time
+# SETTLE_S (the former fixed 1.0 s settle wait) was REMOVED 2026-11-25
+# (founder ruling, criteria A+B change): _finish now settles until the
+# physics engine reports rest (replay._bodies_at_rest -- every dynamic
+# object body's speed below |g| * dt read from the model), so no fixed
+# wait gates a score. See criteria-provenance.json code.settle_rest.
 
 # --- grasp device (docs/physics-parameters.md section 7) ---
-GRASP_DIST_M = 0.030          # object centre within 3.0 cm of gripper centre
+# GRASP_DIST_M (the former 3.0 cm proximity gate) was REMOVED 2026-11-25
+# (founder ruling, criteria A+B change): the attach gate now reads
+# pad-object CONTACT (replay.contact_dist -- the gripper site reaches
+# the object's material), not a hand-made proximity band. See
+# criteria-provenance.json code.grasp_contact.
 ATTACH_CLOSEDNESS = 0.50      # attach threshold (normalised closedness)
 RELEASE_CLOSEDNESS = 0.30     # release threshold (hysteresis)
 # Gripper-trace normalisation (CONCRETE, global algorithm; see report):
@@ -85,14 +93,25 @@ PEG_H = 0.070                          # above board top
 PEG_FRICTION = (0.4, 0.005, 0.0001)
 RING_R_OUT = 0.0225
 RING_R_IN = 0.011
-RING_THICK = 0.012
+RING_THICK = 0.0115   # built ring tube diameter (mm-scale measured value:
+                      # the real ring's tube is 11.5 mm; 0.012 was the
+                      # washer's axial thickness in the wrong role --
+                      # criteria-provenance.json param.RING_THICK)
 RING_MASS = 0.010
 RING_FRICTION = (0.5, 0.005, 0.0001)
 RING_SEGMENTS = 12                     # capsule ring approximation
 
 TRAY_SIZE = (0.385, 0.270, 0.045)
 TRAY_FRICTION = (0.6, 0.005, 0.0001)
-SLOT_SIZE = (0.110, 0.032)             # target slot footprint (x,y) LOCAL-CHOICE
+SLOT_SIZE = (0.081, 0.029)             # target slot footprint (x,y), MEASURED
+                                       # 2026-11-24 (P3 second opinion): channel
+                                       # length 81 mm, width plateau 29 mm (waist
+                                       # ~23 mm is a local narrowing the
+                                       # rectangular model cannot express)
+SLOT_DEPTH = 0.015                     # slot recess depth, MEASURED working
+                                       # figure 2026-11-24 (bound >= ~15 mm at
+                                       # the socket section; the former 5 mm
+                                       # was an estimate, >=3x too shallow)
 TOOL_LEN = 0.100
 TOOL_R = 0.005
 TOOL_MASS = 0.070
@@ -134,19 +153,36 @@ DEFAULT_FIXTURES = {
 SUITE_VERSION = "twin-suite-v1.1"
 VARIANT_SEED = 20261122
 VARIANT_K = 5
-# Pose jitter scales by Builder B confidence tier. Builder B's pose files
-# carry NO per-pose numeric error field, so these tier scales are a logged
-# SAMPLING CHOICE standing in for "B's quantitative error estimate"
-# (flagged in the validation report): high +-5 mm / +-3 deg, medium
-# +-10 mm / +-6 deg (uniform draws).
-JITTER = {"high": (0.005, 3.0), "medium": (0.010, 6.0)}
+# Pose jitter (founder ruling 2026-11-25, adopting the commissioned
+# pose-error measurement, jitter-pose-error-measurement-20261125.md):
+# the former per-tier placeholders (high +-5 mm / +-3 deg, medium
+# +-10 mm / +-6 deg -- a logged SAMPLING CHOICE standing in for an error
+# estimate that was never measured) are replaced by the MEASURED
+# distribution. The xy bound is a SINGLE pooled tier: held-out radial
+# p90 = 0.088 m (n=73; the measured per-tier p90s, high 0.087 /
+# medium 0.090, coincide and their medians invert, so the data does not
+# support separate tiers). Yaw is UNMEASURED -- the value is None, the
+# 3/6 deg placeholders are removed rather than carried forward, and the
+# sampler draws no yaw jitter until a yaw-error measurement exists.
+JITTER = {"pooled": (0.088, None)}
+# Per-axis sigma of the same measured distribution (pooled sigma/axis
+# 4.26 cm, n=73 held-out): the Gaussian sigma build_scenes.make_draws
+# samples xy jitter with, for every tier (the measured per-tier sigmas,
+# high 0.046 / medium 0.039, do not stratify; the pose files' rubric
+# sigmas were a budget, not a measurement).
+JITTER_SIGMA_XY_M = 0.0426
 # Mass sampling ranges (kg) from Builder A's sourced ranges.
 MASS_RANGES = {"cube_a": (0.010, 0.035), "cube_b": (0.010, 0.035),
                "carton": (0.020, 0.045), "ring": (0.004, 0.015),
                "tool": (0.050, 0.100), "cable_total": (0.040, 0.060)}
 FRICTION_MULT_RANGE = (0.8, 1.2)   # +-20% where Builder A gives no range
+                                   # (founder-decided convention 2026-11-25:
+                                   # a robustness stress envelope, not a
+                                   # measurement claim)
 
 # --- v1.1: secondary criterion + cable solver-failure bounds ---
+# Near-miss reporting thresholds (founder-decided convention 2026-11-25:
+# a reporting label; continuity of the recorded results is the point).
 SECONDARY_THRESH_M = {"block_stack": 0.030, "eye_drops_to_basket": 0.030,
                       "tool_insert": 0.030, "ring_insert": 0.020,
                       "cable_clip": None}   # cable exempt (deformable)
@@ -159,10 +195,12 @@ SECONDARY_THRESH_M = {"block_stack": 0.030, "eye_drops_to_basket": 0.030,
 # half-extents (0.012, 0.004, 0.006) m. The x bound equals the jaw
 # half-length exactly (0.012 m); the y bound is the channel half-width
 # plus 0.002 m, reaching exactly the jaw inner faces' outer edge; the
-# z bound (+/-0.012 m) is twice the jaw half-height (+/-0.006 m).
+# z bound equals the jaw half-height exactly (+/-0.006 m), like the x
+# bound (converted 2026-11-25: the former +/-0.012 m was twice the jaw
+# half-height -- a x2 multiplier choice, not a measurement).
 CABLE_CHAN_X_HALF_M = 0.012
 CABLE_CHAN_Y_EXTRA_M = 0.002
-CABLE_CHAN_Z_HALF_M = 0.012
+CABLE_CHAN_Z_HALF_M = 0.006
 CABLE_MAX_RADIAL_M = 1.0
 CABLE_Z_MIN_M = -0.05
 CABLE_Z_MAX_M = 0.50
