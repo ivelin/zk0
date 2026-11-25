@@ -2,7 +2,7 @@
  "schema": "criteria-provenance/v1",
  "created": "2026-11-25",
  "created_by": "ring band-edge postmortem (founder order 2026-11-25 ~09:14 CT)",
- "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class — engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink — by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it.",
+ "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class \u2014 engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink \u2014 by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it. AMENDED 2026-11-25 (criteria A+B change, queued behind PR #51): twelve of the fifteen flagged entries were resolved -- five by measurement-derived values (SLOT_SIZE, code.tool_angle, CABLE_CHAN_Z_HALF_M, RING_THICK, JITTER xy), three by conversion to physics-state reads (SETTLE_S, GRASP_DIST_M, code.block_inset), four by founder ruling (FRICTION_MULT_RANGE and SECONDARY_THRESH_M adopted as decided conventions, code.reproduced_frac aligned to the v2 Wilson standard, code.bar_80 struck as superseded). The flagged queue now holds exactly the three gripper-device entries (ATTACH_CLOSEDNESS, RELEASE_CLOSEDNESS, GRIP_MIN_EXCURSION_DEG), whose derivation from the arm-calibration plateau data was commissioned 2026-11-25 and lands as a follow-up change.",
  "postmortem": "twin-replay/ring-band-postmortem-20261125.md",
  "entries": [
   {
@@ -703,13 +703,12 @@
    "name": "SETTLE_S",
    "file": "twin_params.py",
    "param": "SETTLE_S",
-   "value": 1.0,
+   "value": "1.0 (removed from twin_params.py 2026-11-25)",
    "kind": "PROTOCOL",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('physics settles for 1.0 s')",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "The fixed settle wait never had a derivation -- it was a registered duration ('physics settles for 1.0 s'), and a fixed wait reads whatever state happens to exist when the clock runs out: mid-transient on slow scenes, long after rest on fast ones. Its REMOVAL is the founder's 2026-11-25 ruling (the conversion class of the criteria A+B change): _finish now settles until the physics engine reports rest (code.settle_rest), and the verdict reads the resolved state. No duration gates a score anymore.",
+   "source": "Original: twin-replay/twin-replay-preregistration-20261122.md ('physics settles for 1.0 s'). Removal: founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.VARIANT_SEED",
@@ -739,21 +738,27 @@
    "file": "twin_params.py",
    "param": "JITTER",
    "value": {
-    "high": [
-     0.005,
-     3.0
-    ],
-    "medium": [
-     0.01,
-     6.0
+    "pooled": [
+     0.088,
+     null
     ]
    },
    "kind": "PROTOCOL",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin_params.py comment: 'a logged SAMPLING CHOICE standing in for B's quantitative error estimate (flagged in the validation report)'",
-   "disposition": "Placeholder for pose-error numbers that were never measured; flagged as such since v1. Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "xy bound is the p90 of the held-out radial pose-error distribution, measured under the twin-suite v1.1 FK-anchor design (S7 dwell selector, per-task x kind median offset fitted on the even-episode train split, residuals on the odd-episode held-out split): pooled p90 = 8.84 cm -> 0.088 m (n=73). The founder adopted the POOLED value as a single tier (ruling 2026-11-25 13:05 CT): the measured per-tier p90s (high 8.71 cm, n=30; medium 9.02 cm, n=41) coincide and their medians invert (high 5.75 cm vs medium 3.39 cm) -- task, not confidence tier, stratifies the error, so separate tiers are not supported by the data. The residual is pipeline pose minus FK-anchored object position at grasp/place dwells and therefore includes the FK anchor's own error (upper-bound-flavoured). The measurement reproduces Builder 2's printed FIX 4 sigma table to the digit from the archived stage-1d rows before deriving any quantile. YAW COMPONENT: recorded as a FLAGGED NULL (None) -- no yaw-error measurement exists in the record (the pose files' sigma_yaw_deg are PCA axis-stability figures, never validated as error), the former 3/6 deg placeholders are REMOVED, not carried forward, and the sampler draws no yaw jitter until a yaw measurement exists (report section 7 specifies what one would need). LOW tier: no value derivable (n=2 held-out); low-confidence poses are denominator-excluded by the pre-registration, so no tier value is needed.",
+   "source": "jitter-pose-error-measurement-20261125.md sections 4-7 (validator-sets-20261123); builder2-v11-poses.md FIX 3(d)/FIX 4; DGX validation/builder2_stage1d.json (135 rows); jitter-pose-error-residuals-20261125.csv. Adoption: criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
+  },
+  {
+   "id": "param.JITTER_SIGMA_XY_M",
+   "name": "JITTER_SIGMA_XY_M",
+   "file": "twin_params.py",
+   "param": "JITTER_SIGMA_XY_M",
+   "value": 0.0426,
+   "kind": "PROTOCOL",
+   "status": "DERIVED",
+   "derivation": "Per-axis sigma of the same measured pose-error distribution as param.JITTER: pooled held-out sigma/axis = 4.26 cm (n=73; radial RMS / sqrt(2), the record's convention), from the run that reproduces Builder 2's printed FIX 4 sigma table to the digit. This is the Gaussian sigma build_scenes.make_draws samples xy jitter with, for every body and tier: the measured per-tier sigmas (high 0.046 m, medium 0.039 m) do not stratify, and the pose files' per-pose rubric sigmas it replaces (sigma_xy_cm from the pose-estimation.md budget) were a budget, not a measurement.",
+   "source": "jitter-pose-error-measurement-20261125.md sections 4 and 6 (validator-sets-20261123); adoption: criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.MASS_RANGES",
@@ -801,24 +806,22 @@
     1.2
    ],
    "kind": "PROTOCOL",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin_params.py comment ('+-20% where Builder A gives no range')",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 13:04 CT: the +-20% range is adopted as his DECIDED CONVENTION. It claims nothing about the real world -- it is a robustness stress envelope (does the checkpoint still work if surfaces are somewhat grippier or slicker than nominal), and friction itself has never been measured (the base values are literature/engine defaults, physics-parameters.md section 8). To be revisited the day friction is measured.",
+   "source": "criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); twin_params.py comment ('+-20% where Builder A gives no range').",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.GRASP_DIST_M",
    "name": "GRASP_DIST_M",
    "file": "twin_params.py",
    "param": "GRASP_DIST_M",
-   "value": 0.03,
+   "value": "0.030 (removed from twin_params.py 2026-11-25)",
    "kind": "DEVICE",
-   "status": "RATIONALE-ONLY",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: '3.0 cm \u2248 one cube-edge / ring-radius scale' \u2014 a scale heuristic, not a measurement",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "The 3.0 cm proximity gate never had a derivation -- physics-parameters.md section 7 gives a scale heuristic ('one cube-edge / ring-radius scale'), not a measurement. Its REMOVAL is the founder's 2026-11-25 ruling (the conversion class of the criteria A+B change): the grasp attach gate now reads pad-object CONTACT (code.grasp_contact) -- the gripper site must reach the object's material -- and the compact-object centre bound is computed from each object's own footprint extent. No proximity band gates a grasp anymore.",
+   "source": "Original: twin-replay/physics-parameters.md (Builder A, 2026-11-22) section 7. Removal: founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.ATTACH_CLOSEDNESS",
@@ -865,16 +868,26 @@
    "file": "twin_params.py",
    "param": "SLOT_SIZE",
    "value": [
-    0.11,
-    0.032
+    0.081,
+    0.029
    ],
    "kind": "SCORING",
    "quantity": "input-geometry",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin_params.py: marked LOCAL-CHOICE; v1 verifier finding F-04: 'never sourced from the recordings'. Later MEASURED WRONG from the episodes themselves: the real slot is ~81 mm long with a ~23 mm waist (independent second-opinion measurement, 2026-11-24)",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "Measured from the episodes (P3, confirmed by an independent second opinion that measured blind): channel length 81.0 mm (recess extent, per-episode range 80.2-81.4 mm, n=10 certified-PASS held-out episodes; the first report's 75-79 mm is the seating length -- definitional, both reject 110 mm decisively) and channel width plateau 28.6 mm (per-episode range 27.0-29.4 mm), adopted as 0.029 m. The channel is not uniform: a waist of ~23 mm (adopted scale) is a local narrowing the rectangular SLOT_SIZE model cannot express -- recorded here so the simplification is explicit. The former (0.110, 0.032) was a LOCAL-CHOICE never sourced from the recordings (v1 verifier finding F-04). The same measurement's depth working figure lands as param.SLOT_DEPTH. The corrected geometry was first built as the versioned Stage T scene set (stageT-tool-geometry-20261124.md: length 81 mm, waist 23 / plateau 29 mm, depth 15 mm); this entry lands it in the frozen parameters.",
+   "source": "tool-slot-second-opinion-20261124.md sections 5.1-5.2 and 7 (validator-sets-20261123); tool-slot-evidence-20261124.md (first report).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
+  },
+  {
+   "id": "param.SLOT_DEPTH",
+   "name": "SLOT_DEPTH",
+   "file": "twin_params.py",
+   "param": "SLOT_DEPTH",
+   "value": 0.015,
+   "kind": "SCENE",
+   "status": "DERIVED",
+   "derivation": "Measured slot recess depth, working figure 15 mm: the second opinion's front-view protrusion bound gives depth >= ~15 mm at the seated bar's socket section (socket diameter ~15.1 mm with its top at or below the foam surface) and >= ~10 mm along the shaft; honest range 12-20 mm. Replaces the former build value depth = P.TOOL_R (5 mm), which the build comment itself labelled '[ESTIMATE, not measured]' -- at least ~3x too shallow at the bar's fat sections. Stage T adopted the same 15 mm in its corrected scene set.",
+   "source": "tool-slot-second-opinion-20261124.md section 5.3 (validator-sets-20261123); stageT-tool-geometry-20261124.md."
   },
   {
    "id": "param.SECONDARY_THRESH_M",
@@ -890,25 +903,23 @@
    },
    "kind": "SCORING",
    "quantity": "engine-resolved",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) (secondary criterion: 3.0 cm block/eye/tool, ring 2.0 cm when not engaged, cable exempt) \u2014 registered convention, no derivation recorded",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 13:07 CT: the near-miss thresholds (3.0 cm block/eye/tool, 2.0 cm ring, cable exempt) are kept as his DECIDED CONVENTION. The secondary tier is a reporting label on results, not a claim about the world and not the pass/fail criterion; every battery result recorded so far uses these values, and continuity of the record is the point of keeping them.",
+   "source": "criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); original registration: twin-replay/twin-replay-preregistration-20261122.md (secondary criterion).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.RING_THICK",
    "name": "RING_THICK",
    "file": "twin_params.py",
    "param": "RING_THICK",
-   "value": 0.012,
+   "value": 0.0115,
    "kind": "SCORING",
-   "quantity": "engine-resolved",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "The value 0.012 is the ring's MEASURED axial thickness, but the scorer consumes it as the tube diameter in ring_bottom = centre_z - RING_THICK/2 \u2014 a measured number in the wrong role (independent critique flag P1, 2026-11-24, upheld the same day). The corrected role value 0.0115 was adopted into the canonical criteria record on 2026-11-24; the real part was measured from held-out episodes as a flat-faced washer, axial 12.0 mm.",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "The built ring's tube diameter, measured: the real ring's tube is 11.5 mm in diameter (the value the corrected arm/simulation work uses as 'baseline, real'), adopted into the canonical criteria record on 2026-11-24. The former 0.012 was the ring's MEASURED axial thickness (a flat-faced washer, axial 12.0 mm) consumed in the tube-diameter role -- a measured number in the wrong role (independent critique flag P1, 2026-11-24, upheld the same day). Post-seat-test (PR #51) RING_THICK's scorer role is the non-gating bottom_above_board_m diagnostic and the ring's built geometry; the capsule tube the builders construct is min((RING_R_OUT - RING_R_IN)/2, RING_THICK/2) = 5.75 mm under either value, so no built geometry changes.",
+   "source": "ring-thickness-diagnostic-20261124.md (validator-sets-20261123): '11.5 mm (baseline, real)'; ring-peg-evidence-20261124.md (measured real parts).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.CABLE_CHAN_X_HALF_M",
@@ -939,14 +950,13 @@
    "name": "CABLE_CHAN_Z_HALF_M",
    "file": "twin_params.py",
    "param": "CABLE_CHAN_Z_HALF_M",
-   "value": 0.012,
+   "value": 0.006,
    "kind": "SCORING",
    "quantity": "input-geometry",
-   "status": "RATIONALE-ONLY",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin_params.py FP-B comment: z bound is 'twice the jaw half-height (+/-0.006 m)' \u2014 the x2 multiplier is a choice, not a measurement",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "Equals the built clip-jaw half-height exactly (build_scenes.py clip_jaw_a/b half-extents z = 0.006 m) -- the same basis as CABLE_CHAN_X_HALF_M (V11-02). The former 0.012 was twice the jaw half-height: the x2 multiplier was a choice, not a measurement, and it admitted segments up to 6 mm above the channel centre that the built jaws cannot retain.",
+   "source": "build_scenes.py clip_jaw_a/b geometry; twin-replay/docs/verification-v11-code.md V11-02 (method); twin_params.py FP-B comment.",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.CABLE_MAX_RADIAL_M",
@@ -1010,38 +1020,70 @@
    "source": "Founder ruling 2026-11-25 11:50 CT (zk0 chat); recommended disposition in twin-replay/ring-band-postmortem-20261125.md; geometry: twin-replay/physics-parameters.md (Builder A, 2026-11-22), ring-peg-evidence-20261124.md (measured real parts)."
   },
   {
+   "id": "code.settle_rest",
+   "name": "settle = step until every dynamic object body is at rest (engine rest read; no fixed wait)",
+   "file": "replay.py",
+   "pattern": "def _bodies_at_rest(model, data, mujoco):",
+   "covers_literals": [],
+   "value": "boolean physical-state read (no numeric threshold)",
+   "kind": "SCORING",
+   "quantity": "physics-state",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 (conversion class of the criteria A+B change), replacing the fixed SETTLE_S wait (param.SETTLE_S, removed). _finish steps the scene until every dynamic object body is at rest: linear speed and rim speed (angular speed x the body's bounding radius from the model's own geometry) below one integration step of gravitational velocity gain, |g| * dt, with g and dt read from the model -- the ring seat test's SETTLED clause generalised to every scored body. The step cap is a termination safeguard only: run_episode passes the episode's own trajectory length in steps (a quantity of the episode's data, not a chosen constant), the verdict never reads elapsed settle time, and settle_at_rest in the result records whether rest was actually reached.",
+   "source": "Founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); the settled clause's basis: code.ring_seat_test."
+  },
+  {
+   "id": "code.grasp_contact",
+   "name": "grasp attach gate = pad-object contact read (site reaches the object's material; no proximity band)",
+   "file": "replay.py",
+   "pattern": "tr[\"min_shape\"] <= contact_dist(nm)",
+   "covers_literals": [],
+   "value": "distance-to-material contact read (0 for footprint objects; the object's own radius for axis-measured objects)",
+   "kind": "DEVICE",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 (conversion class of the criteria A+B change), replacing the GRASP_DIST_M proximity gate (param.GRASP_DIST_M, removed). Attach at the grasp dwell requires the gripperframe site to reach the object's material: replay.shape_dist() measures planar distance to the material itself for the footprint objects (cube, carton, ring), so contact is 0; for the axis-measured objects (tool, cable segments) it measures to the centreline, so contact is the object's own radius (TOOL_R / CABLE_R, the built geometry). The compact-object centre bound at the snapshot is likewise computed from the object's own footprint extent (cube footprint half-diagonal; ring RING_R_OUT) -- a site in contact is necessarily within it. No chosen tolerance anywhere: contact is the object's geometry, read at the dwell.",
+   "source": "Founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); shape_dist semantics: replay.py run_episode (Builder C, Phase 4, with the changelog #2/#5 dwell-snapshot semantics unchanged)."
+  },
+  {
    "id": "code.tool_angle",
    "name": "tool axis angle <= 20 deg",
    "file": "replay.py",
-   "pattern": "ang <= 20.0",
+   "pattern": "ang <= 6.0",
    "covers_literals": [
-    20.0
+    6.0
    ],
-   "value": 20.0,
+   "value": 6.0,
    "kind": "SCORING",
    "quantity": "engine-resolved",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('tool axis within 20\u00b0 of the slot axis') \u2014 registered convention, no derivation recorded. Real seated-bar rest angles measured from held-out episodes are <=~5.5 deg (2026-11-24).",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "The cap is the measured fixture geometry's own limit: a ~78 mm bar seated in the ~81 mm channel is tilt-capped at ~(81-78)/28.6 ~ 6 deg by the channel end walls, and seated rest angles measured on held-out episodes (9 usable readings, each against the same episode's factory bars) give median -0.5 deg with max |angle| 5.5 deg -- no usable reading exceeds 5.5 deg. The former 20 deg was a registered convention with no derivation; it admitted the 9-19.5 deg leans the critique measured in sim passes, which the real fixture's end walls make impossible.",
+   "source": "tool-slot-second-opinion-20261124.md section 5.5 (validator-sets-20261123); channel/bar measurements sections 5.1, 5.4.",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "code.block_inset",
    "name": "block footprint inset factor 0.75 (25%)",
    "file": "replay.py",
-   "pattern": "inset = (e / 2) * 0.75",
-   "covers_literals": [
-    0.75
-   ],
-   "value": 0.75,
+   "value": "0.75 (removed from replay.py evaluate() 2026-11-25)",
    "kind": "SCORING",
    "quantity": "engine-resolved",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('center within the lower cube's top footprint (inset by 25%)') \u2014 registered convention, no derivation recorded",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "The 25% footprint inset never had a derivation -- it was a registered convention ('center within the lower cube's top footprint (inset by 25%)'), and it fights the physics engine both ways: a cube physically stacked and resting on the lower cube alone fails if its centre overhangs the inset, and a mid-transient contact inside the inset passes with no settled read at all. Its REMOVAL is the founder's 2026-11-25 ruling (the conversion class of the criteria A+B change); the block criterion is now the physical state recorded in code.block_seat_test, and the planar centre offset remains in evaluate()'s output as a diagnostic only.",
+   "source": "Original: twin-replay/twin-replay-preregistration-20261122.md. Removal: founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat).",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
+  },
+  {
+   "id": "code.block_seat_test",
+   "name": "block stack test = contact with lower + sole support + settled (physical state; no footprint band)",
+   "file": "replay.py",
+   "pattern": "success = bool(contact_lower and no_other_support and settled)",
+   "covers_literals": [],
+   "value": "boolean physical-state test (no numeric threshold)",
+   "kind": "SCORING",
+   "quantity": "physics-state",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 (the conversion class of the criteria A+B change): the block criterion reads the physics engine's resolved state instead of the abolished footprint inset (code.block_inset), mirroring the ring seat test's structure (code.ring_seat_test). No chosen numbers: (i) CONTACT = a contact pair between the upper and lower cubes at settle end; (ii) SUPPORT = the upper cube's contact set is exactly {lower cube} -- the lower cube alone holds it (the pre-existing no-other-support clause, unchanged); (iii) SETTLED = no active grasp weld on the upper cube and no arm contact (engine constraint/contact state), and the upper cube at rest at the engine's own time resolution via replay._body_at_rest (speeds below |gravity| x timestep read from the model; rim speed uses the body's bounding radius from the model's own geometry).",
+   "source": "Founder ruling 2026-11-25; recommended disposition in twin-replay/ring-band-postmortem-20261125.md."
   },
   {
    "id": "code.ring_clearance",
@@ -1106,37 +1148,31 @@
   },
   {
    "id": "code.reproduced_frac",
-   "name": "episode REPRODUCED fraction >= 0.6",
+   "name": "episode REPRODUCED iff Wilson lower bound >= 0.6 of valid-variant agreement",
    "file": "run_validation.py",
-   "pattern": "frac >= 0.6",
+   "pattern": "wilson_lower_bound(len(agreeing), len(valid)) >= 0.6",
    "covers_literals": [
     0.6
    ],
    "value": 0.6,
    "kind": "SCORING",
    "quantity": "agreement-statistic",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay-amendment1-20261122.md A2 ('an episode counts as REPRODUCED if >=60% of its variants agree'). The amendment folds in the founder's 2026-11-22 17:47 CT refinements, but the 60% value itself carries no recorded derivation.",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 13:11 CT: the flat >=60% agreement fraction is replaced by the founder-approved twin-suite v2 standard -- an episode counts as REPRODUCED iff the Wilson score LOWER bound (z=1.96, as in the v2 controls-battery analyzer) of its valid-variant agreement fraction is >= 0.60. One definition of 'counts' across the whole programme: at the registered K=5 variants the flat fraction overclaimed (3/5 agreeing read as reproduced although its Wilson lower bound is ~0.23); the bound is the same 60% the founder approved for v2, now applied at the episode level.",
+   "source": "Founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); the v2 standard: twin-replay/twin-suite-v2-preregistration-20261122.md (PASS: Wilson lower bound of pooled success >= 60%); z=1.96 per twin-suite-v2/controls_battery/analyze.py. Original flat rule: twin-replay-amendment1-20261122.md A2.",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "code.bar_80",
    "name": "task certification bar >= 0.8 outcome agreement",
    "file": "run_validation.py",
-   "pattern": ">= 0.8",
-   "covers_literals": [
-    0.8
-   ],
-   "value": 0.8,
+   "value": "0.8 (removed from run_validation.py 2026-11-25)",
    "kind": "SCORING",
    "quantity": "agreement-statistic",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('outcome agreement >= 80%') \u2014 registered convention, no derivation recorded. Superseded as the operative gate by the founder-approved twin-suite v2 standard (Wilson lower bound >=60%, twin-replay/twin-suite-v2-preregistration-20261122.md).",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 13:11 CT: the 80% outcome-agreement bar is STRUCK as superseded by the founder-approved twin-suite v2 standard (Wilson lower bound >= 60%). The bar_80pct_met field is removed from run_validation.py's per-task summary; this entry remains so the history stays readable and the number stops posing as a live rule. The bar never had a derivation -- it was a registered convention of the v1 pre-registration.",
+   "source": "Founder ruling 2026-11-25; criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat); original: twin-replay/twin-replay-preregistration-20261122.md ('outcome agreement >= 80%'); superseding standard: twin-replay/twin-suite-v2-preregistration-20261122.md.",
+   "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   }
  ]
 }

@@ -26,12 +26,13 @@ Strengthened 2026-11-25 (founder correction, 12:00 CT — classification
 alone is not a gate; the gate is):
 
 6. The FLAGGED queue is CLOSED. It holds exactly the underived entries
-   the 2026-11-25 postmortem recorded (FROZEN_FLAGGED_QUEUE below, 15
-   entries after the ring band's resolution) and may only SHRINK — when
-   an entry gains a derivation, is converted to a physics-state read, or
-   is removed by a founder ruling. A NEW underived threshold can no
-   longer be admitted by flagging it: any flagged entry outside the
-   frozen set fails the suite.
+   the 2026-11-25 postmortem recorded (FROZEN_FLAGGED_QUEUE below; 15
+   entries after the ring band's resolution, shrunk to the 3 gripper
+   entries by the criteria A+B change the same day) and may only
+   SHRINK — when an entry gains a derivation, is converted to a
+   physics-state read, or is removed by a founder ruling. A NEW
+   underived threshold can no longer be admitted by flagging it: any
+   flagged entry outside the frozen set fails the suite.
 7. Every SCORING entry declares what quantity it gates (manifest field
    "quantity"): "engine-resolved" (a height, position, gap, angle,
    settle or contact outcome the physics engine already resolves),
@@ -92,22 +93,19 @@ QUANTITY_CLASSES = {
 # flagged entry outside this set is a new underived threshold trying to
 # enter by being flagged — a hard failure (founder correction,
 # 2026-11-25 12:00 CT).
+#
+# Shrink record (2026-11-25, criteria A+B change): SLOT_SIZE,
+# code.tool_angle, CABLE_CHAN_Z_HALF_M, RING_THICK and JITTER (xy) left
+# by measurement-derived values; SETTLE_S, GRASP_DIST_M and
+# code.block_inset left by conversion to physics-state reads;
+# FRICTION_MULT_RANGE, SECONDARY_THRESH_M, code.reproduced_frac and
+# code.bar_80 left by founder ruling. What remains is the gripper
+# cluster, whose derivation from the arm-calibration plateau data was
+# commissioned 2026-11-25 and lands as a follow-up change.
 FROZEN_FLAGGED_QUEUE = {
-    "code.bar_80",
-    "code.block_inset",
-    "code.reproduced_frac",
-    "code.tool_angle",
     "param.ATTACH_CLOSEDNESS",
-    "param.CABLE_CHAN_Z_HALF_M",
-    "param.FRICTION_MULT_RANGE",
-    "param.GRASP_DIST_M",
     "param.GRIP_MIN_EXCURSION_DEG",
-    "param.JITTER",
     "param.RELEASE_CLOSEDNESS",
-    "param.RING_THICK",
-    "param.SECONDARY_THRESH_M",
-    "param.SETTLE_S",
-    "param.SLOT_SIZE",
 }
 
 

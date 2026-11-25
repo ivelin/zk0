@@ -45,7 +45,7 @@ numeric constant in `twin_params.py` and every threshold literal in
 a number is not a gate; the gate is that an invented number cannot get
 in. Two further failure modes:
 
-- **The flagged queue is closed.** It holds exactly the 15 underived
+- **The flagged queue is closed.** It held exactly the 15 underived
   entries the 2026-11-25 postmortem recorded (after the ring band's
   resolution) and may only shrink. A flagged entry outside that frozen
   set fails the suite: a new threshold can no longer be admitted by
@@ -72,3 +72,40 @@ that).
 postmortem — see `twin-replay/ring-band-postmortem-20261125.md`. The
 frozen criteria themselves are NOT amended by the manifest; dispositions
 are founder decisions.
+
+**Amendment 2026-11-25 (criteria A+B change)** — the founder ruled on
+the whole flagged queue, and the criteria were amended accordingly
+(each manifest entry carries its own derivation or ruling citation;
+the decision record is `criteria-rulings-20261125.md`):
+
+- *Derived from measurements on record*: `SLOT_SIZE` (81 × 29 mm) and
+  the new `SLOT_DEPTH` (15 mm) from the P3 tool-slot measurement
+  (confirmed second opinion); `code.tool_angle` 20° → 6° (the measured
+  end-wall lean cap; observed rest angles ≤ 5.5°); `CABLE_CHAN_Z_HALF_M`
+  0.012 → 0.006 (the built clip-jaw half-height, like the x bound);
+  `RING_THICK` 0.012 → 0.0115 (the measured tube diameter; the washer's
+  axial thickness had been in the wrong role); `JITTER` → the measured
+  pooled pose-error tier (xy p90 0.088 m, n=73; per-axis σ 0.0426 m now
+  feeds the live sampler) with yaw recorded as an unmeasured null.
+- *Converted to physics-state reads*: the fixed `SETTLE_S` wait →
+  settle-until-rest (`code.settle_rest`); `GRASP_DIST_M` proximity →
+  pad–object contact (`code.grasp_contact`); the block footprint inset
+  → contact + sole support + settled (`code.block_seat_test`).
+- *Founder-decided conventions*: `FRICTION_MULT_RANGE` (±20% stress
+  envelope) and `SECONDARY_THRESH_M` (near-miss reporting label) stand
+  as decided, values unchanged.
+- *Aligned / struck*: `code.reproduced_frac` now applies the approved
+  v2 Wilson lower-bound ≥ 60% standard; `code.bar_80` is struck as
+  superseded by that standard (record retained).
+- *Still flagged*: the gripper cluster (`ATTACH_CLOSEDNESS`,
+  `RELEASE_CLOSEDNESS`, `GRIP_MIN_EXCURSION_DEG`) — a derivation from
+  the arm-calibration plateau data was commissioned 2026-11-25 and
+  lands as a follow-up.
+
+Noted during the amendment, outside this regime's census (which covers
+`twin_params.py`, `replay.evaluate()` and `run_validation.py` only):
+`run_episode`'s grasp state machine still carries pre-existing
+unclassified literals — the elongated-object centre bounds (carton
+0.060 / tool 0.075 / cable 0.045) and the 0.03 m release-recency
+eligibility distance. They are recorded here as known defects awaiting
+their own disposition, not silently endorsed by this change.
