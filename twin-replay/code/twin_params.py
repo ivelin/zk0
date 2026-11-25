@@ -43,8 +43,8 @@ TIMESTEP = 0.0005     # 2000 Hz physics (v1.1 global fix, changelog #14:
 # pad-object CONTACT (replay.contact_dist -- the gripper site reaches
 # the object's material), not a hand-made proximity band. See
 # criteria-provenance.json code.grasp_contact.
-ATTACH_CLOSEDNESS = 0.50      # attach threshold (normalised closedness)
-RELEASE_CLOSEDNESS = 0.30     # release threshold (hysteresis)
+ATTACH_CLOSEDNESS = 0.47      # attach threshold (normalised closedness)
+RELEASE_CLOSEDNESS = 0.35     # release threshold (hysteresis)
 # Gripper-trace normalisation (CONCRETE, global algorithm; see report):
 #   The recorded gripper channel is in degrees and is INVERTED vs the naive
 #   reading (calibration finding, changelog #4): LOW values = jaws closed
@@ -55,12 +55,12 @@ RELEASE_CLOSEDNESS = 0.30     # release threshold (hysteresis)
 #   object. An absolute 50%-of-range threshold can therefore NEVER fire for
 #   ring/tool episodes. The normalisation is one global algorithm applied
 #   identically to every episode (no per-episode hand tuning):
-#     open_ref   = 5th percentile of the episode gripper channel
-#     closed_ref = 99th percentile of the episode gripper channel
-#     closedness = clip((closed_ref - g) / (closed_ref - open_ref), 0, 1)
-#   If (closed_ref - open_ref) < 5 deg the episode has no grasp excursion
+#     closed_ref = 5th percentile of the episode gripper channel
+#     open_ref   = 99th percentile of the episode gripper channel
+#     closedness = clip((open_ref - g) / (open_ref - closed_ref), 0, 1)
+#   If (open_ref - closed_ref) < 4.4 deg the episode has no grasp excursion
 #   and no attach is possible.
-GRIP_MIN_EXCURSION_DEG = 5.0
+GRIP_MIN_EXCURSION_DEG = 4.4
 
 # --- common workspace ---
 MAT_SIZE = (0.55, 0.40, 0.003)        # x, y, thickness; top surface at z=0

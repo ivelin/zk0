@@ -100,10 +100,12 @@ the decision record is `criteria-rulings-20261125.md`):
 - *Aligned / struck*: `code.reproduced_frac` now applies the approved
   v2 Wilson lower-bound ≥ 60% standard; `code.bar_80` is struck as
   superseded by that standard (record retained).
-- *Still flagged*: the gripper cluster (`ATTACH_CLOSEDNESS`,
-  `RELEASE_CLOSEDNESS`, `GRIP_MIN_EXCURSION_DEG`) — a derivation from
-  the arm-calibration plateau data was commissioned 2026-11-25 and
-  lands as a follow-up.
+- *Resolved by the gripper follow-up change (2026-11-25)*: the gripper
+  cluster (`ATTACH_CLOSEDNESS` 0.50 → 0.47, `RELEASE_CLOSEDNESS`
+  0.30 → 0.35, `GRIP_MIN_EXCURSION_DEG` 5.0 → 4.4) — derived from the
+  arm-calibration plateau data (324 certified episodes; fit on train,
+  validated on held-out; gripper-constants-derivation-20261125.md).
+  The flagged queue is now empty.
 
 Noted during the amendment, outside this regime's census (which covers
 `twin_params.py`, `replay.evaluate()` and `run_validation.py` only):
