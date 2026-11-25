@@ -22,6 +22,32 @@ manifest twin-replay/code/criteria-provenance.json:
    (status DERIVED or FOUNDER-DECIDED) or is explicitly FLAGGED with a
    pending disposition (status RATIONALE-ONLY or UNDERIVED).
 
+Strengthened 2026-11-25 (founder correction, 12:00 CT — classification
+alone is not a gate; the gate is):
+
+6. The FLAGGED queue is CLOSED. It holds exactly the underived entries
+   the 2026-11-25 postmortem recorded (FROZEN_FLAGGED_QUEUE below, 15
+   entries after the ring band's resolution) and may only SHRINK — when
+   an entry gains a derivation, is converted to a physics-state read, or
+   is removed by a founder ruling. A NEW underived threshold can no
+   longer be admitted by flagging it: any flagged entry outside the
+   frozen set fails the suite.
+7. Every SCORING entry declares what quantity it gates (manifest field
+   "quantity"): "engine-resolved" (a height, position, gap, angle,
+   settle or contact outcome the physics engine already resolves),
+   "input-geometry" (a dimension of a built/measured object — allowed
+   only with a measurement citation), "agreement-statistic" (a fraction
+   over verdicts, not a physics quantity), or "physics-state" (a boolean
+   read of engine state, no numeric band). A threshold on an
+   engine-resolved quantity with no derivation is a HARD FAILURE unless
+   it is one of the frozen postmortem flags awaiting its own founder
+   ruling. Undeclared quantity = unclassified = failure.
+
+Together with checks 3–4 (a new numeric literal in a criterion fails the
+census until classified), this means a fresh invented band in ANY task's
+criterion goes red three ways: unclassified literal, undeclared
+quantity, or admission to a closed queue.
+
 Scope notes (deliberate, recorded): integer literals in comparisons are
 indices/counters, not thresholds, and are excluded from check 3; scene
 geometry/material constants are classified (kind SCENE) under the
@@ -44,6 +70,45 @@ DERIVED_STATUSES = {"DERIVED", "FOUNDER-DECIDED"}
 FLAGGABLE_STATUSES = {"RATIONALE-ONLY", "UNDERIVED"}
 ALL_STATUSES = DERIVED_STATUSES | FLAGGABLE_STATUSES | {"LABELED"}
 GATED_KINDS = {"SCORING", "DEVICE"}
+
+# What a SCORING entry may gate (manifest field "quantity"). Only
+# "engine-resolved" bands are the defect class the founder's ruling
+# targets: a hand-made number applied to a quantity the physics engine
+# already resolves. "input-geometry" entries are dimensions of built or
+# measured objects and must cite the measurement (check 5 enforces the
+# citation for derived entries). Bookkeeping constants (counts, indices)
+# never gate a quantity and stay out of this classification.
+QUANTITY_CLASSES = {
+    "engine-resolved",
+    "input-geometry",
+    "agreement-statistic",
+    "physics-state",
+}
+
+# The flagged queue as recorded by the ring band-edge postmortem
+# (2026-11-25), after the ring band itself was resolved by the founder's
+# ruling the same day. CLOSED set: it may only shrink (derivation,
+# conversion to a physics-state read, or founder-ruling removal). Any
+# flagged entry outside this set is a new underived threshold trying to
+# enter by being flagged — a hard failure (founder correction,
+# 2026-11-25 12:00 CT).
+FROZEN_FLAGGED_QUEUE = {
+    "code.bar_80",
+    "code.block_inset",
+    "code.reproduced_frac",
+    "code.tool_angle",
+    "param.ATTACH_CLOSEDNESS",
+    "param.CABLE_CHAN_Z_HALF_M",
+    "param.FRICTION_MULT_RANGE",
+    "param.GRASP_DIST_M",
+    "param.GRIP_MIN_EXCURSION_DEG",
+    "param.JITTER",
+    "param.RELEASE_CLOSEDNESS",
+    "param.RING_THICK",
+    "param.SECONDARY_THRESH_M",
+    "param.SETTLE_S",
+    "param.SLOT_SIZE",
+}
 
 
 def _load_manifest():
@@ -245,13 +310,79 @@ def test_flagged_entries_point_at_the_ruling_record():
     ), f"flagged entries missing their postmortem disposition pointer: {bad}"
 
 
+def test_flagged_queue_is_closed():
+    """No NEW underived threshold may enter by being flagged.
+
+    The postmortem's flagged queue is a closed, founder-visible list
+    awaiting individual rulings — not an admission lane. An entry may
+    leave the queue (derivation, physics-state conversion, founder
+    ruling); nothing may join it.
+    """
+    manifest = _load_manifest()
+    flagged = {e["id"] for e in manifest["entries"] if e.get("flagged")}
+    newcomers = flagged - FROZEN_FLAGGED_QUEUE
+    assert not newcomers, (
+        f"flagged entries outside the frozen 2026-11-25 postmortem queue: "
+        f"{sorted(newcomers)}. The flagged queue is CLOSED — a new numeric "
+        "threshold needs a recorded derivation (measurement or founder "
+        "decision), not a flag. If the founder has ruled on a genuinely "
+        "new pending item, the ruling and the queue amendment are recorded "
+        "in the postmortem record first."
+    )
+
+
+def test_scoring_quantities_declared_and_engine_resolved_bands_derived():
+    """The upstream gate (founder correction, 2026-11-25 12:00 CT).
+
+    Every SCORING entry must declare the quantity it gates. A numeric
+    band on a quantity the physics engine already resolves (heights,
+    positions, gaps, angles, settle/contact outcomes) is a hard failure
+    unless the number carries a recorded derivation — the only
+    exceptions are the frozen postmortem flags, each awaiting its own
+    founder ruling (test_flagged_queue_is_closed keeps that set from
+    growing).
+    """
+    manifest = _load_manifest()
+    problems = []
+    for e in manifest["entries"]:
+        if e["kind"] != "SCORING":
+            continue
+        q = e.get("quantity")
+        if q not in QUANTITY_CLASSES:
+            problems.append(
+                f"{e['id']}: quantity {q!r} is not one of "
+                f"{sorted(QUANTITY_CLASSES)} — declare what this threshold "
+                "gates (engine-resolved / input-geometry / "
+                "agreement-statistic / physics-state)"
+            )
+            continue
+        if q == "engine-resolved" and e["status"] in FLAGGABLE_STATUSES:
+            if e["id"] not in FROZEN_FLAGGED_QUEUE:
+                problems.append(
+                    f"{e['id']}: underived band on an engine-resolved "
+                    f"quantity ({e['name']}) with status {e['status']} — "
+                    "a criterion may not band a quantity the physics "
+                    "engine resolves without a recorded derivation "
+                    "(measurement or founder decision); read the engine's "
+                    "resolved state instead"
+                )
+        if q == "input-geometry" and e["status"] in DERIVED_STATUSES:
+            if not e.get("derivation") or not e.get("source"):
+                problems.append(
+                    f"{e['id']}: input-geometry entry claims {e['status']} "
+                    "but cites no measurement (derivation/source empty)"
+                )
+    assert not problems, "engine-resolved gate failures:\n" + "\n".join(problems)
+
+
 def test_flagged_queue_summary(capsys):
     """Visibility: print the currently flagged (underived) thresholds.
 
-    This test passes by design — flagged entries are the recorded, honest
-    state pending founder disposition. It fails only if a flagged entry
-    loses its flag bookkeeping (covered by the tests above). The printed
-    list keeps the queue visible in every CI log.
+    This test passes by design — the frozen flagged entries are the
+    recorded, honest state pending individual founder dispositions, and
+    test_flagged_queue_is_closed guarantees no entry has joined the
+    queue since the postmortem. The printed list keeps the queue
+    visible in every CI log.
     """
     manifest = _load_manifest()
     flagged = [e for e in manifest["entries"] if e.get("flagged")]

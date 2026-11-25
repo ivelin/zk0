@@ -2,7 +2,7 @@
  "schema": "criteria-provenance/v1",
  "created": "2026-11-25",
  "created_by": "ring band-edge postmortem (founder order 2026-11-25 ~09:14 CT)",
- "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py.",
+ "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class — engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink — by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it.",
  "postmortem": "twin-replay/ring-band-postmortem-20261125.md",
  "entries": [
   {
@@ -869,6 +869,7 @@
     0.032
    ],
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -888,6 +889,7 @@
     "cable_clip": null
    },
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -901,6 +903,7 @@
    "param": "RING_THICK",
    "value": 0.012,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -914,6 +917,7 @@
    "param": "CABLE_CHAN_X_HALF_M",
    "value": 0.012,
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "DERIVED",
    "derivation": "Equals the built clip-jaw half-length exactly (build_scenes.py clip_jaw_a/b half-extents x = 0.012 m), per the independent v1.1 code verification (V11-02).",
    "source": "twin-replay/docs/verification-v11-code.md V11-02; twin_params.py FP-B comment"
@@ -925,6 +929,7 @@
    "param": "CABLE_CHAN_Y_EXTRA_M",
    "value": 0.002,
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "DERIVED",
    "derivation": "Channel half-width + 0.002 m reaches exactly the jaw inner faces' outer edge in the built geometry (V11-02 measurement against build_scenes.py).",
    "source": "twin-replay/docs/verification-v11-code.md V11-02; twin_params.py FP-B comment"
@@ -936,6 +941,7 @@
    "param": "CABLE_CHAN_Z_HALF_M",
    "value": 0.012,
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "RATIONALE-ONLY",
    "flagged": true,
    "derivation": "",
@@ -949,6 +955,7 @@
    "param": "CABLE_MAX_RADIAL_M",
    "value": 1.0,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "DERIVED",
    "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
    "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
@@ -960,6 +967,7 @@
    "param": "CABLE_Z_MIN_M",
    "value": -0.05,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "DERIVED",
    "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
    "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
@@ -971,26 +979,35 @@
    "param": "CABLE_Z_MAX_M",
    "value": 0.5,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "DERIVED",
    "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
    "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
   },
   {
    "id": "code.ring_band",
-   "name": "ring low_ok band [0.0, 0.010]",
+   "name": "ring low_ok band [0.0, 0.010] -- REMOVED 2026-11-25",
    "file": "replay.py",
-   "pattern": "low_ok = 0.0 <= (ring_bottom - bt) <= 0.010",
-   "covers_literals": [
-    0.0,
-    0.01
-   ],
-   "value": "[0.0, 0.010]",
+   "value": "[0.0, 0.010] (removed from replay.py evaluate() 2026-11-25)",
    "kind": "SCORING",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "THE DEFECT. Lower edge set to exactly 0.0 by the v1.1 fixpass (Builder 1 report: '0 <= ring_bottom - board_top <= 1 cm (v1 credited 5 mm interpenetration)') for textual fidelity to the preregistration's 'within 1 cm of the board top surface'; the 1 cm upper edge is preregistration prose. No physical derivation was ever recorded; a settled ring reads ~-3 um in the band-edge probe (2026-11-24), so every proven-flat seat fails on this field alone.",
-   "disposition": "Founder ruling 2026-11-25: the hand-made band approach is rejected; recommended disposition in twin-replay/ring-band-postmortem-20261125.md \u2014 do not amend the frozen criterion until the founder rules on the replacement."
+   "quantity": "engine-resolved",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "The band itself never had a derivation -- that was the defect. Its REMOVAL is the founder's recorded decision: the hand-made band approach is rejected, and the seat check is now the physical test (engagement + seat-support contact + settled state) recorded in code.ring_seat_test. The quantity bottom_above_board_m remains in evaluate()'s output as a non-gating diagnostic only.",
+   "source": "Original defect: lower edge set to exactly 0.0 by the v1.1 fixpass (Builder 1 report: '0 <= ring_bottom - board_top <= 1 cm (v1 credited 5 mm interpenetration)') for textual fidelity to the preregistration; a settled ring reads ~-3 um in the band-edge probe (2026-11-24), so every proven-flat seat failed on this field alone. Removed under: founder ruling 2026-11-25 11:50 CT (zk0 chat) -- replace the band with a physical test: the ring passes only if it is actually engaged on the peg and settled, read from the physics engine's resolved state. Record: twin-replay/ring-band-postmortem-20261125.md.",
+   "disposition": "RESOLVED 2026-11-25: band deleted from replay.py evaluate() and replaced by code.ring_seat_test. Record pointer: twin-replay/ring-band-postmortem-20261125.md (enactment addendum)."
+  },
+  {
+   "id": "code.ring_seat_test",
+   "name": "ring seat test = engaged + seat-support contact + settled (physical state; no height band)",
+   "file": "replay.py",
+   "pattern": "success = bool(engaged and seat_support and settled)",
+   "covers_literals": [],
+   "value": "boolean physical-state test (no numeric threshold)",
+   "kind": "SCORING",
+   "quantity": "physics-state",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 11:50 CT: the seat check reads the physics engine's resolved state instead of a hand-made height band. No chosen numbers: (i) ENGAGED = planar distance within the parts' physical radial clearance RING_R_IN - PEG_R (see code.ring_clearance) AND the ring's vertical extent overlapping the peg's span, both computed from the scene's own geometry (ring hole 22 mm and peg taper ~19.5->15.55 mm measured on the real parts, ring-peg-evidence-20261124.md; modelled peg 16 mm dia. per physics-parameters.md); (ii) SEAT SUPPORT = a contact pair with the board or peg body at settle end -- the same contact-based primary style as the other four tasks; (iii) SETTLED = no active grasp weld on the ring and no arm contact (engine constraint/contact state), and speed below |gravity| x timestep read from the model itself -- one integration step of gravitational velocity gain, the engine's own resolution of 'at rest' (a body in free fall for one step reaches exactly that speed; settled bodies measure orders of magnitude below it). Rim speed converts angular speed with the measured outer radius RING_R_OUT.",
+   "source": "Founder ruling 2026-11-25 11:50 CT (zk0 chat); recommended disposition in twin-replay/ring-band-postmortem-20261125.md; geometry: twin-replay/physics-parameters.md (Builder A, 2026-11-22), ring-peg-evidence-20261124.md (measured real parts)."
   },
   {
    "id": "code.tool_angle",
@@ -1002,6 +1019,7 @@
    ],
    "value": 20.0,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -1018,6 +1036,7 @@
    ],
    "value": 0.75,
    "kind": "SCORING",
+   "quantity": "engine-resolved",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -1032,6 +1051,7 @@
    "covers_literals": [],
    "value": "RING_R_IN - PEG_R = 0.003",
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "DERIVED",
    "derivation": "Physical radial clearance of the modelled parts: the peg cannot pass through the hole beyond RING_R_IN - PEG_R. Computed from measured geometry, not a chosen tolerance (v1's silent +5 mm +2 mm additions were removed by the v1.1 fixpass).",
    "source": "replay.py evaluate(); twin-replay/docs/verification-v11-code.md (ring section)"
@@ -1044,6 +1064,7 @@
    "covers_literals": [],
    "value": "basket interior footprint",
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "DERIVED",
    "derivation": "Containment in the basket's physical interior: outer dimensions minus wall thickness, from the measured basket geometry. No added tolerance.",
    "source": "replay.py evaluate(); twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
@@ -1058,6 +1079,7 @@
    ],
    "value": 0.006,
    "kind": "SCORING",
+   "quantity": "input-geometry",
    "status": "DERIVED",
    "derivation": "The jaw half-height (build_scenes.py clip_jaw half-extents z = 0.006 m): the channel centre sits one jaw half-height above the block top.",
    "source": "twin_params.py FP-B comment; twin-suite-v11-docs/verification-v11-code.md V11-02"
@@ -1068,16 +1090,18 @@
    "file": "replay.py",
    "pattern": "seated, nearest = False, 1e9",
    "covers_literals": [
+    0,
     1,
     2,
     3,
     4,
+    6,
     1000000000.0
    ],
-   "value": "1, 2, 3, 4, 1e9",
+   "value": "0, 1, 2, 3, 4, 6, 1e9",
    "kind": "CODE",
    "status": "LABELED",
-   "derivation": "Not thresholds: coordinate indices (0/1/2), quaternion half-angle factor (2), diagnostic rounding digits (1/3/4 dp in reported checks), and the 1e9 nearest-distance sentinel initialiser. Recorded so the literal census of evaluate() is complete and any NEW numeric literal fails the provenance test until classified.",
+   "derivation": "Not thresholds: coordinate indices (0/1/2), quaternion half-angle factor (2), diagnostic rounding digits (1/3/4 dp in reported checks; 6 dp for the ring seat test's recorded speeds and rest bound, a reporting precision only -- no gate reads the rounded values), and the 1e9 nearest-distance sentinel initialiser. Recorded so the literal census of evaluate() is complete and any NEW numeric literal fails the provenance test until classified.",
    "source": "replay.py evaluate()"
   },
   {
@@ -1090,6 +1114,7 @@
    ],
    "value": 0.6,
    "kind": "SCORING",
+   "quantity": "agreement-statistic",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",
@@ -1106,6 +1131,7 @@
    ],
    "value": 0.8,
    "kind": "SCORING",
+   "quantity": "agreement-statistic",
    "status": "UNDERIVED",
    "flagged": true,
    "derivation": "",

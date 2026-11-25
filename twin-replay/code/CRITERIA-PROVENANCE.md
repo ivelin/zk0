@@ -41,10 +41,32 @@ numeric constant in `twin_params.py` and every threshold literal in
 - a gated (SCORING/DEVICE) entry lacks either a derivation + source or
   an explicit flag + disposition.
 
+**Strengthened 2026-11-25 (founder correction, 12:00 CT)** — classifying
+a number is not a gate; the gate is that an invented number cannot get
+in. Two further failure modes:
+
+- **The flagged queue is closed.** It holds exactly the 15 underived
+  entries the 2026-11-25 postmortem recorded (after the ring band's
+  resolution) and may only shrink. A flagged entry outside that frozen
+  set fails the suite: a new threshold can no longer be admitted by
+  flagging it.
+- **Every SCORING entry declares its `quantity` class** —
+  `engine-resolved` (a height, position, gap, angle, settle or contact
+  outcome the physics engine already resolves), `input-geometry` (a
+  dimension of a built/measured object, which must cite the
+  measurement), `agreement-statistic` (a fraction over verdicts), or
+  `physics-state` (a boolean read of engine state, no numeric band). A
+  band on an engine-resolved quantity with no derivation is a hard
+  failure; the only exceptions are the frozen postmortem flags, each
+  awaiting its own founder ruling. Undeclared quantity = unclassified =
+  failure.
+
 The flagged queue is printed in the test output on every run — it is the
 honest pending list, not a failure. It shrinks only by a derivation
-being measured or the founder ruling on a disposition; never by deleting
-the entry (the census checks above catch that).
+being measured, a conversion to a physics-state read, or the founder
+ruling on a disposition; never by deleting the entry (the census checks
+above catch that) and never by growing (the closed-queue check catches
+that).
 
 **Origin**: this regime is the structural fix from the ring band-edge
 postmortem — see `twin-replay/ring-band-postmortem-20261125.md`. The
