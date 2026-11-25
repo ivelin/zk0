@@ -25,3 +25,10 @@ Founder rule 2026-11-25 ~14:37 CT (voice): every experiment gets a dedicated Git
 
 ## 8. Mirror target — staging on-box, durability here
 The job guard's telemetry mirror points at the DGX staging dir in the run home (proven 2026-11-25, three clean syncs). The Muse VM target is structurally unreachable from the DGX (platform-layer refusal, proven with a live listener 2026-11-25); the founder's desktop is paused (memtest). Off-box durability for the run's records is this branch, updated as the run progresses.
+
+## 9. Run spec — exactly THREE arms (founder, binding)
+Founder, 2026-11-25 ~14:41 CT (voice): "That's it. I don't want any other trainings done." On the certified 239-episode set:
+1. **Specialists** — five fine-tuned expert models, one per task, each trained ONLY on its own task's episodes (block 49, eye 50, ring 50, tool 50, cable 40). Full fine-tune, as in Study 001 (census: 489 trainable tensors / 392,904,096 params, name-set sha256 91412384…).
+2. **Centralized pooled** — one model trained on all tasks simultaneously, pooled data (all 239). Expert-only, as in Study 001 (155 / 99,880,992, name-set b36812bc…).
+3. **Federated (Q-A)** — five clients, one task per node; each node sees ONLY its own task's data; the aggregator averages across all five; AdamW carry as registered. Expert-only (155 / 99,880,992).
+Arms 2 and 3 are all-else-equal to each other (the FL-vs-centralized comparison isolates federation + AdamW carry as registered). Sequencing: FL first (headline, longest), then centralized, then the five specialists; one GPU, serial, no concurrency. No additional arms, variants, or side runs. Gate manifest for the relaunch: `study_prep/qa_gate_manifest_239_20261125.json` in the run tree (registers all three arms: cameras, preprocessor + stats hash, per-arm census, episode lists, optimizer/schedule, budget).
