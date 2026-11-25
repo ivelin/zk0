@@ -1,0 +1,50 @@
+{
+  "source": "register.csv frozen filter: source_dataset=armnet/armnetbench_v01_lerobot_so101 AND primary_verdict=PASS AND human_status certified (incl. ep573 founder adjudication 2026-11-23 16:10 CT, register field corrected 2026-11-25 per reconciliation-audit-20261125.md item C1)",
+  "cable_heldout_excluded": [
+    2164,
+    2169,
+    2170,
+    2183,
+    2190,
+    2193,
+    2194,
+    2195,
+    2200,
+    2208
+  ],
+  "tasks": {
+    "block_stack": {
+      "count": 49,
+      "sha256": "dac978f5f0ebfb5c38f891e79d50330e82e02f72dd2660d4921d073df6ebf845",
+      "clean": 48,
+      "recovered": 1
+    },
+    "cable_clip": {
+      "count": 40,
+      "sha256": "34071c00c3fe58b37cff2e81e93d7216fec58f339a4c34bbdf84a54afbb3f772",
+      "clean": 40,
+      "recovered": 0
+    },
+    "eye_drops_to_basket": {
+      "count": 50,
+      "sha256": "b28fe1680627ad0c2368e2651724b26e684a9ced506ff1f6f568088fba58c3e4",
+      "clean": 50,
+      "recovered": 0
+    },
+    "ring_insert": {
+      "count": 50,
+      "sha256": "54e5562ef8e0501d13adff00ea1328d24952d2b8511e29c912bd78e3a917fbb2",
+      "clean": 48,
+      "recovered": 2
+    },
+    "tool_insert": {
+      "count": 50,
+      "sha256": "840b288ba37589c003ad5232d4e91fcde454a5995dda0de619d1cf492ddeb6d0",
+      "clean": 50,
+      "recovered": 0
+    }
+  },
+  "total": 239,
+  "clean_total": 236,
+  "recovered_total": 3
+}
