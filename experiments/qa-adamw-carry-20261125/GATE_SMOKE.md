@@ -20,10 +20,14 @@ Run through the real launch path (`launch_dgx_job.sh` → job guard, active mode
 
 - Caveat (recorded, not smoothed): the reachable mirror target is the on-box staging dir in the run home. The off-box VM target is structurally unreachable from the DGX (proven 2026-11-25). Off-box durability of the records is this branch (see `DECISIONS.md` #8).
 
-## Config-equivalence gate — PENDING
+## Config-equivalence gate — FAIL 118/119 (2026-11-25 ~14:56 CT), then founder waiver
 
-Must pass with `STUDY_GATE_ALLOW_OVERRIDES` **unset**. The 2026-11-23 gate PASS was produced with overrides=1 and does not carry. The 2026-11-23 overrides are explained by the checker source (both pointed the checkpoint-config checks at the smoke's own round-1 config instead of the default path); the new run eliminates them by placing the miniature artifact at the checker's default path. Open question the gate's own assertions must answer: the preserved round-10 raw checkpoint config declares pre-rename camera names/native shapes (front/top/wrist) vs the manifest's post-rename camera1/2/3 [3,256,256].
+Overrides-off run (checker `--construct`, all three arms registered, no `--checkpoint-config` / `--save-template-config` / `--waive`, `STUDY_GATE_ALLOW_OVERRIDES` unset; report `overrides: []`, tree_hash 2affb7d0…): **118 PASS, 1 DIFF-FAIL** — `saved_checkpoint.input_features` (fl-artifact, shape-exact rule): the substrate's raw saved checkpoint config declares, after rename normalization, camera1 [3,576,1024], camera2 [3,576,1024], camera3 [3,720,1280] vs the registered [3,256,256] x3. This answers the camera-form question from the checker's own assertions: the 2026-11-23 gate passed this check only through the `--save-template-config` override; placing the raw artifact at the default path does not legitimately eliminate it. No launch followed the FAIL.
 
-## Full-path smoke — PENDING
+**Founder ruling 2026-11-25 14:58 CT (voice): APPLY THE WAIVER.** Registered as `W-rawsave-form` in the gate manifest (sha256 b9e21bec… -> 5bec3de8…); reasoning + scope in `DECISIONS.md` #10 (raw form = the substrate's real behavior for every arm/round; the packaged form is what the eval gate shape-checks; the waiver covers ONLY this form check). Gate re-run with `--waive saved_checkpoint.input_features=W-rawsave-form` follows; the report must show 118 PASS + 1 DIFF-WAIVED and no configuration overrides.
 
-Miniature end-to-end with every production path on: train → full-state checkpoint save → hash → reload → eval step → kill-and-resume drill (kill mid-run, resume from checkpoint, verify a continuous record), on the pinned 239 lists, launched only via `launch_dgx_job.sh` with the guard.
+## Full-path smoke — Phase A PASSED; Phases B/C after the gate re-run
+
+Phase A (2026-11-25 14:48-14:53 CT, through the launch path, guard + mirror OK): 1 round x 10 steps x 5 serialized clients on the 239 lists, rc=0; 5/5 per-client optimizer states loadable at step 10; round-1 checkpoint saved + hashed (model sha256 667855ce…, config 0ed91253…; per-client state hashes in the run dir `smoke_manifest.json`). The miniature checkpoint's config.json was placed at the gate checker's default path, as the smoke driver is designed to do.
+
+Phases B (kill-and-resume drill: kill mid-round, verify state intact/loadable, resume to a continuous step record) and C (packaging: pooled preprocessor + A5 metadata config correction on a copy of the miniature, then the shape-exact `input_features` check on the PACKAGED form + standard load test) run after the waived gate re-run passes. Phase C's packaged-form shape check is the proof that makes the waiver sound: if the packaged form failed it, the launch would stop.
