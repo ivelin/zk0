@@ -1,0 +1,1142 @@
+{
+ "schema": "criteria-provenance/v1",
+ "created": "2026-11-25",
+ "created_by": "ring band-edge postmortem (founder order 2026-11-25 ~09:14 CT)",
+ "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class — engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink — by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it.",
+ "postmortem": "twin-replay/ring-band-postmortem-20261125.md",
+ "entries": [
+  {
+   "id": "param.MAT_SIZE",
+   "name": "MAT_SIZE",
+   "file": "twin_params.py",
+   "param": "MAT_SIZE",
+   "value": [
+    0.55,
+    0.4,
+    0.003
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.MAT_CENTER",
+   "name": "MAT_CENTER",
+   "file": "twin_params.py",
+   "param": "MAT_CENTER",
+   "value": [
+    0.3,
+    0.0
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.CUBE_EDGE",
+   "name": "CUBE_EDGE",
+   "file": "twin_params.py",
+   "param": "CUBE_EDGE",
+   "value": 0.03,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.CARTON_SIZE",
+   "name": "CARTON_SIZE",
+   "file": "twin_params.py",
+   "param": "CARTON_SIZE",
+   "value": [
+    0.09,
+    0.035,
+    0.035
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BASKET_OUTER",
+   "name": "BASKET_OUTER",
+   "file": "twin_params.py",
+   "param": "BASKET_OUTER",
+   "value": [
+    0.26,
+    0.18
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BASKET_WALL_H",
+   "name": "BASKET_WALL_H",
+   "file": "twin_params.py",
+   "param": "BASKET_WALL_H",
+   "value": 0.07,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BASKET_WALL_T",
+   "name": "BASKET_WALL_T",
+   "file": "twin_params.py",
+   "param": "BASKET_WALL_T",
+   "value": 0.003,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BOARD_R",
+   "name": "BOARD_R",
+   "file": "twin_params.py",
+   "param": "BOARD_R",
+   "value": 0.085,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BOARD_H",
+   "name": "BOARD_H",
+   "file": "twin_params.py",
+   "param": "BOARD_H",
+   "value": 0.015,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.PEG_R",
+   "name": "PEG_R",
+   "file": "twin_params.py",
+   "param": "PEG_R",
+   "value": 0.008,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.PEG_H",
+   "name": "PEG_H",
+   "file": "twin_params.py",
+   "param": "PEG_H",
+   "value": 0.07,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.RING_R_OUT",
+   "name": "RING_R_OUT",
+   "file": "twin_params.py",
+   "param": "RING_R_OUT",
+   "value": 0.0225,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.RING_R_IN",
+   "name": "RING_R_IN",
+   "file": "twin_params.py",
+   "param": "RING_R_IN",
+   "value": 0.011,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.TOOL_LEN",
+   "name": "TOOL_LEN",
+   "file": "twin_params.py",
+   "param": "TOOL_LEN",
+   "value": 0.1,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.TOOL_R",
+   "name": "TOOL_R",
+   "file": "twin_params.py",
+   "param": "TOOL_R",
+   "value": 0.005,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.BLOCK_SIZE",
+   "name": "BLOCK_SIZE",
+   "file": "twin_params.py",
+   "param": "BLOCK_SIZE",
+   "value": [
+    0.11,
+    0.07,
+    0.055
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.CABLE_R",
+   "name": "CABLE_R",
+   "file": "twin_params.py",
+   "param": "CABLE_R",
+   "value": 0.0025,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.USB_SIZE",
+   "name": "USB_SIZE",
+   "file": "twin_params.py",
+   "param": "USB_SIZE",
+   "value": [
+    0.025,
+    0.012,
+    0.008
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.USB_MASS",
+   "name": "USB_MASS",
+   "file": "twin_params.py",
+   "param": "USB_MASS",
+   "value": 0.006,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.MAT_FRICTION",
+   "name": "MAT_FRICTION",
+   "file": "twin_params.py",
+   "param": "MAT_FRICTION",
+   "value": [
+    0.9,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.FLOOR_FRICTION",
+   "name": "FLOOR_FRICTION",
+   "file": "twin_params.py",
+   "param": "FLOOR_FRICTION",
+   "value": [
+    0.8,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.WALL_FRICTION",
+   "name": "WALL_FRICTION",
+   "file": "twin_params.py",
+   "param": "WALL_FRICTION",
+   "value": [
+    0.5,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.CUBE_FRICTION",
+   "name": "CUBE_FRICTION",
+   "file": "twin_params.py",
+   "param": "CUBE_FRICTION",
+   "value": [
+    0.6,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.CARTON_FRICTION",
+   "name": "CARTON_FRICTION",
+   "file": "twin_params.py",
+   "param": "CARTON_FRICTION",
+   "value": [
+    0.5,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.PLATFORM_FRICTION",
+   "name": "PLATFORM_FRICTION",
+   "file": "twin_params.py",
+   "param": "PLATFORM_FRICTION",
+   "value": [
+    0.4,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.BASKET_FRICTION",
+   "name": "BASKET_FRICTION",
+   "file": "twin_params.py",
+   "param": "BASKET_FRICTION",
+   "value": [
+    0.4,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.BOARD_FRICTION",
+   "name": "BOARD_FRICTION",
+   "file": "twin_params.py",
+   "param": "BOARD_FRICTION",
+   "value": [
+    0.5,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.PEG_FRICTION",
+   "name": "PEG_FRICTION",
+   "file": "twin_params.py",
+   "param": "PEG_FRICTION",
+   "value": [
+    0.4,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.RING_FRICTION",
+   "name": "RING_FRICTION",
+   "file": "twin_params.py",
+   "param": "RING_FRICTION",
+   "value": [
+    0.5,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.TRAY_FRICTION",
+   "name": "TRAY_FRICTION",
+   "file": "twin_params.py",
+   "param": "TRAY_FRICTION",
+   "value": [
+    0.6,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.TOOL_FRICTION",
+   "name": "TOOL_FRICTION",
+   "file": "twin_params.py",
+   "param": "TOOL_FRICTION",
+   "value": [
+    0.4,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.BLOCK_FRICTION",
+   "name": "BLOCK_FRICTION",
+   "file": "twin_params.py",
+   "param": "BLOCK_FRICTION",
+   "value": [
+    0.6,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.CLIP_FRICTION",
+   "name": "CLIP_FRICTION",
+   "file": "twin_params.py",
+   "param": "CLIP_FRICTION",
+   "value": [
+    0.5,
+    0.005,
+    0.0001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.CABLE_FRICTION",
+   "name": "CABLE_FRICTION",
+   "file": "twin_params.py",
+   "param": "CABLE_FRICTION",
+   "value": [
+    0.8,
+    0.005,
+    0.001
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 friction/restitution are literature/engine defaults, never measured (physics-parameters.md \u00a78)"
+  },
+  {
+   "id": "param.CUBE_MASS",
+   "name": "CUBE_MASS",
+   "file": "twin_params.py",
+   "param": "CUBE_MASS",
+   "value": 0.02,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.CARTON_MASS",
+   "name": "CARTON_MASS",
+   "file": "twin_params.py",
+   "param": "CARTON_MASS",
+   "value": 0.03,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.PLATFORM_TOP",
+   "name": "PLATFORM_TOP",
+   "file": "twin_params.py",
+   "param": "PLATFORM_TOP",
+   "value": [
+    0.2,
+    0.16,
+    0.004
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.PLATFORM_HEIGHT",
+   "name": "PLATFORM_HEIGHT",
+   "file": "twin_params.py",
+   "param": "PLATFORM_HEIGHT",
+   "value": 0.09,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.TRAY_SIZE",
+   "name": "TRAY_SIZE",
+   "file": "twin_params.py",
+   "param": "TRAY_SIZE",
+   "value": [
+    0.385,
+    0.27,
+    0.045
+   ],
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.TOOL_MASS",
+   "name": "TOOL_MASS",
+   "file": "twin_params.py",
+   "param": "TOOL_MASS",
+   "value": 0.07,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 value picked inside the sourced range or from the prop class, per physics-parameters.md"
+  },
+  {
+   "id": "param.RING_MASS",
+   "name": "RING_MASS",
+   "file": "twin_params.py",
+   "param": "RING_MASS",
+   "value": 0.01,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 inside the 4-15 g estimated range"
+  },
+  {
+   "id": "param.RING_SEGMENTS",
+   "name": "RING_SEGMENTS",
+   "file": "twin_params.py",
+   "param": "RING_SEGMENTS",
+   "value": 12,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 12-segment capsule approximation of the ring; Phase 4 choice, logged in physics-parameters.md \u00a74"
+  },
+  {
+   "id": "param.CLIP_CHANNEL_W",
+   "name": "CLIP_CHANNEL_W",
+   "file": "twin_params.py",
+   "param": "CLIP_CHANNEL_W",
+   "value": 0.008,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 channel width = cable diameter + ~3 mm; declared modelling approximation, physics-parameters.md \u00a76"
+  },
+  {
+   "id": "param.CABLE_N",
+   "name": "CABLE_N",
+   "file": "twin_params.py",
+   "param": "CABLE_N",
+   "value": 24,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 24 segments x 30 mm = 0.72 m chain, matching the recorded cable scale"
+  },
+  {
+   "id": "param.CABLE_SEG_LEN",
+   "name": "CABLE_SEG_LEN",
+   "file": "twin_params.py",
+   "param": "CABLE_SEG_LEN",
+   "value": 0.03,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 see CABLE_N"
+  },
+  {
+   "id": "param.CABLE_JOINT_DAMPING",
+   "name": "CABLE_JOINT_DAMPING",
+   "file": "twin_params.py",
+   "param": "CABLE_JOINT_DAMPING",
+   "value": 0.2,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 engine tuning value; no derivation recorded anywhere"
+  },
+  {
+   "id": "param.DEFAULT_FIXTURES",
+   "name": "DEFAULT_FIXTURES",
+   "file": "twin_params.py",
+   "param": "DEFAULT_FIXTURES",
+   "value": {
+    "eye_drops_to_basket": {
+     "platform": {
+      "pos": [
+       0.32,
+       -0.06,
+       0.0
+      ]
+     },
+     "basket": {
+      "pos": [
+       0.3,
+       0.15,
+       0.0
+      ]
+     }
+    },
+    "ring_insert": {
+     "board": {
+      "pos": [
+       0.3,
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "tool_insert": {
+     "tray": {
+      "pos": [
+       0.4,
+       0.0,
+       0.0
+      ]
+     },
+     "slot": {
+      "pos": [
+       0.35,
+       0.06,
+       0.045
+      ],
+      "yaw_deg": 0.0
+     }
+    },
+    "cable_clip": {
+     "clip_block": {
+      "pos": [
+       0.3,
+       0.05,
+       0.0
+      ],
+      "yaw_deg": 0.0
+     }
+    }
+   },
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "Scene geometry/material parameter; provenance tag per the physics-parameters table.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u2014 PLACEHOLDER fixture poses, superseded by Builder B fixtures.json; every use logged per episode (twin_params.py comment)"
+  },
+  {
+   "id": "param.FPS",
+   "name": "FPS",
+   "file": "twin_params.py",
+   "pattern": "FPS = 20.0",
+   "value": 20.0,
+   "kind": "PROTOCOL",
+   "status": "DERIVED",
+   "derivation": "Read at import from the dataset's own metadata (meta/info.json field 'fps' = 20); the 20.0 literal is only the fallback for that verified value (v1.1 fix F-05).",
+   "source": "twin_params.py FPS RESOLUTION comment; twin-replay/docs/builder1-v11-harness.md Fix 3"
+  },
+  {
+   "id": "param.CABLE_SEG_MASS",
+   "name": "CABLE_SEG_MASS",
+   "file": "twin_params.py",
+   "pattern": "CABLE_SEG_MASS = 0.045 / 24",
+   "value": 0.001875,
+   "kind": "SCENE",
+   "status": "LABELED",
+   "derivation": "45 g total cable mass (inside the MASS_RANGES cable_total range) divided by 24 segments.",
+   "source": "twin_params.py; twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.TIMESTEP",
+   "name": "TIMESTEP",
+   "file": "twin_params.py",
+   "param": "TIMESTEP",
+   "value": 0.0005,
+   "kind": "PROTOCOL",
+   "status": "DERIVED",
+   "derivation": "Integrator-stability experiment: cable chain exploded at 500 Hz, 1000 Hz fixed 1 of 2 test episodes, 2000 Hz fixed both (v1.1 changelog #14).",
+   "source": "twin_params.py TIMESTEP comment"
+  },
+  {
+   "id": "param.SETTLE_S",
+   "name": "SETTLE_S",
+   "file": "twin_params.py",
+   "param": "SETTLE_S",
+   "value": 1.0,
+   "kind": "PROTOCOL",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('physics settles for 1.0 s')",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.VARIANT_SEED",
+   "name": "VARIANT_SEED",
+   "file": "twin_params.py",
+   "param": "VARIANT_SEED",
+   "value": 20261122,
+   "kind": "PROTOCOL",
+   "status": "LABELED",
+   "derivation": "Arbitrary fixed seed (the suite date); a seed needs no derivation by design \u2014 recorded here so the exemption is explicit, not silent.",
+   "source": "twin_params.py"
+  },
+  {
+   "id": "param.VARIANT_K",
+   "name": "VARIANT_K",
+   "file": "twin_params.py",
+   "param": "VARIANT_K",
+   "value": 5,
+   "kind": "PROTOCOL",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "K=5 variants per episode is the founder's variant design (TWIN-REPLAY REFINEMENTS, 2026-11-22 17:47 CT) and the founder-approved twin-suite v2 gate uses K=5.",
+   "source": "Founder refinements of 2026-11-22 (scene variants per task) and the founder-approved twin-suite v2 preregistration, twin-replay/twin-suite-v2-preregistration-20261122.md (K=5)"
+  },
+  {
+   "id": "param.JITTER",
+   "name": "JITTER",
+   "file": "twin_params.py",
+   "param": "JITTER",
+   "value": {
+    "high": [
+     0.005,
+     3.0
+    ],
+    "medium": [
+     0.01,
+     6.0
+    ]
+   },
+   "kind": "PROTOCOL",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin_params.py comment: 'a logged SAMPLING CHOICE standing in for B's quantitative error estimate (flagged in the validation report)'",
+   "disposition": "Placeholder for pose-error numbers that were never measured; flagged as such since v1. Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.MASS_RANGES",
+   "name": "MASS_RANGES",
+   "file": "twin_params.py",
+   "param": "MASS_RANGES",
+   "value": {
+    "cube_a": [
+     0.01,
+     0.035
+    ],
+    "cube_b": [
+     0.01,
+     0.035
+    ],
+    "carton": [
+     0.02,
+     0.045
+    ],
+    "ring": [
+     0.004,
+     0.015
+    ],
+    "tool": [
+     0.05,
+     0.1
+    ],
+    "cable_total": [
+     0.04,
+     0.06
+    ]
+   },
+   "kind": "PROTOCOL",
+   "status": "DERIVED",
+   "derivation": "Sampling ranges taken from Builder A's sourced mass ranges in the physics-parameters tables.",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "param.FRICTION_MULT_RANGE",
+   "name": "FRICTION_MULT_RANGE",
+   "file": "twin_params.py",
+   "param": "FRICTION_MULT_RANGE",
+   "value": [
+    0.8,
+    1.2
+   ],
+   "kind": "PROTOCOL",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin_params.py comment ('+-20% where Builder A gives no range')",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.GRASP_DIST_M",
+   "name": "GRASP_DIST_M",
+   "file": "twin_params.py",
+   "param": "GRASP_DIST_M",
+   "value": 0.03,
+   "kind": "DEVICE",
+   "status": "RATIONALE-ONLY",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: '3.0 cm \u2248 one cube-edge / ring-radius scale' \u2014 a scale heuristic, not a measurement",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.ATTACH_CLOSEDNESS",
+   "name": "ATTACH_CLOSEDNESS",
+   "file": "twin_params.py",
+   "param": "ATTACH_CLOSEDNESS",
+   "value": 0.5,
+   "kind": "DEVICE",
+   "status": "RATIONALE-ONLY",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: '50% is the midpoint of the recorded close stroke' \u2014 heuristic; the absolute form proved unimplementable and was replaced by per-episode p5/p99 normalisation (twin_params.py comment)",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.RELEASE_CLOSEDNESS",
+   "name": "RELEASE_CLOSEDNESS",
+   "file": "twin_params.py",
+   "param": "RELEASE_CLOSEDNESS",
+   "value": 0.3,
+   "kind": "DEVICE",
+   "status": "RATIONALE-ONLY",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: hysteresis vs the 50% attach threshold 'prevents flicker' \u2014 heuristic",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.GRIP_MIN_EXCURSION_DEG",
+   "name": "GRIP_MIN_EXCURSION_DEG",
+   "file": "twin_params.py",
+   "param": "GRIP_MIN_EXCURSION_DEG",
+   "value": 5.0,
+   "kind": "DEVICE",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin_params.py gripper-normalisation comment (no basis stated)",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.SLOT_SIZE",
+   "name": "SLOT_SIZE",
+   "file": "twin_params.py",
+   "param": "SLOT_SIZE",
+   "value": [
+    0.11,
+    0.032
+   ],
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin_params.py: marked LOCAL-CHOICE; v1 verifier finding F-04: 'never sourced from the recordings'. Later MEASURED WRONG from the episodes themselves: the real slot is ~81 mm long with a ~23 mm waist (independent second-opinion measurement, 2026-11-24)",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.SECONDARY_THRESH_M",
+   "name": "SECONDARY_THRESH_M",
+   "file": "twin_params.py",
+   "param": "SECONDARY_THRESH_M",
+   "value": {
+    "block_stack": 0.03,
+    "eye_drops_to_basket": 0.03,
+    "tool_insert": 0.03,
+    "ring_insert": 0.02,
+    "cable_clip": null
+   },
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) (secondary criterion: 3.0 cm block/eye/tool, ring 2.0 cm when not engaged, cable exempt) \u2014 registered convention, no derivation recorded",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.RING_THICK",
+   "name": "RING_THICK",
+   "file": "twin_params.py",
+   "param": "RING_THICK",
+   "value": 0.012,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "The value 0.012 is the ring's MEASURED axial thickness, but the scorer consumes it as the tube diameter in ring_bottom = centre_z - RING_THICK/2 \u2014 a measured number in the wrong role (independent critique flag P1, 2026-11-24, upheld the same day). The corrected role value 0.0115 was adopted into the canonical criteria record on 2026-11-24; the real part was measured from held-out episodes as a flat-faced washer, axial 12.0 mm.",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.CABLE_CHAN_X_HALF_M",
+   "name": "CABLE_CHAN_X_HALF_M",
+   "file": "twin_params.py",
+   "param": "CABLE_CHAN_X_HALF_M",
+   "value": 0.012,
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "Equals the built clip-jaw half-length exactly (build_scenes.py clip_jaw_a/b half-extents x = 0.012 m), per the independent v1.1 code verification (V11-02).",
+   "source": "twin-replay/docs/verification-v11-code.md V11-02; twin_params.py FP-B comment"
+  },
+  {
+   "id": "param.CABLE_CHAN_Y_EXTRA_M",
+   "name": "CABLE_CHAN_Y_EXTRA_M",
+   "file": "twin_params.py",
+   "param": "CABLE_CHAN_Y_EXTRA_M",
+   "value": 0.002,
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "Channel half-width + 0.002 m reaches exactly the jaw inner faces' outer edge in the built geometry (V11-02 measurement against build_scenes.py).",
+   "source": "twin-replay/docs/verification-v11-code.md V11-02; twin_params.py FP-B comment"
+  },
+  {
+   "id": "param.CABLE_CHAN_Z_HALF_M",
+   "name": "CABLE_CHAN_Z_HALF_M",
+   "file": "twin_params.py",
+   "param": "CABLE_CHAN_Z_HALF_M",
+   "value": 0.012,
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "RATIONALE-ONLY",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin_params.py FP-B comment: z bound is 'twice the jaw half-height (+/-0.006 m)' \u2014 the x2 multiplier is a choice, not a measurement",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "param.CABLE_MAX_RADIAL_M",
+   "name": "CABLE_MAX_RADIAL_M",
+   "file": "twin_params.py",
+   "param": "CABLE_MAX_RADIAL_M",
+   "value": 1.0,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "DERIVED",
+   "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
+   "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
+  },
+  {
+   "id": "param.CABLE_Z_MIN_M",
+   "name": "CABLE_Z_MIN_M",
+   "file": "twin_params.py",
+   "param": "CABLE_Z_MIN_M",
+   "value": -0.05,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "DERIVED",
+   "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
+   "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
+  },
+  {
+   "id": "param.CABLE_Z_MAX_M",
+   "name": "CABLE_Z_MAX_M",
+   "file": "twin_params.py",
+   "param": "CABLE_Z_MAX_M",
+   "value": 0.5,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "DERIVED",
+   "derivation": "Solver-failure envelope justified from workspace geometry (table within ~0.6 m of origin, total cable length 0.72 m) and the observed bimodality of v1 results (intact <=0.63 m; explosions 1.15-13.8 m).",
+   "source": "twin-replay/docs/builder1-v11-harness.md Fix 4"
+  },
+  {
+   "id": "code.ring_band",
+   "name": "ring low_ok band [0.0, 0.010] -- REMOVED 2026-11-25",
+   "file": "replay.py",
+   "value": "[0.0, 0.010] (removed from replay.py evaluate() 2026-11-25)",
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "The band itself never had a derivation -- that was the defect. Its REMOVAL is the founder's recorded decision: the hand-made band approach is rejected, and the seat check is now the physical test (engagement + seat-support contact + settled state) recorded in code.ring_seat_test. The quantity bottom_above_board_m remains in evaluate()'s output as a non-gating diagnostic only.",
+   "source": "Original defect: lower edge set to exactly 0.0 by the v1.1 fixpass (Builder 1 report: '0 <= ring_bottom - board_top <= 1 cm (v1 credited 5 mm interpenetration)') for textual fidelity to the preregistration; a settled ring reads ~-3 um in the band-edge probe (2026-11-24), so every proven-flat seat failed on this field alone. Removed under: founder ruling 2026-11-25 11:50 CT (zk0 chat) -- replace the band with a physical test: the ring passes only if it is actually engaged on the peg and settled, read from the physics engine's resolved state. Record: twin-replay/ring-band-postmortem-20261125.md.",
+   "disposition": "RESOLVED 2026-11-25: band deleted from replay.py evaluate() and replaced by code.ring_seat_test. Record pointer: twin-replay/ring-band-postmortem-20261125.md (enactment addendum)."
+  },
+  {
+   "id": "code.ring_seat_test",
+   "name": "ring seat test = engaged + seat-support contact + settled (physical state; no height band)",
+   "file": "replay.py",
+   "pattern": "success = bool(engaged and seat_support and settled)",
+   "covers_literals": [],
+   "value": "boolean physical-state test (no numeric threshold)",
+   "kind": "SCORING",
+   "quantity": "physics-state",
+   "status": "FOUNDER-DECIDED",
+   "derivation": "Founder ruling 2026-11-25 11:50 CT: the seat check reads the physics engine's resolved state instead of a hand-made height band. No chosen numbers: (i) ENGAGED = planar distance within the parts' physical radial clearance RING_R_IN - PEG_R (see code.ring_clearance) AND the ring's vertical extent overlapping the peg's span, both computed from the scene's own geometry (ring hole 22 mm and peg taper ~19.5->15.55 mm measured on the real parts, ring-peg-evidence-20261124.md; modelled peg 16 mm dia. per physics-parameters.md); (ii) SEAT SUPPORT = a contact pair with the board or peg body at settle end -- the same contact-based primary style as the other four tasks; (iii) SETTLED = no active grasp weld on the ring and no arm contact (engine constraint/contact state), and speed below |gravity| x timestep read from the model itself -- one integration step of gravitational velocity gain, the engine's own resolution of 'at rest' (a body in free fall for one step reaches exactly that speed; settled bodies measure orders of magnitude below it). Rim speed converts angular speed with the measured outer radius RING_R_OUT.",
+   "source": "Founder ruling 2026-11-25 11:50 CT (zk0 chat); recommended disposition in twin-replay/ring-band-postmortem-20261125.md; geometry: twin-replay/physics-parameters.md (Builder A, 2026-11-22), ring-peg-evidence-20261124.md (measured real parts)."
+  },
+  {
+   "id": "code.tool_angle",
+   "name": "tool axis angle <= 20 deg",
+   "file": "replay.py",
+   "pattern": "ang <= 20.0",
+   "covers_literals": [
+    20.0
+   ],
+   "value": 20.0,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('tool axis within 20\u00b0 of the slot axis') \u2014 registered convention, no derivation recorded. Real seated-bar rest angles measured from held-out episodes are <=~5.5 deg (2026-11-24).",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "code.block_inset",
+   "name": "block footprint inset factor 0.75 (25%)",
+   "file": "replay.py",
+   "pattern": "inset = (e / 2) * 0.75",
+   "covers_literals": [
+    0.75
+   ],
+   "value": 0.75,
+   "kind": "SCORING",
+   "quantity": "engine-resolved",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('center within the lower cube's top footprint (inset by 25%)') \u2014 registered convention, no derivation recorded",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "code.ring_clearance",
+   "name": "ring engagement = planar <= RING_R_IN - PEG_R (3 mm)",
+   "file": "replay.py",
+   "pattern": "engaged = planar <= clearance",
+   "covers_literals": [],
+   "value": "RING_R_IN - PEG_R = 0.003",
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "Physical radial clearance of the modelled parts: the peg cannot pass through the hole beyond RING_R_IN - PEG_R. Computed from measured geometry, not a chosen tolerance (v1's silent +5 mm +2 mm additions were removed by the v1.1 fixpass).",
+   "source": "replay.py evaluate(); twin-replay/docs/verification-v11-code.md (ring section)"
+  },
+  {
+   "id": "code.eye_footprint",
+   "name": "eye centre-inside-basket footprint (BASKET_OUTER/2 - BASKET_WALL_T)",
+   "file": "replay.py",
+   "pattern": "abs(pc[0] - bk[0]) <= P.BASKET_OUTER[0] / 2 - P.BASKET_WALL_T",
+   "covers_literals": [],
+   "value": "basket interior footprint",
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "Containment in the basket's physical interior: outer dimensions minus wall thickness, from the measured basket geometry. No added tolerance.",
+   "source": "replay.py evaluate(); twin-replay/physics-parameters.md (Builder A, 2026-11-22)"
+  },
+  {
+   "id": "code.cable_chan_z",
+   "name": "cable channel centre offset +0.006",
+   "file": "replay.py",
+   "pattern": "chan_z = P.BLOCK_SIZE[2] + 0.006",
+   "covers_literals": [
+    0.006
+   ],
+   "value": 0.006,
+   "kind": "SCORING",
+   "quantity": "input-geometry",
+   "status": "DERIVED",
+   "derivation": "The jaw half-height (build_scenes.py clip_jaw half-extents z = 0.006 m): the channel centre sits one jaw half-height above the block top.",
+   "source": "twin_params.py FP-B comment; twin-suite-v11-docs/verification-v11-code.md V11-02"
+  },
+  {
+   "id": "code.evaluate_incidentals",
+   "name": "evaluate() incidental numerics (indices, rounding, sentinel)",
+   "file": "replay.py",
+   "pattern": "seated, nearest = False, 1e9",
+   "covers_literals": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    1000000000.0
+   ],
+   "value": "0, 1, 2, 3, 4, 6, 1e9",
+   "kind": "CODE",
+   "status": "LABELED",
+   "derivation": "Not thresholds: coordinate indices (0/1/2), quaternion half-angle factor (2), diagnostic rounding digits (1/3/4 dp in reported checks; 6 dp for the ring seat test's recorded speeds and rest bound, a reporting precision only -- no gate reads the rounded values), and the 1e9 nearest-distance sentinel initialiser. Recorded so the literal census of evaluate() is complete and any NEW numeric literal fails the provenance test until classified.",
+   "source": "replay.py evaluate()"
+  },
+  {
+   "id": "code.reproduced_frac",
+   "name": "episode REPRODUCED fraction >= 0.6",
+   "file": "run_validation.py",
+   "pattern": "frac >= 0.6",
+   "covers_literals": [
+    0.6
+   ],
+   "value": 0.6,
+   "kind": "SCORING",
+   "quantity": "agreement-statistic",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay-amendment1-20261122.md A2 ('an episode counts as REPRODUCED if >=60% of its variants agree'). The amendment folds in the founder's 2026-11-22 17:47 CT refinements, but the 60% value itself carries no recorded derivation.",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  },
+  {
+   "id": "code.bar_80",
+   "name": "task certification bar >= 0.8 outcome agreement",
+   "file": "run_validation.py",
+   "pattern": ">= 0.8",
+   "covers_literals": [
+    0.8
+   ],
+   "value": 0.8,
+   "kind": "SCORING",
+   "quantity": "agreement-statistic",
+   "status": "UNDERIVED",
+   "flagged": true,
+   "derivation": "",
+   "source": "twin-replay/twin-replay-preregistration-20261122.md (coordinator, 2026-11-22) ('outcome agreement >= 80%') \u2014 registered convention, no derivation recorded. Superseded as the operative gate by the founder-approved twin-suite v2 standard (Wilson lower bound >=60%, twin-replay/twin-suite-v2-preregistration-20261122.md).",
+   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+  }
+ ]
+}
