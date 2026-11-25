@@ -330,11 +330,21 @@ def evaluate(model, data, task, epi, mujoco):
       interior footprint AND the carton's resting support is the basket:
       contact with the basket body present, and NO contact with the platform
       body or the world (mat/floor/walls).
-    - ring_insert: SUCCESS iff the ring is seated on the peg (engagement
-      boolean): peg passes through the ring hole -- planar ring-to-peg
-      distance <= physical radial clearance (RING_R_IN - PEG_R) -- and the
-      ring's lowest point is within 1 cm above the board top surface
-      (0 <= ring_bottom - board_top <= 0.010; no interpenetration credit).
+    - ring_insert: SUCCESS iff the ring is seated on the peg, scored as a
+      physical state (founder ruling 2026-11-25, replacing the former
+      height band -- twin-replay/ring-band-postmortem-20261125.md):
+      (i) ENGAGED -- the peg passes through the ring hole: planar
+      ring-to-peg distance <= physical radial clearance (RING_R_IN -
+      PEG_R) and the ring's vertical extent overlaps the peg's span;
+      (ii) SEAT SUPPORT -- at settle end the ring is in contact with the
+      board or the peg (contact pair present, the same primary style as
+      the other tasks); (iii) SETTLED -- the ring is not held by the
+      grasp device (no active weld on the ring, no arm contact) and its
+      speed is below one integration step of gravitational velocity gain
+      (|v| and rim speed |omega| * RING_R_OUT both under |gravity| *
+      timestep, read from the model) -- at rest at the engine's own time
+      resolution. bottom_above_board_m is still computed and recorded as
+      a diagnostic only; it no longer gates.
     - tool_insert: SUCCESS iff tool centre within the slot footprint
       (evaluated in the SLOT frame, yaw applied), tool axis within 20 deg of
       the slot axis, and the tool is resting in the tray (contact with the
@@ -431,11 +441,56 @@ def evaluate(model, data, task, epi, mujoco):
         planar = float(np.linalg.norm(pr[:2] - np.array(bp[:2])))
         clearance = P.RING_R_IN - P.PEG_R   # physical radial clearance, 3 mm
         engaged = planar <= clearance
+        # ENGAGED, vertical clause (founder ruling 2026-11-25): the peg
+        # must actually pass through the hole, so the ring's vertical
+        # extent must overlap the peg's span [board top, peg top]. Ring
+        # z half-extent from its own built geometry (build_scenes.py):
+        # mid-radius x sin(tilt) + tube radius.
+        axis = B.qrot(qr, np.array([0, 0, 1.0]))
+        rmid = (P.RING_R_OUT + P.RING_R_IN) / 2
+        tube = min((P.RING_R_OUT - P.RING_R_IN) / 2, P.RING_THICK / 2)
+        half_ext = rmid * math.sqrt(max(0.0, 1.0 - float(axis[2]) ** 2)) + tube
+        peg_lo = bp[2] + bt
+        peg_hi = peg_lo + P.PEG_H
+        engaged = bool(engaged and (pr[2] - half_ext) < peg_hi and (pr[2] + half_ext) > peg_lo)
+        # SEAT SUPPORT: contact with the board or the peg at settle end
+        # (contact-pair presence -- the same primary style as the other
+        # tasks' criteria; replaces the former height band, whose edge a
+        # settled seat cannot reach: band-edge probe 2026-11-24).
+        rcontacts = contacts_with("ring")
+        seat_support = bool(rcontacts & {"board", "peg"})
+        # SETTLED: not held by the grasp device -- no active weld on the
+        # ring (the device of physics-parameters.md s.7; replay.py's own
+        # weld discovery is by the weld_<obj> name prefix) and no arm
+        # contact -- and at rest at the engine's own time resolution:
+        # speed below one integration step of gravitational velocity
+        # gain, |g| * dt, with g and dt read from the model. A body in
+        # free fall for one step reaches exactly |g| * dt; a settled
+        # body sits orders of magnitude below it.
+        held = bool(rcontacts & set(ARM_BODIES))
+        for eq in range(model.neq):
+            eq_name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_EQUALITY, eq)
+            if eq_name and eq_name.startswith("weld_ring") and data.eq_active[eq]:
+                held = True
+        rid = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, "ring")
+        vel6 = np.array(data.cvel[rid])
+        mujoco.mj_objectVelocity(model, data, mujoco.mjtObj.mjOBJ_BODY, rid, vel6, 0)
+        lin_speed = float(np.linalg.norm(vel6[3:]))
+        rim_speed = float(np.linalg.norm(vel6[:3])) * P.RING_R_OUT
+        rest_bound = float(np.linalg.norm(model.opt.gravity) * model.opt.timestep)
+        settled = bool(not held and lin_speed < rest_bound and rim_speed < rest_bound)
+        success = bool(engaged and seat_support and settled)
+        # diagnostic only (no longer gating): the former band's quantity
         ring_bottom = pr[2] - P.RING_THICK / 2
-        low_ok = 0.0 <= (ring_bottom - bt) <= 0.010
-        success = bool(engaged and low_ok)
         res["checks"] = {"planar_to_peg_m": round(planar, 4), "engaged": bool(engaged),
                          "hole_clearance_m": round(float(clearance), 4),
+                         "seat_support_contact": seat_support,
+                         "ring_contacts": sorted(str(x) for x in rcontacts),
+                         "held_by_device": held,
+                         "settled": settled,
+                         "ring_speed_m_s": round(lin_speed, 6),
+                         "ring_rim_speed_m_s": round(rim_speed, 6),
+                         "rest_speed_bound_m_s": round(rest_bound, 6),
                          "bottom_above_board_m": round(float(ring_bottom - bt), 4)}
         res["objects_final"] = {"ring": pr.tolist()}
         res["planar_err_m"] = None if engaged else planar_err("ring")

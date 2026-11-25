@@ -194,3 +194,52 @@ execution failed at grasp/lift before the seat. Its demonstrated harm
 is prospective and diagnostic: it fails every deliberately-placed
 correct seat (37/37), and it would have failed the first genuinely
 successful seat the program produces.
+
+---
+
+## Addendum — enactment of the ruling (2026-11-25, later the same day)
+
+The founder ruled (2026-11-25 11:50 CT, zk0 chat) that the ring seat
+check be replaced by a physical test, and corrected the fix's priority
+the same day (12:00 CT): the load-bearing deliverable is the upstream
+gate, not the exhibit cases. Both are enacted locally on branch
+`criteria-provenance-20261125` (uncommitted working tree at the time of
+writing; the ship decision is the founder's):
+
+1. **Physical seat test** (`twin-replay/code/replay.py`, ring branch of
+   `evaluate()`): the band `0.0 <= bottom_above_board_m <= 0.010` is
+   deleted. The ring passes the seat check iff `engaged and
+   seat_support and settled`, all read from the physics engine's
+   resolved state — the peg passes through the ring's hole across the
+   peg's span (planar bound = the parts' own measured clearance,
+   hole Ø22 mm − peg Ø16 mm in the frozen build's modelled geometry),
+   the ring is in contact with the board or the peg at settle end, and
+   it is settled: no gripper contact, no active grasp weld, and body
+   and rim speeds below one integration step of gravitational velocity
+   gain (|g|·dt from the model's own gravity and timestep — the
+   engine's rest resolution, not a chosen epsilon). `bottom_above_board_m`
+   is still recorded, diagnostic only. Manifest: `code.ring_band` is
+   FOUNDER-DECIDED (abolished by the ruling) and superseded by
+   `code.ring_seat_test`. Symptom check: the postmortem's exhibits flip
+   correctly — the 34 recorded flat seats and 3 corrected-washer seats
+   pass; the floating ep48 v2 end state fails (no support contact at
+   its recorded pose). The A2 run's own result files were not in the
+   local record; the floating verdict rests on the A2 report's recorded
+   pose values.
+2. **The gate is strengthened** (`tests/unit/test_criteria_provenance.py`):
+   every SCORING entry now declares a `quantity` class, a band on an
+   engine-resolved quantity without a derivation is a hard failure, and
+   the flagged queue is closed at the 15 entries this postmortem
+   recorded — it may only shrink. Drilled: a fresh underived band
+   injected into the block criterion PASSED the pre-strengthening test
+   when its author self-flagged it (the hole), and FAILS the
+   strengthened gate; the same injection into the tool criterion fails;
+   an unclassified band fails the census; the honest tree is green.
+   The remaining 15 flagged thresholds are untouched and remain listed
+   as flagged pending their own founder rulings.
+3. **Owed syncs (divergences, not edited here)**: the Drake cross-engine
+   port (`twin-replay/twin-suite-v2/drake/drake_replay.py`) still
+   carries the identical band and is outside the manifest's scope; the
+   HF `zk0bot/sim-scene-solutions` `criteria/` folder still holds the
+   band; DGX live-tree copies of `replay.py` still hold the band.
+   Propagation is a maintainer decision.
