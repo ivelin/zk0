@@ -83,8 +83,11 @@ the decision record is `criteria-rulings-20261125.md`):
   (confirmed second opinion); `code.tool_angle` 20° → 6° (the measured
   end-wall lean cap; observed rest angles ≤ 5.5°); `CABLE_CHAN_Z_HALF_M`
   0.012 → 0.006 (the built clip-jaw half-height, like the x bound);
-  `RING_THICK` 0.012 → 0.0115 (the measured tube diameter; the washer's
-  axial thickness had been in the wrong role); `JITTER` → the measured
+  `RING_THICK` 0.012 → 0.0115 (not a measurement of the real ring —
+  a flat-faced washer with no tube, axial ~12.0 mm measured; 11.5 mm
+  is the built torus's tube diameter, adopted by the founder ruling of
+  2026-11-24, ring-peg-evidence-20261124.md §6; the former 0.012 was
+  the washer's axial thickness in the wrong role); `JITTER` → the measured
   pooled pose-error tier (xy p90 0.088 m, n=73; per-axis σ 0.0426 m now
   feeds the live sampler) with yaw recorded as an unmeasured null.
 - *Converted to physics-state reads*: the fixed `SETTLE_S` wait →
