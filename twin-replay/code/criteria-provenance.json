@@ -917,8 +917,8 @@
    "kind": "SCORING",
    "quantity": "input-geometry",
    "status": "DERIVED",
-   "derivation": "The built ring's tube diameter, measured: the real ring's tube is 11.5 mm in diameter (the value the corrected arm/simulation work uses as 'baseline, real'), adopted into the canonical criteria record on 2026-11-24. The former 0.012 was the ring's MEASURED axial thickness (a flat-faced washer, axial 12.0 mm) consumed in the tube-diameter role -- a measured number in the wrong role (independent critique flag P1, 2026-11-24, upheld the same day). Post-seat-test (PR #51) RING_THICK's scorer role is the non-gating bottom_above_board_m diagnostic and the ring's built geometry; the capsule tube the builders construct is min((RING_R_OUT - RING_R_IN)/2, RING_THICK/2) = 5.75 mm under either value, so no built geometry changes.",
-   "source": "ring-thickness-diagnostic-20261124.md (validator-sets-20261123): '11.5 mm (baseline, real)'; ring-peg-evidence-20261124.md (measured real parts).",
+   "derivation": "Not a measurement of the real ring: the real ring is a flat-faced annular washer with no tube, and its measured axial thickness is ~12.0 mm (11.9-12.5 mm, from-episode). The 11.5 mm is the BUILT torus's tube diameter -- the build code caps the capsule tube radius at (RING_R_OUT - RING_R_IN)/2 = 5.75 mm -- adopted as the scorer's RING_THICK, a criterion parameter for the modelled tube, by the founder ruling of 2026-11-24 06:43 CT (ring-peg-evidence-20261124.md section 6). The former 0.012 was that measured washer axial thickness consumed in the tube-diameter role -- a measured number in the wrong role (independent critique flag P1, 2026-11-24, upheld the same day). Post-seat-test (PR #51) RING_THICK's scorer role is the non-gating bottom_above_board_m diagnostic and the ring's built geometry; the capsule tube the builders construct is min((RING_R_OUT - RING_R_IN)/2, RING_THICK/2) = 5.75 mm under either value, so no built geometry changes.",
+   "source": "ring-peg-evidence-20261124.md section 6 (validator-sets-20261123): the 11.5 mm figure 'exists only as the built torus's tube diameter', adopted as the scorer's RING_THICK by the founder ruling of 2026-11-24 06:43 CT recorded there; the same section measures the real washer's axial height at ~12.0 mm (11.9-12.5) from-episode.",
    "disposition": "RESOLVED 2026-11-25 by the criteria A+B change (queued behind PR #51): see the derivation and criteria-rulings-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
@@ -1046,7 +1046,7 @@
   },
   {
    "id": "code.tool_angle",
-   "name": "tool axis angle <= 20 deg",
+   "name": "tool axis angle <= 6 deg",
    "file": "replay.py",
    "pattern": "ang <= 6.0",
    "covers_literals": [

@@ -93,9 +93,14 @@ PEG_H = 0.070                          # above board top
 PEG_FRICTION = (0.4, 0.005, 0.0001)
 RING_R_OUT = 0.0225
 RING_R_IN = 0.011
-RING_THICK = 0.0115   # built ring tube diameter (mm-scale measured value:
-                      # the real ring's tube is 11.5 mm; 0.012 was the
-                      # washer's axial thickness in the wrong role --
+RING_THICK = 0.0115   # built torus tube diameter (11.5 mm): the build code
+                      # caps the tube radius at (RING_R_OUT - RING_R_IN)/2
+                      # = 5.75 mm; adopted as the criterion parameter for
+                      # the modelled tube by founder ruling 2026-11-24
+                      # 06:43 CT (ring-peg-evidence-20261124.md section 6)
+                      # -- NOT a measurement of the real ring (a flat
+                      # washer, axial ~12.0 mm measured); 0.012 was that
+                      # axial thickness in the wrong role --
                       # criteria-provenance.json param.RING_THICK)
 RING_MASS = 0.010
 RING_FRICTION = (0.5, 0.005, 0.0001)
