@@ -15,3 +15,4 @@ Entries appended as the run progresses. Times are America/Chicago (CT).
 - Full-path miniature smoke incl. kill-and-resume drill
 - Launch (on gate + smoke pass), 30 rounds at the registered budget, full-state checkpoints ≤30 min apart
 - Canary judging (40-episode canary, hardest first) → final eval + two-judge certification → results lock Mon Nov 30 EOD
+- **~14:40 — Experiment branch created.** `experiment/qa-adamw-carry-20261125` branched from `study001/fl-substrate-20261121` @ `6301d104`; these records committed (`ecfa7ff3`). Pointer issue #54 opened: https://github.com/ivelin/zk0/issues/54

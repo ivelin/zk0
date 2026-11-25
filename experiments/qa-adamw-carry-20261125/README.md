@@ -35,3 +35,5 @@ Certified PASS pool is 249 (246 CLEAN + 3 RECOVERED; ep604 is the only certified
 - Full-path smoke: **pending**
 - Launch: on gate + smoke pass, no calendar wait (founder acceleration 2026-11-25 ~14:28 CT)
 - Run home on the DGX: `~/muse-work/zk0-qa-relaunch-20261125/` (guard telemetry mirror staging stays on-box there; this branch is the durable off-box record)
+
+**Pointer issue:** [#54](https://github.com/ivelin/zk0/issues/54) — summary pointer to this branch, updated at milestones; closes when results lock Mon Nov 30, 2026.
