@@ -28,7 +28,8 @@ alone is not a gate; the gate is):
 6. The FLAGGED queue is CLOSED. It holds exactly the underived entries
    the 2026-11-25 postmortem recorded (FROZEN_FLAGGED_QUEUE below; 15
    entries after the ring band's resolution, shrunk to the 3 gripper
-   entries by the criteria A+B change the same day) and may only
+   entries by the criteria A+B change the same day, and to zero by the
+   gripper follow-up change the same day) and may only
    SHRINK — when an entry gains a derivation, is converted to a
    physics-state read, or is removed by a founder ruling. A NEW
    underived threshold can no longer be admitted by flagging it: any
@@ -99,14 +100,13 @@ QUANTITY_CLASSES = {
 # by measurement-derived values; SETTLE_S, GRASP_DIST_M and
 # code.block_inset left by conversion to physics-state reads;
 # FRICTION_MULT_RANGE, SECONDARY_THRESH_M, code.reproduced_frac and
-# code.bar_80 left by founder ruling. What remains is the gripper
-# cluster, whose derivation from the arm-calibration plateau data was
-# commissioned 2026-11-25 and lands as a follow-up change.
-FROZEN_FLAGGED_QUEUE = {
-    "param.ATTACH_CLOSEDNESS",
-    "param.GRIP_MIN_EXCURSION_DEG",
-    "param.RELEASE_CLOSEDNESS",
-}
+# code.bar_80 left by founder ruling. The gripper cluster then left by
+# measurement-derived values in the gripper follow-up change the same
+# day (ATTACH_CLOSEDNESS 0.47, RELEASE_CLOSEDNESS 0.35,
+# GRIP_MIN_EXCURSION_DEG 4.4; gripper-constants-derivation-20261125.md).
+# The queue is now EMPTY: no underived threshold remains flagged, and
+# the closed-queue rule still bars any new entry.
+FROZEN_FLAGGED_QUEUE = set()
 
 
 def _load_manifest():

@@ -2,7 +2,7 @@
  "schema": "criteria-provenance/v1",
  "created": "2026-11-25",
  "created_by": "ring band-edge postmortem (founder order 2026-11-25 ~09:14 CT)",
- "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class \u2014 engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink \u2014 by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it. AMENDED 2026-11-25 (criteria A+B change, queued behind PR #51): twelve of the fifteen flagged entries were resolved -- five by measurement-derived values (SLOT_SIZE, code.tool_angle, CABLE_CHAN_Z_HALF_M, RING_THICK, JITTER xy), three by conversion to physics-state reads (SETTLE_S, GRASP_DIST_M, code.block_inset), four by founder ruling (FRICTION_MULT_RANGE and SECONDARY_THRESH_M adopted as decided conventions, code.reproduced_frac aligned to the v2 Wilson standard, code.bar_80 struck as superseded). The flagged queue now holds exactly the three gripper-device entries (ATTACH_CLOSEDNESS, RELEASE_CLOSEDNESS, GRIP_MIN_EXCURSION_DEG), whose derivation from the arm-calibration plateau data was commissioned 2026-11-25 and lands as a follow-up change.",
+ "rule": "Every numeric threshold in a frozen criterion needs a recorded derivation (a physical measurement or a founder decision). An underived number is a defect: it may exist in the record only as a FLAGGED entry with a pending disposition, never silently. Enforced by tests/unit/test_criteria_provenance.py. STRENGTHENED 2026-11-25 (founder correction, 12:00 CT): every SCORING entry declares a 'quantity' class \u2014 engine-resolved (a height, position, gap, angle, settle or contact outcome the physics engine already resolves), input-geometry (a dimension of a built/measured object, which must cite its measurement), agreement-statistic (a fraction over verdicts), or physics-state (a boolean read of engine state, no numeric band). A threshold on an engine-resolved quantity with no derivation is a hard failure, and the FLAGGED queue is CLOSED: it holds exactly the entries the 2026-11-25 postmortem recorded (15 after the ring band's resolution) and may only shrink \u2014 by derivation, by conversion to a physics-state read, or by founder ruling. A new underived threshold cannot be admitted by flagging it. AMENDED 2026-11-25 (criteria A+B change, queued behind PR #51): twelve of the fifteen flagged entries were resolved -- five by measurement-derived values (SLOT_SIZE, code.tool_angle, CABLE_CHAN_Z_HALF_M, RING_THICK, JITTER xy), three by conversion to physics-state reads (SETTLE_S, GRASP_DIST_M, code.block_inset), four by founder ruling (FRICTION_MULT_RANGE and SECONDARY_THRESH_M adopted as decided conventions, code.reproduced_frac aligned to the v2 Wilson standard, code.bar_80 struck as superseded). The flagged queue now holds exactly the three gripper-device entries (ATTACH_CLOSEDNESS, RELEASE_CLOSEDNESS, GRIP_MIN_EXCURSION_DEG), whose derivation from the arm-calibration plateau data was commissioned 2026-11-25 and lands as a follow-up change. AMENDED 2026-11-25 (gripper follow-up change): the three gripper-device entries were resolved by measurement-derived values from the arm-calibration plateau data (ATTACH_CLOSEDNESS 0.47, RELEASE_CLOSEDNESS 0.35, GRIP_MIN_EXCURSION_DEG 4.4; gripper-constants-derivation-20261125.md). The flagged queue is now EMPTY -- every gated threshold in the frozen criteria carries a recorded derivation or a founder ruling.",
  "postmortem": "twin-replay/ring-band-postmortem-20261125.md",
  "entries": [
   {
@@ -828,39 +828,36 @@
    "name": "ATTACH_CLOSEDNESS",
    "file": "twin_params.py",
    "param": "ATTACH_CLOSEDNESS",
-   "value": 0.5,
+   "value": 0.47,
    "kind": "DEVICE",
-   "status": "RATIONALE-ONLY",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: '50% is the midpoint of the recorded close stroke' \u2014 heuristic; the absolute form proved unimplementable and was replaced by per-episode p5/p99 normalisation (twin_params.py comment)",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "Minimum-error point of the measured separation between approach-open levels (OA_e) and rising-stroke peaks (SP_e) on the 324 certified episodes of armnet/armnetbench_v01_lerobot_so101 @ 1db69c82 (fit train n=247/205, validated held-out): optimum 0.467, 3 train + 1 held-out episode-errors at the delivered 0.47 vs 4 + 2 at the 0.50 placeholder. gripper-constants-derivation-20261125.md \u00a7\u00a73-4 (validator-sets-20261123). States from the arm-calibration plateau detector (state channel), signal = action channel in replay.closedness_trace normalisation.",
+   "source": "gripper-constants-derivation-20261125.md \u00a7\u00a73-4 (validator-sets-20261123).",
+   "disposition": "RESOLVED 2026-11-25 by the gripper follow-up change: see the derivation and gripper-constants-derivation-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.RELEASE_CLOSEDNESS",
    "name": "RELEASE_CLOSEDNESS",
    "file": "twin_params.py",
    "param": "RELEASE_CLOSEDNESS",
-   "value": 0.3,
+   "value": 0.35,
    "kind": "DEVICE",
-   "status": "RATIONALE-ONLY",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin-replay/physics-parameters.md (Builder A, 2026-11-22) \u00a77: hysteresis vs the 50% attach threshold 'prevents flicker' \u2014 heuristic",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "Minimum-error point of the measured separation between weakest verified-hold levels (H_e) and post-release trace minima on the same 324 certified episodes (fit train n=247, validated held-out n=74): optimum 0.351, basin [0.351, 0.418] within +2 errors; 19 train (9 premature / 10 never) + 0 held-out episode-errors at the delivered 0.35 vs 22 + 1 at the 0.30 placeholder. Derived as a pair with ATTACH_CLOSEDNESS: optima satisfy 0.467 > 0.351, so the hysteresis ordering is measured, not asserted. gripper-constants-derivation-20261125.md \u00a7\u00a74-5.",
+   "source": "gripper-constants-derivation-20261125.md \u00a7\u00a74-5 (validator-sets-20261123).",
+   "disposition": "RESOLVED 2026-11-25 by the gripper follow-up change: see the derivation and gripper-constants-derivation-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.GRIP_MIN_EXCURSION_DEG",
    "name": "GRIP_MIN_EXCURSION_DEG",
    "file": "twin_params.py",
    "param": "GRIP_MIN_EXCURSION_DEG",
-   "value": 5.0,
+   "value": 4.4,
    "kind": "DEVICE",
-   "status": "UNDERIVED",
-   "flagged": true,
-   "derivation": "",
-   "source": "twin_params.py gripper-normalisation comment (no basis stated)",
-   "disposition": "Pending founder disposition under the 2026-11-25 ruling (no invented thresholds); see twin-replay/ring-band-postmortem-20261125.md"
+   "status": "DERIVED",
+   "derivation": "Midpoint of the measured feasible interval (0.93, 7.81) channel units: the largest observed no-actuation swing (cable ep1896, 0.93; the only no-verified-hold, near-zero-swing episode in the 350-episode verdict pool) and the smallest genuine swing over all 324 certified episodes (7.81, tool_insert ep938; held-out min 10.60). 0/324 genuine episodes excluded at 4.4 (identical profile at the 5.0 placeholder). Excursion separates actuation from a dead channel, not grasp from no-grasp (ep1903/ep1905 swung ~29 units with no verified hold). gripper-constants-derivation-20261125.md \u00a76.",
+   "source": "gripper-constants-derivation-20261125.md \u00a76 (validator-sets-20261123).",
+   "disposition": "RESOLVED 2026-11-25 by the gripper follow-up change: see the derivation and gripper-constants-derivation-20261125.md (validator-sets-20261123); founder rulings 2026-11-25 (zk0 chat)."
   },
   {
    "id": "param.SLOT_SIZE",
