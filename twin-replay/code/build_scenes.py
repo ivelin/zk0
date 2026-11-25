@@ -147,16 +147,27 @@ def make_draws(task, epi, poses, k):
     objs = (poses or {}).get("objects", {})
     draws = {"jitter": {}, "mass": {}, "friction_mult": {}}
     for b in bodies:
-        # Amendment 1: jitter sampled from Builder B's per-pose sigma
-        # estimates (Gaussian, 1 sigma = B's sigma_xy_cm / sigma_yaw_deg).
+        # Amendment 1: jitter sampled from per-pose sigma estimates
+        # (Gaussian, clipped at +/- sigma per F-13 below).
         if b == "cable":
             sxy, syaw = 0.08, 0.0  # B: cable layout descriptor-grade, sigma 8 cm
+            # (the cable has no point reference, so the 2026-11-25
+            # pose-error measurement does not cover it; unchanged)
         else:
-            o = objs.get(b) or {}
-            sxy = (o.get("sigma_xy_cm") or 3.5) / 100.0
-            syaw = o.get("sigma_yaw_deg") or 0.0
-        # v1.1 (F-13): Amendment 1 samples pose jitter WITHIN Builder B's
-        # per-pose error estimate; v1's Gaussian was unbounded. Sampler is
+            # Founder ruling 2026-11-25: the xy sigma is the MEASURED
+            # pooled per-axis pose-error sigma (P.JITTER_SIGMA_XY_M =
+            # 0.0426 m, n=73 held-out, jitter-pose-error-measurement-
+            # 20261125.md) for every body and tier -- the measured
+            # per-tier sigmas (high 0.046 / medium 0.039 m) do not
+            # stratify, and the pose files' per-pose rubric sigmas
+            # (sigma_xy_cm / sigma_yaw_deg from the pose-estimation.md
+            # budget) were a budget, not a measurement. Yaw error is
+            # UNMEASURED: no yaw jitter is sampled (the pose files'
+            # sigma_yaw_deg are PCA axis-stability figures, never
+            # validated as an error).
+            sxy, syaw = P.JITTER_SIGMA_XY_M, 0.0
+        # v1.1 (F-13): Amendment 1 samples pose jitter WITHIN the pose
+        # error estimate; v1's Gaussian was unbounded. Sampler is
         # now a Gaussian clipped at the registered bound (+/- sigma).
         def _clip_gauss(sigma):
             if sigma <= 0: return 0.0
@@ -524,16 +535,21 @@ def build(task, epi, poses, fixtures, var=None):
         # to seat into (verification-objects-assets.md F3). Construction:
         # a full-footprint slab up to (th - depth) whose top face is the
         # recess floor, plus rim boxes filling the top layer around the
-        # recess opening. Footprint = P.SLOT_SIZE (110x32 mm, the recorded
-        # LOCAL-CHOICE slot size in twin_params.py), centred on the slot
-        # fixture pose in tray-local coordinates. Depth = 5 mm [ESTIMATE,
-        # not measured: set to the loose tool's radius (P.TOOL_R) so a
-        # seated tool's centre rests at tray-top height, matching the
-        # recorded tool_final z = tray top = 0.045 m]. The recess floor
-        # carries the red backing colour seen in the frames
+        # recess opening. Footprint = P.SLOT_SIZE and depth = P.SLOT_DEPTH,
+        # both MEASURED 2026-11-24 (P3, confirmed by the independent
+        # second opinion, tool-slot-second-opinion-20261124.md): channel
+        # 81 mm long, width plateau 29 mm (the ~23 mm waist is a local
+        # narrowing the rectangular recess cannot express), depth working
+        # figure 15 mm (bound >= ~15 mm at the socket section). The
+        # former LOCAL-CHOICE 110x32 mm footprint and the 5 mm depth
+        # [ESTIMATE, set to the loose tool's radius] are superseded by
+        # that measurement; a seated tool's centre now rests below tray
+        # top, as the measurement shows the real bar's top at or below
+        # the foam surface. The recess floor carries the red backing
+        # colour seen in the frames
         # (scene-inventory.md section 6: tray has red recess backing).
         sw, sd = P.SLOT_SIZE
-        depth = P.TOOL_R
+        depth = P.SLOT_DEPTH
         lx, ly = sp[0] - tp[0], sp[1] - tp[1]
         rx0, rx1 = max(lx - sw / 2, -tw / 2), min(lx + sw / 2, tw / 2)
         ry0, ry1 = max(ly - sd / 2, -td / 2), min(ly + sd / 2, td / 2)

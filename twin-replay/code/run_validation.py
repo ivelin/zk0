@@ -3,14 +3,16 @@
 Per included episode (Builder B initial-pose confidence medium+; cable_clip
 governed by clip_block confidence with the cable layout coarse — see
 report), builds K=5 variant scenes (seed 20261122) and runs all variants.
-Episode REPRODUCED iff >=60% of its VALID variants (no build defect, no
-error) agree with the recorded outcome. Secondary position criterion is
-assessed on the nominal variant (v0). Outputs
+Episode REPRODUCED iff the Wilson score LOWER bound (z=1.96) of its
+VALID-variant agreement fraction is >= 0.60 -- the founder-approved
+twin-suite v2 standard, aligned 2026-11-25 (the former flat >=60%
+fraction overclaimed at small variant counts). Secondary position
+criterion is assessed on the nominal variant (v0). Outputs
 validation/validation_results.json with per-task summaries, certified
 variant sets, fragile episodes and named exclusions.
 Usage: run_validation.py [--workers 6] [--render] [--tasks a,b]
 """
-import json, sys
+import json, math, sys
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 import numpy as np
@@ -21,6 +23,20 @@ import build_scenes as B
 import replay as R
 
 CONF_OK = {"medium", "high"}
+
+def wilson_lower_bound(k, n, z=1.96):
+    """Wilson score interval lower bound for k successes in n trials --
+    the founder-approved twin-suite v2 standard (twin-suite-v2-
+    preregistration-20261122.md: PASS iff the Wilson lower bound of
+    pooled success is >= 60%; z=1.96 as in the v2 controls-battery
+    analyzer, twin-suite-v2/controls_battery/analyze.py)."""
+    if n == 0:
+        return 0.0
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return max(0.0, c - h)
 
 def one(job):
     task, epi, k, render = job
@@ -99,7 +115,7 @@ def main():
             if agree: agreeing.append(r["variant"]); certified.append(r["variant"])
             if r["variant"] == 0: nominal = r
         frac = len(agreeing) / len(valid) if valid else 0.0
-        reproduced = bool(valid) and frac >= 0.6
+        reproduced = bool(valid) and wilson_lower_bound(len(agreeing), len(valid)) >= 0.6
         ep_out = {"task": task, "episode": epi, "recorded_success": rec_succ,
                   "n_variants": len(rs), "valid_variants": valid,
                   "agreeing_variants": agreeing, "certified_variants": certified,
@@ -131,8 +147,7 @@ def main():
                       "valid_variants": d["valid_total"],
                       "fragile_episodes": d["fragile"],
                       "solver_failure_variants": d["solver_failures"],
-                      "nominal_secondary_passes": d["secondary_passes"],
-                      "bar_80pct_met": bool(d["included"] and d["reproduced"] / d["included"] >= 0.8)}
+                      "nominal_secondary_passes": d["secondary_passes"]}
     out = {"suite_version": P.SUITE_VERSION, "seed": P.VARIANT_SEED,
            "param_hash": B.param_table_hash(), "summary": summary,
            "excluded": excluded, "episodes": episodes_out}
