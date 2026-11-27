@@ -1,17 +1,31 @@
-# Use the official LeRobot CPU base image for CI compatibility
-FROM huggingface/lerobot-cpu:latest
+# Index digest for python:3.10-slim-bookworm (linux/amd64).
+# Pin is the image index, not a moving tag.
+FROM python:3.10-slim-bookworm@sha256:5be5aaecb962a41567bc8041f1e9e3432cb085b037fe057f9a562630b2e4b370
 
-# Install OpenCV for video processing in LeRobot datasets
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_SYSTEM_PYTHON=1
 
-# Set environment variables for better Python behavior
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV UV_LINK_MODE=copy
-
-# Create a working directory for the application
-# The app code will be mounted at runtime
 WORKDIR /workspace
 
-# Default command (can be overridden)
-# The actual app code will be mounted at /workspace
+# Proven needed by Actions run 46032167161: lerobot 0.3.3 -> pynput -> evdev
+# builds from source and needs linux/input.h plus a C compiler.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        linux-libc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# uv is how docker/Dockerfile.zk0 installs the ML stack; reuse it on the CPU CI image.
+RUN pip install --no-cache-dir uv
+
+# CI pins torch==2.7.1 and torchvision==0.22.1 from the CPU index.
+# Production docker/Dockerfile.zk0 installs unpinned torch from cu121
+# (about 2.5.1). Pinning production torch is a follow-up.
+RUN uv pip install --system --no-cache \
+        torch==2.7.1 torchvision==0.22.1 \
+        --index-url https://download.pytorch.org/whl/cpu \
+    && uv pip install --system --no-cache lerobot==0.3.3
+
 CMD ["echo", "Container ready. Mount your app code to /workspace and run commands."]

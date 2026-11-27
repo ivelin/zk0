@@ -26,17 +26,17 @@ jobs:
         context: .
         file: docker/Dockerfile.ci
         load: true
-        tags: zk0-ci:latest
+        tags: zk0-ci:bookworm
 
     - name: Run ${{ matrix.test-type }} tests in Docker
       run: |
         docker run --rm \
           -v ${{ github.workspace }}:/workspace \
           -e CUDA_VISIBLE_DEVICES="" \
-          zk0-ci:latest \
+          zk0-ci:bookworm \
           bash -c "
             cd /workspace &&
             export CI=true &&
-            uv pip install -e '.[test]' &&
-            pytest ${{ matrix.test-path }} -x --tb=short --durations=10 --no-cov -n ${{ matrix.parallel }}
+            uv pip install --system -e '.[test]' &&
+            pytest ${{ matrix.test-path }} -x --tb=short --durations=10 -n ${{ matrix.parallel }}
           "
