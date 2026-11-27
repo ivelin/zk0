@@ -12,10 +12,36 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Fail on new unit-test skips or a neutered CI workflow
+    - name: Run base self-check against this tree
       env:
         GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
-      run: python3 ci/self_check.py
+        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        ZK0_ROOT: ${{ github.workspace }}
+      run: |
+        set -euo pipefail
+        BASE="${GITHUB_BASE_SHA:-}"
+        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          BASE="${GITHUB_EVENT_BEFORE:-}"
+        fi
+        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          echo "self-check: missing base SHA"
+          exit 1
+        fi
+        mkdir -p /tmp/zk0-base-ci
+        if git cat-file -e "${BASE}:ci/self_check.py"; then
+          git show "${BASE}:ci/self_check.py" > /tmp/zk0-base-ci/self_check.py
+          if git cat-file -e "${BASE}:ci/allowed_skips.txt"; then
+            git show "${BASE}:ci/allowed_skips.txt" > /tmp/zk0-base-ci/allowed_skips.txt
+          else
+            : > /tmp/zk0-base-ci/allowed_skips.txt
+          fi
+          export ZK0_ALLOWLIST=/tmp/zk0-base-ci/allowed_skips.txt
+          python3 /tmp/zk0-base-ci/self_check.py
+        else
+          echo "self-check: base ${BASE} has no ci/self_check.py; running HEAD bootstrap"
+          python3 ci/self_check.py
+        fi
+        python3 ci/test_self_check.py
 
   test:
     name: ${{ matrix.test-type }} UnitTests

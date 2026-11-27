@@ -1,4 +1,5 @@
 # Explicit allowlist of unit-test skips that already exist on main.
-# One entry per line: path::test_function_name
+# One entry per line: path:lineno::function::kind:condition
 # Newly added pytest.skip / skip markers / xfail in tests/unit fail CI.
-tests/unit/test_client_app.py::test_client_fn_loads_env
+# skipif True at tests/unit/test_client_app.py line 202
+tests/unit/test_client_app.py:202::test_client_fn_loads_env::skipif:True
