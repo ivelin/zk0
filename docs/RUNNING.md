@@ -241,10 +241,10 @@ To troubleshoot restarts (e.g., PSU overload), use sys_monitor_logs.sh:
 - **Dataset Issues**: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync. See [ARCHITECTURE](ARCHITECTURE) for details.
 - **Doubled Datasets**: Automatic hotfix for GitHub issue #1875 applied during loading.
 - **Model Loading**: Automatic fallback to simulated training if issues arise.
-- **Performance**: Use `pytest -n auto` for parallel testing (see [DEVELOPMENT](DEVELOPMENT)).
+- **Performance**: Use `pytest -n auto` for parallel testing (see [CONTRIBUTING.md](../CONTRIBUTING.md)).
 - **SafeTensors Errors**: Switch to `local-simulation-serialized-gpu` or Docker for isolation.
 - **GPU Not Detected**: Verify CUDA installation and `nvidia-smi` output.
 
-For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW](TECHNICAL-OVERVIEW).
+For advanced troubleshooting, check `simulation.log` in outputs.
 
 If issues persist, ensure you're following the constraints in [INSTALLATION](INSTALLATION) and the memory bank in `.kilocode/rules/memory-bank/`.

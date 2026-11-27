@@ -47,7 +47,6 @@ Nothing here says the federated model is good. This piece is about a training ma
 ## The receipts
 
 - The public execution record, on the zk0 repo: [study001/fl-substrate-20261121](https://github.com/ivelin/zk0/tree/study001/fl-substrate-20261121?utm_source=blog&utm_medium=signal&utm_campaign=piece1-box-died&utm_content=technical)
-- The postmortem and reproduction notes behind this piece: [research_notes/zk0-dgx-outage2-20261121/](https://github.com/ivelin/zk0/tree/study001/fl-substrate-20261121/research_notes/zk0-dgx-outage2-20261121?utm_source=blog&utm_medium=signal&utm_campaign=piece1-box-died&utm_content=technical)
 - Root cause certified by an independent verifier from raw telemetry, 2026-11-21.
 
 ## Raise your hand

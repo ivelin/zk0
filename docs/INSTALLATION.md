@@ -180,15 +180,15 @@ with torch.no_grad():
 - **Dataset Issues**: System uses 0.0001s tolerance (1/fps) for accurate timestamp sync. See [ARCHITECTURE.md](ARCHITECTURE.md) for details.
 - **Doubled Datasets**: Automatic hotfix for GitHub issue #1875 applied during loading.
 - **Model Loading**: Automatic fallback to simulated training if issues arise.
-- **Performance**: Use `pytest -n auto` for parallel testing (see [DEVELOPMENT.md](DEVELOPMENT.md)).
+- **Performance**: Use `pytest -n auto` for parallel testing (see [CONTRIBUTING.md](../CONTRIBUTING.md)).
 - **SafeTensors Errors**: Switch to `local-simulation-serialized-gpu` or Docker for isolation.
 - **Slow Execution**: Check logs for "Running test() on device 'cpu'". Ensure `model.to(device)` is called in code (added in src/server_app.py and src/task.py).
 - **Dependency Conflicts**: Comment out "torch>=2.5.0" in pyproject.toml to avoid reinstalls; install manually with CUDA index.
 - **Video Decoding**: If "No accelerated backend detected", install CUDA toolkit: `conda install cudatoolkit=13.0 -c nvidia` and set `export VIDEO_BACKEND=torchcodec`.
 - **GPU Not Detected**: Verify CUDA installation and `nvidia-smi` output.
 
-For advanced troubleshooting, check `simulation.log` in outputs or consult [TECHNICAL-OVERVIEW](TECHNICAL-OVERVIEW).
+For advanced troubleshooting, check `simulation.log` in outputs.
 
-If issues persist, ensure you're following the constraints in [INSTALLATION](INSTALLATION) and the development guidelines in [DEVELOPMENT](DEVELOPMENT).
+If issues persist, ensure you're following the constraints in [INSTALLATION](INSTALLATION) and the development guidelines in [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 For other environments with torch CUDA issues, use the same pip install command with the appropriate CUDA version (e.g., cu121 for CUDA 12.1).

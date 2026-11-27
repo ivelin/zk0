@@ -689,5 +689,5 @@ For implementation details, see source files like [`src/task.py`](src/task.py) f
 - LeRobot: [Evaluation Docs](https://huggingface.co/docs/lerobot/evaluation).
 - Flower: [Simulation Guide](https://flower.ai/docs/framework/how-to-run-simulations.html).
 - Tools: imageio for videos; cv2 for analysis.
-- [DEVELOPMENT.md](DEVELOPMENT.md) for development guidelines and testing.
+- [CONTRIBUTING.md](../CONTRIBUTING.md) for development guidelines and testing.
 - [INSTALLATION.md](INSTALLATION.md) for environment setup and execution instructions.
