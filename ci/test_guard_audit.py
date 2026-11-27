@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import guard_audit as ga  # noqa: E402
 
 REPO = "ivelin/zk0"
+HEAD = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 MERGE = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 PARENT = "cccccccccccccccccccccccccccccccccccccccc"
 FIRST = "1111111111111111111111111111111111111111"
@@ -26,12 +27,17 @@ class FakeProc:
 
 
 class FakeGh(ga.Gh):
-    def __init__(self, responses: dict[str, Any]) -> None:
+    def __init__(self, responses: dict[str, Any], label_ok: bool = True) -> None:
         super().__init__(REPO, run=self._run)
         self.responses = responses
         self.issues: list[list[str]] = []
+        self.label_ok = label_ok
 
     def _run(self, args: list[str], capture_output: bool = True, text: bool = True):
+        if args[:2] == ["gh", "label"] and "create" in args:
+            return FakeProc(returncode=0 if self.label_ok else 1)
+        if args[:3] == ["gh", "api", f"repos/{REPO}/labels/{ga.LABEL}"]:
+            return FakeProc(returncode=0 if self.label_ok else 1)
         if args[:3] == ["gh", "issue", "create"]:
             self.issues.append(args)
             return FakeProc()
@@ -55,8 +61,25 @@ def compare(*shas: str, total_commits: int | None = None) -> dict:
     }
 
 
-def commit_payload(*files: str) -> dict:
-    return {"files": [{"filename": f} for f in files]}
+def commit_payload(*files: str, parents: int = 1) -> dict:
+    return {
+        "files": [{"filename": f} for f in files],
+        "parents": [{"sha": f"p{i}"} for i in range(parents)],
+    }
+
+
+def merged_pr(head: str = HEAD, merge: str = MERGE, number: int = 71) -> dict:
+    return {
+        "number": number,
+        "merged_at": "2026-11-27T00:00:00Z",
+        "merge_commit_sha": merge,
+        "html_url": f"https://github.com/{REPO}/pull/{number}",
+        "head": {"sha": head},
+    }
+
+
+def review(login: str, commit_id: str, state: str = "APPROVED") -> dict:
+    return {"state": state, "user": {"login": login}, "commit_id": commit_id}
 
 
 def issue_title(args: list[str]) -> str:
@@ -67,6 +90,10 @@ def issue_assignee(args: list[str]) -> str:
     return args[args.index("--assignee") + 1]
 
 
+def issue_body(args: list[str]) -> str:
+    return args[args.index("--body") + 1]
+
+
 class GuardAuditTests(unittest.TestCase):
     def _audit(self, gh: FakeGh, **kwargs) -> int:
         kwargs.setdefault("sha", MERGE)
@@ -75,68 +102,115 @@ class GuardAuditTests(unittest.TestCase):
         kwargs.setdefault("event_name", "push")
         return ga.audit(REPO, gh=gh, **kwargs)
 
-    def test_guarded_change_in_first_of_two_commits_opens_issue(self) -> None:
+    def test_every_guarded_change_opens_exactly_one_record(self) -> None:
         gh = FakeGh(
             {
                 f"repos/{REPO}/compare/{PARENT}...{SECOND}": compare(FIRST, SECOND),
                 f"repos/{REPO}/commits/{FIRST}": commit_payload("ci/guard_audit.py"),
-                f"repos/{REPO}/commits/{SECOND}": commit_payload("README.md"),
+                f"repos/{REPO}/commits/{SECOND}": commit_payload(".github/CODEOWNERS"),
             }
         )
         code = self._audit(gh, sha=SECOND)
         self.assertEqual(code, 0)
         self.assertEqual(len(gh.issues), 1)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(FIRST))
+        self.assertEqual(issue_title(gh.issues[0]), ga.record_title(SECOND))
         self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        body = issue_body(gh.issues[0])
+        self.assertIn("ci/guard_audit.py", body)
+        self.assertIn(".github/CODEOWNERS", body)
+        self.assertIn(f"Range: {PARENT}..{SECOND}", body)
 
-    def test_unguarded_push_opens_no_issue(self) -> None:
+    def test_unguarded_push_opens_none(self) -> None:
         gh = FakeGh(
             {
                 f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
-                f"repos/{REPO}/commits/{MERGE}": commit_payload("README.md", "docs/x.md"),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload("README.md"),
             }
         )
         self.assertEqual(self._audit(gh), 0)
         self.assertFalse(gh.issues)
 
-    def test_empty_file_list_fails_closed_and_opens_issue(self) -> None:
+    def test_ivelin_approved_review_still_opens_record_marked_yes(self) -> None:
         gh = FakeGh(
             {
                 f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
-                f"repos/{REPO}/commits/{MERGE}": commit_payload(),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+                f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
+                f"repos/{REPO}/pulls/71/reviews": [review("ivelin", HEAD)],
             }
         )
-        self.assertEqual(self._audit(gh), 1)
+        self.assertEqual(self._audit(gh), 0)
         self.assertEqual(len(gh.issues), 1)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        body = issue_body(gh.issues[0])
+        self.assertIn("API-verified ivelin APPROVED review at head: yes", body)
+        self.assertIn("never suppress or close this record", body)
 
-    def test_compare_truncated_fails_closed_and_opens_issue(self) -> None:
+    def test_forged_or_comment_approvals_have_no_effect(self) -> None:
         gh = FakeGh(
             {
-                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(
-                    MERGE, total_commits=3
-                ),
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+                f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
+                f"repos/{REPO}/pulls/71/reviews": [review("not-ivelin", HEAD)],
+                f"repos/{REPO}/issues/71/comments": [
+                    {"user": {"login": "ivelin"}, "body": f"APPROVED {HEAD}"},
+                ],
+            }
+        )
+        self.assertEqual(self._audit(gh), 0)
+        self.assertEqual(len(gh.issues), 1)
+        body = issue_body(gh.issues[0])
+        self.assertIn("API-verified ivelin APPROVED review at head: no", body)
+
+    def test_s11_truncated_compare_opens_record_multi_page(self) -> None:
+        pages = [
+            {"commits": [{"sha": FIRST}], "total_commits": 5},
+            {"commits": [{"sha": MERGE}], "total_commits": 5},
+        ]
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": pages,
+                f"repos/{REPO}/commits/{FIRST}": commit_payload("README.md"),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload("docs/x.md"),
             }
         )
         self.assertEqual(self._audit(gh), 1)
         self.assertEqual(len(gh.issues), 1)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        self.assertEqual(issue_title(gh.issues[0]), ga.record_title(MERGE))
+        self.assertIn("total_commits=5", issue_body(gh.issues[0]))
 
-    def test_before_all_zeros_fails_closed_and_opens_issue(self) -> None:
-        gh = FakeGh({})
-        code = self._audit(gh, before=ga.ZERO_SHA)
-        self.assertEqual(code, 1)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+    def test_empty_file_list_on_non_merge_opens_record(self) -> None:
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(parents=1),
+            }
+        )
+        self.assertEqual(self._audit(gh), 1)
+        self.assertEqual(len(gh.issues), 1)
+        self.assertEqual(issue_title(gh.issues[0]), ga.record_title(MERGE))
 
-    def test_forced_push_fails_closed_and_opens_issue(self) -> None:
+    def test_forced_push_opens_record(self) -> None:
         gh = FakeGh({})
-        code = self._audit(gh, forced=True)
-        self.assertEqual(code, 1)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        self.assertEqual(self._audit(gh, forced=True), 1)
+        self.assertEqual(len(gh.issues), 1)
+        self.assertEqual(issue_title(gh.issues[0]), ga.record_title(MERGE))
+
+    def test_before_all_zeros_opens_record(self) -> None:
+        gh = FakeGh({})
+        self.assertEqual(self._audit(gh, before=ga.ZERO_SHA), 1)
+        self.assertEqual(len(gh.issues), 1)
+
+    def test_record_created_without_label_if_label_missing(self) -> None:
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload("ci/x.py"),
+            },
+            label_ok=False,
+        )
+        self.assertEqual(self._audit(gh), 0)
+        self.assertNotIn("--label", gh.issues[0])
 
     def test_flatten_slurp_pages(self) -> None:
         self.assertEqual(ga.flatten_slurp([[1], [2, 3]]), [1, 2, 3])
@@ -156,8 +230,7 @@ class Ba1ConditionalGuardedPathsTests(unittest.TestCase):
         )
         code = ga.audit(REPO, MERGE, before=PARENT, gh=gh)
         self.assertEqual(code, 0)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        self.assertEqual(len(gh.issues), 1)
 
     def test_pyproject_toml_is_guarded(self) -> None:
         self.assertTrue(ga.guarded("pyproject.toml"))
@@ -169,8 +242,7 @@ class Ba1ConditionalGuardedPathsTests(unittest.TestCase):
         )
         code = ga.audit(REPO, MERGE, before=PARENT, gh=gh)
         self.assertEqual(code, 0)
-        self.assertEqual(issue_title(gh.issues[0]), ga.review_issue_title(MERGE))
-        self.assertEqual(issue_assignee(gh.issues[0]), "ivelin")
+        self.assertEqual(len(gh.issues), 1)
 
 
 if __name__ == "__main__":
