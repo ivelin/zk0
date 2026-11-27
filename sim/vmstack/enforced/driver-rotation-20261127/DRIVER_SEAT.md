@@ -39,8 +39,10 @@ start. Everything runs on this machine (the DGX) inside the seat dir:
    before it counts as a candidate. A live completion alone is not a
    solution.
 7. **You never judge your own work.** Certification is two blind
-   frontier judges from OTHER model families plus the founder's eyes on
-   disputes. Driving and judging are separate seats.
+   frontier judges under the protocol SSOT §2.7 panel rule — both
+   sandboxed and blind; at most one may share your family, and the
+   second is from a different family than the driver — plus the
+   founder's eyes on disputes. Driving and judging are separate seats.
 
 ## Starting and stopping the seat
 
@@ -112,6 +114,12 @@ Key fields of the summary object:
                                jaw_contact, frames_in_trace, last_fault}
 
 Look at the renders after every increment — that is the closed loop.
+STANDING RULE (founder, restated 2026-11-27 13:46 CT): the driver's
+visual input is THIS live three-camera feed from the running scene,
+refreshed after every command — never stills, frame slices, sampled
+subsets, or pre-cut recordings handed over as the driving input. The
+same parity binds judges (SSOT §2.7 judge-input parity): full
+three-camera video + full telemetry record, no sampled verdicts.
 The three registered cameras (top / front / wrist) are the only
 viewpoints; there is no god view.
 
