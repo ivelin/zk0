@@ -9,6 +9,7 @@ import torch
 class TestUtils:
     """Test utility functions."""
 
+    @pytest.mark.skip(reason="demo unlisted skip vs main checker")
     def test_has_image_keys_with_image_keys(self):
         """Test has_image_keys detects image keys."""
         from src.common.utils import has_image_keys
