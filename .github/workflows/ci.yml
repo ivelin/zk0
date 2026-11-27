@@ -19,32 +19,37 @@ jobs:
         ZK0_ROOT: ${{ github.workspace }}
       run: |
         set -euo pipefail
+        unset PYTHONPATH
         BASE="${GITHUB_BASE_SHA:-}"
         if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
           BASE="${GITHUB_EVENT_BEFORE:-}"
         fi
         if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          git fetch --no-tags origin main
+          BASE="$(git merge-base origin/main HEAD)"
+        fi
+        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
           echo "self-check: missing base SHA"
           exit 1
         fi
-        # Materialize under the checkout so Path(__file__).parents[1] is the
-        # repo even when the base checker predates ZK0_ROOT.
-        BASE_DIR="${ZK0_ROOT}/.zk0-base-ci"
-        mkdir -p "$BASE_DIR"
+        export GITHUB_BASE_SHA="$BASE"
+        TMP="${RUNNER_TEMP}/zk0-base-ci"
+        CWD="${RUNNER_TEMP}/zk0-self-check-cwd"
+        mkdir -p "$TMP" "$CWD"
         if git cat-file -e "${BASE}:ci/self_check.py"; then
-          git show "${BASE}:ci/self_check.py" > "${BASE_DIR}/self_check.py"
+          git show "${BASE}:ci/self_check.py" > "${TMP}/self_check.py"
           if git cat-file -e "${BASE}:ci/allowed_skips.txt"; then
-            git show "${BASE}:ci/allowed_skips.txt" > "${BASE_DIR}/allowed_skips.txt"
+            git show "${BASE}:ci/allowed_skips.txt" > "${TMP}/allowed_skips.txt"
           else
-            : > "${BASE_DIR}/allowed_skips.txt"
+            : > "${TMP}/allowed_skips.txt"
           fi
-          export ZK0_ALLOWLIST="${BASE_DIR}/allowed_skips.txt"
-          python3 "${BASE_DIR}/self_check.py"
+          export ZK0_ALLOWLIST="${TMP}/allowed_skips.txt"
+          (cd "$CWD" && python3 -I "${TMP}/self_check.py")
         else
           echo "self-check: base ${BASE} has no ci/self_check.py; running HEAD bootstrap"
-          python3 ci/self_check.py
+          (cd "$CWD" && python3 -I "${ZK0_ROOT}/ci/self_check.py")
         fi
-        python3 ci/test_self_check.py
+        python3 -I "${ZK0_ROOT}/ci/test_self_check.py"
 
   test:
     name: ${{ matrix.test-type }} UnitTests

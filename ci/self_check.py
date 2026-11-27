@@ -56,9 +56,11 @@ def base_ref() -> str:
     before = _nonzero_sha(os.environ.get("GITHUB_EVENT_BEFORE", ""))
     if before:
         return before
+    mb = git("merge-base", "origin/main", "HEAD").strip()
+    if mb:
+        return mb
     raise GitError(
-        "no base SHA: set GITHUB_BASE_SHA (pull_request.base.sha) or "
-        "GITHUB_EVENT_BEFORE (github.event.before)"
+        "no base SHA: set GITHUB_BASE_SHA, GITHUB_EVENT_BEFORE, or origin/main"
     )
 
 
@@ -428,6 +430,7 @@ def mask_re() -> re.Pattern[str]:
         r"if\s+[Ff]alse\b",
         r"if:\s*\$\{\{\s*false\s*\}\}",
         r"if:\s*false\b",
+        r";\s*true\b",
     ]
     return re.compile("|".join(f"(?:{p})" for p in parts))
 
@@ -465,6 +468,10 @@ def check_ci_not_neutered(root: Path | None = None) -> list[str]:
             errors.append("ci.yml self-check job is disabled")
         if "self_check.py" not in job_exec:
             errors.append("ci.yml self-check job does not invoke self_check.py")
+    if re.search(r"(?m)^  test:", raw) and not re.search(r"needs:\s*self-check", raw):
+        errors.append("ci.yml dropped needs: self-check")
+    if (root / ".zk0-base-ci").exists():
+        errors.append("poison path .zk0-base-ci present")
 
     scan_suffixes = {".yml", ".yaml", ".sh", ".txt", ".py"}
     scan_files = [workflow, root / "ci" / "self_check.py", root / "docker" / "Dockerfile.ci"]

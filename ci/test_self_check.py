@@ -35,6 +35,7 @@ jobs:
     steps:
     - run: python3 ci/self_check.py
   test:
+    needs: self-check
     runs-on: ubuntu-latest
     steps:
     - run: pytest tests/unit
@@ -147,6 +148,22 @@ class NeuterDetectionTests(unittest.TestCase):
         )
         errors = sc.check_ci_not_neutered(root)
         self.assertTrue(any("Dockerfile.ci" in e for e in errors), errors)
+
+    def test_semicolon_true(self) -> None:
+        yml = MIN_CI_YML.replace("pytest tests/unit", "pytest tests/unit; true")
+        errors = sc.check_ci_not_neutered(self._tree(yml))
+        self.assertTrue(any("masked" in e for e in errors), errors)
+
+    def test_dropped_needs_self_check(self) -> None:
+        yml = MIN_CI_YML.replace("    needs: self-check\n", "")
+        errors = sc.check_ci_not_neutered(self._tree(yml))
+        self.assertTrue(any("dropped needs: self-check" in e for e in errors), errors)
+
+    def test_poison_zk0_base_ci_dir(self) -> None:
+        root = self._tree(MIN_CI_YML)
+        _write(root, ".zk0-base-ci/subprocess.py", "raise SystemExit(0)\n")
+        errors = sc.check_ci_not_neutered(root)
+        self.assertTrue(any(".zk0-base-ci" in e for e in errors), errors)
 
     def test_pytest_k_filter_detected(self) -> None:
         self.assertEqual(sc.extract_pytest_filters("pytest tests/unit -k foo")[0], "foo")
