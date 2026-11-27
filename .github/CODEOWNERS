@@ -1,2 +1,4 @@
 /.github/ @ivelin
 /ci/ @ivelin
+/docker/Dockerfile.ci @ivelin
+/pyproject.toml @ivelin

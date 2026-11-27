@@ -20,6 +20,8 @@ def guarded(path: str) -> bool:
         or path.startswith(".github/")
         or path == "ci"
         or path.startswith("ci/")
+        or path == "docker/Dockerfile.ci"
+        or path == "pyproject.toml"
     )
 
 
@@ -60,15 +62,19 @@ class Gh:
         return flatten_slurp(data) if paginate else data
 
 
-def compare_commits(gh: Gh, before: str, sha: str) -> list[dict]:
+def compare_commits(gh: Gh, before: str, sha: str) -> tuple[list[dict], int]:
     pages = gh.api(f"repos/{gh.repo}/compare/{before}...{sha}", paginate=True)
     if isinstance(pages, dict):
         pages = [pages]
     commits: list[dict] = []
+    total = 0
     for page in pages or []:
         if isinstance(page, dict):
             commits.extend(page.get("commits") or [])
-    return commits
+            reported = page.get("total_commits")
+            if reported is not None:
+                total = max(total, int(reported))
+    return commits, total
 
 
 def commit_files(gh: Gh, sha: str) -> list[str]:
@@ -99,17 +105,6 @@ def pr_reviews(gh: Gh, number: int) -> list[dict]:
     return list(data or [])
 
 
-def pr_issue_comments(gh: Gh, number: int) -> list[dict]:
-    data = gh.api(f"repos/{gh.repo}/issues/{number}/comments", paginate=True)
-    if isinstance(data, dict):
-        return [data]
-    return list(data or [])
-
-
-def marker_line(head_sha: str) -> str:
-    return f"zk0-ci-guard: approved {head_sha}"
-
-
 def merged_pr_for_commit(gh: Gh, sha: str) -> dict | None:
     for pr in commit_pulls(gh, sha):
         if pr.get("merged_at") and pr.get("merge_commit_sha") == sha:
@@ -127,24 +122,6 @@ def ivelin_approved_at_head(reviews: list[dict], head_sha: str) -> bool:
         ):
             return True
     return False
-
-
-def ivelin_marker_at_head(comments: list[dict], head_sha: str) -> bool:
-    expected = marker_line(head_sha)
-    for comment in comments:
-        user = (comment.get("user") or {}).get("login")
-        if user != OWNER_LOGIN:
-            continue
-        for line in (comment.get("body") or "").splitlines():
-            if line.strip() == expected:
-                return True
-    return False
-
-
-def evidence_ok(reviews: list[dict], comments: list[dict], head_sha: str) -> bool:
-    return ivelin_approved_at_head(reviews, head_sha) or ivelin_marker_at_head(
-        comments, head_sha
-    )
 
 
 def ensure_label(gh: Gh) -> bool:
@@ -206,7 +183,14 @@ def audit(
         if not before or before == ZERO_SHA:
             open_escape(gh, sha, "push before SHA missing or all zeros")
             return 1
-        raw_commits = compare_commits(gh, before, sha)
+        raw_commits, total = compare_commits(gh, before, sha)
+        if total > len(raw_commits):
+            open_escape(
+                gh,
+                sha,
+                f"compare truncated: got {len(raw_commits)} commits, total_commits={total}",
+            )
+            return 1
         shas = [c.get("sha") for c in raw_commits if c.get("sha")]
         if sha not in shas:
             shas.append(sha)
@@ -215,6 +199,9 @@ def audit(
 
     for commit_sha in shas:
         files = commit_files(gh, commit_sha)
+        if not files:
+            open_escape(gh, commit_sha, "empty file list for commit")
+            return 1
         if not any(guarded(name) for name in files):
             continue
         pr = find_merged_pr(gh, commit_sha, sleep=sleep, retry_seconds=retry_seconds)
@@ -226,14 +213,12 @@ def audit(
             )
             return 1
         head = (pr.get("head") or {}).get("sha") or ""
-        number = int(pr["number"])
-        reviews = pr_reviews(gh, number)
-        comments = pr_issue_comments(gh, number)
-        if not evidence_ok(reviews, comments, head):
+        reviews = pr_reviews(gh, int(pr["number"]))
+        if not ivelin_approved_at_head(reviews, head):
             open_escape(
                 gh,
                 commit_sha,
-                "missing ivelin APPROVED review or exact zk0-ci-guard marker at PR head SHA",
+                "missing ivelin APPROVED review at PR head SHA",
                 pr.get("html_url") or "",
             )
             return 1
