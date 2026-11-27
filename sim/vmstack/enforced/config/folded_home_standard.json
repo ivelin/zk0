@@ -1,0 +1,145 @@
+{
+ "folded_home_deg": {
+  "shoulder_pan": 0.0,
+  "shoulder_lift": -100.0,
+  "elbow_flex": -75.0,
+  "wrist_flex": 90.0,
+  "wrist_roll": 0.0,
+  "gripper": 0.0
+ },
+ "definition": "shoulder_pan 0, wrist_roll 0, gripper 0 (jaws shut); lift/elbow/wrist_flex from the engine-audited grid search (fold_search_result.json): clean (arm-vs-scene min distance >= 0) on all three active scenes, maximal worst-scene clearance, tie-break smallest forward reach",
+ "mechanism": "scene <keyframe name=\"folded_home\"> with the full spawn qpos, arm joints replaced by the folded values; consumers either mj_resetDataKeyframe(d, 'folded_home') or set the six arm qpos entries directly",
+ "scenes": {
+  "scenes-v4/block_stack__ep453_v0__v4cam.xml": {
+   "scene": "scenes-v4/block_stack__ep453_v0__v4cam.xml",
+   "sha256": "9bf24a99c82826bb48a1ebdf853b382221385fb5251806e115b474fdbb1e53e0",
+   "object": "cube_b",
+   "keyframe_arm_deg": {
+    "shoulder_pan": 0.0,
+    "shoulder_lift": -100.0,
+    "elbow_flex": -75.0,
+    "wrist_flex": 90.0,
+    "wrist_roll": 0.0,
+    "gripper": 0.0
+   },
+   "spawn_arm_scene_min_mm": 1.63,
+   "settle_arm_scene_min_mm": 1.63,
+   "settle_object_shift_mm": 0.08,
+   "admission_gate_raw_verdict": "ADMIT",
+   "admission_gate_raw": {
+    "obj_static_pairs_m": {
+     "mat": 0.0
+    },
+    "obj_contact_penetrations": [],
+    "grip_min_dist_m": 0.19812,
+    "grip_min_pair": "mat",
+    "obj_pos": [
+     0.2323,
+     -0.01306,
+     0.015
+    ]
+   },
+   "camera_set_ok": true,
+   "cameras": [
+    "frontcam",
+    "topcam",
+    "wristcam"
+   ],
+   "ADMIT": true
+  },
+  "scenes-v4/block_stack__ep411_v3__v4cam.xml": {
+   "scene": "scenes-v4/block_stack__ep411_v3__v4cam.xml",
+   "sha256": "b6b112b79ad532dcc8627d4744227f1824bd06e737cca8602919bd1a2907d5b5",
+   "object": "cube_b",
+   "keyframe_arm_deg": {
+    "shoulder_pan": 0.0,
+    "shoulder_lift": -100.0,
+    "elbow_flex": -75.0,
+    "wrist_flex": 90.0,
+    "wrist_roll": 0.0,
+    "gripper": 0.0
+   },
+   "spawn_arm_scene_min_mm": 1.63,
+   "settle_arm_scene_min_mm": 1.63,
+   "settle_object_shift_mm": 0.08,
+   "admission_gate_raw_verdict": "ADMIT",
+   "admission_gate_raw": {
+    "obj_static_pairs_m": {
+     "mat": 0.0
+    },
+    "obj_contact_penetrations": [],
+    "grip_min_dist_m": 0.19812,
+    "grip_min_pair": "mat",
+    "obj_pos": [
+     0.08606,
+     -0.04306,
+     0.015
+    ]
+   },
+   "camera_set_ok": true,
+   "cameras": [
+    "frontcam",
+    "topcam",
+    "wristcam"
+   ],
+   "ADMIT": true
+  },
+  "scenes-v4/ring_insert__ep48_v1__v4cam.xml": {
+   "scene": "scenes-v4/ring_insert__ep48_v1__v4cam.xml",
+   "sha256": "f9746890e4819d38ee36a9d1f729bfd4a7bdc4586b3205d7fe88bcab97d83c30",
+   "object": "ring",
+   "keyframe_arm_deg": {
+    "shoulder_pan": 0.0,
+    "shoulder_lift": -100.0,
+    "elbow_flex": -75.0,
+    "wrist_flex": 90.0,
+    "wrist_roll": 0.0,
+    "gripper": 0.0
+   },
+   "spawn_arm_scene_min_mm": 1.63,
+   "settle_arm_scene_min_mm": 1.63,
+   "settle_object_shift_mm": 0.001,
+   "admission_gate_raw_verdict": "ADMIT",
+   "admission_gate_raw": {
+    "obj_static_pairs_m": {
+     "board_top_23": 0.0,
+     "board_top_24": 0.0,
+     "board_top_6": 0.0,
+     "board_top_7": 0.0,
+     "board_top_8": 0.0,
+     "board_top_9": 0.0,
+     "board_top_centre": 0.0
+    },
+    "obj_contact_penetrations": [],
+    "grip_min_dist_m": 0.08372,
+    "grip_min_pair": "peg_finial",
+    "obj_pos": [
+     0.26889,
+     0.04213,
+     0.021
+    ]
+   },
+   "camera_set_ok": true,
+   "cameras": [
+    "frontcam",
+    "topcam",
+    "wristcam"
+   ],
+   "ADMIT": true
+  }
+ },
+ "selection": {
+  "grid": "1232 candidates (lift x elbow x wrist_flex, pan=roll=0, gripper=0), clamped inside the compiled joint ranges; 837 clean on ep453; 17 contact-overflow rejects",
+  "worst_scene_min_mm": 1.63,
+  "binding_pair": "shoulder link x wall_left (+1.63 mm) \u2014 the whole top family ties here; it is a booth mount-proximity constant, not a pose defect",
+  "gripper_min_mm_all_scenes": 191.57,
+  "forward_reach_mm": 134.7,
+  "screen_note": "fold screen v1 pruned PLANE-geom pairs by bounding sphere (planes have no finite rbound) and falsely passed poses with the gripper up to 56 mm under the floor; caught by the unpruned tie-break cross-check, fixed, re-run; the v1 result was discarded (fold_search_result.json)"
+ },
+ "standing_scene_facts_flagged": {
+  "base_mount_overlap_mm": -47.36,
+  "detail": "the fixed base body's collision boxes overlap the booth at every pose incl. qpos0 (base_col_1 x wall_left -47.36 mm, base_col_0 -24.3, base_col_2 -21.4, base_col_1 x mat -2.4, x floor -1.4) in all three active scenes; pose-independent scene construction, cannot be fixed by any start pose; flagged for the census phase",
+  "base_shoulder_overlap_mm": -27.9,
+  "detail2": "standing base x shoulder collision overlap at all poses (B4 finding); mechanism-internal, recorded by the stack as adjacent self-contact; flagged for the repair lane"
+ }
+}
