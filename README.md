@@ -46,15 +46,21 @@ Open-source federated learning platform for SmolVLA models on SO-100 datasets us
 ## Latest Model Release
 
 - **Model**: [ivelin/zk0-smolvla-fl](https://huggingface.co/ivelin/zk0-smolvla-fl)
-- **Training**: 250 rounds FedProx (μ=0.01), dynamic LR/MU scheduling
-- **Final Policy Loss**: 0.495
-- **Clients**: 4 clients on diverse SO-100 tasks
+- **Training**: Federated learning (Flower, FedProx) with the SmolVLA policy on SO-100 datasets. The run recorded in the model repository's own `metrics.json` (revision `b400eea`) covers **1 server round with 2 clients**.
+- **Composite Eval Loss**: 0.15414857491850853 (1 evaluation dataset, 256 examples — from `metrics.json` in the model repository)
 - **Framework**: Flower + SmolVLA + SO-100 datasets
 - **Maintenance (2026-11-16)**: the checkpoint was repaired so it loads cleanly with current LeRobot. The published weights are unchanged — verified tensor-for-tensor against the original.
 
+Load it with LeRobot (the checkpoint's `config.json` declares `"type": "smolvla"`; it is not a `transformers` `AutoModel` checkpoint):
+
 ```python
-from transformers import AutoModel
-model = AutoModel.from_pretrained("ivelin/zk0-smolvla-fl")
+from lerobot.policies.smolvla import SmolVLAPolicy
+from lerobot.policies.factory import make_pre_post_processors
+
+policy = SmolVLAPolicy.from_pretrained("ivelin/zk0-smolvla-fl")
+preprocessor, postprocessor = make_pre_post_processors(
+    policy.config, pretrained_path="ivelin/zk0-smolvla-fl"
+)
 ```
 
 ## Direction
