@@ -27,16 +27,19 @@ jobs:
           echo "self-check: missing base SHA"
           exit 1
         fi
-        mkdir -p /tmp/zk0-base-ci
+        # Materialize under the checkout so Path(__file__).parents[1] is the
+        # repo even when the base checker predates ZK0_ROOT.
+        BASE_DIR="${ZK0_ROOT}/.zk0-base-ci"
+        mkdir -p "$BASE_DIR"
         if git cat-file -e "${BASE}:ci/self_check.py"; then
-          git show "${BASE}:ci/self_check.py" > /tmp/zk0-base-ci/self_check.py
+          git show "${BASE}:ci/self_check.py" > "${BASE_DIR}/self_check.py"
           if git cat-file -e "${BASE}:ci/allowed_skips.txt"; then
-            git show "${BASE}:ci/allowed_skips.txt" > /tmp/zk0-base-ci/allowed_skips.txt
+            git show "${BASE}:ci/allowed_skips.txt" > "${BASE_DIR}/allowed_skips.txt"
           else
-            : > /tmp/zk0-base-ci/allowed_skips.txt
+            : > "${BASE_DIR}/allowed_skips.txt"
           fi
-          export ZK0_ALLOWLIST=/tmp/zk0-base-ci/allowed_skips.txt
-          python3 /tmp/zk0-base-ci/self_check.py
+          export ZK0_ALLOWLIST="${BASE_DIR}/allowed_skips.txt"
+          python3 "${BASE_DIR}/self_check.py"
         else
           echo "self-check: base ${BASE} has no ci/self_check.py; running HEAD bootstrap"
           python3 ci/self_check.py

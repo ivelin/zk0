@@ -157,6 +157,14 @@ class GitHelperTests(unittest.TestCase):
         with self.assertRaises(sc.GitError):
             sc.git("rev-parse", "this-ref-does-not-exist-zk0")
 
+    def test_repo_root_prefers_zk0_root(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            os.environ["ZK0_ROOT"] = tmp
+            try:
+                self.assertEqual(sc.repo_root(), Path(tmp).resolve())
+            finally:
+                os.environ.pop("ZK0_ROOT", None)
+
 
 if __name__ == "__main__":
     unittest.main()
