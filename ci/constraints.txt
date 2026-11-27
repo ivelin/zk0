@@ -1,7 +1,10 @@
-# CI-only constraints for docker/Dockerfile.ci and the UnitTests job.
+# CI-only constraints for docker/Dockerfile.ci (torch/vision CPU install) and
+# the UnitTests `uv pip install -e '.[test]'` step.
 # Generated from the green stack on ivelin/zk0@8ee4aa8 (Actions run 46038645085):
 # python:3.10-slim-bookworm digest, uv 0.13.10, torch 2.7.1+cpu, torchvision 0.22.1+cpu,
 # lerobot 0.3.3, then uv pip install -e '.[test]'. Editable zk0 is excluded.
+# huggingface-hub==0.36.2 is the post-test-extra pin (transformers<4.52); lerobot's
+# image layer still resolves hub 1.33.0 before this file is applied to -e '.[test]'.
 # Regenerate with ./ci/export_constraints.sh inside the pinned image.
 accelerate==1.15.0
 aiohappyeyeballs==2.7.1
