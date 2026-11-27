@@ -27,7 +27,8 @@ Certified solutions live in the dataset, one package per scene under
 `certified/<episode>/`, indexed by the dataset's `manifest.jsonl`.
 First entry (2026-11-27): **block_stack ep453** — the first sim solution
 certified under the current protocol (enforced full-motion replay +
-two frontier judges from different families, unanimity required).
+two frontier judges — both sandboxed and blind, at most one from the
+driver's family — with unanimity required).
 
 Solutions produced before the enforced stack existed are labelled
 EXECUTED in the manifest, with their exact stage; they are not
@@ -44,7 +45,8 @@ action space), never teleporting, never writing simulator state. The
 live trace is distilled into one smooth trajectory, saved as a LeRobot
 episode, and certified only if (1) the recorded actions replay under
 the enforced harness with no abort and a silent alarm trace, and
-(2) two judges from different frontier model families, watching the
-path-exposing video, independently pass it with commentary. The driver
-never judges its own solution; the driver's family is excluded from
-its panel.
+(2) two frontier judges, both completely sandboxed and blind to the
+driver's session and to each other, watching the path-exposing video,
+independently pass it with commentary. The driver never judges its own
+solution; at most one judge may share the driver's family, and the
+second judge is from a different family than the driver.
