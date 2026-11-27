@@ -5,8 +5,52 @@ on:
   pull_request:
 
 jobs:
+  self-check:
+    name: CI self-check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Run base self-check against this tree
+      env:
+        GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+        ZK0_ROOT: ${{ github.workspace }}
+      run: |
+        set -euo pipefail
+        unset PYTHONPATH
+        BASE="${GITHUB_BASE_SHA:-}"
+        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          git fetch --no-tags origin main
+          BASE="$(git merge-base origin/main HEAD)"
+        fi
+        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+          echo "self-check: missing base SHA"
+          exit 1
+        fi
+        export GITHUB_BASE_SHA="$BASE"
+        TMP="${RUNNER_TEMP}/zk0-base-ci"
+        CWD="${RUNNER_TEMP}/zk0-self-check-cwd"
+        mkdir -p "$TMP" "$CWD"
+        if git cat-file -e "${BASE}:ci/self_check.py"; then
+          git show "${BASE}:ci/self_check.py" > "${TMP}/self_check.py"
+          if git cat-file -e "${BASE}:ci/allowed_skips.txt"; then
+            git show "${BASE}:ci/allowed_skips.txt" > "${TMP}/allowed_skips.txt"
+          else
+            : > "${TMP}/allowed_skips.txt"
+          fi
+          export ZK0_ALLOWLIST="${TMP}/allowed_skips.txt"
+          (cd "$CWD" && python3 -I "${TMP}/self_check.py")
+        else
+          echo "self-check: base ${BASE} has no ci/self_check.py; running HEAD bootstrap"
+          (cd "$CWD" && python3 -I "${ZK0_ROOT}/ci/self_check.py")
+        fi
+        python3 -I "${ZK0_ROOT}/ci/test_self_check.py"
+
   test:
     name: ${{ matrix.test-type }} UnitTests
+    needs: self-check
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,6 +81,6 @@ jobs:
           bash -c "
             cd /workspace &&
             export CI=true &&
-            uv pip install --system -e '.[test]' &&
+            uv pip install --system --constraint ci/constraints.txt -e '.[test]' &&
             pytest ${{ matrix.test-path }} -x --tb=short --durations=10 -n ${{ matrix.parallel }}
           "

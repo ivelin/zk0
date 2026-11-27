@@ -18,14 +18,24 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # uv is how docker/Dockerfile.zk0 installs the ML stack; reuse it on the CPU CI image.
-RUN pip install --no-cache-dir uv
+RUN pip install --no-cache-dir uv==0.13.10
+
+# Transitive pins from the green CI env (Actions run 46038645085).
+# constraints.txt is the post -e '.[test]' freeze (huggingface-hub==0.36.2).
+# constraints-lerobot.txt is the image layer after lerobot==0.3.3
+# (huggingface-hub==1.33.0 for diffusers==0.41.0).
+COPY ci/constraints.txt /tmp/constraints.txt
+COPY ci/constraints-lerobot.txt /tmp/constraints-lerobot.txt
 
 # CI pins torch==2.7.1 and torchvision==0.22.1 from the CPU index.
 # Production docker/Dockerfile.zk0 installs unpinned torch from cu121
 # (about 2.5.1). Pinning production torch is a follow-up.
 RUN uv pip install --system --no-cache \
+        --constraint /tmp/constraints.txt \
         torch==2.7.1 torchvision==0.22.1 \
         --index-url https://download.pytorch.org/whl/cpu \
-    && uv pip install --system --no-cache lerobot==0.3.3
+    && uv pip install --system --no-cache \
+        --constraint /tmp/constraints-lerobot.txt \
+        lerobot==0.3.3
 
 CMD ["echo", "Container ready. Mount your app code to /workspace and run commands."]
