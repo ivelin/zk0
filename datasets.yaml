@@ -1,5 +1,5 @@
 # Federated Learning Dataset Configuration
-# All 4 clients active with lerobot/svla_so100 datasets
+# All 3 clients active with lerobot/svla_so100 datasets
 
 clients:
   - name: "lerobot/svla_so100_pickplace"
