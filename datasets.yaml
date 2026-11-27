@@ -12,11 +12,6 @@ clients:
     client_id: 1
     last_n_episodes_for_eval: 3
 
-  - name: "kakimoto/record-hockey-r24_white_1280x720"
-    description: "Air hockey - VALIDATED CLEAN"
-    client_id: 2
-    last_n_episodes_for_eval: 3
-
   - name: "tinjyuu/record-test6"
     description: "Clean up desk (composite pick and place) - VALIDATED CLEAN"
     client_id: 3
