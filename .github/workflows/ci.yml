@@ -22,9 +22,6 @@ jobs:
         unset PYTHONPATH
         BASE="${GITHUB_BASE_SHA:-}"
         if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
-          BASE="${GITHUB_EVENT_BEFORE:-}"
-        fi
-        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
           git fetch --no-tags origin main
           BASE="$(git merge-base origin/main HEAD)"
         fi

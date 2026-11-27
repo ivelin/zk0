@@ -106,7 +106,9 @@ class SkipDetectionTests(unittest.TestCase):
 
 class NeuterDetectionTests(unittest.TestCase):
     def _tree(self, ci_yml: str, checker: str = MIN_CHECKER) -> Path:
-        root = Path(tempfile.mkdtemp())
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
         _write(root, ".github/workflows/ci.yml", ci_yml)
         _write(root, "ci/self_check.py", checker)
         _write(root, "docker/Dockerfile.ci", "FROM python:3.10-slim-bookworm\n")
@@ -167,6 +169,32 @@ class NeuterDetectionTests(unittest.TestCase):
 
     def test_pytest_k_filter_detected(self) -> None:
         self.assertEqual(sc.extract_pytest_filters("pytest tests/unit -k foo")[0], "foo")
+
+    def test_n3_isolated_script_dir_not_on_sys_path(self) -> None:
+        """N3: python3 -I must not import a sibling subprocess.py next to the checker."""
+        import subprocess as real_subprocess
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        script_dir = Path(tmp.name) / "base-ci"
+        cwd = Path(tmp.name) / "cwd"
+        script_dir.mkdir()
+        cwd.mkdir()
+        (script_dir / "subprocess.py").write_text("raise SystemExit(0)\n", encoding="utf-8")
+        (script_dir / "probe.py").write_text(
+            "import subprocess\n"
+            "from pathlib import Path\n"
+            "sib = Path(__file__).resolve().parent / 'subprocess.py'\n"
+            "used = Path(subprocess.__file__).resolve()\n"
+            "raise SystemExit(0 if used != sib else 2)\n",
+            encoding="utf-8",
+        )
+        proc = real_subprocess.run(
+            [sys.executable, "-I", str(script_dir / "probe.py")],
+            cwd=str(cwd),
+            check=False,
+        )
+        self.assertEqual(proc.returncode, 0)
 
 
 class GitHelperTests(unittest.TestCase):

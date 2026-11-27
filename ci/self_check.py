@@ -53,14 +53,11 @@ def base_ref() -> str:
     sha = _nonzero_sha(os.environ.get("GITHUB_BASE_SHA", ""))
     if sha:
         return sha
-    before = _nonzero_sha(os.environ.get("GITHUB_EVENT_BEFORE", ""))
-    if before:
-        return before
     mb = git("merge-base", "origin/main", "HEAD").strip()
     if mb:
         return mb
     raise GitError(
-        "no base SHA: set GITHUB_BASE_SHA, GITHUB_EVENT_BEFORE, or origin/main"
+        "no base SHA: set GITHUB_BASE_SHA (pull_request) or origin/main merge-base"
     )
 
 
@@ -524,6 +521,23 @@ def check_ci_not_neutered(root: Path | None = None) -> list[str]:
     return errors
 
 
+def ci_review_notices() -> list[str]:  # noqa: D401
+    """Non-failing flags so a reviewer must inspect ci/ and ci.yml diffs."""
+    try:
+        ref = base_ref()
+        names = git(
+            "diff", "--name-only", ref, "--", "ci/", ".github/workflows/ci.yml"
+        )
+    except GitError:
+        return []
+    notices = []
+    for rel in names.splitlines():
+        rel = rel.strip()
+        if rel:
+            notices.append(f"REVIEW: {rel} changed vs {ref}; reviewer must inspect")
+    return notices
+
+
 def run_all(root: Path | None = None) -> list[str]:
     root = root or repo_root()
     return (
@@ -536,10 +550,13 @@ def run_all(root: Path | None = None) -> list[str]:
 
 def main() -> int:
     try:
+        notices = ci_review_notices()
         errors = run_all()
     except GitError as exc:
         print(f"CI self-check FAILED:\n  - git error: {exc}")
         return 1
+    for item in notices:
+        print(item)
     if errors:
         print("CI self-check FAILED:")
         for item in errors:
