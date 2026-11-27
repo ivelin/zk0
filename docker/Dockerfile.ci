@@ -9,14 +9,12 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /workspace
 
-# Proven needed by Actions run 46032130167: lerobot 0.3.3 -> pynput -> evdev
+# Proven needed by Actions run 46032167161: lerobot 0.3.3 -> pynput -> evdev
 # builds from source and needs linux/input.h plus a C compiler.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        gcc \
-        libc6-dev \
+        build-essential \
         linux-libc-dev \
-        python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # uv is how docker/Dockerfile.zk0 installs the ML stack; reuse it on the CPU CI image.
