@@ -99,6 +99,17 @@ def pr_reviews(gh: Gh, number: int) -> list[dict]:
     return list(data or [])
 
 
+def pr_issue_comments(gh: Gh, number: int) -> list[dict]:
+    data = gh.api(f"repos/{gh.repo}/issues/{number}/comments", paginate=True)
+    if isinstance(data, dict):
+        return [data]
+    return list(data or [])
+
+
+def marker_line(head_sha: str) -> str:
+    return f"zk0-ci-guard: approved {head_sha}"
+
+
 def merged_pr_for_commit(gh: Gh, sha: str) -> dict | None:
     for pr in commit_pulls(gh, sha):
         if pr.get("merged_at") and pr.get("merge_commit_sha") == sha:
@@ -116,6 +127,24 @@ def ivelin_approved_at_head(reviews: list[dict], head_sha: str) -> bool:
         ):
             return True
     return False
+
+
+def ivelin_marker_at_head(comments: list[dict], head_sha: str) -> bool:
+    expected = marker_line(head_sha)
+    for comment in comments:
+        user = (comment.get("user") or {}).get("login")
+        if user != OWNER_LOGIN:
+            continue
+        for line in (comment.get("body") or "").splitlines():
+            if line.strip() == expected:
+                return True
+    return False
+
+
+def evidence_ok(reviews: list[dict], comments: list[dict], head_sha: str) -> bool:
+    return ivelin_approved_at_head(reviews, head_sha) or ivelin_marker_at_head(
+        comments, head_sha
+    )
 
 
 def ensure_label(gh: Gh) -> bool:
@@ -197,12 +226,14 @@ def audit(
             )
             return 1
         head = (pr.get("head") or {}).get("sha") or ""
-        reviews = pr_reviews(gh, int(pr["number"]))
-        if not ivelin_approved_at_head(reviews, head):
+        number = int(pr["number"])
+        reviews = pr_reviews(gh, number)
+        comments = pr_issue_comments(gh, number)
+        if not evidence_ok(reviews, comments, head):
             open_escape(
                 gh,
                 commit_sha,
-                "missing ivelin APPROVED review at PR head SHA",
+                "missing ivelin APPROVED review or exact zk0-ci-guard marker at PR head SHA",
                 pr.get("html_url") or "",
             )
             return 1

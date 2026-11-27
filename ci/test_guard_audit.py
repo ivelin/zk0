@@ -70,6 +70,10 @@ def review(login: str, commit_id: str, state: str = "APPROVED") -> dict:
     return {"state": state, "user": {"login": login}, "commit_id": commit_id}
 
 
+def comment(login: str, body: str) -> dict:
+    return {"user": {"login": login}, "body": body}
+
+
 def compare(*shas: str) -> dict:
     return {"commits": [{"sha": s} for s in shas]}
 
@@ -84,25 +88,31 @@ class GuardAuditTests(unittest.TestCase):
         kwargs.setdefault("retry_seconds", 0)
         return ga.audit(REPO, MERGE, before=PARENT, forced=False, event_name="push", gh=gh, **kwargs)
 
-    def test_forged_author_approved_review_escapes(self) -> None:
+    def test_forged_author_marker_escapes(self) -> None:
         gh = FakeGh(
             {
                 f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
                 f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
                 f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
-                f"repos/{REPO}/pulls/71/reviews": [review("not-ivelin", HEAD)],
+                f"repos/{REPO}/pulls/71/reviews": [],
+                f"repos/{REPO}/issues/71/comments": [
+                    comment("not-ivelin", ga.marker_line(HEAD)),
+                ],
             }
         )
         self.assertEqual(self._audit(gh), 1)
         self.assertTrue(gh.issues)
 
-    def test_approval_on_stale_commit_id_escapes(self) -> None:
+    def test_marker_with_stale_sha_escapes(self) -> None:
         gh = FakeGh(
             {
                 f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
                 f"repos/{REPO}/commits/{MERGE}": commit_payload("ci/self_check.py"),
                 f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
-                f"repos/{REPO}/pulls/71/reviews": [review("ivelin", OTHER)],
+                f"repos/{REPO}/pulls/71/reviews": [],
+                f"repos/{REPO}/issues/71/comments": [
+                    comment("ivelin", ga.marker_line(OTHER)),
+                ],
             }
         )
         self.assertEqual(self._audit(gh), 1)
@@ -115,6 +125,9 @@ class GuardAuditTests(unittest.TestCase):
                 f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/workflows/ci.yml"),
                 f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
                 f"repos/{REPO}/pulls/71/reviews": [],
+                f"repos/{REPO}/issues/71/comments": [
+                    comment("ivelin", f"FAIL Review Remy PASS {HEAD}"),
+                ],
             }
         )
         self.assertEqual(self._audit(gh), 1)
@@ -164,6 +177,37 @@ class GuardAuditTests(unittest.TestCase):
                 f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
                 f"repos/{REPO}/commits/{MERGE}/pulls": [open_pr],
                 f"repos/{REPO}/pulls/71/reviews": [review("ivelin", HEAD)],
+            }
+        )
+        self.assertEqual(self._audit(gh), 1)
+        self.assertTrue(gh.issues)
+
+    def test_ivelin_marker_at_head_passes(self) -> None:
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+                f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
+                f"repos/{REPO}/pulls/71/reviews": [],
+                f"repos/{REPO}/issues/71/comments": [
+                    comment("ivelin", f"ok\n{ga.marker_line(HEAD)}\n"),
+                ],
+            }
+        )
+        self.assertEqual(self._audit(gh), 0)
+        self.assertFalse(gh.issues)
+
+    def test_short_sha_or_extra_text_on_marker_line_escapes(self) -> None:
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+                f"repos/{REPO}/commits/{MERGE}/pulls": [merged_pr()],
+                f"repos/{REPO}/pulls/71/reviews": [],
+                f"repos/{REPO}/issues/71/comments": [
+                    comment("ivelin", f"zk0-ci-guard: approved {HEAD[:7]}"),
+                    comment("ivelin", f"zk0-ci-guard: approved {HEAD} extra"),
+                ],
             }
         )
         self.assertEqual(self._audit(gh), 1)
