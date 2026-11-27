@@ -20,7 +20,9 @@ RUN apt-get update \
 # uv is how docker/Dockerfile.zk0 installs the ML stack; reuse it on the CPU CI image.
 RUN pip install --no-cache-dir uv
 
-# Same versions as production, CPU wheels instead of cu121.
+# CI pins torch==2.7.1 and torchvision==0.22.1 from the CPU index.
+# Production docker/Dockerfile.zk0 installs unpinned torch from cu121
+# (about 2.5.1). Pinning production torch is a follow-up.
 RUN uv pip install --system --no-cache \
         torch==2.7.1 torchvision==0.22.1 \
         --index-url https://download.pytorch.org/whl/cpu \
