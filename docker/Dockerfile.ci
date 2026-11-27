@@ -1,17 +1,21 @@
-# Use the official LeRobot CPU base image for CI compatibility
-FROM huggingface/lerobot-cpu:latest
+# Index digest for python:3.10-slim-bookworm (linux/amd64).
+# Pin is the image index, not a moving tag.
+FROM python:3.10-slim-bookworm@sha256:5be5aaecb962a41567bc8041f1e9e3432cb085b037fe057f9a562630b2e4b370
 
-# Install OpenCV for video processing in LeRobot datasets
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_SYSTEM_PYTHON=1
 
-# Set environment variables for better Python behavior
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV UV_LINK_MODE=copy
-
-# Create a working directory for the application
-# The app code will be mounted at runtime
 WORKDIR /workspace
 
-# Default command (can be overridden)
-# The actual app code will be mounted at /workspace
+# uv is how docker/Dockerfile.zk0 installs the ML stack; reuse it on the CPU CI image.
+RUN pip install --no-cache-dir uv
+
+# Same versions as production, CPU wheels instead of cu121.
+RUN uv pip install --system --no-cache \
+        torch==2.7.1 torchvision==0.22.1 \
+        --index-url https://download.pytorch.org/whl/cpu \
+    && uv pip install --system --no-cache lerobot==0.3.3
+
 CMD ["echo", "Container ready. Mount your app code to /workspace and run commands."]
