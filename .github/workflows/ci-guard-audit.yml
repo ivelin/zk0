@@ -14,49 +14,10 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       REPO: ${{ github.repository }}
       SHA: ${{ github.sha }}
+      BEFORE: ${{ github.event.before }}
+      FORCED: ${{ github.event.forced }}
+      EVENT_NAME: ${{ github.event_name }}
     steps:
+      - uses: actions/checkout@v4
       - name: Audit CI-guard evidence
-        run: |
-          python3 - <<'PY'
-          import json, os, subprocess, sys
-          repo, sha = os.environ["REPO"], os.environ["SHA"]
-          def run(a, check=True):
-              r = subprocess.run(a, capture_output=True, text=True)
-              if check and r.returncode:
-                  sys.stderr.write(r.stderr); sys.exit(r.returncode)
-              return r.stdout
-          def api(path, page=False):
-              out = run(["gh", "api"] + (["--paginate"] if page else []) + [path]).strip()
-              if not out: return []
-              d = json.loads(out.replace("][", ","))
-              return d if isinstance(d, list) else d
-          def guarded(p):
-              return p==".github" or p.startswith(".github/") or p=="ci" or p.startswith("ci/")
-          def escape(missing, pr="none (direct push)"):
-              run(["gh","label","create","ci-guard-escape","--force","--description","CI guard evidence missing","--color","B60205"], check=False)
-              run(["gh","issue","create","--title",f"ci-guard-escape: {sha[:7]}","--label","ci-guard-escape","--body",f"SHA: {sha}\nPR: {pr}\nMissing: {missing}\n"])
-              print("ci-guard-escape:", missing); sys.exit(1)
-          prs = api(f"repos/{repo}/commits/{sha}/pulls")
-          prs = prs if isinstance(prs, list) else ([prs] if prs else [])
-          if not prs:
-              files = [f["filename"] for f in (api(f"repos/{repo}/commits/{sha}").get("files") or [])]
-              if any(guarded(f) for f in files):
-                  escape("direct push touched .github/ or ci/; no associated PR")
-              print("ci-guard-audit OK"); sys.exit(0)
-          pr = next((p for p in prs if p.get("merged_at")), prs[0])
-          num, url = pr["number"], pr.get("html_url", "")
-          head = (pr.get("head") or {}).get("sha") or ""
-          names = [f["filename"] for f in api(f"repos/{repo}/pulls/{num}/files", True)]
-          if not any(guarded(n) for n in names):
-              print("ci-guard-audit OK"); sys.exit(0)
-          comments = api(f"repos/{repo}/issues/{num}/comments", True)
-          reviews = api(f"repos/{repo}/pulls/{num}/reviews", True)
-          bodies = [c.get("body") or "" for c in comments] + [r.get("body") or "" for r in reviews]
-          remy = any("PASS" in b and "Review Remy" in b and (head in b or head[:7] in b) for b in bodies if head)
-          ivelin = any("Ivelin yes" in (c.get("body") or "") for c in comments)
-          miss = []
-          if not remy: miss.append("Review Remy PASS comment/review with merged head SHA")
-          if not ivelin: miss.append("PR comment containing 'Ivelin yes'")
-          if miss: escape("; ".join(miss), url)
-          print("ci-guard-audit OK")
-          PY
+        run: python3 ci/guard_audit.py
