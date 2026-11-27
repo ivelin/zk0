@@ -5,8 +5,21 @@ on:
   pull_request:
 
 jobs:
+  self-check:
+    name: CI self-check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Fail on new unit-test skips or a neutered CI workflow
+      env:
+        GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+      run: python3 ci/self_check.py
+
   test:
     name: ${{ matrix.test-type }} UnitTests
+    needs: self-check
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,6 +50,6 @@ jobs:
           bash -c "
             cd /workspace &&
             export CI=true &&
-            uv pip install --system -e '.[test]' &&
+            uv pip install --system --constraint ci/constraints.txt -e '.[test]' &&
             pytest ${{ matrix.test-path }} -x --tb=short --durations=10 -n ${{ matrix.parallel }}
           "
