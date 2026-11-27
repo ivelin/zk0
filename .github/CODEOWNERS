@@ -1,4 +1,6 @@
 /.github/ @ivelin
 /ci/ @ivelin
+
+# --- Ari BA1 (conditional on Ivelin; may be dropped) ---
 /docker/Dockerfile.ci @ivelin
 /pyproject.toml @ivelin

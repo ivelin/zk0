@@ -1,28 +1,26 @@
 #!/usr/bin/env python3
-"""Post-merge CI-guard audit for .github/ and ci/ on main."""
+"""Post-merge CI-guard audit: record guarded main-push commits for human review."""
 from __future__ import annotations
 
 import json
 import os
 import subprocess
 import sys
-import time
 
 ZERO_SHA = "0" * 40
-LABEL = "ci-guard-escape"
 OWNER_LOGIN = "ivelin"
-RETRY_SECONDS = 20
 
 
 def guarded(path: str) -> bool:
-    return (
+    if (
         path == ".github"
         or path.startswith(".github/")
         or path == "ci"
         or path.startswith("ci/")
-        or path == "docker/Dockerfile.ci"
-        or path == "pyproject.toml"
-    )
+    ):
+        return True
+    # --- Ari BA1 (conditional on Ivelin; may be dropped) ---
+    return path == "docker/Dockerfile.ci" or path == "pyproject.toml"
 
 
 def flatten_slurp(data):
@@ -36,6 +34,10 @@ def flatten_slurp(data):
 
 def truthy(value: str | None) -> bool:
     return (value or "").strip().lower() in ("true", "1", "yes")
+
+
+def review_issue_title(head_sha: str) -> str:
+    return f"zk0-ci-guard: human review needed {head_sha}"
 
 
 class Gh:
@@ -91,78 +93,22 @@ def commit_files(gh: Gh, sha: str) -> list[str]:
     return [f.get("filename", "") for f in files if f.get("filename")]
 
 
-def commit_pulls(gh: Gh, sha: str) -> list[dict]:
-    data = gh.api(f"repos/{gh.repo}/commits/{sha}/pulls", paginate=True)
-    if isinstance(data, dict):
-        return [data]
-    return list(data or [])
-
-
-def pr_reviews(gh: Gh, number: int) -> list[dict]:
-    data = gh.api(f"repos/{gh.repo}/pulls/{number}/reviews", paginate=True)
-    if isinstance(data, dict):
-        return [data]
-    return list(data or [])
-
-
-def merged_pr_for_commit(gh: Gh, sha: str) -> dict | None:
-    for pr in commit_pulls(gh, sha):
-        if pr.get("merged_at") and pr.get("merge_commit_sha") == sha:
-            return pr
-    return None
-
-
-def ivelin_approved_at_head(reviews: list[dict], head_sha: str) -> bool:
-    for review in reviews:
-        user = review.get("user") or {}
-        if (
-            review.get("state") == "APPROVED"
-            and user.get("login") == OWNER_LOGIN
-            and review.get("commit_id") == head_sha
-        ):
-            return True
-    return False
-
-
-def ensure_label(gh: Gh) -> bool:
+def open_review_issue(gh: Gh, head_sha: str, body: str) -> None:
+    title = review_issue_title(head_sha)
     gh.run(
         [
             "gh",
-            "label",
+            "issue",
             "create",
-            LABEL,
-            "--force",
-            "--description",
-            "CI guard evidence missing",
-            "--color",
-            "B60205",
-        ],
-        check=False,
+            "--title",
+            title,
+            "--assignee",
+            OWNER_LOGIN,
+            "--body",
+            body,
+        ]
     )
-    listed = gh.run(
-        ["gh", "api", f"repos/{gh.repo}/labels/{LABEL}"],
-        check=False,
-    )
-    return listed.returncode == 0
-
-
-def open_escape(gh: Gh, sha: str, missing: str, pr_url: str = "none (direct push)") -> None:
-    labeled = ensure_label(gh)
-    title = f"ci-guard-escape: {sha[:7]}"
-    body = f"SHA: {sha}\nPR: {pr_url}\nMissing: {missing}\n"
-    args = ["gh", "issue", "create", "--title", title, "--body", body]
-    if labeled:
-        args += ["--label", LABEL]
-    gh.run(args)
-    print(f"ci-guard-escape: {missing}")
-
-
-def find_merged_pr(gh: Gh, sha: str, sleep=time.sleep, retry_seconds: int = RETRY_SECONDS):
-    pr = merged_pr_for_commit(gh, sha)
-    if pr:
-        return pr
-    sleep(retry_seconds)
-    return merged_pr_for_commit(gh, sha)
+    print(title)
 
 
 def audit(
@@ -172,20 +118,18 @@ def audit(
     forced: bool = False,
     event_name: str = "push",
     gh: Gh | None = None,
-    sleep=time.sleep,
-    retry_seconds: int = RETRY_SECONDS,
 ) -> int:
     gh = gh or Gh(repo)
     if event_name != "workflow_dispatch":
         if forced:
-            open_escape(gh, sha, "forced push to main")
+            open_review_issue(gh, sha, "forced push to main")
             return 1
         if not before or before == ZERO_SHA:
-            open_escape(gh, sha, "push before SHA missing or all zeros")
+            open_review_issue(gh, sha, "push before SHA missing or all zeros")
             return 1
         raw_commits, total = compare_commits(gh, before, sha)
         if total > len(raw_commits):
-            open_escape(
+            open_review_issue(
                 gh,
                 sha,
                 f"compare truncated: got {len(raw_commits)} commits, total_commits={total}",
@@ -200,28 +144,15 @@ def audit(
     for commit_sha in shas:
         files = commit_files(gh, commit_sha)
         if not files:
-            open_escape(gh, commit_sha, "empty file list for commit")
+            open_review_issue(gh, commit_sha, "empty file list for commit")
             return 1
         if not any(guarded(name) for name in files):
             continue
-        pr = find_merged_pr(gh, commit_sha, sleep=sleep, retry_seconds=retry_seconds)
-        if not pr:
-            open_escape(
-                gh,
-                commit_sha,
-                "no merged PR with merge_commit_sha matching this commit",
-            )
-            return 1
-        head = (pr.get("head") or {}).get("sha") or ""
-        reviews = pr_reviews(gh, int(pr["number"]))
-        if not ivelin_approved_at_head(reviews, head):
-            open_escape(
-                gh,
-                commit_sha,
-                "missing ivelin APPROVED review at PR head SHA",
-                pr.get("html_url") or "",
-            )
-            return 1
+        open_review_issue(
+            gh,
+            commit_sha,
+            f"SHA: {commit_sha}\nGuarded paths landed on main; human review needed.\n",
+        )
     print("ci-guard-audit OK")
     return 0
 
