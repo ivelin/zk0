@@ -1,6 +1,6 @@
 ---
 title: "zk0 Node Operators Guide: Join Decentralized Robotics AI Training"
-description: "Complete guide for node operators to contribute to zk0 federated learning network with private SO-100 datasets, using zk0bot CLI for SmolVLA training in humanoid robotics."
+description: "Complete guide for node operators - arm operators, validators, and sim data contributors - to join the zk0 federated learning network, using zk0bot CLI for SmolVLA training in humanoid robotics."
 ---
 # zk0 Node Operators Guide
 
@@ -10,7 +10,7 @@ Welcome to the zk0 Node Operators Guide! This document provides everything you n
 
 [Installation Guide](INSTALLATION) | [Architecture Overview](ARCHITECTURE) | [Running Simulations](RUNNING)
 
-zk0 is a federated learning platform for robotics AI, enabling privacy-preserving training of SmolVLA models across distributed clients using real-world SO-100/SO-101 datasets. Node operators contribute their private robotics datasets while maintaining full data privacy.
+zk0 is a federated learning platform for robotics AI, enabling privacy-preserving training of SmolVLA models across distributed clients using real-world SO-100/SO-101 datasets. Node operators serve in one or more of three roles. **Arm operators** run a physical arm and contribute real-world episodes from their private robotics datasets while maintaining full data privacy. **Validators** run validation - sim twin and sim spec pass/fail evaluation, and data certification - with no arm required. **Sim data contributors** generate and certify sim data - twins, spec scenes, and solutions - also with no arm required. Only arm operators need a physical arm installed and wired.
 
 ## Getting Started
 
@@ -18,11 +18,13 @@ zk0 is a federated learning platform for robotics AI, enabling privacy-preservin
 
 To join the zk0 network:
 
-1. **Review Requirements**: Ensure you have:
+1. **Review Requirements**: If you are joining as an arm operator, ensure you have:
    - A private robotics dataset (SO-100/SO-101 compatible)
    - GPU-enabled machine (recommended for training)
    - Stable internet connection
    - Basic familiarity with Conda and tmux
+
+   Joining as a validator or a sim data contributor? You need neither a physical arm nor a private dataset - those roles run on the sim and evaluation stack, not on hardware.
 
 2. **Submit Application**: Create a new issue using our [Node Operator Application Template](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md)
 
