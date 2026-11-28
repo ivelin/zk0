@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import os
+import re
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import self_check as sc  # noqa: E402
@@ -171,8 +173,21 @@ class NeuterDetectionTests(unittest.TestCase):
         self.assertEqual(sc.extract_pytest_filters("pytest tests/unit -k foo")[0], "foo")
 
     def test_n3_isolated_script_dir_not_on_sys_path(self) -> None:
-        """N3: python3 -I must not import a sibling subprocess.py next to the checker."""
+        """N3/N4: isolated python must not import a sibling subprocess.py.
+
+        N4: this test must be able to fail. The unisolated probe returns 99 when
+        the sibling shadow is imported (the old SystemExit(0) poison could not
+        fail). A workflow without ``python3 -I`` also fails the ci.yml assertion.
+        """
         import subprocess as real_subprocess
+
+        ci_yml = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "ci.yml"
+        workflow = ci_yml.read_text(encoding="utf-8")
+        self.assertRegex(workflow, r"python3\s+-I\s+.+\bself_check\.py")
+        broken_workflow = workflow.replace("python3 -I", "python3")
+        self.assertIsNone(
+            re.search(r"python3\s+-I\s+.+\bself_check\.py", broken_workflow)
+        )
 
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
@@ -180,7 +195,11 @@ class NeuterDetectionTests(unittest.TestCase):
         cwd = Path(tmp.name) / "cwd"
         script_dir.mkdir()
         cwd.mkdir()
-        (script_dir / "subprocess.py").write_text("raise SystemExit(0)\n", encoding="utf-8")
+        # Broken isolation imports this module and exits 99. The previous
+        # poison used SystemExit(0), so an unisolated run still "passed".
+        (script_dir / "subprocess.py").write_text(
+            "raise SystemExit(99)\n", encoding="utf-8"
+        )
         (script_dir / "probe.py").write_text(
             "import subprocess\n"
             "from pathlib import Path\n"
@@ -189,12 +208,38 @@ class NeuterDetectionTests(unittest.TestCase):
             "raise SystemExit(0 if used != sib else 2)\n",
             encoding="utf-8",
         )
-        proc = real_subprocess.run(
+        isolated = real_subprocess.run(
             [sys.executable, "-I", str(script_dir / "probe.py")],
             cwd=str(cwd),
             check=False,
         )
-        self.assertEqual(proc.returncode, 0)
+        self.assertEqual(isolated.returncode, 0)
+        unisolated = real_subprocess.run(
+            [sys.executable, str(script_dir / "probe.py")],
+            cwd=str(cwd),
+            check=False,
+        )
+        self.assertEqual(unisolated.returncode, 99)
+
+    def test_detects_deleted_unit_test_file(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write(root, "tests/unit/test_kept.py", "def test_a():\n    pass\n")
+            with mock.patch.object(sc, "base_ref", return_value="BASE"):
+                with mock.patch.object(
+                    sc,
+                    "base_test_files",
+                    return_value={
+                        "tests/unit/test_kept.py": 1,
+                        "tests/unit/test_gone.py": 2,
+                    },
+                ):
+                    errors = sc.check_deleted_tests_and_count(root)
+        self.assertTrue(
+            any("deleted unit test file tests/unit/test_gone.py" in e for e in errors),
+            errors,
+        )
+        self.assertTrue(any("collected test count dropped" in e for e in errors), errors)
 
 
 class GitHelperTests(unittest.TestCase):
