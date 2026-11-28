@@ -26,12 +26,18 @@ class FakeProc:
 
 
 class FakeGh(ga.Gh):
-    def __init__(self, responses: dict[str, Any], label_ok: bool = True) -> None:
+    def __init__(
+        self,
+        responses: dict[str, Any],
+        label_ok: bool = True,
+        api_errors: dict[str, int] | None = None,
+    ) -> None:
         super().__init__(REPO, run=self._run)
         self.responses = responses
         self.issues: list[list[str]] = []
         self.api_paths: list[str] = []
         self.label_ok = label_ok
+        self.api_errors = api_errors or {}
 
     def _run(self, args: list[str], capture_output: bool = True, text: bool = True):
         if args[:2] == ["gh", "label"] and "create" in args:
@@ -45,10 +51,19 @@ class FakeGh(ga.Gh):
             paginate = "--paginate" in args and "--slurp" in args
             path = args[-1]
             self.api_paths.append(path)
+            if path in self.api_errors:
+                return FakeProc(returncode=self.api_errors[path])
             payload = self.responses.get(path)
             if payload is None:
                 return FakeProc(stdout="[]" if paginate else "{}", returncode=0)
             if paginate:
+                slurp_pages = (
+                    isinstance(payload, list)
+                    and payload
+                    and isinstance(payload[0], list)
+                )
+                if slurp_pages:
+                    return FakeProc(stdout=json.dumps(payload))
                 return FakeProc(stdout=json.dumps([payload]))
             return FakeProc(stdout=json.dumps(payload))
         raise AssertionError(f"unexpected command: {args}")
@@ -119,6 +134,41 @@ class GuardAuditTests(unittest.TestCase):
         )
         self.assertEqual(self._audit(gh), 0)
         self.assertFalse(gh.issues)
+
+    def test_open_issues_list_failure_exits_nonzero_without_record(self) -> None:
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+            },
+            api_errors={f"repos/{REPO}/{ga.ISSUES_OPEN_PATH}": 1},
+        )
+        with self.assertRaises(SystemExit) as ctx:
+            self._audit(gh)
+        self.assertNotEqual(ctx.exception.code, 0)
+        self.assertFalse(gh.issues)
+        self.assertTrue(
+            any(ga.ISSUES_OPEN_PATH in path for path in gh.api_paths), gh.api_paths
+        )
+
+    def test_s14_skips_create_when_open_record_on_page_two(self) -> None:
+        title = ga.record_title(MERGE)
+        pages = [
+            [{"title": "unrelated open issue", "state": "open"}],
+            [{"title": title, "state": "open"}],
+        ]
+        gh = FakeGh(
+            {
+                f"repos/{REPO}/compare/{PARENT}...{MERGE}": compare(MERGE),
+                f"repos/{REPO}/commits/{MERGE}": commit_payload(".github/CODEOWNERS"),
+                f"repos/{REPO}/{ga.ISSUES_OPEN_PATH}": pages,
+            }
+        )
+        self.assertEqual(self._audit(gh), 0)
+        self.assertFalse(gh.issues)
+        self.assertTrue(
+            any(ga.ISSUES_OPEN_PATH in path for path in gh.api_paths), gh.api_paths
+        )
 
     def test_s14_skips_create_when_open_record_exists(self) -> None:
         title = ga.record_title(MERGE)

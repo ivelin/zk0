@@ -256,5 +256,113 @@ class GitHelperTests(unittest.TestCase):
                 os.environ.pop("ZK0_ROOT", None)
 
 
+_BASE_REF_ENV = (
+    "GITHUB_BASE_SHA",
+    "GITHUB_BEFORE",
+    "GITHUB_EVENT_NAME",
+    "GITHUB_REF",
+    "GITHUB_REF_NAME",
+    "GITHUB_SHA",
+    "ZK0_ROOT",
+    "ZK0_ALLOWLIST",
+)
+
+
+class BaseRefRangeTests(unittest.TestCase):
+    """S6: push to main must diff github.event.before..HEAD, not main..main."""
+
+    BEFORE = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    HEAD = "cccccccccccccccccccccccccccccccccccccccc"
+    MERGE_BASE = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    PR_BASE = "dddddddddddddddddddddddddddddddddddddddd"
+
+    def setUp(self) -> None:
+        self._saved = {k: os.environ.get(k) for k in _BASE_REF_ENV}
+        for k in _BASE_REF_ENV:
+            os.environ.pop(k, None)
+
+    def tearDown(self) -> None:
+        for k in _BASE_REF_ENV:
+            os.environ.pop(k, None)
+        for k, v in self._saved.items():
+            if v is not None:
+                os.environ[k] = v
+
+    def test_push_to_main_with_before_detects_new_skip(self) -> None:
+        os.environ["GITHUB_EVENT_NAME"] = "push"
+        os.environ["GITHUB_REF"] = "refs/heads/main"
+        os.environ["GITHUB_BEFORE"] = self.BEFORE
+        os.environ["GITHUB_SHA"] = self.HEAD
+        self.assertEqual(sc.base_ref(), self.BEFORE)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write(
+                root,
+                "tests/unit/test_new_skip.py",
+                "import pytest\n@pytest.mark.skip(reason='x')\ndef test_hidden():\n    pass\n",
+            )
+            os.environ["ZK0_ROOT"] = str(root)
+            _write(root, "allow.txt", "")
+            os.environ["ZK0_ALLOWLIST"] = str(root / "allow.txt")
+
+            def fake_git(*args: str) -> str:
+                if args[:4] == ("ls-tree", "-r", "--name-only", self.BEFORE):
+                    return "tests/unit/test_old.py\n"
+                if args == ("show", f"{self.BEFORE}:tests/unit/test_old.py"):
+                    return "def test_old():\n    pass\n"
+                raise sc.GitError(f"unexpected git {args}")
+
+            with mock.patch.object(sc, "git", side_effect=fake_git):
+                errors = sc.check_new_skips(root)
+        self.assertTrue(
+            any("new skip" in e and "test_hidden" in e for e in errors),
+            errors,
+        )
+        self.assertTrue(any(self.BEFORE in e for e in errors), errors)
+
+    def test_push_to_main_all_zeros_before_uses_merge_base(self) -> None:
+        os.environ["GITHUB_EVENT_NAME"] = "push"
+        os.environ["GITHUB_REF"] = "refs/heads/main"
+        os.environ["GITHUB_BEFORE"] = sc.ZERO_SHA
+        os.environ["GITHUB_SHA"] = self.HEAD
+
+        def fake_git(*args: str) -> str:
+            if args[:3] == ("merge-base", "origin/main", "HEAD"):
+                return self.MERGE_BASE + "\n"
+            if args[:2] == ("rev-parse", "HEAD"):
+                return self.HEAD + "\n"
+            raise sc.GitError(f"unexpected git {args}")
+
+        with mock.patch.object(sc, "git", side_effect=fake_git):
+            self.assertEqual(sc.base_ref(), self.MERGE_BASE)
+
+    def test_push_to_main_all_zeros_refuses_self_diff(self) -> None:
+        os.environ["GITHUB_EVENT_NAME"] = "push"
+        os.environ["GITHUB_REF"] = "refs/heads/main"
+        os.environ["GITHUB_BEFORE"] = sc.ZERO_SHA
+        os.environ["GITHUB_SHA"] = self.HEAD
+
+        def fake_git(*args: str) -> str:
+            if args[:3] == ("merge-base", "origin/main", "HEAD"):
+                return self.HEAD + "\n"
+            if args[:2] == ("rev-parse", "HEAD"):
+                return self.HEAD + "\n"
+            raise sc.GitError(f"unexpected git {args}")
+
+        with mock.patch.object(sc, "git", side_effect=fake_git):
+            with self.assertRaises(sc.GitError) as ctx:
+                sc.base_ref()
+        self.assertIn("refusing empty self-diff", str(ctx.exception))
+
+    def test_pull_request_uses_base_sha(self) -> None:
+        os.environ["GITHUB_EVENT_NAME"] = "pull_request"
+        os.environ["GITHUB_BASE_SHA"] = self.PR_BASE
+        os.environ["GITHUB_BEFORE"] = self.BEFORE
+        os.environ["GITHUB_REF"] = "refs/heads/main"
+        os.environ["GITHUB_SHA"] = self.HEAD
+        self.assertEqual(sc.base_ref(), self.PR_BASE)
+
+
 if __name__ == "__main__":
     unittest.main()
