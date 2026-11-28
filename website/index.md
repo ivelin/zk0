@@ -71,6 +71,7 @@ Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evol
   <p>Join the decentralized robotics revolution</p>
   <a href="/docs/INSTALLATION.html">For Developers</a>
   <a href="/docs/NODE-OPERATORS.html">For Node Operators</a>
+  <a href="/docs/DESIGN-PARTNERS.html">For Founding Design Partners</a>
   <a href="https://github.com/ivelin/zk0">View on GitHub</a>
 </div>
 

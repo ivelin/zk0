@@ -10,7 +10,7 @@ description: "The published evidence says robot-arm policies gain more from dive
 1. **We do not need a bigger model.** Bigger vision-language-action (VLA) models exist — 3B, 7B, even 14B. There is no controlled evidence that a robot arm needs them. In every matched comparison we can find, data and training recipe beat parameter count.
 2. **We need more — and more diverse — data.** That is why zk0 recruits people, not GPUs alone: SO-101 arm owners with private demonstrations, and compute contributors with ordinary consumer GPUs.
 
-If you only read one section, read the evidence. If it convinces you, [join us](#join-zk0-two-ways-to-contribute).
+If you only read one section, read the evidence. If it convinces you, [join us](#join-zk0-three-ways-to-contribute).
 
 ## Evidence 1: SmolVLA's own scaling curve is nearly flat — its data curve is not
 
@@ -74,7 +74,7 @@ zk0 is an open-source (Apache-2.0) federated learning platform built on Flower a
 
 We are also forming a **hands-on workshop series** for new contributors — bring an arm, leave with a live node and your first dataset in a federated round. No dates yet; register interest through the same routes below and you will hear first.
 
-## Join zk0: two ways to contribute
+## Join zk0: three ways to contribute
 
 **Path 1 — Data contributor (you have the arm).**
 You own a LeRobot SO-100 or SO-101 and have private demonstrations — the application asks about datasets of 100+ episodes — that you cannot or will not upload to a public hub. That privacy constraint is the point of zk0: your data trains the shared model *without leaving your machine*.
@@ -82,10 +82,13 @@ You own a LeRobot SO-100 or SO-101 and have private demonstrations — the appli
 **Path 2 — Compute contributor (you have the GPU).**
 You have a consumer GPU in the 10 GB+ VRAM class (RTX 3060 12 GB / 3080 / 3090 / 4070 or better) and want your idle cycles training a community robot model as a zk0 node.
 
-**Both paths start at the same door:**
+**Path 3 — Founding design partner (you have the arm, the data, and a lab to run it in).**
+You run a zk0 node on your own data as part of the founding cohort — the first external nodes on the network — and your experience shapes the node design itself. See [Founding Design Partners](https://zk0.bot/docs/DESIGN-PARTNERS.html).
+
+**All three paths start at the same door:**
 
 1. Read the [Node Operators Guide](https://zk0.bot/docs/NODE-OPERATORS.html) — requirements, setup, and how federation works.
-2. Apply via the [node operator application](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md) on GitHub (reviews typically within 1–3 days).
+2. Apply on GitHub (reviews typically within 1–3 days): the [node operator application](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md) for data and compute contributors, or the [founding design partner application](https://github.com/ivelin/zk0/issues/new?template=founding-design-partner-application.md) for the founding cohort.
 3. Say hello in the [zk0 Discord](https://discord.gg/dhMnEne7RP), or write to [operators@zk0.bot](mailto:operators@zk0.bot?subject=Join+Network).
 
 The model gets better when the community's data does. Bring yours.
