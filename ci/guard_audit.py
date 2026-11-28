@@ -10,11 +10,7 @@ import sys
 ZERO_SHA = "0" * 40
 OWNER_LOGIN = "ivelin"
 LABEL = "guarded-merge"
-SELF_APPROVAL_NOTE = (
-    "API-verified ivelin APPROVED review at head is 'no' today because GitHub "
-    "blocks self-approval while every PR is authored as ivelin. This field is "
-    "informational only and must never suppress or close this record."
-)
+ISSUES_OPEN_PATH = "issues?state=open&per_page=100"
 
 
 def guarded(path: str) -> bool:
@@ -43,7 +39,7 @@ def truthy(value: str | None) -> bool:
 
 
 def record_title(sha: str) -> str:
-    return f"zk0-ci-guard: guarded-merge record {sha}"
+    return f"human review needed: guarded-merge record {sha}"
 
 
 class Gh:
@@ -115,25 +111,6 @@ def commit_pulls(gh: Gh, sha: str) -> list[dict]:
     return list(data or [])
 
 
-def pr_reviews(gh: Gh, number: int) -> list[dict]:
-    data = gh.api(f"repos/{gh.repo}/pulls/{number}/reviews", paginate=True)
-    if isinstance(data, dict):
-        return [data]
-    return list(data or [])
-
-
-def ivelin_approved_at_head(reviews: list[dict], head_sha: str) -> bool:
-    for review in reviews:
-        user = review.get("user") or {}
-        if (
-            review.get("state") == "APPROVED"
-            and user.get("login") == OWNER_LOGIN
-            and review.get("commit_id") == head_sha
-        ):
-            return True
-    return False
-
-
 def associated_pr(gh: Gh, sha: str) -> dict | None:
     for pr in commit_pulls(gh, sha):
         if pr.get("merged_at") and pr.get("merge_commit_sha") == sha:
@@ -142,12 +119,18 @@ def associated_pr(gh: Gh, sha: str) -> dict | None:
     return pulls[0] if pulls else None
 
 
-def approval_yes_no(gh: Gh, pr: dict | None) -> str:
-    if not pr:
-        return "no"
-    head = (pr.get("head") or {}).get("sha") or ""
-    reviews = pr_reviews(gh, int(pr["number"]))
-    return "yes" if ivelin_approved_at_head(reviews, head) else "no"
+def open_issues(gh: Gh) -> list[dict]:
+    data = gh.api(f"repos/{gh.repo}/{ISSUES_OPEN_PATH}", paginate=True)
+    if isinstance(data, dict):
+        return [data]
+    return list(data or [])
+
+
+def has_open_record(gh: Gh, title: str) -> bool:
+    for issue in open_issues(gh):
+        if issue.get("title") == title and "pull_request" not in issue:
+            return True
+    return False
 
 
 def ensure_label(gh: Gh) -> bool:
@@ -174,7 +157,6 @@ def record_body(
     before: str,
     guarded_files: list[str],
     pr: dict | None,
-    approved: str,
     note: str = "",
 ) -> str:
     files = "\n".join(f"- {name}" for name in guarded_files) or "- (none listed)"
@@ -185,8 +167,6 @@ def record_body(
         f"Range: {before}..{sha}\n"
         f"Guarded files touched:\n{files}\n"
         f"PR: {pr_link}\n"
-        f"API-verified ivelin APPROVED review at head: {approved}\n"
-        f"{SELF_APPROVAL_NOTE}\n"
         f"{extra}"
     )
 
@@ -264,10 +244,13 @@ def audit(
 
     should_record = bool(guarded_files) or fail_closed
     if should_record:
-        pr = associated_pr(gh, sha)
-        approved = approval_yes_no(gh, pr)
-        body = record_body(sha, before or "(none)", guarded_files, pr, approved, note)
-        open_record(gh, sha, body)
+        title = record_title(sha)
+        if has_open_record(gh, title):
+            print(f"record exists: {title}")
+        else:
+            pr = associated_pr(gh, sha)
+            body = record_body(sha, before or "(none)", guarded_files, pr, note)
+            open_record(gh, sha, body)
         if fail_closed:
             return 1
     print("ci-guard-audit OK")
