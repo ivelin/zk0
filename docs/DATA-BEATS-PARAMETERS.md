@@ -10,7 +10,7 @@ description: "The published evidence says robot-arm policies gain more from dive
 1. **We do not need a bigger model.** Bigger vision-language-action (VLA) models exist — 3B, 7B, even 14B. There is no controlled evidence that a robot arm needs them. In every matched comparison we can find, data and training recipe beat parameter count.
 2. **We need more — and more diverse — data.** That is why zk0 recruits people, not GPUs alone: SO-101 arm owners with private demonstrations, and compute contributors with ordinary consumer GPUs.
 
-If you only read one section, read the evidence. If it convinces you, [join us](#join-zk0-three-ways-to-contribute).
+If you only read one section, read the evidence. If it convinces you, [join us](#join-zk0-five-ways-to-contribute).
 
 ## Evidence 1: SmolVLA's own scaling curve is nearly flat — its data curve is not
 
@@ -70,11 +70,11 @@ Our interpretation, labeled as such: at Tesla's scale, data scaled first — tha
 
 ## What zk0 is, concretely
 
-zk0 is an open-source (Apache-2.0) federated learning platform built on Flower and LeRobot. Node operators run a SuperNode on their own machine: training happens locally on private SO-100/SO-101 datasets, and only model updates are sent to the aggregator — raw episodes never leave the operator's disk. The current shared model is SmolVLA (450M), chosen deliberately: small enough for consumer GPUs, strong enough that the published evidence says data — not size — is its frontier.
+zk0 is an open-source (Apache-2.0) federated learning platform built on Flower and LeRobot. Node operators run a SuperNode on their own machine: training happens locally on private SO-100/SO-101 datasets, and only model updates are sent to the aggregator — raw episodes never leave the operator's disk. That is the arm-operator role. Operators also serve as validators - running sim twin and sim spec pass/fail evaluation and data certification - and as sim data contributors, generating and certifying sim data such as twins, spec scenes, and solutions. Neither of those roles needs a physical arm; only arm operators do. The current shared model is SmolVLA (450M), chosen deliberately: small enough for consumer GPUs, strong enough that the published evidence says data — not size — is its frontier.
 
 We are also forming a **hands-on workshop series** for new contributors — bring an arm, leave with a live node and your first dataset in a federated round. No dates yet; register interest through the same routes below and you will hear first.
 
-## Join zk0: three ways to contribute
+## Join zk0: five ways to contribute
 
 **Path 1 — Data contributor (you have the arm).**
 You own a LeRobot SO-100 or SO-101 and have private demonstrations — the application asks about datasets of 100+ episodes — that you cannot or will not upload to a public hub. That privacy constraint is the point of zk0: your data trains the shared model *without leaving your machine*.
@@ -85,10 +85,16 @@ You have a consumer GPU in the 10 GB+ VRAM class (RTX 3060 12 GB / 3080 / 3090 /
 **Path 3 — Founding design partner (you have the arm, the data, and a lab to run it in).**
 You run a zk0 node on your own data as part of the founding cohort — the first external nodes on the network — and your experience shapes the node design itself. See [Founding Design Partners](https://zk0.bot/docs/DESIGN-PARTNERS.html).
 
-**All three paths start at the same door:**
+**Path 4 - Validator (no arm needed).**
+You run validation for the network: sim twins and sim spec scenes get pass/fail evaluation, and recorded datasets get certified before they are used for training. No robot arm, no private dataset - validation runs on sims and recordings, not on your hardware.
+
+**Path 5 - Sim data contributor (no arm needed).**
+You generate and certify sim data - twins of real scenes, spec scenes, and the solutions that run on them. No robot arm required: this work happens in simulation.
+
+**All five paths start at the same door:**
 
 1. Read the [Node Operators Guide](https://zk0.bot/docs/NODE-OPERATORS.html) — requirements, setup, and how federation works.
-2. Apply on GitHub (reviews typically within 1–3 days): the [node operator application](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md) for data and compute contributors, or the [founding design partner application](https://github.com/ivelin/zk0/issues/new?template=founding-design-partner-application.md) for the founding cohort.
+2. Apply on GitHub (reviews typically within 1–3 days): the [node operator application](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md) for data, compute, validator, and sim data contributors, or the [founding design partner application](https://github.com/ivelin/zk0/issues/new?template=founding-design-partner-application.md) for the founding cohort.
 3. Say hello in the [zk0 Discord](https://discord.gg/dhMnEne7RP), or write to [operators@zk0.bot](mailto:operators@zk0.bot?subject=Join+Network).
 
 The model gets better when the community's data does. Bring yours.
