@@ -36,7 +36,7 @@ else:
         _sys.exit(3)
     print(f"eval gate PASS verified ({_rep})")
 
-split = json.loads((E / "split/split.json").read_text())
+split = json.loads((E / "split.json").read_text())  # package layout (as-run tree used split/split.json)
 
 # p99 step-to-step jump across each task's successful executions
 ep = pd.read_parquet(DS / "meta/episodes/chunk-000/file-000.parquet")

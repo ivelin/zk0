@@ -57,7 +57,7 @@ for t in TASKS:
     report[t] = len(entries)
 
 # disjointness vs pinned training lists + cable cross-check vs run_set_manifest
-rsm = json.loads((TRAIN / "run_set_manifest.json").read_text())
+rsm = json.loads((TRAIN.parent / "run_set_manifest.json").read_text())  # manifest sits at the package root, beside episode_lists/
 assert sorted(rsm["cable_heldout_excluded"]) == sorted(LISTS["cable_clip"]), "cable != run_set_manifest exclusion"
 for t in TASKS:
     train_idx = set(json.loads((TRAIN / f"episodes_{t}.json").read_text()))
@@ -68,7 +68,8 @@ total_train = sum(len(json.loads((TRAIN / f"episodes_{t}.json").read_text())) fo
 assert total_train == 239, total_train
 assert sum(report.values()) == 90
 
-(EVAL / "split.json")  # package layout (as-run tree used split/split.json).write_text(json.dumps(split, indent=1))
+# package layout: split.json directly in the eval folder (as-run tree used split/split.json)
+(EVAL / "split.json").write_text(json.dumps(split, indent=1))
 
 # canonical rows hash, exactly the gate's formula
 rows = []
@@ -104,7 +105,7 @@ man["registered_waivers"] = man.get("registered_waivers", []) + [{
     "source": "founder cable re-split decision 2026-11-23 (original held-out cable 20 were 20/20 FAIL and removed; new certified held-out cable set = 10, seed 20261123); Q-A run spec denominator 90 (qa-eval-prep-20261126.md S1)",
 }]
 man["qa_eval_manifest_note"] = ("Derived 2026-11-27 from qa_gate_manifest_239_20261125.json for the Q-A eval only: "
-    "eval_gate.split now pins the verified 90-episode Q-A split (canonical_rows_sha256 over split/split.json in "
+    "eval_gate.split now pins the verified 90-episode Q-A split (canonical_rows_sha256 over the split rows in "
     "zk0-qa-resume-20261126/eval); expected_policy_config, expected_preprocessor and all other sections are "
     "carried over unchanged from the Q-A training gate manifest.")
 (EVAL / "qa_eval_manifest_90.json").write_text(json.dumps(man, indent=1))
