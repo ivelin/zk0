@@ -32,7 +32,9 @@ jobs:
         if [ "$EVENT" = "pull_request" ] && [ -n "$PR_BASE" ] && [ "$PR_BASE" != "$ZERO" ]; then
           BASE="$PR_BASE"
         elif [ "$EVENT" = "push" ] && [ "${GITHUB_REF:-}" = "refs/heads/main" ] && [ -n "$BEFORE" ] && [ "$BEFORE" != "$ZERO" ]; then
-          git fetch --no-tags origin "$BEFORE" || true
+          if git fetch --no-tags origin "$BEFORE"; then
+            echo "self-check: fetched before SHA ${BEFORE}"
+          fi
           if ! git cat-file -e "${BEFORE}^{commit}"; then
             echo "self-check: before SHA ${BEFORE} unreachable (force push?); refusing to self-check"
             exit 1
