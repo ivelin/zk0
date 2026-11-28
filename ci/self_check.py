@@ -49,16 +49,65 @@ def _nonzero_sha(value: str) -> str:
     return ""
 
 
-def base_ref() -> str:
-    sha = _nonzero_sha(os.environ.get("GITHUB_BASE_SHA", ""))
+def _event_name() -> str:
+    return os.environ.get("GITHUB_EVENT_NAME", "").strip()
+
+
+def _github_ref_is_main() -> bool:
+    ref = os.environ.get("GITHUB_REF", "").strip()
+    name = os.environ.get("GITHUB_REF_NAME", "").strip()
+    return ref == "refs/heads/main" or name == "main"
+
+
+def _head_sha() -> str:
+    sha = _nonzero_sha(os.environ.get("GITHUB_SHA", ""))
     if sha:
         return sha
+    return git("rev-parse", "HEAD").strip()
+
+
+def _merge_base_origin_main() -> str:
     mb = git("merge-base", "origin/main", "HEAD").strip()
     if mb:
         return mb
-    raise GitError(
-        "no base SHA: set GITHUB_BASE_SHA (pull_request) or origin/main merge-base"
-    )
+    raise GitError("origin/main merge-base is empty")
+
+
+def _refuse_self_diff(sha: str) -> str:
+    """Never compare HEAD to itself: that empty range silently passes."""
+    head = _head_sha()
+    if sha and head and sha == head:
+        raise GitError(
+            f"base SHA {sha} equals HEAD; refusing empty self-diff "
+            "(set GITHUB_BEFORE on push to main, or a PR base SHA)"
+        )
+    return sha
+
+
+def base_ref() -> str:
+    """Resolve the git range base for skip/CLI/neuter diffs.
+
+    pull_request: GITHUB_BASE_SHA (PR base.sha), else merge-base with origin/main.
+    push to main with a non-zero github.event.before: that before SHA.
+    all-zeros before or unknown base: merge-base with origin/main, never HEAD.
+    """
+    event = _event_name()
+    pr_base = _nonzero_sha(os.environ.get("GITHUB_BASE_SHA", ""))
+    before = _nonzero_sha(os.environ.get("GITHUB_BEFORE", ""))
+
+    if event == "pull_request":
+        if pr_base:
+            return pr_base
+        return _refuse_self_diff(_merge_base_origin_main())
+
+    if event == "push" and _github_ref_is_main() and before:
+        return _refuse_self_diff(before)
+
+    if event == "push" and pr_base:
+        # Workflow may export a resolved SHA; still refuse a no-op self-diff.
+        return _refuse_self_diff(pr_base)
+
+    return _refuse_self_diff(_merge_base_origin_main())
 
 
 def allowlist_path() -> Path:

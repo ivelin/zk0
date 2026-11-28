@@ -15,17 +15,34 @@ jobs:
     - name: Run base self-check against this tree
       env:
         GITHUB_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        GITHUB_BEFORE: ${{ github.event.before }}
+        GITHUB_EVENT_NAME: ${{ github.event_name }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
         ZK0_ROOT: ${{ github.workspace }}
       run: |
         set -euo pipefail
         unset PYTHONPATH
-        BASE="${GITHUB_BASE_SHA:-}"
-        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+        ZERO="0000000000000000000000000000000000000000"
+        EVENT="${GITHUB_EVENT_NAME:-}"
+        BEFORE="${GITHUB_BEFORE:-}"
+        PR_BASE="${GITHUB_BASE_SHA:-}"
+        HEAD_SHA="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+        BASE=""
+        if [ "$EVENT" = "pull_request" ] && [ -n "$PR_BASE" ] && [ "$PR_BASE" != "$ZERO" ]; then
+          BASE="$PR_BASE"
+        elif [ "$EVENT" = "push" ] && [ "${GITHUB_REF:-}" = "refs/heads/main" ] && [ -n "$BEFORE" ] && [ "$BEFORE" != "$ZERO" ]; then
+          BASE="$BEFORE"
+        else
           git fetch --no-tags origin main
           BASE="$(git merge-base origin/main HEAD)"
         fi
-        if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+        if [ -z "$BASE" ] || [ "$BASE" = "$ZERO" ]; then
           echo "self-check: missing base SHA"
+          exit 1
+        fi
+        if [ "$BASE" = "$HEAD_SHA" ]; then
+          echo "self-check: base SHA equals HEAD; refusing empty self-diff"
           exit 1
         fi
         export GITHUB_BASE_SHA="$BASE"
