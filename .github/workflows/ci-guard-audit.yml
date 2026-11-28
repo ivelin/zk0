@@ -1,0 +1,23 @@
+name: ci-guard-audit
+"on":
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      SHA: ${{ github.sha }}
+      BEFORE: ${{ github.event.before }}
+      FORCED: ${{ github.event.forced }}
+      EVENT_NAME: ${{ github.event_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit CI-guard evidence
+        run: python3 ci/guard_audit.py

@@ -47,6 +47,7 @@ jobs:
           (cd "$CWD" && python3 -I "${ZK0_ROOT}/ci/self_check.py")
         fi
         python3 -I "${ZK0_ROOT}/ci/test_self_check.py"
+        python3 -I "${ZK0_ROOT}/ci/test_guard_audit.py"
 
   test:
     name: ${{ matrix.test-type }} UnitTests
