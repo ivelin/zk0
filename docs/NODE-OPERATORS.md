@@ -26,6 +26,8 @@ To join the zk0 network:
 
 2. **Submit Application**: Create a new issue using our [Node Operator Application Template](https://github.com/ivelin/zk0/issues/new?template=node-operator-application.md)
 
+   **Joining as a founding design partner?** If you have a physical arm and your own data and want to help shape the node design as part of the founding cohort, apply through the [Founding Design Partners](DESIGN-PARTNERS) page instead.
+
 3. **Wait for Approval**: Our team will review your application and contact you via Discord
 
 ### 2. Install zk0bot CLI

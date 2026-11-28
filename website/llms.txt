@@ -12,6 +12,7 @@
 ## Docs
 
 - [Node Operators](https://zk0.bot/docs/NODE-OPERATORS.html): How to run a zk0 node and contribute data or compute.
+- [Founding Design Partners](https://zk0.bot/docs/DESIGN-PARTNERS.html): The founding cohort — labs and operators who run a zk0 node on their own arm and data, and shape the node design.
 - [Architecture](https://zk0.bot/docs/ARCHITECTURE.html): How the zk0 federated-learning system is put together.
 - [Roadmap](https://zk0.bot/docs/ROADMAP.html): The phased public roadmap — tangible wins first, acceleration as traction earns it.
 - [White paper (PDF)](https://zk0.bot/docs/zk0-white-paper-Dec-2025.pdf): The zk0 design in full.
