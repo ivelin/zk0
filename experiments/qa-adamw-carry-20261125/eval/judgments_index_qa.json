@@ -1,0 +1,4502 @@
+[
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 411,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 453,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 476,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 479,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 489,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 498,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 499,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 513,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 514,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 525,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 526,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 527,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 530,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 531,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 539,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 545,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 546,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 548,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 549,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "block_stack",
+  "episode_index": 557,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2164,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2169,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2170,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2183,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2190,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2193,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2194,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2195,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2200,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "cable_clip",
+  "episode_index": 2208,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1609,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1618,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1630,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1639,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1643,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1724,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1741,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1746,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1747,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1757,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1760,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1778,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1780,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1783,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1798,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1808,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1810,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1811,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1814,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1821,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 7,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 11,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 30,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 31,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 33,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 48,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 50,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 160,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 165,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 167,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 168,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 177,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 179,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 188,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 195,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 198,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 227,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 240,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 242,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "ring_insert",
+  "episode_index": 253,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 622,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 629,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 630,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 683,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 684,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 697,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 779,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 784,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 824,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 830,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 852,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 859,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 871,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 876,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 883,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 885,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 888,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 892,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 902,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "centralized_qa",
+  "task": "tool_insert",
+  "episode_index": 903,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 411,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 453,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 476,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 479,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 489,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 498,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 499,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 513,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 514,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 525,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 526,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 527,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 530,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 531,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 539,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 545,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 546,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 548,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 549,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "block_stack",
+  "episode_index": 557,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2164,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2169,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2170,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2183,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2190,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2193,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2194,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2195,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2200,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "cable_clip",
+  "episode_index": 2208,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1609,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1618,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1630,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1639,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1643,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1724,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1741,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1746,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1747,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1757,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1760,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1778,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1780,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1783,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1798,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1808,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1810,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1811,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1814,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1821,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 7,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 11,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 30,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 31,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 33,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 48,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 50,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 160,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 165,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 167,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 168,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 177,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 179,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 188,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 195,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 198,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 227,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 240,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 242,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "ring_insert",
+  "episode_index": 253,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 622,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 629,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 630,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 683,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 684,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 697,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 779,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 784,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 824,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 830,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 852,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 859,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 871,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 876,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 883,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 885,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 888,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 892,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 902,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r10",
+  "task": "tool_insert",
+  "episode_index": 903,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 411,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 453,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 476,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 479,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 489,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 498,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 499,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 513,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 514,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 525,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 526,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 527,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 530,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 531,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 539,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 545,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 546,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 548,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 549,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "block_stack",
+  "episode_index": 557,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2164,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2169,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2170,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2183,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2190,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2193,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2194,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2195,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2200,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "cable_clip",
+  "episode_index": 2208,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1609,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1618,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1630,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1639,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1643,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1724,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1741,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1746,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1747,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1757,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1760,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1778,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1780,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1783,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1798,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1808,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1810,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1811,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1814,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1821,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 7,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 11,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 30,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 31,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 33,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 48,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 50,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 160,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 165,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 167,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 168,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 177,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 179,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 188,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 195,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 198,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 227,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 240,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 242,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "ring_insert",
+  "episode_index": 253,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 622,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 629,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 630,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 683,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 684,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 697,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 779,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 784,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 824,
+  "provisional": true,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 830,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 852,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 859,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 871,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 876,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 883,
+  "provisional": false,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 885,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 888,
+  "provisional": true,
+  "claude": null,
+  "gemini": null,
+  "final": null,
+  "status": "UNJUDGED"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 892,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 902,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r20",
+  "task": "tool_insert",
+  "episode_index": 903,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 411,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 453,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 476,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 479,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 489,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 498,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 499,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 513,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 514,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 525,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 526,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 527,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 530,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 531,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 539,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 545,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 546,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 548,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 549,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "block_stack",
+  "episode_index": 557,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2164,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2169,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2170,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2183,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2190,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2193,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2194,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2195,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2200,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "cable_clip",
+  "episode_index": 2208,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1609,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1618,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1630,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1639,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1643,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1724,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1741,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1746,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1747,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1757,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1760,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1778,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1780,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1783,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1798,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1808,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1810,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1811,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1814,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1821,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 7,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 11,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 30,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 31,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 33,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 48,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 50,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 160,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 165,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 167,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 168,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 177,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 179,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 188,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 195,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 198,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 227,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 240,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 242,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "ring_insert",
+  "episode_index": 253,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 622,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 629,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 630,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 683,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 684,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 697,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 779,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 784,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 824,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 830,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 852,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 859,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 871,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 876,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 883,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 885,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 888,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 892,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 902,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "fl_qa_r30",
+  "task": "tool_insert",
+  "episode_index": 903,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 411,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 453,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 476,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 479,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 489,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 498,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 499,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 513,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 514,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 525,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 526,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 527,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 530,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 531,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 539,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 545,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 546,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 548,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 549,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_block_stack",
+  "task": "block_stack",
+  "episode_index": 557,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2164,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2169,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2170,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2183,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2190,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2193,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2194,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2195,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2200,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_cable_clip",
+  "task": "cable_clip",
+  "episode_index": 2208,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1609,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1618,
+  "provisional": false,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1630,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1639,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1643,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1724,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1741,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1746,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1747,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1757,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1760,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1778,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1780,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1783,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1798,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1808,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1810,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1811,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1814,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_eye_drops_to_basket",
+  "task": "eye_drops_to_basket",
+  "episode_index": 1821,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 7,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 11,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 30,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 31,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 33,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 48,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 50,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 160,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 165,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 167,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 168,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 177,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 179,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 188,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 195,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 198,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 227,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 240,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 242,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_ring_insert",
+  "task": "ring_insert",
+  "episode_index": 253,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 622,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 629,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 630,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 683,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 684,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 697,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 779,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 784,
+  "provisional": false,
+  "claude": false,
+  "gemini": null,
+  "final": false,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 824,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 830,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 852,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 859,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 871,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 876,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 883,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 885,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 888,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 892,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 902,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ },
+ {
+  "checkpoint": "spec_tool_insert",
+  "task": "tool_insert",
+  "episode_index": 903,
+  "provisional": true,
+  "claude": true,
+  "gemini": null,
+  "final": true,
+  "status": "SINGLE-LEG"
+ }
+]

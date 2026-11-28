@@ -37,3 +37,15 @@ Certified PASS pool is 249 (246 CLEAN + 3 RECOVERED; ep604 is the only certified
 - Run home on the DGX: `~/muse-work/zk0-qa-relaunch-20261125/` (guard telemetry mirror staging stays on-box there; this branch is the durable off-box record)
 
 **Pointer issue:** [#54](https://github.com/ivelin/zk0/issues/54) — summary pointer to this branch, updated at milestones; closes when results lock Mon Nov 30, 2026.
+
+## Status — 2026-11-28
+
+**Training: COMPLETE** (2026-11-27 22:10 CT, artifact-gated — see RUN_LOG).
+**Eval: EXECUTED** — 810/810 trajectories; Muse judge leg complete
+(centralized 71/90, FL r30 27/90, specialists diagonal pooled 71/90, judged
+completion — proxy metric, SINGLE-LEG labeled). Gemini second leg pending;
+two-judge certification completes when it lands.
+**Checkpoints: PUBLISHED** — `zk0bot/smolvla-qa-20261127` (all nine arms,
+sha256 in `checkpoints_manifest.json`).
+**Reproduce:** `REPRODUCE-qa.md` in this folder. Independent verification:
+`VERIFICATION.md` (when filed).

@@ -1,0 +1,58 @@
+{
+ "method": "random.Random(20261127).sample(sorted(eval list), 8) per task; fixed before judging; same subset at every read (canary standard, FL_SEARCH_QUEUE item 5)",
+ "n": 40,
+ "per_task": 8,
+ "canary": {
+  "block_stack": [
+   453,
+   476,
+   489,
+   499,
+   514,
+   525,
+   545,
+   549
+  ],
+  "eye_drops_to_basket": [
+   1609,
+   1630,
+   1724,
+   1746,
+   1747,
+   1778,
+   1798,
+   1811
+  ],
+  "ring_insert": [
+   7,
+   11,
+   33,
+   50,
+   160,
+   165,
+   198,
+   240
+  ],
+  "tool_insert": [
+   622,
+   629,
+   784,
+   824,
+   885,
+   892,
+   902,
+   903
+  ],
+  "cable_clip": [
+   2169,
+   2170,
+   2183,
+   2193,
+   2194,
+   2195,
+   2200,
+   2208
+  ]
+ },
+ "u6_note": "block slice membership of eps 489/499 to be re-checked against the founder's U6 ruling when given (eval prep S3/E-4)"
+}

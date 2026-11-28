@@ -1,0 +1,36 @@
+{
+ "repo": "zk0bot/smolvla-qa-20261127",
+ "repo_type": "model",
+ "license": "apache-2.0",
+ "verified_head_sha": "a871654ff03dd28855863143ae388274cd0c35af",
+ "note": "model_safetensors sha256 per arm, verified byte-identical to the DGX eval checkpoints (FL arms: to the packaged eval-form copies; packaging touched no weights). Checkpoint files unchanged since commit 0baa251e56c81b46d3e65a72fe2355b3abd809db; the head commit adds only README.md (the model card).",
+ "arms": {
+  "centralized": {
+   "model_safetensors_sha256": "a1933bd27bf389bcc16a9ab2a4d71838c3efb55bc00a66d0ab7b67bf0d302e96"
+  },
+  "specialists/block_stack": {
+   "model_safetensors_sha256": "7638a8506a39643dde2b2df845ef50b6fb09832b96b6baf77057992b9d37b566"
+  },
+  "specialists/eye_drops_to_basket": {
+   "model_safetensors_sha256": "c4d930a447cc821fd9ea959e26d58eb3322fa871a6fbf0cc6e8338458a1eb3d9"
+  },
+  "fl_r30": {
+   "model_safetensors_sha256": "ac36f73fc29d4d0bff472229be42f01fa68f326e4f84f51431d5e16767315d38"
+  },
+  "fl_r20": {
+   "model_safetensors_sha256": "edc879a6c152dd1ff11ac298ce20e954b1b8def5a8f596013d58242b058ca0f2"
+  },
+  "specialists/tool_insert": {
+   "model_safetensors_sha256": "4cc05ebd362e3fbb85c564ab7b74cde8506382f1b19349fcb12e5f02c1b0ddcc"
+  },
+  "specialists/cable_clip": {
+   "model_safetensors_sha256": "cddc79f8a4829b13ba8e60feb7eada9fd7741f12d8bf0bb21e56141bf75ffc94"
+  },
+  "specialists/ring_insert": {
+   "model_safetensors_sha256": "a5c2aa1040a7c5bf0966a8b9a6b8bf575dabecded206f3a7065cc2bb75369d39"
+  },
+  "fl_r10": {
+   "model_safetensors_sha256": "a97f06caa97c16e5e126a4bd5255eaa9c1a0e9d0555860bc3485ddb3ea95d262"
+  }
+ }
+}

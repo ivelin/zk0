@@ -1,0 +1,72 @@
+{
+  "chain": "qa-resume-switch-20261126",
+  "completed_at": "2026-11-27T22:10:07.734488-06:00",
+  "fl_segment1_output_dir": "/home/openclaw/muse-work/zk0-qa-relaunch-20261125/repo/outputs/2026-11-25_15-16-28",
+  "fl_resume_segment_output_dir": "/home/openclaw/muse-work/zk0-qa-relaunch-20261125/repo/outputs/2026-11-26_12-13-59",
+  "fl_registered_rounds": "1-11 (segment 1) + 12-30 (resume segment, round_offset=11)",
+  "fl_deviation": "DECISIONS #11: one-round AdamW moment lead on round-12 re-fit (post-round-12 states kept as-is)",
+  "fl_gate": {
+    "verdict": "PASS",
+    "checks": {
+      "split_checkpoint_exists": true,
+      "final_checkpoint_exists": true,
+      "aggregation_5_of_5_no_gaps": true,
+      "aggregation_per_client_counts": {
+        "1": 5,
+        "2": 5,
+        "3": 5,
+        "4": 5,
+        "5": 5,
+        "6": 5,
+        "7": 5,
+        "8": 5,
+        "9": 5,
+        "10": 5,
+        "11": 5,
+        "12": 5,
+        "13": 5,
+        "14": 5,
+        "15": 5,
+        "16": 5,
+        "17": 5,
+        "18": 5,
+        "19": 5,
+        "20": 5,
+        "21": 5,
+        "22": 5,
+        "23": 5,
+        "24": 5,
+        "25": 5,
+        "26": 5,
+        "27": 5,
+        "28": 5,
+        "29": 5,
+        "30": 5
+      },
+      "round_complete_log_line": true,
+      "census_500_tensors": true,
+      "census": {
+        "tensors": 500,
+        "elements": 450046176
+      },
+      "config_hash_chain_uniform": true,
+      "config_hash": "0ed91253c30329d1e11f60f85a3e11e62b207aa911d592b2ac21067c2a129d56",
+      "client_states_exist_and_load": true,
+      "client_states": {
+        "0": "loads",
+        "1": "loads",
+        "2": "loads",
+        "3": "loads",
+        "4": "loads"
+      }
+    }
+  },
+  "centralized_final": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/centralized/out/checkpoints/015000",
+  "specialists_final": {
+    "block_stack": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_block_stack/out/checkpoints/003000",
+    "eye_drops_to_basket": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_eye_drops_to_basket/out/checkpoints/003000",
+    "ring_insert": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_ring_insert/out/checkpoints/003000",
+    "tool_insert": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_tool_insert/out/checkpoints/003000",
+    "cable_clip": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_cable_clip/out/checkpoints/003000"
+  }
+}

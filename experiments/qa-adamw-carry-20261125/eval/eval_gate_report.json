@@ -1,0 +1,899 @@
+{
+  "generated_utc": "2026-11-28T04:28:02.644365+00:00",
+  "verdict": "PASS",
+  "checks": [
+    {
+      "id": "eval.split.episodes",
+      "arm": "eval",
+      "field": "split_episode_list",
+      "status": "PASS",
+      "expected": "90 episodes, canonical sha256 c09a39a0914e\u2026",
+      "actual": "90 episodes, canonical sha256 c09a39a0914e\u2026",
+      "detail": ""
+    },
+    {
+      "id": "eval.split.seed",
+      "arm": "eval",
+      "field": "split[seed]",
+      "status": "PASS",
+      "expected": 20261126,
+      "actual": 20261126,
+      "detail": ""
+    },
+    {
+      "id": "eval.split.per_task",
+      "arm": "eval",
+      "field": "split[per_task]",
+      "status": "PASS",
+      "expected": 20,
+      "actual": 20,
+      "detail": ""
+    },
+    {
+      "id": "eval.split.disjoint_from_training",
+      "arm": "eval",
+      "field": "split[disjoint_from_training]",
+      "status": "PASS",
+      "expected": true,
+      "actual": true,
+      "detail": ""
+    },
+    {
+      "id": "eval.split.training_index_count",
+      "arm": "eval",
+      "field": "split[training_index_count]",
+      "status": "PASS",
+      "expected": 239,
+      "actual": 239,
+      "detail": ""
+    },
+    {
+      "id": "eval.split.per_task_counts",
+      "arm": "eval",
+      "field": "split_per_task_counts",
+      "status": "DIFF-WAIVED",
+      "expected": "5 tasks x 20",
+      "actual": {
+        "block_stack": 20,
+        "eye_drops_to_basket": 20,
+        "ring_insert": 20,
+        "tool_insert": 20,
+        "cable_clip": 10
+      },
+      "detail": "[waiver W-cable-resplit-counts]"
+    },
+    {
+      "id": "eval.ckpt.centralized_qa.input_features",
+      "arm": "centralized_qa",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.centralized_qa.output_features",
+      "arm": "centralized_qa",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.centralized_qa.preprocessor",
+      "arm": "centralized_qa",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.centralized_qa.standard_load",
+      "arm": "centralized_qa",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r10.input_features",
+      "arm": "fl_qa_r10",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r10.output_features",
+      "arm": "fl_qa_r10",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r10.preprocessor",
+      "arm": "fl_qa_r10",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r10.standard_load",
+      "arm": "fl_qa_r10",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r20.input_features",
+      "arm": "fl_qa_r20",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r20.output_features",
+      "arm": "fl_qa_r20",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r20.preprocessor",
+      "arm": "fl_qa_r20",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r20.standard_load",
+      "arm": "fl_qa_r20",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r30.input_features",
+      "arm": "fl_qa_r30",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r30.output_features",
+      "arm": "fl_qa_r30",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r30.preprocessor",
+      "arm": "fl_qa_r30",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.fl_qa_r30.standard_load",
+      "arm": "fl_qa_r30",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.spec_block_stack.input_features",
+      "arm": "spec_block_stack",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.spec_block_stack.output_features",
+      "arm": "spec_block_stack",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_block_stack.preprocessor",
+      "arm": "spec_block_stack",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_block_stack.standard_load",
+      "arm": "spec_block_stack",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.spec_cable_clip.input_features",
+      "arm": "spec_cable_clip",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.spec_cable_clip.output_features",
+      "arm": "spec_cable_clip",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_cable_clip.preprocessor",
+      "arm": "spec_cable_clip",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_cable_clip.standard_load",
+      "arm": "spec_cable_clip",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.spec_eye_drops_to_basket.input_features",
+      "arm": "spec_eye_drops_to_basket",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.spec_eye_drops_to_basket.output_features",
+      "arm": "spec_eye_drops_to_basket",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_eye_drops_to_basket.preprocessor",
+      "arm": "spec_eye_drops_to_basket",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_eye_drops_to_basket.standard_load",
+      "arm": "spec_eye_drops_to_basket",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.spec_ring_insert.input_features",
+      "arm": "spec_ring_insert",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.spec_ring_insert.output_features",
+      "arm": "spec_ring_insert",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_ring_insert.preprocessor",
+      "arm": "spec_ring_insert",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_ring_insert.standard_load",
+      "arm": "spec_ring_insert",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.ckpt.spec_tool_insert.input_features",
+      "arm": "spec_tool_insert",
+      "field": "config.input_features",
+      "status": "PASS",
+      "expected": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "actual": {
+        "observation.images.camera1": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera2": [
+          3,
+          256,
+          256
+        ],
+        "observation.images.camera3": [
+          3,
+          256,
+          256
+        ],
+        "observation.state": [
+          6
+        ]
+      },
+      "detail": "D9: a checkpoint declaring different inputs than the registered design must never be silently evaluated against the other arms"
+    },
+    {
+      "id": "eval.ckpt.spec_tool_insert.output_features",
+      "arm": "spec_tool_insert",
+      "field": "config.output_features",
+      "status": "PASS",
+      "expected": {
+        "action": [
+          6
+        ]
+      },
+      "actual": {
+        "action": [
+          6
+        ]
+      },
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_tool_insert.preprocessor",
+      "arm": "spec_tool_insert",
+      "field": "policy_preprocessor.json",
+      "status": "PASS",
+      "expected": "packaged preprocessor present",
+      "actual": "present",
+      "detail": ""
+    },
+    {
+      "id": "eval.ckpt.spec_tool_insert.standard_load",
+      "arm": "spec_tool_insert",
+      "field": "standard_load_proof",
+      "status": "PASS",
+      "expected": "packaged processors construct (CPU, fresh process) and run a declared-keyed batch with all declared image features produced",
+      "actual": "processors construct; produced {\"missing\": [], \"produced\": [\"action\", \"info\", \"next.done\", \"next.reward\", \"next.truncated\", \"observation.images.camera1\", \"observation.images.camera2\", \"observation.images.camera3\", \"observation.language.attention_mask\", \"observation.language.tokens\", \"observation.state\", \"task\"]}",
+      "detail": "G-12: an unpackaged or internally inconsistent checkpoint (defect A5 class) must fail admission here, not at eval load time"
+    },
+    {
+      "id": "eval.active_records_hygiene",
+      "arm": "eval",
+      "field": "active_records_dir",
+      "status": "PASS",
+      "expected": "every active record belongs to a gate-covered checkpoint",
+      "actual": "all active records covered",
+      "detail": "G-6: stale two-view records sat in the active set after the 3-camera repair (gatefix re-audit residual)"
+    },
+    {
+      "id": "eval.identical_input_features",
+      "arm": "eval",
+      "field": "identical_declared_input_features_across_set",
+      "status": "PASS",
+      "expected": "all checkpoints identical to centralized_qa: {'observation.images.camera1': [3, 256, 256], 'observation.images.camera2': [3, 256, 256], 'observation.images.camera3': [3, 256, 256], 'observation.state': [6]}",
+      "actual": "all 9 checkpoints identical",
+      "detail": ""
+    }
+  ],
+  "gate": "P1-eval-gate",
+  "manifest": "qa_eval_manifest_90.json",
+  "manifest_sha256": "bd6284370036aa8f58b00e129e2d0a97a9fb876d75cbeeddd6df4586ab281a67",
+  "manifest_version": "1.1",
+  "tree_hash": "2affb7d06f20095adc24c43df3bfe951bafc3c1ba4e6f3f7943cd93fcb3ab9d2",
+  "invocation": [
+    "/home/openclaw/muse-work/zk0-qa-relaunch-20261125/repo/study_prep/eval_gate_check.py",
+    "--manifest",
+    "qa_eval_manifest_90.json",
+    "--split",
+    "split/split.json",
+    "--out",
+    "eval_gate_report.json",
+    "--waive",
+    "eval.split.per_task_counts=W-cable-resplit-counts",
+    "--ckpt",
+    "fl_qa_r30=/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r30",
+    "--ckpt",
+    "fl_qa_r20=/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r20",
+    "--ckpt",
+    "fl_qa_r10=/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r10",
+    "--ckpt",
+    "centralized_qa=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/centralized/out/checkpoints/015000/pretrained_model",
+    "--ckpt",
+    "spec_block_stack=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_block_stack/out/checkpoints/003000/pretrained_model",
+    "--ckpt",
+    "spec_eye_drops_to_basket=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_eye_drops_to_basket/out/checkpoints/003000/pretrained_model",
+    "--ckpt",
+    "spec_ring_insert=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_ring_insert/out/checkpoints/003000/pretrained_model",
+    "--ckpt",
+    "spec_tool_insert=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_tool_insert/out/checkpoints/003000/pretrained_model",
+    "--ckpt",
+    "spec_cable_clip=/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_cable_clip/out/checkpoints/003000/pretrained_model"
+  ],
+  "overrides": [
+    "--waive=eval.split.per_task_counts=W-cable-resplit-counts"
+  ],
+  "split": "split/split.json",
+  "split_sha256": "0011150575e087f1b8e7262b76f3eea4b134a1d80bbf3982f3e03584bcdfabc8",
+  "checkpoints": {
+    "centralized_qa": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/centralized/out/checkpoints/015000/pretrained_model",
+      "config_sha256": "2049307a54e7353f640772b43f602a7e63c0c6b9c399383dc7998a22dd42154d"
+    },
+    "fl_qa_r10": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r10",
+      "config_sha256": "3fe43fdcdc757bacd1220e7e0385c63b208fc89f83fafea93eaac93c32eeabba"
+    },
+    "fl_qa_r20": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r20",
+      "config_sha256": "3fe43fdcdc757bacd1220e7e0385c63b208fc89f83fafea93eaac93c32eeabba"
+    },
+    "fl_qa_r30": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/packaged/fl_qa_r30",
+      "config_sha256": "3fe43fdcdc757bacd1220e7e0385c63b208fc89f83fafea93eaac93c32eeabba"
+    },
+    "spec_block_stack": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_block_stack/out/checkpoints/003000/pretrained_model",
+      "config_sha256": "530d6b42ff005654baaf8afa2d00334a0e171e69db5cf2d0ff8acc1be20e1c9b"
+    },
+    "spec_cable_clip": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_cable_clip/out/checkpoints/003000/pretrained_model",
+      "config_sha256": "530d6b42ff005654baaf8afa2d00334a0e171e69db5cf2d0ff8acc1be20e1c9b"
+    },
+    "spec_eye_drops_to_basket": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_eye_drops_to_basket/out/checkpoints/003000/pretrained_model",
+      "config_sha256": "530d6b42ff005654baaf8afa2d00334a0e171e69db5cf2d0ff8acc1be20e1c9b"
+    },
+    "spec_ring_insert": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_ring_insert/out/checkpoints/003000/pretrained_model",
+      "config_sha256": "530d6b42ff005654baaf8afa2d00334a0e171e69db5cf2d0ff8acc1be20e1c9b"
+    },
+    "spec_tool_insert": {
+      "path": "/home/openclaw/muse-work/zk0-qa-resume-20261126/runs/specialist_tool_insert/out/checkpoints/003000/pretrained_model",
+      "config_sha256": "530d6b42ff005654baaf8afa2d00334a0e171e69db5cf2d0ff8acc1be20e1c9b"
+    }
+  }
+}
