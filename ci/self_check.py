@@ -54,9 +54,8 @@ def _event_name() -> str:
 
 
 def _github_ref_is_main() -> bool:
-    ref = os.environ.get("GITHUB_REF", "").strip()
-    name = os.environ.get("GITHUB_REF_NAME", "").strip()
-    return ref == "refs/heads/main" or name == "main"
+    """True only for a push/checkout of main. Match ci.yml: GITHUB_REF == refs/heads/main."""
+    return os.environ.get("GITHUB_REF", "").strip() == "refs/heads/main"
 
 
 def _head_sha() -> str:
@@ -97,7 +96,7 @@ def base_ref() -> str:
 
     if event == "pull_request":
         if pr_base:
-            return pr_base
+            return _refuse_self_diff(pr_base)
         return _refuse_self_diff(_merge_base_origin_main())
 
     if event == "push" and _github_ref_is_main() and before:

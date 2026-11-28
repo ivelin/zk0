@@ -359,9 +359,50 @@ class BaseRefRangeTests(unittest.TestCase):
         os.environ["GITHUB_EVENT_NAME"] = "pull_request"
         os.environ["GITHUB_BASE_SHA"] = self.PR_BASE
         os.environ["GITHUB_BEFORE"] = self.BEFORE
-        os.environ["GITHUB_REF"] = "refs/heads/main"
+        os.environ["GITHUB_REF"] = "refs/pull/62/merge"
         os.environ["GITHUB_SHA"] = self.HEAD
         self.assertEqual(sc.base_ref(), self.PR_BASE)
+
+    def test_pull_request_refuses_self_diff_when_base_equals_head(self) -> None:
+        os.environ["GITHUB_EVENT_NAME"] = "pull_request"
+        os.environ["GITHUB_BASE_SHA"] = self.HEAD
+        os.environ["GITHUB_REF"] = "refs/pull/62/merge"
+        os.environ["GITHUB_SHA"] = self.HEAD
+        with self.assertRaises(sc.GitError) as ctx:
+            sc.base_ref()
+        self.assertIn("refusing empty self-diff", str(ctx.exception))
+
+    def test_github_ref_name_main_alone_is_not_push_to_main(self) -> None:
+        """Same predicate as ci.yml: only GITHUB_REF == refs/heads/main."""
+        os.environ["GITHUB_EVENT_NAME"] = "push"
+        os.environ["GITHUB_REF_NAME"] = "main"
+        os.environ["GITHUB_BEFORE"] = self.BEFORE
+        os.environ["GITHUB_SHA"] = self.HEAD
+
+        def fake_git(*args: str) -> str:
+            if args[:3] == ("merge-base", "origin/main", "HEAD"):
+                return self.MERGE_BASE + "\n"
+            if args[:2] == ("rev-parse", "HEAD"):
+                return self.HEAD + "\n"
+            raise sc.GitError(f"unexpected git {args}")
+
+        with mock.patch.object(sc, "git", side_effect=fake_git):
+            self.assertEqual(sc.base_ref(), self.MERGE_BASE)
+        self.assertFalse(sc._github_ref_is_main())
+
+    def test_s15_workflow_refuses_unreachable_before_sha(self) -> None:
+        workflow = (
+            Path(__file__).resolve().parents[1] / ".github" / "workflows" / "ci.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn('git cat-file -e "${BEFORE}^{commit}"', workflow)
+        self.assertIn(
+            "before SHA ${BEFORE} unreachable (force push?); refusing to self-check",
+            workflow,
+        )
+        bootstrap = workflow.find("running HEAD bootstrap")
+        refuse = workflow.find("unreachable (force push?)")
+        self.assertGreater(refuse, 0)
+        self.assertGreater(bootstrap, refuse)
 
 
 if __name__ == "__main__":
