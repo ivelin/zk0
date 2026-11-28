@@ -1,0 +1,836 @@
+{
+ "seed": 20261122,
+ "per_task": 20,
+ "tasks": {
+  "block_stack": {
+   "pool_success_only": true,
+   "pool_size": 34,
+   "episodes": [
+    {
+     "episode_index": 411,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 276
+    },
+    {
+     "episode_index": 453,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 269
+    },
+    {
+     "episode_index": 476,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 304
+    },
+    {
+     "episode_index": 479,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 240
+    },
+    {
+     "episode_index": 489,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 451
+    },
+    {
+     "episode_index": 498,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 250
+    },
+    {
+     "episode_index": 499,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 448
+    },
+    {
+     "episode_index": 513,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 320
+    },
+    {
+     "episode_index": 514,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 324
+    },
+    {
+     "episode_index": 525,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 244
+    },
+    {
+     "episode_index": 526,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 204
+    },
+    {
+     "episode_index": 527,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 230
+    },
+    {
+     "episode_index": 530,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 250
+    },
+    {
+     "episode_index": 531,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 220
+    },
+    {
+     "episode_index": 539,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 240
+    },
+    {
+     "episode_index": 545,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 190
+    },
+    {
+     "episode_index": 546,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 300
+    },
+    {
+     "episode_index": 548,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 190
+    },
+    {
+     "episode_index": 549,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 250
+    },
+    {
+     "episode_index": 557,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 500
+    }
+   ]
+  },
+  "eye_drops_to_basket": {
+   "pool_success_only": true,
+   "pool_size": 113,
+   "episodes": [
+    {
+     "episode_index": 1609,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 178
+    },
+    {
+     "episode_index": 1618,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 323
+    },
+    {
+     "episode_index": 1630,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 115
+    },
+    {
+     "episode_index": 1639,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 153
+    },
+    {
+     "episode_index": 1643,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 129
+    },
+    {
+     "episode_index": 1724,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 154
+    },
+    {
+     "episode_index": 1741,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 148
+    },
+    {
+     "episode_index": 1746,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 149
+    },
+    {
+     "episode_index": 1747,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 143
+    },
+    {
+     "episode_index": 1757,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 140
+    },
+    {
+     "episode_index": 1760,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 140
+    },
+    {
+     "episode_index": 1778,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 145
+    },
+    {
+     "episode_index": 1780,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 159
+    },
+    {
+     "episode_index": 1783,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 149
+    },
+    {
+     "episode_index": 1798,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 145
+    },
+    {
+     "episode_index": 1808,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 222
+    },
+    {
+     "episode_index": 1810,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 162
+    },
+    {
+     "episode_index": 1811,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 144
+    },
+    {
+     "episode_index": 1814,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 160
+    },
+    {
+     "episode_index": 1821,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 474
+    }
+   ]
+  },
+  "ring_insert": {
+   "pool_success_only": true,
+   "pool_size": 65,
+   "episodes": [
+    {
+     "episode_index": 7,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 272
+    },
+    {
+     "episode_index": 11,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 236
+    },
+    {
+     "episode_index": 30,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 220
+    },
+    {
+     "episode_index": 31,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 226
+    },
+    {
+     "episode_index": 33,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 240
+    },
+    {
+     "episode_index": 48,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 230
+    },
+    {
+     "episode_index": 50,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 479
+    },
+    {
+     "episode_index": 160,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 239
+    },
+    {
+     "episode_index": 165,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 192
+    },
+    {
+     "episode_index": 167,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 230
+    },
+    {
+     "episode_index": 168,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 236
+    },
+    {
+     "episode_index": 177,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 202
+    },
+    {
+     "episode_index": 179,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 250
+    },
+    {
+     "episode_index": 188,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 224
+    },
+    {
+     "episode_index": 195,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 224
+    },
+    {
+     "episode_index": 198,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 328
+    },
+    {
+     "episode_index": 227,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 380
+    },
+    {
+     "episode_index": 240,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 184
+    },
+    {
+     "episode_index": 242,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 196
+    },
+    {
+     "episode_index": 253,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 224
+    }
+   ]
+  },
+  "tool_insert": {
+   "pool_success_only": true,
+   "pool_size": 52,
+   "episodes": [
+    {
+     "episode_index": 622,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 333
+    },
+    {
+     "episode_index": 629,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 304
+    },
+    {
+     "episode_index": 630,
+     "source_policy_type": "diffusion",
+     "recorded_success": 1,
+     "length_frames": 316
+    },
+    {
+     "episode_index": 683,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 638
+    },
+    {
+     "episode_index": 684,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 557
+    },
+    {
+     "episode_index": 697,
+     "source_policy_type": "act",
+     "recorded_success": 1,
+     "length_frames": 364
+    },
+    {
+     "episode_index": 779,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 324
+    },
+    {
+     "episode_index": 784,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 1,
+     "length_frames": 351
+    },
+    {
+     "episode_index": 824,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 340
+    },
+    {
+     "episode_index": 830,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 1,
+     "length_frames": 330
+    },
+    {
+     "episode_index": 852,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 260
+    },
+    {
+     "episode_index": 859,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 365
+    },
+    {
+     "episode_index": 871,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 331
+    },
+    {
+     "episode_index": 876,
+     "source_policy_type": "pi0",
+     "recorded_success": 1,
+     "length_frames": 350
+    },
+    {
+     "episode_index": 883,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 316
+    },
+    {
+     "episode_index": 885,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 310
+    },
+    {
+     "episode_index": 888,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 333
+    },
+    {
+     "episode_index": 892,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 416
+    },
+    {
+     "episode_index": 902,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 296
+    },
+    {
+     "episode_index": 903,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 1,
+     "length_frames": 358
+    }
+   ]
+  },
+  "cable_clip": {
+   "pool_success_only": false,
+   "pool_size": 240,
+   "episodes": [
+    {
+     "episode_index": 1896,
+     "source_policy_type": "diffusion",
+     "recorded_success": 0,
+     "length_frames": 879
+    },
+    {
+     "episode_index": 1903,
+     "source_policy_type": "diffusion",
+     "recorded_success": 0,
+     "length_frames": 899
+    },
+    {
+     "episode_index": 1905,
+     "source_policy_type": "diffusion",
+     "recorded_success": 0,
+     "length_frames": 933
+    },
+    {
+     "episode_index": 1939,
+     "source_policy_type": "act",
+     "recorded_success": 0,
+     "length_frames": 977
+    },
+    {
+     "episode_index": 1959,
+     "source_policy_type": "act",
+     "recorded_success": 0,
+     "length_frames": 993
+    },
+    {
+     "episode_index": 1960,
+     "source_policy_type": "act",
+     "recorded_success": 0,
+     "length_frames": 992
+    },
+    {
+     "episode_index": 1968,
+     "source_policy_type": "act",
+     "recorded_success": 0,
+     "length_frames": 475
+    },
+    {
+     "episode_index": 1969,
+     "source_policy_type": "act",
+     "recorded_success": 0,
+     "length_frames": 870
+    },
+    {
+     "episode_index": 2020,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 414
+    },
+    {
+     "episode_index": 2032,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 321
+    },
+    {
+     "episode_index": 2042,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 1025
+    },
+    {
+     "episode_index": 2046,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 464
+    },
+    {
+     "episode_index": 2059,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 1016
+    },
+    {
+     "episode_index": 2068,
+     "source_policy_type": "molmoact2",
+     "recorded_success": 0,
+     "length_frames": 996
+    },
+    {
+     "episode_index": 2085,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 0,
+     "length_frames": 898
+    },
+    {
+     "episode_index": 2092,
+     "source_policy_type": "grootn1.7",
+     "recorded_success": 0,
+     "length_frames": 902
+    },
+    {
+     "episode_index": 2101,
+     "source_policy_type": "pi0",
+     "recorded_success": 0,
+     "length_frames": 1145
+    },
+    {
+     "episode_index": 2125,
+     "source_policy_type": "pi0",
+     "recorded_success": 0,
+     "length_frames": 1166
+    },
+    {
+     "episode_index": 2130,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 0,
+     "length_frames": 1152
+    },
+    {
+     "episode_index": 2146,
+     "source_policy_type": "pi0.5",
+     "recorded_success": 0,
+     "length_frames": 1052
+    }
+   ]
+  }
+ },
+ "clusters": {
+  "block_stack": {
+   "n_successful_executions": 87,
+   "final_state_median": [
+    -3.680918003635845,
+    -99.48517253481108,
+    95.37686376462038,
+    67.55846343095276,
+    2.0975003234356984,
+    1.7226472312006458
+   ],
+   "final_state_centroid": [
+    -4.290392875671387,
+    -101.84615325927734,
+    97.14286041259766,
+    71.69230651855469,
+    2.226480484008789,
+    1.2607773542404175
+   ],
+   "tolerance_p90_pairwise_L2": 19.218840485591144,
+   "gripper_final_p10": 0.8312579393386841,
+   "gripper_final_p90": 1.9457735061645511,
+   "gripper_final_median": 1.2607773542404175,
+   "final_state_p5": [
+    -9.41438102722168,
+    -106.84232330322266,
+    88.1198829650879,
+    54.747778701782224,
+    -5.46813178062439,
+    0.7177033424377441
+   ],
+   "final_state_p95": [
+    1.9956044793128982,
+    -90.73073272705076,
+    98.22113418579102,
+    72.38908233642579,
+    8.492307567596436,
+    2.390902352333069
+   ]
+  },
+  "eye_drops_to_basket": {
+   "n_successful_executions": 170,
+   "final_state_median": [
+    -2.850599991738358,
+    -96.04439327015596,
+    91.92985674914192,
+    62.90609595354866,
+    3.1426209017853526,
+    1.2168808115755811
+   ],
+   "final_state_centroid": [
+    -1.8977583050727844,
+    -102.10989379882812,
+    97.23076629638672,
+    71.98561477661133,
+    2.657946467399597,
+    0.8771929740905762
+   ],
+   "tolerance_p90_pairwise_L2": 69.24242869999826,
+   "gripper_final_p10": 0.5582137107849121,
+   "gripper_final_p90": 1.456364834308624,
+   "gripper_final_median": 0.8771929740905762,
+   "final_state_p5": [
+    -8.36872682571411,
+    -103.55678520202636,
+    44.669402885437016,
+    25.570137596130373,
+    -2.09417005777359,
+    0.5582137107849121
+   ],
+   "final_state_p95": [
+    1.2354669809341392,
+    -55.18167705535895,
+    102.22392234802246,
+    74.57304306030274,
+    9.740256690978999,
+    1.8887263298034658
+   ]
+  },
+  "ring_insert": {
+   "n_successful_executions": 132,
+   "final_state_median": [
+    -3.4696476527235727,
+    -97.99449452486905,
+    96.89847547357732,
+    67.71632630897291,
+    -0.48621546070684085,
+    1.090086221243396
+   ],
+   "final_state_centroid": [
+    -3.692307710647583,
+    -99.42036437988281,
+    97.23076629638672,
+    69.52079010009766,
+    -0.6234612464904785,
+    1.0759806632995605
+   ],
+   "tolerance_p90_pairwise_L2": 22.88597704640004,
+   "gripper_final_p10": 0.7668581902980804,
+   "gripper_final_p90": 1.4354066848754883,
+   "gripper_final_median": 1.0759806632995605,
+   "final_state_p5": [
+    -9.250878429412841,
+    -103.51623878479003,
+    91.06546325683594,
+    53.83359031677246,
+    -6.1213730573654175,
+    0.7061284303665162
+   ],
+   "final_state_p95": [
+    2.2743589878082267,
+    -89.2764347076416,
+    100.70046463012694,
+    74.52777137756347,
+    7.077333736419667,
+    1.5277657151222226
+   ]
+  },
+  "tool_insert": {
+   "n_successful_executions": 104,
+   "final_state_median": [
+    -4.279481095011131,
+    -92.91549312151395,
+    91.87076716239636,
+    66.75933856230516,
+    2.948791480730646,
+    1.313803342099373
+   ],
+   "final_state_centroid": [
+    -3.346970796585083,
+    -100.63174057006836,
+    97.14286041259766,
+    71.34066009521484,
+    -0.6641421616077423,
+    1.0366826057434082
+   ],
+   "tolerance_p90_pairwise_L2": 54.80801623850697,
+   "gripper_final_p10": 0.7974481582641602,
+   "gripper_final_p90": 2.2956093788146976,
+   "gripper_final_median": 1.0366826057434082,
+   "final_state_p5": [
+    -9.410988759994506,
+    -103.15046195983886,
+    69.6079345703125,
+    43.38670825958252,
+    -6.162280464172364,
+    0.7177033424377441
+   ],
+   "final_state_p95": [
+    0.24241665657609568,
+    -46.39964599609382,
+    98.91593589782714,
+    72.895792388916,
+    21.49482841491699,
+    3.1031550645828236
+   ]
+  },
+  "cable_clip": {
+   "n_successful_executions": 50,
+   "final_state_median": [
+    -2.990769232213497,
+    -102.29626419067382,
+    97.2237338256836,
+    72.14417510986328,
+    2.002637377381325,
+    0.9377990341186524
+   ],
+   "final_state_centroid": [
+    -3.164835214614868,
+    -102.19779968261719,
+    97.23076629638672,
+    72.13186645507812,
+    2.3296704292297363,
+    0.9569377899169922
+   ],
+   "tolerance_p90_pairwise_L2": 6.42318934826522,
+   "gripper_final_p10": 0.7177033424377441,
+   "gripper_final_p90": 1.124401903152466,
+   "gripper_final_median": 0.9569377899169922,
+   "final_state_p5": [
+    -6.158241629600525,
+    -102.63735961914062,
+    97.14286041259766,
+    71.95604705810547,
+    -1.709890192747116,
+    0.6738436937332153
+   ],
+   "final_state_p95": [
+    0.7472527623176575,
+    -102.02198028564453,
+    97.23076629638672,
+    72.3956069946289,
+    4.879120826721191,
+    1.1961722373962402
+   ]
+  }
+ },
+ "n_episodes": 100,
+ "disjoint_from_training": true,
+ "training_index_count": 250
+}

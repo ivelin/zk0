@@ -2,17 +2,27 @@
 # Q-A eval trajectory generation (R-1 order). Sequential, guard-launched, skip-if-done.
 set +e
 export STUDY_GATE_ALLOW_OVERRIDES=1
-export JOB_GUARD_MIRROR_TARGET=/home/openclaw/muse-work/zk0-qa-resume-20261126/eval/mirror
+# Paths parameterized 2026-11-28 (Phase 1 verification fix); as-run values were
+# the build machine's run tree. Guest defaults: E = this script's folder;
+# W3 = a local tree mirroring the run layout (or point the run_ckpt paths at
+# the HF downloads from zk0bot/smolvla-qa-20261127); PY = the eval venv python.
+E=${QA_EVAL_TREE:-$(cd "$(dirname "$0")" && pwd)}
+W3=${QA_RUN_HOME:-$HOME/zk0-qa-run}
+PY=${QA_EVAL_PYTHON:-python3}
+TRAJ=${QA_TRAJ_SCRIPT:-$E/eval_traj.py}
+export JOB_GUARD_MIRROR_TARGET=${JOB_GUARD_MIRROR_TARGET:-$E/mirror}
 mkdir -p "$JOB_GUARD_MIRROR_TARGET"
-E=/home/openclaw/muse-work/zk0-qa-resume-20261126/eval
-W3=/home/openclaw/muse-work/zk0-qa-resume-20261126
-PY=/home/openclaw/muse-work/zk0-bench-20261117/venv/bin/python
-TRAJ=/home/openclaw/muse-work/zk0-study001-20261119/run/eval-traj-20261122/scripts/eval_traj.py
 run_ckpt () {
   name=$1; path=$2
   if [ -f "$E/records/summary__${name}.json" ]; then echo "[gen] skip $name (summary exists)"; return; fi
   echo "[gen] === $name $path $(date -u +%FT%TZ)"
-  ~/muse-work/tools/launch_dgx_job.sh $E/guard-$name qa-eval-gen active -- $PY $TRAJ --ckpt-name "$name" --ckpt-path "$path" --split $E/split/split.json --out $E/records >> $E/logs/generation.log 2>&1
+  # QA_LAUNCH_WRAPPER: the build machine's job-guard launcher (shared-machine
+  # safety on our box). Unset = run the generator directly, as a guest would.
+  if [ -n "${QA_LAUNCH_WRAPPER:-}" ]; then
+    "$QA_LAUNCH_WRAPPER" $E/guard-$name qa-eval-gen active -- $PY $TRAJ --ckpt-name "$name" --ckpt-path "$path" --split ${QA_SPLIT:-$E/split.json} --out $E/records >> $E/logs/generation.log 2>&1
+  else
+    $PY $TRAJ --ckpt-name "$name" --ckpt-path "$path" --split ${QA_SPLIT:-$E/split.json} --out $E/records >> $E/logs/generation.log 2>&1
+  fi
   echo "[gen] $name exit=$?"
 }
 run_ckpt fl_qa_r30 $E/packaged/fl_qa_r30

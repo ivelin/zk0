@@ -2,15 +2,15 @@
 lists (qa-eval-prep-20261126.md S1), diff vs Study 001 split.json, verify
 disjointness vs the pinned 239 training lists, fix the canary subset, and
 derive the Q-A eval gate manifest with the canonical split hash."""
-import json, hashlib, random
+import json, hashlib, os, random
 from pathlib import Path
 import pandas as pd
 
-S001_SPLIT = Path("/home/openclaw/muse-work/zk0-study001-20261119/run/eval-traj-20261122/split/split.json")
-DS = Path("/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101")
-TRAIN = Path("/home/openclaw/muse-work/zk0-qa-relaunch-20261125/episode_lists")
-BASE_MANIFEST = Path("/home/openclaw/muse-work/zk0-qa-relaunch-20261125/repo/study_prep/qa_gate_manifest_239_20261125.json")
-EVAL = Path("/home/openclaw/muse-work/zk0-qa-resume-20261126/eval")
+S001_SPLIT = Path(__file__).with_name("study001_split.json")  # Study 001 split, shipped in this folder
+DS = Path(os.environ.get("QA_DATASET_ROOT", "armnetbench_v01_lerobot_so101"))  # HF zk0bot/armnetbench_v01_lerobot_so101 @ 89eef614
+TRAIN = Path(__file__).resolve().parent.parent / "episode_lists"  # pinned 239 lists, in this package
+BASE_MANIFEST = Path(__file__).with_name("qa_gate_manifest_239_20261125.json")  # shipped in this folder
+EVAL = Path(os.environ.get("QA_EVAL_TREE", Path(__file__).resolve().parent))
 
 LISTS = {
  "block_stack": [411,453,476,479,489,498,499,513,514,525,526,527,530,531,539,545,546,548,549,557],
@@ -68,7 +68,7 @@ total_train = sum(len(json.loads((TRAIN / f"episodes_{t}.json").read_text())) fo
 assert total_train == 239, total_train
 assert sum(report.values()) == 90
 
-(EVAL / "split/split.json").write_text(json.dumps(split, indent=1))
+(EVAL / "split.json")  # package layout (as-run tree used split/split.json).write_text(json.dumps(split, indent=1))
 
 # canonical rows hash, exactly the gate's formula
 rows = []

@@ -1,8 +1,12 @@
 # REPRODUCE — Experiment Q-A (AdamW-carry FL rerun on certified data)
 
 A guest with only public assets (this branch + the Hugging Face repos named
-below) can reproduce the Q-A training run and its eval end to end. Nothing here
-points at a private file.
+below) can reproduce the Q-A training run and its eval end to end. The
+reproduction instructions and the guest-facing scripts in `eval/` use only
+public assets and parameterized paths. Preserved execution records
+(`execution/`, `RUN_LOG.md`, the gate report, the payload hash list) retain
+the build machine's paths as as-run evidence — they are records, not
+instructions.
 
 ## What Q-A is
 
@@ -62,9 +66,10 @@ machine (one aggregator, clients in sequence — never simultaneously).
    (`study_prep/build_pooled_preprocessor.py` on the branch).
 2. FL: the substrate entry points are on this branch (`src/` +
    `study_prep/run_train.py` drivers; the executed chain driver is preserved
-   at `execution/qa_chain_driver3.sh`, with `execution/chain_done.json` the
-   artifact-gated completion record: rounds 1–30 gapless, 5/5 clients per
-   round, 500-tensor census = 450,046,176 elements).
+   at `execution/qa_chain_driver3.sh` — an as-run record carrying the build
+   machine's paths — with `execution/chain_done.json` the artifact-gated
+   completion record: rounds 1–30 gapless, 5/5 clients per round, 500-tensor
+   census = 450,046,176 elements).
 3. Centralized: pooled 239, expert-only, 15,000 steps from the shared base.
 4. Specialists: per task, full fine-tune, 3,000 steps each.
 
@@ -88,7 +93,11 @@ machine (one aggregator, clients in sequence — never simultaneously).
    `STUDY_GATE_ALLOW_OVERRIDES=1` because the PASS carries the registered
    waiver — the same deliberate, logged pattern as the training launch.
 3. **Generate** open-loop trajectories for all 90 held-out episodes × 9
-   checkpoints (`eval_traj.py`; deterministic per-episode/chunk noise seeds).
+   checkpoints (`eval/eval_traj.py` in this folder; download the dataset
+   snapshot `zk0bot/armnetbench_v01_lerobot_so101` @ `89eef614` and point
+   `QA_DATASET_ROOT` at it; deterministic per-episode/chunk noise seeds).
+   `eval/generation_driver.sh` is the as-run driver with its paths
+   parameterized the same way.
 4. **Judge** with the registered rubric (`eval/JUDGE_BRIEF.md`): three gates
    per packet (end-state cluster, gripper band, within-chunk jump pathology),
    borderline packets decided by trajectory-sheet review, **two independent
@@ -139,7 +148,7 @@ table: `eval/completion_table_qa.md` (+ `.csv`).
 
 - Training completion is artifact-gated (chain_done.json + per-round
   aggregation records + checkpoint census), never exit-code based.
-- Every eval checkpoint passed `checkpoint_verify.sh` (full state + reload)
-  before the eval gate.
+- Every eval checkpoint passed `checkpoint_verify.sh` (full state + reload;
+  the script is `eval/checkpoint_verify.sh` in this folder) before the eval gate.
 - An independent outside-context reproduction pass over this package is
   recorded in `VERIFICATION.md` in this folder when it completes.

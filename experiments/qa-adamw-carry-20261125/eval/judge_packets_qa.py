@@ -7,9 +7,9 @@ import numpy as np
 import pandas as pd
 import pyarrow.parquet as pq
 
-DS = Path("/home/openclaw/muse-work/zk0-onarm-20261117/data/armnetbench_v01_lerobot_so101")
+DS = Path(os.environ.get("QA_DATASET_ROOT", "armnetbench_v01_lerobot_so101"))  # HF zk0bot/armnetbench_v01_lerobot_so101 @ 89eef614
 import os
-E = Path(os.environ.get("QA_EVAL_TREE", "/home/openclaw/muse-work/zk0-qa-resume-20261126/eval"))
+E = Path(os.environ.get("QA_EVAL_TREE", Path(__file__).resolve().parent))
 # P1 eval gate (audit F2, 2026-11-22): judging consumes eval records;
 # refuse without a PASS eval gate report covering every checkpoint
 # present in the records dir. EVAL_GATE_OVERRIDE=1 = deliberate escape.
@@ -42,7 +42,7 @@ split = json.loads((E / "split/split.json").read_text())
 ep = pd.read_parquet(DS / "meta/episodes/chunk-000/file-000.parquet")
 ep["task_name"] = ep["tasks"].apply(lambda t: t[0])
 import json as j
-man = j.loads(Path("/home/openclaw/muse-work/zk0-study001-20261119/manifest.json").read_text())
+man = j.loads(Path(__file__).with_name("subsets_manifest.json").read_text())  # subsets extract of the Study 001 manifest, shipped in this folder
 name2id = {v["instruction"]: k for k, v in man["subsets"].items()}
 ep["short"] = ep["task_name"].map(name2id)
 succ_eps = {t: set(ep[(ep["short"] == t) & (ep["success"] == 1)]["episode_index"].astype(int)) for t in name2id.values()}

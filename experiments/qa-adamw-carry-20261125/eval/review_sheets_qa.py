@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 import os
-E = Path(os.environ.get("QA_EVAL_TREE", "/home/openclaw/muse-work/zk0-qa-resume-20261126/eval"))
+E = Path(os.environ.get("QA_EVAL_TREE", Path(__file__).resolve().parent))
 out = E / "judgments/review"; out.mkdir(parents=True, exist_ok=True)
 pk = []
 for p in sorted((E / "judgments").glob("*__*__ep*.json")):

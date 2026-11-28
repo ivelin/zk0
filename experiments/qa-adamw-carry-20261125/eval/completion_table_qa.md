@@ -39,3 +39,7 @@ counts and listed in the index. Denominator: 90 held-out episodes
 | spec_cable_clip | diagonal (cable_clip) | 0 | 4 | 0 | 10 |
 
 **Reading the table:** counts are the Muse judge leg only (SINGLE-LEG, labeled, never final) — the Gemini second leg is pending and certification (two-judge unanimity) completes when it lands. For fl_qa_r10/r20 only the fixed 40-packet canary subset was judged (r10: 6/40, r20: 15/40, r30 canary: 12/40); their remaining 50 packets per arm are UNJUDGED in the index. Headline arms (centralized_qa, fl_qa_r30) and the specialist diagonal were judged on the full 90.
+
+Per-task rows for fl_qa_r10 / fl_qa_r20: n is the split size (20 or 10);
+judged packets per task = 8 (the canary), the rest UNJUDGED — see
+judgments_index_qa.json for per-packet status.
