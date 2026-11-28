@@ -27,7 +27,9 @@ permalink: /
 
 Currently focused on SmolVLA with SO-100 manipulation tasks, zk0 aspires to evolve with the latest open-source ML models and advanced humanoid embodiments as they become available, enabling broader decentralized robotics AI development.</p>
 
-<p>New: <a href="/the-week-our-training-box-died-three-times/">The Week Our Training Box Died Three Times</a> — three times in four days, our training machine froze dead; the full record of what killed it, how we found out, and what fixed it.</p>
+<p>New: <a href="/frontier-models-became-robot-teachers/">Frontier Models Became Robot Teachers</a> — I tested whether AI models can judge robot task videos, solve physics sims, and teleoperate an arm. Local models failed as judges; two frontier models learned to judge, and one learned to solve — then started teaching the others.</p>
+
+<p>Also: <a href="/the-week-our-training-box-died-three-times/">The Week Our Training Box Died Three Times</a> — three times in four days, our training machine froze dead; the full record of what killed it, how we found out, and what fixed it.</p>
 
 <p>Also: <a href="/open-source-robotics-simulators-physics-engines-object-libraries/">47× Too Much Force. Five Passes Flipped. One Dangling Mug.</a> — we benchmarked six physics engines for SO-101 simulation, then built the grasp-quality gate that flipped five of our own passing grades to FAIL.</p>
 
